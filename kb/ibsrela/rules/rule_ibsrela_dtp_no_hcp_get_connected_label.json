@@ -1,0 +1,39 @@
+{
+  "id": "rule_ibsrela_dtp_no_hcp_get_connected_label",
+  "brand_id": "ibsrela",
+  "rule_class": "cta",
+  "tags": [
+    "copy_editorial"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button.label"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "cta label \"Get connected\"",
+    "reserved_for": "hcp audience"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "DTP CTAs must not use the HCP library default \"Get connected\"; that label is HCP-scope only.",
+  "intent": "Prevent HCP-scope labels from appearing in patient-facing CTAs.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[7]",
+  "group_id": "grp_ibsrela_content_pattern_rules_07",
+  "status": "active",
+  "version": 1,
+  "summary": "(cta): DTP CTAs cannot use HCP library default \"Get connected\" as that label is restricted to HCP scope only."
+}

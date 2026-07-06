@@ -1,0 +1,39 @@
+{
+  "id": "rule_lisraya_standalone_section_establishes_dm",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "copy_editorial"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "first_mention",
+      "value": "dermatomyositis"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "dermatomyositis (DM)",
+    "governance_id": "gov_lisraya_dm_abbreviation",
+    "trigger": "each standalone section's own first mention unless assembly brief states abbreviation established upstream"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 5,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_dm_abbreviation"
+  ],
+  "rule_text": "[GENERAL] Because sections are assembled later, every standalone section must establish `dermatomyositis (DM)` at its own first mention, unless the assembly brief states the abbreviation is established upstream.",
+  "intent": "Ensure abbreviation is always introduced regardless of section ordering.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[4]",
+  "group_id": "grp_lisraya_content_pattern_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "Each standalone section must define 'dermatomyositis (DM)' at first mention unless assembly brief confirms abbreviation established upstream."
+}

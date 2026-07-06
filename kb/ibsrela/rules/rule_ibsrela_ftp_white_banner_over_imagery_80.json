@@ -1,0 +1,48 @@
+{
+  "id": "rule_ibsrela_ftp_white_banner_over_imagery_80",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "imagery"
+  ],
+  "audience": "dtp_patient",
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "banner.white.opacity"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "banner.white.opacity",
+        "token_id": "tok_ibsrela_opacity_white_banner_80"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_opacity_white_banner_80"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "A white banner placed over imagery must be set at 80% opacity.",
+  "intent": "Ensure consistent legibility of white banners layered over photos.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_ibsrela_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "White banner over imagery: set opacity to 80%."
+}

@@ -1,0 +1,50 @@
+{
+  "id": "rule_ibsrela_golf_image_lpga_gated",
+  "brand_id": "ibsrela",
+  "rule_class": "imagery",
+  "tags": [
+    "cta",
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.right_image"
+  },
+  "applies_when": [
+    {
+      "kind": "content_tag",
+      "value": "lpga"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "pairing",
+  "effect": {
+    "a": "ast_ibsrela_email_primary_column_golf",
+    "b": "lpga_content",
+    "relation": "requires"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [
+    "ast_ibsrela_email_primary_column_golf"
+  ],
+  "governance_ids": [
+    "gov_ibsrela_teal_lpga_gating"
+  ],
+  "rule_text": "The golf image is LPGA-gated: if the email has no LPGA content, do not use the golf asset (Email_Primary_column_golf.png) and do not use the #0F99BC background.",
+  "intent": "Restrict LPGA-branded golf asset to LPGA-content emails.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Use golf image (Email_Primary_column_golf.png) and #0F99BC background only if email contains LPGA content; otherwise, do not use them."
+}

@@ -1,0 +1,34 @@
+{
+  "id": "rule_lisraya_one_primary_cta_per_section",
+  "brand_id": "lisraya",
+  "rule_class": "cta",
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "cta.button"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "cardinality",
+  "effect": {
+    "target": "cta.button.primary",
+    "min": null,
+    "max": 1,
+    "per": "section"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "One primary CTA per section maximum.",
+  "intent": "Avoid competing calls to action within a single section.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_lisraya_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "One primary CTA allowed per section maximum."
+}

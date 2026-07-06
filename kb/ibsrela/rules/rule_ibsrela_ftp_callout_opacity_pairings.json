@@ -1,0 +1,55 @@
+{
+  "id": "rule_ibsrela_ftp_callout_opacity_pairings",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "audience": "dtp_patient",
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.fill.opacity"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "callout.periwinkle.opacity",
+        "token_id": "tok_ibsrela_opacity_periwinkle_80"
+      },
+      {
+        "element_path": "callout.purple.opacity",
+        "token_id": "tok_ibsrela_opacity_purple_60"
+      },
+      {
+        "element_path": "callout.green.opacity",
+        "token_id": "tok_ibsrela_opacity_green_40"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_opacity_green_40",
+    "tok_ibsrela_opacity_periwinkle_80",
+    "tok_ibsrela_opacity_purple_60"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Callout opacity pairings over white must be: Periwinkle at 80%, Purple at 60%, and Green at 40%.",
+  "intent": "Lock the legibility/contrast of each callout color over white.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_ibsrela_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Callout colors over white: Periwinkle 80% opacity, Purple 60%, Green 40%."
+}

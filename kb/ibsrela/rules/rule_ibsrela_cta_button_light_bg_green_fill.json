@@ -1,0 +1,56 @@
+{
+  "id": "rule_ibsrela_cta_button_light_bg_green_fill",
+  "brand_id": "ibsrela",
+  "rule_class": "cta",
+  "tags": [
+    "color_application"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button.fill"
+  },
+  "applies_when": [
+    {
+      "kind": "background_group",
+      "value": "light"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "cta.button.fill",
+        "token_id": "tok_ibsrela_color_green"
+      },
+      {
+        "element_path": "cta.button.label",
+        "token_id": "tok_ibsrela_color_white"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_color_green",
+    "tok_ibsrela_color_white"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "On light backgrounds \u2014 White #FFFFFF or Silver #CFDCE3 \u2014 the CTA button must use the Green filled button (#01A47E) with white label text (#FFFFFF).",
+  "intent": "Ensure CTA button contrast on light backgrounds.",
+  "snippets": "<mj-button background-color=\"#01A47E\" color=\"#FFFFFF\" ...>",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "On light backgrounds (#FFFFFF or #CFDCE3), CTA uses Green filled button (#01A47E) with white label text (#FFFFFF)."
+}

@@ -1,0 +1,332 @@
+[
+  {
+    "src_rule_id": "rule_ibsrela_no_low_contrast_text_pairings",
+    "dst_rule_id": "rule_ibsrela_min_contrast_ratios",
+    "relation": "refines",
+    "note": "Specific forbidden pairings that fail the general contrast minimums."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_communicate_indication_safety_images_off",
+    "dst_rule_id": "rule_ibsrela_all_images_require_alt_text",
+    "relation": "co_applies",
+    "note": "Both address images-off accessibility."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_content_section_self_contained_600px_no_margins",
+    "dst_rule_id": "rule_ibsrela_section_theme_declared_top_bottom_no_hard_seam",
+    "relation": "co_applies",
+    "note": "Flush stacking depends on edge theme declarations to avoid seams."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_section_reproduces_logo_or_isi_legal",
+    "dst_rule_id": "rule_ibsrela_final_assembly_qa_checklist",
+    "relation": "cross_reference",
+    "note": "QA verifies locked-component ownership of ISI/logo."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_purple_only_first_line",
+    "dst_rule_id": "rule_ibsrela_title_color_purple",
+    "relation": "refines",
+    "note": "Purple exclusivity backs the title-is-purple binding."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_white_section_highlight_black_bold",
+    "dst_rule_id": "rule_ibsrela_never_body_purple_or_green",
+    "relation": "co_applies",
+    "note": "Both restrict body-text coloring."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_ftp_callout_opacity_pairings",
+    "dst_rule_id": "rule_ibsrela_ftp_white_banner_over_imagery_80",
+    "relation": "cluster",
+    "note": "Both define campaign callout/banner opacity specs over white/imagery."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_ftp_campaign_colors_are_accents",
+    "dst_rule_id": "rule_ibsrela_ftp_scene_color_pairings_fixed",
+    "relation": "co_applies",
+    "note": "Both govern how the fixed campaign colors are used within branded pieces."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_email_gradients_background_only_with_fallback",
+    "dst_rule_id": "rule_ibsrela_dark_blue_purple_gradient_primary_background",
+    "relation": "refines",
+    "note": "Constrains how the primary gradient may be applied in email."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_email_no_gradient_body_text",
+    "dst_rule_id": "rule_ibsrela_dark_blue_purple_gradient_headlines_callouts_spa",
+    "relation": "refines",
+    "note": "Restricts gradient text use in email to the split-headline technique."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_email_gradients_background_only_with_fallback",
+    "dst_rule_id": "rule_ibsrela_email_no_gradient_body_text",
+    "relation": "co_applies",
+    "note": "Both govern email gradient usage."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_approved_theme_tiles",
+    "dst_rule_id": "rule_ibsrela_one_theme_per_email",
+    "relation": "co_applies",
+    "note": "Theme tile choice constrained together with single-theme-per-email rule."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_text_color_on_dark_panels",
+    "dst_rule_id": "rule_ibsrela_text_color_on_light_panels",
+    "relation": "cluster",
+    "note": "Complementary contrast pairings for dark vs light panels."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_link_color_on_dark_panels",
+    "dst_rule_id": "rule_ibsrela_link_color_on_light_panels",
+    "relation": "cluster",
+    "note": "Complementary link-color pairings for dark vs light panels."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_green_panel_reserved_use",
+    "dst_rule_id": "rule_ibsrela_green_panel_at_most_once",
+    "relation": "refines",
+    "note": "Reserved-use constraint refines the at-most-once cardinality on the green panel."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_green_panel_at_most_once",
+    "dst_rule_id": "rule_ibsrela_dtp_section_background_sequence",
+    "relation": "cross_reference",
+    "note": "Green panel is a step in the fixed background sequence."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_cta_image_free_when_populated_section_above",
+    "dst_rule_id": "rule_ibsrela_cta_right_image_locked_to_background",
+    "relation": "refines",
+    "note": "Exception: image is omitted when a populated section is directly above the CTA."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_cta_image_options_background_pairing",
+    "dst_rule_id": "rule_ibsrela_cta_right_image_locked_to_background",
+    "relation": "refines",
+    "note": "Specifies the three approved image/background pairings."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_cta_one_image_per_background_no_mismatch",
+    "dst_rule_id": "rule_ibsrela_cta_image_options_background_pairing",
+    "relation": "refines",
+    "note": "Prohibits mismatched pairings beyond the approved set."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_golf_image_lpga_gated",
+    "dst_rule_id": "rule_ibsrela_teal_background_reserved_lpga",
+    "relation": "co_applies",
+    "note": "Golf image gating and teal background reservation apply together for LPGA content."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_cta_button_dark_bg_white_fill",
+    "dst_rule_id": "rule_ibsrela_dark_bg_heading_body_colors",
+    "relation": "cluster",
+    "note": "Approved CTA image backgrounds are all dark group, so both dark-group rules apply."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_baseline_600px_fluid_hybrid_build",
+    "dst_rule_id": "rule_ibsrela_email_width_desktop_mobile",
+    "relation": "refines",
+    "note": "Baseline build technique implements the 600/375 width requirement."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_outer_side_padding_8pt",
+    "dst_rule_id": "rule_ibsrela_all_spacing_multiples_of_8",
+    "relation": "refines",
+    "note": "Specific side-padding values conform to the 8-pt system."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_section_vertical_padding_8pt",
+    "dst_rule_id": "rule_ibsrela_all_spacing_multiples_of_8",
+    "relation": "refines",
+    "note": "Specific vertical-padding values conform to the 8-pt system."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_margin_between_sections",
+    "dst_rule_id": "rule_ibsrela_section_vertical_padding_8pt",
+    "relation": "co_applies",
+    "note": "Sections butt together relying on their own vertical padding."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_callout_scene_color_no_mixing",
+    "dst_rule_id": "rule_ibsrela_callout_periwinkle_80_office_scene",
+    "relation": "cluster",
+    "note": "Fixed scene-color pairing set."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_callout_scene_color_no_mixing",
+    "dst_rule_id": "rule_ibsrela_callout_purple_60_cafe_scene",
+    "relation": "cluster",
+    "note": "Fixed scene-color pairing set."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_callout_scene_color_no_mixing",
+    "dst_rule_id": "rule_ibsrela_callout_green_40_soccer_scene",
+    "relation": "cluster",
+    "note": "Fixed scene-color pairing set."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_symptom_trio_all_three_no_substitute",
+    "dst_rule_id": "rule_ibsrela_symptom_trio_use_approved_icons_ordered",
+    "relation": "refines",
+    "note": "The no-substitution/all-three rule reinforces the ordered approved-icon requirement."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_symptom_trio_icon_styling",
+    "dst_rule_id": "rule_ibsrela_symptom_trio_use_approved_icons_ordered",
+    "relation": "co_applies",
+    "note": "Styling and ordering both govern the symptom trio icons."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_symptom_trio_panel_placement",
+    "dst_rule_id": "rule_ibsrela_symptom_trio_use_approved_icons_ordered",
+    "relation": "cluster",
+    "note": "Layout context for the symptom trio row."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_cta_button_left_flush",
+    "dst_rule_id": "rule_ibsrela_all_text_left_aligned",
+    "relation": "refines",
+    "note": "CTA button alignment is a specific case of the global left-alignment rule."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_cta_supporting_visual_right",
+    "dst_rule_id": "rule_ibsrela_cta_button_left_flush",
+    "relation": "co_applies",
+    "note": "Both govern CTA section layout: text/button left, visual right."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_email_font_stack_no_avenir_webfont",
+    "dst_rule_id": "rule_ibsrela_avenir_to_arial_substitution_map",
+    "relation": "refines",
+    "note": "Baseline email stack implements the Avenir\u2192Arial substitution for email."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_section_padding_editorial",
+    "dst_rule_id": "rule_ibsrela_boundary_gap_resolution",
+    "relation": "cross_reference",
+    "note": "Editorial padding feeds the resolved boundary gaps."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_section_padding_dark_feature",
+    "dst_rule_id": "rule_ibsrela_boundary_gap_resolution",
+    "relation": "cross_reference",
+    "note": "Dark feature padding feeds the resolved boundary gaps."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_inset_card_padding_radius",
+    "dst_rule_id": "rule_ibsrela_section_padding_editorial",
+    "relation": "refines",
+    "note": "Inset card hosts inside an Editorial section."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_empty_spacer_rows",
+    "dst_rule_id": "rule_ibsrela_boundary_gap_resolution",
+    "relation": "co_applies",
+    "note": "Both preserve deterministic spacing math."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_never_override_vertical_padding_token",
+    "dst_rule_id": "rule_ibsrela_boundary_gap_resolution",
+    "relation": "co_applies",
+    "note": "Fixed tokens are what make boundaries predictable."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_end_matter_isi_locked_constant",
+    "dst_rule_id": "rule_ibsrela_type_isi_body_locked",
+    "relation": "cluster",
+    "note": "Locked End Matter typography and content constant."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_campaign_headlines_all_caps",
+    "dst_rule_id": "rule_ibsrela_headlines_title_case_body_sentence_case",
+    "relation": "refines",
+    "note": "Campaign FLIP THE SCRIPT headlines override the default Title Case headline rule with ALL CAPS."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_flip_the_script_body_case_verbatim",
+    "dst_rule_id": "rule_ibsrela_campaign_headlines_all_caps",
+    "relation": "cross_reference",
+    "note": "Campaign name is ALL CAPS in headlines/lockup but Title Case ('Flip The Script') in body copy."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_flip_the_script_display_lockup_treatment",
+    "dst_rule_id": "rule_ibsrela_flip_the_script_body_case_verbatim",
+    "relation": "cluster",
+    "note": "Both govern usage of the Flip The Script campaign name."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_bold_body_footnotes_links",
+    "dst_rule_id": "rule_ibsrela_bold_reserved_uses",
+    "relation": "refines",
+    "note": "Complements the reserved-uses rule by listing forbidden bold targets."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_bold_as_hierarchy_substitute",
+    "dst_rule_id": "rule_ibsrela_bold_reserved_uses",
+    "relation": "refines",
+    "note": "Clarifies that bold is not a hierarchy tool beyond its reserved uses."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_bold_italic_combination",
+    "dst_rule_id": "rule_ibsrela_bold_reserved_uses",
+    "relation": "co_applies",
+    "note": "Both govern bold/italic emphasis in email body."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_top_end_matter_locked_no_modify",
+    "dst_rule_id": "rule_ibsrela_email_assembly_order_mandatory",
+    "relation": "refines",
+    "note": "Locked-matter constraint refines the mandatory order's bracketing components."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_remove_unneeded_elements_no_new_element_types",
+    "dst_rule_id": "rule_ibsrela_choose_one_premade_template_no_add_sections",
+    "relation": "refines",
+    "note": "Element-level subtractive rule refines the section-level no-add-sections rule."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_first_last_section_clean_edges",
+    "dst_rule_id": "rule_ibsrela_email_assembly_order_mandatory",
+    "relation": "co_applies",
+    "note": "Edge-transition rule applies alongside the assembly order between content and locked matter."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_content_body_matches_isi_body_settings",
+    "dst_rule_id": "rule_ibsrela_no_isi_indication_legal_duplication_in_content",
+    "relation": "cluster",
+    "note": "Both inherit from the locked End Matter footer."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_footnote_reference_numbering_coordinated_at_asse",
+    "dst_rule_id": "rule_ibsrela_no_isi_indication_legal_duplication_in_content",
+    "relation": "cluster",
+    "note": "End Matter inheritance consequences."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_no_logo_duplication_in_content",
+    "dst_rule_id": "rule_ibsrela_content_audience_matches_header",
+    "relation": "cluster",
+    "note": "Both inherit from the locked Top Matter header."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_dtp_lead_with_empathetic_acknowledgment",
+    "dst_rule_id": "rule_ibsrela_dtp_second_person_everyday_life_framing",
+    "relation": "cluster",
+    "note": "Both govern DTP patient voice and tone."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_dtp_poll_response_button",
+    "dst_rule_id": "rule_ibsrela_dtp_cta_label_format",
+    "relation": "refines",
+    "note": "Poll response button is a specific allowed CTA form under the label conventions."
+  },
+  {
+    "src_rule_id": "rule_ibsrela_dtp_no_hcp_get_connected_label",
+    "dst_rule_id": "rule_ibsrela_dtp_cta_matches_section_topic",
+    "relation": "co_applies",
+    "note": "Both govern which DTP CTA labels are appropriate per section/audience."
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "id": "rule_ibsrela_section_padding_dark_feature",
+  "brand_id": "ibsrela",
+  "rule_class": "spacing",
+  "tags": [
+    "layout",
+    "color_application"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta",
+      "callout"
+    ],
+    "element_path": "section.dark_feature.padding"
+  },
+  "applies_when": [
+    {
+      "kind": "background_token",
+      "value": "tok_ibsrela_color_dark_blue"
+    },
+    {
+      "kind": "background_token",
+      "value": "tok_ibsrela_color_purple"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.dark_feature.padding",
+        "token_id": "tok_ibsrela_spacing_section_dark_feature"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_color_dark_blue",
+    "tok_ibsrela_color_purple",
+    "tok_ibsrela_spacing_section_dark_feature"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Dark feature sections \u2014 navy #262262 / purple #92278F blocks (CTA, partnership, closing) \u2014 use fixed padding 24 px 24 px 24 px 24 px (T R B L), applied verbatim.",
+  "intent": "Consistent air for dark feature blocks.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_ibsrela_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Dark feature sections (navy #262262 / purple #92278F CTA, partnership, closing) use fixed 24px padding all sides (T R B L) exactly."
+}

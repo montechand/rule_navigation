@@ -1,0 +1,36 @@
+{
+  "id": "rule_ibsrela_cta_cardinality_per_section_and_email",
+  "brand_id": "ibsrela",
+  "rule_class": "cta",
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "section_types": [
+      "cta"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "cardinality",
+  "effect": {
+    "target": "primary_cta",
+    "min": null,
+    "max": 3,
+    "per": "email"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "One primary CTA per section, and a maximum of approximately 3 CTAs per email.",
+  "intent": "Limit call-to-action density for focus and clarity.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[1]",
+  "group_id": "grp_ibsrela_other_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Rule (cta): Limit to one primary CTA per section and a maximum of about 3 CTAs in each email."
+}

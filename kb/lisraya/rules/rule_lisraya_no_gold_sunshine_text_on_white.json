@@ -1,0 +1,42 @@
+{
+  "id": "rule_lisraya_no_gold_sunshine_text_on_white",
+  "brand_id": "lisraya",
+  "rule_class": "color_application",
+  "tags": [
+    "accessibility"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "text.fill"
+  },
+  "applies_when": [
+    {
+      "kind": "background_token",
+      "value": "tok_lisraya_color_white"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "gold_sunshine_text_colors",
+    "reserved_for": "surfaces, rules, and large display emphasis only"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_color_white"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_gold_text_contrast"
+  ],
+  "rule_text": "Avoid Gold (#ffc60a) or Sunshine (#faa31b) text on White (#ffffff) \u2014 it fails contrast. Golds are for surfaces, rules, and large display emphasis only, not body text.",
+  "intent": "Prevent illegible low-contrast gold text.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[4]",
+  "group_id": "grp_lisraya_color_scheme_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "Avoid Gold (#ffc60a) or Sunshine (#faa31b) text on White (#ffffff) due to low contrast; use Golds only for surfaces, rules, or large display emphasis."
+}

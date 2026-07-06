@@ -1,0 +1,61 @@
+{
+  "id": "rule_ibsrela_text_color_on_light_panels",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "accessibility",
+    "typography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "background_group",
+      "value": {
+        "panels": [
+          "White",
+          "Silver"
+        ]
+      }
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "heading.color",
+        "token_id": "tok_ibsrela_color_dark_blue"
+      },
+      {
+        "element_path": "body.color",
+        "token_id": "tok_ibsrela_color_black"
+      },
+      {
+        "element_path": "accent.color",
+        "token_id": "tok_ibsrela_color_purple"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_color_black",
+    "tok_ibsrela_color_dark_blue",
+    "tok_ibsrela_color_purple"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "On White or Silver panels, use navy (#262262) headlines, black (#000000) body copy, and purple (#92278F) accents.",
+  "intent": "Ensure legible contrast and correct color hierarchy on light theme panels.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[3]",
+  "group_id": "grp_ibsrela_color_scheme_rules_03",
+  "status": "active",
+  "version": 1,
+  "summary": "On White/Silver panels, use navy (#262262) headlines, black (#000000) body copy, purple (#92278F) accents."
+}

@@ -1,0 +1,56 @@
+{
+  "id": "rule_ibsrela_cta_button_dark_bg_white_fill",
+  "brand_id": "ibsrela",
+  "rule_class": "cta",
+  "tags": [
+    "color_application"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button.fill"
+  },
+  "applies_when": [
+    {
+      "kind": "background_group",
+      "value": "dark"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "cta.button.fill",
+        "token_id": "tok_ibsrela_color_white"
+      },
+      {
+        "element_path": "cta.button.label",
+        "token_id": "tok_ibsrela_color_green"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_color_green",
+    "tok_ibsrela_color_white"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "On dark backgrounds \u2014 Dark Gray #567483, Purple #92278F, Dark Blue #262262, Green #01A47E, Teal #0F99BC, or Periwinkle #7B7BED \u2014 the CTA button must use the White filled button (#FFFFFF) with green label text (#01A47E).",
+  "intent": "Ensure CTA button contrast on dark backgrounds.",
+  "snippets": "<mj-button background-color=\"#FFFFFF\" color=\"#01A47E\" ...>",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "On dark #567483, #92278F, #262262, #01A47E, #0F99BC, #7B7BED backgrounds, CTA uses white fill (#FFFFFF) with green label text (#01A47E)."
+}

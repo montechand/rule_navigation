@@ -1,0 +1,35 @@
+{
+  "id": "rule_lisraya_gradient_callout_background_skip_exception",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "imagery",
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta",
+      "callout"
+    ],
+    "element_path": "gradient_callout.background"
+  },
+  "evaluation_scope": "section",
+  "polarity": "may",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` \u2014 keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above; every other rule stays identical.",
+  "intent": "Constrain when and how the background may be omitted while preserving all other specs.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_lisraya_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Skip background image only in rare cases; remove background-url, size, repeat, position, keep background-color #faa31b and maintain headline, button color, and radius exactly; all else unchanged."
+}

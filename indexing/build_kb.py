@@ -1,0 +1,848 @@
+"""One-time migration: design bibles (semi-structured markdown blobs) -> structured KB.
+
+Per brand:
+  Pass A (1 LLM call)   : extract the entity catalog (tokens, assets, governance,
+                          subtypes, asset_groups) from the whole bible for globally
+                          consistent ids.
+  Pass B (per blob call) : atomize each blob (= rule_group) into brand_rule rows that
+                          reference catalog ids. Parallel with a semaphore.
+  Pass C (deterministic) : validate/coerce enums, derive token_ids/asset_ids, build
+                          graph.json, indices, schema docs, and per-group review files.
+
+LLM outputs are cached by content hash under indexing/_cache/{brand}/ so re-runs after
+code changes don't re-pay extraction.
+
+Usage:
+  .venv/bin/python -m indexing.build_kb --brand lisraya ibsrela [--force]
+"""
+
+from __future__ import annotations
+
+import argparse
+import asyncio
+import hashlib
+import json
+import re
+import shutil
+from pathlib import Path
+from typing import Any, Optional
+
+from pydantic import ValidationError
+from rich.console import Console
+
+from shared import config
+from shared.llm import Usage, complete_json
+from shared.schemas import (
+    ASSET_TYPES,
+    AUDIENCES,
+    CONSTRAINT_TYPES,
+    CONTENT_TYPES,
+    EVALUATION_SCOPES,
+    GOV_TYPES,
+    HARDNESS,
+    POLARITIES,
+    PREDICATE_REGISTRY,
+    RELATIONS,
+    RULE_CLASSES,
+    SCOPES,
+    SECTION_TYPES,
+    SEVERITIES,
+    SUBTYPE_KINDS,
+    TOKEN_TIERS,
+    TOKEN_TYPES,
+    VERDICTS,
+    AssetGroup,
+    BrandRule,
+    BrandToken,
+    ContentSubType,
+    DesignAsset,
+    Governance,
+    Predicate,
+    RuleGroup,
+    RuleRelation,
+    Selector,
+)
+from indexing import schema_docs
+
+console = Console()
+CACHE_DIR = Path(__file__).parent / "_cache"
+
+RULE_CLASS_ALIASES = {
+    "color": "color_application", "colors": "color_application", "colour": "color_application",
+    "copy": "copy_editorial", "editorial": "copy_editorial", "content": "copy_editorial",
+    "tone": "voice_tone", "voice": "voice_tone",
+    "icon": "iconography", "icons": "iconography",
+    "image": "imagery", "images": "imagery", "photography": "imagery",
+    "type": "typography", "font": "typography", "fonts": "typography",
+    "grid": "layout", "structure": "assembly", "governance": "copy_editorial",
+    "buttons": "cta", "button": "cta",
+}
+
+
+# ---------------------------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------------------------
+
+def slugify(s: str, max_len: int = 48) -> str:
+    s = re.sub(r"[^a-z0-9]+", "_", s.lower()).strip("_")
+    return s[:max_len].rstrip("_") or "x"
+
+
+def _cache_path(brand: str, kind: str, content: str) -> Path:
+    h = hashlib.sha1(f"{kind}|{config.EXTRACT_MODEL}|{content}".encode()).hexdigest()[:16]
+    return CACHE_DIR / brand / f"{kind}_{h}.json"
+
+
+async def cached_json_call(brand: str, kind: str, system: str, user: str,
+                           usage: Usage, max_tokens: int = 32000) -> Any:
+    cp = _cache_path(brand, kind, system + "\n" + user)
+    if cp.exists():
+        return json.loads(cp.read_text())
+    result = await complete_json(config.EXTRACT_MODEL, system, user, max_tokens=max_tokens, usage=usage)
+    cp.parent.mkdir(parents=True, exist_ok=True)
+    cp.write_text(json.dumps(result, indent=2))
+    return result
+
+
+def load_bible(brand: str) -> dict[str, list[str]]:
+    raw = json.loads(config.DESIGN_BIBLES[brand].read_text())
+    # Shape: {"website": {category: [blob, ...]}}
+    return raw.get("website", raw)
+
+
+# ---------------------------------------------------------------------------
+# Pass A — entity catalog
+# ---------------------------------------------------------------------------
+
+CATALOG_SYSTEM = """You are a meticulous data-migration engineer. You convert a pharma brand's
+design bible (markdown blobs) into a structured entity catalog. Extract ONLY what the
+document states; never invent values. Output a single JSON object, no prose."""
+
+CATALOG_PROMPT = """Brand: {brand}
+
+Extract the full entity catalog from the design bible below. Return JSON:
+
+{{
+  "tokens": [{{
+    "id": "tok_{brand}_<slug>", "token_type": "color|font|type_scale|spacing|radius|gradient|opacity",
+    "key": "<type>.<tier_or_group>.<name>", "value": {{"default": <value>, "variants": [{{"when": {{...}}, "value": <value>}}] | null}},
+    "derived_from": {{"base_token_id": "...", "op": "tint|opacity|mix", "amount": <0-1>}} | null,
+    "aliases": ["..."], "tier": "primary|secondary_accent|tertiary|campaign" | null,
+    "scope": "global" | "campaign:<name>" | "partnership:<name>",
+    "audience": "dtp_patient|hcp|caregiver" | null, "usage_ratio": <0-1> | null,
+    "gated": {{"is_gated": true, "gate": {{"kind": "content_tag", "value": "lpga"}}}} | null,
+    "notes": "..." | null
+  }}],
+  "assets": [{{
+    "id": "ast_{brand}_<slug>", "asset_type": "photo|icon|logo_lockup|svg_shape|wave|background|campaign_lockup|cta_image",
+    "uri": "<url or null>", "mime": null, "dims": null,
+    "description": "...", "alt_text": null,
+    "contains_token_ids": [], "required_pairing_token_ids": [],
+    "usage_conditions": {{"requires_content_tags": [], "forbidden_content_tags": [], "max_per_email": null}} | null,
+    "slot_compatibility": ["hero","cta_right","icon_row","background","inline"] | null,
+    "group_id": "agr_{brand}_<slug>" | null, "group_order": <int> | null,
+    "source": null
+  }}],
+  "governance": [{{
+    "id": "gov_{brand}_<slug>", "gov_type": "regulatory|legal|mlr_claim|disclosure|trademark",
+    "subject": "...", "match": {{"method": "semantic|lexical|exact"}},
+    "verdict": "allowed|forbidden|allowed_with_disclosure|requires_qualifier|verbatim_only",
+    "preferred_form": "<the exact verbatim string when one exists>" | null,
+    "severity": "info|warn|block", "rationale": "...",
+    "audience": null, "content_types": null
+  }}],
+  "subtypes": [{{
+    "id": "sub_{brand}_<slug>", "kind": "email_component|dimension_format|platform_format",
+    "content_type": "email", "name": "...", "channel": "email",
+    "audience": null, "best_for": "..." | null,
+    "slots": ["..."] | null, "reference_dims": {{"desktop": {{"w":600,"h":1138}}, "mobile": {{"w":375,"h":788}}}} | null,
+    "assembly": {{"position": "first|last|any", "repeatable": <bool>, "locked": <bool>}} | null,
+    "notes": null
+  }}],
+  "asset_groups": [{{"id": "agr_{brand}_<slug>", "name": "...", "semantics": "..."}}]
+}}
+
+Guidance:
+- tokens: every named color (hex), gradient (with stops), font family, type-scale level,
+  spacing value system, corner-radius spec, and opacity/tint pairing that the document
+  defines. Capture aliases (the same hex may have several names). Capture usage ratios,
+  gated/reserved tokens, derived tints (derived_from), and print-vs-email variants
+  (value.variants with {{"when": {{"surface": "email"}}}} etc).
+- assets: every concrete asset the doc references — image URLs, waves, lockups, icon sets,
+  CTA right-side images, background PNGs. Fill required_pairing_token_ids when the doc
+  locks an asset to a color, and usage_conditions for content-tag gating (e.g. lpga) or
+  per-email caps.
+- governance: verbatim disclosures, required qualifiers, approved messaging frameworks,
+  trademark usage adjudications. preferred_form carries the exact required string.
+- subtypes: the email component library (locked header/footer components, section
+  components with their editable slots, reference dims, assembly constraints).
+- asset_groups: named ordered sets (e.g. a fixed icon trio, wave variant families).
+- Use lowercase snake_case slugs. Do not duplicate entities; merge aliases instead.
+
+DESIGN BIBLE:
+{bible}
+"""
+
+
+# ---------------------------------------------------------------------------
+# Pass B — rule atomization per group
+# ---------------------------------------------------------------------------
+
+RULES_SYSTEM = """You are a meticulous data-migration engineer converting one blob of a pharma
+brand's design bible into atomic brand_rule rows for a closed-vocabulary schema. Faithfulness
+over invention: every field must be grounded in the blob. Output a single JSON object, no prose."""
+
+RULES_PROMPT = """Brand: {brand}
+Blob id: {group_id} (doc_ref: {doc_ref})
+
+Atomize the blob below into brand_rule rows. Return JSON:
+
+{{
+  "rules": [{{
+    "slug": "<short_snake_case_slug>",
+    "rule_class": one of {rule_classes},
+    "tags": [<same vocab, secondary facets>] | null,
+    "audience": one of {audiences} | null (null = all; this brand's materials are mostly {default_audience}),
+    "content_types": subset of {content_types} | null (null = all surfaces; use ["email"] when email-specific),
+    "scope": one of {scopes},
+    "selector": {{"section_types": subset of {section_types} | null, "element_path": "<dotted path like cta.button.fill>" | null}},
+    "applies_when": [{{"kind": one of {predicates}, "value": <object/string>}}] | null,
+    "evaluation_scope": one of {evaluation_scopes},
+    "constraint_type": one of {constraint_types} | null,
+    "effect": <typed payload, see below> | null,
+    "polarity": one of {polarities},
+    "hardness": one of {hardness},
+    "precedence": <int, 0 default; higher = wins ties>,
+    "governance_ids": [<gov_ ids from catalog>] | [],
+    "rule_text": "<faithful, self-contained restatement; may quote the source>",
+    "intent": "<one-line WHY>",
+    "snippets": "<verbatim MJML/SVG/code from the blob if illustrative>" | null
+  }}],
+  "relations": [{{"src_slug": "...", "dst_slug": "...", "relation": one of {relations}, "note": "..."}}]
+}}
+
+Effect payload shapes by constraint_type:
+- binding: [{{"element_path": "...", "token_id": "tok_..."}}]
+- cardinality: {{"target": "<selector/asset/component>", "min": int|null, "max": int|null, "per": "element|sentence|section|email"}}
+- ordering: {{"sequence": ["<target>", ...], "strict": bool}}
+- pairing: {{"a": "<token/asset/scene_tag>", "b": "<token/asset/scene_tag>", "relation": "requires|forbids"}}
+- exclusivity: {{"subject": "<token/style/element>", "reserved_for": "<selector or trigger>"}}
+- verbatim_content: {{"content": "<text>" | null, "governance_id": "gov_..." | null, "trigger": <predicate> | null}}
+
+Hard requirements:
+1. EVERY normative statement (must/never/always/only/max/min/reserved/required) in the blob
+   lands in EXACTLY ONE rule. Purely descriptive/table-of-values content that is already in
+   the entity catalog (palette hex tables, font inventories) does NOT need a rule unless it
+   states a usage constraint.
+2. rule_text must stand alone (a reader who has only rule_text + the catalog understands it).
+   Keep concrete values (hex, px, ratios) in rule_text even when also structured in effect.
+3. Reference catalog ids (tok_/ast_/gov_/sub_/agr_) inside effect wherever the blob refers to
+   a cataloged color/asset/claim/component. Use the ids EXACTLY as given in the catalog.
+4. applies_when only from the closed registry; if the blob's condition doesn't fit, leave
+   applies_when null and keep the condition inside rule_text.
+5. scope: statements marked [BASELINE]/[GENERAL]/(Solstice production rules) -> "org_baseline";
+   campaign-specific (e.g. named campaign lockups/palettes) -> "campaign"; else "brand".
+6. hardness: exact values/locked specs/never-change -> "hard_constraint"; strong defaults ->
+   "strong_default"; taste/tone guidance -> "soft_guidance".
+7. selector.section_types: null when the rule applies to any section; otherwise the specific
+   sections. Map source phrasing to the closed vocabulary (e.g. "CTA section" -> ["cta"],
+   "charts" -> ["chart"], "callout boxes" -> ["callout"], locked header/footer -> top_matter/end_matter).
+8. constraint_type/effect are best-effort: if the statement resists the typed shapes, set both
+   null (rule_text stays authoritative). Never force a bad fit.
+9. relations: only within this blob's rules (e.g. an exception refining a base rule ->
+   "refines"). Use sparingly.
+
+ENTITY CATALOG (ids you may reference):
+{catalog}
+
+BLOB:
+{blob}
+"""
+
+
+def catalog_summary(catalog: dict[str, list[dict[str, Any]]]) -> str:
+    lines: list[str] = []
+    lines.append("tokens:")
+    for t in catalog["tokens"]:
+        v = t.get("value") or {}
+        default = v.get("default") if isinstance(v, dict) else v
+        extra = []
+        if t.get("aliases"):
+            extra.append(f"aliases={t['aliases']}")
+        if t.get("gated"):
+            extra.append("GATED")
+        if t.get("scope") and t["scope"] != "global":
+            extra.append(t["scope"])
+        lines.append(f"  {t['id']}  key={t.get('key')}  default={json.dumps(default, default=str)} {' '.join(extra)}")
+    lines.append("assets:")
+    for a in catalog["assets"]:
+        desc = (a.get("description") or "")[:90]
+        lines.append(f"  {a['id']}  type={a.get('asset_type')}  {desc}")
+    lines.append("governance:")
+    for g in catalog["governance"]:
+        lines.append(f"  {g['id']}  type={g.get('gov_type')}  verdict={g.get('verdict')}  subject={(g.get('subject') or '')[:90]}")
+    lines.append("subtypes:")
+    for s in catalog["subtypes"]:
+        lines.append(f"  {s['id']}  {s.get('name')}  locked={bool((s.get('assembly') or {}).get('locked'))}")
+    lines.append("asset_groups:")
+    for ag in catalog["asset_groups"]:
+        lines.append(f"  {ag['id']}  {ag.get('name')}")
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Pass C — validation / coercion
+# ---------------------------------------------------------------------------
+
+class Warnings:
+    def __init__(self) -> None:
+        self.items: list[str] = []
+
+    def add(self, msg: str) -> None:
+        self.items.append(msg)
+
+
+def coerce_enum(value: Any, vocab: list[str], default: Optional[str],
+                field: str, ctx: str, warns: Warnings,
+                aliases: Optional[dict[str, str]] = None) -> Optional[str]:
+    if value is None:
+        return default
+    v = str(value).strip().lower()
+    if v in vocab:
+        return v
+    if aliases and v in aliases:
+        return aliases[v]
+    warns.add(f"{ctx}: {field}={value!r} not in vocab; -> {default!r}")
+    return default
+
+
+def coerce_enum_list(values: Any, vocab: list[str], field: str, ctx: str,
+                     warns: Warnings) -> Optional[list[str]]:
+    if values is None:
+        return None
+    if not isinstance(values, list):
+        values = [values]
+    kept = [str(v).strip().lower() for v in values if str(v).strip().lower() in vocab]
+    dropped = [v for v in values if str(v).strip().lower() not in vocab]
+    if dropped:
+        warns.add(f"{ctx}: {field} dropped invalid {dropped}")
+    if not kept:
+        return None  # unconstrained is safer than unreachable
+    return kept
+
+
+ID_SCAN_RE = re.compile(r"\b(?:tok|ast|gov|sub|agr)_[a-z0-9_]+\b")
+
+
+def scan_ids(obj: Any) -> set[str]:
+    return set(ID_SCAN_RE.findall(json.dumps(obj, default=str))) if obj is not None else set()
+
+
+def validate_rule(raw: dict[str, Any], brand: str, group_id: str, doc_ref: str,
+                  used_ids: set[str], catalog_ids: set[str], warns: Warnings) -> Optional[BrandRule]:
+    slug = slugify(str(raw.get("slug") or raw.get("rule_text", "rule")[:40]))
+    rule_id = f"rule_{brand}_{slug}"
+    n = 2
+    while rule_id in used_ids:
+        rule_id = f"rule_{brand}_{slug}_{n}"
+        n += 1
+    used_ids.add(rule_id)
+    ctx = rule_id
+
+    rule_text = (raw.get("rule_text") or "").strip()
+    if not rule_text:
+        warns.add(f"{ctx}: empty rule_text; skipped")
+        return None
+
+    sel_raw = raw.get("selector") or {}
+    selector = Selector(
+        section_types=coerce_enum_list(sel_raw.get("section_types"), SECTION_TYPES,
+                                       "selector.section_types", ctx, warns),
+        element_path=sel_raw.get("element_path") or None,
+    )
+
+    applies_when = None
+    if raw.get("applies_when"):
+        preds = []
+        for p in raw["applies_when"]:
+            if not isinstance(p, dict):
+                warns.add(f"{ctx}: malformed predicate {p!r} dropped")
+                continue
+            kind = str(p.get("kind", "")).strip().lower()
+            if kind not in PREDICATE_REGISTRY:
+                warns.add(f"{ctx}: predicate kind {kind!r} not in registry; dropped")
+                continue
+            preds.append(Predicate(kind=kind, value=p.get("value")))
+        applies_when = preds or None
+
+    constraint_type = raw.get("constraint_type")
+    if constraint_type is not None:
+        constraint_type = str(constraint_type).strip().lower()
+        if constraint_type not in CONSTRAINT_TYPES:
+            warns.add(f"{ctx}: constraint_type {constraint_type!r} invalid; -> null")
+            constraint_type = None
+    effect = raw.get("effect")
+
+    gov_ids = [g for g in (raw.get("governance_ids") or []) if isinstance(g, str)]
+    unknown_gov = [g for g in gov_ids if g not in catalog_ids]
+    if unknown_gov:
+        warns.add(f"{ctx}: unknown governance_ids {unknown_gov} dropped")
+        gov_ids = [g for g in gov_ids if g in catalog_ids]
+
+    # Derived indices from the structured effect (per dictionary: derived, never authored).
+    referenced = scan_ids(effect) | scan_ids(applies_when and [p.model_dump() for p in applies_when])
+    unknown_refs = {r for r in referenced if r not in catalog_ids}
+    if unknown_refs:
+        warns.add(f"{ctx}: effect references unknown ids {sorted(unknown_refs)} (kept in effect, not indexed)")
+    known = referenced & catalog_ids
+    token_ids = sorted(r for r in known if r.startswith("tok_"))
+    asset_ids = sorted(r for r in known if r.startswith("ast_"))
+    gov_ids = sorted(set(gov_ids) | {r for r in known if r.startswith("gov_")})
+
+    sub_ids = raw.get("content_sub_type_ids")
+    if sub_ids:
+        valid_subs = [s for s in sub_ids if s in catalog_ids]
+        if len(valid_subs) != len(sub_ids):
+            warns.add(f"{ctx}: dropped unknown content_sub_type_ids")
+        sub_ids = valid_subs or None
+
+    try:
+        precedence = int(raw.get("precedence") or 0)
+    except (TypeError, ValueError):
+        precedence = 0
+
+    # Binding effects legitimately arrive as arrays; store uniformly as a dict.
+    if isinstance(effect, list):
+        effect = {"assignments": effect}
+    elif not isinstance(effect, dict):
+        effect = None
+
+    return BrandRule(
+        id=rule_id,
+        brand_id=brand,
+        rule_class=coerce_enum(raw.get("rule_class"), RULE_CLASSES, "layout",
+                               "rule_class", ctx, warns, RULE_CLASS_ALIASES) or "layout",
+        tags=coerce_enum_list(raw.get("tags"), RULE_CLASSES, "tags", ctx, warns),
+        audience=coerce_enum(raw.get("audience"), AUDIENCES, None, "audience", ctx, warns),
+        content_types=coerce_enum_list(raw.get("content_types"), CONTENT_TYPES,
+                                       "content_types", ctx, warns),
+        content_sub_type_ids=sub_ids,
+        scope=coerce_enum(raw.get("scope"), SCOPES, "brand", "scope", ctx, warns) or "brand",
+        selector=selector,
+        applies_when=applies_when,
+        evaluation_scope=coerce_enum(raw.get("evaluation_scope"), EVALUATION_SCOPES, "section",
+                                     "evaluation_scope", ctx, warns) or "section",
+        constraint_type=constraint_type,
+        effect=effect if isinstance(effect, (dict, list)) else None,
+        polarity=coerce_enum(raw.get("polarity"), POLARITIES, "must", "polarity", ctx, warns) or "must",
+        hardness=coerce_enum(raw.get("hardness"), HARDNESS, "strong_default",
+                             "hardness", ctx, warns) or "strong_default",
+        precedence=precedence,
+        token_ids=token_ids,
+        asset_ids=asset_ids,
+        governance_ids=gov_ids,
+        rule_text=rule_text,
+        intent=(raw.get("intent") or "").strip(),
+        snippets=raw.get("snippets") or None,
+        source="design_bible",
+        doc_ref=doc_ref,
+        group_id=group_id,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Catalog validation
+# ---------------------------------------------------------------------------
+
+def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[str, Any]:
+    tokens: dict[str, BrandToken] = {}
+    assets: dict[str, DesignAsset] = {}
+    governance: dict[str, Governance] = {}
+    subtypes: dict[str, ContentSubType] = {}
+    asset_groups: dict[str, AssetGroup] = {}
+
+    for t in raw.get("tokens", []):
+        ctx = t.get("id", "token?")
+        try:
+            tok = BrandToken(
+                id=t["id"], brand_id=brand,
+                token_type=coerce_enum(t.get("token_type"), TOKEN_TYPES, "color",
+                                       "token_type", ctx, warns) or "color",
+                key=t.get("key") or t["id"],
+                value=t.get("value"),
+                derived_from=t.get("derived_from"),
+                aliases=t.get("aliases") or [],
+                tier=coerce_enum(t.get("tier"), TOKEN_TIERS, None, "tier", ctx, warns),
+                scope=t.get("scope") or "global",
+                audience=coerce_enum(t.get("audience"), AUDIENCES, None, "audience", ctx, warns),
+                usage_ratio=t.get("usage_ratio"),
+                gated=t.get("gated"),
+                notes=t.get("notes"),
+            )
+            tokens[tok.id] = tok
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: token invalid, skipped ({e})")
+
+    for a in raw.get("assets", []):
+        ctx = a.get("id", "asset?")
+        try:
+            asset = DesignAsset(
+                id=a["id"], brand_id=brand,
+                asset_type=coerce_enum(a.get("asset_type"), ASSET_TYPES, "photo",
+                                       "asset_type", ctx, warns) or "photo",
+                uri=a.get("uri"), mime=a.get("mime"), dims=a.get("dims"),
+                description=a.get("description") or "",
+                alt_text=a.get("alt_text"),
+                contains_token_ids=[x for x in (a.get("contains_token_ids") or []) if x in tokens],
+                required_pairing_token_ids=[x for x in (a.get("required_pairing_token_ids") or []) if x in tokens],
+                usage_conditions=a.get("usage_conditions"),
+                slot_compatibility=a.get("slot_compatibility"),
+                group_id=a.get("group_id"),
+                group_order=a.get("group_order"),
+                source=a.get("source"),
+            )
+            assets[asset.id] = asset
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: asset invalid, skipped ({e})")
+
+    for g in raw.get("governance", []):
+        ctx = g.get("id", "gov?")
+        try:
+            gov = Governance(
+                id=g["id"], brand_id=brand,
+                gov_type=coerce_enum(g.get("gov_type"), GOV_TYPES, "mlr_claim",
+                                     "gov_type", ctx, warns) or "mlr_claim",
+                subject=g.get("subject") or "",
+                match=g.get("match"),
+                verdict=coerce_enum(g.get("verdict"), VERDICTS, "allowed",
+                                    "verdict", ctx, warns) or "allowed",
+                preferred_form=g.get("preferred_form"),
+                severity=coerce_enum(g.get("severity"), SEVERITIES, "warn",
+                                     "severity", ctx, warns) or "warn",
+                rationale=g.get("rationale"),
+                audience=coerce_enum(g.get("audience"), AUDIENCES, None, "audience", ctx, warns),
+                content_types=coerce_enum_list(g.get("content_types"), CONTENT_TYPES,
+                                               "content_types", ctx, warns),
+            )
+            governance[gov.id] = gov
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: governance invalid, skipped ({e})")
+
+    for s in raw.get("subtypes", []):
+        ctx = s.get("id", "subtype?")
+        try:
+            sub = ContentSubType(
+                id=s["id"], brand_id=brand,
+                kind=coerce_enum(s.get("kind"), SUBTYPE_KINDS, "email_component",
+                                 "kind", ctx, warns) or "email_component",
+                content_type=s.get("content_type") or "email",
+                name=s.get("name") or s["id"],
+                size=s.get("size"), platform=s.get("platform"),
+                channel=s.get("channel") or "email",
+                audience=coerce_enum(s.get("audience"), AUDIENCES, None, "audience", ctx, warns),
+                best_for=s.get("best_for"), slots=s.get("slots"),
+                reference_dims=s.get("reference_dims"), assembly=s.get("assembly"),
+                notes=s.get("notes"),
+            )
+            subtypes[sub.id] = sub
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: subtype invalid, skipped ({e})")
+
+    for ag in raw.get("asset_groups", []):
+        ctx = ag.get("id", "asset_group?")
+        try:
+            grp = AssetGroup(id=ag["id"], brand_id=brand, name=ag.get("name") or ag["id"],
+                             semantics=ag.get("semantics"))
+            asset_groups[grp.id] = grp
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: asset_group invalid, skipped ({e})")
+
+    # Drop dangling asset.group_id references.
+    for asset in assets.values():
+        if asset.group_id and asset.group_id not in asset_groups:
+            warns.add(f"{asset.id}: unknown group_id {asset.group_id}; cleared")
+            asset.group_id = None
+
+    return {"tokens": tokens, "assets": assets, "governance": governance,
+            "subtypes": subtypes, "asset_groups": asset_groups}
+
+
+# ---------------------------------------------------------------------------
+# Graph
+# ---------------------------------------------------------------------------
+
+def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
+                relations: list[RuleRelation]) -> dict[str, Any]:
+    nodes: list[dict[str, Any]] = []
+    edges: list[dict[str, Any]] = []
+
+    for s in SECTION_TYPES:
+        nodes.append({"id": f"sec_{s}", "kind": "section_type", "label": s})
+    for r in rules.values():
+        nodes.append({"id": r.id, "kind": "rule", "label": (r.summary or r.rule_text)[:100],
+                      "rule_class": r.rule_class, "scope": r.scope,
+                      "all_sections": r.selector.section_types is None})
+        for s in r.selector.section_types or []:
+            edges.append({"src": r.id, "dst": f"sec_{s}", "type": "applies_to_section"})
+        for t in r.token_ids:
+            edges.append({"src": r.id, "dst": t, "type": "references_token"})
+        for a in r.asset_ids:
+            edges.append({"src": r.id, "dst": a, "type": "references_asset"})
+        for g in r.governance_ids:
+            edges.append({"src": r.id, "dst": g, "type": "governed_by"})
+        for s in r.content_sub_type_ids or []:
+            edges.append({"src": r.id, "dst": s, "type": "scoped_to_subtype"})
+        if r.group_id:
+            edges.append({"src": r.id, "dst": r.group_id, "type": "from_group"})
+
+    for t in cat["tokens"].values():
+        nodes.append({"id": t.id, "kind": "token", "label": t.key})
+        if t.derived_from and isinstance(t.derived_from, dict):
+            base = t.derived_from.get("base_token_id")
+            if base in cat["tokens"]:
+                edges.append({"src": t.id, "dst": base, "type": "derived_from"})
+    for a in cat["assets"].values():
+        nodes.append({"id": a.id, "kind": "asset", "label": a.description[:100]})
+        for t in a.contains_token_ids:
+            edges.append({"src": a.id, "dst": t, "type": "contains_token"})
+        for t in a.required_pairing_token_ids:
+            edges.append({"src": a.id, "dst": t, "type": "requires_pairing_token"})
+        if a.group_id:
+            edges.append({"src": a.id, "dst": a.group_id, "type": "member_of",
+                          "order": a.group_order})
+    for g in cat["governance"].values():
+        nodes.append({"id": g.id, "kind": "governance", "label": g.subject[:100]})
+    for s in cat["subtypes"].values():
+        nodes.append({"id": s.id, "kind": "subtype", "label": s.name})
+    for ag in cat["asset_groups"].values():
+        nodes.append({"id": ag.id, "kind": "asset_group", "label": ag.name})
+
+    for rel in relations:
+        edges.append({"src": rel.src_rule_id, "dst": rel.dst_rule_id,
+                      "type": rel.relation, "note": rel.note})
+
+    return {"nodes": nodes, "edges": edges}
+
+
+# ---------------------------------------------------------------------------
+# Writers
+# ---------------------------------------------------------------------------
+
+def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
+             groups: dict[str, RuleGroup], relations: list[RuleRelation],
+             warns: Warnings) -> None:
+    root = config.kb_dir(brand)
+    if root.exists():
+        # Preserve vectors/ across rebuilds; everything else is regenerated.
+        for child in root.iterdir():
+            if child.name != "vectors":
+                shutil.rmtree(child) if child.is_dir() else child.unlink()
+    root.mkdir(parents=True, exist_ok=True)
+
+    # schema docs
+    schema_dir = root / "schema"
+    schema_dir.mkdir(exist_ok=True)
+    for stem, content in schema_docs.entity_docs().items():
+        (schema_dir / f"{stem}.md").write_text(content)
+    counts = {"rules": len(rules), "tokens": len(cat["tokens"]), "assets": len(cat["assets"]),
+              "governance": len(cat["governance"]), "subtypes": len(cat["subtypes"]),
+              "rule_groups": len(groups), "asset_groups": len(cat["asset_groups"])}
+    (schema_dir / "overview.md").write_text(schema_docs.overview_doc(brand, counts))
+
+    # rules
+    rules_dir = root / "rules"
+    rules_dir.mkdir(exist_ok=True)
+    index = []
+    for r in rules.values():
+        (rules_dir / f"{r.id}.json").write_text(json.dumps(r.model_dump(exclude_none=True), indent=2))
+        index.append({
+            "id": r.id, "rule_class": r.rule_class, "tags": r.tags or [],
+            "sections": r.selector.section_types, "element_path": r.selector.element_path,
+            "scope": r.scope, "hardness": r.hardness, "polarity": r.polarity,
+            "constraint_type": r.constraint_type, "evaluation_scope": r.evaluation_scope,
+            "audience": r.audience,
+            "applies_when": [p.model_dump(exclude_none=True) for p in r.applies_when] if r.applies_when else None,
+            "summary": r.summary or r.rule_text[:160],
+        })
+    (rules_dir / "_index.json").write_text(json.dumps(index, indent=2))
+
+    # side entities
+    for name, store in (("tokens", cat["tokens"]), ("assets", cat["assets"]),
+                        ("subtypes", cat["subtypes"]), ("governance", cat["governance"])):
+        d = root / name
+        d.mkdir(exist_ok=True)
+        idx = []
+        for e in store.values():
+            (d / f"{e.id}.json").write_text(json.dumps(e.model_dump(exclude_none=True), indent=2))
+            if name == "tokens":
+                idx.append({"id": e.id, "key": e.key, "type": e.token_type,
+                            "default": (e.value or {}).get("default") if isinstance(e.value, dict) else e.value,
+                            "aliases": e.aliases, "gated": bool(e.gated)})
+            elif name == "assets":
+                idx.append({"id": e.id, "type": e.asset_type, "description": e.description[:120],
+                            "uri": e.uri, "group_id": e.group_id})
+            elif name == "subtypes":
+                idx.append({"id": e.id, "name": e.name, "kind": e.kind,
+                            "locked": bool((e.assembly or {}).get("locked"))})
+            else:
+                idx.append({"id": e.id, "type": e.gov_type, "verdict": e.verdict,
+                            "subject": e.subject[:120]})
+        (d / "_index.json").write_text(json.dumps(idx, indent=2))
+
+    # groups + relations
+    groups_dir = root / "groups"
+    groups_dir.mkdir(exist_ok=True)
+    (groups_dir / "rule_groups.json").write_text(
+        json.dumps([g.model_dump(exclude_none=True) for g in groups.values()], indent=2))
+    (groups_dir / "asset_groups.json").write_text(
+        json.dumps([g.model_dump(exclude_none=True) for g in cat["asset_groups"].values()], indent=2))
+    (groups_dir / "relations.json").write_text(
+        json.dumps([r.model_dump(exclude_none=True) for r in relations], indent=2))
+
+    # graph
+    graph_dir = root / "graph"
+    graph_dir.mkdir(exist_ok=True)
+    (graph_dir / "graph.json").write_text(json.dumps(build_graph(rules, cat, relations), indent=2))
+
+    # review files
+    review_dir = root / "review"
+    review_dir.mkdir(exist_ok=True)
+    by_group: dict[str, list[BrandRule]] = {}
+    for r in rules.values():
+        by_group.setdefault(r.group_id or "?", []).append(r)
+    for gid, g in groups.items():
+        lines = [f"# Review: {gid}", "", f"doc_ref: `{g.doc_ref}`", "", "## Original text", "",
+                 "````", g.original_text, "````", "", f"## Extracted rules ({len(by_group.get(gid, []))})", ""]
+        for r in by_group.get(gid, []):
+            lines.append(f"### {r.id}")
+            lines.append(f"- class={r.rule_class} scope={r.scope} hardness={r.hardness} "
+                         f"polarity={r.polarity} sections={r.selector.section_types} "
+                         f"constraint={r.constraint_type}")
+            lines.append(f"- rule_text: {r.rule_text}")
+            lines.append(f"- intent: {r.intent}")
+            lines.append("")
+        (review_dir / f"{gid}.md").write_text("\n".join(lines))
+    (review_dir / "warnings.md").write_text(
+        "# Build warnings\n\n" + "\n".join(f"- {w}" for w in warns.items) if warns.items
+        else "# Build warnings\n\n(none)")
+
+
+# ---------------------------------------------------------------------------
+# Main per-brand build
+# ---------------------------------------------------------------------------
+
+async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
+    console.print(f"[bold cyan]== Building KB for {brand} ==[/bold cyan]")
+    bible = load_bible(brand)
+    warns = Warnings()
+
+    # Rule groups from blobs
+    groups: dict[str, RuleGroup] = {}
+    blobs: list[tuple[str, str, str]] = []  # (group_id, doc_ref, text)
+    for category, items in bible.items():
+        for i, blob in enumerate(items):
+            gid = f"grp_{brand}_{slugify(category)}_{i:02d}"
+            doc_ref = f"{category}[{i}]"
+            groups[gid] = RuleGroup(id=gid, brand_id=brand, source="design_bible",
+                                    doc_ref=doc_ref, original_text=blob)
+            blobs.append((gid, doc_ref, blob))
+    console.print(f"  {len(blobs)} rule_groups from {len(bible)} categories")
+
+    # Pass A — catalog
+    full_bible_text = "\n\n".join(
+        f"## CATEGORY: {cat_name}\n\n" + "\n\n---\n\n".join(items) for cat_name, items in bible.items()
+    )
+    default_audience = "dtp_patient (patient/DTC materials)" if brand == "lisraya" else "dtp_patient (DTP emails; some HCP-scope items)"
+    raw_catalog = await cached_json_call(
+        brand, "catalog", CATALOG_SYSTEM,
+        CATALOG_PROMPT.format(brand=brand, bible=full_bible_text), usage)
+    cat = validate_catalog(raw_catalog, brand, warns)
+    catalog_ids = set(cat["tokens"]) | set(cat["assets"]) | set(cat["governance"]) \
+        | set(cat["subtypes"]) | set(cat["asset_groups"])
+    console.print(f"  catalog: {len(cat['tokens'])} tokens, {len(cat['assets'])} assets, "
+                  f"{len(cat['governance'])} governance, {len(cat['subtypes'])} subtypes, "
+                  f"{len(cat['asset_groups'])} asset_groups")
+
+    # Pass B — rules per blob, parallel
+    cat_text = catalog_summary({
+        "tokens": [t.model_dump() for t in cat["tokens"].values()],
+        "assets": [a.model_dump() for a in cat["assets"].values()],
+        "governance": [g.model_dump() for g in cat["governance"].values()],
+        "subtypes": [s.model_dump() for s in cat["subtypes"].values()],
+        "asset_groups": [g.model_dump() for g in cat["asset_groups"].values()],
+    })
+    sem = asyncio.Semaphore(concurrency)
+
+    async def do_group(gid: str, doc_ref: str, blob: str) -> tuple[str, dict[str, Any]]:
+        async with sem:
+            prompt = RULES_PROMPT.format(
+                brand=brand, group_id=gid, doc_ref=doc_ref,
+                rule_classes=RULE_CLASSES, audiences=AUDIENCES, content_types=CONTENT_TYPES,
+                scopes=SCOPES, section_types=SECTION_TYPES, predicates=PREDICATE_REGISTRY,
+                evaluation_scopes=EVALUATION_SCOPES, constraint_types=CONSTRAINT_TYPES,
+                polarities=POLARITIES, hardness=HARDNESS, relations=RELATIONS,
+                default_audience=default_audience, catalog=cat_text, blob=blob,
+            )
+            result = await cached_json_call(brand, f"rules_{gid}", RULES_SYSTEM, prompt, usage)
+            console.print(f"  [green]{gid}[/green]: {len(result.get('rules', []))} rules")
+            return gid, result
+
+    results = await asyncio.gather(*(do_group(g, d, b) for g, d, b in blobs))
+
+    # Pass C — validate, ids, relations
+    rules: dict[str, BrandRule] = {}
+    used_ids: set[str] = set()
+    relations: list[RuleRelation] = []
+    for gid, res in results:
+        doc_ref = groups[gid].doc_ref or gid
+        slug_to_id: dict[str, str] = {}
+        for raw_rule in res.get("rules", []):
+            if not isinstance(raw_rule, dict):
+                warns.add(f"{gid}: non-dict rule entry skipped")
+                continue
+            rule = validate_rule(raw_rule, brand, gid, doc_ref, used_ids, catalog_ids, warns)
+            if rule is None:
+                continue
+            rules[rule.id] = rule
+            if raw_rule.get("slug"):
+                slug_to_id[slugify(str(raw_rule["slug"]))] = rule.id
+        for rel in res.get("relations", []) or []:
+            if not isinstance(rel, dict):
+                continue
+            src = slug_to_id.get(slugify(str(rel.get("src_slug", ""))))
+            dst = slug_to_id.get(slugify(str(rel.get("dst_slug", ""))))
+            rel_type = str(rel.get("relation", "")).strip().lower()
+            if src and dst and src != dst and rel_type in RELATIONS:
+                relations.append(RuleRelation(src_rule_id=src, dst_rule_id=dst,
+                                              relation=rel_type, note=rel.get("note")))
+            else:
+                warns.add(f"{gid}: unresolved relation {rel}")
+
+    console.print(f"  [bold]{len(rules)} rules[/bold], {len(relations)} relations, "
+                  f"{len(warns.items)} warnings")
+    write_kb(brand, rules, cat, groups, relations, warns)
+    console.print(f"  KB written to {config.kb_dir(brand)}")
+
+
+async def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--brand", nargs="+", default=list(config.BRANDS), choices=list(config.BRANDS))
+    parser.add_argument("--force", action="store_true", help="ignore the LLM output cache")
+    parser.add_argument("--concurrency", type=int, default=4)
+    args = parser.parse_args()
+
+    config.require_keys()
+    if args.force:
+        for b in args.brand:
+            cache = CACHE_DIR / b
+            if cache.exists():
+                shutil.rmtree(cache)
+
+    usage = Usage()
+    for brand in args.brand:
+        await build_brand(brand, usage, args.concurrency)
+    console.print(f"[bold]Done.[/bold] Usage: {usage.as_dict()}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

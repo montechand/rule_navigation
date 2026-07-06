@@ -1,0 +1,193 @@
+"""Run one or more navigation architectures over an email blueprint.
+
+Per architecture: every blueprint section runs in parallel (bounded), each with its own
+JSONL trace. Results aggregate into outputs/{run_id}/result.json with:
+  - per-section targeted rules (id + why)
+  - email-wide rules union-deduped across sections (voted_by = which sections returned it)
+  - hydrated rule payloads for everything referenced
+  - usage stats (tokens, cost, tool calls, latency)
+
+Usage:
+  .venv/bin/python -m runner.run_blueprint --arch all --brand ibsrela \\
+      --blueprint examples/ibsrela_blueprint.json [--design-concept on|off] \\
+      [--model claude-sonnet-4-6] [--section-concurrency 3] [--sections hero cta] \\
+      [--thinking-effort none|low|medium|high|xhigh|max] [--max-tokens 128000]
+
+--thinking-effort / --max-tokens only apply to arch "a" (Anthropic adaptive thinking);
+other archs ignore them.
+"""
+
+from __future__ import annotations
+
+import argparse
+import asyncio
+import json
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+from rich.console import Console
+from rich.table import Table
+
+import arch_a_orchestrator
+import arch_b_subagents
+import arch_c_schema_network
+from shared import config
+from shared.kb import KB
+from shared.llm import Trace, Usage
+from shared.schemas import Blueprint, EmailWideRule, RunResult, SectionResult
+from shared.tool_repo import ToolRepo
+
+console = Console()
+
+ARCHS = {
+    "a": arch_a_orchestrator,
+    "b": arch_b_subagents,
+    "c": arch_c_schema_network,
+}
+
+
+def load_blueprint(path: Path) -> Blueprint:
+    data = json.loads(path.read_text())
+    return Blueprint(**{k: v for k, v in data.items() if not k.startswith("_")})
+
+
+def aggregate_email_wide(sections: list[SectionResult]) -> list[EmailWideRule]:
+    merged: dict[str, EmailWideRule] = {}
+    for s in sections:
+        for verdict in s.email_wide_rules:
+            entry = merged.setdefault(verdict.id, EmailWideRule(id=verdict.id))
+            entry.voted_by.append(s.section_id)
+            if verdict.why and not entry.why:
+                entry.why = verdict.why
+    # Stable order: most-voted first, then id.
+    return sorted(merged.values(), key=lambda e: (-len(e.voted_by), e.id))
+
+
+def hydrate_rules(kb: KB, result: RunResult) -> dict[str, Any]:
+    ids: set[str] = {e.id for e in result.email_wide_rules}
+    for s in result.sections:
+        ids.update(v.id for v in s.targeted_rules)
+        ids.update(v.id for v in s.email_wide_rules)
+    payloads = {}
+    for rid in sorted(ids):
+        rule = kb.rules.get(rid)
+        if rule is None:
+            continue
+        payloads[rid] = {
+            "rule_class": rule.rule_class,
+            "sections": rule.selector.section_types,
+            "scope": rule.scope,
+            "hardness": rule.hardness,
+            "polarity": rule.polarity,
+            "constraint_type": rule.constraint_type,
+            "applies_when": [p.model_dump(exclude_none=True) for p in rule.applies_when] if rule.applies_when else None,
+            "summary": rule.summary,
+            "rule_text": rule.rule_text,
+        }
+    return payloads
+
+
+async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
+                   sections_filter: list[str], include_dc: bool, model: str,
+                   section_concurrency: int, thinking_effort: str, max_tokens: int) -> Path:
+    module = ARCHS[arch]
+    kb = KB(brand)
+    repo = ToolRepo(kb)
+    run_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{arch}_{brand}_{blueprint_path.stem}"
+    out_dir = config.OUTPUTS_DIR / run_id
+    (out_dir / "traces").mkdir(parents=True, exist_ok=True)
+
+    sections = [s for s in bp.content_blueprint
+                if not sections_filter or s.section_id in sections_filter]
+    console.print(f"[bold cyan]== arch {arch} | {brand} | {len(sections)} sections | "
+                  f"model {model} | design_concept={'on' if include_dc else 'off'} ==[/bold cyan]")
+
+    usage = Usage()
+    sem = asyncio.Semaphore(section_concurrency)
+    t0 = time.time()
+
+    async def one(section) -> SectionResult:
+        trace = Trace()
+        sec_usage = Usage()
+        async with sem:
+            try:
+                # thinking_effort/max_tokens are arch-a-only (Anthropic extended thinking);
+                # other archs' run_section don't accept them.
+                extra = {"thinking_effort": thinking_effort, "max_tokens": max_tokens} if arch == "a" else {}
+                result = await module.run_section(
+                    repo, bp, section,
+                    model=model, include_design_concept=include_dc,
+                    trace=trace, usage=sec_usage, **extra,
+                )
+            except Exception as e:  # noqa: BLE001 — one section failing must not sink the run; error is recorded in the result
+                result = SectionResult(section_id=section.section_id, error=repr(e))
+        result.stats = {**result.stats, **sec_usage.as_dict()}
+        usage.merge(sec_usage)
+        trace.dump(out_dir / "traces" / f"{section.order:02d}_{section.section_id}.jsonl")
+        status = f"[red]ERROR: {result.error}[/red]" if result.error else (
+            f"targeted={len(result.targeted_rules)} email_wide={len(result.email_wide_rules)}")
+        console.print(f"  [{arch}] {section.section_id}: {status} "
+                      f"({result.stats.get('tool_calls', 0)} tool calls, "
+                      f"{result.stats.get('latency_s', 0)}s)")
+        return result
+
+    section_results = list(await asyncio.gather(*(one(s) for s in sections)))
+
+    result = RunResult(
+        arch=arch, brand=brand, blueprint_path=str(blueprint_path),
+        design_concept_used=include_dc,
+        sections=section_results,
+        email_wide_rules=aggregate_email_wide(section_results),
+        stats={**usage.as_dict(), "wall_s": round(time.time() - t0, 1), "model": model,
+               "sections_ok": sum(1 for s in section_results if not s.error)},
+    )
+    payload = result.model_dump()
+    payload["rules"] = hydrate_rules(kb, result)
+    (out_dir / "result.json").write_text(json.dumps(payload, indent=2))
+    console.print(f"  -> {out_dir / 'result.json'}  "
+                  f"[dim]{usage.as_dict()} wall={payload['stats']['wall_s']}s[/dim]")
+    return out_dir
+
+
+async def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--arch", default="all", choices=[*ARCHS, "all"])
+    parser.add_argument("--brand", required=True, choices=list(config.BRANDS))
+    parser.add_argument("--blueprint", required=True, type=Path)
+    parser.add_argument("--design-concept", default="on", choices=["on", "off"])
+    parser.add_argument("--model", default=config.AGENT_MODEL)
+    parser.add_argument("--section-concurrency", type=int, default=3)
+    parser.add_argument("--sections", nargs="*", default=[],
+                        help="only run these section_ids")
+    parser.add_argument("--thinking-effort", default="medium",
+                        choices=["none", "low", "medium", "high", "xhigh", "max"],
+                        help="arch 'a' only: Anthropic adaptive-thinking effort level")
+    parser.add_argument("--max-tokens", type=int, default=128_000,
+                        help="arch 'a' only: max_tokens per LLM call (thinking + response text)")
+    args = parser.parse_args()
+
+    config.require_keys()
+    bp = load_blueprint(args.blueprint)
+    archs = list(ARCHS) if args.arch == "all" else [args.arch]
+    out_dirs = []
+    for arch in archs:
+        out_dirs.append(await run_arch(
+            arch, args.brand, args.blueprint, bp, args.sections,
+            args.design_concept == "on", args.model, args.section_concurrency,
+            args.thinking_effort, args.max_tokens))
+
+    if len(out_dirs) > 1:
+        table = Table(title="runs")
+        table.add_column("arch")
+        table.add_column("output")
+        for arch, d in zip(archs, out_dirs):
+            table.add_row(arch, str(d))
+        console.print(table)
+        console.print("[dim]compare with: .venv/bin/python -m runner.compare "
+                      + " ".join(str(d) for d in out_dirs) + "[/dim]")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

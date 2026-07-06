@@ -1,0 +1,46 @@
+{
+  "id": "rule_lisraya_icon_callout_box_corner_radius",
+  "brand_id": "lisraya",
+  "rule_class": "iconography",
+  "tags": [
+    "layout"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.icon_box.border_radius"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "callout.icon_box.border_radius",
+        "token_id": "tok_lisraya_radius_icon_callout_box"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_radius_icon_callout_box"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "The box corner radius is border-radius: 40px 8px 40px 8px (TL TR BR BL order) \u2014 large on top-left + bottom-right, near-point on top-right + bottom-left, a 5:1 ratio. Never change it. Never simplify to a single uniform radius, swap the corners, or flip the diagonal.",
+  "intent": "Lock the signature asymmetric box radius.",
+  "snippets": "border-radius:40px 8px 40px 8px;",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[6]",
+  "group_id": "grp_lisraya_color_scheme_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Iconography box border-radius must be 40px top-left & bottom-right, 8px top-right & bottom-left (5:1 ratio); never altered, simplified, swapped, or flipped."
+}

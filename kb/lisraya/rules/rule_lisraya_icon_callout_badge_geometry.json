@@ -1,0 +1,35 @@
+{
+  "id": "rule_lisraya_icon_callout_badge_geometry",
+  "brand_id": "lisraya",
+  "rule_class": "layout",
+  "tags": [
+    "spacing"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.icon_box.badge.geometry"
+  },
+  "evaluation_scope": "element",
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Badge width W = 80px (inner icon ~48px). Inset the blue box from the left by W/2 = 40px and place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper). Distance from badge center to box edge must be 0. Vertical center via top:50% + margin-top:-40px (half the badge height). If the badge is a different size, keep the relationships: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the bisector stays exact.",
+  "intent": "Make the badge-on-edge alignment mathematically exact and scalable.",
+  "snippets": "<div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; ...\">",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[6]",
+  "group_id": "grp_lisraya_color_scheme_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Badge width W=80px, inset blue box left by W/2=40px, badge center on box left edge with left:0 in padding-left:40px wrapper; vertical center top:50% margin-top:-H/2; if size differs, inset=W/2, box padding-left=W/2+24px, margin-top=-H/2."
+}

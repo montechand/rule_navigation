@@ -1,0 +1,47 @@
+{
+  "id": "rule_ibsrela_green_panel_reserved_use",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "layout"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "affordability",
+      "symptom_trio"
+    ]
+  },
+  "applies_when": [
+    {
+      "kind": "background_token",
+      "value": "tok_ibsrela_color_green"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "tok_ibsrela_color_green",
+    "reserved_for": "affordability block or symptom-icon trio"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_color_green"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "The green accent panel (#01A47E) is reserved for either the affordability block or the symptom-icon trio, and the two must never be stacked together in one green panel.",
+  "intent": "Keep the green accent semantically tied to affordability or symptom-trio content.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[4]",
+  "group_id": "grp_ibsrela_color_scheme_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "Green accent panel (#01A47E) limited to affordability block or symptom-icon trio, never stacking both in one green panel."
+}

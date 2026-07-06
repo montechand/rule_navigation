@@ -1,0 +1,51 @@
+{
+  "id": "rule_ibsrela_text_color_on_dark_panels",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "background_group",
+      "value": {
+        "panels": [
+          "Purple",
+          "Navy",
+          "Green"
+        ]
+      }
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "text.color",
+        "token_id": "tok_ibsrela_color_white"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_color_white"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "On Purple (#92278F), Navy (#262262), or Green (#01A47E) panels, use white text only.",
+  "intent": "Ensure legible contrast on dark theme panels.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[3]",
+  "group_id": "grp_ibsrela_color_scheme_rules_03",
+  "status": "active",
+  "version": 1,
+  "summary": "Use white text only on Purple (#92278F), Navy (#262262), or Green (#01A47E) panels."
+}
