@@ -40,20 +40,24 @@ SPECIALISTS: dict[str, dict[str, Any]] = {
         "tools": ["rules_for_section", "rules_for_token", "neighbors", "related_rules",
                   "get_rules", "get_entity", "get_section_vocab"],
         "blurb": ("You are the GRAPH specialist. Navigate typed edges: section nodes "
-                  "(sec_hero, sec_cta, ...), rule->token/asset/governance links, asset "
-                  "pairing edges, rule-rule relations (refines/conflicts/cluster). Start from "
-                  "the mapped section node(s) via rules_for_section (set "
-                  "include_all_section_rules=true once to see the email-wide pool), then walk "
-                  "neighbors of the strongest hits to find conditioned/related rules."),
+                  "(sec_hero, sec_cta, ...), rule->token/asset/governance links, semantic "
+                  "token->primitive resolves_to edges, asset pairing edges, rule-rule "
+                  "relations (refines/conflicts/cluster). Start from the mapped section "
+                  "node(s) via rules_for_section (set include_all_section_rules=true once "
+                  "to see the email-wide pool), then walk neighbors of the strongest hits "
+                  "to find conditioned/related rules."),
     },
     "lexical": {
-        "tools": ["keyword_search", "grep", "query_rules", "read_file", "list_dir",
-                  "get_rules", "get_section_vocab"],
+        "tools": ["keyword_search", "grep", "query_rules", "query_tokens", "search_tokens",
+                  "rules_for_token", "read_file", "list_dir", "get_rules", "get_section_vocab"],
         "blurb": ("You are the LEXICAL/STRUCTURED specialist. Use BM25 keyword_search for "
                   "terminology, grep for exact strings (hex codes, px values, component and "
                   "campaign names), and query_rules for closed-facet filters (rule_class, "
-                  "section_types, scope, hardness, constraint_type). Cross-check counts: "
-                  "query_rules is exhaustive over the index, so use it to enumerate pools."),
+                  "section_types, scope, hardness, constraint_type). The token layer is "
+                  "yours too: search_tokens/query_tokens pivot from a concrete value or "
+                  "element path to its token, then rules_for_token to the governing rules. "
+                  "Cross-check counts: query_rules is exhaustive over the index, so use it "
+                  "to enumerate pools."),
     },
 }
 

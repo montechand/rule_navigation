@@ -1,0 +1,46 @@
+{
+  "id": "rule_ibsrela_email_assembly_order",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "top_matter",
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "ordering",
+  "effect": {
+    "sequence": [
+      "sub_ibsrela_top_matter",
+      "sub_ibsrela_primary_1col",
+      "sub_ibsrela_primary_2col",
+      "sub_ibsrela_secondary",
+      "sub_ibsrela_end_matter"
+    ],
+    "strict": true
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_end_matter_locked"
+  ],
+  "rule_text": "Every SFMC email is built by stacking components in sequence. Mandatory assembly order: (1) Top Matter \u2014 LOCKED, supplied (do not build or modify); (2) Email / Primary 1 Column \u2014 optional; (3) Email / Primary 2 Column \u2014 optional; (4) Email / Secondary \u2014 optional, may be repeated; (5) End Matter \u2014 LOCKED, supplied (do not build or modify). The two required components (Top Matter and End Matter) bracket one or more optional content components.",
+  "intent": "Enforce the fixed component stacking order with locked top/end matter bracketing optional content.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[4]",
+  "group_id": "grp_ibsrela_content_pattern_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "SFMC emails stack components in order: 1) Top Matter LOCKED, 2) optional Primary 1 Col, 3) optional Primary 2 Col, 4) optional repeated Secondary, 5) End Matter LOCKED."
+}

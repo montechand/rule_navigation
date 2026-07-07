@@ -1,0 +1,51 @@
+{
+  "id": "rule_ibsrela_cta_button_fill_label_by_background_group",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "cta",
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button.fill"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "cta.button.fill",
+        "token_id": "tok_ibsrela_cta_button_fill"
+      },
+      {
+        "element_path": "cta.button.label.color",
+        "token_id": "tok_ibsrela_cta_button_label_color"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_cta_button_fill",
+    "tok_ibsrela_cta_button_label_color"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "The CTA button flips between the two background groups: on light backgrounds (White, Silver) use the green filled button (cta.button.fill = #01A47E) with a white label (cta.button.label.color = #FFFFFF); on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) use the white filled button (#FFFFFF) with a green label (#01A47E). One-line: light background \u2192 green button / white label; dark background \u2192 white button / green label. The light/dark variant switching is carried on the semantic tokens.",
+  "intent": "Guarantee legible, on-brand CTA button contrast that inverts with the section background group.",
+  "snippets": "<!-- Dark background -> WHITE button fill, GREEN label -->\n<mj-button background-color=\"#FFFFFF\" color=\"#01A47E\" ...>Get started</mj-button>",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "CTA button uses green fill (#01A47E) with white label on light backgrounds (White, Silver); white fill with green label on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle)."
+}

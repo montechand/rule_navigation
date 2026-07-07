@@ -1,0 +1,67 @@
+{
+  "id": "rule_ibsrela_spacing_section_padding_gutters",
+  "brand_id": "ibsrela",
+  "rule_class": "spacing",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.padding.left",
+        "token_id": "tok_ibsrela_section_padding_sides"
+      },
+      {
+        "element_path": "section.padding.right",
+        "token_id": "tok_ibsrela_section_padding_sides"
+      },
+      {
+        "element_path": "section.padding.top",
+        "token_id": "tok_ibsrela_section_padding_vertical"
+      },
+      {
+        "element_path": "section.padding.bottom",
+        "token_id": "tok_ibsrela_section_padding_vertical"
+      },
+      {
+        "element_path": "grid.two_col.gutter",
+        "token_id": "tok_ibsrela_two_col_gutter"
+      },
+      {
+        "element_path": "card.internal.padding",
+        "token_id": "tok_ibsrela_card_internal_padding"
+      },
+      {
+        "element_path": "image.to_text.gap",
+        "token_id": "tok_ibsrela_image_text_gap"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_card_internal_padding",
+    "tok_ibsrela_image_text_gap",
+    "tok_ibsrela_section_padding_sides",
+    "tok_ibsrela_section_padding_vertical",
+    "tok_ibsrela_two_col_gutter"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Inside every section: outer/container side padding (24px desktop, 16px mobile, left & right), section vertical padding (32px top and bottom desktop, 24px mobile), two-column gutter (24px desktop; columns stack with 24px vertical gap on mobile), card internal padding (16px all sides), and image-to-text gap (16px). Breakpoint variants ride on the tokens.",
+  "intent": "Standardize intra-section spacing so sections read consistently across breakpoints.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[1]",
+  "group_id": "grp_ibsrela_design_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Section spacing: container side padding 24px desktop/16px mobile (L&R), vertical padding 32px desktop/24px mobile, 2-col gutter 24px desktop, stacked cols 24px vertical gap mobile, card padding 16px, image-text gap 16px."
+}

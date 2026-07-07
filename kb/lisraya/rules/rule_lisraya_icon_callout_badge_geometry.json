@@ -3,7 +3,8 @@
   "brand_id": "lisraya",
   "rule_class": "layout",
   "tags": [
-    "spacing"
+    "spacing",
+    "iconography"
   ],
   "audience": "dtp_patient",
   "content_types": [
@@ -14,22 +15,43 @@
     "section_types": [
       "callout"
     ],
-    "element_path": "callout.icon_box.badge.geometry"
+    "element_path": "icon_callout.badge"
   },
-  "evaluation_scope": "element",
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "icon_callout.box.inset",
+        "token_id": "tok_lisraya_size_badge_inset_40"
+      },
+      {
+        "element_path": "icon_callout.badge.size",
+        "token_id": "tok_lisraya_size_badge_80"
+      },
+      {
+        "element_path": "icon_callout.badge.inner_icon.size",
+        "token_id": "tok_lisraya_size_badge_icon_48"
+      }
+    ]
+  },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 0,
-  "token_ids": [],
+  "token_ids": [
+    "tok_lisraya_size_badge_80",
+    "tok_lisraya_size_badge_icon_48",
+    "tok_lisraya_size_badge_inset_40"
+  ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Badge width W = 80px (inner icon ~48px). Inset the blue box from the left by W/2 = 40px and place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper). Distance from badge center to box edge must be 0. Vertical center via top:50% + margin-top:-40px (half the badge height). If the badge is a different size, keep the relationships: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the bisector stays exact.",
-  "intent": "Make the badge-on-edge alignment mathematically exact and scalable.",
+  "rule_text": "Geometry: let W = badge width (default 80px, inner icon ~48px). Inset the blue box from the left by W/2 (=40px), and place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper) \u2014 distance from badge center to box edge must be 0 (perpendicular bisector, 50% over blue / 50% over background). Vertically center via top:50% + margin-top:-40px (half the badge height). Box left-padding must clear the overhanging badge half plus a gap (~W/2 + 24px = 64px). If badge size changes, keep the relationships: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the bisector stays exact.",
+  "intent": "Lock the exact 50/50 badge-on-edge geometry that makes the treatment read correctly.",
   "snippets": "<div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; ...\">",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[6]",
   "group_id": "grp_lisraya_color_scheme_rules_06",
   "status": "active",
   "version": 1,
-  "summary": "Badge width W=80px, inset blue box left by W/2=40px, badge center on box left edge with left:0 in padding-left:40px wrapper; vertical center top:50% margin-top:-H/2; if size differs, inset=W/2, box padding-left=W/2+24px, margin-top=-H/2."
+  "summary": "Geometry: badge width W=80px default; inset blue box left by W/2=40px; badge center aligns on box left edge; box padding-left=W/2+24=64px; badge margin-top= -H/2 for vertical center."
 }

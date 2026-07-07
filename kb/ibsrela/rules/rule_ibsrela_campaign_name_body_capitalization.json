@@ -1,0 +1,45 @@
+{
+  "id": "rule_ibsrela_campaign_name_body_capitalization",
+  "brand_id": "ibsrela",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "typography"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "element_path": "campaign.body_name.case"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    },
+    {
+      "kind": "first_mention",
+      "value": "campaign_name_in_body"
+    }
+  ],
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "Flip The Script",
+    "governance_id": "gov_ibsrela_campaign_name_capitalization",
+    "trigger": "campaign name appears inside body copy"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_campaign_name_capitalization"
+  ],
+  "rule_text": "When the campaign name appears inside body copy, capitalize each word: 'Flip The Script' (not all caps, not 'flip the script'). Governed by campaign.body_name.case (title case).",
+  "intent": "Preserve verbatim campaign-name capitalization in running body copy.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[2]",
+  "group_id": "grp_ibsrela_content_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Capitalize each word of campaign name inside body copy as per campaign.body_name.case (title case), e.g., 'Flip The Script', not all caps or lowercase."
+}

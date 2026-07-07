@@ -7,33 +7,49 @@
   ],
   "scope": "org_baseline",
   "selector": {},
-  "evaluation_scope": "email",
+  "evaluation_scope": "element",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "type_scale.h1",
-        "token_id": "tok_lisraya_type_h1"
+        "element_path": "h1.type_scale",
+        "token_id": "tok_lisraya_h1_type_scale"
       },
       {
-        "element_path": "type_scale.h2",
-        "token_id": "tok_lisraya_type_h2"
+        "element_path": "h1.weight",
+        "token_id": "tok_lisraya_h1_weight"
       },
       {
-        "element_path": "type_scale.h3",
-        "token_id": "tok_lisraya_type_h3"
+        "element_path": "h2.type_scale",
+        "token_id": "tok_lisraya_h2_type_scale"
       },
       {
-        "element_path": "type_scale.body",
-        "token_id": "tok_lisraya_type_body"
+        "element_path": "h2.weight",
+        "token_id": "tok_lisraya_h2_weight"
       },
       {
-        "element_path": "type_scale.secondary_body",
-        "token_id": "tok_lisraya_type_secondary_body"
+        "element_path": "h3.type_scale",
+        "token_id": "tok_lisraya_h3_type_scale"
       },
       {
-        "element_path": "type_scale.footnote",
-        "token_id": "tok_lisraya_type_footnote"
+        "element_path": "h3.weight",
+        "token_id": "tok_lisraya_h3_weight"
+      },
+      {
+        "element_path": "body.type_scale",
+        "token_id": "tok_lisraya_body_type_scale"
+      },
+      {
+        "element_path": "secondary_body.type_scale",
+        "token_id": "tok_lisraya_secondary_body_type_scale"
+      },
+      {
+        "element_path": "footnote.type_scale",
+        "token_id": "tok_lisraya_footnote_type_scale"
+      },
+      {
+        "element_path": "body.size",
+        "token_id": "tok_lisraya_body_size"
       }
     ]
   },
@@ -41,21 +57,25 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_type_body",
-    "tok_lisraya_type_footnote",
-    "tok_lisraya_type_h1",
-    "tok_lisraya_type_h2",
-    "tok_lisraya_type_h3",
-    "tok_lisraya_type_secondary_body"
+    "tok_lisraya_body_size",
+    "tok_lisraya_body_type_scale",
+    "tok_lisraya_footnote_type_scale",
+    "tok_lisraya_h1_type_scale",
+    "tok_lisraya_h1_weight",
+    "tok_lisraya_h2_type_scale",
+    "tok_lisraya_h2_weight",
+    "tok_lisraya_h3_type_scale",
+    "tok_lisraya_h3_weight",
+    "tok_lisraya_secondary_body_type_scale"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Email type scale (px / line-height): H1 (section hero headline) 28px/36px (\u2248130%) Nunito Sans ExtraBold or Bold; H2 (section heading) 22px/30px (\u2248136%) Nunito Sans Bold; H3 (subhead) 18px/26px (\u2248144%) Nunito Sans Bold or SemiBold; Body 16px/24px (150%) Nunito Sans Regular; Secondary/supporting body 14px/21px (150%) Nunito Sans Regular; Footnote/reference text 12px/18px (150%).",
-  "intent": "Define the email typographic scale.",
+  "rule_text": "[GENERAL] Email type scale: H1 (section hero headline) 28px/36px Nunito Sans ExtraBold or Bold; H2 (section heading) 22px/30px Bold; H3 (subhead) 18px/26px Bold or SemiBold; Body 16px/24px Regular \u2014 16px is the brand-mandated minimum for body copy ('bigger is better'); Secondary/supporting body 14px/21px Regular \u2014 use sparingly, never for primary content; Footnote/reference text 12px/18px \u2014 must be noticeably smaller than primary data and clearly separated from it. Never set running text below 12px (ISI sizing owned by the locked component).",
+  "intent": "Lock the email type scale and enforce a 16px body minimum with a 12px hard floor.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[1]",
   "group_id": "grp_lisraya_content_pattern_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "Email typography: H1 Hero 28px/36px Nunito Sans ExtraBold/Bold; H2 22px/30px Bold; H3 18px/26px Bold/SemiBold; Body 16px/24px Regular; Secondary 14px/21px Regular; Footnote 12px/18px."
+  "summary": "Email typography: H1 28px/36px Nunito Sans ExtraBold/Bold; H2 22px/30px Bold; H3 18px/26px Bold/SemiBold; Body 16px/24px Regular (min); Secondary 14px/21px sparing; Footnote 12px/18px small & separate."
 }

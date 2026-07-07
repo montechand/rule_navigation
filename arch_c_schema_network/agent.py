@@ -34,32 +34,41 @@ SHARDS: dict[str, dict[str, Any]] = {
     "color_typography": {
         "rule_classes": ["color_application", "typography"],
         "tools": ["query_rules", "get_rules", "keyword_search", "vector_search",
-                  "rules_for_token", "get_entity", "get_section_vocab"],
+                  "query_tokens", "search_tokens", "rules_for_token", "get_entity",
+                  "get_section_vocab"],
         "blurb": ("You own COLOR and TYPOGRAPHY: palette application, text/heading colors, "
                   "backgrounds, gradients, tints, contrast, gated/reserved colors, fonts, "
-                  "type scale, casing, line-height, bolding. Check the section's design "
-                  "concept for background/theme conditions (light vs dark flips many rules) "
-                  "and inspect referenced tokens via get_entity / rules_for_token."),
+                  "type scale, casing, line-height, bolding. The token layer carries the "
+                  "values AND the conditional switching (semantic tokens like "
+                  "cta.button.fill with light/dark variants): pivot from design-concept "
+                  "details via search_tokens/query_tokens, then rules_for_token for the "
+                  "governing rules. Check background/theme conditions (light vs dark flips "
+                  "many bindings)."),
     },
     "imagery_assets": {
         "rule_classes": ["imagery", "iconography"],
         "tools": ["query_rules", "get_rules", "keyword_search", "vector_search",
-                  "get_entity", "neighbors", "rules_for_token", "get_section_vocab"],
+                  "get_entity", "neighbors", "rules_for_token", "search_tokens",
+                  "get_section_vocab"],
         "blurb": ("You own IMAGERY and ASSETS: photography treatment, icons/icon trios, "
                   "waves, lockups, approved images, alt text, asset-color pairings, "
                   "content-tag gating (e.g. LPGA), per-asset cardinality. Walk asset nodes "
                   "with neighbors() to surface pairing rules (requires_pairing_token, "
-                  "member_of asset groups)."),
+                  "member_of asset groups); image_treatment/icon_style tokens are also "
+                  "in scope via search_tokens."),
     },
     "layout_assembly": {
         "rule_classes": ["layout", "spacing", "assembly", "cta"],
         "tools": ["query_rules", "get_rules", "keyword_search", "vector_search",
-                  "rules_for_section", "get_entity", "get_section_vocab"],
+                  "rules_for_section", "query_tokens", "search_tokens", "rules_for_token",
+                  "get_entity", "get_section_vocab"],
         "blurb": ("You own LAYOUT, SPACING, ASSEMBLY and CTA structure: canvas/grid, "
-                  "padding tokens, section stacking/adjacency, component library "
-                  "(content_sub_types incl. locked top/end matter), button geometry, "
+                  "padding/spacing/radius/size tokens, section stacking/adjacency, component "
+                  "library (content_sub_types incl. locked top/end matter), button geometry, "
                   "CTA placement/cardinality, callout/chart container geometry. "
-                  "rules_for_section gives the per-section pool for your regions."),
+                  "rules_for_section gives the per-section pool; query_tokens(token_type="
+                  "['spacing','padding','radius','size','dimension']) enumerates the "
+                  "geometry token pool and rules_for_token links back to rules."),
     },
     "copy_governance": {
         "rule_classes": ["copy_editorial", "voice_tone", "accessibility"],

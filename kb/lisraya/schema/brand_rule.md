@@ -1,7 +1,15 @@
 # Entity: brand_rule
 
-The atomic, independently-injectable unit of brand knowledge. One rule = one normative
-statement (a MUST/SHOULD/NEVER about typography, color, layout, copy, ...).
+A coherent, independently-injectable CLUSTER of brand knowledge about one topic/device
+(e.g. "CTA button coloring", "callout opacity system", "chart container geometry").
+
+Token-first convention: every concrete value (hex, px, %, radius, weight, alignment,
+casing) and every conditional value switch (IF light background ELSE dark...) lives in
+the brand_token layer — rules do NOT restate values. A rule covers the normative
+statements about its topic, binds the relevant tokens via `effect`/`token_ids`, and
+carries only the cross-element / cross-token logic that cannot live on a single token
+(cardinality, ordering, pairing, exclusivity, verbatim content, prose obligations).
+To resolve a rule to concrete values, follow its `token_ids` (see brand_token.md).
 
 Key attributes:
 - `rule_class` (primary facet): one of typography, color_application, cta, layout, spacing,

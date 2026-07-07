@@ -1,0 +1,30 @@
+{
+  "id": "tok_ibsrela_isi_body_size",
+  "brand_id": "ibsrela",
+  "token_type": "type_scale",
+  "kind": "semantic",
+  "key": "isi.body.size",
+  "value": {
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_isi_body"
+    },
+    "variants": [
+      {
+        "when": {
+          "position_in_email": "locked_end_matter"
+        },
+        "value": {
+          "$ref": "tok_ibsrela_type_scale_isi_body_locked"
+        }
+      }
+    ]
+  },
+  "element_paths": [
+    "isi.body.size"
+  ],
+  "aliases": [],
+  "scope": "global",
+  "notes": "ISI body 13px in type scale; locked footer states 12px/1.4 which content body must match. Discrepancy noted in source.",
+  "status": "active",
+  "version": 1
+}

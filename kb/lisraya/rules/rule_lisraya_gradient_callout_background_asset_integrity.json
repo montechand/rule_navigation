@@ -1,0 +1,54 @@
+{
+  "id": "rule_lisraya_gradient_callout_background_asset_integrity",
+  "brand_id": "lisraya",
+  "rule_class": "imagery",
+  "tags": [
+    "color_application",
+    "assembly"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta",
+      "callout"
+    ],
+    "element_path": "gradient_callout.background"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "gradient_callout.background",
+        "token_id": "tok_lisraya_gradient_callout_background"
+      },
+      {
+        "element_path": "gradient_callout.background.fallback",
+        "token_id": "tok_lisraya_gradient_callout_background_fallback"
+      }
+    ]
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [
+    "tok_lisraya_gradient_callout_background",
+    "tok_lisraya_gradient_callout_background_fallback"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_gradient_callout_background_asset"
+  ],
+  "rule_text": "The Gradient Callout background asset (Gradient_callout.png) must not be re-hosted or recolored. A solid Sunshine #faa31b background-color must always be set as fallback since clients like Outlook drop background images. The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget); when skipped, remove only background-url/size/repeat/position, keep background-color #faa31b, and every other rule (headline color, button color, button radius) stays identical.",
+  "intent": "Preserve the integrity of the branded gradient asset and guarantee a graceful, on-brand fallback.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_lisraya_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Gradient Callout background (Gradient_callout.png) must not be re-hosted/recolored; always fallback to solid Sunshine #faa31b background-color; background image skipped only in rare cases, retaining #faa31b color and all other style rules."
+}

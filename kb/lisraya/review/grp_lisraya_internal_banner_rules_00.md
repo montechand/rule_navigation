@@ -31,20 +31,20 @@ use this shape and treatment for CTAs:
 
 ### rule_lisraya_brand_color_hierarchy
 - class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=ordering
-- rule_text: The three approved brand colors in hierarchy order are: (1) #00529B Deep Blue (dominant), (2) #FAA31B Amber Orange (secondary accent), (3) #FFC60A Golden Yellow (tertiary accent). Deep Blue is dominant, Amber Orange is the secondary accent, and Golden Yellow is the tertiary accent.
-- intent: Preserve brand color dominance/hierarchy across materials.
+- rule_text: The three approved brand colors are used in hierarchy order: (1) #00529B Deep Blue is dominant, (2) #FAA31B Amber Orange is the secondary accent, and (3) #FFC60A Golden Yellow is the tertiary accent (palette.hierarchy: primary > secondary > tertiary).
+- intent: Preserve the intended visual dominance of brand colors.
 
-### rule_lisraya_agenda_headline_font
-- class=typography scope=brand hardness=strong_default polarity=should sections=None constraint=binding
-- rule_text: Agenda is the primary headline font and should be used for all headlines and headers.
-- intent: Consistent headline typography across the brand.
+### rule_lisraya_primary_headline_font_agenda
+- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Agenda is the primary headline font and should be used for all headlines and headers (headline.font).
+- intent: Consistent branded typography for headings.
 
-### rule_lisraya_nunito_sans_print_body
-- class=typography scope=brand hardness=strong_default polarity=should sections=None constraint=binding
-- rule_text: Nunito Sans should be used for all body copy in print.
-- intent: Consistent body typography in print materials.
+### rule_lisraya_body_font_nunito_sans_print
+- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Nunito Sans should be used for all body copy in print (body.font). A Google Fonts CSS2 import URL for Nunito Sans (ital, opsz, wght axes) is provided for web loading.
+- intent: Consistent body typography across surfaces.
 
-### rule_lisraya_cta_svg_shape_treatment
-- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: Use the specified SVG shape and treatment for CTAs: a 180x59 SVG button with an asymmetric rounded path filled with a horizontal linear gradient from #FFDF55 to #FAA21B.
-- intent: Lock the CTA button shape and gradient treatment.
+### rule_lisraya_internal_banner_cta_svg_shape
+- class=cta scope=campaign hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
+- rule_text: Use the prescribed internal banner CTA shape and treatment: an inline SVG button (180 × 59px) with the asymmetric rounded-corner path filled by the #FFDF55 → #FAA21B gradient (internal_banner.cta.gradient / internal_banner.cta.size).
+- intent: Locks the signature internal-banner CTA button form and gradient.

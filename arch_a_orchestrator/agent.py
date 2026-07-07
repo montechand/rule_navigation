@@ -36,9 +36,13 @@ reads/grep, and schema docs.
 3. Probe for conditionals and devices the blueprint implies: vector_search / keyword_search
    for the section's design concept, colors, components (waves, callouts, icons, buttons,
    images), and copy phrases (brand name, campaign names, symptom mentions).
-4. Inspect uncertain candidates with get_rules(view='full') — check applies_when, audience,
+4. Token pivot: for concrete details in the design concept (a hex, an opacity, a radius,
+   an alignment, a font), search_tokens / query_tokens finds the token, then
+   rules_for_token gives its governing rules — including conditional variants you'd
+   otherwise miss.
+5. Inspect uncertain candidates with get_rules(view='full') — check applies_when, audience,
    content_types before including them.
-5. Call finalize_section_ruleset exactly once with your final answer. If it errors
+6. Call finalize_section_ruleset exactly once with your final answer. If it errors
    (unknown ids / overlap), fix and call it again.
 
 {schema_primer}

@@ -1,0 +1,36 @@
+{
+  "id": "rule_ibsrela_top_matter_locked_no_logo_repeat",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "layout",
+    "copy_editorial"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "section_types": [
+      "top_matter"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_logo_lockup_in_content"
+  ],
+  "rule_text": "Top Matter is supplied pre-built and locked (per audience: DTP = logo without BID and patient-friendly safety language; HCP = logo with BID). It contains the logo lockup, mandatory safety message with Medication Guide / full PI (incl. Boxed Warning) links, and View in Browser link; safety copy is pre-approved. Inherited consequences for content sections: (a) never repeat the IBSRELA logo lockup inside a content section \u2014 it lives in the header (the logo may only appear inside approved campaign imagery, untouched); (b) the email's audience is fixed by the supplied header, so all content-section copy and imagery must match it.",
+  "intent": "Preserve the locked, pre-approved header and prevent logo/audience drift in content.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[5]",
+  "group_id": "grp_ibsrela_content_pattern_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Top Matter is pre-built/locked by audience (DTP: logo no BID + friendly safety; HCP: logo with BID), includes mandatory safety links; no logo repeat in content, audience fixed by header."
+}

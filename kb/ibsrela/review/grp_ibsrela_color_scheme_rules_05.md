@@ -176,54 +176,29 @@ Text + button only, on an approved background from the lookup table. Example sho
 ```
 ````
 
-## Extracted rules (10)
+## Extracted rules (5)
 
-### rule_ibsrela_cta_button_light_bg_green_fill
-- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: On light backgrounds — White #FFFFFF or Silver #CFDCE3 — the CTA button must use the Green filled button (#01A47E) with white label text (#FFFFFF).
-- intent: Ensure CTA button contrast on light backgrounds.
-
-### rule_ibsrela_cta_button_dark_bg_white_fill
-- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: On dark backgrounds — Dark Gray #567483, Purple #92278F, Dark Blue #262262, Green #01A47E, Teal #0F99BC, or Periwinkle #7B7BED — the CTA button must use the White filled button (#FFFFFF) with green label text (#01A47E).
-- intent: Ensure CTA button contrast on dark backgrounds.
-
-### rule_ibsrela_light_bg_heading_body_colors
+### rule_ibsrela_cta_button_fill_label_by_background_group
 - class=color_application scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: On light backgrounds (White #FFFFFF, Silver #CFDCE3), headings must be Dark Blue #262262 and body copy must be Black #000000.
-- intent: Legible text color pairing on light backgrounds.
+- rule_text: The CTA button flips between the two background groups: on light backgrounds (White, Silver) use the green filled button (cta.button.fill = #01A47E) with a white label (cta.button.label.color = #FFFFFF); on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) use the white filled button (#FFFFFF) with a green label (#01A47E). One-line: light background → green button / white label; dark background → white button / green label. The light/dark variant switching is carried on the semantic tokens.
+- intent: Guarantee legible, on-brand CTA button contrast that inverts with the section background group.
 
-### rule_ibsrela_dark_bg_heading_body_colors
+### rule_ibsrela_cta_section_text_colors_by_background_group
 - class=color_application scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: On dark backgrounds (Dark Gray #567483, Purple #92278F, Dark Blue #262262, Green #01A47E, Teal #0F99BC, Periwinkle #7B7BED), headings must be White #FFFFFF and body copy must be White #FFFFFF.
-- intent: Legible text color pairing on dark backgrounds.
+- rule_text: Within the CTA section, heading and body text color follow the background group: on light backgrounds (White, Silver) heading is Dark Blue #262262 and body is Black #000000; on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) heading and body are both White #FFFFFF. The variant switching is carried on the headline.color and body.color semantic tokens.
+- intent: Keep CTA heading/body colors consistent with the two-group light/dark system.
 
 ### rule_ibsrela_cta_right_image_locked_to_background
 - class=imagery scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=pairing
-- rule_text: The CTA section may carry an image on the right side, chosen from three approved options. Each image is locked to a specific CTA section background color and they are not interchangeable — pick the image based on the email's content, then set the CTA background to that image's required color.
-- intent: Keep approved CTA images paired with their locked backgrounds.
-
-### rule_ibsrela_cta_image_options_background_pairing
-- class=imagery scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=pairing
-- rule_text: The three approved CTA right-side images and their required backgrounds: Email_Primary_2_column.png (default/general CTA) on Purple #92278F; Email_Primary_column_golf.png (only when the email contains LPGA content) on Teal #0F99BC; Cake_lockup.png (general CTA alternate visual) on Periwinkle #7B7BED.
-- intent: Bind each approved CTA image to its required background color.
+- rule_text: The CTA section may carry an image on the right side; there are three approved options and each is locked to a specific CTA section background color — they are not interchangeable. Pick the image by the email's content, then set the CTA background to that image's required color: Email_Primary_2_column.png (ast_ibsrela_email_primary_2_column, default/general) → Purple #92278F; Email_Primary_column_golf.png (ast_ibsrela_email_primary_column_golf, LPGA only) → Teal #0F99BC; Cake_lockup.png (ast_ibsrela_cake_lockup, general alternate) → Periwinkle #7B7BED. Do not place Email_Primary_2_column.png on a teal background and do not place Email_Primary_column_golf.png on a purple or any non-teal background. Swap variants by changing both the background-color and image src together. All three backgrounds are in the dark group, so the section always uses white heading/body, white button fill, and green label.
+- intent: Prevent mismatched CTA image/background pairings that break the locked visual system.
 
 ### rule_ibsrela_cta_image_free_when_populated_section_above
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: When a populated content section sits directly above the CTA, the CTA must run image-free (text + button only): skip the right-side image and place the CTA on an approved background from the lookup table.
-- intent: Avoid stacking imagery when content precedes the CTA.
+- class=layout scope=brand hardness=strong_default polarity=must sections=['cta'] constraint=binding
+- rule_text: When a populated content section sits directly above the CTA, the CTA runs image-free (text + button only): skip the right-side image and place the CTA on an approved background from the lookup table. On a light background (e.g. Silver) the button then flips to green-filled with a white label per the button rule.
+- intent: Avoid visual stacking of two heavy image sections while keeping color rules intact.
 
-### rule_ibsrela_cta_one_image_per_background_no_mismatch
-- class=imagery scope=brand hardness=hard_constraint polarity=must_not sections=['cta'] constraint=pairing
-- rule_text: One image per background: do not place Email_Primary_2_column.png on a teal background, and do not place Email_Primary_column_golf.png on a purple (or any non-teal) background.
-- intent: Prevent mismatched image/background combinations.
-
-### rule_ibsrela_golf_image_lpga_gated
-- class=imagery scope=campaign hardness=hard_constraint polarity=must_not sections=['cta'] constraint=pairing
-- rule_text: The golf image is LPGA-gated: if the email has no LPGA content, do not use the golf asset (Email_Primary_column_golf.png) and do not use the #0F99BC background.
-- intent: Restrict LPGA-branded golf asset to LPGA-content emails.
-
-### rule_ibsrela_teal_background_reserved_lpga
+### rule_ibsrela_teal_background_reserved_for_lpga_golf
 - class=color_application scope=campaign hardness=hard_constraint polarity=must sections=['cta'] constraint=exclusivity
-- rule_text: Teal #0F99BC is reserved: it is only valid as a CTA section background when paired with the LPGA golf image — it is not a general-purpose background elsewhere in the system.
-- intent: Reserve teal exclusively for the LPGA CTA context.
+- rule_text: Teal #0F99BC is only valid as a CTA section background when paired with the LPGA golf image (Email_Primary_column_golf.png) — it is not a general-purpose background elsewhere in the system. The golf image is LPGA-gated: if the email has no LPGA content, do not use the golf asset and do not use the #0F99BC background.
+- intent: Restrict the reserved teal/golf combination to LPGA-content emails only.

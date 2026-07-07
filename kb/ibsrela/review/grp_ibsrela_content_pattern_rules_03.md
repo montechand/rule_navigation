@@ -14,22 +14,22 @@ doc_ref: `content_pattern_rules[3]`
 
 ## Extracted rules (4)
 
-### rule_ibsrela_bold_reserved_uses
-- class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=exclusivity
-- rule_text: Bold (Arial Bold) is reserved for: headlines, subheads, card titles, CTA labels, ISI subheads, boxed-warning text, and key claim phrases — but only when the claim is MLR-approved with that emphasis.
-- intent: Restrict bold to defined hierarchy and approved emphasis roles.
+### rule_ibsrela_bold_reserved_emphasis_elements
+- class=typography scope=org_baseline hardness=strong_default polarity=must sections=None constraint=exclusivity
+- rule_text: Bold (Arial Bold) is reserved for: headlines, subheads, card titles, CTA labels, ISI subheads, boxed-warning text, and key claim phrases — the latter only when the claim is MLR-approved with that emphasis.
+- intent: Keep bold weight meaningful by restricting it to designated emphasis elements.
 
-### rule_ibsrela_no_bold_body_footnotes_links
-- class=typography scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=binding
-- rule_text: Do not bold: whole body paragraphs, footnotes, references, or links (links are underlined, not bolded), or more than ~10 words consecutively inside body copy.
-- intent: Prevent overuse of bold that dilutes hierarchy and readability.
+### rule_ibsrela_bold_prohibited_targets
+- class=typography scope=org_baseline hardness=strong_default polarity=must_not sections=None constraint=binding
+- rule_text: Do not bold whole body paragraphs, footnotes, references, or links (links are underlined, not bolded), or more than ~10 words consecutively inside body copy.
+- intent: Prevent over-bolding that erodes hierarchy and readability in body copy.
 
-### rule_ibsrela_no_bold_italic_combination
-- class=typography scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
+### rule_ibsrela_no_bold_italic_combo_italic_usage
+- class=typography scope=org_baseline hardness=strong_default polarity=must_not sections=None constraint=exclusivity
 - rule_text: Do not combine bold + italic in email body. Italic (Arial Italic) is only for journal titles in references or where the approved copy deck specifies it.
-- intent: Reserve italic for specific reference/approved use and forbid bold+italic combos.
+- intent: Restrict italic to citation/approved usage and forbid bold+italic stacking in body.
 
-### rule_ibsrela_no_bold_as_hierarchy_substitute
-- class=typography scope=org_baseline hardness=strong_default polarity=must_not sections=None constraint=None
-- rule_text: Never use bold as a substitute for hierarchy — if a passage needs prominence, promote it to a subhead or approved callout style instead.
-- intent: Enforce structural hierarchy over ad hoc emphasis.
+### rule_ibsrela_bold_not_substitute_for_hierarchy
+- class=typography scope=org_baseline hardness=soft_guidance polarity=must_not sections=None constraint=None
+- rule_text: Never use bold as a substitute for hierarchy — if a passage needs prominence, promote it to a subhead or an approved callout style instead.
+- intent: Force structural hierarchy rather than emphasis hacks when prominence is needed.

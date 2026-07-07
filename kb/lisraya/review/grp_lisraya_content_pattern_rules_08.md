@@ -12,24 +12,9 @@ doc_ref: `content_pattern_rules[8]`
 - Tone may flex slightly by context; core voice never changes.
 ````
 
-## Extracted rules (4)
+## Extracted rules (1)
 
-### rule_lisraya_voice_confident_not_boastful
+### rule_lisraya_brand_voice_pillars
 - class=voice_tone scope=brand hardness=soft_guidance polarity=must sections=None constraint=None
-- rule_text: Voice is confident, not boastful: state the first-of-its-kind significance clearly and directly, never overstated or sensationalized.
-- intent: Communicate significance credibly without hype.
-
-### rule_lisraya_voice_warm_not_overly_emotional
-- class=voice_tone scope=brand hardness=soft_guidance polarity=must sections=None constraint=None
-- rule_text: Voice is warm, not overly emotional: convey genuine empathy about DM's daily impact and keep patients at the center.
-- intent: Center patients with sincere, measured empathy.
-
-### rule_lisraya_voice_clear_not_complicated
-- class=voice_tone scope=brand hardness=soft_guidance polarity=must sections=None constraint=None
-- rule_text: Voice is clear, not complicated: use plain, respectful language that is easy to understand without losing accuracy.
-- intent: Ensure comprehension without sacrificing accuracy.
-
-### rule_lisraya_voice_core_never_changes
-- class=voice_tone scope=brand hardness=soft_guidance polarity=may sections=None constraint=None
-- rule_text: Tone may flex slightly by context, but the core voice never changes.
-- intent: Allow contextual tone flex while preserving brand voice consistency.
+- rule_text: LISRAYA brand voice rests on three pillars: (1) Confident, not boastful — state the first-of-its-kind significance clearly and directly, never overstated or sensationalized; (2) Warm, not overly emotional — express genuine empathy about DM's daily impact while keeping patients at the center; (3) Clear, not complicated — use plain, respectful language that is easy to understand without losing accuracy. Tone may flex slightly by context, but the core voice never changes.
+- intent: Keep messaging authentic, empathetic, and accessible while preserving a consistent brand personality across all materials.

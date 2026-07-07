@@ -5,14 +5,14 @@
   "tags": [
     "typography"
   ],
-  "scope": "brand",
+  "scope": "org_baseline",
   "selector": {
-    "element_path": "body"
+    "element_path": "body.highlight.color"
   },
   "applies_when": [
     {
-      "kind": "background_token",
-      "value": "tok_ibsrela_color_white"
+      "kind": "background_group",
+      "value": "light"
     }
   ],
   "evaluation_scope": "element",
@@ -20,8 +20,8 @@
   "effect": {
     "assignments": [
       {
-        "element_path": "body.highlight",
-        "token_id": "tok_ibsrela_color_black"
+        "element_path": "body.highlight.color",
+        "token_id": "tok_ibsrela_body_highlight_color"
       }
     ]
   },
@@ -29,17 +29,18 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_color_black",
-    "tok_ibsrela_color_white"
+    "tok_ibsrela_body_highlight_color"
   ],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "To highlight something within body paragraph copy on a white section (not headings, subheadings, or titles), it must be black (#000000) and bold; blue or purple may not be used to highlight within the body section of a paragraph.",
-  "intent": "Standardize in-body emphasis to black bold on white.",
+  "governance_ids": [
+    "gov_ibsrela_body_no_purple_green"
+  ],
+  "rule_text": "If something needs to be highlighted on a white section in the body (not headings, sub-headings or titles), it must be black colored and bold; you cannot use blue or purple color in the body section of a paragraph.",
+  "intent": "Emphasize body content without violating body color restrictions.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[0]",
   "group_id": "grp_ibsrela_color_scheme_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Highlight within white body paragraph copy must be black (#000000) and bold; no blue or purple highlight allowed; excludes headings, subheadings, titles."
+  "summary": "Highlight on white body section (not headings) must be black and bold; blue and purple disallowed in body paragraphs."
 }

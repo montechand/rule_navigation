@@ -36,7 +36,17 @@ EVALUATION_SCOPES = ["element", "sentence", "section", "email"]
 AUDIENCES = ["dtp_patient", "hcp", "caregiver"]
 CONTENT_TYPES = ["email", "banner", "social", "print", "web", "ppt"]
 SOURCES = ["design_bible", "brand_guide_pdf", "prior_approved_asset", "user_written"]
-TOKEN_TYPES = ["color", "font", "type_scale", "spacing", "radius", "gradient", "opacity"]
+TOKEN_TYPES = [
+    # value primitives
+    "color", "gradient", "opacity", "font", "type_scale", "weight", "line_height",
+    "letter_spacing", "case", "spacing", "padding", "margin", "size", "dimension",
+    "radius", "border", "shadow", "ratio", "breakpoint",
+    # styling/treatment primitives
+    "alignment", "icon_style", "image_treatment", "motion",
+    # escape hatch — extraction should prefer a specific type
+    "other",
+]
+TOKEN_KINDS = ["primitive", "semantic"]
 TOKEN_TIERS = ["primary", "secondary_accent", "tertiary", "campaign"]
 ASSET_TYPES = [
     "photo", "icon", "logo_lockup", "svg_shape", "wave", "background",
@@ -106,22 +116,34 @@ class BrandRule(BaseModel):
 
 class TokenValue(BaseModel):
     default: Any = None
-    variants: Optional[list[dict[str, Any]]] = None  # [{when: {...}, value: ...}]
+    variants: Optional[list[dict[str, Any]]] = None  # [{when: {predicate...}, value: ...}]
 
 
 class BrandToken(BaseModel):
+    """Token-first model: every concrete styling value or element-level binding is a token.
+
+    kind=primitive — a raw reusable value (a hex, an opacity stop, a px step, a radius,
+      a weight, an alignment, a casing, a treatment).
+    kind=semantic — an element-path-addressed binding (e.g. `cta.button.fill`,
+      `callout.fill.opacity`, `h1.color`) whose value references primitives via
+      {"$ref": "tok_..."} and whose conditional logic (the IF/ELSE formerly encoded in
+      rules) lives in value.variants[].when predicates and/or `gated`.
+    """
+
     id: str
     brand_id: str
     token_type: str
-    key: str  # "{type}.{tier}.{name}"
-    value: Any = None  # TokenValue-shaped dict or scalar
+    kind: str = "primitive"  # primitive | semantic
+    key: str  # "{type}.{tier_or_element}.{name}"
+    value: Any = None  # TokenValue-shaped dict or scalar; {"$ref": "tok_..."} for token refs
+    element_paths: Optional[list[str]] = None  # semantic tokens: where this binds
     derived_from: Optional[dict[str, Any]] = None  # {base_token_id, op, amount}
     aliases: list[str] = Field(default_factory=list)
     tier: Optional[str] = None
     scope: str = "global"  # global | campaign:{name} | partnership:{name}
     audience: Optional[str] = None
     usage_ratio: Optional[float] = None
-    gated: Optional[dict[str, Any]] = None  # {is_gated, gate}
+    gated: Optional[dict[str, Any]] = None  # {is_gated, gate: predicate}
     notes: Optional[str] = None
     status: Status = "active"
     version: int = 1

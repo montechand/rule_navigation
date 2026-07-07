@@ -6,20 +6,27 @@
   "selector": {
     "section_types": [
       "callout"
-    ],
-    "element_path": "callout.background"
+    ]
   },
-  "evaluation_scope": "element",
+  "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "callout.data.background",
-        "token_id": "tok_lisraya_tint_light_blue_callout_70"
+        "element_path": "data_callout.box.fill",
+        "token_id": "tok_lisraya_data_callout_box_fill"
       },
       {
-        "element_path": "callout.text_heavy.background",
-        "token_id": "tok_lisraya_tint_golden_sand_callout_30"
+        "element_path": "data_callout.box.opacity",
+        "token_id": "tok_lisraya_data_callout_box_opacity"
+      },
+      {
+        "element_path": "text_callout.box.fill",
+        "token_id": "tok_lisraya_text_callout_box_fill"
+      },
+      {
+        "element_path": "text_callout.box.opacity",
+        "token_id": "tok_lisraya_text_callout_box_opacity"
       }
     ]
   },
@@ -27,17 +34,19 @@
   "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_tint_golden_sand_callout_30",
-    "tok_lisraya_tint_light_blue_callout_70"
+    "tok_lisraya_data_callout_box_fill",
+    "tok_lisraya_data_callout_box_opacity",
+    "tok_lisraya_text_callout_box_fill",
+    "tok_lisraya_text_callout_box_opacity"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Callout surfaces use Light Blue at 70% tint for data callouts, and Golden Sand at 30% tint for text-heavy callouts.",
-  "intent": "Differentiate data vs text callouts with consistent tinted surfaces.",
+  "rule_text": "Callout surfaces: Light Blue at 70% tint for data callouts; Golden Sand at 30% tint for text-heavy callouts.",
+  "intent": "Distinguish data vs text-heavy callout surfaces via consistent tints.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[1]",
   "group_id": "grp_lisraya_color_scheme_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "Callout surfaces use Light Blue 70% tint for data callouts, Golden Sand 30% tint for text-heavy callouts."
+  "summary": "Callout surfaces: Light Blue 70% tint for data; Golden Sand 30% tint for text-heavy callouts."
 }

@@ -1,0 +1,49 @@
+{
+  "id": "rule_ibsrela_flip_callout_opacity_pairings",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.scene_banner.opacity"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "callout.scene_banner.opacity",
+        "token_id": "tok_ibsrela_callout_scene_opacity"
+      },
+      {
+        "element_path": "callout.white_banner.opacity",
+        "token_id": "tok_ibsrela_callout_white_banner_opacity"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_callout_scene_opacity",
+    "tok_ibsrela_callout_white_banner_opacity"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Callout opacity pairings over white are: Periwinkle 80%, Purple 60%, Green 40%; a white banner over imagery is set at 80%.",
+  "intent": "Standardize callout transparency levels per campaign color and for white banners over imagery.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_ibsrela_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Callout opacities over white: Periwinkle 80%, Purple 60%, Green 40%; white banner over imagery at 80%."
+}

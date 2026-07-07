@@ -15,21 +15,21 @@ doc_ref: `content_pattern_rules[0]`
 ## Extracted rules (4)
 
 ### rule_lisraya_brand_name_allcaps
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
-- rule_text: Always write LISRAYA in ALL CAPS in all written materials. This patient marketing rule supersedes the Feb 2026 general guide's title-case rule.
-- intent: Maintain consistent, legally-mandated brand name presentation.
+- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Always write LISRAYA in ALL CAPS in all written materials. This patient-marketing rule supersedes the Feb 2026 general guide's title-case rule for the brand name.
+- intent: Enforce consistent, trademark-correct brand name presentation.
 
-### rule_lisraya_registered_symbol_with_generic_first_mention
+### rule_lisraya_registered_trademark_first_mention
 - class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
-- rule_text: Include the ® registered trademark symbol only when the generic name is included — i.e., LISRAYA® (brepocitinib). Apply on first/most prominent mention only, and in external-facing documents only. Do not repeat ® on subsequent mentions.
-- intent: Correct trademark symbol usage tied to generic name and first mention.
+- rule_text: Include the ® registered trademark symbol only when the generic name is included — i.e., LISRAYA® (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat ® on subsequent mentions.
+- intent: Correct, non-redundant trademark symbol placement per legal requirements.
 
-### rule_lisraya_generic_name_lowercase_parentheses
+### rule_lisraya_generic_name_format
 - class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
 - rule_text: Generic name format: lowercase, in parentheses: (brepocitinib).
-- intent: Enforce consistent generic name formatting.
+- intent: Standardize generic name presentation.
 
 ### rule_lisraya_parent_company_signoff_footer_only
 - class=copy_editorial scope=brand hardness=hard_constraint polarity=must_not sections=['end_matter'] constraint=verbatim_content
-- rule_text: Parent company is Priovant Therapeutics, Inc. Its sign-off lives in the locked footer — do not add it in sections.
-- intent: Keep parent company sign-off confined to the locked footer.
+- rule_text: Parent company sign-off (Priovant Therapeutics, Inc.) lives in the locked footer — do not add it in content sections.
+- intent: Keep legal sign-off in the locked footer and out of body sections.

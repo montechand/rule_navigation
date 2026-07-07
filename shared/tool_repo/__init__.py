@@ -28,6 +28,7 @@ TOOL_FAMILIES: dict[str, list[str]] = {
     "schema": ["describe_entity", "get_section_vocab", "get_predicate_registry"],
     "lookup": ["get_rules", "get_entity"],
     "structured": ["query_rules"],
+    "tokens": ["query_tokens", "search_tokens"],
     "keyword": ["keyword_search"],
     "vector": ["vector_search"],
     "graph": ["rules_for_section", "rules_for_token", "neighbors", "related_rules"],
@@ -47,6 +48,8 @@ class ToolRepo:
         self.kb = kb
         self._bm25 = None
         self._bm25_ids: list[str] = []
+        self._token_bm25 = None
+        self._token_bm25_ids: list[str] = []
         self._chroma = None
         self._openai = None
         # Graph adjacency: id -> [(other_id, edge_type, direction)]
@@ -73,6 +76,22 @@ class ToolRepo:
             self._bm25 = BM25Okapi(corpus) if corpus else None
             self._bm25_ids = ids
         return self._bm25
+
+    def _ensure_token_bm25(self):
+        if self._token_bm25 is None:
+            from rank_bm25 import BM25Okapi
+
+            corpus, ids = [], []
+            for t in self.kb.tokens.values():
+                doc = " ".join(filter(None, [
+                    t.key, " ".join(t.aliases or []), " ".join(t.element_paths or []),
+                    t.notes or "", json.dumps(t.value, default=str) if t.value is not None else "",
+                ]))
+                corpus.append(_tokenize(doc))
+                ids.append(t.id)
+            self._token_bm25 = BM25Okapi(corpus) if corpus else None
+            self._token_bm25_ids = ids
+        return self._token_bm25
 
     def _ensure_chroma(self):
         if self._chroma is None:
@@ -235,6 +254,70 @@ class ToolRepo:
             out.append(self.kb.short_rule(r))
         return {"count": len(out), "rules": out[:80],
                 **({"truncated": True} if len(out) > 80 else {})}
+
+    # ------------------------------------------------------------------
+    # tokens family
+    # ------------------------------------------------------------------
+    def _short_token(self, t) -> dict[str, Any]:
+        v = t.value if isinstance(t.value, dict) else {"default": t.value}
+        variants_by = sorted({k for var in (v.get("variants") or [])
+                              if isinstance(var, dict) for k in (var.get("when") or {})})
+        out = {"id": t.id, "kind": t.kind, "key": t.key, "type": t.token_type,
+               "default": v.get("default")}
+        if t.element_paths:
+            out["element_paths"] = t.element_paths
+        if variants_by:
+            out["variants_by"] = variants_by
+        if t.gated:
+            out["gated"] = t.gated
+        if t.scope != "global":
+            out["scope"] = t.scope
+        if t.aliases:
+            out["aliases"] = t.aliases
+        return out
+
+    async def _query_tokens(self, args: dict[str, Any]) -> Any:
+        def want(vals: Any) -> Optional[set]:
+            if vals is None:
+                return None
+            return {str(v).lower() for v in (vals if isinstance(vals, list) else [vals])}
+
+        f_type = want(args.get("token_type"))
+        f_kind = args.get("kind")
+        f_gated = args.get("gated")
+        key_contains = (args.get("key_contains") or "").lower()
+        path_contains = (args.get("element_path_contains") or "").lower()
+        scope_contains = (args.get("scope_contains") or "").lower()
+
+        out = []
+        for t in self.kb.tokens.values():
+            if f_type and t.token_type not in f_type:
+                continue
+            if f_kind and t.kind != f_kind:
+                continue
+            if f_gated is not None and bool(t.gated) != bool(f_gated):
+                continue
+            if key_contains and key_contains not in t.key.lower():
+                continue
+            if path_contains and not any(path_contains in p.lower() for p in (t.element_paths or [])):
+                continue
+            if scope_contains and scope_contains not in t.scope.lower():
+                continue
+            out.append(self._short_token(t))
+        return {"count": len(out), "tokens": out[:100],
+                **({"truncated": True} if len(out) > 100 else {})}
+
+    async def _search_tokens(self, args: dict[str, Any]) -> Any:
+        bm25 = self._ensure_token_bm25()
+        if bm25 is None:
+            raise ToolError("no tokens in KB")
+        k = min(int(args.get("k") or 10), 30)
+        scores = bm25.get_scores(_tokenize(args["query"]))
+        ranked = sorted(zip(self._token_bm25_ids, scores), key=lambda x: -x[1])[:k]
+        return {"results": [
+            {**self._short_token(self.kb.tokens[tid]), "score": round(float(s), 3)}
+            for tid, s in ranked if s > 0
+        ]}
 
     # ------------------------------------------------------------------
     # keyword family
@@ -426,6 +509,26 @@ class ToolRepo:
                   "evaluation_scope": {"type": "array", "items": {"type": "string"}},
                   "include_all_section_rules": {"type": "boolean"}},
                "required": []}, self._query_rules),
+            S("query_tokens", "Filter the brand_token layer (the value/IF-ELSE layer: every "
+              "concrete styling value is a token; semantic tokens bind element paths with "
+              "conditional variants). Filters AND-ed: token_type list, kind "
+              "(primitive|semantic), gated, key_contains, element_path_contains, "
+              "scope_contains (e.g. 'campaign').",
+              {"type": "object", "properties": {
+                  "token_type": {"type": "array", "items": {"type": "string"}},
+                  "kind": {"type": "string", "enum": ["primitive", "semantic"]},
+                  "gated": {"type": "boolean"},
+                  "key_contains": {"type": "string"},
+                  "element_path_contains": {"type": "string"},
+                  "scope_contains": {"type": "string"}},
+               "required": []}, self._query_tokens),
+            S("search_tokens", "BM25 lexical search over token keys/aliases/element paths/"
+              "values/notes. The fastest pivot from a concrete detail ('#01A47E', '80%', "
+              "'border-radius', 'left aligned', 'Nunito Sans') to its token — then "
+              "rules_for_token gives the governing rules.",
+              {"type": "object", "properties": {"query": {"type": "string"},
+                                                "k": {"type": "integer", "description": "default 10, max 30"}},
+               "required": ["query"]}, self._search_tokens),
             S("keyword_search", "BM25 lexical search over rule_text+summary+intent. Use for exact "
               "terminology ('border-radius', 'Nunito Sans', 'LPGA', '#01A47E').",
               {"type": "object", "properties": {"query": {"type": "string"},

@@ -1,8 +1,9 @@
 {
   "id": "rule_lisraya_icon_callout_badge_drop_shadow",
   "brand_id": "lisraya",
-  "rule_class": "iconography",
+  "rule_class": "layout",
   "tags": [
+    "iconography",
     "color_application"
   ],
   "audience": "dtp_patient",
@@ -14,15 +15,15 @@
     "section_types": [
       "callout"
     ],
-    "element_path": "callout.icon_box.badge.shadow"
+    "element_path": "icon_callout.badge.shadow"
   },
-  "evaluation_scope": "element",
+  "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "callout.icon_box.badge.shadow",
-        "token_id": "tok_lisraya_opacity_badge_shadow"
+        "element_path": "icon_callout.badge.shadow",
+        "token_id": "tok_lisraya_icon_callout_badge_shadow"
       }
     ]
   },
@@ -30,17 +31,17 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_opacity_badge_shadow"
+    "tok_lisraya_icon_callout_badge_shadow"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "The white icon badge must carry a subtle drop shadow so it lifts off the blue box \u2014 e.g. box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18) (Dark Navy at low opacity). This shadow is required on every instance; without it the badge looks flat and pasted-on.",
-  "intent": "Ensure the badge reads as lifted, not pasted-on.",
+  "rule_text": "The white icon badge must carry a subtle drop shadow so it lifts off the blue box \u2014 e.g. box-shadow: 0 4px 10px rgba(1,30,69,0.18) (Dark Navy at low opacity). This shadow is required on every instance; without it the badge looks flat and pasted-on.",
+  "intent": "Ensure the badge appears lifted off the box, not flat/pasted-on.",
   "snippets": "box-shadow:0 4px 10px rgba(1,30,69,0.18);",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[6]",
   "group_id": "grp_lisraya_color_scheme_rules_06",
   "status": "active",
   "version": 1,
-  "summary": "White icon badges require box-shadow: 0 4px 10px rgba(1,30,69,0.18) drop shadow to lift off blue box, always applied to avoid flat appearance."
+  "summary": "White icon badge requires subtle drop shadow (0 4px 10px rgba(1,30,69,0.18)) on all instances to lift it off blue box."
 }

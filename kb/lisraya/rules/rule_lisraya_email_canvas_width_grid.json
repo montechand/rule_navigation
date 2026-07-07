@@ -1,0 +1,51 @@
+{
+  "id": "rule_lisraya_email_canvas_width_grid",
+  "brand_id": "lisraya",
+  "rule_class": "layout",
+  "tags": [
+    "spacing"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "email.canvas.width"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "email.canvas.width",
+        "token_id": "tok_lisraya_email_canvas_width"
+      },
+      {
+        "element_path": "email.mobile.breakpoint",
+        "token_id": "tok_lisraya_email_mobile_breakpoint"
+      },
+      {
+        "element_path": "grid.image_text.split",
+        "token_id": "tok_lisraya_grid_image_text_split"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_email_canvas_width",
+    "tok_lisraya_email_mobile_breakpoint",
+    "tok_lisraya_grid_image_text_split"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Email body width is a fixed 600px, centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly. Mobile breakpoint is 480px; all multi-column layouts collapse to single column. Internal section grid uses a 12-column mental model; practical layouts are 1-col, 2-col (50/50), or image/text split (\u224840/60).",
+  "intent": "Guarantee seamless section assembly and responsive collapse across email clients.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_lisraya_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Email body fixed at 600px centered; sections edge-to-edge 600px; mobile breakpoint 480px with all multi-columns collapsing to single column; internal grid uses 12-column model with 1-col, 2-col 50/50, or image/text \u224840/60."
+}

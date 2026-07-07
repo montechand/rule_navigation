@@ -19,29 +19,19 @@ doc_ref: `color_scheme_rules[1]`
 - Callout opacity pairings (over white): Periwinkle 80% / Purple 60% / Green 40%; white banner over imagery at 80%.
 ````
 
-## Extracted rules (5)
+## Extracted rules (3)
 
-### rule_ibsrela_ftp_campaign_color_ratio_thirds
-- class=color_application scope=campaign hardness=strong_default polarity=should sections=None constraint=cardinality
-- rule_text: In Flip The Script campaign pieces, the three campaign colors — Periwinkle (#7B7BED), Purple (#92278F), and Green (#01A47E) — should be balanced at a 33% / 33% / 33% ratio.
-- intent: Keep the campaign palette visually balanced across the three accent colors.
+### rule_ibsrela_flip_campaign_palette_ratio
+- class=color_application scope=campaign hardness=strong_default polarity=should sections=None constraint=binding
+- rule_text: For Flip The Script campaign pieces, the three campaign colors (Periwinkle, Purple, Green) are distributed evenly at a 33% / 33% / 33% ratio. In campaign-specific pieces these colors act as accents to the branded palette, not replacements.
+- intent: Balance campaign accent colors while keeping them subordinate to the brand palette.
 
-### rule_ibsrela_ftp_scene_color_pairings_fixed
-- class=color_application scope=campaign hardness=hard_constraint polarity=must_not sections=None constraint=pairing
-- rule_text: Flip The Script scene-color pairings are fixed and may not be used interchangeably: Periwinkle (#7B7BED) pairs with Office, Purple (#92278F) pairs with Cafe, and Green (#01A47E) pairs with Soccer.
-- intent: Preserve the fixed narrative meaning of each scene's color.
+### rule_ibsrela_flip_scene_color_pairings_fixed
+- class=color_application scope=campaign hardness=hard_constraint polarity=must_not sections=['callout'] constraint=pairing
+- rule_text: Scene-color pairings are fixed and may not be used interchangeably: Periwinkle→Office, Purple→Cafe, Green→Soccer. Each campaign color is locked to its paired scene.
+- intent: Preserve consistent color-to-scene associations across the campaign.
 
-### rule_ibsrela_ftp_campaign_colors_are_accents
-- class=color_application scope=campaign hardness=hard_constraint polarity=must_not sections=None constraint=None
-- rule_text: In campaign-specific pieces, the Flip The Script colors (Periwinkle #7B7BED, Purple #92278F, Green #01A47E) act as accents to the branded palette, not as replacements for it.
-- intent: Prevent campaign accents from overtaking the core brand palette.
-
-### rule_ibsrela_ftp_callout_opacity_pairings
+### rule_ibsrela_flip_callout_opacity_pairings
 - class=color_application scope=campaign hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: Callout opacity pairings over white must be: Periwinkle at 80%, Purple at 60%, and Green at 40%.
-- intent: Lock the legibility/contrast of each callout color over white.
-
-### rule_ibsrela_ftp_white_banner_over_imagery_80
-- class=color_application scope=campaign hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: A white banner placed over imagery must be set at 80% opacity.
-- intent: Ensure consistent legibility of white banners layered over photos.
+- rule_text: Callout opacity pairings over white are: Periwinkle 80%, Purple 60%, Green 40%; a white banner over imagery is set at 80%.
+- intent: Standardize callout transparency levels per campaign color and for white banners over imagery.

@@ -12,34 +12,14 @@ doc_ref: `color_scheme_rules[3]`
 
 ````
 
-## Extracted rules (6)
+## Extracted rules (2)
 
-### rule_ibsrela_one_theme_per_email
+### rule_ibsrela_email_theme_system_single_theme
 - class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=cardinality
-- rule_text: Use exactly one theme per email; all sections inherit that theme. Do not theme sections independently within a single send. Theme variables style the email frame and automatically restyle tile, button, and campaign-image colorways.
-- intent: Guarantee visual consistency across all sections of one email.
+- rule_text: Theme variables style each email's frame and automatically restyle tile, button, and campaign-image colorways. Approved theme tiles are White, Silver/light, Purple #92278F, Navy #262262, and Green #01A47E (light themes carry dark text/teal buttons; dark themes carry white text/knockout logo and light or outlined buttons). One theme per email; all sections inherit that single theme — do not theme sections independently within one send.
+- intent: Enforce a single, consistent theme colorway across an entire email frame and its sections.
 
-### rule_ibsrela_approved_theme_tiles
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=exclusivity
-- rule_text: Approved email theme tiles are limited to: White, Silver/light, Purple #92278F, Navy #262262, and Green #01A47E. Light themes carry dark text/teal buttons; dark themes carry white text, knockout logo, and light or outlined buttons.
-- intent: Restrict email theming to the sanctioned colorway set.
-
-### rule_ibsrela_text_color_on_dark_panels
+### rule_ibsrela_theme_contrast_pairings
 - class=color_application scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: On Purple (#92278F), Navy (#262262), or Green (#01A47E) panels, use white text only.
-- intent: Ensure legible contrast on dark theme panels.
-
-### rule_ibsrela_text_color_on_light_panels
-- class=color_application scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: On White or Silver panels, use navy (#262262) headlines, black (#000000) body copy, and purple (#92278F) accents.
-- intent: Ensure legible contrast and correct color hierarchy on light theme panels.
-
-### rule_ibsrela_link_color_on_dark_panels
-- class=color_application scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Links on dark panels (Purple/Navy/Green) are white and underlined.
-- intent: Ensure links are visible and identifiable on dark panels.
-
-### rule_ibsrela_link_color_on_light_panels
-- class=color_application scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=None
-- rule_text: Links on light panels (White/Silver) are purple (#92278F) or navy (#262262) and underlined.
-- intent: Ensure links are visible and identifiable on light panels.
+- rule_text: [BASELINE] Contrast pairings by background group: on Purple/Navy/Green panels use white text only; on White/Silver use navy headlines, black body, and purple accents. Links on dark panels are white underlined; on light panels purple or navy underlined. The light/dark variant switching is carried by the bound semantic tokens (headline.color, subhead.color, body.color, body.link.color, body.link.decoration).
+- intent: Guarantee legible, on-brand text and link colors matched to each panel's background group.

@@ -1,0 +1,42 @@
+{
+  "id": "rule_ibsrela_email_ppt_avenir_arial_substitution",
+  "brand_id": "ibsrela",
+  "rule_class": "typography",
+  "content_types": [
+    "email",
+    "ppt"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "font.email.stack"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "font.email.stack",
+        "token_id": "tok_ibsrela_font_email_stack"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [
+    "tok_ibsrela_font_email_stack"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_no_avenir_webfont_email"
+  ],
+  "rule_text": "[BASELINE] In email and PowerPoint, Avenir is substituted with Arial using the stack `Arial, Helvetica, sans-serif`. Never load Avenir via webfont in email (rendering inconsistency in Outlook/SFMC). Weight mapping: Avenir Black \u2192 Arial Bold; Avenir Heavy \u2192 Arial Bold; Avenir Roman \u2192 Arial Regular; Avenir Book \u2192 Arial Regular (or reduce size 1pt for footnote distinction).",
+  "intent": "Guarantee consistent email/PPT rendering by using the sanctioned system font substitute.",
+  "snippets": "Arial, Helvetica, sans-serif",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_ibsrela_content_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "In email/PowerPoint, substitute Avenir with Arial stack (Arial, Helvetica, sans-serif); no webfont; map weights: Avenir Black/Heavy \u2192 Arial Bold, Avenir Roman/Book \u2192 Arial Regular or smaller for footnotes."
+}

@@ -1,13 +1,13 @@
 {
   "id": "rule_lisraya_campaign_headline_all_caps",
   "brand_id": "lisraya",
-  "rule_class": "copy_editorial",
+  "rule_class": "typography",
   "tags": [
-    "typography"
+    "copy_editorial"
   ],
   "scope": "campaign",
   "selector": {
-    "element_path": "headline"
+    "element_path": "campaign_headline.case"
   },
   "applies_when": [
     {
@@ -15,27 +15,32 @@
       "value": "you_deserve_more"
     }
   ],
-  "evaluation_scope": "sentence",
-  "constraint_type": "verbatim_content",
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
   "effect": {
-    "content": "YOU DESERVE MORE",
-    "governance_id": "gov_lisraya_campaign_headline",
-    "trigger": null
+    "assignments": [
+      {
+        "element_path": "campaign_headline.case",
+        "token_id": "tok_lisraya_campaign_headline_case"
+      }
+    ]
   },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 10,
-  "token_ids": [],
+  "token_ids": [
+    "tok_lisraya_campaign_headline_case"
+  ],
   "asset_ids": [],
   "governance_ids": [
-    "gov_lisraya_campaign_headline"
+    "gov_lisraya_campaign_headline_framework"
   ],
-  "rule_text": "The campaign headline 'YOU DESERVE MORE' is always set in ALL CAPS (see 1.6).",
-  "intent": "Preserve locked campaign headline casing.",
+  "rule_text": "The campaign headline 'YOU DESERVE MORE' is set in ALL CAPS, always (see 1.6). Binds campaign_headline.case (case.campaign_headline.all_caps).",
+  "intent": "Lock the campaign headline lockup casing.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[2]",
   "group_id": "grp_lisraya_content_pattern_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Campaign headline 'YOU DESERVE MORE' must always be in ALL CAPS as per rule 1.6."
+  "summary": "Campaign headline 'YOU DESERVE MORE' always in ALL CAPS, bound to campaign_headline.case (case.campaign_headline.all_caps)."
 }

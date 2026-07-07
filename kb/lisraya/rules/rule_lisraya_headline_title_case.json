@@ -1,28 +1,38 @@
 {
   "id": "rule_lisraya_headline_title_case",
   "brand_id": "lisraya",
-  "rule_class": "copy_editorial",
+  "rule_class": "typography",
   "tags": [
-    "typography"
+    "copy_editorial"
   ],
   "scope": "brand",
   "selector": {
-    "element_path": "headline"
+    "element_path": "headline.case"
   },
-  "evaluation_scope": "sentence",
+  "evaluation_scope": "element",
   "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "headline.case",
+        "token_id": "tok_lisraya_headline_case"
+      }
+    ]
+  },
   "polarity": "must",
   "hardness": "strong_default",
   "precedence": 0,
-  "token_ids": [],
+  "token_ids": [
+    "tok_lisraya_headline_case"
+  ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Headlines and headings use initial caps (title case): capitalize nouns, pronouns, adjectives, verbs, and adverbs; lowercase articles, conjunctions, and prepositions. Example: 'LISRAYA Targets the Root Cause of Dermatomyositis'.",
-  "intent": "Consistent headline casing convention.",
+  "rule_text": "Headlines/headings use initial caps (title case): capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions. Example: 'LISRAYA Targets the Root Cause of Dermatomyositis'. Binds headline.case (case.headline.title_case).",
+  "intent": "Consistent headline capitalization across materials.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[2]",
   "group_id": "grp_lisraya_content_pattern_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Headlines/headings use title case: capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions (e.g., \"LISRAYA Targets the Root Cause\")."
+  "summary": "Headlines use title case: capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions; example: 'LISRAYA Targets the Root Cause'."
 }

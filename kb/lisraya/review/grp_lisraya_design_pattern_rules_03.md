@@ -14,17 +14,17 @@ doc_ref: `design_pattern_rules[3]`
 
 ## Extracted rules (3)
 
-### rule_lisraya_accent_shape_asymmetric_corners
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: The Brand Accent Shape is a rectangle with selectively enlarged opposite corner radii while the other two corners keep a slight radius; it houses callout text and photography. Approved radius pairs (print): 1.25" & 0.0625" for large containers/photos, 0.5" & 0.0625" for banners, and 0.4375" & 0.0625" for small callout boxes. Email px conversions at 96dpi: large 120px & 6px, banner 48px & 6px, callout 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right) and the 6px radius to the other pair.
-- intent: Preserve the signature accent-shape container device with locked radius specs.
+### rule_lisraya_accent_shape_asymmetric_radius
+- class=imagery scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: The Brand Accent Shape is a rectangle with selectively enlarged opposite corner radii (the large radius on one diagonal pair, a slight ~6px radius on the other), used to house callout text and photography. Use only the approved radius pairs: print large 1.25" & 0.0625" (large containers/photos), banner 0.5" & 0.0625", small callout 0.4375" & 0.0625"; email px conversions at 96dpi are large 120px & 6px, banner 48px & 6px, callout 42px & 6px. Apply the large radius to one diagonal pair (e.g. top-left + bottom-right) and the 6px radius to the other pair.
+- intent: Preserve the signature asymmetric accent-shape container device that reads modern and optimistic.
 
 ### rule_lisraya_accent_shape_consistent_orientation
-- class=layout scope=brand hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: Be consistent within an email: use the same diagonal orientation of the accent shape across all sections. Default: large radius on top-left & bottom-right, 6px radius on the other pair.
-- intent: Keep accent-shape orientation consistent across an email for visual coherence.
+- class=imagery scope=brand hardness=strong_default polarity=must sections=None constraint=None
+- rule_text: Be consistent within an email: use the same diagonal orientation for the accent-shape radius across all sections. Default: large radius on top-left & bottom-right.
+- intent: Ensure visual coherence of the accent shape across a single email.
 
-### rule_lisraya_charts_tables_uniform_radius
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=binding
-- rule_text: Exception to the asymmetric accent shape: charts and tables use uniform rounded corners on all four corners (12px uniform radius), not the asymmetric accent shape.
-- intent: Ensure charts/tables read as data containers with uniform corners.
+### rule_lisraya_chart_table_uniform_radius_exception
+- class=imagery scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=binding
+- rule_text: Exception: charts and tables use uniform rounded corners on all four corners (12px uniform radius), not the asymmetric accent shape.
+- intent: Distinguish data containers from the branded accent-shape device for legibility.

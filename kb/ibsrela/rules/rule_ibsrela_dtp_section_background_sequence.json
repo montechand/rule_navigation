@@ -3,33 +3,25 @@
   "brand_id": "ibsrela",
   "rule_class": "layout",
   "tags": [
-    "color_application"
+    "color_application",
+    "imagery"
   ],
   "audience": "dtp_patient",
   "content_types": [
     "email"
   ],
   "scope": "brand",
-  "selector": {
-    "section_types": [
-      "hero",
-      "efficacy",
-      "safety",
-      "patient_story",
-      "affordability",
-      "symptom_trio"
-    ]
-  },
+  "selector": {},
   "evaluation_scope": "email",
   "constraint_type": "ordering",
   "effect": {
     "sequence": [
-      "purple_hero_image",
+      "dtp.hero.treatment",
       "white_content_section",
-      "white_or_light_photo_section",
+      "dtp.lifestyle_section.treatment",
       "green_accent_panel",
-      "purple_campaign_image_section",
-      "locked_end_matter"
+      "because_ibsrela_can_campaign_section",
+      "end_matter"
     ],
     "strict": true
   },
@@ -40,7 +32,7 @@
   "asset_ids": [],
   "governance_ids": [],
   "rule_text": "DTP emails alternate section backgrounds in a fixed rhythm: purple hero image \u2192 white content section (efficacy + side-effect bullets) \u2192 white or light photo section (patient story / lifestyle) \u2192 green accent panel (#01A47E, used for affordability or symptom-icon trio) \u2192 purple campaign image section ('BECAUSE IBSRELA CAN' lockup) \u2192 locked End Matter.",
-  "intent": "Maintain a consistent, recognizable visual flow across DTP emails.",
+  "intent": "Enforce the fixed background rhythm that gives DTP emails a coherent visual flow.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[4]",
   "group_id": "grp_ibsrela_color_scheme_rules_04",

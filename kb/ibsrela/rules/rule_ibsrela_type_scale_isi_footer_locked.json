@@ -1,0 +1,70 @@
+{
+  "id": "rule_ibsrela_type_scale_isi_footer_locked",
+  "brand_id": "ibsrela",
+  "rule_class": "typography",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "section_types": [
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "isi.subheads.size",
+        "token_id": "tok_ibsrela_isi_subheads_size"
+      },
+      {
+        "element_path": "isi.important_risk_info.size",
+        "token_id": "tok_ibsrela_isi_iri_size"
+      },
+      {
+        "element_path": "isi.body.size",
+        "token_id": "tok_ibsrela_isi_body_size"
+      },
+      {
+        "element_path": "isi.line_height",
+        "token_id": "tok_ibsrela_isi_line_height"
+      },
+      {
+        "element_path": "footnote.size",
+        "token_id": "tok_ibsrela_footnote_size"
+      },
+      {
+        "element_path": "footer.legal.size",
+        "token_id": "tok_ibsrela_footer_legal_size"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [
+    "tok_ibsrela_footer_legal_size",
+    "tok_ibsrela_footnote_size",
+    "tok_ibsrela_isi_body_size",
+    "tok_ibsrela_isi_iri_size",
+    "tok_ibsrela_isi_line_height",
+    "tok_ibsrela_isi_subheads_size"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_end_matter_locked"
+  ],
+  "rule_text": "The End Matter type scale is a fixed locked footer build and is NOT restyled by content defaults: ISI subheads 14px Bold, 'IMPORTANT RISK INFORMATION' 15px Bold, ISI body 13px Regular, footnotes/abbreviations/references 11px Regular, footer/legal/unsubscribe 11px Regular, all at line-height 1.4. The ISI body sits at 13px in the approved build.",
+  "intent": "Preserve the approved locked footer/ISI build unaffected by content styling.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_ibsrela_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "End Matter typography fixed: ISI subheads 14px Bold, 'IMPORTANT RISK INFORMATION' 15px Bold, ISI body 13px Regular, footnotes/abbr 11px Regular, line-height 1.4, not restyled by content defaults."
+}

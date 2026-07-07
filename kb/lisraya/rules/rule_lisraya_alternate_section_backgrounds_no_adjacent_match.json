@@ -1,0 +1,39 @@
+{
+  "id": "rule_lisraya_alternate_section_backgrounds_no_adjacent_match",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "color_application",
+    "layout"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "section.background"
+  },
+  "applies_when": [
+    {
+      "kind": "adjacent_section_state",
+      "value": "same_background_as_neighbor"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "section.background",
+    "reserved_for": "sequencing that avoids two identical adjacent backgrounds"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Color blocks delineate topics (My Compass webpage pattern) \u2014 alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge. [GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.",
+  "intent": "Prevent adjacent sections from visually merging by declaring and alternating background colors.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[6]",
+  "group_id": "grp_lisraya_design_pattern_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Alternate White, Light Blue, Golden Sand, gradient backgrounds for My Compass sections; section metadata must declare background color to avoid adjacent duplicate colors."
+}

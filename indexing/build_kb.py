@@ -1,13 +1,20 @@
 """One-time migration: design bibles (semi-structured markdown blobs) -> structured KB.
 
-Per brand:
-  Pass A (1 LLM call)   : extract the entity catalog (tokens, assets, governance,
-                          subtypes, asset_groups) from the whole bible for globally
-                          consistent ids.
-  Pass B (per blob call) : atomize each blob (= rule_group) into brand_rule rows that
-                          reference catalog ids. Parallel with a semaphore.
-  Pass C (deterministic) : validate/coerce enums, derive token_ids/asset_ids, build
-                          graph.json, indices, schema docs, and per-group review files.
+TOKEN-FIRST variant. Per brand:
+  Pass A1a (1 call) : exhaustive PRIMITIVE token extraction from the whole bible —
+                      every concrete styling value (hex, opacity stop, px step, radius,
+                      weight, casing, alignment, treatment, ...).
+  Pass A1b (1 call) : SEMANTIC token extraction — element-path bindings (cta.button.fill,
+                      callout.fill.opacity, h1.color, ...) whose values $ref primitives
+                      and whose conditional IF/ELSE lives in value.variants[].when.
+  Pass A2  (1 call) : rest of the catalog (assets, governance, subtypes, asset_groups),
+                      referencing token ids.
+  Pass B (per blob) : cluster each blob (= rule_group) into coherent topic-level
+                      brand_rule rows that BIND tokens instead of restating values.
+                      Parallel with a semaphore.
+  Pass C (deterministic): validate/coerce enums, derive token_ids/asset_ids, build
+                      graph.json (incl. semantic->primitive resolves_to edges), indices,
+                      schema docs, and per-group review files.
 
 LLM outputs are cached by content hash under indexing/_cache/{brand}/ so re-runs after
 code changes don't re-pay extraction.
@@ -48,6 +55,7 @@ from shared.schemas import (
     SECTION_TYPES,
     SEVERITIES,
     SUBTYPE_KINDS,
+    TOKEN_KINDS,
     TOKEN_TIERS,
     TOKEN_TYPES,
     VERDICTS,
@@ -111,28 +119,125 @@ def load_bible(brand: str) -> dict[str, list[str]]:
 
 
 # ---------------------------------------------------------------------------
-# Pass A — entity catalog
+# Pass A — token-first entity catalog
 # ---------------------------------------------------------------------------
 
 CATALOG_SYSTEM = """You are a meticulous data-migration engineer. You convert a pharma brand's
 design bible (markdown blobs) into a structured entity catalog. Extract ONLY what the
 document states; never invent values. Output a single JSON object, no prose."""
 
-CATALOG_PROMPT = """Brand: {brand}
-
-Extract the full entity catalog from the design bible below. Return JSON:
-
-{{
-  "tokens": [{{
-    "id": "tok_{brand}_<slug>", "token_type": "color|font|type_scale|spacing|radius|gradient|opacity",
-    "key": "<type>.<tier_or_group>.<name>", "value": {{"default": <value>, "variants": [{{"when": {{...}}, "value": <value>}}] | null}},
-    "derived_from": {{"base_token_id": "...", "op": "tint|opacity|mix", "amount": <0-1>}} | null,
+TOKEN_FIELDS_COMMON = """    "derived_from": {{"base_token_id": "...", "op": "tint|opacity|mix", "amount": <0-1>}} | null,
     "aliases": ["..."], "tier": "primary|secondary_accent|tertiary|campaign" | null,
     "scope": "global" | "campaign:<name>" | "partnership:<name>",
     "audience": "dtp_patient|hcp|caregiver" | null, "usage_ratio": <0-1> | null,
     "gated": {{"is_gated": true, "gate": {{"kind": "content_tag", "value": "lpga"}}}} | null,
-    "notes": "..." | null
-  }}],
+    "notes": "<semantic meaning / source phrasing>" | null"""
+
+TOKENS_PRIMITIVE_PROMPT = """Brand: {brand}
+
+Extract EVERY PRIMITIVE brand token from the design bible below. A primitive token is one
+raw reusable styling value. Be EXHAUSTIVE — every concrete value the document commits to
+is a token. Expect a large catalog; do not summarize or merge distinct values.
+
+Return JSON:
+{{
+  "tokens": [{{
+    "id": "tok_{brand}_<type>_<name>",
+    "token_type": one of {token_types},
+    "key": "<type>.<tier_or_group>.<name>"  (e.g. "color.primary.brand_blue", "opacity.callout.80", "radius.accent_shape.large", "spacing.step.24", "case.headline.title_case"),
+    "value": {{"default": <value>, "variants": [{{"when": {{"surface"|"breakpoint": "..."}}, "value": <value>}}] | null}},
+{common}
+  }}]
+}}
+
+Extract as primitives (non-exhaustive checklist — mine the whole document):
+- colors: every named hex (all palettes incl. campaign/partnership), with aliases
+- gradients: every approved gradient with its stops and angle
+- opacity/tint stops: every %, e.g. 30/40/60/70/75/80, wave-layer transparency
+- fonts: families + per-surface substitution variants (print vs email/ppt fallback)
+- weights: every named weight in use (Light/Regular/SemiBold/Bold/ExtraBold/Black/Heavy/800...)
+- type_scale: every level spec (H1/H2/H3/body/secondary/footnote/ISI...) with px sizes,
+  desktop-vs-mobile variants, line-heights
+- line_height and letter_spacing values stated anywhere
+- case: casing conventions as values (title_case, sentence_case, all_caps)
+- spacing/padding/margin: the base unit and every step and every named padding spec
+  (section padding by type, gutters, card padding, image-text gaps, rhythm gaps)
+- size/dimension: canvas widths, breakpoints, button dimensions, touch-target minimums,
+  icon minimum sizes, component reference dims
+- radius: every corner-radius spec including exact multi-value signatures
+  (e.g. "49.52px 1.76px 40px 1.76px"), pill radii, uniform radii
+- border/shadow specs (rule weights, drop shadows with color+blur)
+- ratio: palette usage ratios, grid ratios, radius ratios (e.g. 5:1)
+- alignment values (left/center) where the doc commits to them
+- image_treatment / icon_style: named treatments (warm lifestyle photography,
+  accent-shape crop, minimal line icons with rounded caps, circular green-tinted icons)
+- breakpoints as their own tokens
+
+Rules of thumb:
+- One value = one token. The SAME hex appearing under two names = ONE token with aliases.
+- Derived values (40% tint of X, top layer at 70% over base) -> derived_from.
+- Reserved/conditional values (teal only with LPGA; Avenir Heavy only for boxed warning)
+  -> gated with a predicate {{kind, value}} from: {predicates}.
+- Use lowercase snake_case ids. Do not invent values not in the document.
+
+DESIGN BIBLE:
+{bible}
+"""
+
+TOKENS_SEMANTIC_PROMPT = """Brand: {brand}
+
+Below is the design bible plus the already-extracted PRIMITIVE token catalog. Now extract
+EVERY SEMANTIC token: an element-path-addressed binding that says WHICH value applies
+WHERE, and under WHAT condition. This layer absorbs the IF/ELSE logic of the brand system
+— background-conditional swaps, breakpoint swaps, surface swaps, campaign/scene pairings.
+Be EXHAUSTIVE: every element-level styling commitment in the document becomes a semantic
+token. Expect roughly one semantic token per styled element property.
+
+Return JSON:
+{{
+  "tokens": [{{
+    "id": "tok_{brand}_<element_path_with_underscores>",
+    "token_type": one of {token_types} (the property's type: color for fills/text colors, radius for corners, ...),
+    "key": "<element_path>"  (dotted, e.g. "cta.button.fill", "callout.fill.opacity", "h1.color", "body.link.color", "section.padding.sides"),
+    "element_paths": ["<dotted path(s) this binds>"],
+    "value": {{
+      "default": {{"$ref": "tok_<primitive_id>"}} | <literal>,
+      "variants": [{{"when": {{"<predicate>": <value>}}, "value": {{"$ref": "tok_..."}} | <literal>}}] | null
+    }},
+{common}
+  }}]
+}}
+
+How to encode the IF/ELSE:
+- "On light backgrounds green button with white label; on dark backgrounds white button
+  with green label" becomes TWO semantic tokens (cta.button.fill, cta.button.label.color),
+  each with default + variants keyed by {{"background_group": "light"|"dark"}}.
+- Per-scene / per-campaign pairings -> variants keyed by {{"content_tag": ...}} or
+  {{"campaign": ...}}; theme-driven values -> {{"theme": ...}}.
+- Desktop/mobile -> {{"breakpoint": "desktop"|"mobile"}}; print/email/ppt -> {{"surface": ...}}.
+- Position/adjacency conditions -> {{"position_in_email": ...}} or {{"adjacent_section_state": ...}}.
+- `when` keys come from the predicate registry: {predicates} (plus "surface").
+- Element paths: section-scoped where the doc scopes them (cta.button.fill, chart.header.color,
+  callout.main.rule_color, hero.headline.color, isi.body.size, footnote.size,
+  patient_story.quote.style, symptom_trio.icon.order, section.padding.top, ...).
+- Reference primitives by {{"$ref": "tok_..."}} whenever the value exists in the primitive
+  catalog; keep literals only for one-off values, and prefer promoting repeated literals.
+- Gated/reserved element bindings -> gated. Campaign-scoped -> scope "campaign:<name>".
+- Use ONLY primitive ids from the catalog below; never fabricate ids.
+
+PRIMITIVE TOKEN CATALOG:
+{primitives}
+
+DESIGN BIBLE:
+{bible}
+"""
+
+CATALOG_REST_PROMPT = """Brand: {brand}
+
+The brand's token catalog has already been extracted (summary below). Now extract the
+REST of the entity catalog from the design bible. Return JSON:
+
+{{
   "assets": [{{
     "id": "ast_{brand}_<slug>", "asset_type": "photo|icon|logo_lockup|svg_shape|wave|background|campaign_lockup|cta_image",
     "uri": "<url or null>", "mime": null, "dims": null,
@@ -163,21 +268,19 @@ Extract the full entity catalog from the design bible below. Return JSON:
 }}
 
 Guidance:
-- tokens: every named color (hex), gradient (with stops), font family, type-scale level,
-  spacing value system, corner-radius spec, and opacity/tint pairing that the document
-  defines. Capture aliases (the same hex may have several names). Capture usage ratios,
-  gated/reserved tokens, derived tints (derived_from), and print-vs-email variants
-  (value.variants with {{"when": {{"surface": "email"}}}} etc).
 - assets: every concrete asset the doc references — image URLs, waves, lockups, icon sets,
-  CTA right-side images, background PNGs. Fill required_pairing_token_ids when the doc
-  locks an asset to a color, and usage_conditions for content-tag gating (e.g. lpga) or
-  per-email caps.
+  CTA right-side images, background PNGs. Fill required_pairing_token_ids (token ids from
+  the catalog below) when the doc locks an asset to a color, and usage_conditions for
+  content-tag gating (e.g. lpga) or per-email caps.
 - governance: verbatim disclosures, required qualifiers, approved messaging frameworks,
   trademark usage adjudications. preferred_form carries the exact required string.
 - subtypes: the email component library (locked header/footer components, section
   components with their editable slots, reference dims, assembly constraints).
 - asset_groups: named ordered sets (e.g. a fixed icon trio, wave variant families).
 - Use lowercase snake_case slugs. Do not duplicate entities; merge aliases instead.
+
+TOKEN CATALOG (ids you may reference):
+{tokens}
 
 DESIGN BIBLE:
 {bible}
@@ -189,13 +292,15 @@ DESIGN BIBLE:
 # ---------------------------------------------------------------------------
 
 RULES_SYSTEM = """You are a meticulous data-migration engineer converting one blob of a pharma
-brand's design bible into atomic brand_rule rows for a closed-vocabulary schema. Faithfulness
-over invention: every field must be grounded in the blob. Output a single JSON object, no prose."""
+brand's design bible into topic-level CLUSTER brand_rule rows for a closed-vocabulary schema,
+on top of an already-extracted token catalog that owns all concrete values and their
+conditional switching. Faithfulness over invention: every field must be grounded in the blob.
+Output a single JSON object, no prose."""
 
 RULES_PROMPT = """Brand: {brand}
 Blob id: {group_id} (doc_ref: {doc_ref})
 
-Atomize the blob below into brand_rule rows. Return JSON:
+Cluster the blob below into coherent brand_rule rows. Return JSON:
 
 {{
   "rules": [{{
@@ -229,26 +334,41 @@ Effect payload shapes by constraint_type:
 - exclusivity: {{"subject": "<token/style/element>", "reserved_for": "<selector or trigger>"}}
 - verbatim_content: {{"content": "<text>" | null, "governance_id": "gov_..." | null, "trigger": <predicate> | null}}
 
-Hard requirements:
-1. EVERY normative statement (must/never/always/only/max/min/reserved/required) in the blob
-   lands in EXACTLY ONE rule. Purely descriptive/table-of-values content that is already in
-   the entity catalog (palette hex tables, font inventories) does NOT need a rule unless it
-   states a usage constraint.
-2. rule_text must stand alone (a reader who has only rule_text + the catalog understands it).
-   Keep concrete values (hex, px, ratios) in rule_text even when also structured in effect.
-3. Reference catalog ids (tok_/ast_/gov_/sub_/agr_) inside effect wherever the blob refers to
-   a cataloged color/asset/claim/component. Use the ids EXACTLY as given in the catalog.
-4. applies_when only from the closed registry; if the blob's condition doesn't fit, leave
-   applies_when null and keep the condition inside rule_text.
+Hard requirements — TOKEN-FIRST CLUSTERING:
+1. CLUSTER, don't atomize: produce ONE rule per coherent topic/device in the blob
+   (typically 1-6 rules per blob, not one per sentence). Related normative statements that
+   share a topic, selector and conditions merge into one cluster rule. EVERY normative
+   statement (must/never/always/only/max/min/reserved/required) must be covered by exactly
+   one cluster — no statement lost, none duplicated across rules.
+2. VALUES LIVE IN TOKENS: the token catalog below already owns every concrete value (hex,
+   px, %, radius, weight, casing, alignment) AND the conditional switching (semantic
+   tokens carry variants keyed by background_group/breakpoint/surface/etc). Rules must
+   BIND tokens, not restate them:
+   - effect binding assignments reference SEMANTIC token ids wherever one exists
+     (e.g. bind cta.button.fill's token — its light/dark variants come with it).
+   - rule_text states the constraint topic and relationships, naming token keys; cite at
+     most a couple of representative values for readability, never full value tables.
+   - Do NOT restate a semantic token's variant switching as applies_when. applies_when
+     gates whether the RULE applies at all (campaign, content tags, position); value
+     switching stays on the token.
+3. Statements with NO token content (prose obligations, editorial style, voice, process,
+   verbatim requirements, cardinality/ordering/pairing/exclusivity across elements) remain
+   rules with the appropriate constraint_type; keep their operative wording in rule_text.
+4. Reference catalog ids (tok_/ast_/gov_/sub_/agr_) inside effect wherever the blob refers
+   to a cataloged value/asset/claim/component. Use ids EXACTLY as given. Purely descriptive
+   value tables already captured by tokens need NO rule unless they state a usage constraint
+   beyond the token's own value/gate.
 5. scope: statements marked [BASELINE]/[GENERAL]/(Solstice production rules) -> "org_baseline";
    campaign-specific (e.g. named campaign lockups/palettes) -> "campaign"; else "brand".
 6. hardness: exact values/locked specs/never-change -> "hard_constraint"; strong defaults ->
-   "strong_default"; taste/tone guidance -> "soft_guidance".
+   "strong_default"; taste/tone guidance -> "soft_guidance". A cluster takes the hardness of
+   its strictest member statement.
 7. selector.section_types: null when the rule applies to any section; otherwise the specific
    sections. Map source phrasing to the closed vocabulary (e.g. "CTA section" -> ["cta"],
    "charts" -> ["chart"], "callout boxes" -> ["callout"], locked header/footer -> top_matter/end_matter).
-8. constraint_type/effect are best-effort: if the statement resists the typed shapes, set both
-   null (rule_text stays authoritative). Never force a bad fit.
+8. constraint_type/effect are best-effort: if the cluster resists the typed shapes, set both
+   null (rule_text stays authoritative). A binding-style cluster may carry many assignments
+   in one effect. Never force a bad fit.
 9. relations: only within this blob's rules (e.g. an exception refining a base rule ->
    "refines"). Use sparingly.
 
@@ -260,13 +380,19 @@ BLOB:
 """
 
 
-def catalog_summary(catalog: dict[str, list[dict[str, Any]]]) -> str:
-    lines: list[str] = []
-    lines.append("tokens:")
-    for t in catalog["tokens"]:
+def token_lines(tokens: list[dict[str, Any]]) -> list[str]:
+    lines = []
+    for t in tokens:
         v = t.get("value") or {}
         default = v.get("default") if isinstance(v, dict) else v
+        n_variants = len(v.get("variants") or []) if isinstance(v, dict) else 0
         extra = []
+        if t.get("kind") == "semantic" and t.get("element_paths"):
+            extra.append(f"paths={t['element_paths']}")
+        if n_variants:
+            whens = sorted({k for var in v.get("variants", []) if isinstance(var, dict)
+                            for k in (var.get("when") or {})})
+            extra.append(f"variants_by={whens}")
         if t.get("aliases"):
             extra.append(f"aliases={t['aliases']}")
         if t.get("gated"):
@@ -274,6 +400,17 @@ def catalog_summary(catalog: dict[str, list[dict[str, Any]]]) -> str:
         if t.get("scope") and t["scope"] != "global":
             extra.append(t["scope"])
         lines.append(f"  {t['id']}  key={t.get('key')}  default={json.dumps(default, default=str)} {' '.join(extra)}")
+    return lines
+
+
+def catalog_summary(catalog: dict[str, list[dict[str, Any]]]) -> str:
+    lines: list[str] = []
+    prims = [t for t in catalog["tokens"] if t.get("kind") != "semantic"]
+    sems = [t for t in catalog["tokens"] if t.get("kind") == "semantic"]
+    lines.append(f"primitive tokens ({len(prims)}):")
+    lines.extend(token_lines(prims))
+    lines.append(f"semantic tokens ({len(sems)}) — element bindings; variants carry the IF/ELSE:")
+    lines.extend(token_lines(sems))
     lines.append("assets:")
     for a in catalog["assets"]:
         desc = (a.get("description") or "")[:90]
@@ -463,13 +600,22 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
 
     for t in raw.get("tokens", []):
         ctx = t.get("id", "token?")
+        if ctx in tokens:
+            warns.add(f"{ctx}: duplicate token id (primitive/semantic collision); kept first")
+            continue
         try:
+            element_paths = t.get("element_paths")
+            if element_paths is not None and not isinstance(element_paths, list):
+                element_paths = [str(element_paths)]
             tok = BrandToken(
                 id=t["id"], brand_id=brand,
-                token_type=coerce_enum(t.get("token_type"), TOKEN_TYPES, "color",
-                                       "token_type", ctx, warns) or "color",
+                token_type=coerce_enum(t.get("token_type"), TOKEN_TYPES, "other",
+                                       "token_type", ctx, warns) or "other",
+                kind=coerce_enum(t.get("kind"), TOKEN_KINDS, "primitive",
+                                 "kind", ctx, warns) or "primitive",
                 key=t.get("key") or t["id"],
                 value=t.get("value"),
+                element_paths=element_paths,
                 derived_from=t.get("derived_from"),
                 aliases=t.get("aliases") or [],
                 tier=coerce_enum(t.get("tier"), TOKEN_TIERS, None, "tier", ctx, warns),
@@ -482,6 +628,13 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
             tokens[tok.id] = tok
         except (ValidationError, KeyError) as e:
             warns.add(f"{ctx}: token invalid, skipped ({e})")
+
+    # Token->token $ref integrity: unknown refs are kept in value but flagged.
+    for tok in tokens.values():
+        refs = {r for r in scan_ids(tok.value) if r.startswith("tok_")} - {tok.id}
+        unknown = [r for r in refs if r not in tokens]
+        if unknown:
+            warns.add(f"{tok.id}: value $refs unknown tokens {unknown}")
 
     for a in raw.get("assets", []):
         ctx = a.get("id", "asset?")
@@ -596,7 +749,11 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
             edges.append({"src": r.id, "dst": r.group_id, "type": "from_group"})
 
     for t in cat["tokens"].values():
-        nodes.append({"id": t.id, "kind": "token", "label": t.key})
+        nodes.append({"id": t.id, "kind": "token", "token_kind": t.kind, "label": t.key})
+        # semantic value $refs -> primitive tokens
+        for ref in sorted({r for r in scan_ids(t.value) if r.startswith("tok_")} - {t.id}):
+            if ref in cat["tokens"]:
+                edges.append({"src": t.id, "dst": ref, "type": "resolves_to"})
         if t.derived_from and isinstance(t.derived_from, dict):
             base = t.derived_from.get("base_token_id")
             if base in cat["tokens"]:
@@ -644,7 +801,10 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
     schema_dir.mkdir(exist_ok=True)
     for stem, content in schema_docs.entity_docs().items():
         (schema_dir / f"{stem}.md").write_text(content)
-    counts = {"rules": len(rules), "tokens": len(cat["tokens"]), "assets": len(cat["assets"]),
+    counts = {"rules": len(rules), "tokens": len(cat["tokens"]),
+              "tokens_primitive": sum(1 for t in cat["tokens"].values() if t.kind == "primitive"),
+              "tokens_semantic": sum(1 for t in cat["tokens"].values() if t.kind == "semantic"),
+              "assets": len(cat["assets"]),
               "governance": len(cat["governance"]), "subtypes": len(cat["subtypes"]),
               "rule_groups": len(groups), "asset_groups": len(cat["asset_groups"])}
     (schema_dir / "overview.md").write_text(schema_docs.overview_doc(brand, counts))
@@ -675,9 +835,13 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
         for e in store.values():
             (d / f"{e.id}.json").write_text(json.dumps(e.model_dump(exclude_none=True), indent=2))
             if name == "tokens":
-                idx.append({"id": e.id, "key": e.key, "type": e.token_type,
+                variants_by = sorted({k for var in ((e.value or {}).get("variants") or [] if isinstance(e.value, dict) else [])
+                                      if isinstance(var, dict) for k in (var.get("when") or {})})
+                idx.append({"id": e.id, "kind": e.kind, "key": e.key, "type": e.token_type,
                             "default": (e.value or {}).get("default") if isinstance(e.value, dict) else e.value,
-                            "aliases": e.aliases, "gated": bool(e.gated)})
+                            "element_paths": e.element_paths, "variants_by": variants_by or None,
+                            "aliases": e.aliases, "gated": bool(e.gated),
+                            "scope": e.scope if e.scope != "global" else None})
             elif name == "assets":
                 idx.append({"id": e.id, "type": e.asset_type, "description": e.description[:120],
                             "uri": e.uri, "group_id": e.group_id})
@@ -748,20 +912,50 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
             blobs.append((gid, doc_ref, blob))
     console.print(f"  {len(blobs)} rule_groups from {len(bible)} categories")
 
-    # Pass A — catalog
+    # Pass A — token-first catalog
     full_bible_text = "\n\n".join(
         f"## CATEGORY: {cat_name}\n\n" + "\n\n---\n\n".join(items) for cat_name, items in bible.items()
     )
     default_audience = "dtp_patient (patient/DTC materials)" if brand == "lisraya" else "dtp_patient (DTP emails; some HCP-scope items)"
-    raw_catalog = await cached_json_call(
-        brand, "catalog", CATALOG_SYSTEM,
-        CATALOG_PROMPT.format(brand=brand, bible=full_bible_text), usage)
+    common = TOKEN_FIELDS_COMMON
+
+    # A1a primitives
+    raw_prims = await cached_json_call(
+        brand, "tokens_primitive", CATALOG_SYSTEM,
+        TOKENS_PRIMITIVE_PROMPT.format(brand=brand, bible=full_bible_text,
+                                       token_types=TOKEN_TYPES, common=common,
+                                       predicates=PREDICATE_REGISTRY), usage)
+    prim_tokens = [dict(t, kind="primitive") for t in raw_prims.get("tokens", []) if isinstance(t, dict)]
+    console.print(f"  A1a: {len(prim_tokens)} primitive tokens")
+
+    # A1b semantics (given primitives)
+    raw_sems = await cached_json_call(
+        brand, "tokens_semantic", CATALOG_SYSTEM,
+        TOKENS_SEMANTIC_PROMPT.format(brand=brand, bible=full_bible_text,
+                                      token_types=TOKEN_TYPES, common=common,
+                                      predicates=PREDICATE_REGISTRY,
+                                      primitives="\n".join(token_lines(prim_tokens))), usage)
+    sem_tokens = [dict(t, kind="semantic") for t in raw_sems.get("tokens", []) if isinstance(t, dict)]
+    console.print(f"  A1b: {len(sem_tokens)} semantic tokens")
+
+    all_tokens = prim_tokens + sem_tokens
+
+    # A2 rest of catalog (given tokens)
+    raw_rest = await cached_json_call(
+        brand, "catalog_rest", CATALOG_SYSTEM,
+        CATALOG_REST_PROMPT.format(brand=brand, bible=full_bible_text,
+                                   tokens="\n".join(token_lines(all_tokens))), usage)
+
+    raw_catalog = {"tokens": all_tokens, **{k: raw_rest.get(k, []) for k in
+                                            ("assets", "governance", "subtypes", "asset_groups")}}
     cat = validate_catalog(raw_catalog, brand, warns)
     catalog_ids = set(cat["tokens"]) | set(cat["assets"]) | set(cat["governance"]) \
         | set(cat["subtypes"]) | set(cat["asset_groups"])
-    console.print(f"  catalog: {len(cat['tokens'])} tokens, {len(cat['assets'])} assets, "
-                  f"{len(cat['governance'])} governance, {len(cat['subtypes'])} subtypes, "
-                  f"{len(cat['asset_groups'])} asset_groups")
+    n_prim = sum(1 for t in cat["tokens"].values() if t.kind == "primitive")
+    n_sem = len(cat["tokens"]) - n_prim
+    console.print(f"  catalog: {len(cat['tokens'])} tokens ({n_prim} primitive / {n_sem} semantic), "
+                  f"{len(cat['assets'])} assets, {len(cat['governance'])} governance, "
+                  f"{len(cat['subtypes'])} subtypes, {len(cat['asset_groups'])} asset_groups")
 
     # Pass B — rules per blob, parallel
     cat_text = catalog_summary({

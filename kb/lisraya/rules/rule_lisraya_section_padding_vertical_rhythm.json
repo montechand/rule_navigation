@@ -1,0 +1,67 @@
+{
+  "id": "rule_lisraya_section_padding_vertical_rhythm",
+  "brand_id": "lisraya",
+  "rule_class": "spacing",
+  "tags": [
+    "layout",
+    "assembly"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "section.padding"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.padding.sides",
+        "token_id": "tok_lisraya_section_side_padding"
+      },
+      {
+        "element_path": "section.padding.top_bottom",
+        "token_id": "tok_lisraya_section_top_bottom_padding"
+      },
+      {
+        "element_path": "section.vertical_rhythm",
+        "token_id": "tok_lisraya_vertical_rhythm"
+      },
+      {
+        "element_path": "heading.body.gap",
+        "token_id": "tok_lisraya_heading_body_gap"
+      },
+      {
+        "element_path": "body.callout.gap",
+        "token_id": "tok_lisraya_body_callout_gap"
+      },
+      {
+        "element_path": "image.caption.gap",
+        "token_id": "tok_lisraya_image_caption_gap"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_body_callout_gap",
+    "tok_lisraya_heading_body_gap",
+    "tok_lisraya_image_caption_gap",
+    "tok_lisraya_section_side_padding",
+    "tok_lisraya_section_top_bottom_padding",
+    "tok_lisraya_vertical_rhythm"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Section side padding is 24px left/right, consistent across ALL sections (this is what makes assembly seamless); full-bleed imagery/gradient backgrounds may run to 600px but text within them still respects the 24px insets. Vertical rhythm uses an 8px base unit \u2014 all padding/margins are multiples of 8. Each section owns its own 32px top AND bottom internal padding with no external margins between sections (assembly is zero-gap stacking). Gaps: heading\u2192body 16px, paragraph\u2192paragraph 16px, body\u2192callout/CTA 24px, image\u2192caption 8px.",
+  "intent": "Enforce consistent spacing so modular sections stack zero-gap and align seamlessly.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_lisraya_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Section padding 24px left/right always; full-bleed backgrounds max 600px but text respects 24px insets; vertical rhythm 8px base unit; 32px top/bottom padding per section with zero-gap stacking; gaps: heading\u2192body 16px, paragraph\u2192paragraph 16px, body\u2192callout 24px, image\u2192caption 8px."
+}

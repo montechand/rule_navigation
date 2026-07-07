@@ -1,0 +1,49 @@
+{
+  "id": "rule_ibsrela_spacing_grid_content_area",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "tags": [
+    "spacing"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "grid.columns",
+        "token_id": "tok_ibsrela_grid_columns"
+      },
+      {
+        "element_path": "grid.content_area.width",
+        "token_id": "tok_ibsrela_content_area_width"
+      },
+      {
+        "element_path": "grid.half_column.width",
+        "token_id": "tok_ibsrela_half_column_width"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_content_area_width",
+    "tok_ibsrela_grid_columns",
+    "tok_ibsrela_half_column_width"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Use a 12-column mental grid over the 552px content area (600 \u2212 2\u00d724); half-width column = 264px content + 24px gutter.",
+  "intent": "Provide a consistent column framework for layout within the email content area.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[1]",
+  "group_id": "grp_ibsrela_design_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Use a 12-column grid within 552px content area (600 - 2\u00d724), with half-width columns at 264px + 24px gutter."
+}

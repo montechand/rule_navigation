@@ -1,0 +1,37 @@
+{
+  "id": "rule_lisraya_registered_trademark_first_mention",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "audience": "dtp_patient",
+  "scope": "brand",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "first_mention",
+      "value": "brand_name"
+    }
+  ],
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "LISRAYA\u00ae (brepocitinib)",
+    "governance_id": "gov_lisraya_registered_trademark",
+    "trigger": "generic name included AND first/most prominent mention AND external-facing document"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 5,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_registered_trademark"
+  ],
+  "rule_text": "Include the \u00ae registered trademark symbol only when the generic name is included \u2014 i.e., LISRAYA\u00ae (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat \u00ae on subsequent mentions.",
+  "intent": "Correct, non-redundant trademark symbol placement per legal requirements.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_lisraya_content_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Apply \u00ae only with generic name on first prominent mention in external-facing docs; do not repeat on subsequent mentions (e.g., LISRAYA\u00ae (brepocitinib))."
+}

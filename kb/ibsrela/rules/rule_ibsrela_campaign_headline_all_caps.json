@@ -1,0 +1,44 @@
+{
+  "id": "rule_ibsrela_campaign_headline_all_caps",
+  "brand_id": "ibsrela",
+  "rule_class": "typography",
+  "tags": [
+    "copy_editorial"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "element_path": "campaign.headline.case"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "campaign.headline.case",
+        "token_id": "tok_ibsrela_campaign_headline_case"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [
+    "tok_ibsrela_campaign_headline_case"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Campaign-specific headlines (FLIP THE SCRIPT) are set in ALL CAPS, per the campaign.headline.case token.",
+  "intent": "FLIP THE SCRIPT campaign headlines override default title-case headlines with all caps.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[2]",
+  "group_id": "grp_ibsrela_content_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Campaign-specific headlines (FLIP THE SCRIPT) use ALL CAPS as specified by campaign.headline.case token."
+}

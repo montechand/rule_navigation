@@ -4,6 +4,15 @@ Standalone experiment suite answering: **can an LLM agent navigate a structured 
 knowledge graph precisely enough to assign the right ruleset to each email-blueprint
 section?** (Benchmarked later against humans doing the same task; FNR-first.)
 
+> **Branch `token-first-kb`**: token-first KB variant. Extraction runs token-level first
+> and exhaustively — every concrete styling value is a `primitive` token; every
+> element-path binding (which value applies where, under what condition) is a `semantic`
+> token whose `value.variants[].when` carries the IF/ELSE formerly written as prose rules.
+> Rules become coherent topic CLUSTERS that bind tokens instead of restating values;
+> expect token counts >= rule counts. New tools: `query_tokens`, `search_tokens`;
+> new graph edges: `resolves_to` (semantic -> primitive). `main` holds the atomic-rule
+> baseline.
+
 Inputs: a structured brand-rules KB (migrated from the design bibles) + an email blueprint
 (`content_blueprint[]`, with or without per-section `design_concept`).
 Output per section: `targeted_rules` (precisely scoped to that section) and
@@ -68,7 +77,8 @@ architectural, not prompt-shaped.
 
 filesystem (`list_dir`, `read_file`, `grep`) · schema (`describe_entity`,
 `get_section_vocab`, `get_predicate_registry`) · lookup (`get_rules` short/full,
-`get_entity`) · structured (`query_rules` facet filters) · keyword (BM25) · vector
+`get_entity`) · structured (`query_rules` facet filters) · tokens (`query_tokens` facet
+filters, `search_tokens` BM25 over keys/aliases/paths/values) · keyword (BM25) · vector
 (3 collections, metadata filters) · graph (`rules_for_section`, `rules_for_token`,
 `neighbors`, `related_rules`) · terminal `finalize_section_ruleset` factory.
 

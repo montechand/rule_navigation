@@ -19,8 +19,16 @@ GLOBAL_CONVENTIONS = """# Global conventions
 
 BRAND_RULE_DOC = """# Entity: brand_rule
 
-The atomic, independently-injectable unit of brand knowledge. One rule = one normative
-statement (a MUST/SHOULD/NEVER about typography, color, layout, copy, ...).
+A coherent, independently-injectable CLUSTER of brand knowledge about one topic/device
+(e.g. "CTA button coloring", "callout opacity system", "chart container geometry").
+
+Token-first convention: every concrete value (hex, px, %, radius, weight, alignment,
+casing) and every conditional value switch (IF light background ELSE dark...) lives in
+the brand_token layer — rules do NOT restate values. A rule covers the normative
+statements about its topic, binds the relevant tokens via `effect`/`token_ids`, and
+carries only the cross-element / cross-token logic that cannot live on a single token
+(cardinality, ordering, pairing, exclusivity, verbatim content, prose obligations).
+To resolve a rule to concrete values, follow its `token_ids` (see brand_token.md).
 
 Key attributes:
 - `rule_class` (primary facet): one of typography, color_application, cta, layout, spacing,
@@ -59,18 +67,42 @@ Key attributes:
 
 BRAND_TOKEN_DOC = """# Entity: brand_token
 
-Design-system primitive (color, font, type_scale, spacing, radius, gradient, opacity).
+ALL possible styling properties and their values are brand tokens (color, gradient,
+opacity, font, type_scale, weight, line_height, letter_spacing, case, spacing, padding,
+margin, size, dimension, radius, border, shadow, ratio, breakpoint, alignment,
+icon_style, image_treatment, motion, ...). The token layer is the value/IF-ELSE layer of
+the KB: expect as many tokens as rules or more. Rules bind tokens; tokens carry values
+and their conditional switching.
 
-- `key`: symbolic path `{type}.{tier}.{name}`, e.g. `color.primary.brand_blue`.
-- `value`: `{default, variants: [{when: {surface|breakpoint}, value}]}` — token-level
-  bifurcation (e.g. print font vs email fallback; desktop vs mobile size).
-- `derived_from`: `{base_token_id, op: tint|opacity|mix, amount}` for derived tokens.
+Two kinds (`kind`):
+- `primitive` — a raw reusable value: a hex, an opacity stop (80%), a px step (24px), a
+  radius spec, a font weight, an alignment, a casing, an image treatment.
+  key grammar: `{type}.{tier_or_group}.{name}`, e.g. `color.primary.brand_blue`,
+  `opacity.callout.80`, `radius.accent_shape.large`.
+- `semantic` — an element-path-addressed binding: WHICH primitive applies WHERE, and
+  under WHAT condition. key grammar: element-path style, e.g. `cta.button.fill`,
+  `callout.fill.opacity`, `h1.color`, `body.link.color`.
+  `element_paths` lists the dotted paths it binds. The value references primitives via
+  `{"$ref": "tok_..."}` and conditional logic lives in `value.variants`:
+  `{default: {"$ref": tok_a}, variants: [{when: {background_group: "dark"}, value: {"$ref": tok_b}}]}`
+  — this is where the IF/ELSE formerly written as prose rules now lives. `when` objects
+  use the closed predicate registry (see predicate_registry.md) plus surface/breakpoint.
+
+Other attributes:
+- `value`: `{default, variants: [{when: {...}, value}]}` — token-level bifurcation
+  (print font vs email fallback; desktop vs mobile size; light vs dark background).
+- `derived_from`: `{base_token_id, op: tint|opacity|mix, amount}` for derived tokens
+  (40% tint of headline color, 70% transparency wave layer).
 - `aliases`: alternate names used in source docs (same hex called "Green" and "teal").
-- `tier`: primary | secondary_accent | tertiary | campaign.
+- `tier`: primary | secondary_accent | tertiary | campaign (primitives, where stated).
 - `scope`: global | campaign:{name} | partnership:{name}.
 - `usage_ratio`: palette ratio 0-1 when specified (e.g. 30/30/20/15/5).
-- `gated`: `{is_gated: true, gate: predicate}` for reserved tokens (e.g. teal only with
-  LPGA content).
+- `gated`: `{is_gated: true, gate: predicate}` for reserved tokens (teal only with LPGA
+  content; Avenir Heavy reserved for boxed warning).
+
+Navigation: `query_tokens` (facet filters), `search_tokens` (lexical), `get_entity`
+(full row), `rules_for_token` (which rules bind a token), graph edges `resolves_to`
+(semantic -> primitive) and `derived_from`.
 """
 
 DESIGN_ASSET_DOC = """# Entity: design_asset
@@ -190,10 +222,11 @@ def overview_doc(brand: str, counts: dict[str, int]) -> str:
 This KB is the structured form of the {brand.upper()} design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: {counts.get('rules', 0)} brand_rules, {counts.get('tokens', 0)} brand_tokens,
-{counts.get('assets', 0)} design_assets, {counts.get('governance', 0)} governance rows,
-{counts.get('subtypes', 0)} content_sub_types, {counts.get('rule_groups', 0)} rule_groups,
-{counts.get('asset_groups', 0)} asset_groups.
+Contents: {counts.get('rules', 0)} brand_rules (topic clusters),
+{counts.get('tokens', 0)} brand_tokens ({counts.get('tokens_primitive', 0)} primitive /
+{counts.get('tokens_semantic', 0)} semantic), {counts.get('assets', 0)} design_assets,
+{counts.get('governance', 0)} governance rows, {counts.get('subtypes', 0)} content_sub_types,
+{counts.get('rule_groups', 0)} rule_groups, {counts.get('asset_groups', 0)} asset_groups.
 
 ## Layout
 
@@ -207,6 +240,14 @@ Contents: {counts.get('rules', 0)} brand_rules, {counts.get('tokens', 0)} brand_
 - `graph/graph.json` — nodes + typed edges (rule->section, rule->token, rule->asset,
   rule->governance, rule->group, asset->token, asset->asset_group, rule->rule)
 
+## Token-first layering
+
+Concrete values and their conditional switching (IF light background ELSE dark, print vs
+email, campaign gates) live in `brand_token` rows — primitives (raw values) and semantic
+tokens (element-path bindings with variants). Rules are coherent topic clusters that bind
+those tokens and carry cross-element logic (cardinality/ordering/pairing/exclusivity/
+verbatim/prose). Resolving a rule to exact values = following its `token_ids`.
+
 ## How to find rules for an email section
 
 1. Structured: filter `rules/_index.json` by `sections` (remember `null` = applies to ALL
@@ -214,6 +255,8 @@ Contents: {counts.get('rules', 0)} brand_rules, {counts.get('tokens', 0)} brand_
 2. Graph: follow `applies_to_section` edges from the section node (`sec_{{name}}`).
 3. Semantic: vector search over rule summaries/intents/text.
 4. Lexical: keyword/grep for exact terms (hex codes, component names, phrases).
+5. Token pivot: a concrete detail in the design concept (a hex, an opacity, a radius, an
+   alignment) -> search_tokens/query_tokens -> rules_for_token -> governing rules.
 
 Read `schema/section_vocab.md` first to map blueprint section_ids onto the closed
 section vocabulary. Rules with `evaluation_scope = email` or `selector.section_types =

@@ -37,6 +37,12 @@ Method notes:
   (a section may map to several types, e.g. a benefits panel = intro + callout).
 - Conditional (applies_when) rules: include them when the section's design concept or copy
   makes the condition plausible; the generator downstream re-checks predicates.
+- Token-first layering: concrete values and their conditional switching live in the
+  brand_token layer (primitives + semantic element-path bindings with variants); rules are
+  topic clusters that BIND tokens. A concrete detail in the design concept (a hex, an
+  opacity, a radius, an alignment) is often fastest resolved by finding its token
+  (search_tokens/query_tokens) and following rules_for_token to the governing rules.
+  Your final answer is still RULE ids, never token ids.
 - Audience: these emails are patient-facing (dtp_patient) unless stated otherwise — exclude
   hcp-only rules.
 """

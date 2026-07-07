@@ -1,0 +1,51 @@
+{
+  "id": "rule_ibsrela_email_dual_layout_widths",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "email.width"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "email.width.desktop",
+        "token_id": "tok_ibsrela_email_width_desktop"
+      },
+      {
+        "element_path": "email.width.mobile",
+        "token_id": "tok_ibsrela_email_width_mobile"
+      },
+      {
+        "element_path": "email.fluid.breakpoint",
+        "token_id": "tok_ibsrela_email_fluid_breakpoint"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_email_fluid_breakpoint",
+    "tok_ibsrela_email_width_desktop",
+    "tok_ibsrela_email_width_mobile"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Desktop email width is 600px and mobile email width is 375px; both layouts must exist for every component, and SFMC serves the correct one automatically. Build emails on a 600px fixed-width table with mobile via fluid/hybrid technique collapsing to 375px design width (100% fluid below 480px).",
+  "intent": "Guarantee responsive email rendering across desktop and mobile.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_ibsrela_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Desktop email width 600px fixed table; mobile width 375px fluid/hybrid layout collapsing below 480px; both versions for each component; SFMC serves automatically."
+}

@@ -1,0 +1,50 @@
+{
+  "id": "rule_ibsrela_callout_white_banner_claim",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.white_banner.opacity"
+  },
+  "applies_when": [
+    {
+      "kind": "content_tag",
+      "value": "ibsrela_works_differently"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "callout.white_banner.opacity",
+        "token_id": "tok_ibsrela_callout_white_banner_opacity"
+      }
+    ]
+  },
+  "polarity": "should",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_callout_white_banner_opacity"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "The white banner callout at 80% opacity over the background (callout.white_banner.opacity) is used for the 'IBSRELA WORKS DIFFERENTLY\u2026' claim.",
+  "intent": "Pair the semi-transparent white banner treatment with the works-differently claim.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[2]",
+  "group_id": "grp_ibsrela_design_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Use white banner callout at 80% opacity over background for 'IBSRELA WORKS DIFFERENTLY\u2026' claim."
+}

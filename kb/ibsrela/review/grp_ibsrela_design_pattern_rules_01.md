@@ -16,44 +16,24 @@ Defined so independently-built sections butt together cleanly:
 - All spacing values are multiples of 8 px (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8 px steps.
 ````
 
-## Extracted rules (8)
+## Extracted rules (4)
 
-### rule_ibsrela_outer_side_padding_8pt
+### rule_ibsrela_spacing_8pt_system_baseline
 - class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Every section must use an outer/container side padding (left & right) of 24 px on desktop and 16 px on mobile.
-- intent: Keep independently-built sections aligned at their edges.
+- rule_text: All spacing values must be multiples of 8px (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8px steps.
+- intent: Keep spacing rhythm consistent so independently-built sections align.
 
-### rule_ibsrela_section_vertical_padding_8pt
+### rule_ibsrela_spacing_section_padding_gutters
 - class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Section vertical padding must be 32 px top and bottom on desktop and 24 px on mobile.
-- intent: Consistent vertical rhythm between stacked sections.
+- rule_text: Inside every section: outer/container side padding (24px desktop, 16px mobile, left & right), section vertical padding (32px top and bottom desktop, 24px mobile), two-column gutter (24px desktop; columns stack with 24px vertical gap on mobile), card internal padding (16px all sides), and image-to-text gap (16px). Breakpoint variants ride on the tokens.
+- intent: Standardize intra-section spacing so sections read consistently across breakpoints.
 
-### rule_ibsrela_no_margin_between_sections
+### rule_ibsrela_spacing_no_margin_between_sections
 - class=spacing scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=binding
-- rule_text: There must be no margin between stacked section tables — adjacent sections rely on their own padding and must sit edge-to-edge so backgrounds and wave shapes meet flush.
-- intent: Ensure backgrounds and wave shapes meet flush across section boundaries.
+- rule_text: Adjacent sections rely on their own padding — no margin between stacked section tables. Sections must be edge-to-edge so backgrounds and wave shapes meet flush.
+- intent: Let independently-built sections butt together cleanly with backgrounds/wave shapes meeting flush.
 
-### rule_ibsrela_two_column_gutter_8pt
-- class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Two-column layouts must use a 24 px gutter on desktop; columns stack with a 24 px vertical gap on mobile.
-- intent: Consistent column separation across breakpoints.
-
-### rule_ibsrela_card_internal_padding_8pt
-- class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: Card internal padding must be 16 px on all sides.
-- intent: Uniform interior spacing for cards/callouts.
-
-### rule_ibsrela_image_to_text_gap_8pt
-- class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: The gap between an image and adjacent text must be 16 px.
-- intent: Consistent separation between images and text.
-
-### rule_ibsrela_twelve_column_grid_552_content
+### rule_ibsrela_spacing_grid_content_area
 - class=layout scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Lay out on a 12-column mental grid over the 552 px content area (600 − 2×24 px). A half-width column = 264 px content + 24 px gutter.
-- intent: Standardize the working grid for column layouts.
-
-### rule_ibsrela_all_spacing_multiples_of_8
-- class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: All spacing values must be multiples of 8 px (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8 px steps.
-- intent: Enforce a consistent 8-pt spacing system.
+- rule_text: Use a 12-column mental grid over the 552px content area (600 − 2×24); half-width column = 264px content + 24px gutter.
+- intent: Provide a consistent column framework for layout within the email content area.
