@@ -3,10 +3,10 @@
 This KB is the structured form of the IBSRELA design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: 83 brand_rules (topic clusters),
-216 brand_tokens (106 primitive /
-110 semantic), 9 design_assets,
-20 governance rows, 10 content_sub_types,
+Contents: 76 brand_rules (topic clusters),
+190 brand_tokens (86 primitive /
+104 semantic), 10 design_assets,
+21 governance rows, 9 content_sub_types,
 21 rule_groups, 2 asset_groups.
 
 ## Layout

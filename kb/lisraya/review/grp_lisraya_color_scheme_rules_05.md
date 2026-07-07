@@ -55,19 +55,24 @@ A full-width banner where a **headline** and a **single button** are overlaid on
 If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color="#faa31b"` and the headline color, button color, and button radius exactly as above.
 ````
 
-## Extracted rules (3)
+## Extracted rules (4)
 
-### rule_lisraya_gradient_callout_layout_composition
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['cta', 'callout'] constraint=binding
-- rule_text: The Gradient Callout CTA Section is a full-width banner (600px content width) where a single headline and a single button are overlaid on the branded orange/yellow gradient image, both horizontally centered and vertically stacked. The background is the gradient PNG applied as the section background sized cover, no-repeat, centered. The headline (gradient_callout.headline: Brand Blue #00529b, Nunito Sans weight 800, ~28px, one line) sits in the top third; the button (gradient_callout.button: Deep Blue #003D74 fill, white Nunito Sans 800 18px label, Gold #FFC20E arrow '›' at 24px following two non-breaking spaces, 248×64px) sits in the lower-middle below the headline. All values are carried by the bound gradient_callout tokens.
-- intent: Lock the composition and element bindings of the signature gradient callout CTA banner.
+### rule_lisraya_gradient_cta_layout
+- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
+- rule_text: The Gradient Callout CTA is a full-width banner with a headline and a single button both horizontally centered and stacked over the branded orange/yellow gradient background image (600px full content width). The headline sits in the top third: Brand Blue (#00529b), centered, Nunito Sans weight 800, ~28px, one line. The button sits in the lower-middle below the headline: Deep Blue (#003D74) fill, white Nunito Sans 800 18px label, a Gold (#FFC20E) arrow '›' (24px) after two non-breaking spaces, sized 248×64px. Section padding 48px 25px 56px 25px.
+- intent: Lock the signature CTA banner composition and its element specs.
 
-### rule_lisraya_gradient_callout_background_asset_integrity
-- class=imagery scope=brand hardness=hard_constraint polarity=must_not sections=['cta', 'callout'] constraint=binding
-- rule_text: The Gradient Callout background asset (Gradient_callout.png) must not be re-hosted or recolored. A solid Sunshine #faa31b background-color must always be set as fallback since clients like Outlook drop background images. The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget); when skipped, remove only background-url/size/repeat/position, keep background-color #faa31b, and every other rule (headline color, button color, button radius) stays identical.
-- intent: Preserve the integrity of the branded gradient asset and guarantee a graceful, on-brand fallback.
+### rule_lisraya_gradient_cta_background_asset_lock
+- class=cta scope=brand hardness=hard_constraint polarity=must_not sections=['cta'] constraint=binding
+- rule_text: The gradient background is the specific approved asset (ast_lisraya_gradient_callout_bg / Gradient_callout.png), applied as the section background sized cover, no-repeat, centered, full 600px width. Do not re-host or recolor it. Always set a solid background-color of Sunshine #faa31b as fallback, since clients like Outlook drop background images.
+- intent: Prevent unauthorized re-hosting/recoloring of the locked gradient asset and guarantee a fallback fill.
 
-### rule_lisraya_gradient_callout_button_signature_radius
-- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta', 'callout'] constraint=binding
-- rule_text: The Gradient Callout button's four-value asymmetric border-radius (49.52px 1.76px 40px 1.76px) is the signature shape and is mandatory on every instance, even when the background is skipped. Never simplify it to a single value, swap the corners, or round the decimals.
-- intent: Protect the button's signature asymmetric radius as a brand identifier.
+### rule_lisraya_gradient_cta_background_skip_exception
+- class=cta scope=brand hardness=strong_default polarity=may sections=['cta'] constraint=binding
+- rule_text: The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, remove only background-url, background-size, background-repeat, and background-position; the section still renders on the solid Sunshine #faa31b fill and every other rule — headline color, button color, and button radius — stays identical.
+- intent: Define the narrow exception for omitting the gradient image without weakening the rest of the spec.
+
+### rule_lisraya_gradient_cta_button_signature_radius
+- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
+- rule_text: The button's four-value asymmetric border-radius (49.52px 1.76px 40px 1.76px) is the signature shape and is always required on every instance, even when the background is skipped. Never simplify it to a single value, swap the corners, or round the decimals.
+- intent: Protect the signature asymmetric CTA button silhouette against simplification.

@@ -34,8 +34,8 @@ SHARDS: dict[str, dict[str, Any]] = {
     "color_typography": {
         "rule_classes": ["color_application", "typography"],
         "tools": ["query_rules", "get_rules", "keyword_search", "vector_search",
-                  "query_tokens", "search_tokens", "rules_for_token", "get_entity",
-                  "get_section_vocab"],
+                  "query_tokens", "search_tokens", "resolve_token", "rules_for_token",
+                  "get_entity", "get_section_vocab"],
         "blurb": ("You own COLOR and TYPOGRAPHY: palette application, text/heading colors, "
                   "backgrounds, gradients, tints, contrast, gated/reserved colors, fonts, "
                   "type scale, casing, line-height, bolding. The token layer carries the "
@@ -60,11 +60,13 @@ SHARDS: dict[str, dict[str, Any]] = {
     "layout_assembly": {
         "rule_classes": ["layout", "spacing", "assembly", "cta"],
         "tools": ["query_rules", "get_rules", "keyword_search", "vector_search",
-                  "rules_for_section", "query_tokens", "search_tokens", "rules_for_token",
-                  "get_entity", "get_section_vocab"],
+                  "rules_for_section", "rules_for_subtype", "query_tokens", "search_tokens",
+                  "rules_for_token", "get_entity", "get_section_vocab"],
         "blurb": ("You own LAYOUT, SPACING, ASSEMBLY and CTA structure: canvas/grid, "
                   "padding/spacing/radius/size tokens, section stacking/adjacency, component "
-                  "library (content_sub_types incl. locked top/end matter), button geometry, "
+                  "library (content_sub_types incl. locked top/end matter AND concrete "
+                  "approved templates — rules_for_subtype surfaces template-scoped rules "
+                  "plus rules for the sections a template covers), button geometry, "
                   "CTA placement/cardinality, callout/chart container geometry. "
                   "rules_for_section gives the per-section pool; query_tokens(token_type="
                   "['spacing','padding','radius','size','dimension']) enumerates the "

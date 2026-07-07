@@ -11,14 +11,19 @@ doc_ref: `design_pattern_rules[0]`
 - [BASELINE] Build emails on a 600 px fixed-width table; mobile via fluid/hybrid technique collapsing to 375 px design width (100% fluid below 480 px).
 ````
 
-## Extracted rules (2)
+## Extracted rules (3)
 
-### rule_ibsrela_email_dual_layout_widths
+### rule_ibsrela_email_canvas_breakpoints
+- class=layout scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Desktop email width is 600px and mobile email width is 375px. Both layouts must exist for every component; SFMC serves the correct one automatically.
+- intent: Guarantee every component ships both a desktop and mobile layout at the canonical widths.
+
+### rule_ibsrela_email_responsive_build_technique
 - class=layout scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Desktop email width is 600px and mobile email width is 375px; both layouts must exist for every component, and SFMC serves the correct one automatically. Build emails on a 600px fixed-width table with mobile via fluid/hybrid technique collapsing to 375px design width (100% fluid below 480px).
-- intent: Guarantee responsive email rendering across desktop and mobile.
+- rule_text: [BASELINE] Build emails on a 600px fixed-width table; handle mobile via fluid/hybrid technique that collapses to a 375px design width, going 100% fluid below 480px.
+- intent: Standardize the responsive email build method across all components.
 
-### rule_ibsrela_component_reference_dimensions
-- class=layout scope=org_baseline hardness=soft_guidance polarity=should sections=None constraint=binding
-- rule_text: Component reference heights from the library (Primary 1-Col 600×1138 / 375×788; Primary 2-Col 600×1088 / 375×1538; Secondary 600×458 desktop row) are treated as proportions, not hard limits.
-- intent: Provide proportional guidance for component sizing without imposing hard height limits.
+### rule_ibsrela_component_reference_heights
+- class=layout scope=brand hardness=soft_guidance polarity=should sections=None constraint=binding
+- rule_text: Component reference heights from the library (Primary 1-Col 600×1138 / 375×788; Primary 2-Col 600×1088 / 375×1538; Secondary 600×458 desktop row) are proportions, not hard limits.
+- intent: Provide component proportion guidance without imposing rigid height caps.

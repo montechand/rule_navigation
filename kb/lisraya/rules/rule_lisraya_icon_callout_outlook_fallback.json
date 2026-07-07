@@ -1,0 +1,38 @@
+{
+  "id": "rule_lisraya_icon_callout_outlook_fallback",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "iconography",
+    "accessibility"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_icon_callout"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "icon_callout.badge"
+  },
+  "evaluation_scope": "section",
+  "polarity": "should",
+  "hardness": "soft_guidance",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "The 50/50 overhang relies on position:absolute, which Apple Mail/iOS/most web clients honor but Outlook desktop (Word engine) ignores \u2014 there the badge drops to top-left in normal flow and the box won't be inset. For pixel-perfect fidelity across all clients, pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG placed via the same absolute positioning, or bake the badge-on-edge treatment into the box's background image while keeping the text live. When that's not feasible, ship the live version and accept the Outlook degrade (badge flush at the inner-left edge) \u2014 every other rule (Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow) stays identical.",
+  "intent": "Provide a brand-safe rendering path for clients that don't support absolute positioning.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[6]",
+  "group_id": "grp_lisraya_color_scheme_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Use absolute 50/50 badge overhang; Outlook ignores it\u2014pre-composite badge PNG or bake into background; else accept Outlook badge flush left; keep Light Blue fill, 40px 8px radius, blue 800 text, drop shadow."
+}

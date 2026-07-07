@@ -21,17 +21,18 @@ from typing import Any, Optional
 
 from ..kb import KB
 from ..llm import ToolError, ToolSpec
-from ..schemas import PREDICATE_REGISTRY, SECTION_TYPES
+from ..schemas import PREDICATE_REGISTRY
 
 TOOL_FAMILIES: dict[str, list[str]] = {
     "filesystem": ["list_dir", "read_file", "grep"],
     "schema": ["describe_entity", "get_section_vocab", "get_predicate_registry"],
     "lookup": ["get_rules", "get_entity"],
     "structured": ["query_rules"],
-    "tokens": ["query_tokens", "search_tokens"],
+    "tokens": ["query_tokens", "search_tokens", "resolve_token"],
     "keyword": ["keyword_search"],
     "vector": ["vector_search"],
-    "graph": ["rules_for_section", "rules_for_token", "neighbors", "related_rules"],
+    "graph": ["rules_for_section", "rules_for_subtype", "rules_for_token", "neighbors",
+              "related_rules"],
 }
 
 _SKIP_DIRS = {"vectors", "_build_cache"}
@@ -177,7 +178,7 @@ class ToolRepo:
         return doc
 
     async def _get_section_vocab(self, args: dict[str, Any]) -> Any:
-        return {"section_types": SECTION_TYPES,
+        return {"section_types": self.kb.section_types,
                 "doc": self.kb.schema_doc("section_vocab") or ""}
 
     async def _get_predicate_registry(self, args: dict[str, Any]) -> Any:
@@ -225,7 +226,9 @@ class ToolRepo:
         f_aud = want(args.get("audience"))
         f_hard = want(args.get("hardness"))
         f_eval = want(args.get("evaluation_scope"))
+        f_subtypes = want(args.get("content_sub_type_ids"))
         include_all_section_rules = args.get("include_all_section_rules", True)
+        include_all_subtype_rules = args.get("include_all_subtype_rules", True)
 
         out = []
         for r in self.kb.rules.values():
@@ -240,6 +243,13 @@ class ToolRepo:
                     if not include_all_section_rules:
                         continue
                 elif not (set(secs) & f_sections):
+                    continue
+            if f_subtypes is not None:
+                subs = r.content_sub_type_ids
+                if subs is None:
+                    if not include_all_subtype_rules:
+                        continue
+                elif not (set(subs) & f_subtypes):
                     continue
             if f_scope and r.scope not in f_scope:
                 continue
@@ -319,6 +329,61 @@ class ToolRepo:
             for tid, s in ranked if s > 0
         ]}
 
+    def _resolve_value(self, value: Any, chain: list[str], depth: int = 0) -> Any:
+        """Recursively flatten {"$ref": tok_id} references to concrete values."""
+        if depth > 6:
+            return {"unresolved": "max depth", "value": value}
+        if isinstance(value, dict):
+            if set(value.keys()) == {"$ref"}:
+                ref = value["$ref"]
+                tok = self.kb.tokens.get(ref)
+                if tok is None or ref in chain:
+                    return {"unresolved_ref": ref}
+                chain.append(ref)
+                inner = tok.value
+                if isinstance(inner, dict) and "default" in inner:
+                    resolved = self._resolve_value(inner.get("default"), chain, depth + 1)
+                    variants = inner.get("variants")
+                    if variants:
+                        return {"resolved": resolved, "ref": ref,
+                                "ref_variants": [
+                                    {"when": v.get("when"),
+                                     "value": self._resolve_value(v.get("value"), chain, depth + 1)}
+                                    for v in variants if isinstance(v, dict)]}
+                    return resolved
+                return self._resolve_value(inner, chain, depth + 1)
+            return {k: self._resolve_value(v, chain, depth) for k, v in value.items()}
+        if isinstance(value, list):
+            return [self._resolve_value(x, chain, depth) for x in value]
+        return value
+
+    async def _resolve_token(self, args: dict[str, Any]) -> Any:
+        tid = args["token_id"]
+        tok = self.kb.tokens.get(tid)
+        if tok is None:
+            raise ToolError(f"unknown token id: {tid}")
+        chain: list[str] = [tid]
+        v = tok.value if isinstance(tok.value, dict) else {"default": tok.value}
+        out: dict[str, Any] = {
+            "id": tid, "kind": tok.kind, "key": tok.key, "type": tok.token_type,
+            "resolved_default": self._resolve_value(v.get("default"), chain),
+            "variants": [
+                {"when": var.get("when"), "value": self._resolve_value(var.get("value"), chain)}
+                for var in (v.get("variants") or []) if isinstance(var, dict)
+            ] or None,
+        }
+        if tok.element_paths:
+            out["element_paths"] = tok.element_paths
+        if tok.gated:
+            out["gated"] = tok.gated
+        if tok.derived_from:
+            base = tok.derived_from.get("base_token_id") if isinstance(tok.derived_from, dict) else None
+            out["derived_from"] = tok.derived_from
+            if base and base in self.kb.tokens:
+                chain.append(base)
+        out["resolution_chain"] = list(dict.fromkeys(chain))
+        return out
+
     # ------------------------------------------------------------------
     # keyword family
     # ------------------------------------------------------------------
@@ -377,12 +442,18 @@ class ToolRepo:
     # ------------------------------------------------------------------
     async def _rules_for_section(self, args: dict[str, Any]) -> Any:
         section = args["section_type"]
-        if section not in SECTION_TYPES:
-            raise ToolError(f"unknown section_type '{section}'; vocab: {SECTION_TYPES}")
+        if section not in self.kb.section_types:
+            raise ToolError(f"unknown section_type '{section}'; vocab: {self.kb.section_types}")
         targeted = [self.kb.short_rule(r) for r in self.kb.rules.values()
                     if r.selector.section_types and section in r.selector.section_types]
+        covering = [{"id": s.id, "name": s.name, "covers": s.covers_section_types,
+                     "is_template": bool(s.template_ref)}
+                    for s in self.kb.subtypes.values()
+                    if s.covers_section_types and section in s.covers_section_types]
         result: dict[str, Any] = {"section": section, "targeted_count": len(targeted),
                                   "targeted_rules": targeted}
+        if covering:
+            result["covered_by_subtypes"] = covering
         if args.get("include_all_section_rules", False):
             allsec = [self.kb.short_rule(r) for r in self.kb.rules.values()
                       if r.selector.section_types is None]
@@ -392,6 +463,29 @@ class ToolRepo:
             result["note"] = ("rules with selector.section_types=null (apply to ALL sections) not "
                               "included; pass include_all_section_rules=true or query them separately")
         return result
+
+    async def _rules_for_subtype(self, args: dict[str, Any]) -> Any:
+        sid = args["subtype_id"]
+        sub = self.kb.subtypes.get(sid)
+        if sub is None:
+            raise ToolError(f"unknown content_sub_type id: {sid}. See subtypes/_index.json")
+        directly = [self.kb.short_rule(r) for r in self.kb.rules.values()
+                    if r.content_sub_type_ids and sid in r.content_sub_type_ids]
+        via_sections: dict[str, list[dict[str, Any]]] = {}
+        for sec in sub.covers_section_types or []:
+            via_sections[sec] = [self.kb.short_rule(r) for r in self.kb.rules.values()
+                                 if r.selector.section_types and sec in r.selector.section_types]
+        all_subtype_count = sum(1 for r in self.kb.rules.values() if r.content_sub_type_ids is None)
+        return {
+            "subtype": {"id": sub.id, "name": sub.name, "kind": sub.kind,
+                        "covers_section_types": sub.covers_section_types,
+                        "locked": bool((sub.assembly or {}).get("locked")),
+                        "template_ref": sub.template_ref, "template_file": sub.template_file},
+            "directly_scoped_rules": directly,
+            "rules_via_covered_sections": via_sections,
+            "note": (f"{all_subtype_count} further rules have content_sub_type_ids=null "
+                     "(apply to ALL sub-types); enumerate via query_rules if needed"),
+        }
 
     async def _rules_for_token(self, args: dict[str, Any]) -> Any:
         tid = args["token_id"]
@@ -463,7 +557,8 @@ class ToolRepo:
         S = ToolSpec
         return [
             S("list_dir", "List a directory inside this brand's knowledge base. Root layout: "
-              "schema/, rules/, tokens/, assets/, subtypes/, governance/, groups/, graph/, review/.",
+              "schema/, rules/, tokens/, assets/, subtypes/, governance/, groups/, graph/, "
+              "templates/ (concrete approved template bodies), review/.",
               {"type": "object", "properties": {"path": {"type": "string", "description": "relative path, default '.'"}},
                "required": []}, self._list_dir),
             S("read_file", "Read a file from the KB (relative path). Large files are chunked; "
@@ -496,18 +591,22 @@ class ToolRepo:
             S("query_rules", "Filter the rule index by structured facets. All filters optional and "
               "AND-ed; list values OR within a filter. section_types matches rules targeting those "
               "sections; rules with section_types=null (apply everywhere) are included unless "
-              "include_all_section_rules=false.",
+              "include_all_section_rules=false. content_sub_type_ids matches rules scoped to those "
+              "components/templates; rules with content_sub_type_ids=null (all sub-types) are "
+              "included unless include_all_subtype_rules=false.",
               {"type": "object", "properties": {
                   "rule_class": {"type": "array", "items": {"type": "string"}},
                   "tags": {"type": "array", "items": {"type": "string"}},
                   "section_types": {"type": "array", "items": {"type": "string"}},
+                  "content_sub_type_ids": {"type": "array", "items": {"type": "string"}},
                   "scope": {"type": "array", "items": {"type": "string"},
                             "description": "org_baseline|brand|campaign"},
                   "constraint_type": {"type": "array", "items": {"type": "string"}},
                   "audience": {"type": "array", "items": {"type": "string"}},
                   "hardness": {"type": "array", "items": {"type": "string"}},
                   "evaluation_scope": {"type": "array", "items": {"type": "string"}},
-                  "include_all_section_rules": {"type": "boolean"}},
+                  "include_all_section_rules": {"type": "boolean"},
+                  "include_all_subtype_rules": {"type": "boolean"}},
                "required": []}, self._query_rules),
             S("query_tokens", "Filter the brand_token layer (the value/IF-ELSE layer: every "
               "concrete styling value is a token; semantic tokens bind element paths with "
@@ -529,6 +628,12 @@ class ToolRepo:
               {"type": "object", "properties": {"query": {"type": "string"},
                                                 "k": {"type": "integer", "description": "default 10, max 30"}},
                "required": ["query"]}, self._search_tokens),
+            S("resolve_token", "Flatten a token to concrete values: follows $ref chains "
+              "(semantic -> primitive) and returns resolved default + variants (the "
+              "conditional IF/ELSE) + the resolution chain. Use instead of chained "
+              "get_entity hops when you need the actual values behind a binding.",
+              {"type": "object", "properties": {"token_id": {"type": "string"}},
+               "required": ["token_id"]}, self._resolve_token),
             S("keyword_search", "BM25 lexical search over rule_text+summary+intent. Use for exact "
               "terminology ('border-radius', 'Nunito Sans', 'LPGA', '#01A47E').",
               {"type": "object", "properties": {"query": {"type": "string"},
@@ -544,12 +649,20 @@ class ToolRepo:
                                                 "section_type": {"type": "string"},
                                                 "rule_class": {"type": "string"}},
                "required": ["query"]}, self._vector_search),
-            S("rules_for_section", "Graph lookup: all rules whose selector targets a section type. "
-              "Set include_all_section_rules=true to also list rules that apply to every section "
-              "(email-wide baseline candidates).",
+            S("rules_for_section", "Graph lookup: all rules whose selector targets a section type "
+              "(vocabulary is dynamic per brand — see get_section_vocab), plus which "
+              "components/templates cover the section. Set include_all_section_rules=true to also "
+              "list rules that apply to every section (email-wide baseline candidates).",
               {"type": "object", "properties": {"section_type": {"type": "string"},
                                                 "include_all_section_rules": {"type": "boolean"}},
                "required": ["section_type"]}, self._rules_for_section),
+            S("rules_for_subtype", "Everything that applies to one component/template "
+              "(content_sub_type): rules directly scoped to it via content_sub_type_ids, plus "
+              "rules targeting the section types it covers (covers_section_types), e.g. a header "
+              "template covering [top_matter, hero] surfaces both pools. Subtype ids are in "
+              "subtypes/_index.json.",
+              {"type": "object", "properties": {"subtype_id": {"type": "string"}},
+               "required": ["subtype_id"]}, self._rules_for_subtype),
             S("rules_for_token", "Graph lookup: rules whose effect references a given token.",
               {"type": "object", "properties": {"token_id": {"type": "string"}}, "required": ["token_id"]},
               self._rules_for_token),

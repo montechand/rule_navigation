@@ -85,25 +85,25 @@ Defaults: badge size `W = 80px`, inner icon `48px`. If your real badge is a diff
 
 ### rule_lisraya_icon_callout_box_structure
 - class=layout scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: The Icon Callout Box is a Light Blue (#E6F0F9) single accent-shape box on the section background (usually White #ffffff, section padding 16px 25px), holding a Brand Blue (#00529b) headline in Nunito Sans weight 800 at ~21px/28px, left-aligned and vertically centered to the box. A White (#ffffff) rounded-square icon badge (W=80px, inner Brand Blue-stroke line icon ~48px) straddles the box's left edge so it reads half-on/half-off. Used for supporting 'proof point' statements (dosing convenience, time-to-effect, etc.). Copy must never slide under the badge.
-- intent: Define the branded proof-point callout with its overhanging badge treatment.
+- rule_text: The Icon Callout Box is a Light Blue (#E6F0F9) accent-shape box holding a short Brand Blue (#00529b) headline in Nunito Sans weight 800 at ~21px/28px, left-aligned and vertically centered to the box, sitting on the section background (usually White #ffffff). A White (#ffffff) rounded-square icon badge holding a Brand-Blue-stroke line icon straddles the box's left edge (half-on/half-off). Used for supporting 'proof point' statements (dosing convenience, time-to-effect, etc.). Copy must never slide under the badge, so left padding must clear the overhanging badge half plus a gap (~W/2 + 24px).
+- intent: Define the branded proof-point icon callout device with its fills, text, and badge.
 
 ### rule_lisraya_icon_callout_badge_geometry
 - class=layout scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: Geometry: let W = badge width (default 80px, inner icon ~48px). Inset the blue box from the left by W/2 (=40px), and place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper) — distance from badge center to box edge must be 0 (perpendicular bisector, 50% over blue / 50% over background). Vertically center via top:50% + margin-top:-40px (half the badge height). Box left-padding must clear the overhanging badge half plus a gap (~W/2 + 24px = 64px). If badge size changes, keep the relationships: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the bisector stays exact.
-- intent: Lock the exact 50/50 badge-on-edge geometry that makes the treatment read correctly.
+- rule_text: Geometry: let W = badge width (default 80px, inner icon ~48px). Inset the blue box from the left by W/2 (=40px) and place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper -> badge center 40px = box edge); distance from badge center to box edge must be 0, producing a perpendicular-bisector 50/50 split (50% over blue, 50% over background). Vertically center both text and badge to the box via top:50% + margin-top:-40px (half badge height). When scaling to any other badge size, keep the relationships: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the bisector stays exact.
+- intent: Lock the exact half-on/half-off badge overhang math so the treatment reproduces precisely at any scale.
 
-### rule_lisraya_icon_callout_corner_radius
-- class=layout scope=brand hardness=hard_constraint polarity=must_not sections=['callout'] constraint=binding
-- rule_text: Corner radius is mandatory and never changes: box border-radius: 40px 8px 40px 8px (TL TR BR BL) — large on top-left + bottom-right, near-point on top-right + bottom-left, a 5:1 ratio. The white badge mirrors the same accent shape at smaller scale, border-radius: 20px 4px 20px 4px (also 5:1, large TL+BR). Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.
-- intent: Preserve the signature asymmetric 5:1 accent-shape corners on box and badge.
+### rule_lisraya_icon_callout_accent_radius
+- class=iconography scope=brand hardness=hard_constraint polarity=must_not sections=['callout'] constraint=binding
+- rule_text: Corner radius is mandatory and never changes: box border-radius is 40px 8px 40px 8px in TL TR BR BL order — large on top-left + bottom-right, near-point on top-right + bottom-left, a 5:1 ratio. The white badge mirrors the same accent shape at smaller scale, border-radius 20px 4px 20px 4px (also 5:1, large TL+BR). Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.
+- intent: Preserve the signature asymmetric accent-shape radii that visually tie box and badge to the brand.
 
-### rule_lisraya_icon_callout_badge_drop_shadow
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: The white icon badge must carry a subtle drop shadow so it lifts off the blue box — e.g. box-shadow: 0 4px 10px rgba(1,30,69,0.18) (Dark Navy at low opacity). This shadow is required on every instance; without it the badge looks flat and pasted-on.
-- intent: Ensure the badge appears lifted off the box, not flat/pasted-on.
+### rule_lisraya_icon_callout_badge_shadow
+- class=iconography scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
+- rule_text: The white icon badge must carry a subtle drop shadow so it lifts off the blue box — box-shadow: 0 4px 10px rgba(1,30,69,0.18) (Dark Navy at low opacity). This shadow is required on every instance; without it the badge looks flat and pasted-on.
+- intent: Ensure the badge reads as elevated above the box on every instance.
 
-### rule_lisraya_icon_callout_email_fallback
-- class=accessibility scope=brand hardness=soft_guidance polarity=should sections=['callout'] constraint=None
-- rule_text: The 50/50 overhang relies on position:absolute, which Apple Mail/iOS/most web clients honor but Outlook (desktop, Word engine) ignores — there the badge drops to the top-left in normal flow and the box won't be inset. For pixel-perfect fidelity across all clients, the brand-safe option is to pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG placed via the same absolute positioning, or bake the entire badge-on-edge treatment into the box's background image while keeping the text live. When that's not feasible, ship the live version and accept the Outlook degrade (badge flush at the inner-left edge); every other rule (Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow) stays identical.
-- intent: Provide brand-safe rendering options given Outlook's lack of absolute-positioning support.
+### rule_lisraya_icon_callout_outlook_fallback
+- class=assembly scope=brand hardness=soft_guidance polarity=should sections=['callout'] constraint=None
+- rule_text: The 50/50 overhang relies on position:absolute, which Apple Mail/iOS/most web clients honor but Outlook desktop (Word engine) ignores — there the badge drops to top-left in normal flow and the box won't be inset. For pixel-perfect fidelity across all clients, pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG placed via the same absolute positioning, or bake the badge-on-edge treatment into the box's background image while keeping the text live. When that's not feasible, ship the live version and accept the Outlook degrade (badge flush at the inner-left edge) — every other rule (Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow) stays identical.
+- intent: Provide a brand-safe rendering path for clients that don't support absolute positioning.

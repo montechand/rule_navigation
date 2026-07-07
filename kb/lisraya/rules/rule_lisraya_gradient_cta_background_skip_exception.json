@@ -1,0 +1,51 @@
+{
+  "id": "rule_lisraya_gradient_cta_background_skip_exception",
+  "brand_id": "lisraya",
+  "rule_class": "cta",
+  "tags": [
+    "assembly",
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_gradient_callout_cta"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "gradient_cta.background"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "gradient_cta.background.fallback",
+        "token_id": "tok_lisraya_gradient_cta_background_fallback"
+      }
+    ]
+  },
+  "polarity": "may",
+  "hardness": "strong_default",
+  "precedence": 1,
+  "token_ids": [
+    "tok_lisraya_gradient_cta_background_fallback"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_gradient_callout_asset_lock"
+  ],
+  "rule_text": "The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, remove only background-url, background-size, background-repeat, and background-position; the section still renders on the solid Sunshine #faa31b fill and every other rule \u2014 headline color, button color, and button radius \u2014 stays identical.",
+  "intent": "Define the narrow exception for omitting the gradient image without weakening the rest of the spec.",
+  "snippets": "keep background-color=\"#faa31b\" and the headline color, button color, and button radius exactly as above.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_lisraya_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Rule (cta): Background image skipped only in rare cases; remove background-url/size/repeat/position only, keep Sunshine #faa31b fill, headline/button color, and button radius unchanged."
+}

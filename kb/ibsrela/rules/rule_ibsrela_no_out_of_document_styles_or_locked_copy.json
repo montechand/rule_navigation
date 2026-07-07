@@ -5,20 +5,23 @@
   "tags": [
     "typography",
     "color_application",
-    "iconography"
+    "iconography",
+    "voice_tone"
   ],
   "content_types": [
     "email"
   ],
   "scope": "org_baseline",
-  "selector": {},
-  "evaluation_scope": "email",
+  "selector": {
+    "element_path": "icon.new.style"
+  },
+  "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "icon.line.style",
-        "token_id": "tok_ibsrela_line_icon_style"
+        "element_path": "icon.new.style",
+        "token_id": "tok_ibsrela_new_icon_style"
       }
     ]
   },
@@ -26,20 +29,20 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_line_icon_style"
+    "tok_ibsrela_new_icon_style"
   ],
   "asset_ids": [],
   "governance_ids": [
-    "gov_ibsrela_end_matter_locked",
-    "gov_ibsrela_logo_lockup_in_content",
-    "gov_ibsrela_no_added_sections"
+    "gov_ibsrela_isi_locked",
+    "gov_ibsrela_logo_no_repeat",
+    "gov_ibsrela_no_added_components"
   ],
-  "rule_text": "No section may introduce fonts, colors, button shapes, or icon styles outside this document; any new icons must match the existing line weight and simplified line style. No section reproduces the logo lockup or any ISI/legal copy \u2014 the locked components own these.",
-  "intent": "Confine every section to the sanctioned design system and to locked-component ownership of logo/ISI/legal.",
+  "rule_text": "No section may introduce fonts, colors, button shapes, or icon styles outside this document; any new icons must match the existing simplified line weight and style. No section reproduces the logo lockup or any ISI/legal copy \u2014 the locked components own these.",
+  "intent": "Keep independently built sections within the sanctioned system and prevent duplicating locked/legal assets.",
   "source": "design_bible",
   "doc_ref": "other_rules[1]",
   "group_id": "grp_ibsrela_other_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "No new fonts, colors, button shapes, or icon styles allowed; new icons must match existing line weight/style; no logo lockup or ISI/legal copy reproduction outside locked components."
+  "summary": "No new fonts, colors, button shapes, or icon styles outside doc; new icons match existing simplified line style; no logo lockup or legal copy reproduction."
 }

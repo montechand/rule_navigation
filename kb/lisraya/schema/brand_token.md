@@ -34,5 +34,11 @@ Other attributes:
   content; Avenir Heavy reserved for boxed warning).
 
 Navigation: `query_tokens` (facet filters), `search_tokens` (lexical), `get_entity`
-(full row), `rules_for_token` (which rules bind a token), graph edges `resolves_to`
-(semantic -> primitive) and `derived_from`.
+(full row), `resolve_token` (flattens a semantic token's $ref chain to concrete values,
+variants included — use this instead of hopping get_entity calls), `rules_for_token`
+(which rules bind a token), graph edges `resolves_to` (semantic -> primitive) and
+`derived_from`. token_type is a dynamic registry (extraction may register new types via
+`other.<name>`). Exact duplicates are merged at build time (same type+value+scope; the
+merged names live on in `aliases`); near-duplicates across scopes are kept separate
+deliberately (a campaign color and a global color with the same hex carry different
+gating semantics).

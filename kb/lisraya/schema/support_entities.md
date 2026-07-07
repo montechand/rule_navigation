@@ -2,7 +2,8 @@
 
 ## rule_relation
 Directed edge between rules: `{src_rule_id, dst_rule_id, relation, note}`.
-relation: refines | conflicts | cross_reference | cluster | co_applies.
+relation vocabulary (dynamic registry; extraction proposes genuinely new kinds via
+`other.<name>`, which get registered permanently): refines | conflicts | cross_reference | cluster | co_applies | overrides | mutually_exclusive | depends_on.
 
 ## rule_group
 Provenance blob a rule was atomized from: `{id, source, doc_ref, original_text}`.

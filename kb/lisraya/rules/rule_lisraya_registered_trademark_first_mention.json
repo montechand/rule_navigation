@@ -2,6 +2,9 @@
   "id": "rule_lisraya_registered_trademark_first_mention",
   "brand_id": "lisraya",
   "rule_class": "copy_editorial",
+  "tags": [
+    "voice_tone"
+  ],
   "audience": "dtp_patient",
   "scope": "brand",
   "selector": {},
@@ -20,18 +23,20 @@
   },
   "polarity": "must",
   "hardness": "hard_constraint",
-  "precedence": 5,
+  "precedence": 10,
   "token_ids": [],
   "asset_ids": [],
   "governance_ids": [
+    "gov_lisraya_generic_name_format",
     "gov_lisraya_registered_trademark"
   ],
-  "rule_text": "Include the \u00ae registered trademark symbol only when the generic name is included \u2014 i.e., LISRAYA\u00ae (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat \u00ae on subsequent mentions.",
-  "intent": "Correct, non-redundant trademark symbol placement per legal requirements.",
+  "rule_text": "Include the \u00ae registered trademark symbol only when the generic name is included \u2014 i.e., LISRAYA\u00ae (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat \u00ae on subsequent mentions. Generic name format: lowercase, in parentheses: (brepocitinib).",
+  "intent": "Correct, non-redundant trademark and generic-name presentation.",
+  "snippets": "LISRAYA\u00ae (brepocitinib)",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[0]",
   "group_id": "grp_lisraya_content_pattern_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Apply \u00ae only with generic name on first prominent mention in external-facing docs; do not repeat on subsequent mentions (e.g., LISRAYA\u00ae (brepocitinib))."
+  "summary": "Include \u00ae only on first prominent mention with generic name lowercase in parentheses (brepocitinib) in external docs; do not repeat \u00ae thereafter."
 }

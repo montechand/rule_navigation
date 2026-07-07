@@ -1,0 +1,68 @@
+{
+  "id": "rule_ibsrela_symptom_trio_icon_composition",
+  "brand_id": "ibsrela",
+  "rule_class": "iconography",
+  "tags": [
+    "imagery",
+    "layout"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_primary_2col"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "symptom_trio"
+    ],
+    "element_path": "symptom_trio.icon.style"
+  },
+  "applies_when": [
+    {
+      "kind": "content_tag",
+      "value": "ibs_c_symptoms_reference"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "symptom_trio.icon.style",
+        "token_id": "tok_ibsrela_symptom_trio_icon_style"
+      },
+      {
+        "element_path": "symptom_trio.label.color",
+        "token_id": "tok_ibsrela_symptom_trio_label_color"
+      },
+      {
+        "element_path": "symptom_trio.icon.order",
+        "token_id": "tok_ibsrela_symptom_trio_order"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_symptom_trio_icon_style",
+    "tok_ibsrela_symptom_trio_label_color",
+    "tok_ibsrela_symptom_trio_order"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_symptom_terminology",
+    "gov_ibsrela_symptom_trio_integrity"
+  ],
+  "rule_text": "When referencing the three IBS-C symptoms together, use the approved icon trio: Constipation, Belly Pain, Bloating displayed left-to-right in that order, each as a circular green-tinted icon (symptom_trio.icon.style) with the symptom label beneath in navy #262262 (symptom_trio.label.color). Icon order is fixed per symptom_trio.icon.order.",
+  "intent": "Preserve the approved, MLR-locked symptom representation so the three symptoms read consistently.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_ibsrela_design_pattern_rules_03",
+  "status": "active",
+  "version": 1,
+  "summary": "Use fixed left-to-right green circular icons for IBS-C symptoms Constipation, Belly Pain, Bloating with navy #262262 labels beneath."
+}

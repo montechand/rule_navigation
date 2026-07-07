@@ -14,14 +14,9 @@ doc_ref: `color_scheme_rules[2]`
 
 ````
 
-## Extracted rules (2)
+## Extracted rules (1)
 
 ### rule_lisraya_approved_tints_only
 - class=color_application scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
-- rule_text: No other ad-hoc tints are permitted — use palette values or these specified tints only: campaign headline 'D'/'M' letters at ≈40% tint of the headline color (Gold or Brand Blue colorway) via campaign_headline.dm_letters.tint; Light Blue callout box at 70% tint (data_callout.box.opacity); Golden Sand callout box at 30% tint (text_callout.box.opacity); wave top layers at 70% transparency (wave.top_layer.opacity).
-- intent: Prevent unauthorized tint values that dilute brand color consistency.
-
-### rule_lisraya_specified_tint_bindings
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: Approved tints: campaign headline 'D' and 'M' letters use ≈40% tint of the headline color (Gold or Brand Blue colorway); the Light Blue callout box uses a 70% tint; the Golden Sand callout box uses a 30% tint; wave top layers use 70% transparency.
-- intent: Bind each specified tint to its canonical token value.
+- rule_text: No ad-hoc tints are permitted. Only full palette values or the specified tint values may be used: the campaign headline 'D' and 'M' letters at ≈40% tint of the headline color (Gold or Brand Blue colorway) (tok_lisraya_campaign_headline_letter_tint), the Light Blue callout box at 70% tint (tok_lisraya_opacity_light_blue_callout_70), the Golden Sand callout box at 30% tint (tok_lisraya_opacity_golden_sand_callout_30), and wave top layers at 70% transparency (tok_lisraya_opacity_wave_top_70).
+- intent: Prevent inconsistent, off-palette transparency by restricting tints to a fixed approved set.

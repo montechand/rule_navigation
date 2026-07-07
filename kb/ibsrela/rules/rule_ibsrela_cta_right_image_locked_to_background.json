@@ -9,35 +9,42 @@
   "content_types": [
     "email"
   ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_primary_2col"
+  ],
   "scope": "brand",
   "selector": {
     "section_types": [
       "cta"
     ],
-    "element_path": "cta.image.asset"
+    "element_path": "cta.right_image.asset"
   },
   "evaluation_scope": "section",
   "constraint_type": "pairing",
   "effect": {
-    "a": "agr_ibsrela_cta_right_images",
-    "b": "cta.section.background",
+    "a": "ast_ibsrela_email_primary_2_column",
+    "b": "tok_ibsrela_color_purple",
     "relation": "requires"
   },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 0,
-  "token_ids": [],
-  "asset_ids": [],
-  "governance_ids": [
-    "gov_ibsrela_cta_image_locked_backgrounds"
+  "token_ids": [
+    "tok_ibsrela_color_purple"
   ],
-  "rule_text": "The CTA section may carry an image on the right side; there are three approved options and each is locked to a specific CTA section background color \u2014 they are not interchangeable. Pick the image by the email's content, then set the CTA background to that image's required color: Email_Primary_2_column.png (ast_ibsrela_email_primary_2_column, default/general) \u2192 Purple #92278F; Email_Primary_column_golf.png (ast_ibsrela_email_primary_column_golf, LPGA only) \u2192 Teal #0F99BC; Cake_lockup.png (ast_ibsrela_cake_lockup, general alternate) \u2192 Periwinkle #7B7BED. Do not place Email_Primary_2_column.png on a teal background and do not place Email_Primary_column_golf.png on a purple or any non-teal background. Swap variants by changing both the background-color and image src together. All three backgrounds are in the dark group, so the section always uses white heading/body, white button fill, and green label.",
-  "intent": "Prevent mismatched CTA image/background pairings that break the locked visual system.",
-  "snippets": "<!-- Background MUST match the chosen image: Purple #92278F -> Email_Primary_2_column.png -->\n<mj-section background-color=\"#92278F\" padding=\"40px 24px\"> ... <mj-image src=\".../Email_Primary_2_column.png\" /> </mj-section>",
+  "asset_ids": [
+    "ast_ibsrela_email_primary_2_column"
+  ],
+  "governance_ids": [
+    "gov_ibsrela_cta_image_pairing"
+  ],
+  "rule_text": "The CTA section may carry a right-side image. There are three approved image options, each LOCKED to a specific CTA section background color \u2014 they are not interchangeable: Email_Primary_2_column.png (default/general CTA) requires Purple #92278F; Cake_lockup.png (alternate general CTA) requires Periwinkle #7B7BED; Email_Primary_column_golf.png requires Teal #0F99BC. Pick the image based on content, then set the CTA background to that image's required color. Do not place Email_Primary_2_column.png on teal, and do not place the golf image on purple or any non-teal background. Because all three approved backgrounds are in the dark group, the section always uses white heading, white body, white button fill, and green label. Swap variants by changing both the background-color and the image src together.",
+  "intent": "Preserve approved, MLR-locked image/background pairings so CTA imagery is never mismatched to its background.",
+  "snippets": "<!-- Background MUST match the chosen image: Purple #92278F -> Email_Primary_2_column.png -->\n<mj-section background-color=\"#92278F\" padding=\"40px 24px\">",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[5]",
   "group_id": "grp_ibsrela_color_scheme_rules_05",
   "status": "active",
   "version": 1,
-  "summary": "CTA imagery locked to background color: Email_Primary_2_column.png with Purple #92278F, Email_Primary_column_golf.png with Teal #0F99BC, Cake_lockup.png with Periwinkle #7B7BED; always dark background with white text/button, green label."
+  "summary": "CTA right-image must match background color: Email_Primary_2_column.png=Purple #92278F, Cake_lockup.png=Periwinkle #7B7BED, Email_Primary_column_golf.png=Teal #0F99BC; use white text/buttons and green label."
 }

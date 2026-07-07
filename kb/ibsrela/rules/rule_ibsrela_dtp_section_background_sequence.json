@@ -4,24 +4,33 @@
   "rule_class": "layout",
   "tags": [
     "color_application",
-    "imagery"
+    "assembly"
   ],
   "audience": "dtp_patient",
   "content_types": [
     "email"
   ],
   "scope": "brand",
-  "selector": {},
+  "selector": {
+    "section_types": [
+      "hero",
+      "efficacy",
+      "patient_story",
+      "affordability",
+      "symptom_trio",
+      "end_matter"
+    ]
+  },
   "evaluation_scope": "email",
   "constraint_type": "ordering",
   "effect": {
     "sequence": [
-      "dtp.hero.treatment",
-      "white_content_section",
-      "dtp.lifestyle_section.treatment",
-      "green_accent_panel",
-      "because_ibsrela_can_campaign_section",
-      "end_matter"
+      "purple hero image",
+      "white content section (efficacy + side-effect bullets)",
+      "white or light photo section (patient story / lifestyle)",
+      "green accent panel (affordability or symptom-icon trio)",
+      "purple campaign image section (BECAUSE IBSRELA CAN lockup)",
+      "locked End Matter"
     ],
     "strict": true
   },
@@ -31,12 +40,12 @@
   "token_ids": [],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "DTP emails alternate section backgrounds in a fixed rhythm: purple hero image \u2192 white content section (efficacy + side-effect bullets) \u2192 white or light photo section (patient story / lifestyle) \u2192 green accent panel (#01A47E, used for affordability or symptom-icon trio) \u2192 purple campaign image section ('BECAUSE IBSRELA CAN' lockup) \u2192 locked End Matter.",
-  "intent": "Enforce the fixed background rhythm that gives DTP emails a coherent visual flow.",
+  "rule_text": "DTP emails alternate section backgrounds in a fixed rhythm: purple hero image \u2192 white content section (efficacy + side-effect bullets) \u2192 white or light photo section (patient story / lifestyle) \u2192 green accent panel (#01A47E, used for affordability or the symptom-icon trio) \u2192 purple campaign image section ('BECAUSE IBSRELA CAN' lockup) \u2192 locked End Matter.",
+  "intent": "Enforce the recognizable DTP background rhythm across the email.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[4]",
   "group_id": "grp_ibsrela_color_scheme_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "DTP email layout alternates backgrounds: purple hero \u2192 white content (efficacy+side-effects) \u2192 white/light photo (story/lifestyle) \u2192 green #01A47E accent (affordability/icons) \u2192 purple campaign image \u2192 locked End Matter."
+  "summary": "DTP emails cycle backgrounds: purple hero \u2192 white content \u2192 white/light photo \u2192 green #01A47E accent panel \u2192 purple campaign image \u2192 locked End Matter."
 }

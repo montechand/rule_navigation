@@ -1,0 +1,49 @@
+{
+  "id": "rule_ibsrela_key_question_callout_style",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "layout"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.key_question.border"
+  },
+  "applies_when": [
+    {
+      "kind": "content_tag",
+      "value": "key_strategic_question"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "tok_ibsrela_callout_key_question_border",
+    "reserved_for": "key strategic question callouts (e.g. 'DO YOU WANT TO TRY SOMETHING DIFFERENT?')"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_callout_key_question_border"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_one_wave_one_question"
+  ],
+  "rule_text": "The rounded-rectangle callout with white outline and transparent fill (callout.key_question.border) is reserved for key strategic questions, e.g. the 'DO YOU WANT TO TRY SOMETHING DIFFERENT?' ask.",
+  "intent": "Reserve the white-outline callout device for the single key strategic question.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[2]",
+  "group_id": "grp_ibsrela_design_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Use rounded-rectangle callout with white outline, transparent fill (callout.key_question.border) exclusively for key strategic questions like 'DO YOU WANT TO TRY SOMETHING DIFFERENT?'."
+}

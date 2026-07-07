@@ -16,7 +16,7 @@
     ],
     "element_path": "cta.button.fill"
   },
-  "evaluation_scope": "element",
+  "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
@@ -27,6 +27,14 @@
       {
         "element_path": "cta.button.label.color",
         "token_id": "tok_ibsrela_cta_button_label_color"
+      },
+      {
+        "element_path": "h1.color",
+        "token_id": "tok_ibsrela_h1_color"
+      },
+      {
+        "element_path": "body.color",
+        "token_id": "tok_ibsrela_body_color"
       }
     ]
   },
@@ -34,18 +42,20 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
+    "tok_ibsrela_body_color",
     "tok_ibsrela_cta_button_fill",
-    "tok_ibsrela_cta_button_label_color"
+    "tok_ibsrela_cta_button_label_color",
+    "tok_ibsrela_h1_color"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "The CTA button flips between the two background groups: on light backgrounds (White, Silver) use the green filled button (cta.button.fill = #01A47E) with a white label (cta.button.label.color = #FFFFFF); on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) use the white filled button (#FFFFFF) with a green label (#01A47E). One-line: light background \u2192 green button / white label; dark background \u2192 white button / green label. The light/dark variant switching is carried on the semantic tokens.",
-  "intent": "Guarantee legible, on-brand CTA button contrast that inverts with the section background group.",
-  "snippets": "<!-- Dark background -> WHITE button fill, GREEN label -->\n<mj-button background-color=\"#FFFFFF\" color=\"#01A47E\" ...>Get started</mj-button>",
+  "rule_text": "The system reduces to two background groups: light (White, Silver) and dark (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle), and CTA styling flips between them. On light backgrounds use the green filled button (#01A47E) with a white label (#FFFFFF); on dark backgrounds use the white filled button (#FFFFFF) with a green label (#01A47E). Heading and body colors follow the same group switching (Dark Blue heading / black body on light; white heading and body on dark). Background-group value switching lives on the bound semantic tokens (cta.button.fill, cta.button.label.color, h1.color, body.color).",
+  "intent": "Ensure CTA button and text colors always contrast correctly by flipping as a set with the section's light/dark background group.",
+  "snippets": "<!-- Dark background -> WHITE button fill, GREEN label -->\n<mj-button background-color=\"#FFFFFF\" color=\"#01A47E\" ... >",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[5]",
   "group_id": "grp_ibsrela_color_scheme_rules_05",
   "status": "active",
   "version": 1,
-  "summary": "CTA button uses green fill (#01A47E) with white label on light backgrounds (White, Silver); white fill with green label on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle)."
+  "summary": "Use light backgrounds (White, Silver) with green (#01A47E) filled CTA and white label; dark backgrounds (Dark Gray, Purple, etc.) with white filled CTA and green label; headings/body colors also switch accordingly."
 }

@@ -1,0 +1,49 @@
+{
+  "id": "rule_ibsrela_cta_image_free_when_section_above",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "tags": [
+    "cta",
+    "imagery"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_primary_2col"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.right_image.asset"
+  },
+  "applies_when": [
+    {
+      "kind": "adjacent_section_state",
+      "value": {
+        "above": "populated_content_section"
+      }
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_cta_image_pairing"
+  ],
+  "rule_text": "When a populated content section sits directly above the CTA, run the CTA image-free (text + button only): skip the right-side image and place the CTA on an approved background from the lookup table. On a light background (e.g. Silver) the button flips to green fill with a white label per the background-group rule.",
+  "intent": "Avoid image redundancy/crowding when the CTA follows an already-populated section.",
+  "snippets": "<!-- CTA SECTION: image-free variant (use when a populated section is directly above) -->\n<mj-section background-color=\"#CFDCE3\" padding=\"40px 24px\">",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "If content section is directly above CTA, show CTA text+button only, no right image, use approved background; on light backgrounds (e.g. Silver), button is green fill with white label."
+}

@@ -1,0 +1,44 @@
+{
+  "id": "rule_ibsrela_flip_script_scene_color_pairings_fixed",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "imagery"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.scene_banner.color"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "pairing",
+  "effect": {
+    "a": "callout.scene_banner.color",
+    "b": "scene",
+    "relation": "requires"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_scene_color_pairings"
+  ],
+  "rule_text": "Flip The Script scene-color pairings are fixed and may not be used interchangeably: Periwinkle \u2192 Office, Purple \u2192 Cafe, Green \u2192 Soccer. The scene-banner color (callout.scene_banner.color) must match the paired scene.",
+  "intent": "Preserve fixed campaign color-to-scene associations.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_ibsrela_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Flip The Script scene-banner colors must match fixed pairings: Periwinkle\u2192Office, Purple\u2192Cafe, Green\u2192Soccer; no interchange of scene-color pairs allowed."
+}

@@ -1,0 +1,62 @@
+{
+  "id": "tok_lisraya_accent_shape_radius",
+  "brand_id": "lisraya",
+  "token_type": "radius",
+  "kind": "semantic",
+  "key": "accent_shape.radius",
+  "value": {
+    "default": {
+      "$ref": "tok_lisraya_radius_accent_large_email"
+    },
+    "variants": [
+      {
+        "when": {
+          "surface": "print"
+        },
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_large_print"
+        }
+      },
+      {
+        "when": {
+          "content_tag": "banner"
+        },
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_banner_email"
+        }
+      },
+      {
+        "when": {
+          "content_tag": "banner_print"
+        },
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_banner_print"
+        }
+      },
+      {
+        "when": {
+          "content_tag": "callout"
+        },
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_callout_email"
+        }
+      },
+      {
+        "when": {
+          "content_tag": "callout_print"
+        },
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_callout_print"
+        }
+      }
+    ]
+  },
+  "element_paths": [
+    "accent_shape.radius"
+  ],
+  "aliases": [],
+  "scope": "global",
+  "notes": "Accent shape: large radius one diagonal, 6px the other; default large TL & BR.",
+  "status": "active",
+  "version": 1
+}

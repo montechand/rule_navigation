@@ -2,12 +2,15 @@
   "id": "rule_lisraya_email_type_scale",
   "brand_id": "lisraya",
   "rule_class": "typography",
+  "tags": [
+    "accessibility"
+  ],
   "content_types": [
     "email"
   ],
   "scope": "org_baseline",
   "selector": {},
-  "evaluation_scope": "element",
+  "evaluation_scope": "email",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
@@ -46,18 +49,13 @@
       {
         "element_path": "footnote.type_scale",
         "token_id": "tok_lisraya_footnote_type_scale"
-      },
-      {
-        "element_path": "body.size",
-        "token_id": "tok_lisraya_body_size"
       }
     ]
   },
   "polarity": "must",
-  "hardness": "hard_constraint",
+  "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_body_size",
     "tok_lisraya_body_type_scale",
     "tok_lisraya_footnote_type_scale",
     "tok_lisraya_h1_type_scale",
@@ -70,12 +68,12 @@
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "[GENERAL] Email type scale: H1 (section hero headline) 28px/36px Nunito Sans ExtraBold or Bold; H2 (section heading) 22px/30px Bold; H3 (subhead) 18px/26px Bold or SemiBold; Body 16px/24px Regular \u2014 16px is the brand-mandated minimum for body copy ('bigger is better'); Secondary/supporting body 14px/21px Regular \u2014 use sparingly, never for primary content; Footnote/reference text 12px/18px \u2014 must be noticeably smaller than primary data and clearly separated from it. Never set running text below 12px (ISI sizing owned by the locked component).",
-  "intent": "Lock the email type scale and enforce a 16px body minimum with a 12px hard floor.",
+  "rule_text": "[GENERAL] Email type scale: H1 section hero headline 28px/36px Nunito Sans ExtraBold or Bold; H2 section heading 22px/30px Nunito Sans Bold; H3 subhead 18px/26px Nunito Sans Bold or SemiBold; Body 16px/24px Nunito Sans Regular; Secondary/supporting body 14px/21px Nunito Sans Regular (use sparingly, never for primary content); Footnote/reference text within a section 12px/18px, must be noticeably smaller than primary data and clearly separated from it.",
+  "intent": "Standardize the email typographic scale and weights across all sections.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[1]",
   "group_id": "grp_lisraya_content_pattern_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "Email typography: H1 28px/36px Nunito Sans ExtraBold/Bold; H2 22px/30px Bold; H3 18px/26px Bold/SemiBold; Body 16px/24px Regular (min); Secondary 14px/21px sparing; Footnote 12px/18px small & separate."
+  "summary": "Typography email type scale: H1 28px/36px Nunito Sans ExtraBold/Bold; H2 22px/30px Bold; H3 18px/26px Bold/SemiBold; Body 16px/24px Regular; Secondary 14px/21px Regular sparingly; Footnote 12px/18px smaller, separated."
 }

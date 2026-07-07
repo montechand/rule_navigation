@@ -39,11 +39,12 @@
     "element_paths": null,
     "variants_by": null,
     "aliases": [
-      "White",
       "Pantone Safe White",
-      "Safe White"
+      "Safe White",
+      "White",
+      "color.link.dark_panel"
     ],
-    "gated": false,
+    "gated": true,
     "scope": null
   },
   {
@@ -84,7 +85,7 @@
     "variants_by": null,
     "aliases": [
       "Green",
-      "Teal (label)"
+      "Teal label"
     ],
     "gated": false,
     "scope": null
@@ -135,7 +136,7 @@
   {
     "id": "tok_ibsrela_gradient_dark_blue_purple",
     "kind": "primitive",
-    "key": "gradient.primary.dark_blue_purple",
+    "key": "gradient.primary.dark_blue_to_purple",
     "type": "gradient",
     "default": "linear-gradient(45deg, #262262 0%, #92278F 100%)",
     "element_paths": null,
@@ -149,7 +150,7 @@
   {
     "id": "tok_ibsrela_gradient_silver_white",
     "kind": "primitive",
-    "key": "gradient.light.silver_white",
+    "key": "gradient.primary.silver_to_white",
     "type": "gradient",
     "default": "linear-gradient(45deg, #CFDCE3 0%, #FFFFFF 100%)",
     "element_paths": null,
@@ -161,10 +162,10 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_other_gradient_angle",
+    "id": "tok_ibsrela_motion_gradient_angle",
     "kind": "primitive",
-    "key": "gradient.angle.ideal",
-    "type": "other",
+    "key": "gradient.setting.angle_45",
+    "type": "gradient_angle",
     "default": "45deg",
     "element_paths": null,
     "variants_by": null,
@@ -173,7 +174,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_opacity_callout_periwinkle_80",
+    "id": "tok_ibsrela_opacity_periwinkle_80",
     "kind": "primitive",
     "key": "opacity.callout.periwinkle_80",
     "type": "opacity",
@@ -185,7 +186,7 @@
     "scope": "campaign:flip_the_script"
   },
   {
-    "id": "tok_ibsrela_opacity_callout_purple_60",
+    "id": "tok_ibsrela_opacity_purple_60",
     "kind": "primitive",
     "key": "opacity.callout.purple_60",
     "type": "opacity",
@@ -197,7 +198,7 @@
     "scope": "campaign:flip_the_script"
   },
   {
-    "id": "tok_ibsrela_opacity_callout_green_40",
+    "id": "tok_ibsrela_opacity_green_40",
     "kind": "primitive",
     "key": "opacity.callout.green_40",
     "type": "opacity",
@@ -221,9 +222,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_opacity_flip_on_ibsc_50",
+    "id": "tok_ibsrela_opacity_on_ibsc_50",
     "kind": "primitive",
-    "key": "opacity.lockup.on_ibsc_50",
+    "key": "opacity.campaign.on_ibsc_50",
     "type": "opacity",
     "default": 0.5,
     "element_paths": null,
@@ -235,7 +236,7 @@
   {
     "id": "tok_ibsrela_opacity_swoosh_100",
     "kind": "primitive",
-    "key": "opacity.lockup.swoosh_100",
+    "key": "opacity.campaign.swoosh_100",
     "type": "opacity",
     "default": 1.0,
     "element_paths": null,
@@ -355,23 +356,45 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_weight_regular",
+    "id": "tok_ibsrela_case_title",
     "kind": "primitive",
-    "key": "weight.email.regular",
-    "type": "weight",
-    "default": "400",
+    "key": "case.headline.title_case",
+    "type": "case",
+    "default": "title_case",
     "element_paths": null,
     "variants_by": null,
-    "aliases": [
-      "Arial Regular"
-    ],
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_case_sentence",
+    "kind": "primitive",
+    "key": "case.body.sentence_case",
+    "type": "case",
+    "default": "sentence_case",
+    "element_paths": null,
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_case_all_caps",
+    "kind": "primitive",
+    "key": "case.callout.all_caps",
+    "type": "case",
+    "default": "all_caps",
+    "element_paths": null,
+    "variants_by": null,
+    "aliases": [],
     "gated": false,
     "scope": null
   },
   {
     "id": "tok_ibsrela_type_scale_h1",
     "kind": "primitive",
-    "key": "type_scale.headline.h1",
+    "key": "type_scale.h1.main_headline",
     "type": "type_scale",
     "default": "24px",
     "element_paths": null,
@@ -385,7 +408,7 @@
   {
     "id": "tok_ibsrela_type_scale_h2",
     "kind": "primitive",
-    "key": "type_scale.headline.h2",
+    "key": "type_scale.h2.secondary_headline",
     "type": "type_scale",
     "default": "16px",
     "element_paths": null,
@@ -399,13 +422,11 @@
   {
     "id": "tok_ibsrela_type_scale_body",
     "kind": "primitive",
-    "key": "type_scale.body.default",
+    "key": "type_scale.body.copy",
     "type": "type_scale",
     "default": "16px",
     "element_paths": null,
-    "variants_by": [
-      "breakpoint"
-    ],
+    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
@@ -417,37 +438,21 @@
     "type": "type_scale",
     "default": "14px",
     "element_paths": null,
-    "variants_by": [
-      "breakpoint"
+    "variants_by": null,
+    "aliases": [
+      "type_scale.isi.subheads"
     ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_type_scale_isi_subheads",
-    "kind": "primitive",
-    "key": "type_scale.isi.subheads",
-    "type": "type_scale",
-    "default": "14px",
-    "element_paths": null,
-    "variants_by": [
-      "breakpoint"
-    ],
-    "aliases": [],
     "gated": false,
     "scope": null
   },
   {
     "id": "tok_ibsrela_type_scale_isi_iri",
     "kind": "primitive",
-    "key": "type_scale.isi.important_risk_info",
+    "key": "type_scale.isi.important_risk_information",
     "type": "type_scale",
     "default": "15px",
     "element_paths": null,
-    "variants_by": [
-      "breakpoint"
-    ],
+    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
@@ -459,9 +464,7 @@
     "type": "type_scale",
     "default": "13px",
     "element_paths": null,
-    "variants_by": [
-      "breakpoint"
-    ],
+    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
@@ -481,36 +484,22 @@
   {
     "id": "tok_ibsrela_type_scale_footnotes",
     "kind": "primitive",
-    "key": "type_scale.footnotes.default",
+    "key": "type_scale.footnotes.references",
     "type": "type_scale",
     "default": "11px",
     "element_paths": null,
-    "variants_by": [
-      "breakpoint"
+    "variants_by": null,
+    "aliases": [
+      "type_scale.footer.legal"
     ],
-    "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_type_scale_footer_legal",
+    "id": "tok_ibsrela_type_scale_min_livetext",
     "kind": "primitive",
-    "key": "type_scale.footer.legal",
+    "key": "type_scale.min.live_text",
     "type": "type_scale",
-    "default": "11px",
-    "element_paths": null,
-    "variants_by": [
-      "breakpoint"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_size_min_livetext",
-    "kind": "primitive",
-    "key": "size.min.live_text",
-    "type": "size",
     "default": "10px",
     "element_paths": null,
     "variants_by": null,
@@ -519,19 +508,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_size_min_body",
-    "kind": "primitive",
-    "key": "size.min.body",
-    "type": "size",
-    "default": "12px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_type_scale_cta_mjml_28",
+    "id": "tok_ibsrela_type_scale_cta_heading_28",
     "kind": "primitive",
     "key": "type_scale.cta.heading_28",
     "type": "type_scale",
@@ -543,7 +520,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_type_scale_cta_mjml_26",
+    "id": "tok_ibsrela_type_scale_cta_heading_26",
     "kind": "primitive",
     "key": "type_scale.cta.heading_26",
     "type": "type_scale",
@@ -555,21 +532,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_type_scale_cta_mjml_16",
-    "kind": "primitive",
-    "key": "type_scale.cta.body_16",
-    "type": "type_scale",
-    "default": "16px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
     "id": "tok_ibsrela_line_height_125",
     "kind": "primitive",
-    "key": "line_height.headline.125",
+    "key": "line_height.headline.1_25",
     "type": "line_height",
     "default": 1.25,
     "element_paths": null,
@@ -581,7 +546,7 @@
   {
     "id": "tok_ibsrela_line_height_15",
     "kind": "primitive",
-    "key": "line_height.body.15",
+    "key": "line_height.body.1_5",
     "type": "line_height",
     "default": 1.5,
     "element_paths": null,
@@ -593,7 +558,7 @@
   {
     "id": "tok_ibsrela_line_height_12",
     "kind": "primitive",
-    "key": "line_height.cta.12",
+    "key": "line_height.cta.1_2",
     "type": "line_height",
     "default": 1.2,
     "element_paths": null,
@@ -605,7 +570,7 @@
   {
     "id": "tok_ibsrela_line_height_14",
     "kind": "primitive",
-    "key": "line_height.isi.14",
+    "key": "line_height.isi.1_4",
     "type": "line_height",
     "default": 1.4,
     "element_paths": null,
@@ -629,7 +594,7 @@
   {
     "id": "tok_ibsrela_letter_spacing_caps_05",
     "kind": "primitive",
-    "key": "letter_spacing.caps.plus_half",
+    "key": "letter_spacing.caps.plus_0_5",
     "type": "letter_spacing",
     "default": "+0.5px",
     "element_paths": null,
@@ -639,71 +604,11 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_case_headline_title",
+    "id": "tok_ibsrela_alignment_left",
     "kind": "primitive",
-    "key": "case.headline.title_case",
-    "type": "case",
-    "default": "title_case",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_case_subhead_sentence",
-    "kind": "primitive",
-    "key": "case.subhead.sentence_case",
-    "type": "case",
-    "default": "sentence_case",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_case_isi_subheads_caps",
-    "kind": "primitive",
-    "key": "case.isi.all_caps",
-    "type": "case",
-    "default": "all_caps",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_case_campaign_caps",
-    "kind": "primitive",
-    "key": "case.campaign.all_caps",
-    "type": "case",
-    "default": "all_caps",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_case_campaign_body_title",
-    "kind": "primitive",
-    "key": "case.campaign.body_title_case",
-    "type": "case",
-    "default": "title_case",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_case_dtp_cta_sentence",
-    "kind": "primitive",
-    "key": "case.dtp_cta.sentence_case",
-    "type": "case",
-    "default": "sentence_case",
+    "key": "alignment.text.left",
+    "type": "alignment",
+    "default": "left",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -713,28 +618,30 @@
   {
     "id": "tok_ibsrela_spacing_base_unit",
     "kind": "primitive",
-    "key": "spacing.base.unit_8",
+    "key": "spacing.base.8pt",
     "type": "spacing",
     "default": "8px",
     "element_paths": null,
     "variants_by": null,
     "aliases": [
-      "8-pt system"
+      "spacing.rhythm.headline_to_subhead"
     ],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_padding_side_desktop",
+    "id": "tok_ibsrela_padding_container_side",
     "kind": "primitive",
-    "key": "padding.container.side_desktop",
+    "key": "padding.container.side",
     "type": "padding",
     "default": "24px",
     "element_paths": null,
     "variants_by": [
       "breakpoint"
     ],
-    "aliases": [],
+    "aliases": [
+      "side gutter"
+    ],
     "gated": false,
     "scope": null
   },
@@ -753,9 +660,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_spacing_two_col_gutter",
+    "id": "tok_ibsrela_padding_two_column_gutter",
     "kind": "primitive",
-    "key": "spacing.grid.two_col_gutter",
+    "key": "spacing.gutter.two_column",
     "type": "spacing",
     "default": "24px",
     "element_paths": null,
@@ -779,26 +686,32 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_padding_inset_card",
+    "id": "tok_ibsrela_spacing_subhead_body",
     "kind": "primitive",
-    "key": "padding.inset_card.internal",
-    "type": "padding",
-    "default": "24px",
+    "key": "spacing.rhythm.subhead_to_body",
+    "type": "spacing",
+    "default": "12px",
     "element_paths": null,
     "variants_by": null,
-    "aliases": [],
+    "aliases": [
+      "spacing.boundary.fullbleed_to_section",
+      "spacing.rhythm.between_body_paragraphs",
+      "spacing.rhythm.headline_to_body"
+    ],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_spacing_image_text_gap",
+    "id": "tok_ibsrela_spacing_body_cta",
     "kind": "primitive",
-    "key": "spacing.gap.image_to_text",
+    "key": "spacing.rhythm.body_to_cta",
     "type": "spacing",
     "default": "16px",
     "element_paths": null,
     "variants_by": null,
-    "aliases": [],
+    "aliases": [
+      "spacing.gap.image_to_text"
+    ],
     "gated": false,
     "scope": null
   },
@@ -827,9 +740,21 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_padding_mjml_cta",
+    "id": "tok_ibsrela_padding_inset_card",
     "kind": "primitive",
-    "key": "padding.section.mjml_cta",
+    "key": "padding.card.inset_callout",
+    "type": "padding",
+    "default": "24px",
+    "element_paths": null,
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_padding_cta_mjml",
+    "kind": "primitive",
+    "key": "padding.cta.section_mjml",
     "type": "padding",
     "default": "40px 24px",
     "element_paths": null,
@@ -851,67 +776,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_spacing_headline_subhead",
-    "kind": "primitive",
-    "key": "spacing.rhythm.headline_to_subhead",
-    "type": "spacing",
-    "default": "8px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_spacing_subhead_body",
-    "kind": "primitive",
-    "key": "spacing.rhythm.subhead_to_body",
-    "type": "spacing",
-    "default": "12px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_spacing_headline_body",
-    "kind": "primitive",
-    "key": "spacing.rhythm.headline_to_body",
-    "type": "spacing",
-    "default": "12px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_spacing_body_paragraphs",
-    "kind": "primitive",
-    "key": "spacing.rhythm.between_body_paragraphs",
-    "type": "spacing",
-    "default": "12px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_spacing_body_cta",
-    "kind": "primitive",
-    "key": "spacing.rhythm.body_to_cta",
-    "type": "spacing",
-    "default": "16px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_spacing_boundary_editorial",
+    "id": "tok_ibsrela_spacing_gap_editorial_editorial",
     "kind": "primitive",
     "key": "spacing.boundary.editorial_editorial",
     "type": "spacing",
@@ -923,9 +788,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_spacing_boundary_editorial_dark",
+    "id": "tok_ibsrela_spacing_gap_editorial_dark",
     "kind": "primitive",
-    "key": "spacing.boundary.editorial_dark",
+    "key": "spacing.boundary.editorial_dark_feature",
     "type": "spacing",
     "default": "36px",
     "element_paths": null,
@@ -935,23 +800,11 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_spacing_boundary_dark_dark",
+    "id": "tok_ibsrela_spacing_gap_dark_dark",
     "kind": "primitive",
     "key": "spacing.boundary.dark_dark",
     "type": "spacing",
     "default": "48px",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_spacing_boundary_fullbleed",
-    "kind": "primitive",
-    "key": "spacing.boundary.fullbleed_to_section",
-    "type": "spacing",
-    "default": "12px",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -966,23 +819,19 @@
     "default": "600px",
     "element_paths": null,
     "variants_by": null,
-    "aliases": [
-      "Desktop email width"
-    ],
+    "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_breakpoint_mobile_375",
+    "id": "tok_ibsrela_dimension_mobile_width",
     "kind": "primitive",
     "key": "breakpoint.email.mobile_375",
     "type": "breakpoint",
     "default": "375px",
     "element_paths": null,
     "variants_by": null,
-    "aliases": [
-      "Mobile email width"
-    ],
+    "aliases": [],
     "gated": false,
     "scope": null
   },
@@ -1013,7 +862,7 @@
   {
     "id": "tok_ibsrela_dimension_half_column",
     "kind": "primitive",
-    "key": "dimension.grid.half_column",
+    "key": "dimension.grid.half_width_column",
     "type": "dimension",
     "default": "264px",
     "element_paths": null,
@@ -1023,91 +872,49 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_other_grid_12col",
+    "id": "tok_ibsrela_dimension_primary_1col",
     "kind": "primitive",
-    "key": "other.grid.columns_12",
-    "type": "other",
-    "default": 12,
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_dimension_primary_1col_desktop",
-    "kind": "primitive",
-    "key": "dimension.component.primary_1col_desktop",
+    "key": "dimension.component.primary_1col",
     "type": "dimension",
     "default": "600x1138",
     "element_paths": null,
-    "variants_by": null,
+    "variants_by": [
+      "breakpoint"
+    ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_dimension_primary_1col_mobile",
+    "id": "tok_ibsrela_dimension_primary_2col",
     "kind": "primitive",
-    "key": "dimension.component.primary_1col_mobile",
-    "type": "dimension",
-    "default": "375x788",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_dimension_primary_2col_desktop",
-    "kind": "primitive",
-    "key": "dimension.component.primary_2col_desktop",
+    "key": "dimension.component.primary_2col",
     "type": "dimension",
     "default": "600x1088",
     "element_paths": null,
-    "variants_by": null,
+    "variants_by": [
+      "breakpoint"
+    ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_dimension_primary_2col_mobile",
+    "id": "tok_ibsrela_dimension_secondary",
     "kind": "primitive",
-    "key": "dimension.component.primary_2col_mobile",
-    "type": "dimension",
-    "default": "375x1538",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_dimension_secondary_desktop",
-    "kind": "primitive",
-    "key": "dimension.component.secondary_desktop",
+    "key": "dimension.component.secondary",
     "type": "dimension",
     "default": "600x458",
     "element_paths": null,
-    "variants_by": null,
+    "variants_by": [
+      "breakpoint"
+    ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_dimension_secondary_mobile",
-    "kind": "primitive",
-    "key": "dimension.component.secondary_mobile",
-    "type": "dimension",
-    "default": "375x1363",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_size_tap_target_min",
+    "id": "tok_ibsrela_size_tap_target",
     "kind": "primitive",
     "key": "size.min.tap_target",
     "type": "size",
@@ -1119,9 +926,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_dimension_col_58",
+    "id": "tok_ibsrela_dimension_cta_left_column",
     "kind": "primitive",
-    "key": "dimension.cta.column_left_58",
+    "key": "dimension.cta.left_column_width",
     "type": "dimension",
     "default": "58%",
     "element_paths": null,
@@ -1131,9 +938,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_dimension_col_42",
+    "id": "tok_ibsrela_dimension_cta_right_column",
     "kind": "primitive",
-    "key": "dimension.cta.column_right_42",
+    "key": "dimension.cta.right_column_width",
     "type": "dimension",
     "default": "42%",
     "element_paths": null,
@@ -1143,7 +950,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_radius_button_pill",
+    "id": "tok_ibsrela_radius_pill",
     "kind": "primitive",
     "key": "radius.button.pill",
     "type": "radius",
@@ -1157,9 +964,9 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_radius_inset_card",
+    "id": "tok_ibsrela_radius_card_12",
     "kind": "primitive",
-    "key": "radius.inset_card.default",
+    "key": "radius.card.inset_12",
     "type": "radius",
     "default": "12px",
     "element_paths": null,
@@ -1169,11 +976,11 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_ratio_palette_primary",
+    "id": "tok_ibsrela_border_callout_white_outline",
     "kind": "primitive",
-    "key": "ratio.palette.primary_usage",
-    "type": "ratio",
-    "default": "30/30/20/15/15/5",
+    "key": "border.callout.white_outline",
+    "type": "border",
+    "default": "white outline, transparent fill",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -1181,7 +988,19 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_ratio_campaign_palette",
+    "id": "tok_ibsrela_ratio_palette_usage",
+    "kind": "primitive",
+    "key": "ratio.palette.branded_usage",
+    "type": "ratio",
+    "default": "30/30/20/15/5",
+    "element_paths": null,
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_ratio_campaign_usage",
     "kind": "primitive",
     "key": "ratio.palette.campaign_usage",
     "type": "ratio",
@@ -1207,7 +1026,7 @@
   {
     "id": "tok_ibsrela_ratio_contrast_headline",
     "kind": "primitive",
-    "key": "ratio.contrast.large_bold_headline",
+    "key": "ratio.contrast.large_headline",
     "type": "ratio",
     "default": "3:1",
     "element_paths": null,
@@ -1217,59 +1036,11 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_alignment_text_left",
-    "kind": "primitive",
-    "key": "alignment.text.left",
-    "type": "alignment",
-    "default": "left",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_alignment_cta_button_left",
-    "kind": "primitive",
-    "key": "alignment.cta.button_left",
-    "type": "alignment",
-    "default": "left",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_alignment_image_right",
-    "kind": "primitive",
-    "key": "alignment.cta.image_right",
-    "type": "alignment",
-    "default": "right",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_border_callout_white_outline",
-    "kind": "primitive",
-    "key": "border.callout.white_outline",
-    "type": "border",
-    "default": "white outline, transparent fill",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
     "id": "tok_ibsrela_icon_style_line",
     "kind": "primitive",
-    "key": "icon_style.line.simplified",
+    "key": "icon_style.brand.simplified_line",
     "type": "icon_style",
-    "default": "simplified line icons matching existing line weight",
+    "default": "simplified line style matching existing weight",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -1277,11 +1048,11 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_icon_style_circular_green",
+    "id": "tok_ibsrela_icon_style_symptom_trio",
     "kind": "primitive",
-    "key": "icon_style.symptom.circular_green_tinted",
+    "key": "icon_style.dtp.symptom_trio_circular_green",
     "type": "icon_style",
-    "default": "circular green-tinted icon with navy label beneath",
+    "default": "circular green-tinted icon with navy label",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -1289,11 +1060,11 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_image_treatment_purple_hero",
+    "id": "tok_ibsrela_image_treatment_full_bleed_hero",
     "kind": "primitive",
-    "key": "image_treatment.dtp.purple_hero",
+    "key": "image_treatment.hero.full_bleed",
     "type": "image_treatment",
-    "default": "purple hero image",
+    "default": "full-bleed photographic hero",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -1301,37 +1072,26 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_image_treatment_lifestyle",
+    "id": "tok_ibsrela_other_wave_edge",
     "kind": "primitive",
-    "key": "image_treatment.dtp.patient_lifestyle",
-    "type": "image_treatment",
-    "default": "white or light photo section (patient story / lifestyle)",
-    "element_paths": null,
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_motion_wave_edge",
-    "kind": "primitive",
-    "key": "other.transition.wave_edge",
-    "type": "other",
-    "default": "wave edge transition between sections",
+    "key": "other.decorative.wave_edge",
+    "type": "wave_edge",
+    "default": "wave graphic edge",
     "element_paths": null,
     "variants_by": null,
     "aliases": [
-      "Wave graphic"
+      "Wave graphic",
+      "swirl"
     ],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_other_cta_max_per_email",
+    "id": "tok_ibsrela_text_decoration_link_underline",
     "kind": "primitive",
-    "key": "other.cta.max_per_email",
-    "type": "other",
-    "default": 3,
+    "key": "text_decoration.link.underline",
+    "type": "text_decoration",
+    "default": "underline",
     "element_paths": null,
     "variants_by": null,
     "aliases": [],
@@ -1339,14 +1099,16 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_other_green_panel_max",
+    "id": "tok_ibsrela_text_style_italic_journal",
     "kind": "primitive",
-    "key": "other.dtp.green_panel_max_per_email",
-    "type": "other",
-    "default": 1,
+    "key": "text_style.reference.italic",
+    "type": "text_style",
+    "default": "italic",
     "element_paths": null,
     "variants_by": null,
-    "aliases": [],
+    "aliases": [
+      "Arial Italic"
+    ],
     "gated": false,
     "scope": null
   },
@@ -1367,16 +1129,16 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_headline_color",
+    "id": "tok_ibsrela_h1_color",
     "kind": "semantic",
-    "key": "headline.color",
+    "key": "h1.color",
     "type": "color",
     "default": {
       "$ref": "tok_ibsrela_color_dark_blue"
     },
     "element_paths": [
-      "headline.color",
-      "h1.color"
+      "h1.color",
+      "headline.color"
     ],
     "variants_by": [
       "background_group"
@@ -1386,16 +1148,16 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_subhead_color",
+    "id": "tok_ibsrela_h2_color",
     "kind": "semantic",
-    "key": "subhead.color",
+    "key": "h2.color",
     "type": "color",
     "default": {
       "$ref": "tok_ibsrela_color_dark_blue"
     },
     "element_paths": [
-      "subhead.color",
-      "h2.color"
+      "h2.color",
+      "subhead.color"
     ],
     "variants_by": [
       "background_group"
@@ -1439,15 +1201,15 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_isi_body_color",
+    "id": "tok_ibsrela_body_highlight_weight",
     "kind": "semantic",
-    "key": "isi.body.color",
-    "type": "color",
+    "key": "body.highlight.weight",
+    "type": "weight",
     "default": {
-      "$ref": "tok_ibsrela_color_black"
+      "$ref": "tok_ibsrela_weight_bold"
     },
     "element_paths": [
-      "isi.body.color"
+      "body.highlight.weight"
     ],
     "variants_by": null,
     "aliases": [],
@@ -1476,8 +1238,10 @@
     "id": "tok_ibsrela_body_link_decoration",
     "kind": "semantic",
     "key": "body.link.decoration",
-    "type": "other",
-    "default": "underline",
+    "type": "text_decoration",
+    "default": {
+      "$ref": "tok_ibsrela_text_decoration_link_underline"
+    },
     "element_paths": [
       "body.link.decoration"
     ],
@@ -1528,7 +1292,7 @@
     "key": "cta.button.radius",
     "type": "radius",
     "default": {
-      "$ref": "tok_ibsrela_radius_button_pill"
+      "$ref": "tok_ibsrela_radius_pill"
     },
     "element_paths": [
       "cta.button.radius"
@@ -1557,41 +1321,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_cta_button_label_case",
-    "kind": "semantic",
-    "key": "cta.button.label.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_campaign_caps"
-    },
-    "element_paths": [
-      "cta.button.label.case"
-    ],
-    "variants_by": [
-      "audience"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_cta_button_alignment",
-    "kind": "semantic",
-    "key": "cta.button.align",
-    "type": "alignment",
-    "default": {
-      "$ref": "tok_ibsrela_alignment_cta_button_left"
-    },
-    "element_paths": [
-      "cta.button.align"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_cta_label_size",
+    "id": "tok_ibsrela_cta_button_label_size",
     "kind": "semantic",
     "key": "cta.button.label.size",
     "type": "type_scale",
@@ -1607,7 +1337,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_cta_label_line_height",
+    "id": "tok_ibsrela_cta_button_label_line_height",
     "kind": "semantic",
     "key": "cta.button.label.line_height",
     "type": "line_height",
@@ -1623,15 +1353,31 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_cta_button_min_tap",
+    "id": "tok_ibsrela_cta_button_label_weight",
     "kind": "semantic",
-    "key": "cta.button.min_tap_target",
-    "type": "size",
+    "key": "cta.button.label.weight",
+    "type": "weight",
     "default": {
-      "$ref": "tok_ibsrela_size_tap_target_min"
+      "$ref": "tok_ibsrela_weight_bold"
     },
     "element_paths": [
-      "cta.button.min_tap_target"
+      "cta.button.label.weight"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_cta_button_alignment",
+    "kind": "semantic",
+    "key": "cta.button.alignment",
+    "type": "alignment",
+    "default": {
+      "$ref": "tok_ibsrela_alignment_left"
+    },
+    "element_paths": [
+      "cta.button.alignment"
     ],
     "variants_by": null,
     "aliases": [],
@@ -1650,90 +1396,8 @@
       "cta.section.background"
     ],
     "variants_by": [
-      "campaign",
       "content_tag"
     ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_cta_image_side",
-    "kind": "semantic",
-    "key": "cta.image.side",
-    "type": "alignment",
-    "default": {
-      "$ref": "tok_ibsrela_alignment_image_right"
-    },
-    "element_paths": [
-      "cta.image.align"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_cta_image_asset",
-    "kind": "semantic",
-    "key": "cta.image.asset",
-    "type": "image_treatment",
-    "default": "Email_Primary_2_column.png",
-    "element_paths": [
-      "cta.image.asset"
-    ],
-    "variants_by": [
-      "campaign",
-      "content_tag"
-    ],
-    "aliases": [],
-    "gated": true,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_cta_teal_background_gated",
-    "kind": "semantic",
-    "key": "cta.section.background.teal",
-    "type": "color",
-    "default": {
-      "$ref": "tok_ibsrela_color_teal"
-    },
-    "element_paths": [
-      "cta.section.background.teal"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": true,
-    "scope": "campaign:lpga"
-  },
-  {
-    "id": "tok_ibsrela_cta_column_left",
-    "kind": "semantic",
-    "key": "cta.column.left.width",
-    "type": "dimension",
-    "default": {
-      "$ref": "tok_ibsrela_dimension_col_58"
-    },
-    "element_paths": [
-      "cta.column.left.width"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_cta_column_right",
-    "kind": "semantic",
-    "key": "cta.column.right.width",
-    "type": "dimension",
-    "default": {
-      "$ref": "tok_ibsrela_dimension_col_42"
-    },
-    "element_paths": [
-      "cta.column.right.width"
-    ],
-    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
@@ -1744,10 +1408,42 @@
     "key": "cta.section.padding",
     "type": "padding",
     "default": {
-      "$ref": "tok_ibsrela_padding_mjml_cta"
+      "$ref": "tok_ibsrela_padding_cta_mjml"
     },
     "element_paths": [
       "cta.section.padding"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_cta_left_column_width",
+    "kind": "semantic",
+    "key": "cta.left_column.width",
+    "type": "dimension",
+    "default": {
+      "$ref": "tok_ibsrela_dimension_cta_left_column"
+    },
+    "element_paths": [
+      "cta.left_column.width"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_cta_right_column_width",
+    "kind": "semantic",
+    "key": "cta.right_column.width",
+    "type": "dimension",
+    "default": {
+      "$ref": "tok_ibsrela_dimension_cta_right_column"
+    },
+    "element_paths": [
+      "cta.right_column.width"
     ],
     "variants_by": null,
     "aliases": [],
@@ -1760,49 +1456,47 @@
     "key": "cta.heading.size",
     "type": "type_scale",
     "default": {
-      "$ref": "tok_ibsrela_type_scale_cta_mjml_28"
+      "$ref": "tok_ibsrela_type_scale_cta_heading_28"
     },
     "element_paths": [
       "cta.heading.size"
     ],
     "variants_by": [
-      "adjacent_section_state"
+      "content_tag"
     ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_cta_body_size",
+    "id": "tok_ibsrela_cta_right_image",
     "kind": "semantic",
-    "key": "cta.body.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_cta_mjml_16"
-    },
+    "key": "cta.right_image.asset",
+    "type": "image_treatment",
+    "default": "Email_Primary_2_column.png",
     "element_paths": [
-      "cta.body.size"
+      "cta.right_image.asset"
     ],
-    "variants_by": null,
+    "variants_by": [
+      "content_tag"
+    ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_cta_max_per_email",
+    "id": "tok_ibsrela_cta_golf_image_gated",
     "kind": "semantic",
-    "key": "cta.max_per_email",
-    "type": "other",
-    "default": {
-      "$ref": "tok_ibsrela_other_cta_max_per_email"
-    },
+    "key": "cta.right_image.golf",
+    "type": "image_treatment",
+    "default": "Email_Primary_column_golf.png",
     "element_paths": [
-      "cta.max_per_email"
+      "cta.right_image.golf"
     ],
     "variants_by": null,
     "aliases": [],
-    "gated": false,
-    "scope": null
+    "gated": true,
+    "scope": "campaign:lpga"
   },
   {
     "id": "tok_ibsrela_headline_font",
@@ -1815,7 +1509,7 @@
     "element_paths": [
       "headline.font",
       "body.font",
-      "title.font"
+      "isi.font"
     ],
     "variants_by": [
       "surface"
@@ -1825,15 +1519,14 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_headline_weight",
+    "id": "tok_ibsrela_h1_weight",
     "kind": "semantic",
-    "key": "headline.weight",
+    "key": "h1.weight",
     "type": "weight",
     "default": {
       "$ref": "tok_ibsrela_weight_avenir_black"
     },
     "element_paths": [
-      "headline.weight",
       "h1.weight"
     ],
     "variants_by": [
@@ -1844,203 +1537,20 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_subhead_weight",
+    "id": "tok_ibsrela_h1_case",
     "kind": "semantic",
-    "key": "subhead.weight",
-    "type": "weight",
-    "default": {
-      "$ref": "tok_ibsrela_weight_avenir_black"
-    },
-    "element_paths": [
-      "subhead.weight",
-      "h2.weight"
-    ],
-    "variants_by": [
-      "surface"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_body_weight",
-    "kind": "semantic",
-    "key": "body.weight",
-    "type": "weight",
-    "default": {
-      "$ref": "tok_ibsrela_weight_avenir_roman"
-    },
-    "element_paths": [
-      "body.weight"
-    ],
-    "variants_by": [
-      "surface"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_boxed_warning_weight",
-    "kind": "semantic",
-    "key": "isi.boxed_warning.weight",
-    "type": "weight",
-    "default": {
-      "$ref": "tok_ibsrela_weight_avenir_heavy"
-    },
-    "element_paths": [
-      "isi.boxed_warning.weight"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": true,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_subhead_weight",
-    "kind": "semantic",
-    "key": "isi.subhead.weight",
-    "type": "weight",
-    "default": {
-      "$ref": "tok_ibsrela_weight_avenir_black"
-    },
-    "element_paths": [
-      "isi.subhead.weight"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_footnote_weight",
-    "kind": "semantic",
-    "key": "footnote.weight",
-    "type": "weight",
-    "default": {
-      "$ref": "tok_ibsrela_weight_avenir_book"
-    },
-    "element_paths": [
-      "footnote.weight"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_headline_case",
-    "kind": "semantic",
-    "key": "headline.case",
+    "key": "h1.case",
     "type": "case",
     "default": {
-      "$ref": "tok_ibsrela_case_headline_title"
+      "$ref": "tok_ibsrela_case_title"
     },
     "element_paths": [
-      "headline.case",
       "h1.case"
     ],
     "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
-  },
-  {
-    "id": "tok_ibsrela_subhead_case",
-    "kind": "semantic",
-    "key": "subhead.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_subhead_sentence"
-    },
-    "element_paths": [
-      "subhead.case",
-      "h2.case"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_body_case",
-    "kind": "semantic",
-    "key": "body.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_subhead_sentence"
-    },
-    "element_paths": [
-      "body.case"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_subhead_case",
-    "kind": "semantic",
-    "key": "isi.subhead.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_isi_subheads_caps"
-    },
-    "element_paths": [
-      "isi.subhead.case"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_callout_case",
-    "kind": "semantic",
-    "key": "callout.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_campaign_caps"
-    },
-    "element_paths": [
-      "callout.case"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_campaign_headline_case",
-    "kind": "semantic",
-    "key": "campaign.headline.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_campaign_caps"
-    },
-    "element_paths": [
-      "campaign.headline.case"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_campaign_bodyname_case",
-    "kind": "semantic",
-    "key": "campaign.body_name.case",
-    "type": "case",
-    "default": {
-      "$ref": "tok_ibsrela_case_campaign_body_title"
-    },
-    "element_paths": [
-      "campaign.body_name.case"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
   },
   {
     "id": "tok_ibsrela_h1_size",
@@ -2051,159 +1561,11 @@
       "$ref": "tok_ibsrela_type_scale_h1"
     },
     "element_paths": [
-      "h1.size",
-      "headline.size"
+      "h1.size"
     ],
     "variants_by": [
       "breakpoint"
     ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_h2_size",
-    "kind": "semantic",
-    "key": "h2.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_h2"
-    },
-    "element_paths": [
-      "h2.size",
-      "subhead.size"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_body_size",
-    "kind": "semantic",
-    "key": "body.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_body"
-    },
-    "element_paths": [
-      "body.size"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_subheads_size",
-    "kind": "semantic",
-    "key": "isi.subheads.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_isi_subheads"
-    },
-    "element_paths": [
-      "isi.subheads.size"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_iri_size",
-    "kind": "semantic",
-    "key": "isi.important_risk_info.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_isi_iri"
-    },
-    "element_paths": [
-      "isi.important_risk_info.size"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_body_size",
-    "kind": "semantic",
-    "key": "isi.body.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_isi_body"
-    },
-    "element_paths": [
-      "isi.body.size"
-    ],
-    "variants_by": [
-      "position_in_email"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_footnote_size",
-    "kind": "semantic",
-    "key": "footnote.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_footnotes"
-    },
-    "element_paths": [
-      "footnote.size"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_footer_legal_size",
-    "kind": "semantic",
-    "key": "footer.legal.size",
-    "type": "type_scale",
-    "default": {
-      "$ref": "tok_ibsrela_type_scale_footer_legal"
-    },
-    "element_paths": [
-      "footer.legal.size"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_min_live_text_size",
-    "kind": "semantic",
-    "key": "text.min.live_text",
-    "type": "size",
-    "default": {
-      "$ref": "tok_ibsrela_size_min_livetext"
-    },
-    "element_paths": [
-      "text.min.live_text"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_min_body_size",
-    "kind": "semantic",
-    "key": "text.min.body",
-    "type": "size",
-    "default": {
-      "$ref": "tok_ibsrela_size_min_body"
-    },
-    "element_paths": [
-      "text.min.body"
-    ],
-    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
@@ -2217,8 +1579,57 @@
       "$ref": "tok_ibsrela_line_height_125"
     },
     "element_paths": [
-      "h1.line_height",
-      "headline.line_height"
+      "h1.line_height"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_h2_weight",
+    "kind": "semantic",
+    "key": "h2.weight",
+    "type": "weight",
+    "default": {
+      "$ref": "tok_ibsrela_weight_avenir_black"
+    },
+    "element_paths": [
+      "h2.weight"
+    ],
+    "variants_by": [
+      "surface"
+    ],
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_h2_case",
+    "kind": "semantic",
+    "key": "h2.case",
+    "type": "case",
+    "default": {
+      "$ref": "tok_ibsrela_case_sentence"
+    },
+    "element_paths": [
+      "h2.case"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_h2_size",
+    "kind": "semantic",
+    "key": "h2.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_h2"
+    },
+    "element_paths": [
+      "h2.size"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2242,6 +1653,56 @@
     "scope": null
   },
   {
+    "id": "tok_ibsrela_body_weight",
+    "kind": "semantic",
+    "key": "body.weight",
+    "type": "weight",
+    "default": {
+      "$ref": "tok_ibsrela_weight_avenir_roman"
+    },
+    "element_paths": [
+      "body.weight"
+    ],
+    "variants_by": [
+      "surface"
+    ],
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_body_case",
+    "kind": "semantic",
+    "key": "body.case",
+    "type": "case",
+    "default": {
+      "$ref": "tok_ibsrela_case_sentence"
+    },
+    "element_paths": [
+      "body.case"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_body_size",
+    "kind": "semantic",
+    "key": "body.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_body"
+    },
+    "element_paths": [
+      "body.size"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
     "id": "tok_ibsrela_body_line_height",
     "kind": "semantic",
     "key": "body.line_height",
@@ -2251,22 +1712,6 @@
     },
     "element_paths": [
       "body.line_height"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_isi_line_height",
-    "kind": "semantic",
-    "key": "isi.line_height",
-    "type": "line_height",
-    "default": {
-      "$ref": "tok_ibsrela_line_height_14"
-    },
-    "element_paths": [
-      "isi.line_height"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2290,16 +1735,18 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_caps_letter_spacing",
+    "id": "tok_ibsrela_body_alignment",
     "kind": "semantic",
-    "key": "callout.caps.letter_spacing",
-    "type": "letter_spacing",
+    "key": "body.alignment",
+    "type": "alignment",
     "default": {
-      "$ref": "tok_ibsrela_letter_spacing_caps_05"
+      "$ref": "tok_ibsrela_alignment_left"
     },
     "element_paths": [
-      "callout.caps.letter_spacing",
-      "cta.caps.letter_spacing"
+      "body.alignment",
+      "title.alignment",
+      "h1.alignment",
+      "h2.alignment"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2307,26 +1754,254 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_section_padding_sides",
+    "id": "tok_ibsrela_callout_case",
     "kind": "semantic",
-    "key": "section.padding.sides",
-    "type": "padding",
+    "key": "callout.case",
+    "type": "case",
     "default": {
-      "$ref": "tok_ibsrela_padding_side_desktop"
+      "$ref": "tok_ibsrela_case_all_caps"
     },
     "element_paths": [
-      "section.padding.left",
-      "section.padding.right"
+      "callout.case",
+      "cta.label.campaign.case"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_caps_letter_spacing",
+    "kind": "semantic",
+    "key": "callout.letter_spacing",
+    "type": "letter_spacing",
+    "default": {
+      "$ref": "tok_ibsrela_letter_spacing_caps_05"
+    },
+    "element_paths": [
+      "callout.letter_spacing"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_isi_subheads_size",
+    "kind": "semantic",
+    "key": "isi.subheads.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_cta_label"
+    },
+    "element_paths": [
+      "isi.subheads.size"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_isi_subheads_case",
+    "kind": "semantic",
+    "key": "isi.subheads.case",
+    "type": "case",
+    "default": {
+      "$ref": "tok_ibsrela_case_all_caps"
+    },
+    "element_paths": [
+      "isi.subheads.case"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_isi_iri_size",
+    "kind": "semantic",
+    "key": "isi.important_risk_information.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_isi_iri"
+    },
+    "element_paths": [
+      "isi.important_risk_information.size"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_isi_body_size",
+    "kind": "semantic",
+    "key": "isi.body.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_isi_body"
+    },
+    "element_paths": [
+      "isi.body.size"
     ],
     "variants_by": [
-      "breakpoint"
+      "content_tag"
     ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_section_padding_vertical",
+    "id": "tok_ibsrela_isi_body_weight",
+    "kind": "semantic",
+    "key": "isi.body.weight",
+    "type": "weight",
+    "default": {
+      "$ref": "tok_ibsrela_weight_avenir_roman"
+    },
+    "element_paths": [
+      "isi.body.weight"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_isi_boxed_warning_weight",
+    "kind": "semantic",
+    "key": "isi.boxed_warning.weight",
+    "type": "weight",
+    "default": {
+      "$ref": "tok_ibsrela_weight_avenir_heavy"
+    },
+    "element_paths": [
+      "isi.boxed_warning.weight"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": true,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_isi_line_height",
+    "kind": "semantic",
+    "key": "isi.line_height",
+    "type": "line_height",
+    "default": {
+      "$ref": "tok_ibsrela_line_height_14"
+    },
+    "element_paths": [
+      "isi.line_height"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_footnotes_size",
+    "kind": "semantic",
+    "key": "footnote.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_footnotes"
+    },
+    "element_paths": [
+      "footnote.size"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_footnotes_weight",
+    "kind": "semantic",
+    "key": "footnote.weight",
+    "type": "weight",
+    "default": {
+      "$ref": "tok_ibsrela_weight_avenir_book"
+    },
+    "element_paths": [
+      "footnote.weight"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_footer_legal_size",
+    "kind": "semantic",
+    "key": "footer.legal.size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_footnotes"
+    },
+    "element_paths": [
+      "footer.legal.size"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_min_live_text_size",
+    "kind": "semantic",
+    "key": "text.min.live_text_size",
+    "type": "type_scale",
+    "default": {
+      "$ref": "tok_ibsrela_type_scale_min_livetext"
+    },
+    "element_paths": [
+      "text.min.live_text_size"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_reference_italic",
+    "kind": "semantic",
+    "key": "reference.journal_title.style",
+    "type": "text_style",
+    "default": {
+      "$ref": "tok_ibsrela_text_style_italic_journal"
+    },
+    "element_paths": [
+      "reference.journal_title.style"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_container_side_padding",
+    "kind": "semantic",
+    "key": "section.padding.sides",
+    "type": "padding",
+    "default": {
+      "$ref": "tok_ibsrela_padding_container_side"
+    },
+    "element_paths": [
+      "section.padding.sides"
+    ],
+    "variants_by": [
+      "breakpoint"
+    ],
+    "aliases": [
+      "side gutter"
+    ],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_section_vertical_padding",
     "kind": "semantic",
     "key": "section.padding.vertical",
     "type": "padding",
@@ -2345,51 +2020,17 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_section_padding_editorial",
+    "id": "tok_ibsrela_two_column_gutter",
     "kind": "semantic",
-    "key": "section.padding.editorial",
-    "type": "padding",
-    "default": {
-      "$ref": "tok_ibsrela_padding_editorial_section"
-    },
-    "element_paths": [
-      "section.editorial.padding"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_section_padding_dark_feature",
-    "kind": "semantic",
-    "key": "section.padding.dark_feature",
-    "type": "padding",
-    "default": {
-      "$ref": "tok_ibsrela_padding_dark_feature_section"
-    },
-    "element_paths": [
-      "section.dark_feature.padding"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_two_col_gutter",
-    "kind": "semantic",
-    "key": "grid.two_col.gutter",
+    "key": "section.two_column.gutter",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_two_col_gutter"
+      "$ref": "tok_ibsrela_padding_two_column_gutter"
     },
     "element_paths": [
-      "grid.two_col.gutter"
+      "section.two_column.gutter"
     ],
-    "variants_by": [
-      "breakpoint"
-    ],
+    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
@@ -2397,45 +2038,13 @@
   {
     "id": "tok_ibsrela_card_internal_padding",
     "kind": "semantic",
-    "key": "card.internal.padding",
+    "key": "card.padding.internal",
     "type": "padding",
     "default": {
       "$ref": "tok_ibsrela_padding_card_internal"
     },
     "element_paths": [
-      "card.internal.padding"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_inset_card_padding",
-    "kind": "semantic",
-    "key": "inset_card.internal.padding",
-    "type": "padding",
-    "default": {
-      "$ref": "tok_ibsrela_padding_inset_card"
-    },
-    "element_paths": [
-      "inset_card.internal.padding"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_inset_card_radius",
-    "kind": "semantic",
-    "key": "inset_card.radius",
-    "type": "radius",
-    "default": {
-      "$ref": "tok_ibsrela_radius_inset_card"
-    },
-    "element_paths": [
-      "inset_card.radius"
+      "card.padding.internal"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2448,7 +2057,7 @@
     "key": "image.to_text.gap",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_image_text_gap"
+      "$ref": "tok_ibsrela_spacing_body_cta"
     },
     "element_paths": [
       "image.to_text.gap"
@@ -2464,7 +2073,7 @@
     "key": "rhythm.headline_to_subhead",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_headline_subhead"
+      "$ref": "tok_ibsrela_spacing_base_unit"
     },
     "element_paths": [
       "rhythm.headline_to_subhead"
@@ -2496,7 +2105,7 @@
     "key": "rhythm.headline_to_body",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_headline_body"
+      "$ref": "tok_ibsrela_spacing_subhead_body"
     },
     "element_paths": [
       "rhythm.headline_to_body"
@@ -2512,7 +2121,7 @@
     "key": "rhythm.between_body_paragraphs",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_body_paragraphs"
+      "$ref": "tok_ibsrela_spacing_subhead_body"
     },
     "element_paths": [
       "rhythm.between_body_paragraphs"
@@ -2539,15 +2148,79 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_boundary_editorial_editorial",
+    "id": "tok_ibsrela_editorial_section_padding",
     "kind": "semantic",
-    "key": "boundary.editorial_to_editorial",
-    "type": "spacing",
+    "key": "section.editorial.padding",
+    "type": "padding",
     "default": {
-      "$ref": "tok_ibsrela_spacing_boundary_editorial"
+      "$ref": "tok_ibsrela_padding_editorial_section"
     },
     "element_paths": [
-      "boundary.editorial_editorial"
+      "section.editorial.padding"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_dark_feature_section_padding",
+    "kind": "semantic",
+    "key": "section.dark_feature.padding",
+    "type": "padding",
+    "default": {
+      "$ref": "tok_ibsrela_padding_dark_feature_section"
+    },
+    "element_paths": [
+      "section.dark_feature.padding"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_inset_card_padding",
+    "kind": "semantic",
+    "key": "card.inset_callout.padding",
+    "type": "padding",
+    "default": {
+      "$ref": "tok_ibsrela_padding_inset_card"
+    },
+    "element_paths": [
+      "card.inset_callout.padding"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_inset_card_radius",
+    "kind": "semantic",
+    "key": "card.inset_callout.radius",
+    "type": "radius",
+    "default": {
+      "$ref": "tok_ibsrela_radius_card_12"
+    },
+    "element_paths": [
+      "card.inset_callout.radius"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_boundary_editorial_editorial",
+    "kind": "semantic",
+    "key": "boundary.editorial_editorial.gap",
+    "type": "spacing",
+    "default": {
+      "$ref": "tok_ibsrela_spacing_gap_editorial_editorial"
+    },
+    "element_paths": [
+      "boundary.editorial_editorial.gap"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2557,13 +2230,13 @@
   {
     "id": "tok_ibsrela_boundary_editorial_dark",
     "kind": "semantic",
-    "key": "boundary.editorial_to_dark",
+    "key": "boundary.editorial_dark.gap",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_boundary_editorial_dark"
+      "$ref": "tok_ibsrela_spacing_gap_editorial_dark"
     },
     "element_paths": [
-      "boundary.editorial_dark"
+      "boundary.editorial_dark.gap"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2573,13 +2246,13 @@
   {
     "id": "tok_ibsrela_boundary_dark_dark",
     "kind": "semantic",
-    "key": "boundary.dark_to_dark",
+    "key": "boundary.dark_dark.gap",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_boundary_dark_dark"
+      "$ref": "tok_ibsrela_spacing_gap_dark_dark"
     },
     "element_paths": [
-      "boundary.dark_dark"
+      "boundary.dark_dark.gap"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2587,15 +2260,15 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_boundary_fullbleed",
+    "id": "tok_ibsrela_boundary_fullbleed_section",
     "kind": "semantic",
-    "key": "boundary.fullbleed_to_section",
+    "key": "boundary.fullbleed_to_section.gap",
     "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_spacing_boundary_fullbleed"
+      "$ref": "tok_ibsrela_spacing_subhead_body"
     },
     "element_paths": [
-      "boundary.fullbleed_section"
+      "boundary.fullbleed_to_section.gap"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2603,15 +2276,15 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_email_width_desktop",
+    "id": "tok_ibsrela_email_desktop_width",
     "kind": "semantic",
-    "key": "email.width.desktop",
+    "key": "breakpoint.email.desktop",
     "type": "breakpoint",
     "default": {
       "$ref": "tok_ibsrela_dimension_desktop_width"
     },
     "element_paths": [
-      "email.width.desktop"
+      "breakpoint.email.desktop"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2619,15 +2292,15 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_email_width_mobile",
+    "id": "tok_ibsrela_email_mobile_width",
     "kind": "semantic",
-    "key": "email.width.mobile",
+    "key": "breakpoint.email.mobile",
     "type": "breakpoint",
     "default": {
-      "$ref": "tok_ibsrela_breakpoint_mobile_375"
+      "$ref": "tok_ibsrela_dimension_mobile_width"
     },
     "element_paths": [
-      "email.width.mobile"
+      "breakpoint.email.mobile"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2637,13 +2310,13 @@
   {
     "id": "tok_ibsrela_email_fluid_breakpoint",
     "kind": "semantic",
-    "key": "email.fluid.breakpoint",
+    "key": "breakpoint.email.fluid",
     "type": "breakpoint",
     "default": {
       "$ref": "tok_ibsrela_breakpoint_fluid_480"
     },
     "element_paths": [
-      "email.fluid.breakpoint"
+      "breakpoint.email.fluid"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2683,15 +2356,69 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_grid_columns",
+    "id": "tok_ibsrela_primary_1col_dimension",
     "kind": "semantic",
-    "key": "grid.columns",
-    "type": "other",
+    "key": "component.primary_1col.dimension",
+    "type": "dimension",
     "default": {
-      "$ref": "tok_ibsrela_other_grid_12col"
+      "$ref": "tok_ibsrela_dimension_primary_1col"
     },
     "element_paths": [
-      "grid.columns"
+      "component.primary_1col.dimension"
+    ],
+    "variants_by": [
+      "breakpoint"
+    ],
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_primary_2col_dimension",
+    "kind": "semantic",
+    "key": "component.primary_2col.dimension",
+    "type": "dimension",
+    "default": {
+      "$ref": "tok_ibsrela_dimension_primary_2col"
+    },
+    "element_paths": [
+      "component.primary_2col.dimension"
+    ],
+    "variants_by": [
+      "breakpoint"
+    ],
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_secondary_dimension",
+    "kind": "semantic",
+    "key": "component.secondary.dimension",
+    "type": "dimension",
+    "default": {
+      "$ref": "tok_ibsrela_dimension_secondary"
+    },
+    "element_paths": [
+      "component.secondary.dimension"
+    ],
+    "variants_by": [
+      "breakpoint"
+    ],
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_tap_target_min",
+    "kind": "semantic",
+    "key": "interactive.tap_target.min",
+    "type": "size",
+    "default": {
+      "$ref": "tok_ibsrela_size_tap_target"
+    },
+    "element_paths": [
+      "interactive.tap_target.min"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2699,94 +2426,36 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_primary_1col_dimensions",
+    "id": "tok_ibsrela_base_spacing_unit",
     "kind": "semantic",
-    "key": "component.primary_1col.dimensions",
-    "type": "dimension",
+    "key": "spacing.base.unit",
+    "type": "spacing",
     "default": {
-      "$ref": "tok_ibsrela_dimension_primary_1col_desktop"
+      "$ref": "tok_ibsrela_spacing_base_unit"
     },
     "element_paths": [
-      "component.primary_1col.dimensions"
+      "spacing.base.unit"
     ],
-    "variants_by": [
-      "breakpoint"
-    ],
+    "variants_by": null,
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_primary_2col_dimensions",
+    "id": "tok_ibsrela_section_background_gradient",
     "kind": "semantic",
-    "key": "component.primary_2col.dimensions",
-    "type": "dimension",
-    "default": {
-      "$ref": "tok_ibsrela_dimension_primary_2col_desktop"
-    },
-    "element_paths": [
-      "component.primary_2col.dimensions"
-    ],
-    "variants_by": [
-      "breakpoint"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_secondary_dimensions",
-    "kind": "semantic",
-    "key": "component.secondary.dimensions",
-    "type": "dimension",
-    "default": {
-      "$ref": "tok_ibsrela_dimension_secondary_desktop"
-    },
-    "element_paths": [
-      "component.secondary.dimensions"
-    ],
-    "variants_by": [
-      "breakpoint"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_primary_gradient",
-    "kind": "semantic",
-    "key": "background.primary.gradient",
+    "key": "section.background.gradient",
     "type": "gradient",
     "default": {
       "$ref": "tok_ibsrela_gradient_dark_blue_purple"
     },
     "element_paths": [
-      "background.primary.gradient",
-      "headline.gradient",
-      "callout.gradient"
+      "section.background.gradient"
     ],
-    "variants_by": null,
-    "aliases": [
-      "Dark Blue \u2192 Purple"
+    "variants_by": [
+      "theme"
     ],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_light_gradient",
-    "kind": "semantic",
-    "key": "background.light.gradient",
-    "type": "gradient",
-    "default": {
-      "$ref": "tok_ibsrela_gradient_silver_white"
-    },
-    "element_paths": [
-      "background.light.gradient"
-    ],
-    "variants_by": null,
-    "aliases": [
-      "Silver \u2192 White"
-    ],
+    "aliases": [],
     "gated": false,
     "scope": null
   },
@@ -2794,9 +2463,9 @@
     "id": "tok_ibsrela_gradient_angle",
     "kind": "semantic",
     "key": "gradient.angle",
-    "type": "other",
+    "type": "gradient",
     "default": {
-      "$ref": "tok_ibsrela_other_gradient_angle"
+      "$ref": "tok_ibsrela_motion_gradient_angle"
     },
     "element_paths": [
       "gradient.angle"
@@ -2807,33 +2476,49 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_gradient_email_fallback",
+    "id": "tok_ibsrela_headline_gradient",
     "kind": "semantic",
-    "key": "background.gradient.email_fallback",
-    "type": "color",
+    "key": "headline.gradient",
+    "type": "gradient",
     "default": {
-      "$ref": "tok_ibsrela_color_purple"
+      "$ref": "tok_ibsrela_gradient_dark_blue_purple"
     },
     "element_paths": [
-      "background.gradient.email_fallback"
+      "headline.gradient"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_theme_tile_background",
+    "kind": "semantic",
+    "key": "theme.tile.background",
+    "type": "color",
+    "default": {
+      "$ref": "tok_ibsrela_color_white"
+    },
+    "element_paths": [
+      "theme.tile.background"
     ],
     "variants_by": [
-      "background_token"
+      "theme"
     ],
     "aliases": [],
     "gated": false,
     "scope": null
   },
   {
-    "id": "tok_ibsrela_callout_white_outline",
+    "id": "tok_ibsrela_callout_key_question_border",
     "kind": "semantic",
-    "key": "callout.strategic_question.border",
+    "key": "callout.key_question.border",
     "type": "border",
     "default": {
       "$ref": "tok_ibsrela_border_callout_white_outline"
     },
     "element_paths": [
-      "callout.strategic_question.border"
+      "callout.key_question.border"
     ],
     "variants_by": null,
     "aliases": [],
@@ -2857,30 +2542,12 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_callout_scene_fill",
-    "kind": "semantic",
-    "key": "callout.scene_banner.fill",
-    "type": "color",
-    "default": {
-      "$ref": "tok_ibsrela_color_periwinkle"
-    },
-    "element_paths": [
-      "callout.scene_banner.fill"
-    ],
-    "variants_by": [
-      "content_tag"
-    ],
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_callout_scene_opacity",
+    "id": "tok_ibsrela_callout_scene_banner_opacity",
     "kind": "semantic",
     "key": "callout.scene_banner.opacity",
     "type": "opacity",
     "default": {
-      "$ref": "tok_ibsrela_opacity_callout_periwinkle_80"
+      "$ref": "tok_ibsrela_opacity_periwinkle_80"
     },
     "element_paths": [
       "callout.scene_banner.opacity"
@@ -2893,124 +2560,30 @@
     "scope": "campaign:flip_the_script"
   },
   {
-    "id": "tok_ibsrela_flip_lockup_on_ibsc_opacity",
+    "id": "tok_ibsrela_callout_scene_banner_color",
     "kind": "semantic",
-    "key": "campaign.lockup.on_ibsc.opacity",
-    "type": "opacity",
-    "default": {
-      "$ref": "tok_ibsrela_opacity_flip_on_ibsc_50"
-    },
-    "element_paths": [
-      "campaign.lockup.on_ibsc.opacity"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_flip_lockup_on_ibsc_weight",
-    "kind": "semantic",
-    "key": "campaign.lockup.on_ibsc.weight",
-    "type": "weight",
-    "default": {
-      "$ref": "tok_ibsrela_weight_avenir_light"
-    },
-    "element_paths": [
-      "campaign.lockup.on_ibsc.weight"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_flip_lockup_swoosh_opacity",
-    "kind": "semantic",
-    "key": "campaign.lockup.swoosh.opacity",
-    "type": "opacity",
-    "default": {
-      "$ref": "tok_ibsrela_opacity_swoosh_100"
-    },
-    "element_paths": [
-      "campaign.lockup.swoosh.opacity"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": "campaign:flip_the_script"
-  },
-  {
-    "id": "tok_ibsrela_campaign_headline_color",
-    "kind": "semantic",
-    "key": "campaign.headline.color",
+    "key": "callout.scene_banner.color",
     "type": "color",
     "default": {
       "$ref": "tok_ibsrela_color_periwinkle"
     },
     "element_paths": [
-      "campaign.headline.color"
+      "callout.scene_banner.color"
     ],
-    "variants_by": null,
+    "variants_by": [
+      "content_tag"
+    ],
     "aliases": [],
     "gated": false,
     "scope": "campaign:flip_the_script"
   },
   {
-    "id": "tok_ibsrela_dtp_hero_treatment",
-    "kind": "semantic",
-    "key": "dtp.hero.treatment",
-    "type": "image_treatment",
-    "default": {
-      "$ref": "tok_ibsrela_image_treatment_purple_hero"
-    },
-    "element_paths": [
-      "dtp.hero.treatment"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_dtp_lifestyle_treatment",
-    "kind": "semantic",
-    "key": "dtp.lifestyle_section.treatment",
-    "type": "image_treatment",
-    "default": {
-      "$ref": "tok_ibsrela_image_treatment_lifestyle"
-    },
-    "element_paths": [
-      "dtp.lifestyle_section.treatment"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_dtp_green_panel_max",
-    "kind": "semantic",
-    "key": "dtp.green_panel.max_per_email",
-    "type": "other",
-    "default": {
-      "$ref": "tok_ibsrela_other_green_panel_max"
-    },
-    "element_paths": [
-      "dtp.green_panel.max_per_email"
-    ],
-    "variants_by": null,
-    "aliases": [],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_symptom_icon_style",
+    "id": "tok_ibsrela_symptom_trio_icon_style",
     "kind": "semantic",
     "key": "symptom_trio.icon.style",
     "type": "icon_style",
     "default": {
-      "$ref": "tok_ibsrela_icon_style_circular_green"
+      "$ref": "tok_ibsrela_icon_style_symptom_trio"
     },
     "element_paths": [
       "symptom_trio.icon.style"
@@ -3021,7 +2594,7 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_symptom_icon_label_color",
+    "id": "tok_ibsrela_symptom_trio_label_color",
     "kind": "semantic",
     "key": "symptom_trio.label.color",
     "type": "color",
@@ -3037,10 +2610,10 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_symptom_icon_order",
+    "id": "tok_ibsrela_symptom_trio_order",
     "kind": "semantic",
     "key": "symptom_trio.icon.order",
-    "type": "other",
+    "type": "text_style",
     "default": "Constipation, Belly Pain, Bloating (left-to-right)",
     "element_paths": [
       "symptom_trio.icon.order"
@@ -3051,15 +2624,15 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_line_icon_style",
+    "id": "tok_ibsrela_new_icon_style",
     "kind": "semantic",
-    "key": "icon.line.style",
+    "key": "icon.new.style",
     "type": "icon_style",
     "default": {
       "$ref": "tok_ibsrela_icon_style_line"
     },
     "element_paths": [
-      "icon.line.style"
+      "icon.new.style"
     ],
     "variants_by": null,
     "aliases": [],
@@ -3067,39 +2640,37 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_wave_edge_transition",
+    "id": "tok_ibsrela_hero_image_treatment",
     "kind": "semantic",
-    "key": "section.transition.wave_edge",
-    "type": "motion",
+    "key": "hero.image.treatment",
+    "type": "image_treatment",
     "default": {
-      "$ref": "tok_ibsrela_motion_wave_edge"
+      "$ref": "tok_ibsrela_image_treatment_full_bleed_hero"
     },
     "element_paths": [
-      "section.transition.wave_edge"
+      "hero.image.treatment"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": null
+  },
+  {
+    "id": "tok_ibsrela_section_wave_edge",
+    "kind": "semantic",
+    "key": "section.wave_edge",
+    "type": "decorative_edge",
+    "default": {
+      "$ref": "tok_ibsrela_other_wave_edge"
+    },
+    "element_paths": [
+      "section.wave_edge"
     ],
     "variants_by": null,
     "aliases": [
-      "Wave graphic"
+      "Wave graphic",
+      "swirl"
     ],
-    "gated": false,
-    "scope": null
-  },
-  {
-    "id": "tok_ibsrela_text_alignment",
-    "kind": "semantic",
-    "key": "text.align",
-    "type": "alignment",
-    "default": {
-      "$ref": "tok_ibsrela_alignment_text_left"
-    },
-    "element_paths": [
-      "text.align",
-      "headline.align",
-      "body.align",
-      "title.align"
-    ],
-    "variants_by": null,
-    "aliases": [],
     "gated": false,
     "scope": null
   },
@@ -3109,7 +2680,7 @@
     "key": "palette.usage_ratio",
     "type": "ratio",
     "default": {
-      "$ref": "tok_ibsrela_ratio_palette_primary"
+      "$ref": "tok_ibsrela_ratio_palette_usage"
     },
     "element_paths": [
       "palette.usage_ratio"
@@ -3140,13 +2711,13 @@
   {
     "id": "tok_ibsrela_contrast_headline",
     "kind": "semantic",
-    "key": "contrast.large_bold_headline",
+    "key": "contrast.large_headline",
     "type": "ratio",
     "default": {
       "$ref": "tok_ibsrela_ratio_contrast_headline"
     },
     "element_paths": [
-      "contrast.large_bold_headline"
+      "contrast.large_headline"
     ],
     "variants_by": null,
     "aliases": [],
@@ -3154,13 +2725,95 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_dtp_cta_label_convention",
+    "id": "tok_ibsrela_campaign_headline_case",
     "kind": "semantic",
-    "key": "dtp.cta.label_convention",
-    "type": "other",
-    "default": "short verb phrase, sentence case, 1\u20133 words",
+    "key": "campaign.headline.case",
+    "type": "case",
+    "default": {
+      "$ref": "tok_ibsrela_case_all_caps"
+    },
     "element_paths": [
-      "dtp.cta.label"
+      "campaign.headline.case"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": "campaign:flip_the_script"
+  },
+  {
+    "id": "tok_ibsrela_campaign_headline_color",
+    "kind": "semantic",
+    "key": "campaign.headline.color",
+    "type": "color",
+    "default": {
+      "$ref": "tok_ibsrela_color_periwinkle"
+    },
+    "element_paths": [
+      "campaign.headline.color"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": "campaign:flip_the_script"
+  },
+  {
+    "id": "tok_ibsrela_campaign_on_ibsc_weight",
+    "kind": "semantic",
+    "key": "campaign.on_ibsc.weight",
+    "type": "weight",
+    "default": {
+      "$ref": "tok_ibsrela_weight_avenir_light"
+    },
+    "element_paths": [
+      "campaign.on_ibsc.weight"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": "campaign:flip_the_script"
+  },
+  {
+    "id": "tok_ibsrela_campaign_on_ibsc_opacity",
+    "kind": "semantic",
+    "key": "campaign.on_ibsc.opacity",
+    "type": "opacity",
+    "default": {
+      "$ref": "tok_ibsrela_opacity_on_ibsc_50"
+    },
+    "element_paths": [
+      "campaign.on_ibsc.opacity"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": "campaign:flip_the_script"
+  },
+  {
+    "id": "tok_ibsrela_campaign_swoosh_opacity",
+    "kind": "semantic",
+    "key": "campaign.swoosh.opacity",
+    "type": "opacity",
+    "default": {
+      "$ref": "tok_ibsrela_opacity_swoosh_100"
+    },
+    "element_paths": [
+      "campaign.swoosh.opacity"
+    ],
+    "variants_by": null,
+    "aliases": [],
+    "gated": false,
+    "scope": "campaign:flip_the_script"
+  },
+  {
+    "id": "tok_ibsrela_dtp_cta_label_case",
+    "kind": "semantic",
+    "key": "dtp.cta.label.case",
+    "type": "case",
+    "default": {
+      "$ref": "tok_ibsrela_case_sentence"
+    },
+    "element_paths": [
+      "dtp.cta.label.case"
     ],
     "variants_by": null,
     "aliases": [],
@@ -3168,13 +2821,15 @@
     "scope": null
   },
   {
-    "id": "tok_ibsrela_hcp_cta_default_label",
+    "id": "tok_ibsrela_green_panel_background",
     "kind": "semantic",
-    "key": "hcp.cta.default_label",
-    "type": "other",
-    "default": "Get connected",
+    "key": "dtp.green_panel.background",
+    "type": "color",
+    "default": {
+      "$ref": "tok_ibsrela_color_green"
+    },
     "element_paths": [
-      "hcp.cta.default_label"
+      "dtp.green_panel.background"
     ],
     "variants_by": null,
     "aliases": [],

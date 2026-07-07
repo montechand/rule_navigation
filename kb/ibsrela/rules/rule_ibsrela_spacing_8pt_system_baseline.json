@@ -15,8 +15,36 @@
   "effect": {
     "assignments": [
       {
+        "element_path": "section.padding.sides",
+        "token_id": "tok_ibsrela_container_side_padding"
+      },
+      {
+        "element_path": "section.padding.vertical",
+        "token_id": "tok_ibsrela_section_vertical_padding"
+      },
+      {
+        "element_path": "section.two_column.gutter",
+        "token_id": "tok_ibsrela_two_column_gutter"
+      },
+      {
+        "element_path": "card.padding.internal",
+        "token_id": "tok_ibsrela_card_internal_padding"
+      },
+      {
+        "element_path": "image.to_text.gap",
+        "token_id": "tok_ibsrela_image_text_gap"
+      },
+      {
+        "element_path": "grid.content_area.width",
+        "token_id": "tok_ibsrela_content_area_width"
+      },
+      {
+        "element_path": "grid.half_column.width",
+        "token_id": "tok_ibsrela_half_column_width"
+      },
+      {
         "element_path": "spacing.base.unit",
-        "token_id": "tok_ibsrela_spacing_base_unit"
+        "token_id": "tok_ibsrela_base_spacing_unit"
       }
     ]
   },
@@ -24,16 +52,23 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_spacing_base_unit"
+    "tok_ibsrela_base_spacing_unit",
+    "tok_ibsrela_card_internal_padding",
+    "tok_ibsrela_container_side_padding",
+    "tok_ibsrela_content_area_width",
+    "tok_ibsrela_half_column_width",
+    "tok_ibsrela_image_text_gap",
+    "tok_ibsrela_section_vertical_padding",
+    "tok_ibsrela_two_column_gutter"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "All spacing values must be multiples of 8px (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8px steps.",
-  "intent": "Keep spacing rhythm consistent so independently-built sections align.",
+  "rule_text": "The spacing system is defined so independently-built sections butt together cleanly. Outer/container side padding is 24px desktop / 16px mobile inside every section (section.padding.sides). Section vertical padding is 32px top and bottom desktop / 24px mobile (section.padding.vertical). Two-column gutter is 24px desktop, with columns stacking at 24px vertical gap on mobile (section.two_column.gutter). Card internal padding is 16px all sides (card.padding.internal). Image-to-text gap is 16px (image.to_text.gap). A 12-column mental grid sits over the 552px content area (600 \u2212 2\u00d724); half-width column = 264px content + 24px gutter. All spacing values are multiples of 8px (8-pt system) \u2014 never introduce odd one-off values; if a layout needs adjustment, move in 8px steps.",
+  "intent": "Provide a consistent 8-pt spacing rhythm so modular sections align and butt cleanly.",
   "source": "design_bible",
   "doc_ref": "design_pattern_rules[1]",
   "group_id": "grp_ibsrela_design_pattern_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "Spacing values must be multiples of 8px; adjust layouts only in 8px increments, no odd or one-off spacing values allowed."
+  "summary": "Spacing uses 24px desktop / 16px mobile side padding; 32px/24px vertical padding; 24px gutter two-column desktop, 24px vertical mobile; card padding 16px; image-text gap 16px; 12-column 8pt grid."
 }

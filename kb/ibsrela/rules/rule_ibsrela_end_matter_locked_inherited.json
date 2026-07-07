@@ -1,0 +1,45 @@
+{
+  "id": "rule_ibsrela_end_matter_locked_inherited",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "typography",
+    "copy_editorial"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_end_matter",
+    "sub_ibsrela_tpl_footer_mjml_full_isi"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": null,
+    "governance_id": "gov_ibsrela_isi_locked",
+    "trigger": null
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 5,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_isi_locked"
+  ],
+  "rule_text": "End Matter is supplied pre-built and LOCKED; it contains the full FDA-reviewed ISI, Ardelyx address/contact, copyright/trademark/job code, and unsubscribe links. Inherited consequences for content sections: (a) content-section body copy size and line spacing must match the locked footer ISI body settings \u2014 fixed at 12px / 1.4 in this system (see \u00a71.2); (b) references and footnotes used in content sections resolve in/above End Matter, so numbering and symbol order must be coordinated at assembly (\u00a74.5); (c) do not duplicate ISI fragments, indication statements, or legal lines inside content sections.",
+  "intent": "The locked footer owns the ISI and legal lines and sets the body-text spec content sections must inherit.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[5]",
+  "group_id": "grp_ibsrela_content_pattern_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "End Matter locked, includes full FDA-reviewed ISI, Ardelyx contact, legal lines; content body copy fixed 12px/1.4 line spacing; references coordinate numbering; no ISI duplication."
+}

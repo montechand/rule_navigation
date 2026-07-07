@@ -2,6 +2,12 @@
 
 Vocabularies mirror newest_email_pipeline/data_models/model_iteration_0/model_dictionary.md.
 `null` = unconstrained (applies to all); `[]` = explicitly none.
+
+section_types / relations / token_types are DYNAMIC registries (shared/registries.json):
+seeded cores plus model-discovered entries registered permanently at build time via the
+`other.<name>` convention. The constants below are convenience snapshots loaded at import
+time (core + all discovered, all brands); brand-aware consumers should go through
+shared.registries / KB.section_types instead.
 """
 
 from __future__ import annotations
@@ -10,18 +16,19 @@ from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
+from .registries import get_registries
+
+_REG = get_registries()
+
 # ---------------------------------------------------------------------------
-# Closed vocabularies (v0.2 dictionary)
+# Closed vocabularies (v0.2 dictionary + dynamic registries)
 # ---------------------------------------------------------------------------
 
 RULE_CLASSES = [
     "typography", "color_application", "cta", "layout", "spacing", "imagery",
     "iconography", "copy_editorial", "voice_tone", "accessibility", "assembly",
 ]
-SECTION_TYPES = [
-    "hero", "intro", "efficacy", "safety", "patient_story", "affordability",
-    "symptom_trio", "cta", "callout", "chart", "top_matter", "end_matter",
-]
+SECTION_TYPES = _REG.section_types()  # core + discovered (all brands)
 PREDICATE_REGISTRY = [
     "background_group", "background_token", "theme", "content_tag", "campaign",
     "breakpoint", "adjacent_section_state", "position_in_email", "first_mention",
@@ -36,26 +43,18 @@ EVALUATION_SCOPES = ["element", "sentence", "section", "email"]
 AUDIENCES = ["dtp_patient", "hcp", "caregiver"]
 CONTENT_TYPES = ["email", "banner", "social", "print", "web", "ppt"]
 SOURCES = ["design_bible", "brand_guide_pdf", "prior_approved_asset", "user_written"]
-TOKEN_TYPES = [
-    # value primitives
-    "color", "gradient", "opacity", "font", "type_scale", "weight", "line_height",
-    "letter_spacing", "case", "spacing", "padding", "margin", "size", "dimension",
-    "radius", "border", "shadow", "ratio", "breakpoint",
-    # styling/treatment primitives
-    "alignment", "icon_style", "image_treatment", "motion",
-    # escape hatch — extraction should prefer a specific type
-    "other",
-]
+# "other" = validated fallback for unclassifiable values; other.<name> = discovery.
+TOKEN_TYPES = _REG.token_types() + ["other"]
 TOKEN_KINDS = ["primitive", "semantic"]
 TOKEN_TIERS = ["primary", "secondary_accent", "tertiary", "campaign"]
 ASSET_TYPES = [
-    "photo", "icon", "logo_lockup", "svg_shape", "wave", "background",
+    "photo", "icon", "logo_lockup", "svg_shape", "graphic_device", "background",
     "campaign_lockup", "cta_image",
 ]
 GOV_TYPES = ["regulatory", "legal", "mlr_claim", "disclosure", "trademark"]
 VERDICTS = ["allowed", "forbidden", "allowed_with_disclosure", "requires_qualifier", "verbatim_only"]
 SEVERITIES = ["info", "warn", "block"]
-RELATIONS = ["refines", "conflicts", "cross_reference", "cluster", "co_applies"]
+RELATIONS = _REG.relations()
 SUBTYPE_KINDS = ["dimension_format", "platform_format", "email_component"]
 CHANNELS = ["display", "social", "email", "print"]
 
@@ -184,6 +183,12 @@ class ContentSubType(BaseModel):
     slots: Optional[list[str] | dict[str, Any]] = None
     reference_dims: Optional[dict[str, Any]] = None
     assembly: Optional[dict[str, Any]] = None  # {position, repeatable, locked}
+    # Which section vocabulary entries this component/template covers (e.g. the ibsrela
+    # header template covers [top_matter, hero]). Powers subtype<->section graph edges
+    # and rule surfacing when filtering by template.
+    covers_section_types: Optional[list[str]] = None
+    template_ref: Optional[str] = None  # external template-library id (concrete instance)
+    template_file: Optional[str] = None  # kb-relative path to the stored template body
     notes: Optional[str] = None
     status: Status = "active"
     version: int = 1

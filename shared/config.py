@@ -30,6 +30,12 @@ DESIGN_BIBLES = {
     "ibsrela": BRAND_RULES_DIR / "design_bible_ibsrela_1.json",
 }
 
+# Concrete approved template libraries (email top/end matter etc.), ingested into
+# content_sub_type rows at build time. Absent brands are skipped.
+TEMPLATE_LIBRARIES = {
+    "ibsrela": RULE_NAV_ROOT / "template_library_202607071034.json",
+}
+
 # Models (names match what Backend-Server uses in production today).
 AGENT_MODEL = os.getenv("RULE_NAV_AGENT_MODEL", "claude-sonnet-5")
 EXTRACT_MODEL = os.getenv("RULE_NAV_EXTRACT_MODEL", "claude-opus-4-8")

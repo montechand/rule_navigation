@@ -101,8 +101,14 @@ Other attributes:
   content; Avenir Heavy reserved for boxed warning).
 
 Navigation: `query_tokens` (facet filters), `search_tokens` (lexical), `get_entity`
-(full row), `rules_for_token` (which rules bind a token), graph edges `resolves_to`
-(semantic -> primitive) and `derived_from`.
+(full row), `resolve_token` (flattens a semantic token's $ref chain to concrete values,
+variants included — use this instead of hopping get_entity calls), `rules_for_token`
+(which rules bind a token), graph edges `resolves_to` (semantic -> primitive) and
+`derived_from`. token_type is a dynamic registry (extraction may register new types via
+`other.<name>`). Exact duplicates are merged at build time (same type+value+scope; the
+merged names live on in `aliases`); near-duplicates across scopes are kept separate
+deliberately (a campaign color and a global color with the same hex carry different
+gating semantics).
 """
 
 DESIGN_ASSET_DOC = """# Entity: design_asset
@@ -125,14 +131,24 @@ CONTENT_SUB_TYPE_DOC = """# Entity: content_sub_type
 
 Format or structural component of a surface (kind: dimension_format | platform_format |
 email_component). For email: the component library (Top Matter, Primary 1 Column,
-Primary 2 Column, Secondary, End Matter, ...).
+Primary 2 Column, Secondary, End Matter, ...) PLUS concrete approved templates ingested
+from the brand's template library (ids like `sub_{brand}_tpl_*`, `template_ref` = library
+id, `template_file` = kb-relative path to the stored MJML body). For banners, dimension
+formats (kind=dimension_format with `size`) play the same role.
 
 - `slots`: editable fields of the component (hero image, H1, body, CTA label, ...).
 - `reference_dims`: `{desktop: {w,h}, mobile: {w,h}}` reference proportions.
 - `assembly`: `{position: first|last|any, repeatable: bool, locked: bool}` — assembly-order
   constraints. Locked components are supplied by the core team, never built or modified.
+- `covers_section_types`: which section vocabulary entries the component/template covers
+  (a header-with-hero template covers [top_matter, hero]) — graph edge `covers_section`.
 - `best_for`: retrieval hint describing when to use the component.
 - `notes` are non-normative; constraints were promoted to brand_rule rows scoped here.
+
+Rule scoping: `brand_rule.content_sub_type_ids` — null means the rule applies to ALL
+sub-types of its content_types; ids scope it to specific components/templates/formats.
+Use the `rules_for_subtype` tool to surface everything applying to one template:
+directly-scoped rules + rules targeting its covered sections + the all-subtype baseline.
 """
 
 GOVERNANCE_DOC = """# Entity: governance
@@ -148,41 +164,71 @@ Regulatory/legal/MLR adjudication of claims and required language.
 - Rules referencing a governance row carry it in `governance_ids`.
 """
 
-SUPPORT_ENTITIES_DOC = """# Support entities
+def support_entities_doc() -> str:
+    from shared.registries import get_registries
+
+    relations = get_registries().relations()
+    return f"""# Support entities
 
 ## rule_relation
-Directed edge between rules: `{src_rule_id, dst_rule_id, relation, note}`.
-relation: refines | conflicts | cross_reference | cluster | co_applies.
+Directed edge between rules: `{{src_rule_id, dst_rule_id, relation, note}}`.
+relation vocabulary (dynamic registry; extraction proposes genuinely new kinds via
+`other.<name>`, which get registered permanently): {" | ".join(relations)}.
 
 ## rule_group
-Provenance blob a rule was atomized from: `{id, source, doc_ref, original_text}`.
+Provenance blob a rule was atomized from: `{{id, source, doc_ref, original_text}}`.
 Use it to read the original un-atomized text around a rule.
 
 ## asset_group
-Named ordered set of assets (e.g. symptom_icon_trio): `{id, name, semantics}`.
+Named ordered set of assets (e.g. symptom_icon_trio): `{{id, name, semantics}}`.
 Set contract like "all members appear together"; ordering enforced by a brand_rule
 with constraint_type=ordering targeting the group.
 """
 
-SECTION_VOCAB_DOC = """# Section vocabulary (selector.section_types)
 
-hero — lead visual + headline block opening the email body
-intro — opening copy establishing context/empathy
-efficacy — clinical results, data claims, charts of outcomes
-safety — safety info, side effects (content sections; full ISI lives in end_matter)
-patient_story — testimonial/lifestyle narrative modules
-affordability — pricing/copay/support-program content
-symptom_trio — the fixed three-symptom icon row (brand-specific device)
-cta — call-to-action section (button, optional right-side image)
-callout — highlighted panel/box devices inside content
-chart — data visualization blocks
-top_matter — locked header component (logo, safety links)
-end_matter — locked footer component (ISI, legal, unsubscribe)
+_CORE_SECTION_GLOSSARY = {
+    "hero": "lead visual + headline block opening the email body",
+    "intro": "opening copy establishing context/empathy",
+    "efficacy": "clinical results, data claims, charts of outcomes",
+    "safety": "safety info, side effects (content sections; full ISI lives in end_matter)",
+    "patient_story": "testimonial/lifestyle narrative modules",
+    "affordability": "pricing/copay/support-program content",
+    "cta": "call-to-action section (button, optional right-side image)",
+    "callout": "highlighted panel/box devices inside content",
+    "chart": "data visualization blocks",
+    "top_matter": "locked header component (logo, safety links)",
+    "end_matter": "locked footer component (ISI, legal, unsubscribe)",
+}
 
-A blueprint's free-form `section_id` values (e.g. "what_it_means") must be mapped to the
-closest vocabulary entries by the querying agent; a section may match several
-(e.g. a benefits panel = intro + callout).
-"""
+
+def section_vocab_doc(brand: str) -> str:
+    """Brand-specific section vocabulary: curated core + registry-discovered devices."""
+    from shared.registries import get_registries
+
+    reg = get_registries()
+    lines = ["# Section vocabulary (selector.section_types)", "",
+             "This vocabulary is DYNAMIC: a curated core plus brand-discovered section",
+             "devices (extraction proposes `other.<name>`; novel entries are registered",
+             "permanently in shared/registries.json).", "", "## Core"]
+    for name in reg.data["section_types"]["core"]:
+        gloss = _CORE_SECTION_GLOSSARY.get(name, "")
+        lines.append(f"{name} — {gloss}" if gloss else name)
+    discovered = [(n, meta) for n, meta in reg.discovered("section_types").items()
+                  if brand in (meta.get("brands") or [])]
+    if discovered:
+        lines += ["", f"## Discovered for {brand}"]
+        for name, meta in discovered:
+            note = meta.get("note", "")
+            lines.append(f"{name} — {note}" if note else name)
+    lines += ["",
+              "A blueprint's free-form `section_id` values (e.g. \"what_it_means\") must be",
+              "mapped to the closest vocabulary entries by the querying agent; a section may",
+              "match several (e.g. a benefits panel = intro + callout).", "",
+              "Concrete templates/components (content_sub_type) declare which section types",
+              "they cover via `covers_section_types` (graph edge `covers_section`) — e.g. a",
+              "header template covering [top_matter, hero] bundles the locked header",
+              "obligations with the hero design rules."]
+    return "\n".join(lines)
 
 PREDICATE_REGISTRY_DOC = """# applies_when predicate registry (closed)
 
@@ -202,7 +248,8 @@ conditions into this registry and never invents new predicate kinds.
 
 
 def entity_docs() -> dict[str, str]:
-    """filename-stem -> markdown content."""
+    """filename-stem -> markdown content. section_vocab.md is written separately per
+    brand via section_vocab_doc()."""
     return {
         "conventions": GLOBAL_CONVENTIONS,
         "brand_rule": BRAND_RULE_DOC,
@@ -210,8 +257,7 @@ def entity_docs() -> dict[str, str]:
         "design_asset": DESIGN_ASSET_DOC,
         "content_sub_type": CONTENT_SUB_TYPE_DOC,
         "governance": GOVERNANCE_DOC,
-        "support_entities": SUPPORT_ENTITIES_DOC,
-        "section_vocab": SECTION_VOCAB_DOC,
+        "support_entities": support_entities_doc(),
         "predicate_registry": PREDICATE_REGISTRY_DOC,
     }
 

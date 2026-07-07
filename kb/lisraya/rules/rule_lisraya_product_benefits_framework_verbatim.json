@@ -4,17 +4,12 @@
   "rule_class": "copy_editorial",
   "audience": "dtp_patient",
   "scope": "campaign",
-  "selector": {
-    "section_types": [
-      "efficacy",
-      "intro"
-    ]
-  },
+  "selector": {},
   "evaluation_scope": "section",
   "constraint_type": "verbatim_content",
   "effect": {
     "content": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can: Increase your muscle strength / Improve your skin symptoms / Rely less on steroids / Do more of the activities you love",
-    "governance_id": "gov_lisraya_product_benefits_framework",
+    "governance_id": "gov_lisraya_product_benefits",
     "trigger": null
   },
   "polarity": "must",
@@ -23,14 +18,14 @@
   "token_ids": [],
   "asset_ids": [],
   "governance_ids": [
-    "gov_lisraya_product_benefits_framework"
+    "gov_lisraya_product_benefits"
   ],
-  "rule_text": "The product benefits framework must be used verbatim: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by the bullets \"Increase your muscle strength\", \"Improve your skin symptoms\", \"Rely less on steroids\", and \"Do more of the activities you love\".",
-  "intent": "Preserve the MLR-approved benefit claims exactly.",
+  "rule_text": "The product benefits framework must be stated verbatim: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by the bullets \"Increase your muscle strength\" / \"Improve your skin symptoms\" / \"Rely less on steroids\" / \"Do more of the activities you love\".",
+  "intent": "Lock approved efficacy/benefit language.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "Use exact product benefits phrase \"LISRAYA is a once-daily FDA-approved pill that blocks specific inflammatory signals driving dermatomyositis, so you can:\" then bullet points: Increase your muscle strength, Improve your skin symptoms, Rely less on steroids, Do more of the activities you love."
+  "summary": "copy_editorial: Product benefits must be verbatim with intro \"LISRAYA...\" plus bullets: Increase muscle strength, Improve skin symptoms, Rely less on steroids, Do more activities you love."
 }

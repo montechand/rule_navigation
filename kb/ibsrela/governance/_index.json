@@ -1,5 +1,17 @@
 [
   {
+    "id": "gov_ibsrela_isi_image_based",
+    "type": "regulatory",
+    "verdict": "forbidden",
+    "subject": "ISI must be live text, never image-based; email must communicate indication + safety with images off"
+  },
+  {
+    "id": "gov_ibsrela_isi_locked",
+    "type": "disclosure",
+    "verdict": "verbatim_only",
+    "subject": "End Matter ISI (What is IBSRELA?, IMPORTANT RISK INFORMATION, Side Effects, boxed-warning reference) is a locked, FDA-re"
+  },
+  {
     "id": "gov_ibsrela_patient_story_disclosure",
     "type": "disclosure",
     "verdict": "verbatim_only",
@@ -9,31 +21,13 @@
     "id": "gov_ibsrela_efficacy_qualifier",
     "type": "mlr_claim",
     "verdict": "requires_qualifier",
-    "subject": "Efficacy claim qualifier"
+    "subject": "Efficacy claim qualifier and limitation"
   },
   {
-    "id": "gov_ibsrela_efficacy_limitation",
-    "type": "mlr_claim",
-    "verdict": "requires_qualifier",
-    "subject": "Efficacy analysis limitation statement"
-  },
-  {
-    "id": "gov_ibsrela_isi_live_text",
-    "type": "regulatory",
-    "verdict": "forbidden",
-    "subject": "ISI must be live text, never image-based"
-  },
-  {
-    "id": "gov_ibsrela_end_matter_locked",
-    "type": "legal",
-    "verdict": "forbidden",
-    "subject": "End Matter (ISI, legal footer, trademark, job code, unsubscribe) is locked and must not be duplicated or modified"
-  },
-  {
-    "id": "gov_ibsrela_logo_lockup_in_content",
+    "id": "gov_ibsrela_logo_no_repeat",
     "type": "trademark",
     "verdict": "forbidden",
-    "subject": "IBSRELA logo lockup must not be repeated inside content sections"
+    "subject": "IBSRELA logo lockup must not be repeated inside content sections; lives in header only (logo may only appear inside appr"
   },
   {
     "id": "gov_ibsrela_campaign_name_capitalization",
@@ -42,81 +36,93 @@
     "subject": "Campaign name capitalization in body copy"
   },
   {
-    "id": "gov_ibsrela_ibsc_symptoms_phrase",
+    "id": "gov_ibsrela_symptom_terminology",
     "type": "mlr_claim",
     "verdict": "requires_qualifier",
-    "subject": "Use the phrase 'IBS-C symptoms' rather than clinical jargon"
+    "subject": "Use 'IBS-C symptoms' (constipation, belly pain, and/or bloating) \u2014 not 'your condition' or clinical jargon"
   },
   {
-    "id": "gov_ibsrela_teal_reserved_lpga",
-    "type": "regulatory",
-    "verdict": "requires_qualifier",
-    "subject": "Teal #0F99BC background reserved for LPGA golf CTA only"
-  },
-  {
-    "id": "gov_ibsrela_cta_image_locked_backgrounds",
-    "type": "regulatory",
-    "verdict": "requires_qualifier",
-    "subject": "CTA right-side images are locked to specific backgrounds and not interchangeable"
-  },
-  {
-    "id": "gov_ibsrela_symptom_trio_together",
+    "id": "gov_ibsrela_symptom_trio_integrity",
     "type": "mlr_claim",
     "verdict": "requires_qualifier",
-    "subject": "Symptom-icon trio must always appear together in fixed order"
+    "subject": "Symptom-icon trio must show all three (Constipation, Belly Pain, Bloating) left-to-right in order; do not show one/two i"
+  },
+  {
+    "id": "gov_ibsrela_teal_reserved",
+    "type": "legal",
+    "verdict": "requires_qualifier",
+    "subject": "Teal #0F99BC is reserved as a CTA section background only when paired with the LPGA golf image; golf asset is LPGA-gated"
+  },
+  {
+    "id": "gov_ibsrela_cta_image_pairing",
+    "type": "legal",
+    "verdict": "requires_qualifier",
+    "subject": "Each approved CTA right-side image is locked to a specific background color and not interchangeable"
   },
   {
     "id": "gov_ibsrela_title_purple_only",
-    "type": "mlr_claim",
+    "type": "legal",
     "verdict": "requires_qualifier",
-    "subject": "Title/first line is purple; no other text in the email may be purple"
+    "subject": "Title/first line is always purple; no other text in the email may be purple"
   },
   {
     "id": "gov_ibsrela_body_no_purple_green",
-    "type": "mlr_claim",
+    "type": "legal",
     "verdict": "forbidden",
-    "subject": "Never set body copy in Purple or Green"
-  },
-  {
-    "id": "gov_ibsrela_no_avenir_webfont_email",
-    "type": "regulatory",
-    "verdict": "forbidden",
-    "subject": "Never load Avenir via webfont in email; use Arial stack"
-  },
-  {
-    "id": "gov_ibsrela_avenir_heavy_reserved",
-    "type": "mlr_claim",
-    "verdict": "requires_qualifier",
-    "subject": "Avenir Heavy reserved exclusively for ISI boxed warning text"
-  },
-  {
-    "id": "gov_ibsrela_one_wave_one_callout",
-    "type": "regulatory",
-    "verdict": "requires_qualifier",
-    "subject": "One wave graphic and one key-strategic-question callout per email"
-  },
-  {
-    "id": "gov_ibsrela_green_panel_max",
-    "type": "regulatory",
-    "verdict": "requires_qualifier",
-    "subject": "Green panel appears at most once per DTP email"
+    "subject": "Never set body copy in Purple or Green; body highlights must be black + bold, not blue or purple"
   },
   {
     "id": "gov_ibsrela_single_color_per_sentence",
-    "type": "mlr_claim",
+    "type": "legal",
     "verdict": "forbidden",
-    "subject": "No mixing two colors within the same sentence"
+    "subject": "No mixing two colors within the same sentence; each sentence (heading or body) uses one color"
   },
   {
-    "id": "gov_ibsrela_no_added_sections",
-    "type": "regulatory",
-    "verdict": "forbidden",
-    "subject": "Do not add component sections beyond the pre-made templates"
-  },
-  {
-    "id": "gov_ibsrela_accessibility_contrast",
+    "id": "gov_ibsrela_contrast_baseline",
     "type": "regulatory",
     "verdict": "requires_qualifier",
-    "subject": "Accessibility contrast and text minimums"
+    "subject": "Minimum contrast 4.5:1 for body text, 3:1 for \u226518px bold headlines; never silver text on white, never periwinkle text on"
+  },
+  {
+    "id": "gov_ibsrela_min_livetext",
+    "type": "regulatory",
+    "verdict": "requires_qualifier",
+    "subject": "Minimum live-text size 10px (footnotes); body never below 12px; tap targets \u226544px; one H1 per email; underline links"
+  },
+  {
+    "id": "gov_ibsrela_isi_heavy_reserved",
+    "type": "regulatory",
+    "verdict": "requires_qualifier",
+    "subject": "Avenir Heavy weight is reserved exclusively for ISI boxed-warning text"
+  },
+  {
+    "id": "gov_ibsrela_one_wave_one_question",
+    "type": "legal",
+    "verdict": "requires_qualifier",
+    "subject": "Only one Wave graphic and one key-strategic-question callout per email; one primary CTA per section, max ~3 CTAs per ema"
+  },
+  {
+    "id": "gov_ibsrela_no_added_components",
+    "type": "legal",
+    "verdict": "requires_qualifier",
+    "subject": "Choose one of the 2 pre-made template formations; remove unneeded sections but do not add additional component sections "
+  },
+  {
+    "id": "gov_ibsrela_dtp_cta_labels",
+    "type": "mlr_claim",
+    "verdict": "requires_qualifier",
+    "subject": "DTP CTA labels are short verb phrases in sentence case (1-3 words); do not use HCP default 'Get connected'"
+  },
+  {
+    "id": "gov_ibsrela_green_panel_once",
+    "type": "legal",
+    "verdict": "requires_qualifier",
+    "subject": "Within one DTP email the green panel appears at most once, reserved for affordability block OR symptom-icon trio, never "
+  },
+  {
+    "id": "gov_ibsrela_scene_color_pairings",
+    "type": "legal",
+    "verdict": "requires_qualifier",
+    "subject": "Flip The Script scene-color pairings are fixed (Periwinkle/Office, Purple/Cafe, Green/Soccer) and may not be used interc"
   }
 ]

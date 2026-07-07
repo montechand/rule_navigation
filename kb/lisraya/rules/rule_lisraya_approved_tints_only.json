@@ -10,8 +10,8 @@
   "evaluation_scope": "element",
   "constraint_type": "exclusivity",
   "effect": {
-    "subject": "ad-hoc tints",
-    "reserved_for": "the specified tint tokens (campaign headline D/M \u224840%, Light Blue callout 70%, Golden Sand callout 30%, wave top layers 70%) or full palette values only"
+    "subject": "ad-hoc tint / opacity of palette colors",
+    "reserved_for": "the specified tint tokens: campaign headline D/M \u224840% tint, Light Blue callout 70%, Golden Sand callout 30%, wave top layers 70%"
   },
   "polarity": "must_not",
   "hardness": "hard_constraint",
@@ -19,12 +19,12 @@
   "token_ids": [],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "No other ad-hoc tints are permitted \u2014 use palette values or these specified tints only: campaign headline 'D'/'M' letters at \u224840% tint of the headline color (Gold or Brand Blue colorway) via campaign_headline.dm_letters.tint; Light Blue callout box at 70% tint (data_callout.box.opacity); Golden Sand callout box at 30% tint (text_callout.box.opacity); wave top layers at 70% transparency (wave.top_layer.opacity).",
-  "intent": "Prevent unauthorized tint values that dilute brand color consistency.",
+  "rule_text": "No ad-hoc tints are permitted. Only full palette values or the specified tint values may be used: the campaign headline 'D' and 'M' letters at \u224840% tint of the headline color (Gold or Brand Blue colorway) (tok_lisraya_campaign_headline_letter_tint), the Light Blue callout box at 70% tint (tok_lisraya_opacity_light_blue_callout_70), the Golden Sand callout box at 30% tint (tok_lisraya_opacity_golden_sand_callout_30), and wave top layers at 70% transparency (tok_lisraya_opacity_wave_top_70).",
+  "intent": "Prevent inconsistent, off-palette transparency by restricting tints to a fixed approved set.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[2]",
   "group_id": "grp_lisraya_color_scheme_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Only use palette colors or specified tints: campaign headline D/M at ~40% tint (Gold/Brand Blue), Light Blue callout 70%, Golden Sand callout 30%, wave top layer 70% opacity."
+  "summary": "Only full palette colors or specified tints allowed: campaign headline 'D'/'M' at ~40% tint (Gold/Brand Blue), Light Blue callout 70%, Golden Sand callout 30%, wave top 70% transparency."
 }

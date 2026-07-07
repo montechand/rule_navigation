@@ -12,24 +12,19 @@ doc_ref: `content_pattern_rules[3]`
 - Never use bold as a substitute for hierarchy — if a passage needs prominence, promote it to a subhead or approved callout style instead.
 ````
 
-## Extracted rules (4)
+## Extracted rules (3)
 
-### rule_ibsrela_bold_reserved_emphasis_elements
-- class=typography scope=org_baseline hardness=strong_default polarity=must sections=None constraint=exclusivity
-- rule_text: Bold (Arial Bold) is reserved for: headlines, subheads, card titles, CTA labels, ISI subheads, boxed-warning text, and key claim phrases — the latter only when the claim is MLR-approved with that emphasis.
-- intent: Keep bold weight meaningful by restricting it to designated emphasis elements.
+### rule_ibsrela_bold_reserved_targets
+- class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=exclusivity
+- rule_text: Bold (Arial Bold) is reserved for: headlines, subheads, card titles, CTA labels, ISI subheads, boxed-warning text, and key claim phrases — the latter only when the claim is MLR-approved with that emphasis. Key claim phrases set in bold as highlights use body.highlight.weight (Arial Bold, 700).
+- intent: Restrict bold emphasis to a defined set of approved targets so weight signals real hierarchy.
 
-### rule_ibsrela_bold_prohibited_targets
-- class=typography scope=org_baseline hardness=strong_default polarity=must_not sections=None constraint=binding
-- rule_text: Do not bold whole body paragraphs, footnotes, references, or links (links are underlined, not bolded), or more than ~10 words consecutively inside body copy.
-- intent: Prevent over-bolding that erodes hierarchy and readability in body copy.
+### rule_ibsrela_bold_prohibited_uses
+- class=typography scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=binding
+- rule_text: Do not bold whole body paragraphs, footnotes, references, or links (links are underlined, not bolded), nor more than ~10 words consecutively inside body copy. Never use bold as a substitute for hierarchy — if a passage needs prominence, promote it to a subhead or approved callout style instead.
+- intent: Prevent over-bolding and misuse of weight as a stand-in for structural hierarchy.
 
-### rule_ibsrela_no_bold_italic_combo_italic_usage
-- class=typography scope=org_baseline hardness=strong_default polarity=must_not sections=None constraint=exclusivity
-- rule_text: Do not combine bold + italic in email body. Italic (Arial Italic) is only for journal titles in references or where the approved copy deck specifies it.
-- intent: Restrict italic to citation/approved usage and forbid bold+italic stacking in body.
-
-### rule_ibsrela_bold_not_substitute_for_hierarchy
-- class=typography scope=org_baseline hardness=soft_guidance polarity=must_not sections=None constraint=None
-- rule_text: Never use bold as a substitute for hierarchy — if a passage needs prominence, promote it to a subhead or an approved callout style instead.
-- intent: Force structural hierarchy rather than emphasis hacks when prominence is needed.
+### rule_ibsrela_no_bold_italic_combo_italic_reserved
+- class=typography scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
+- rule_text: Do not combine bold + italic in email body. Italic (Arial Italic) is used only for journal titles in references or where the approved copy deck specifies it.
+- intent: Keep italic scoped to citations and forbid stacked emphasis in body copy.

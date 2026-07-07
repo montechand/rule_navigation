@@ -1,0 +1,54 @@
+{
+  "id": "rule_ibsrela_email_responsive_build_technique",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "breakpoint.email.fluid"
+  },
+  "applies_when": [
+    {
+      "kind": "breakpoint",
+      "value": "below_480"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "breakpoint.email.fluid",
+        "token_id": "tok_ibsrela_email_fluid_breakpoint"
+      },
+      {
+        "element_path": "breakpoint.email.desktop",
+        "token_id": "tok_ibsrela_email_desktop_width"
+      },
+      {
+        "element_path": "breakpoint.email.mobile",
+        "token_id": "tok_ibsrela_email_mobile_width"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_email_desktop_width",
+    "tok_ibsrela_email_fluid_breakpoint",
+    "tok_ibsrela_email_mobile_width"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "[BASELINE] Build emails on a 600px fixed-width table; handle mobile via fluid/hybrid technique that collapses to a 375px design width, going 100% fluid below 480px.",
+  "intent": "Standardize the responsive email build method across all components.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_ibsrela_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Use 600px fixed-width table for emails; apply fluid/hybrid design collapsing to 375px width; below 480px, switch to 100% fluid layout for mobile."
+}

@@ -4,26 +4,29 @@
   "rule_class": "layout",
   "tags": [
     "iconography",
-    "spacing"
+    "color_application"
   ],
   "audience": "dtp_patient",
   "content_types": [
     "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_icon_callout"
   ],
   "scope": "brand",
   "selector": {
     "section_types": [
       "callout"
     ],
-    "element_path": "icon_callout"
+    "element_path": "icon_callout.box"
   },
   "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "icon_callout.section.fill",
-        "token_id": "tok_lisraya_icon_callout_section_fill"
+        "element_path": "icon_callout.section.background",
+        "token_id": "tok_lisraya_icon_callout_section_bg"
       },
       {
         "element_path": "icon_callout.section.padding",
@@ -46,31 +49,35 @@
         "token_id": "tok_lisraya_icon_callout_text_color"
       },
       {
+        "element_path": "icon_callout.text.font",
+        "token_id": "tok_lisraya_icon_callout_text_font"
+      },
+      {
         "element_path": "icon_callout.text.weight",
         "token_id": "tok_lisraya_icon_callout_text_weight"
       },
       {
-        "element_path": "icon_callout.text.size",
-        "token_id": "tok_lisraya_icon_callout_text_size"
+        "element_path": "icon_callout.text.type_scale",
+        "token_id": "tok_lisraya_icon_callout_text_type_scale"
       },
       {
-        "element_path": "icon_callout.text.align",
-        "token_id": "tok_lisraya_icon_callout_text_align"
+        "element_path": "icon_callout.text.alignment",
+        "token_id": "tok_lisraya_icon_callout_text_alignment"
       },
       {
         "element_path": "icon_callout.badge.fill",
         "token_id": "tok_lisraya_icon_callout_badge_fill"
       },
       {
-        "element_path": "icon_callout.badge.icon.stroke",
-        "token_id": "tok_lisraya_icon_callout_badge_icon_stroke"
+        "element_path": "icon_callout.badge.icon.stroke_color",
+        "token_id": "tok_lisraya_icon_callout_badge_stroke_color"
       },
       {
         "element_path": "icon_callout.badge.size",
         "token_id": "tok_lisraya_icon_callout_badge_size"
       },
       {
-        "element_path": "icon_callout.badge.inner_icon.size",
+        "element_path": "icon_callout.badge.icon.size",
         "token_id": "tok_lisraya_icon_callout_badge_inner_icon_size"
       }
     ]
@@ -80,28 +87,29 @@
   "precedence": 0,
   "token_ids": [
     "tok_lisraya_icon_callout_badge_fill",
-    "tok_lisraya_icon_callout_badge_icon_stroke",
     "tok_lisraya_icon_callout_badge_inner_icon_size",
     "tok_lisraya_icon_callout_badge_size",
+    "tok_lisraya_icon_callout_badge_stroke_color",
     "tok_lisraya_icon_callout_box_fill",
     "tok_lisraya_icon_callout_box_inset",
     "tok_lisraya_icon_callout_box_padding",
-    "tok_lisraya_icon_callout_section_fill",
+    "tok_lisraya_icon_callout_section_bg",
     "tok_lisraya_icon_callout_section_padding",
-    "tok_lisraya_icon_callout_text_align",
+    "tok_lisraya_icon_callout_text_alignment",
     "tok_lisraya_icon_callout_text_color",
-    "tok_lisraya_icon_callout_text_size",
+    "tok_lisraya_icon_callout_text_font",
+    "tok_lisraya_icon_callout_text_type_scale",
     "tok_lisraya_icon_callout_text_weight"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "The Icon Callout Box is a Light Blue (#E6F0F9) single accent-shape box on the section background (usually White #ffffff, section padding 16px 25px), holding a Brand Blue (#00529b) headline in Nunito Sans weight 800 at ~21px/28px, left-aligned and vertically centered to the box. A White (#ffffff) rounded-square icon badge (W=80px, inner Brand Blue-stroke line icon ~48px) straddles the box's left edge so it reads half-on/half-off. Used for supporting 'proof point' statements (dosing convenience, time-to-effect, etc.). Copy must never slide under the badge.",
-  "intent": "Define the branded proof-point callout with its overhanging badge treatment.",
-  "snippets": "<mj-section background-color=\"#ffffff\" padding=\"16px 25px\">",
+  "rule_text": "The Icon Callout Box is a Light Blue (#E6F0F9) accent-shape box holding a short Brand Blue (#00529b) headline in Nunito Sans weight 800 at ~21px/28px, left-aligned and vertically centered to the box, sitting on the section background (usually White #ffffff). A White (#ffffff) rounded-square icon badge holding a Brand-Blue-stroke line icon straddles the box's left edge (half-on/half-off). Used for supporting 'proof point' statements (dosing convenience, time-to-effect, etc.). Copy must never slide under the badge, so left padding must clear the overhanging badge half plus a gap (~W/2 + 24px).",
+  "intent": "Define the branded proof-point icon callout device with its fills, text, and badge.",
+  "snippets": "<td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[6]",
   "group_id": "grp_lisraya_color_scheme_rules_06",
   "status": "active",
   "version": 1,
-  "summary": "Icon Callout Box: Light Blue #E6F0F9 box on White #ffffff (16px 25px padding), Brand Blue #00529b Nunito Sans 800 ~21px/28px left, vertically center; White 80px rounded badge with 48px Brand Blue stroke icon half-overlay left edge; copy avoids badge overlap; for proof points."
+  "summary": "Icon Callout Box: Light Blue #E6F0F9 box, Brand Blue #00529b Nunito Sans 800 ~21px/28px left-aligned headline, white rounded-square badge with blue stroke icon half off left edge, left padding \u2265 half badge width + 24px, on white background."
 }

@@ -2,33 +2,54 @@
   "id": "rule_lisraya_chart_color_logic",
   "brand_id": "lisraya",
   "rule_class": "color_application",
+  "tags": [
+    "imagery"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_chart_section"
+  ],
   "scope": "brand",
   "selector": {
     "section_types": [
-      "chart"
+      "chart",
+      "efficacy"
     ],
-    "element_path": "chart.color_logic"
+    "element_path": "chart.series"
   },
   "evaluation_scope": "section",
-  "constraint_type": "exclusivity",
+  "constraint_type": "binding",
   "effect": {
-    "subject": "Sunshine/Gold chart color",
-    "reserved_for": "emphasis on key figures/data points only"
+    "assignments": [
+      {
+        "element_path": "chart.series.dominant_color",
+        "token_id": "tok_lisraya_chart_dominant_color"
+      },
+      {
+        "element_path": "chart.series.emphasis_color",
+        "token_id": "tok_lisraya_chart_emphasis_color"
+      },
+      {
+        "element_path": "chart.series.placebo_color",
+        "token_id": "tok_lisraya_chart_placebo_color"
+      }
+    ]
   },
   "polarity": "must",
-  "hardness": "hard_constraint",
+  "hardness": "strong_default",
   "precedence": 0,
-  "token_ids": [],
-  "asset_ids": [],
-  "governance_ids": [
-    "gov_lisraya_chart_color_emphasis"
+  "token_ids": [
+    "tok_lisraya_chart_dominant_color",
+    "tok_lisraya_chart_emphasis_color",
+    "tok_lisraya_chart_placebo_color"
   ],
-  "rule_text": "Chart color logic: Brand Blue and Sky Blue dominant; Sunshine and Gold reserved for emphasis on key figures/data points only; placebo/comparator uses neutral gray. Bound via chart.dominant.color, chart.emphasis.color and chart.placebo.color.",
-  "intent": "Protect the emphasis colors for the most important data and keep comparators neutral.",
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Chart color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) are dominant; Sunshine (#faa31b) and Gold (#ffc60a) are reserved for emphasis on key figures/data points only (chart.series.dominant_color / emphasis_color). Placebo/comparator series use neutral gray (chart.series.placebo_color).",
+  "intent": "Reserve warm accent colors for genuine data emphasis so hierarchy reads clearly.",
   "source": "design_bible",
   "doc_ref": "design_pattern_rules[4]",
   "group_id": "grp_lisraya_design_pattern_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "Chart colors: Brand Blue, Sky Blue dominant; Sunshine, Gold for key data emphasis; placebo/comparator is neutral gray; set in chart.dominant.color, chart.emphasis.color, chart.placebo.color."
+  "summary": "Use Brand Blue #00529b and Sky Blue #358CCB as dominant chart colors; Sunshine #faa31b and Gold #ffc60a for key data emphasis; gray for placebo/comparator."
 }

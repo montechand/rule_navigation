@@ -8,15 +8,28 @@
     "default": "#FFFFFF",
     "variants": null
   },
+  "derived_from": {
+    "base_token_id": "tok_ibsrela_color_white",
+    "op": "mix",
+    "amount": 1.0
+  },
   "aliases": [
-    "White",
     "Pantone Safe White",
-    "Safe White"
+    "Safe White",
+    "White",
+    "color.link.dark_panel"
   ],
   "tier": "primary",
   "scope": "global",
   "usage_ratio": 0.2,
-  "notes": "Primary white; RGB 255/255/255. Used for text on dark backgrounds, button fills.",
+  "gated": {
+    "is_gated": true,
+    "gate": {
+      "kind": "background_group",
+      "value": "dark"
+    }
+  },
+  "notes": "Primary; RGB 255/255/255; text on dark panels, button fills",
   "status": "active",
   "version": 1
 }

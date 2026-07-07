@@ -12,24 +12,19 @@ doc_ref: `design_pattern_rules[6]`
 - Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**).
 ````
 
-## Extracted rules (4)
+## Extracted rules (3)
 
-### rule_lisraya_limit_focal_points_per_section
+### rule_lisraya_generous_whitespace_single_focal_point
 - class=layout scope=brand hardness=strong_default polarity=must sections=None constraint=cardinality
-- rule_text: Maintain generous white space; keep sections clean, never cluttered. Limit focal points per section — use contrast to direct attention to the single most important element.
-- intent: Direct attention to one key element per section and avoid clutter.
+- rule_text: Maintain generous white space; layouts must stay clean, never cluttered. Limit focal points per section — use contrast to direct attention to the single most important element. Follow 'Show, don't tell': break up text walls with imagery and icons.
+- intent: Keep sections uncluttered and guide attention to one key element.
 
-### rule_lisraya_show_dont_tell_break_text_walls
-- class=layout scope=brand hardness=soft_guidance polarity=should sections=None constraint=None
-- rule_text: "Show, don't tell": break up text walls with imagery and icons.
-- intent: Improve readability and engagement by balancing text with visuals.
-
-### rule_lisraya_alternate_section_backgrounds_no_adjacent_match
-- class=assembly scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=exclusivity
-- rule_text: Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge. [GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.
-- intent: Prevent adjacent sections from visually merging by declaring and alternating background colors.
+### rule_lisraya_section_background_alternation
+- class=layout scope=org_baseline hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Color blocks delineate topics (My Compass webpage pattern): alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge, per the section.background.alternation token. [GENERAL] Section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.
+- intent: Prevent adjacent sections from visually merging during assembly.
 
 ### rule_lisraya_canonical_content_block_pattern
-- class=layout scope=brand hardness=strong_default polarity=should sections=['hero', 'patient_story'] constraint=ordering
-- rule_text: Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the reference template for visuals, messaging, and overall tone of ALL LISRAYA materials).
-- intent: Establish the reusable canonical content block anchored to the reference patient brochure.
+- class=assembly scope=brand hardness=strong_default polarity=should sections=['patient_story'] constraint=ordering
+- rule_text: Bold headline + simple benefit statements + patient quote is the canonical content block pattern, per the patient brochure, which is the reference template for visuals, messaging, and overall tone of ALL LISRAYA materials.
+- intent: Establish the reference content structure derived from the master patient brochure.

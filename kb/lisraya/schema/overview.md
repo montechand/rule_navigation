@@ -3,11 +3,11 @@
 This KB is the structured form of the LISRAYA design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: 109 brand_rules (topic clusters),
-244 brand_tokens (115 primitive /
-129 semantic), 9 design_assets,
-27 governance rows, 13 content_sub_types,
-28 rule_groups, 1 asset_groups.
+Contents: 107 brand_rules (topic clusters),
+232 brand_tokens (104 primitive /
+128 semantic), 10 design_assets,
+26 governance rows, 10 content_sub_types,
+28 rule_groups, 2 asset_groups.
 
 ## Layout
 

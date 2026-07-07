@@ -1,0 +1,51 @@
+{
+  "id": "rule_lisraya_gradient_cta_background_asset_lock",
+  "brand_id": "lisraya",
+  "rule_class": "cta",
+  "tags": [
+    "imagery",
+    "assembly"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_gradient_callout_cta"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "gradient_cta.background"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "gradient_cta.background",
+        "token_id": "tok_lisraya_gradient_cta_background"
+      }
+    ]
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_gradient_cta_background"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_gradient_callout_asset_lock"
+  ],
+  "rule_text": "The gradient background is the specific approved asset (ast_lisraya_gradient_callout_bg / Gradient_callout.png), applied as the section background sized cover, no-repeat, centered, full 600px width. Do not re-host or recolor it. Always set a solid background-color of Sunshine #faa31b as fallback, since clients like Outlook drop background images.",
+  "intent": "Prevent unauthorized re-hosting/recoloring of the locked gradient asset and guarantee a fallback fill.",
+  "snippets": "background-url=\"...Gradient_callout.png\" ... background-color=\"#faa31b\"",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_lisraya_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Use gradient_callout.png as section background, cover, no-repeat, centered, 600px wide; fallback solid Sunshine #faa31b; no recolor or re-host."
+}

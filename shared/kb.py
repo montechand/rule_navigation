@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from .config import kb_dir
+from .registries import get_registries
 from .schemas import (
     AssetGroup,
     BrandRule,
@@ -67,6 +68,9 @@ class KB:
         self.root = kb_dir(brand)
         if not self.root.exists():
             raise FileNotFoundError(f"KB for brand '{brand}' not built yet: {self.root}")
+        # Dynamic vocabulary: registry core + discoveries for this brand, plus anything
+        # actually present in the KB (robust to registry edits after a build).
+        self.section_types: list[str] = list(get_registries().section_types(brand))
 
         self.rules: dict[str, BrandRule] = {
             k: BrandRule(**v) for k, v in _load_dir(self.root / "rules").items()
@@ -99,6 +103,15 @@ class KB:
 
         graph_path = self.root / "graph" / "graph.json"
         self.graph: dict[str, Any] = json.loads(graph_path.read_text()) if graph_path.exists() else {"nodes": [], "edges": []}
+
+        for r in self.rules.values():
+            for s in r.selector.section_types or []:
+                if s not in self.section_types:
+                    self.section_types.append(s)
+        for sub in self.subtypes.values():
+            for s in sub.covers_section_types or []:
+                if s not in self.section_types:
+                    self.section_types.append(s)
 
     # ------------------------------------------------------------------
     def exists(self, entity_id: str) -> bool:

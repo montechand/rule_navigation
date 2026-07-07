@@ -5,42 +5,45 @@
   "tags": [
     "copy_editorial"
   ],
+  "content_sub_type_ids": [
+    "sub_lisraya_chart_section"
+  ],
   "scope": "brand",
   "selector": {
     "section_types": [
       "chart"
     ],
-    "element_path": "chart.headline.case"
+    "element_path": "chart.header.case"
   },
   "evaluation_scope": "element",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "chart.headline.case",
-        "token_id": "tok_lisraya_chart_headline_case"
+        "element_path": "chart.header.case",
+        "token_id": "tok_lisraya_chart_header_case"
       },
       {
-        "element_path": "chart.headline.font",
-        "token_id": "tok_lisraya_chart_headline_font"
+        "element_path": "chart.header.font",
+        "token_id": "tok_lisraya_chart_header_font"
       }
     ]
   },
   "polarity": "must",
-  "hardness": "hard_constraint",
+  "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_chart_headline_case",
-    "tok_lisraya_chart_headline_font"
+    "tok_lisraya_chart_header_case",
+    "tok_lisraya_chart_header_font"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Chart/infographic headlines are set in ALL CAPS, in Agenda (print) / Nunito Sans Bold+ (email fallback). Binds chart.headline.case (case.chart_headline.all_caps) and chart.headline.font.",
-  "intent": "Distinguish chart headlines with consistent all-caps treatment.",
+  "rule_text": "Chart/infographic headlines are set in ALL CAPS, in Agenda (print) / Nunito Sans Bold or heavier (email fallback).",
+  "intent": "Distinct, consistent styling for chart headers.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[2]",
   "group_id": "grp_lisraya_content_pattern_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Chart/infographic headlines use ALL CAPS in Agenda (print) or Nunito Sans Bold (email fallback), tied to chart.headline.case and chart.headline.font."
+  "summary": "Chart/infographic headlines use ALL CAPS in Agenda (print) or Nunito Sans Bold+ (email fallback) typography."
 }

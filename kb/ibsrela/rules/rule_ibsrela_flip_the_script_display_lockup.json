@@ -1,14 +1,16 @@
 {
   "id": "rule_ibsrela_flip_the_script_display_lockup",
   "brand_id": "ibsrela",
-  "rule_class": "imagery",
+  "rule_class": "typography",
   "tags": [
-    "typography",
+    "imagery",
     "color_application"
   ],
   "scope": "campaign",
   "selector": {
-    "element_path": "campaign.lockup"
+    "section_types": [
+      "hero"
+    ]
   },
   "applies_when": [
     {
@@ -21,16 +23,16 @@
   "effect": {
     "assignments": [
       {
-        "element_path": "campaign.lockup.on_ibsc.weight",
-        "token_id": "tok_ibsrela_flip_lockup_on_ibsc_weight"
+        "element_path": "campaign.on_ibsc.weight",
+        "token_id": "tok_ibsrela_campaign_on_ibsc_weight"
       },
       {
-        "element_path": "campaign.lockup.on_ibsc.opacity",
-        "token_id": "tok_ibsrela_flip_lockup_on_ibsc_opacity"
+        "element_path": "campaign.on_ibsc.opacity",
+        "token_id": "tok_ibsrela_campaign_on_ibsc_opacity"
       },
       {
-        "element_path": "campaign.lockup.swoosh.opacity",
-        "token_id": "tok_ibsrela_flip_lockup_swoosh_opacity"
+        "element_path": "campaign.swoosh.opacity",
+        "token_id": "tok_ibsrela_campaign_swoosh_opacity"
       }
     ]
   },
@@ -38,18 +40,18 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_flip_lockup_on_ibsc_opacity",
-    "tok_ibsrela_flip_lockup_on_ibsc_weight",
-    "tok_ibsrela_flip_lockup_swoosh_opacity"
+    "tok_ibsrela_campaign_on_ibsc_opacity",
+    "tok_ibsrela_campaign_on_ibsc_weight",
+    "tok_ibsrela_campaign_swoosh_opacity"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "In the 'FLIP THE SCRIPT' display lockup, the word 'THE' is flipped upside down; 'ON IBS-C' is set in Avenir Light at 50% opacity, with the hyphen replaced by the brand swoosh at 100% opacity. Weight/opacity governed by campaign.lockup.on_ibsc.weight, campaign.lockup.on_ibsc.opacity, and campaign.lockup.swoosh.opacity tokens.",
-  "intent": "Lock the specific typographic construction of the FLIP THE SCRIPT display lockup.",
+  "rule_text": "In the 'FLIP THE SCRIPT' display lockup, the word 'THE' is flipped upside down; 'ON IBS-C' is set in Avenir Light (campaign.on_ibsc.weight) at 50% opacity (campaign.on_ibsc.opacity), with the hyphen replaced by the brand swoosh at 100% opacity (campaign.swoosh.opacity). See \u00a72.6.",
+  "intent": "Lock the composition and treatment of the Flip The Script display lockup.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[2]",
   "group_id": "grp_ibsrela_content_pattern_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "In 'FLIP THE SCRIPT' lockup, 'THE' is upside down; 'ON IBS-C' uses Avenir Light with 50% opacity, hyphen replaced by 100% opacity swoosh; weights/opacities per campaign tokens."
+  "summary": "In 'FLIP THE SCRIPT' lockup, 'THE' is upside down; 'ON IBS-C' uses Avenir Light at 50% opacity, hyphen replaced by brand swoosh at 100% opacity per \u00a72.6."
 }

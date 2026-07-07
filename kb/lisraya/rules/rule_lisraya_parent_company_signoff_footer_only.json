@@ -6,18 +6,21 @@
     "assembly"
   ],
   "audience": "dtp_patient",
+  "content_sub_type_ids": [
+    "sub_lisraya_locked_footer_isi"
+  ],
   "scope": "brand",
   "selector": {
     "section_types": [
       "end_matter"
     ]
   },
-  "evaluation_scope": "section",
+  "evaluation_scope": "email",
   "constraint_type": "verbatim_content",
   "effect": {
     "content": "Priovant Therapeutics, Inc.",
     "governance_id": "gov_lisraya_parent_company",
-    "trigger": "parent company sign-off"
+    "trigger": null
   },
   "polarity": "must_not",
   "hardness": "hard_constraint",
@@ -28,12 +31,12 @@
     "gov_lisraya_locked_legal_elements",
     "gov_lisraya_parent_company"
   ],
-  "rule_text": "Parent company sign-off (Priovant Therapeutics, Inc.) lives in the locked footer \u2014 do not add it in content sections.",
-  "intent": "Keep legal sign-off in the locked footer and out of body sections.",
+  "rule_text": "Parent company is Priovant Therapeutics, Inc. The sign-off lives in the locked footer \u2014 do not add it in sections.",
+  "intent": "Keep parent-company sign-off confined to the locked footer.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[0]",
   "group_id": "grp_lisraya_content_pattern_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Parent company sign-off \"Priovant Therapeutics, Inc.\" only in locked footer; exclude from all content sections."
+  "summary": "Parent company is Priovant Therapeutics, Inc.; sign-off located only in locked footer, never added within sections."
 }

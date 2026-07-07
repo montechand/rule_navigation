@@ -1,0 +1,51 @@
+{
+  "id": "rule_lisraya_modular_section_self_contained_stacking",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "layout",
+    "spacing"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "section.container"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "canvas.email_width",
+        "token_id": "tok_lisraya_canvas_width"
+      },
+      {
+        "element_path": "section.padding.top",
+        "token_id": "tok_lisraya_section_vertical_padding"
+      },
+      {
+        "element_path": "section.padding.bottom",
+        "token_id": "tok_lisraya_section_vertical_padding"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_canvas_width",
+    "tok_lisraya_section_vertical_padding"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Each section is a self-contained <table>-based block at 600px with its own top/bottom 32px padding and a declared background color. There must be no margins outside the section \u2014 assembly is direct stacking of sections.",
+  "intent": "Guarantee predictable modular stacking with no external margins across email clients.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[2]",
+  "group_id": "grp_lisraya_other_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Each section is a 600px wide, table-based block with 32px top/bottom padding, declared background color, and no external margins for direct stacking."
+}

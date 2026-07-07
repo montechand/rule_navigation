@@ -39,6 +39,7 @@ from rich.console import Console
 
 from shared import config
 from shared.llm import Usage, complete_json
+from shared.registries import get_registries, parse_other
 from shared.schemas import (
     ASSET_TYPES,
     AUDIENCES,
@@ -49,15 +50,12 @@ from shared.schemas import (
     HARDNESS,
     POLARITIES,
     PREDICATE_REGISTRY,
-    RELATIONS,
     RULE_CLASSES,
     SCOPES,
-    SECTION_TYPES,
     SEVERITIES,
     SUBTYPE_KINDS,
     TOKEN_KINDS,
     TOKEN_TIERS,
-    TOKEN_TYPES,
     VERDICTS,
     AssetGroup,
     BrandRule,
@@ -85,6 +83,15 @@ RULE_CLASS_ALIASES = {
     "grid": "layout", "structure": "assembly", "governance": "copy_editorial",
     "buttons": "cta", "button": "cta",
 }
+
+# wave was renamed to the generic graphic_device (brand-look motifs: waves, swooshes,
+# accent shapes, patterns); alias keeps cached/older extractions valid.
+ASSET_TYPE_ALIASES = {"wave": "graphic_device", "swoosh": "graphic_device",
+                      "motif": "graphic_device", "pattern": "graphic_device"}
+
+DISCOVERY_NOTE = ("If NOTHING in the closed list fits, you may propose a genuinely novel "
+                  "entry as \"other.<snake_case_name>\" — use sparingly; prefer the "
+                  "closed vocabulary.")
 
 
 # ---------------------------------------------------------------------------
@@ -178,6 +185,7 @@ Rules of thumb:
 - Derived values (40% tint of X, top layer at 70% over base) -> derived_from.
 - Reserved/conditional values (teal only with LPGA; Avenir Heavy only for boxed warning)
   -> gated with a predicate {{kind, value}} from: {predicates}.
+- token_type: {discovery_note}
 - Use lowercase snake_case ids. Do not invent values not in the document.
 
 DESIGN BIBLE:
@@ -223,6 +231,7 @@ How to encode the IF/ELSE:
 - Reference primitives by {{"$ref": "tok_..."}} whenever the value exists in the primitive
   catalog; keep literals only for one-off values, and prefer promoting repeated literals.
 - Gated/reserved element bindings -> gated. Campaign-scoped -> scope "campaign:<name>".
+- token_type: {discovery_note}
 - Use ONLY primitive ids from the catalog below; never fabricate ids.
 
 PRIMITIVE TOKEN CATALOG:
@@ -262,6 +271,7 @@ REST of the entity catalog from the design bible. Return JSON:
     "audience": null, "best_for": "..." | null,
     "slots": ["..."] | null, "reference_dims": {{"desktop": {{"w":600,"h":1138}}, "mobile": {{"w":375,"h":788}}}} | null,
     "assembly": {{"position": "first|last|any", "repeatable": <bool>, "locked": <bool>}} | null,
+    "covers_section_types": subset of {section_types} | null (which section vocabulary entries the component covers, e.g. a locked header -> ["top_matter"], a header-with-hero -> ["top_matter","hero"], End Matter/ISI+footer -> ["end_matter"]),
     "notes": null
   }}],
   "asset_groups": [{{"id": "agr_{brand}_<slug>", "name": "...", "semantics": "..."}}]
@@ -310,7 +320,7 @@ Cluster the blob below into coherent brand_rule rows. Return JSON:
     "audience": one of {audiences} | null (null = all; this brand's materials are mostly {default_audience}),
     "content_types": subset of {content_types} | null (null = all surfaces; use ["email"] when email-specific),
     "scope": one of {scopes},
-    "selector": {{"section_types": subset of {section_types} | null, "element_path": "<dotted path like cta.button.fill>" | null}},
+    "selector": {{"section_types": subset of {section_types} | null (or "other.<new_section>" for a genuinely novel recurring section device), "element_path": "<dotted path like cta.button.fill>" | null}},
     "applies_when": [{{"kind": one of {predicates}, "value": <object/string>}}] | null,
     "evaluation_scope": one of {evaluation_scopes},
     "constraint_type": one of {constraint_types} | null,
@@ -318,12 +328,13 @@ Cluster the blob below into coherent brand_rule rows. Return JSON:
     "polarity": one of {polarities},
     "hardness": one of {hardness},
     "precedence": <int, 0 default; higher = wins ties>,
+    "content_sub_type_ids": [<sub_ ids from catalog>] | null (null = applies to ALL email sub-types/templates; set ids when the rule is scoped to specific components or templates — e.g. locked Top/End Matter obligations, "use component X when ..." rules),
     "governance_ids": [<gov_ ids from catalog>] | [],
     "rule_text": "<faithful, self-contained restatement; may quote the source>",
     "intent": "<one-line WHY>",
     "snippets": "<verbatim MJML/SVG/code from the blob if illustrative>" | null
   }}],
-  "relations": [{{"src_slug": "...", "dst_slug": "...", "relation": one of {relations}, "note": "..."}}]
+  "relations": [{{"src_slug": "...", "dst_slug": "...", "relation": one of {relations} (or "other.<new_relation>" if the semantic is genuinely new), "note": "..."}}]
 }}
 
 Effect payload shapes by constraint_type:
@@ -366,11 +377,18 @@ Hard requirements — TOKEN-FIRST CLUSTERING:
 7. selector.section_types: null when the rule applies to any section; otherwise the specific
    sections. Map source phrasing to the closed vocabulary (e.g. "CTA section" -> ["cta"],
    "charts" -> ["chart"], "callout boxes" -> ["callout"], locked header/footer -> top_matter/end_matter).
+   {discovery_note}
 8. constraint_type/effect are best-effort: if the cluster resists the typed shapes, set both
    null (rule_text stays authoritative). A binding-style cluster may carry many assignments
    in one effect. Never force a bad fit.
 9. relations: only within this blob's rules (e.g. an exception refining a base rule ->
-   "refines"). Use sparingly.
+   "refines", a rule that wins over another -> "overrides", devices that cannot co-occur ->
+   "mutually_exclusive"). Use sparingly.
+10. content_sub_type_ids: the catalog lists email components AND concrete approved
+   templates (sub_..._tpl_...). Scope the rule to them when the source ties it to specific
+   components/templates ("Top Matter — LOCKED", "use the Secondary component for...",
+   which header/footer template to use when); leave null for rules that hold across all
+   email sub-types.
 
 ENTITY CATALOG (ids you may reference):
 {catalog}
@@ -418,9 +436,16 @@ def catalog_summary(catalog: dict[str, list[dict[str, Any]]]) -> str:
     lines.append("governance:")
     for g in catalog["governance"]:
         lines.append(f"  {g['id']}  type={g.get('gov_type')}  verdict={g.get('verdict')}  subject={(g.get('subject') or '')[:90]}")
-    lines.append("subtypes:")
+    lines.append("subtypes (components + concrete templates; rules scope via content_sub_type_ids):")
     for s in catalog["subtypes"]:
-        lines.append(f"  {s['id']}  {s.get('name')}  locked={bool((s.get('assembly') or {}).get('locked'))}")
+        bits = [s["id"], str(s.get("name"))]
+        if s.get("covers_section_types"):
+            bits.append(f"covers={s['covers_section_types']}")
+        if bool((s.get("assembly") or {}).get("locked")):
+            bits.append("LOCKED")
+        if s.get("template_ref"):
+            bits.append("TEMPLATE")
+        lines.append("  " + "  ".join(bits))
     lines.append("asset_groups:")
     for ag in catalog["asset_groups"]:
         lines.append(f"  {ag['id']}  {ag.get('name')}")
@@ -475,8 +500,49 @@ def scan_ids(obj: Any) -> set[str]:
     return set(ID_SCAN_RE.findall(json.dumps(obj, default=str))) if obj is not None else set()
 
 
+def coerce_with_discovery(value: Any, domain: str, brand: str, vocab: list[str],
+                          ctx: str, warns: Warnings) -> Optional[str]:
+    """Closed-vocab coercion that honors the `other.<name>` discovery convention.
+
+    Known value -> normalized. `other.<name>` -> registered permanently in
+    shared/registries.json (brand-scoped for section_types) and returned. Bare unknown
+    values are dropped (typos must not pollute the registry).
+    """
+    if value is None:
+        return None
+    v = str(value).strip().lower()
+    if v in vocab:
+        return v
+    proposed = parse_other(v)
+    if proposed:
+        reg = get_registries()
+        if proposed in vocab:
+            return proposed
+        name, added = reg.register(domain, proposed, brand=brand, note=f"proposed by extraction ({ctx})")
+        if added:
+            warns.add(f"{ctx}: DISCOVERED new {domain} entry '{name}' -> registered")
+        return name
+    warns.add(f"{ctx}: {domain} value {value!r} unknown (not an other.* proposal); dropped")
+    return None
+
+
+def coerce_sections_with_discovery(values: Any, brand: str, vocab: list[str],
+                                   ctx: str, warns: Warnings) -> Optional[list[str]]:
+    if values is None:
+        return None
+    if not isinstance(values, list):
+        values = [values]
+    kept = []
+    for v in values:
+        r = coerce_with_discovery(v, "section_types", brand, vocab, ctx, warns)
+        if r:
+            kept.append(r)
+    return list(dict.fromkeys(kept)) or None
+
+
 def validate_rule(raw: dict[str, Any], brand: str, group_id: str, doc_ref: str,
-                  used_ids: set[str], catalog_ids: set[str], warns: Warnings) -> Optional[BrandRule]:
+                  used_ids: set[str], catalog_ids: set[str], warns: Warnings,
+                  section_vocab: list[str]) -> Optional[BrandRule]:
     slug = slugify(str(raw.get("slug") or raw.get("rule_text", "rule")[:40]))
     rule_id = f"rule_{brand}_{slug}"
     n = 2
@@ -493,8 +559,8 @@ def validate_rule(raw: dict[str, Any], brand: str, group_id: str, doc_ref: str,
 
     sel_raw = raw.get("selector") or {}
     selector = Selector(
-        section_types=coerce_enum_list(sel_raw.get("section_types"), SECTION_TYPES,
-                                       "selector.section_types", ctx, warns),
+        section_types=coerce_sections_with_discovery(sel_raw.get("section_types"), brand,
+                                                     section_vocab, ctx, warns),
         element_path=sel_raw.get("element_path") or None,
     )
 
@@ -598,6 +664,8 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
     subtypes: dict[str, ContentSubType] = {}
     asset_groups: dict[str, AssetGroup] = {}
 
+    reg = get_registries()
+    token_vocab = reg.token_types()
     for t in raw.get("tokens", []):
         ctx = t.get("id", "token?")
         if ctx in tokens:
@@ -609,8 +677,8 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
                 element_paths = [str(element_paths)]
             tok = BrandToken(
                 id=t["id"], brand_id=brand,
-                token_type=coerce_enum(t.get("token_type"), TOKEN_TYPES, "other",
-                                       "token_type", ctx, warns) or "other",
+                token_type=coerce_with_discovery(t.get("token_type"), "token_types", brand,
+                                                 token_vocab, ctx, warns) or "other",
                 kind=coerce_enum(t.get("kind"), TOKEN_KINDS, "primitive",
                                  "kind", ctx, warns) or "primitive",
                 key=t.get("key") or t["id"],
@@ -642,7 +710,7 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
             asset = DesignAsset(
                 id=a["id"], brand_id=brand,
                 asset_type=coerce_enum(a.get("asset_type"), ASSET_TYPES, "photo",
-                                       "asset_type", ctx, warns) or "photo",
+                                       "asset_type", ctx, warns, ASSET_TYPE_ALIASES) or "photo",
                 uri=a.get("uri"), mime=a.get("mime"), dims=a.get("dims"),
                 description=a.get("description") or "",
                 alt_text=a.get("alt_text"),
@@ -681,6 +749,7 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
         except (ValidationError, KeyError) as e:
             warns.add(f"{ctx}: governance invalid, skipped ({e})")
 
+    section_vocab = reg.section_types(brand)
     for s in raw.get("subtypes", []):
         ctx = s.get("id", "subtype?")
         try:
@@ -695,6 +764,10 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
                 audience=coerce_enum(s.get("audience"), AUDIENCES, None, "audience", ctx, warns),
                 best_for=s.get("best_for"), slots=s.get("slots"),
                 reference_dims=s.get("reference_dims"), assembly=s.get("assembly"),
+                covers_section_types=coerce_sections_with_discovery(
+                    s.get("covers_section_types"), brand, section_vocab, ctx, warns),
+                template_ref=s.get("template_ref"),
+                template_file=s.get("template_file"),
                 notes=s.get("notes"),
             )
             subtypes[sub.id] = sub
@@ -721,15 +794,173 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
 
 
 # ---------------------------------------------------------------------------
+# Template library ingestion (deterministic)
+# ---------------------------------------------------------------------------
+
+_COMMENT_RE = re.compile(r"<!--(.*?)-->", re.DOTALL)
+
+
+def _template_covers(description: str, html: str) -> list[str]:
+    """Classify which section types a concrete template covers, from its description
+    and HTML comments (not body text, which would false-positive)."""
+    comments = " ".join(m.group(1) for m in _COMMENT_RE.finditer(html))
+    blob = f"{description} {comments}".lower()
+    covers = []
+    if "header" in blob or "top matter" in blob or "top_matter" in blob:
+        covers.append("top_matter")
+    if re.search(r"\bhero\b", blob):
+        covers.append("hero")
+    if "footer" in blob or "isi" in blob or "end matter" in blob or "end_matter" in blob:
+        covers.append("end_matter")
+    return covers
+
+
+def ingest_template_library(brand: str, subtypes: dict[str, ContentSubType],
+                            warns: Warnings) -> dict[str, str]:
+    """Merge concrete approved templates into content_sub_type rows.
+
+    Returns {subtype_id: template_body} for write_kb to store under kb/{brand}/templates/.
+    """
+    path = config.TEMPLATE_LIBRARIES.get(brand)
+    if not path:
+        return {}
+    if not path.exists():
+        warns.add(f"template library configured but missing: {path}")
+        return {}
+    entries = json.loads(path.read_text()).get("template_library", [])
+    bodies: dict[str, str] = {}
+    for entry in entries:
+        if (entry.get("template_content_type") or "").upper() != "EMAIL":
+            continue
+        desc = (entry.get("template_description") or "").strip().lstrip("#").strip()
+        html = entry.get("html_code") or ""
+        covers = _template_covers(desc, html)
+        if not covers:
+            warns.add(f"template {entry.get('id')}: could not classify covers_section_types "
+                      f"from description {desc!r}; ingested unclassified")
+        sub_id = f"sub_{brand}_tpl_{slugify(desc or entry.get('id', 'template'))}"
+        n = 2
+        while sub_id in subtypes or sub_id in bodies:
+            sub_id = f"sub_{brand}_tpl_{slugify(desc or 'template')}_{n}"
+            n += 1
+        position = "first" if "top_matter" in covers else ("last" if "end_matter" in covers else "any")
+        subtypes[sub_id] = ContentSubType(
+            id=sub_id, brand_id=brand, kind="email_component", content_type="email",
+            name=desc or sub_id, channel="email",
+            best_for=desc or None,
+            assembly={"position": position, "repeatable": False, "locked": True},
+            covers_section_types=covers or None,
+            template_ref=entry.get("id"),
+            template_file=f"templates/{sub_id}.mjml",
+            notes=f"concrete approved template from library (id {entry.get('id')})",
+        )
+        bodies[sub_id] = html
+    if bodies:
+        warns.add(f"ingested {len(bodies)} concrete templates from {path.name}")
+    return bodies
+
+
+# ---------------------------------------------------------------------------
+# Token dedupe (deterministic, pre-rules so effects bind canonical ids)
+# ---------------------------------------------------------------------------
+
+def _remap_refs(obj: Any, merge_map: dict[str, str]) -> Any:
+    if isinstance(obj, dict):
+        if set(obj.keys()) == {"$ref"} and obj["$ref"] in merge_map:
+            return {"$ref": merge_map[obj["$ref"]]}
+        return {k: _remap_refs(v, merge_map) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_remap_refs(x, merge_map) for x in obj]
+    if isinstance(obj, str) and obj in merge_map:
+        return merge_map[obj]
+    return obj
+
+
+def _mergeable(a: BrandToken, b: BrandToken) -> bool:
+    """Metadata must agree (or be one-sided-null) for a safe merge."""
+    for attr in ("tier", "audience", "usage_ratio"):
+        va, vb = getattr(a, attr), getattr(b, attr)
+        if va is not None and vb is not None and va != vb:
+            return False
+    for attr in ("gated", "derived_from"):
+        va, vb = getattr(a, attr), getattr(b, attr)
+        if va and vb and json.dumps(va, sort_keys=True) != json.dumps(vb, sort_keys=True):
+            return False
+    return True
+
+
+def dedupe_tokens(tokens: dict[str, BrandToken], warns: Warnings) -> tuple[dict[str, str], list[str]]:
+    """Merge exact duplicates in place. Primitives: same (token_type, value, scope) —
+    the same hex under two names becomes one token with aliases. Semantics additionally
+    require the same key/element_paths (two bindings sharing a value are NOT duplicates).
+    Returns (merge_map old_id->canonical_id, near_duplicate_report_lines)."""
+
+    def norm_value(v: Any) -> str:
+        return json.dumps(v, sort_keys=True, default=str)
+
+    groups: dict[tuple, list[BrandToken]] = {}
+    for t in tokens.values():
+        if t.kind == "semantic":
+            key = ("semantic", t.key, tuple(sorted(t.element_paths or [])),
+                   norm_value(t.value), t.scope)
+        else:
+            key = ("primitive", t.token_type, norm_value(t.value), t.scope)
+        groups.setdefault(key, []).append(t)
+
+    merge_map: dict[str, str] = {}
+    for group in groups.values():
+        if len(group) < 2:
+            continue
+        group.sort(key=lambda t: (len(t.id), t.id))
+        canon = group[0]
+        for dup in group[1:]:
+            if not _mergeable(canon, dup):
+                continue
+            merge_map[dup.id] = canon.id
+            canon.aliases = sorted(set(canon.aliases) | set(dup.aliases)
+                                   | ({dup.key} if dup.key != canon.key else set()))
+            if dup.element_paths:
+                canon.element_paths = sorted(set(canon.element_paths or []) | set(dup.element_paths))
+            for attr in ("tier", "audience", "usage_ratio", "gated", "derived_from", "notes"):
+                if getattr(canon, attr) is None and getattr(dup, attr) is not None:
+                    setattr(canon, attr, getattr(dup, attr))
+
+    for old in merge_map:
+        del tokens[old]
+    # Remap $refs / derived_from across surviving tokens.
+    if merge_map:
+        for t in tokens.values():
+            t.value = _remap_refs(t.value, merge_map)
+            if t.derived_from:
+                t.derived_from = _remap_refs(t.derived_from, merge_map)
+        warns.add(f"token dedupe: merged {len(merge_map)} exact duplicates")
+
+    # Near-duplicates (same type+value, different scope/metadata) -> human review.
+    near: list[str] = []
+    by_value: dict[tuple, list[BrandToken]] = {}
+    for t in tokens.values():
+        if t.kind == "primitive":
+            by_value.setdefault((t.token_type, norm_value(t.value)), []).append(t)
+    for (ttype, _), group in by_value.items():
+        if len(group) > 1:
+            near.append(f"- {ttype}: " + " | ".join(
+                f"{t.id} (scope={t.scope}, tier={t.tier}, gated={bool(t.gated)})" for t in group))
+    return merge_map, near
+
+
+# ---------------------------------------------------------------------------
 # Graph
 # ---------------------------------------------------------------------------
 
 def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
-                relations: list[RuleRelation]) -> dict[str, Any]:
+                relations: list[RuleRelation], section_vocab: list[str]) -> dict[str, Any]:
     nodes: list[dict[str, Any]] = []
     edges: list[dict[str, Any]] = []
 
-    for s in SECTION_TYPES:
+    # Brand vocab plus anything referenced by rules/subtypes (safety net).
+    referenced = {s for r in rules.values() for s in (r.selector.section_types or [])}
+    referenced |= {s for sub in cat["subtypes"].values() for s in (sub.covers_section_types or [])}
+    for s in list(dict.fromkeys([*section_vocab, *sorted(referenced)])):
         nodes.append({"id": f"sec_{s}", "kind": "section_type", "label": s})
     for r in rules.values():
         nodes.append({"id": r.id, "kind": "rule", "label": (r.summary or r.rule_text)[:100],
@@ -770,7 +1001,10 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
     for g in cat["governance"].values():
         nodes.append({"id": g.id, "kind": "governance", "label": g.subject[:100]})
     for s in cat["subtypes"].values():
-        nodes.append({"id": s.id, "kind": "subtype", "label": s.name})
+        nodes.append({"id": s.id, "kind": "subtype", "label": s.name,
+                      "is_template": bool(s.template_ref)})
+        for sec in s.covers_section_types or []:
+            edges.append({"src": s.id, "dst": f"sec_{sec}", "type": "covers_section"})
     for ag in cat["asset_groups"].values():
         nodes.append({"id": ag.id, "kind": "asset_group", "label": ag.name})
 
@@ -787,7 +1021,10 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
 
 def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
              groups: dict[str, RuleGroup], relations: list[RuleRelation],
-             warns: Warnings) -> None:
+             warns: Warnings, template_bodies: Optional[dict[str, str]] = None,
+             near_dupes: Optional[list[str]] = None) -> None:
+    template_bodies = template_bodies or {}
+    section_vocab = get_registries().section_types(brand)
     root = config.kb_dir(brand)
     if root.exists():
         # Preserve vectors/ across rebuilds; everything else is regenerated.
@@ -796,11 +1033,12 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
                 shutil.rmtree(child) if child.is_dir() else child.unlink()
     root.mkdir(parents=True, exist_ok=True)
 
-    # schema docs
+    # schema docs (section_vocab.md is brand-generated from the dynamic registry)
     schema_dir = root / "schema"
     schema_dir.mkdir(exist_ok=True)
     for stem, content in schema_docs.entity_docs().items():
         (schema_dir / f"{stem}.md").write_text(content)
+    (schema_dir / "section_vocab.md").write_text(schema_docs.section_vocab_doc(brand))
     counts = {"rules": len(rules), "tokens": len(cat["tokens"]),
               "tokens_primitive": sum(1 for t in cat["tokens"].values() if t.kind == "primitive"),
               "tokens_semantic": sum(1 for t in cat["tokens"].values() if t.kind == "semantic"),
@@ -847,7 +1085,9 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
                             "uri": e.uri, "group_id": e.group_id})
             elif name == "subtypes":
                 idx.append({"id": e.id, "name": e.name, "kind": e.kind,
-                            "locked": bool((e.assembly or {}).get("locked"))})
+                            "locked": bool((e.assembly or {}).get("locked")),
+                            "covers_section_types": e.covers_section_types,
+                            "template_ref": e.template_ref})
             else:
                 idx.append({"id": e.id, "type": e.gov_type, "verdict": e.verdict,
                             "subject": e.subject[:120]})
@@ -863,10 +1103,18 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
     (groups_dir / "relations.json").write_text(
         json.dumps([r.model_dump(exclude_none=True) for r in relations], indent=2))
 
+    # templates (concrete approved bodies referenced by subtype.template_file)
+    if template_bodies:
+        tpl_dir = root / "templates"
+        tpl_dir.mkdir(exist_ok=True)
+        for sub_id, body in template_bodies.items():
+            (tpl_dir / f"{sub_id}.mjml").write_text(body)
+
     # graph
     graph_dir = root / "graph"
     graph_dir.mkdir(exist_ok=True)
-    (graph_dir / "graph.json").write_text(json.dumps(build_graph(rules, cat, relations), indent=2))
+    (graph_dir / "graph.json").write_text(
+        json.dumps(build_graph(rules, cat, relations, section_vocab), indent=2))
 
     # review files
     review_dir = root / "review"
@@ -889,6 +1137,10 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
     (review_dir / "warnings.md").write_text(
         "# Build warnings\n\n" + "\n".join(f"- {w}" for w in warns.items) if warns.items
         else "# Build warnings\n\n(none)")
+    if near_dupes:
+        (review_dir / "token_near_duplicates.md").write_text(
+            "# Token near-duplicates (same type+value, different scope/metadata — NOT "
+            "auto-merged; review whether they should unify)\n\n" + "\n".join(near_dupes))
 
 
 # ---------------------------------------------------------------------------
@@ -913,6 +1165,10 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
     console.print(f"  {len(blobs)} rule_groups from {len(bible)} categories")
 
     # Pass A — token-first catalog
+    reg = get_registries()
+    section_vocab = reg.section_types(brand)
+    token_type_vocab = reg.token_types()
+    relations_vocab = reg.relations()
     full_bible_text = "\n\n".join(
         f"## CATEGORY: {cat_name}\n\n" + "\n\n---\n\n".join(items) for cat_name, items in bible.items()
     )
@@ -923,8 +1179,9 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
     raw_prims = await cached_json_call(
         brand, "tokens_primitive", CATALOG_SYSTEM,
         TOKENS_PRIMITIVE_PROMPT.format(brand=brand, bible=full_bible_text,
-                                       token_types=TOKEN_TYPES, common=common,
-                                       predicates=PREDICATE_REGISTRY), usage)
+                                       token_types=token_type_vocab, common=common,
+                                       predicates=PREDICATE_REGISTRY,
+                                       discovery_note=DISCOVERY_NOTE), usage)
     prim_tokens = [dict(t, kind="primitive") for t in raw_prims.get("tokens", []) if isinstance(t, dict)]
     console.print(f"  A1a: {len(prim_tokens)} primitive tokens")
 
@@ -932,8 +1189,9 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
     raw_sems = await cached_json_call(
         brand, "tokens_semantic", CATALOG_SYSTEM,
         TOKENS_SEMANTIC_PROMPT.format(brand=brand, bible=full_bible_text,
-                                      token_types=TOKEN_TYPES, common=common,
+                                      token_types=token_type_vocab, common=common,
                                       predicates=PREDICATE_REGISTRY,
+                                      discovery_note=DISCOVERY_NOTE,
                                       primitives="\n".join(token_lines(prim_tokens))), usage)
     sem_tokens = [dict(t, kind="semantic") for t in raw_sems.get("tokens", []) if isinstance(t, dict)]
     console.print(f"  A1b: {len(sem_tokens)} semantic tokens")
@@ -944,18 +1202,28 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
     raw_rest = await cached_json_call(
         brand, "catalog_rest", CATALOG_SYSTEM,
         CATALOG_REST_PROMPT.format(brand=brand, bible=full_bible_text,
+                                   section_types=section_vocab,
                                    tokens="\n".join(token_lines(all_tokens))), usage)
 
     raw_catalog = {"tokens": all_tokens, **{k: raw_rest.get(k, []) for k in
                                             ("assets", "governance", "subtypes", "asset_groups")}}
     cat = validate_catalog(raw_catalog, brand, warns)
+
+    # Deterministic post-passes: concrete template ingestion + exact-duplicate token merge.
+    template_bodies = ingest_template_library(brand, cat["subtypes"], warns)
+    merge_map, near_dupes = dedupe_tokens(cat["tokens"], warns)
+    for asset in cat["assets"].values():
+        asset.contains_token_ids = [merge_map.get(x, x) for x in asset.contains_token_ids]
+        asset.required_pairing_token_ids = [merge_map.get(x, x) for x in asset.required_pairing_token_ids]
+
     catalog_ids = set(cat["tokens"]) | set(cat["assets"]) | set(cat["governance"]) \
         | set(cat["subtypes"]) | set(cat["asset_groups"])
     n_prim = sum(1 for t in cat["tokens"].values() if t.kind == "primitive")
     n_sem = len(cat["tokens"]) - n_prim
-    console.print(f"  catalog: {len(cat['tokens'])} tokens ({n_prim} primitive / {n_sem} semantic), "
-                  f"{len(cat['assets'])} assets, {len(cat['governance'])} governance, "
-                  f"{len(cat['subtypes'])} subtypes, {len(cat['asset_groups'])} asset_groups")
+    console.print(f"  catalog: {len(cat['tokens'])} tokens ({n_prim} primitive / {n_sem} semantic, "
+                  f"{len(merge_map)} deduped), {len(cat['assets'])} assets, "
+                  f"{len(cat['governance'])} governance, {len(cat['subtypes'])} subtypes "
+                  f"({len(template_bodies)} concrete templates), {len(cat['asset_groups'])} asset_groups")
 
     # Pass B — rules per blob, parallel
     cat_text = catalog_summary({
@@ -972,9 +1240,10 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
             prompt = RULES_PROMPT.format(
                 brand=brand, group_id=gid, doc_ref=doc_ref,
                 rule_classes=RULE_CLASSES, audiences=AUDIENCES, content_types=CONTENT_TYPES,
-                scopes=SCOPES, section_types=SECTION_TYPES, predicates=PREDICATE_REGISTRY,
+                scopes=SCOPES, section_types=section_vocab, predicates=PREDICATE_REGISTRY,
                 evaluation_scopes=EVALUATION_SCOPES, constraint_types=CONSTRAINT_TYPES,
-                polarities=POLARITIES, hardness=HARDNESS, relations=RELATIONS,
+                polarities=POLARITIES, hardness=HARDNESS, relations=relations_vocab,
+                discovery_note=DISCOVERY_NOTE,
                 default_audience=default_audience, catalog=cat_text, blob=blob,
             )
             result = await cached_json_call(brand, f"rules_{gid}", RULES_SYSTEM, prompt, usage)
@@ -994,7 +1263,8 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
             if not isinstance(raw_rule, dict):
                 warns.add(f"{gid}: non-dict rule entry skipped")
                 continue
-            rule = validate_rule(raw_rule, brand, gid, doc_ref, used_ids, catalog_ids, warns)
+            rule = validate_rule(raw_rule, brand, gid, doc_ref, used_ids, catalog_ids, warns,
+                                 section_vocab)
             if rule is None:
                 continue
             rules[rule.id] = rule
@@ -1005,8 +1275,9 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
                 continue
             src = slug_to_id.get(slugify(str(rel.get("src_slug", ""))))
             dst = slug_to_id.get(slugify(str(rel.get("dst_slug", ""))))
-            rel_type = str(rel.get("relation", "")).strip().lower()
-            if src and dst and src != dst and rel_type in RELATIONS:
+            rel_type = coerce_with_discovery(rel.get("relation"), "relations", brand,
+                                             relations_vocab, gid, warns)
+            if src and dst and src != dst and rel_type:
                 relations.append(RuleRelation(src_rule_id=src, dst_rule_id=dst,
                                               relation=rel_type, note=rel.get("note")))
             else:
@@ -1014,7 +1285,8 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
 
     console.print(f"  [bold]{len(rules)} rules[/bold], {len(relations)} relations, "
                   f"{len(warns.items)} warnings")
-    write_kb(brand, rules, cat, groups, relations, warns)
+    write_kb(brand, rules, cat, groups, relations, warns, template_bodies, near_dupes)
+    reg.save()  # persist any other.* discoveries permanently
     console.print(f"  KB written to {config.kb_dir(brand)}")
 
 

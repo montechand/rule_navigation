@@ -18,7 +18,7 @@
   "effect": {
     "content": "dermatomyositis (DM)",
     "governance_id": "gov_lisraya_dm_abbreviation",
-    "trigger": "first mention of dermatomyositis in body/running copy"
+    "trigger": "first mention of dermatomyositis in a section"
   },
   "polarity": "must",
   "hardness": "strong_default",
@@ -28,12 +28,13 @@
   "governance_ids": [
     "gov_lisraya_dm_abbreviation"
   ],
-  "rule_text": "After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition. First-mention pattern is `dermatomyositis (DM)`. Do NOT use \"DM\" in headlines, headings, or subheads \u2014 always use the full word there (for clarity, accessibility, and web SEO).",
-  "intent": "Balance readability against clarity/accessibility/SEO in headings.",
+  "rule_text": "After the first mention of 'dermatomyositis,' use 'DM' in running copy to avoid repetition, using the first-mention pattern 'dermatomyositis (DM)'. Do NOT use 'DM' in headlines, headings, or subheads \u2014 always spell out the full word there (clarity, accessibility, and SEO on web). Because sections are assembled later, [GENERAL] every standalone section must establish 'dermatomyositis (DM)' at its own first mention unless the assembly brief states the abbreviation is established upstream.",
+  "intent": "Balance concise running copy with clear, accessible headings across independently assembled sections.",
+  "snippets": "dermatomyositis (DM)",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[4]",
   "group_id": "grp_lisraya_content_pattern_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "Use \"dermatomyositis (DM)\" at first mention, then \"DM\" in running copy; never use \"DM\" in headlines, headings, or subheads."
+  "summary": "Use 'dermatomyositis (DM)' at first mention in each standalone section; use 'DM' thereafter in running copy, but always spell out 'dermatomyositis' in headlines, headings, subheads."
 }

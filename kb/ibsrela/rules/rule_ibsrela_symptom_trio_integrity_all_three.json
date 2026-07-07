@@ -1,0 +1,51 @@
+{
+  "id": "rule_ibsrela_symptom_trio_integrity_all_three",
+  "brand_id": "ibsrela",
+  "rule_class": "iconography",
+  "tags": [
+    "assembly"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_primary_2col"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "symptom_trio"
+    ]
+  },
+  "applies_when": [
+    {
+      "kind": "content_tag",
+      "value": "ibs_c_symptoms_reference"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "cardinality",
+  "effect": {
+    "target": "agr_ibsrela_symptom_trio",
+    "min": 3,
+    "max": 3,
+    "per": "section"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_symptom_trio_integrity"
+  ],
+  "rule_text": "All three symptom icons must appear together; do not show one or two in isolation, do not reorder them, and do not substitute alternate icon styles.",
+  "intent": "Prevent partial or altered symptom representation that would misstate the claim.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_ibsrela_design_pattern_rules_03",
+  "status": "active",
+  "version": 1,
+  "summary": "Symptom icons must always appear together in original order, no partial display or alternate styles allowed."
+}

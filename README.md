@@ -13,6 +13,28 @@ section?** (Benchmarked later against humans doing the same task; FNR-first.)
 > new graph edges: `resolves_to` (semantic -> primitive). `main` holds the atomic-rule
 > baseline.
 
+## Dynamic registries + templates (this branch)
+
+- `shared/registries.json` (committed = permanent) holds DYNAMIC vocabularies:
+  `section_types` (curated core + brand-discovered devices, e.g. ibsrela's
+  `symptom_trio`), `relations` (enriched with overrides / mutually_exclusive /
+  depends_on), `token_types`. Extraction proposes novel entries as `other.<name>`;
+  the build registers real discoveries permanently, bare unknown values are dropped.
+- Concrete approved templates (`config.TEMPLATE_LIBRARIES`, e.g. the ibsrela email
+  header/footer library) are ingested as `content_sub_type` rows with
+  `covers_section_types` (a header-with-hero template covers `[top_matter, hero]`),
+  `template_ref`/`template_file` (bodies stored under `kb/{brand}/templates/`), and
+  `covers_section` graph edges. Rules scope to templates/components via
+  `content_sub_type_ids` (null = all email sub-types) — same mechanism dimension
+  formats use for banner-size-specific rules. New tool: `rules_for_subtype`.
+- Token hygiene: exact duplicates (same kind+type+value+scope) are auto-merged at build
+  time (merged names survive as aliases; `$ref`s remapped); near-duplicates across
+  scopes are reported to `review/token_near_duplicates.md`, not merged. Query-time
+  multi-level composition is handled by the `resolve_token` tool (flattens `$ref`
+  chains to concrete values with variants).
+- Asset vocabulary: `wave` generalized to `graphic_device` (brand-look motifs: waves,
+  swooshes, accent shapes, patterns).
+
 Inputs: a structured brand-rules KB (migrated from the design bibles) + an email blueprint
 (`content_blueprint[]`, with or without per-section `design_concept`).
 Output per section: `targeted_rules` (precisely scoped to that section) and
