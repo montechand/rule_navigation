@@ -1,0 +1,50 @@
+{
+  "id": "rule_ibsrela_cta_teal_golf_lpga_gated",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "cta",
+    "imagery"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.section.background"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "lpga"
+    },
+    {
+      "kind": "content_tag",
+      "value": "lpga"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "tok_ibsrela_color_teal",
+    "reserved_for": "CTA section background paired with the LPGA golf image (content_tag lpga)"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [
+    "tok_ibsrela_color_teal"
+  ],
+  "asset_ids": [],
+  "rule_text": "The golf image and Teal #0F99BC background are LPGA-gated. The golf asset (ast_ibsrela_cta_email_primary_column_golf) may only be used when the email contains LPGA content; if the email has no LPGA content, do not use the golf asset and do not use the #0F99BC background. Teal is reserved: it is only valid as a CTA section background when paired with the LPGA golf image, and is not a general-purpose background elsewhere in the system (see tok_ibsrela_teal_reserved).",
+  "intent": "Restrict the teal background and golf image strictly to LPGA content.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "LPGA-gated: golf asset ast_ibsrela_cta_email_primary_column_golf and Teal #0F99BC background only used with LPGA content; teal reserved for this CTA section only."
+}

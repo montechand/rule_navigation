@@ -3,10 +3,10 @@
 This KB is the structured form of the LISRAYA design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: 114 brand_rules (topic clusters),
-234 brand_tokens (110 primitive /
-124 semantic), 6 design_assets,
-29 governance rows, 4 content_sub_type
+Contents: 112 brand_rules (topic clusters; 19
+carry the governance/compliance facet), 234 brand_tokens
+(110 primitive / 124 semantic),
+12 design_assets, 3 content_sub_type
 classes, 3 design_templates in 0
 template_groups, 28 rule_groups,
 1 asset_groups.
@@ -17,13 +17,19 @@ template_groups, 28 rule_groups,
 - `rules/_index.json` — compact row per rule (id, rule_class, tags, sections, scope,
   hardness, polarity, constraint_type, applies_when, one-line summary)
 - `rules/{rule_id}.json` — full rule rows
-- `tokens/ assets/ subtypes/ governance/` — side entities, each with `_index.json`
+- `tokens/ assets/ subtypes/` — side entities, each with `_index.json`
 - `templates/` — concrete approved artifacts: bodies as `{id}.mjml`, metadata in
   `_meta/{id}.json`, index in `_index.json`
 - `groups/rule_groups.json` — original pre-atomization text blobs (provenance)
 - `groups/asset_groups.json`, `groups/template_groups.json`, `groups/relations.json`
 - `graph/graph.json` — nodes + typed edges (rule->section, rule->token, rule->asset,
-  rule->governance, rule->group, asset->token, asset->asset_group, rule->rule)
+  rule->group, class/template->section, template->class/group, asset->token,
+  asset->asset_group, rule->rule)
+
+Governance/compliance is a RULE FACET, not an entity: disclosures, required qualifiers,
+verbatim messaging, and trademark adjudications are brand_rules with `governance` set
+(the exact required strings live in governance.preferred_form). They surface in every
+normal rule query; filter with query_rules(has_governance / gov_type / verdict).
 
 ## Token-first layering
 

@@ -21,17 +21,17 @@ doc_ref: `color_scheme_rules[1]`
 
 ## Extracted rules (3)
 
-### rule_ibsrela_flip_script_campaign_palette_ratio
+### rule_ibsrela_flip_the_script_campaign_palette_ratio
 - class=color_application scope=campaign hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: In Flip The Script campaign pieces the three campaign colors (Periwinkle, Purple, Green) are distributed evenly at a 33% / 33% / 33% ratio (ratio.palette.campaign_usage). In campaign-specific pieces these colors act as accents to the branded palette, not replacements for it.
-- intent: Keep campaign palette balanced and subordinate to the core brand palette.
+- rule_text: For Flip The Script campaign pieces, the three campaign colors (Periwinkle #7B7BED, Purple #92278F, Green #01A47E) are used at an even 33% / 33% / 33% ratio (palette.usage_ratio campaign variant). In campaign-specific pieces these colors act as accents to the branded palette, not as replacements for it.
+- intent: Keep campaign color usage balanced and subordinate to the core brand palette.
 
-### rule_ibsrela_flip_script_scene_color_pairings_fixed
-- class=color_application scope=campaign hardness=hard_constraint polarity=must_not sections=None constraint=pairing
-- rule_text: Scene-color pairings are fixed and may not be used interchangeably: Periwinkle→Office, Purple→Cafe, Green→Soccer. White (Safe White) has no paired scene.
-- intent: Preserve the intended color-to-scene mapping across campaign creative.
+### rule_ibsrela_flip_the_script_scene_color_pairings_fixed
+- class=color_application scope=campaign hardness=hard_constraint polarity=must_not sections=['callout'] constraint=pairing
+- rule_text: Scene-color pairings are fixed and may not be used interchangeably: Periwinkle pairs with Office, Purple with Cafe, Green with Soccer. The scene-banner fill (callout.scene_banner.fill, content_tag variants) must follow these locked pairings.
+- intent: Preserve consistent visual identity by locking each scene to its campaign color.
 
-### rule_ibsrela_flip_script_callout_opacity_pairings
+### rule_ibsrela_flip_the_script_callout_opacity_pairings
 - class=color_application scope=campaign hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: Callout opacity pairings over white are fixed: Periwinkle at 80% (opacity.callout.80), Purple at 60% (opacity.callout.60), Green at 40% (opacity.callout.40). White banner over imagery sits at 80% (opacity.white_banner.80).
-- intent: Ensure consistent legibility and layering of campaign callouts.
+- rule_text: Callout opacity pairings over white are locked per campaign color: Periwinkle 80% (opacity.callout.80), Purple 60% (opacity.callout.60), Green 40% (opacity.callout.40); white banner over imagery is set at 80% (opacity.white_banner.80).
+- intent: Standardize campaign callout legibility over white and over imagery.

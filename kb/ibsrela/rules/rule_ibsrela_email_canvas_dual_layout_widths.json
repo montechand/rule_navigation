@@ -1,0 +1,40 @@
+{
+  "id": "rule_ibsrela_email_canvas_dual_layout_widths",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "element_path": "email.width"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "email.width",
+        "token_id": "tok_ibsrela_email_width"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_email_width"
+  ],
+  "asset_ids": [],
+  "rule_text": "Every component must exist in both desktop and mobile layouts. Desktop email width is 600 px and mobile email width is 375 px (email.width); SFMC serves the correct layout automatically.",
+  "intent": "Guarantee responsive coverage across the two canonical email widths.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_ibsrela_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "All components must appear in both desktop (600px width) and mobile (375px width) layouts; SFMC auto-serves the correct version."
+}

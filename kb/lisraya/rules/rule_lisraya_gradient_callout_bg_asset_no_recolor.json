@@ -1,0 +1,47 @@
+{
+  "id": "rule_lisraya_gradient_callout_bg_asset_no_recolor",
+  "brand_id": "lisraya",
+  "rule_class": "cta",
+  "tags": [
+    "imagery",
+    "assembly"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_email_section_block"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "gradient_callout.section.background"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "gradient_callout.section.background",
+        "token_id": "tok_lisraya_gradient_callout_section_bg"
+      }
+    ]
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_gradient_callout_section_bg"
+  ],
+  "asset_ids": [],
+  "rule_text": "Use the approved gradient callout background PNG asset exactly as provided \u2014 do not re-host or recolor it. The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget); when skipped, remove only background-url, background-size, background-repeat, and background-position, keep background-color=\"#faa31b\", and every other rule (headline color, button color, button radius) stays identical.",
+  "intent": "Protect the approved background asset and constrain the narrow skip exception.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_lisraya_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Use approved gradient callout PNG background without alteration; skip image only in rare fallbacks, keeping bg-color #faa31b and all other styles unchanged."
+}

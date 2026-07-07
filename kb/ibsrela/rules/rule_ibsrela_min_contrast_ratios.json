@@ -6,9 +6,6 @@
     "color_application",
     "typography"
   ],
-  "content_types": [
-    "email"
-  ],
   "scope": "org_baseline",
   "selector": {},
   "evaluation_scope": "element",
@@ -33,13 +30,20 @@
     "tok_ibsrela_contrast_headline"
   ],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "Maintain minimum contrast of 4.5:1 for body text and 3:1 for bold headlines \u226518 px. White on #92278F/#262262/#01A47E passes. Never set silver text on white, and never set periwinkle text on white.",
-  "intent": "Ensure text remains legible for all readers.",
+  "governance": {
+    "gov_type": "regulatory",
+    "verdict": "requires_qualifier",
+    "match": {
+      "method": "semantic"
+    },
+    "severity": "block"
+  },
+  "rule_text": "Maintain minimum contrast of 4.5:1 for body text and 3:1 for \u226518 px bold headlines. White on #92278F / #262262 / #01A47E passes. Never use silver text on white and never periwinkle text on white.",
+  "intent": "Ensure text remains legible for low-vision users.",
   "source": "design_bible",
   "doc_ref": "other_rules[0]",
   "group_id": "grp_ibsrela_other_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Maintain 4.5:1 contrast for body, 3:1 for bold \u226518px; white on #92278F/#262262/#01A47E passes; avoid silver/periwinkle on white."
+  "summary": "Ensure 4.5:1 contrast for body text, 3:1 for \u226518px bold headlines; white on #92278F/#262262/#01A47E pass; avoid silver or periwinkle on white."
 }

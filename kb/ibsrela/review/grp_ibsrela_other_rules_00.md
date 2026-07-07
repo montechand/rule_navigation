@@ -12,29 +12,34 @@ doc_ref: `other_rules[0]`
 - Underline links (don't rely on color alone); semantic `<table role="presentation">` markup.
 ````
 
-## Extracted rules (5)
+## Extracted rules (6)
 
 ### rule_ibsrela_min_contrast_ratios
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Maintain minimum contrast of 4.5:1 for body text and 3:1 for bold headlines ≥18 px. White on #92278F/#262262/#01A47E passes. Never set silver text on white, and never set periwinkle text on white.
-- intent: Ensure text remains legible for all readers.
+- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding governance=regulatory/requires_qualifier
+- rule_text: Maintain minimum contrast of 4.5:1 for body text and 3:1 for ≥18 px bold headlines. White on #92278F / #262262 / #01A47E passes. Never use silver text on white and never periwinkle text on white.
+- intent: Ensure text remains legible for low-vision users.
 
-### rule_ibsrela_images_alt_text_and_image_off_resilience
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: All images require alt text. The email must communicate indication and safety even with images off — ISI must be live text, never image-based.
-- intent: Guarantee critical regulatory content is accessible without images.
+### rule_ibsrela_images_require_alt_text_livetext_isi
+- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding governance=disclosure/requires_qualifier
+- rule_text: All images require alt text. The email must communicate indication + safety even with images off — ISI must be live text, never image-based.
+- intent: Guarantee safety information and indication remain accessible when images fail to load or are disabled.
 
-### rule_ibsrela_min_text_size_and_tap_targets
+### rule_ibsrela_min_text_sizes_and_tap_targets
 - class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Minimum live-text size is 10 px (footnotes); body text never below 12 px; tap targets must be ≥44 px. Maintain logical heading order with exactly one H1 per email.
-- intent: Preserve legibility and predictable navigation structure.
+- rule_text: Minimum live-text size is 10 px (footnotes); body text never below 12 px; tap targets ≥ 44 px; use logical heading order with exactly one H1 per email.
+- intent: Preserve legibility and touch usability and provide a coherent document outline.
 
-### rule_ibsrela_one_h1_per_email
+### rule_ibsrela_single_h1_per_email
 - class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=cardinality
-- rule_text: Maintain a logical heading order with exactly one H1 per email.
-- intent: Provide a coherent document outline for assistive technology.
+- rule_text: Use logical heading order with exactly one H1 per email.
+- intent: Provide a correct, single-rooted document heading structure for assistive technology.
 
-### rule_ibsrela_underline_links_and_semantic_markup
+### rule_ibsrela_underline_links_not_color_alone
 - class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Underline links; don't rely on color alone to indicate them. Use semantic <table role="presentation"> markup.
-- intent: Ensure links and layout tables are perceivable and correctly interpreted.
+- rule_text: Underline links; do not rely on color alone to indicate links.
+- intent: Make links perceivable independent of color perception.
+
+### rule_ibsrela_semantic_presentation_table_markup
+- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Use semantic <table role="presentation"> markup for layout tables.
+- intent: Prevent screen readers from announcing layout tables as data tables.

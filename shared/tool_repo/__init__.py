@@ -72,7 +72,8 @@ class ToolRepo:
 
             corpus, ids = [], []
             for r in self.kb.rules.values():
-                doc = " ".join(filter(None, [r.rule_text, r.summary or "", r.intent or ""]))
+                preferred = (r.governance or {}).get("preferred_form") or ""
+                doc = " ".join(filter(None, [r.rule_text, r.summary or "", r.intent or "", preferred]))
                 corpus.append(_tokenize(doc))
                 ids.append(r.id)
             self._bm25 = BM25Okapi(corpus) if corpus else None
@@ -228,11 +229,21 @@ class ToolRepo:
         f_hard = want(args.get("hardness"))
         f_eval = want(args.get("evaluation_scope"))
         f_subtypes = want(args.get("content_sub_type_ids"))
+        f_gov_type = want(args.get("gov_type"))
+        f_verdict = want(args.get("verdict"))
+        has_gov = args.get("has_governance")
         include_all_section_rules = args.get("include_all_section_rules", True)
         include_all_subtype_rules = args.get("include_all_subtype_rules", True)
 
         out = []
         for r in self.kb.rules.values():
+            gov = r.governance or {}
+            if has_gov is not None and bool(r.governance) != bool(has_gov):
+                continue
+            if f_gov_type and str(gov.get("gov_type", "")).lower() not in f_gov_type:
+                continue
+            if f_verdict and str(gov.get("verdict", "")).lower() not in f_verdict:
+                continue
             facets = {r.rule_class} | set(r.tags or [])
             if f_class and not (facets & f_class):
                 continue
@@ -620,7 +631,7 @@ class ToolRepo:
         S = ToolSpec
         return [
             S("list_dir", "List a directory inside this brand's knowledge base. Root layout: "
-              "schema/, rules/, tokens/, assets/, subtypes/, governance/, groups/, graph/, "
+              "schema/, rules/, tokens/, assets/, subtypes/, groups/, graph/, "
               "templates/ (concrete approved template bodies), review/.",
               {"type": "object", "properties": {"path": {"type": "string", "description": "relative path, default '.'"}},
                "required": []}, self._list_dir),
@@ -636,7 +647,7 @@ class ToolRepo:
                "required": ["pattern"]}, self._grep),
             S("describe_entity", "Read the schema documentation for one entity/topic. Available: "
               "overview, conventions, brand_rule, brand_token, design_asset, content_sub_type, "
-              "governance, support_entities, section_vocab, predicate_registry.",
+              "design_template, support_entities, section_vocab, predicate_registry.",
               {"type": "object", "properties": {"entity": {"type": "string"}}, "required": ["entity"]},
               self._describe_entity),
             S("get_section_vocab", "The closed section-type vocabulary rules attach to, with definitions.",
@@ -648,7 +659,7 @@ class ToolRepo:
               {"type": "object", "properties": {"ids": {"type": "array", "items": {"type": "string"}},
                                                 "view": {"type": "string", "enum": ["short", "full"]}},
                "required": ["ids"]}, self._get_rules),
-            S("get_entity", "Fetch any non-rule entity by id (tok_/ast_/gov_/sub_/grp_/agr_ prefixes).",
+            S("get_entity", "Fetch any non-rule entity by id (tok_/ast_/sub_/tpl_/tgr_/grp_/agr_ prefixes).",
               {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]},
               self._get_entity),
             S("query_rules", "Filter the rule index by structured facets. All filters optional and "
@@ -656,7 +667,9 @@ class ToolRepo:
               "sections; rules with section_types=null (apply everywhere) are included unless "
               "include_all_section_rules=false. content_sub_type_ids matches rules scoped to those "
               "components/templates; rules with content_sub_type_ids=null (all sub-types) are "
-              "included unless include_all_subtype_rules=false.",
+              "included unless include_all_subtype_rules=false. Governance/compliance rules "
+              "(disclosures, required qualifiers, verbatim language, trademark) carry a "
+              "governance facet: filter with has_governance / gov_type / verdict.",
               {"type": "object", "properties": {
                   "rule_class": {"type": "array", "items": {"type": "string"}},
                   "tags": {"type": "array", "items": {"type": "string"}},
@@ -668,6 +681,10 @@ class ToolRepo:
                   "audience": {"type": "array", "items": {"type": "string"}},
                   "hardness": {"type": "array", "items": {"type": "string"}},
                   "evaluation_scope": {"type": "array", "items": {"type": "string"}},
+                  "has_governance": {"type": "boolean"},
+                  "gov_type": {"type": "array", "items": {"type": "string"},
+                               "description": "regulatory|legal|mlr_claim|disclosure|trademark"},
+                  "verdict": {"type": "array", "items": {"type": "string"}},
                   "include_all_section_rules": {"type": "boolean"},
                   "include_all_subtype_rules": {"type": "boolean"}},
                "required": []}, self._query_rules),
@@ -739,10 +756,12 @@ class ToolRepo:
             S("rules_for_token", "Graph lookup: rules whose effect references a given token.",
               {"type": "object", "properties": {"token_id": {"type": "string"}}, "required": ["token_id"]},
               self._rules_for_token),
-            S("neighbors", "Walk the KB graph from any node (rule/token/asset/governance/section/"
-              "group). Edge types: applies_to_section, references_token, references_asset, "
-              "governed_by, scoped_to_subtype, from_group, contains_token, requires_pairing_token, "
-              "member_of, derived_from, refines, conflicts, cross_reference, cluster, co_applies.",
+            S("neighbors", "Walk the KB graph from any node (rule/token/asset/section/subtype/"
+              "template/group). Edge types: applies_to_section, references_token, references_asset, "
+              "scoped_to_subtype, fills_section, hosts_section, instance_of, member_of, from_group, "
+              "contains_token, requires_pairing_token, resolves_to, derived_from, refines, "
+              "conflicts, cross_reference, cluster, co_applies, overrides, mutually_exclusive, "
+              "depends_on.",
               {"type": "object", "properties": {"node_id": {"type": "string"},
                                                 "edge_types": {"type": "array", "items": {"type": "string"}},
                                                 "depth": {"type": "integer", "description": "1 (default) or 2"}},

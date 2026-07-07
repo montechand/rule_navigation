@@ -1,9 +1,10 @@
 {
   "id": "rule_ibsrela_dtp_cta_label_conventions",
   "brand_id": "ibsrela",
-  "rule_class": "cta",
+  "rule_class": "copy_editorial",
   "tags": [
-    "copy_editorial"
+    "cta",
+    "voice_tone"
   ],
   "audience": "dtp_patient",
   "content_types": [
@@ -22,7 +23,7 @@
     "assignments": [
       {
         "element_path": "cta.button.label.case",
-        "token_id": "tok_ibsrela_case_body_sentence"
+        "token_id": "tok_ibsrela_cta_button_label_case"
       }
     ]
   },
@@ -30,16 +31,15 @@
   "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_case_body_sentence"
+    "tok_ibsrela_cta_button_label_case"
   ],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "Approved DTP CTA labels are short verb phrases in sentence case (not ALL CAPS), 1\u20133 words \u2014 e.g. \"Explore IBSRELA\", \"Watch Regina's story\", \"Watch video\", \"Learn more about how IBSRELA is different\", \"Yes, I have\". The DTP label case follows cta.button.label.case (sentence_case for dtp_patient audience).",
-  "intent": "Keep DTP CTA labels short, action-oriented, and in sentence case per patient-facing voice.",
+  "rule_text": "Approved DTP CTA labels are short verb phrases in sentence case (not ALL CAPS), 1\u20133 words \u2014 e.g. \"Explore IBSRELA\", \"Watch Regina's story\", \"Watch video\", \"Learn more about how IBSRELA is different\", \"Yes, I have\". (DTP audience drives the sentence-case variant of cta.button.label.case, which otherwise defaults to all-caps.)",
+  "intent": "Keep DTP CTAs conversational, short, and in sentence case rather than the branded all-caps style.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_ibsrela_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "DTP CTA labels: short verb phrases, 1\u20133 words, sentence case per cta.button.label.case for dtp_patient audience."
+  "summary": "DTP CTA labels: 1\u20133 word short verb phrases in sentence case (not ALL CAPS), e.g. \"Explore IBSRELA\", \"Watch video\", override all-caps default."
 }

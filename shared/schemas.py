@@ -51,6 +51,8 @@ ASSET_TYPES = [
     "photo", "icon", "logo_lockup", "svg_shape", "graphic_device", "background",
     "campaign_lockup", "cta_image",
 ]
+# Vocab for the embedded brand_rule.governance facet (the standalone governance entity
+# was retired — governance statements are brand_rules with this attribute set).
 GOV_TYPES = ["regulatory", "legal", "mlr_claim", "disclosure", "trademark"]
 VERDICTS = ["allowed", "forbidden", "allowed_with_disclosure", "requires_qualifier", "verbatim_only"]
 SEVERITIES = ["info", "warn", "block"]
@@ -100,7 +102,11 @@ class BrandRule(BaseModel):
     precedence: int = 0
     token_ids: list[str] = Field(default_factory=list)  # derived
     asset_ids: list[str] = Field(default_factory=list)  # derived
-    governance_ids: list[str] = Field(default_factory=list)
+    # Governance/compliance payload — governance is a FACET of a rule, not a separate
+    # entity. Present on rules that adjudicate claims/required language/trademark use:
+    # {gov_type, verdict, preferred_form?, match?, severity}. Such rules are almost
+    # always hardness=hard_constraint; preferred_form carries the exact verbatim string.
+    governance: Optional[dict[str, Any]] = None
     rule_text: str
     intent: str = ""
     snippets: Optional[str] = None
@@ -230,25 +236,6 @@ class TemplateGroup(BaseModel):
     brand_id: str
     name: str
     semantics: Optional[str] = None  # e.g. "assemble exactly one member per email"
-
-
-class Governance(BaseModel):
-    id: str
-    brand_id: str
-    gov_type: str
-    subject: str
-    match: Optional[dict[str, Any]] = None  # {method, threshold?}
-    verdict: str
-    preferred_form: Optional[str] = None
-    severity: str = "warn"
-    rationale: Optional[str] = None
-    evidence: Optional[list[Any]] = None
-    audience: Optional[str] = None
-    content_types: Optional[list[str]] = None
-    effective_from: Optional[str] = None
-    expires_at: Optional[str] = None
-    status: Status = "active"
-    version: int = 1
 
 
 class RuleRelation(BaseModel):

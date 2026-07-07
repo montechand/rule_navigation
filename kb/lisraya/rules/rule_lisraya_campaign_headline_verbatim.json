@@ -22,7 +22,6 @@
   "constraint_type": "verbatim_content",
   "effect": {
     "content": "YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis.",
-    "governance_id": "gov_lisraya_campaign_headline",
     "trigger": null
   },
   "polarity": "must",
@@ -30,15 +29,21 @@
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [
-    "gov_lisraya_campaign_headline"
-  ],
-  "rule_text": "The approved campaign headline lockup must read verbatim: \"YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis.\"",
-  "intent": "Preserve MLR-approved campaign headline claim.",
+  "governance": {
+    "gov_type": "mlr_claim",
+    "verdict": "verbatim_only",
+    "preferred_form": "YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis.",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "The approved campaign headline must be used verbatim: \"YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis.\"",
+  "intent": "Preserve MLR-approved campaign headline and 'first targeted treatment' claim.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "Campaign headline lockup must read exactly: \"YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis."
+  "summary": "copy_editorial: Use approved campaign headline verbatim: \"YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis."
 }

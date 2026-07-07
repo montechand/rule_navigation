@@ -1,10 +1,10 @@
 {
   "id": "rule_ibsrela_dtp_section_background_sequence",
   "brand_id": "ibsrela",
-  "rule_class": "color_application",
+  "rule_class": "assembly",
   "tags": [
-    "layout",
-    "assembly"
+    "color_application",
+    "layout"
   ],
   "audience": "dtp_patient",
   "content_types": [
@@ -12,27 +12,18 @@
   ],
   "scope": "brand",
   "selector": {
-    "section_types": [
-      "hero",
-      "efficacy",
-      "patient_story",
-      "affordability",
-      "symptom_trio",
-      "cta",
-      "end_matter"
-    ],
-    "element_path": "section.background"
+    "element_path": "email.section.background_sequence"
   },
   "evaluation_scope": "email",
   "constraint_type": "ordering",
   "effect": {
     "sequence": [
-      "hero (purple hero image)",
-      "white content section (efficacy + side-effect bullets)",
-      "white or light photo section (patient story / lifestyle)",
-      "green accent panel (affordability or symptom-icon trio)",
-      "purple campaign image section (BECAUSE IBSRELA CAN lockup)",
-      "locked End Matter"
+      "hero.purple_image",
+      "content.white_efficacy_side_effects",
+      "patient_story.white_or_light_photo",
+      "affordability_or_symptom_trio.green_panel",
+      "cta.purple_campaign_image_because_ibsrela_can",
+      "end_matter.locked"
     ],
     "strict": true
   },
@@ -41,13 +32,12 @@
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "DTP emails alternate section backgrounds in a fixed rhythm: purple hero image \u2192 white content section (efficacy + side-effect bullets) \u2192 white or light photo section (patient story / lifestyle) \u2192 green accent panel (#01A47E, used for affordability or symptom-icon trio) \u2192 purple campaign image section (\"BECAUSE IBSRELA CAN\" lockup) \u2192 locked End Matter.",
-  "intent": "Give DTP emails a predictable, on-brand background cadence that guides the reader.",
+  "rule_text": "DTP emails alternate section backgrounds in a fixed rhythm: purple hero image \u2192 white content section (efficacy + side-effect bullets) \u2192 white or light photo section (patient story / lifestyle) \u2192 green accent panel (#01A47E, affordability or symptom-icon trio) \u2192 purple campaign image section ('BECAUSE IBSRELA CAN' lockup) \u2192 locked End Matter.",
+  "intent": "Keep DTP email section backgrounds in a recognizable, consistent brand rhythm.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[4]",
   "group_id": "grp_ibsrela_color_scheme_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "DTP emails alternate backgrounds: purple hero \u2192 white content (efficacy + side-effects) \u2192 white/light photo (story/lifestyle) \u2192 green #01A47E accent (affordability/icons) \u2192 purple campaign image \u2192 locked End Matter."
+  "summary": "DTP emails alternate backgrounds: purple hero \u2192 white content (efficacy + side-effects) \u2192 white/light photo (story/lifestyle) \u2192 green #01A47E accent panel \u2192 purple campaign image \u2192 locked End Matter."
 }

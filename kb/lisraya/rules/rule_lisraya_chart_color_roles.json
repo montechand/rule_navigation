@@ -1,0 +1,49 @@
+{
+  "id": "rule_lisraya_chart_color_roles",
+  "brand_id": "lisraya",
+  "rule_class": "color_application",
+  "tags": [
+    "imagery"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "chart"
+    ]
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "chart.series.color",
+        "token_id": "tok_lisraya_chart_color_dominant"
+      },
+      {
+        "element_path": "chart.emphasis.color",
+        "token_id": "tok_lisraya_chart_emphasis_color"
+      },
+      {
+        "element_path": "chart.placebo.color",
+        "token_id": "tok_lisraya_chart_placebo_color"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_chart_color_dominant",
+    "tok_lisraya_chart_emphasis_color",
+    "tok_lisraya_chart_placebo_color"
+  ],
+  "asset_ids": [],
+  "rule_text": "In charts, Brand Blue + Sky Blue are the dominant series colors (chart.series.color) and gray is used for placebo (chart.placebo.color). Sunshine/Gold is strictly reserved for emphasizing key figures (chart.emphasis.color) and must not be used for non-emphasis series.",
+  "intent": "Keep chart color coding consistent so emphasis gold reads as significance, not decoration.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_lisraya_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "In charts, use Brand Blue + Sky Blue for series colors, gray for placebo, Sunshine/Gold only for key figure emphasis, not for non-emphasis series."
+}

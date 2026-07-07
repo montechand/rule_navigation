@@ -18,11 +18,10 @@
       "value": "you_deserve_more"
     }
   ],
-  "evaluation_scope": "sentence",
+  "evaluation_scope": "section",
   "constraint_type": "verbatim_content",
   "effect": {
     "content": "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
-    "governance_id": "gov_lisraya_doctor_cta",
     "trigger": null
   },
   "polarity": "must",
@@ -30,15 +29,21 @@
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [
-    "gov_lisraya_doctor_cta"
-  ],
-  "rule_text": "The doctor-discussion CTA must follow the approved pattern verbatim: \"Talk to your doctor about LISRAYA, the DM treatment you may be looking for.\"",
-  "intent": "Preserve MLR-approved doctor-discussion CTA wording.",
+  "governance": {
+    "gov_type": "mlr_claim",
+    "verdict": "verbatim_only",
+    "preferred_form": "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "The doctor-discussion CTA must follow the approved pattern: \"Talk to your doctor about LISRAYA, the DM treatment you may be looking for.\"",
+  "intent": "Standardize the approved doctor-discussion CTA language.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "(cta): Use exact CTA text: \"Talk to your doctor about LISRAYA, the DM treatment you may be looking for."
+  "summary": "Doctor-discussion CTA must say exactly: \"Talk to your doctor about LISRAYA, the DM treatment you may be looking for."
 }

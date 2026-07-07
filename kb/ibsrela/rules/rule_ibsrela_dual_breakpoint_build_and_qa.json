@@ -1,0 +1,38 @@
+{
+  "id": "rule_ibsrela_dual_breakpoint_build_and_qa",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "email.width",
+        "token_id": "tok_ibsrela_email_width"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_email_width"
+  ],
+  "asset_ids": [],
+  "rule_text": "Both Desktop (600 px) and Mobile (375 px) layouts are provided for every component; SFMC serves the appropriate version automatically based on the recipient's device. Every content section must be built and QA'd at BOTH breakpoints.",
+  "intent": "Ensure correct rendering on both desktop and mobile since SFMC auto-serves by device.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[4]",
+  "group_id": "grp_ibsrela_content_pattern_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "Provide Desktop (600px) and Mobile (375px) layouts for all components; SFMC auto-serves device-appropriate version; QA both breakpoints for every content section."
+}

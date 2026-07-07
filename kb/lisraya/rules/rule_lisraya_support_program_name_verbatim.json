@@ -2,6 +2,9 @@
   "id": "rule_lisraya_support_program_name_verbatim",
   "brand_id": "lisraya",
   "rule_class": "copy_editorial",
+  "tags": [
+    "voice_tone"
+  ],
   "audience": "dtp_patient",
   "scope": "campaign",
   "selector": {},
@@ -14,8 +17,7 @@
   "evaluation_scope": "sentence",
   "constraint_type": "verbatim_content",
   "effect": {
-    "content": "My Compass Support (patient support: Personalized Communication via PAL \u2014 text, phone, email, in person; Authorization Support)",
-    "governance_id": "gov_lisraya_support_program_name",
+    "content": "My Compass Support",
     "trigger": null
   },
   "polarity": "must",
@@ -23,11 +25,17 @@
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [
-    "gov_lisraya_support_program_name"
-  ],
-  "rule_text": "The patient support program must be named verbatim \"My Compass Support\", offering Personalized Communication via PAL (text, phone, email, in person) and Authorization Support.",
-  "intent": "Preserve the approved support program name and offerings.",
+  "governance": {
+    "gov_type": "trademark",
+    "verdict": "verbatim_only",
+    "preferred_form": "My Compass Support",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "The patient support program must be named \"My Compass Support\". Its offerings comprise Personalized Communication via PAL (text, phone, email, in person) and Authorization Support.",
+  "intent": "Protect the trademarked support-program name and its described services.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",

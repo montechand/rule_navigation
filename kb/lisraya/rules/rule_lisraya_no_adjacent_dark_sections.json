@@ -3,14 +3,10 @@
   "brand_id": "lisraya",
   "rule_class": "assembly",
   "tags": [
-    "color_application",
-    "layout"
+    "color_application"
   ],
   "content_types": [
     "email"
-  ],
-  "content_sub_type_ids": [
-    "sub_lisraya_email_primary_1col"
   ],
   "scope": "org_baseline",
   "selector": {
@@ -19,27 +15,26 @@
   "applies_when": [
     {
       "kind": "adjacent_section_state",
-      "value": "dark_background"
+      "value": "adjacent_dark_background"
     }
   ],
-  "evaluation_scope": "section",
+  "evaluation_scope": "email",
   "constraint_type": "exclusivity",
   "effect": {
     "subject": "dark_background_section",
-    "reserved_for": "non-adjacency to other dark-background sections"
+    "reserved_for": "non-adjacency to another dark-background section"
   },
   "polarity": "must_not",
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "Dark-background sections must not be placed adjacent to other dark sections. This is the assembler's responsibility, enabled by declared backgrounds.",
+  "rule_text": "Dark-background sections must not be placed adjacent to other dark sections. This is the assembler's responsibility, enabled by the declared background colors.",
   "intent": "Preserve visual rhythm and contrast between stacked sections.",
   "source": "design_bible",
   "doc_ref": "other_rules[2]",
   "group_id": "grp_lisraya_other_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Dark-background sections must not be adjacent; assembler ensures this using declared backgrounds."
+  "summary": "Dark-background sections must not be adjacent; assembler ensures this using declared background colors."
 }

@@ -14,24 +14,19 @@ doc_ref: `color_scheme_rules[2]`
 
 ````
 
-## Extracted rules (4)
-
-### rule_lisraya_approved_tints_only
-- class=color_application scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
-- rule_text: No other ad-hoc tints are permitted — use palette values or the specified tints only: campaign headline 'D'/'M' letters at ≈40% tint of the headline color (campaign_headline.letter.tint), Light Blue callout box at 70% (callout.data.fill.opacity), Golden Sand callout box at 30% (callout.text_heavy.fill.opacity), and wave top layers at 70% transparency (waves.top_layer.opacity).
-- intent: Keep tinting to a controlled, approved set to protect palette integrity.
+## Extracted rules (3)
 
 ### rule_lisraya_campaign_headline_letter_tint
-- class=typography scope=campaign hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: The campaign headline 'D' and 'M' letters must use a ≈40% tint of the headline color (Gold or Brand Blue colorway), per campaign_headline.letter.tint.
-- intent: Consistent campaign headline lockup styling.
+- class=color_application scope=campaign hardness=hard_constraint polarity=must sections=['hero'] constraint=binding
+- rule_text: In the 'You Deserve More' campaign, the headline letters 'D' and 'M' render at ≈40% tint of the headline color (Gold or Brand Blue colorway), per campaign_headline.letter.tint.
+- intent: Distinctive campaign headline emphasis without introducing new colors.
 
-### rule_lisraya_callout_box_fill_tints
+### rule_lisraya_callout_and_wave_tint_bindings
 - class=color_application scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: The Light Blue callout box must use a 70% tint (callout.data.fill.opacity) and the Golden Sand callout box must use a 30% tint (callout.text_heavy.fill.opacity).
-- intent: Fixed tint levels for callout box fills.
+- rule_text: Tints are fixed per element: the Light Blue (data) callout box uses a 70% tint, the Golden Sand (text-heavy) callout box uses a 30% tint, and wave top layers use 70% transparency, bound via callout.data.fill.opacity, callout.text_heavy.fill.opacity, and waves.top_layer.opacity.
+- intent: Keep callout and wave transparencies consistent with the approved tint values.
 
-### rule_lisraya_wave_top_layer_tint
-- class=imagery scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Wave top layers must be rendered at 70% transparency (waves.top_layer.opacity).
-- intent: Consistent wave graphic layering.
+### rule_lisraya_no_ad_hoc_tints
+- class=color_application scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
+- rule_text: No other ad-hoc tints are permitted — use full palette values or only the specified tints (campaign headline letter ≈40%, Light Blue callout 70%, Golden Sand callout 30%, wave top layer 70%).
+- intent: Prevent arbitrary opacity values that dilute the brand palette.

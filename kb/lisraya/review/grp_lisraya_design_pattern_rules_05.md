@@ -13,17 +13,17 @@ doc_ref: `design_pattern_rules[5]`
 
 ## Extracted rules (3)
 
-### rule_lisraya_icon_style_minimal_line
-- class=iconography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: Icons use minimal single-color line illustration (icon.style) for clarity and quick recall — consistent stroke weight, rounded line caps, single-color line work. New icons are permitted but must match this stylistic approach. Default is Brand Blue strokes (icon.stroke.color) on light backgrounds.
-- intent: Keep iconography consistent and instantly recognizable across materials.
+### rule_lisraya_icon_minimal_line_style
+- class=iconography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Icons use minimal line illustration (icon.style) for clarity and quick recall. New icons are permitted but must match this stylistic approach: consistent stroke weight, rounded line caps, single-color line work. Default Brand Blue strokes (icon.stroke.color) on light backgrounds.
+- intent: Keep iconography visually consistent and instantly recognizable.
 
-### rule_lisraya_icon_color_palette_only
-- class=iconography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+### rule_lisraya_icon_color_within_palette
+- class=iconography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
 - rule_text: Icon colors and backgrounds are adjustable only within the brand palette.
-- intent: Prevent off-brand color drift in iconography.
+- intent: Prevent off-brand icon coloring.
 
 ### rule_lisraya_icon_min_render_low_vision
 - class=iconography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Consider scale and contrast for low-vision audiences: minimum render size is 32×32px in email (icon.min_render_size).
-- intent: Ensure icons remain legible and accessible at small sizes.
+- rule_text: Consider scale and contrast for low-vision audiences. [GENERAL] Minimum render size 32×32px in email (icon.min_render_size).
+- intent: Ensure icons remain legible for low-vision users.

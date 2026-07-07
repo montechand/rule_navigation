@@ -1,0 +1,33 @@
+{
+  "id": "rule_ibsrela_dtp_cta_label_scope_and_topic_match",
+  "brand_id": "ibsrela",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "cta"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button.label"
+  },
+  "evaluation_scope": "section",
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "DTP CTAs must not use the HCP library default \"Get connected\" (that label is HCP-scope). Each per-section CTA must match the section's topic \u2014 e.g. patient story \u2192 \"Watch [name]'s story\"; product overview \u2192 \"Explore IBSRELA\" or \"Learn more about how IBSRELA is different\".",
+  "intent": "Prevent HCP-only labels in DTP and keep CTA copy relevant to the section it sits in.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[7]",
+  "group_id": "grp_ibsrela_content_pattern_rules_07",
+  "status": "active",
+  "version": 1,
+  "summary": "DTP CTAs must avoid HCP default \"Get connected\" and use section-specific labels like patient story \"Watch [name]'s story\" or product overview \"Explore IBSRELA\"."
+}

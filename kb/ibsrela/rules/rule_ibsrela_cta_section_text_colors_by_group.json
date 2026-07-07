@@ -1,0 +1,48 @@
+{
+  "id": "rule_ibsrela_cta_section_text_colors_by_group",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "cta",
+    "typography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ]
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "headline.color",
+        "token_id": "tok_ibsrela_headline_color"
+      },
+      {
+        "element_path": "body.color",
+        "token_id": "tok_ibsrela_body_color"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_body_color",
+    "tok_ibsrela_headline_color"
+  ],
+  "asset_ids": [],
+  "rule_text": "The rest of the CTA section follows the section background group: on light backgrounds headings are Dark Blue and body is Black; on dark backgrounds heading and body are White. Because all three approved image backgrounds (#92278F, #0F99BC, #7B7BED) are dark, image-bearing CTAs always use white heading/body. Value switching lives on the headline.color and body.color tokens (variants_by background_group).",
+  "intent": "Keep CTA heading and body legible per the same light/dark flip as the button.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "CTA section text colors follow background group: light background headings Dark Blue/body Black; dark background heading/body White; image CTAs (#92278F, #0F99BC, #7B7BED) always white text."
+}

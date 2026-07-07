@@ -1,302 +1,308 @@
 [
   {
-    "src_rule_id": "rule_lisraya_motion_and_animation",
-    "dst_rule_id": "rule_lisraya_email_animated_gif_first_frame",
+    "src_rule_id": "rule_lisraya_email_animated_gif_first_frame",
+    "dst_rule_id": "rule_lisraya_animation_motion_constraints",
     "relation": "refines",
-    "note": "GIF first-frame requirement is the email-specific case of the general motion/fallback rule."
+    "note": "Email-specific GIF first-frame obligation refines the general motion constraints."
   },
   {
-    "src_rule_id": "rule_lisraya_patient_reference_language_by_audience",
-    "dst_rule_id": "rule_lisraya_patient_dtc_material_governance",
-    "relation": "co_applies",
-    "note": "Audience-confirmation requirement drives which reference-language variant applies."
+    "src_rule_id": "rule_lisraya_audience_confirmation_before_writing",
+    "dst_rule_id": "rule_lisraya_patient_brochure_master_reference",
+    "relation": "cross_reference",
+    "note": "Audience language rules and the master brochure both govern messaging/tone consistency."
   },
   {
     "src_rule_id": "rule_lisraya_section_metadata_declaration",
     "dst_rule_id": "rule_lisraya_no_adjacent_dark_sections",
     "relation": "depends_on",
-    "note": "Adjacent-dark enforcement relies on declared background metadata."
+    "note": "The declared background color in metadata enables the assembler to enforce dark-section non-adjacency."
   },
   {
     "src_rule_id": "rule_lisraya_section_metadata_declaration",
-    "dst_rule_id": "rule_lisraya_footnote_symbols_assembly_time",
-    "relation": "co_applies",
-    "note": "Declared footnote symbols feed assembly-time assignment."
+    "dst_rule_id": "rule_lisraya_footnote_symbols_assembly_assigned",
+    "relation": "depends_on",
+    "note": "Declared consumed footnote symbols enable assembly-time ordered assignment."
   },
   {
     "src_rule_id": "rule_lisraya_section_self_contained_block",
-    "dst_rule_id": "rule_lisraya_section_metadata_declaration",
-    "relation": "cluster",
-    "note": "Both define the modular section contract."
-  },
-  {
-    "src_rule_id": "rule_lisraya_chart_emphasis_color_reserved",
-    "dst_rule_id": "rule_lisraya_chart_color_application",
-    "relation": "refines",
-    "note": "Emphasis-color reservation refines the general chart color binding."
-  },
-  {
-    "src_rule_id": "rule_lisraya_approved_tints_only",
-    "dst_rule_id": "rule_lisraya_campaign_headline_letter_tint",
-    "relation": "cluster",
-    "note": "Approved tint set includes the campaign headline letter tint."
-  },
-  {
-    "src_rule_id": "rule_lisraya_approved_tints_only",
-    "dst_rule_id": "rule_lisraya_callout_box_fill_tints",
-    "relation": "cluster",
-    "note": "Approved tint set includes the callout box fill tints."
-  },
-  {
-    "src_rule_id": "rule_lisraya_approved_tints_only",
-    "dst_rule_id": "rule_lisraya_wave_top_layer_tint",
-    "relation": "cluster",
-    "note": "Approved tint set includes the wave top layer transparency."
-  },
-  {
-    "src_rule_id": "rule_lisraya_masthead_gradient_with_logo_mark",
-    "dst_rule_id": "rule_lisraya_approved_gradient_set_only",
-    "relation": "refines",
-    "note": "The masthead-with-logo rule selects one specific gradient from the approved set."
-  },
-  {
-    "src_rule_id": "rule_lisraya_gradient_horizontal_direction",
-    "dst_rule_id": "rule_lisraya_masthead_gradient_with_logo_mark",
+    "dst_rule_id": "rule_lisraya_locked_components_no_dependent_decoration",
     "relation": "co_applies",
-    "note": "Horizontal direction governs the same masthead/banner gradient application."
+    "note": "Both enforce section self-containment for clean stacking with locked components."
   },
   {
-    "src_rule_id": "rule_lisraya_known_safe_and_forbidden_text_pairs",
-    "dst_rule_id": "rule_lisraya_contrast_minimums_wcag_aa",
+    "src_rule_id": "rule_lisraya_coral_sparing_accent_only",
+    "dst_rule_id": "rule_lisraya_palette_usage_hierarchy_2",
     "relation": "refines",
-    "note": "Safe/forbidden pairs operationalize the WCAG contrast minimums."
+    "note": "Coral's restriction is a specific case of the tertiary-as-accent hierarchy rule."
   },
   {
-    "src_rule_id": "rule_lisraya_gradient_callout_headline_treatment",
-    "dst_rule_id": "rule_lisraya_gradient_callout_section_layout",
-    "relation": "cluster",
-    "note": "Headline is part of the gradient callout section layout."
+    "src_rule_id": "rule_lisraya_chart_color_roles",
+    "dst_rule_id": "rule_lisraya_palette_usage_hierarchy_2",
+    "relation": "co_applies",
+    "note": "Chart emphasis reservation reflects the primary/secondary/tertiary usage discipline."
   },
   {
-    "src_rule_id": "rule_lisraya_gradient_callout_button_treatment",
-    "dst_rule_id": "rule_lisraya_gradient_callout_section_layout",
-    "relation": "cluster",
-    "note": "Button is part of the gradient callout section layout."
+    "src_rule_id": "rule_lisraya_no_ad_hoc_tints",
+    "dst_rule_id": "rule_lisraya_callout_and_wave_tint_bindings",
+    "relation": "refines",
+    "note": "The ad-hoc prohibition permits exactly the callout/wave tints defined here."
+  },
+  {
+    "src_rule_id": "rule_lisraya_no_ad_hoc_tints",
+    "dst_rule_id": "rule_lisraya_campaign_headline_letter_tint",
+    "relation": "refines",
+    "note": "The ad-hoc prohibition permits the campaign headline letter tint as one of the allowed exceptions."
+  },
+  {
+    "src_rule_id": "rule_lisraya_gradient_usage_contexts",
+    "dst_rule_id": "rule_lisraya_approved_gradients_only",
+    "relation": "refines",
+    "note": "Usage-context guidance operates within the approved-only exclusivity constraint."
+  },
+  {
+    "src_rule_id": "rule_lisraya_masthead_gradient_logo_mark_contrast",
+    "dst_rule_id": "rule_lisraya_gradient_horizontal_direction",
+    "relation": "co_applies",
+    "note": "Both govern the masthead gradient application together with direction."
+  },
+  {
+    "src_rule_id": "rule_lisraya_known_safe_and_avoided_text_bg_pairs",
+    "dst_rule_id": "rule_lisraya_contrast_minimums_and_testing",
+    "relation": "refines",
+    "note": "The safe/avoided pair list operationalizes the WCAG AA contrast minimums."
+  },
+  {
+    "src_rule_id": "rule_lisraya_gradient_callout_bg_asset_no_recolor",
+    "dst_rule_id": "rule_lisraya_gradient_callout_cta_layout",
+    "relation": "refines",
+    "note": "Governs the background asset usage and skip exception within the callout layout."
   },
   {
     "src_rule_id": "rule_lisraya_gradient_callout_button_signature_radius",
-    "dst_rule_id": "rule_lisraya_gradient_callout_button_treatment",
+    "dst_rule_id": "rule_lisraya_gradient_callout_cta_layout",
     "relation": "refines",
-    "note": "Signature radius further constrains the button treatment."
-  },
-  {
-    "src_rule_id": "rule_lisraya_gradient_callout_background_asset_lock",
-    "dst_rule_id": "rule_lisraya_gradient_callout_section_layout",
-    "relation": "refines",
-    "note": "Asset-lock and skip conditions refine the section background rule."
+    "note": "Locks the mandatory button radius that persists even under the background-skip exception."
   },
   {
     "src_rule_id": "rule_lisraya_icon_callout_badge_edge_geometry",
-    "dst_rule_id": "rule_lisraya_icon_callout_box_structure_and_style",
+    "dst_rule_id": "rule_lisraya_icon_callout_box_structure_style",
     "relation": "refines",
-    "note": "Geometry rule specifies exact placement of the badge defined in the base structure rule."
+    "note": "Geometry section pins the exact bisector/inset math for the box structure."
+  },
+  {
+    "src_rule_id": "rule_lisraya_icon_callout_accent_radius_never_change",
+    "dst_rule_id": "rule_lisraya_icon_callout_box_structure_style",
+    "relation": "refines",
+    "note": "Mandatory radius spec constrains the box/badge shapes."
+  },
+  {
+    "src_rule_id": "rule_lisraya_icon_callout_badge_drop_shadow_required",
+    "dst_rule_id": "rule_lisraya_icon_callout_box_structure_style",
+    "relation": "refines",
+    "note": "Required shadow is part of the badge treatment."
   },
   {
     "src_rule_id": "rule_lisraya_icon_callout_outlook_fallback",
     "dst_rule_id": "rule_lisraya_icon_callout_badge_edge_geometry",
     "relation": "refines",
-    "note": "Fallback handles clients that cannot honor the absolute-positioned overhang geometry."
+    "note": "Fallback addresses clients that ignore the absolute-positioned bisector geometry."
   },
   {
-    "src_rule_id": "rule_lisraya_cta_one_primary_per_section",
-    "dst_rule_id": "rule_lisraya_cta_button_styling",
+    "src_rule_id": "rule_lisraya_cta_button_styling",
+    "dst_rule_id": "rule_lisraya_one_primary_cta_per_section",
     "relation": "co_applies",
-    "note": "Cardinality limit governs the styled primary CTA button."
+    "note": "Both govern CTA sections: styling of the button and its per-section cardinality."
   },
   {
-    "src_rule_id": "rule_lisraya_section_padding_side_insets",
-    "dst_rule_id": "rule_lisraya_vertical_rhythm_8px_base",
-    "relation": "cluster",
-    "note": "Both are section padding rules supporting zero-gap assembly."
-  },
-  {
-    "src_rule_id": "rule_lisraya_vertical_rhythm_8px_base",
-    "dst_rule_id": "rule_lisraya_email_canvas_width_breakpoint",
-    "relation": "co_applies",
-    "note": "Spacing rhythm and canvas dimensions jointly define seamless email assembly."
+    "src_rule_id": "rule_lisraya_section_padding_and_vertical_rhythm",
+    "dst_rule_id": "rule_lisraya_email_canvas_width_and_breakpoint",
+    "relation": "depends_on",
+    "note": "24px insets and zero-gap stacking presuppose the fixed 600px edge-to-edge canvas."
   },
   {
     "src_rule_id": "rule_lisraya_wave_usage_placement",
-    "dst_rule_id": "rule_lisraya_wave_graphic_device",
+    "dst_rule_id": "rule_lisraya_wave_graphic_device_construction",
     "relation": "refines",
-    "note": "Usage guidance builds on the wave device construction definition."
+    "note": "Usage guidance for the wave device whose construction/colorways are locked."
   },
   {
-    "src_rule_id": "rule_lisraya_image_accent_shape_crop",
-    "dst_rule_id": "rule_lisraya_patient_photography_treatment",
+    "src_rule_id": "rule_lisraya_patient_lifestyle_photography_treatment",
+    "dst_rule_id": "rule_lisraya_images_housed_in_accent_shape_crop",
     "relation": "co_applies",
-    "note": "Warm lifestyle photography is housed within the accent-shape crop."
+    "note": "Lifestyle photos are cropped into the accent shape."
   },
   {
-    "src_rule_id": "rule_lisraya_waves_gradients_overlay_photography",
-    "dst_rule_id": "rule_lisraya_patient_photography_treatment",
+    "src_rule_id": "rule_lisraya_image_alt_text_required",
+    "dst_rule_id": "rule_lisraya_patient_lifestyle_photography_treatment",
     "relation": "co_applies",
-    "note": "Wave/gradient overlays apply to the photography treatment."
+    "note": "Alt text obligation applies to all imagery including lifestyle photography."
   },
   {
-    "src_rule_id": "rule_lisraya_accent_shape_consistent_diagonal",
-    "dst_rule_id": "rule_lisraya_brand_accent_shape_device",
-    "relation": "refines",
-    "note": "Consistency constraint refines the base accent-shape device."
-  },
-  {
-    "src_rule_id": "rule_lisraya_charts_tables_uniform_corners",
-    "dst_rule_id": "rule_lisraya_brand_accent_shape_device",
+    "src_rule_id": "rule_lisraya_chart_table_uniform_corner_radius_exception",
+    "dst_rule_id": "rule_lisraya_brand_accent_shape_container_device",
     "relation": "overrides",
-    "note": "Charts/tables override the asymmetric accent shape with uniform corners."
+    "note": "Charts and tables override the asymmetric accent-shape radius with a uniform 12px radius."
   },
   {
-    "src_rule_id": "rule_lisraya_chart_container_style",
+    "src_rule_id": "rule_lisraya_accent_shape_diagonal_consistency",
+    "dst_rule_id": "rule_lisraya_brand_accent_shape_container_device",
+    "relation": "refines",
+    "note": "Adds per-email orientation consistency to the accent shape container spec."
+  },
+  {
+    "src_rule_id": "rule_lisraya_chart_container_structure",
     "dst_rule_id": "rule_lisraya_chart_color_logic",
-    "relation": "cluster",
-    "note": "Both define the chart/infographic system."
+    "relation": "co_applies",
+    "note": "Container fill/header colors work with the series color logic."
   },
   {
-    "src_rule_id": "rule_lisraya_chart_container_style",
-    "dst_rule_id": "rule_lisraya_chart_headline_style",
-    "relation": "cluster",
-    "note": "Container and header treatment co-apply within charts."
+    "src_rule_id": "rule_lisraya_chart_headline_treatment",
+    "dst_rule_id": "rule_lisraya_chart_container_structure",
+    "relation": "co_applies",
+    "note": "Header bar styling sits on the container header bar."
   },
   {
-    "src_rule_id": "rule_lisraya_chart_stat_callout_hierarchy",
+    "src_rule_id": "rule_lisraya_chart_stat_callout_style",
     "dst_rule_id": "rule_lisraya_chart_footnote_treatment",
     "relation": "co_applies",
-    "note": "Stat callout hierarchy and footnote separation together establish data hierarchy."
+    "note": "Stat hero and subordinate footnote establish the chart's data hierarchy."
   },
   {
-    "src_rule_id": "rule_lisraya_icon_color_palette_only",
-    "dst_rule_id": "rule_lisraya_icon_style_minimal_line",
+    "src_rule_id": "rule_lisraya_icon_color_within_palette",
+    "dst_rule_id": "rule_lisraya_icon_minimal_line_style",
     "relation": "co_applies",
-    "note": "Palette constraint applies alongside the minimal line style for all icons."
+    "note": "Palette constraint applies alongside the minimal line style."
   },
   {
     "src_rule_id": "rule_lisraya_icon_min_render_low_vision",
-    "dst_rule_id": "rule_lisraya_icon_style_minimal_line",
+    "dst_rule_id": "rule_lisraya_icon_minimal_line_style",
     "relation": "co_applies",
-    "note": "Minimum render size accompanies the base icon style rule."
+    "note": "Accessibility sizing applies to the same line-style icons."
   },
   {
-    "src_rule_id": "rule_lisraya_declare_section_background_metadata",
-    "dst_rule_id": "rule_lisraya_alternate_section_backgrounds",
+    "src_rule_id": "rule_lisraya_canonical_content_block_pattern",
+    "dst_rule_id": "rule_lisraya_limit_focal_points_per_section",
+    "relation": "co_applies",
+    "note": "Canonical block pattern operates within the single-focal-point layout discipline."
+  },
+  {
+    "src_rule_id": "rule_lisraya_registered_trademark_symbol_usage",
+    "dst_rule_id": "rule_lisraya_generic_name_format",
     "relation": "depends_on",
-    "note": "Declared background metadata is what lets assemblers avoid identical adjacent backgrounds."
+    "note": "The \u00ae symbol is only applied when the generic name is included, which uses the mandated parenthetical lowercase format."
   },
   {
-    "src_rule_id": "rule_lisraya_registered_trademark_first_mention",
+    "src_rule_id": "rule_lisraya_registered_trademark_symbol_usage",
     "dst_rule_id": "rule_lisraya_brand_name_all_caps",
     "relation": "co_applies",
-    "note": "Both govern how the LISRAYA name is written; ALL CAPS applies to the same token that the trademark rule qualifies."
+    "note": "The trademarked first-mention form still renders LISRAYA in all caps."
   },
   {
-    "src_rule_id": "rule_lisraya_email_type_scale_and_weights",
-    "dst_rule_id": "rule_lisraya_body_minimum_size",
+    "src_rule_id": "rule_lisraya_email_type_scale_hierarchy",
+    "dst_rule_id": "rule_lisraya_body_min_size_and_running_text_floor",
     "relation": "co_applies",
-    "note": "Body level in the scale is bounded by the 16px minimum."
+    "note": "Body/footnote sizes in the scale must respect the 16px body minimum and 12px running-text floor."
   },
   {
-    "src_rule_id": "rule_lisraya_email_type_scale_and_weights",
-    "dst_rule_id": "rule_lisraya_body_line_height_minimum",
-    "relation": "co_applies",
-    "note": "Line-height minimums apply to the body level of the scale."
-  },
-  {
-    "src_rule_id": "rule_lisraya_typography_font_families_by_surface",
-    "dst_rule_id": "rule_lisraya_email_font_stack_css",
-    "relation": "refines",
-    "note": "CSS stack operationalizes the Nunito Sans digital family for email."
-  },
-  {
-    "src_rule_id": "rule_lisraya_email_type_scale_and_weights",
+    "src_rule_id": "rule_lisraya_email_type_scale_hierarchy",
     "dst_rule_id": "rule_lisraya_visual_hierarchy_distinct_levels",
     "relation": "co_applies",
-    "note": "The scale supports the required distinct-level hierarchy."
+    "note": "The scale exists to support the distinct-hierarchy requirement."
   },
   {
-    "src_rule_id": "rule_lisraya_no_all_caps_outside_allowed",
+    "src_rule_id": "rule_lisraya_typography_font_family_by_surface",
+    "dst_rule_id": "rule_lisraya_email_font_stack",
+    "relation": "refines",
+    "note": "Email stack operationalizes the Nunito Sans digital requirement with fallbacks."
+  },
+  {
+    "src_rule_id": "rule_lisraya_no_all_caps_body_buttons_subheads",
     "dst_rule_id": "rule_lisraya_campaign_headline_all_caps",
-    "relation": "refines",
-    "note": "Campaign headline is a sanctioned exception to the no-all-caps rule."
+    "relation": "cross_reference",
+    "note": "Campaign headline is a sanctioned exception to the no-ALL-CAPS baseline."
   },
   {
-    "src_rule_id": "rule_lisraya_no_all_caps_outside_allowed",
+    "src_rule_id": "rule_lisraya_no_all_caps_body_buttons_subheads",
     "dst_rule_id": "rule_lisraya_chart_headline_all_caps",
+    "relation": "cross_reference",
+    "note": "Chart headlines are a sanctioned exception to the no-ALL-CAPS baseline."
+  },
+  {
+    "src_rule_id": "rule_lisraya_bold_required_targets",
+    "dst_rule_id": "rule_lisraya_bold_hierarchy_budget",
     "relation": "refines",
-    "note": "Chart/infographic headlines are a sanctioned exception to the no-all-caps rule."
+    "note": "Required-bold targets are the specific always-bold cases within the overall bold budget."
   },
   {
-    "src_rule_id": "rule_lisraya_body_sentence_case",
-    "dst_rule_id": "rule_lisraya_no_all_caps_outside_allowed",
+    "src_rule_id": "rule_lisraya_emphasis_device_stacking_limit",
+    "dst_rule_id": "rule_lisraya_bold_hierarchy_budget",
     "relation": "co_applies",
-    "note": "Sentence-case body reinforces the no-all-caps-for-body prohibition."
+    "note": "Stacking limit governs how bold combines with other emphasis devices."
   },
   {
-    "src_rule_id": "rule_lisraya_max_two_emphasis_devices",
-    "dst_rule_id": "rule_lisraya_bold_hierarchy_only",
-    "relation": "co_applies",
-    "note": "Both govern emphasis usage; the device cap constrains how bold combines with other emphasis."
-  },
-  {
-    "src_rule_id": "rule_lisraya_no_underline_italic_for_emphasis",
-    "dst_rule_id": "rule_lisraya_max_two_emphasis_devices",
-    "relation": "co_applies",
-    "note": "Together they define the permitted emphasis toolkit for patient copy."
-  },
-  {
-    "src_rule_id": "rule_lisraya_dm_forbidden_in_headings",
-    "dst_rule_id": "rule_lisraya_dm_abbreviation_usage",
+    "src_rule_id": "rule_lisraya_dm_not_in_headings",
+    "dst_rule_id": "rule_lisraya_dm_abbreviation_first_mention",
     "relation": "refines",
-    "note": "Heading prohibition constrains where the DM abbreviation may appear."
+    "note": "Headings exception restricts where DM abbreviation may appear."
   },
   {
-    "src_rule_id": "rule_lisraya_dm_first_mention_per_section",
-    "dst_rule_id": "rule_lisraya_dm_abbreviation_usage",
+    "src_rule_id": "rule_lisraya_campaign_headline_tinted_letters",
+    "dst_rule_id": "rule_lisraya_campaign_headline_typography_you_deserve_more",
     "relation": "refines",
-    "note": "Assembly rule extends the first-mention pattern to each standalone section."
+    "note": "Tinted-letter treatment refines the base campaign headline typography."
   },
   {
-    "src_rule_id": "rule_lisraya_campaign_headline_lockup_verbatim_copy",
-    "dst_rule_id": "rule_lisraya_campaign_headline_you_deserve_more_typography",
+    "src_rule_id": "rule_lisraya_campaign_headline_full_lockup_copy",
+    "dst_rule_id": "rule_lisraya_campaign_headline_typography_you_deserve_more",
     "relation": "co_applies",
-    "note": "The verbatim lockup copy is rendered with the campaign headline typography styling."
+    "note": "Verbatim lockup copy accompanies the styled headline in hero placements."
   },
   {
-    "src_rule_id": "rule_lisraya_callout_three_styles_no_repeat",
-    "dst_rule_id": "rule_lisraya_callout_main_key_point",
+    "src_rule_id": "rule_lisraya_callout_style_exclusivity",
+    "dst_rule_id": "rule_lisraya_main_callout_key_point",
     "relation": "cluster",
-    "note": "Governs the three defined callout styles."
+    "note": "Governs which of the three callout styles may co-occur."
   },
   {
-    "src_rule_id": "rule_lisraya_callout_three_styles_no_repeat",
-    "dst_rule_id": "rule_lisraya_callout_secondary_data",
+    "src_rule_id": "rule_lisraya_callout_style_exclusivity",
+    "dst_rule_id": "rule_lisraya_secondary_data_callout",
     "relation": "cluster",
-    "note": "Governs the three defined callout styles."
+    "note": "Governs which of the three callout styles may co-occur."
   },
   {
-    "src_rule_id": "rule_lisraya_callout_three_styles_no_repeat",
-    "dst_rule_id": "rule_lisraya_callout_text_heavy_list",
+    "src_rule_id": "rule_lisraya_callout_style_exclusivity",
+    "dst_rule_id": "rule_lisraya_text_heavy_callout",
     "relation": "cluster",
-    "note": "Governs the three defined callout styles."
+    "note": "Governs which of the three callout styles may co-occur."
   },
   {
     "src_rule_id": "rule_lisraya_campaign_headline_verbatim",
-    "dst_rule_id": "rule_lisraya_product_benefits_framework_verbatim",
+    "dst_rule_id": "rule_lisraya_product_benefits_verbatim",
     "relation": "cluster",
-    "note": "Both part of the approved campaign messaging framework."
+    "note": "Both part of the approved You Deserve More campaign messaging framework."
   },
   {
-    "src_rule_id": "rule_lisraya_moa_statements_verbatim",
-    "dst_rule_id": "rule_lisraya_product_benefits_framework_verbatim",
+    "src_rule_id": "rule_lisraya_moa_messaging_verbatim",
+    "dst_rule_id": "rule_lisraya_product_benefits_verbatim",
     "relation": "cluster",
-    "note": "Shared campaign messaging framework."
+    "note": "MOA and benefit statements belong to the same verbatim messaging framework."
+  },
+  {
+    "src_rule_id": "rule_lisraya_doctor_discussion_cta_pattern",
+    "dst_rule_id": "rule_lisraya_campaign_headline_verbatim",
+    "relation": "cluster",
+    "note": "CTA pattern is part of the same approved campaign framework."
+  },
+  {
+    "src_rule_id": "rule_lisraya_brand_voice_context_flex",
+    "dst_rule_id": "rule_lisraya_brand_voice_core_pillars",
+    "relation": "refines",
+    "note": "Contextual flex is bounded by the invariant core voice pillars."
+  },
+  {
+    "src_rule_id": "rule_lisraya_patient_quote_attribution_style",
+    "dst_rule_id": "rule_lisraya_clinical_claim_footnote_markers",
+    "relation": "cluster",
+    "note": "Both are required content elements within sections."
   }
 ]

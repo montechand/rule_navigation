@@ -1,0 +1,38 @@
+{
+  "id": "rule_ibsrela_campaign_name_in_body_title_case",
+  "brand_id": "ibsrela",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "typography",
+    "voice_tone"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "element_path": "campaign.body.case"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "Flip The Script",
+    "trigger": "campaign name appears inside body copy"
+  },
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "When the campaign name appears inside body copy, capitalize each word: 'Flip The Script' (not all caps, not 'flip the script'). Bound to campaign.body.case=title_case.",
+  "intent": "Ensure the campaign name reads as a Title-Cased proper name in running text, distinct from its display lockup.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[2]",
+  "group_id": "grp_ibsrela_content_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "campaign.body.case=title_case for campaign names in body copy; capitalize each word like 'Flip The Script', not all caps or lowercase."
+}

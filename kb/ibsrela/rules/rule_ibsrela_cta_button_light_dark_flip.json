@@ -1,0 +1,49 @@
+{
+  "id": "rule_ibsrela_cta_button_light_dark_flip",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "cta"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button.fill"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "cta.button.fill",
+        "token_id": "tok_ibsrela_cta_button_fill"
+      },
+      {
+        "element_path": "cta.button.label.color",
+        "token_id": "tok_ibsrela_cta_button_label_color"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_cta_button_fill",
+    "tok_ibsrela_cta_button_label_color"
+  ],
+  "asset_ids": [],
+  "rule_text": "The CTA button flips between the two background groups: on LIGHT backgrounds (White, Silver) use the green filled button (cta.button.fill) with a white label (cta.button.label.color); on DARK backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) use the white filled button with a green label. One-line: light \u2192 green button / white label; dark \u2192 white button / green label. Variant switching lives on the cta.button.fill and cta.button.label.color tokens (variants_by background_group).",
+  "intent": "Guarantee CTA button contrast and consistency across the light/dark background split.",
+  "snippets": "<!-- Dark background -> WHITE button fill, GREEN label -->\n<mj-button background-color=\"#FFFFFF\" color=\"#01A47E\" ...>",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "On LIGHT backgrounds (White, Silver) use green-filled CTA button with white label; on DARK backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) use white-filled button with green label."
+}

@@ -35,12 +35,14 @@ TEMPLATE_PATH = SCRIPT_DIR / "template.html"
 VENDOR_DIR = SCRIPT_DIR / "vendor"
 
 # Kept in sync with kb/{brand}/schema/conventions.md id prefixes.
+# (governance was retired as an entity — it is now a facet on brand rules)
 KIND_LABELS = {
     "rule": "Brand rule",
     "token": "Brand token",
     "asset": "Design asset",
-    "governance": "Governance",
     "subtype": "Content sub-type",
+    "template": "Design template",
+    "template_group": "Template group",
     "section_type": "Section type",
     "asset_group": "Asset group",
     "rule_group": "Rule group (provenance)",
@@ -151,11 +153,13 @@ def build_brand_dataset(brand: str, kb_root: Path) -> dict:
     rules = load_dir_records(brand_dir / "rules")
     tokens = load_dir_records(brand_dir / "tokens")
     assets = load_dir_records(brand_dir / "assets")
-    governance = load_dir_records(brand_dir / "governance")
     subtypes = load_dir_records(brand_dir / "subtypes")
+    templates = load_dir_records(brand_dir / "templates" / "_meta")
 
     rule_groups = {r["id"]: r for r in load_json(brand_dir / "groups" / "rule_groups.json")}
     asset_groups = {r["id"]: r for r in load_json(brand_dir / "groups" / "asset_groups.json")}
+    tg_path = brand_dir / "groups" / "template_groups.json"
+    template_groups = {r["id"]: r for r in load_json(tg_path)} if tg_path.exists() else {}
 
     section_vocab_md = (brand_dir / "schema" / "section_vocab.md").read_text(encoding="utf-8")
     section_desc = parse_section_vocab(section_vocab_md)
@@ -164,8 +168,9 @@ def build_brand_dataset(brand: str, kb_root: Path) -> dict:
         "rule": rules,
         "token": tokens,
         "asset": assets,
-        "governance": governance,
         "subtype": subtypes,
+        "template": templates,
+        "template_group": template_groups,
         "asset_group": asset_groups,
     }
 
@@ -238,7 +243,7 @@ def build_brand_dataset(brand: str, kb_root: Path) -> dict:
     schema_dir = brand_dir / "schema"
     preferred_order = [
         "overview.md", "conventions.md", "brand_rule.md", "brand_token.md",
-        "design_asset.md", "governance.md", "content_sub_type.md",
+        "design_asset.md", "content_sub_type.md", "design_template.md",
         "support_entities.md", "section_vocab.md", "predicate_registry.md",
     ]
     seen = set()

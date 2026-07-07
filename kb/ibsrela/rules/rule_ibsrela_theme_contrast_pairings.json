@@ -14,7 +14,11 @@
   "applies_when": [
     {
       "kind": "background_group",
-      "value": "dark_and_light_panels"
+      "value": "dark"
+    },
+    {
+      "kind": "background_group",
+      "value": "light"
     }
   ],
   "evaluation_scope": "section",
@@ -40,10 +44,6 @@
       {
         "element_path": "body.link.decoration",
         "token_id": "tok_ibsrela_body_link_decoration"
-      },
-      {
-        "element_path": "title.color",
-        "token_id": "tok_ibsrela_title_color"
       }
     ]
   },
@@ -55,17 +55,15 @@
     "tok_ibsrela_body_link_color",
     "tok_ibsrela_body_link_decoration",
     "tok_ibsrela_headline_color",
-    "tok_ibsrela_subhead_color",
-    "tok_ibsrela_title_color"
+    "tok_ibsrela_subhead_color"
   ],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "[BASELINE] Contrast pairings by panel: on Purple/Navy/Green panels use white text only; on White/Silver panels use navy headlines, black body, and purple accents. Links on dark panels are white and underlined; on light panels purple or navy and underlined. Concrete color-per-background switching lives on the semantic tokens (headline.color, subhead.color, body.color, body.link.color) via their background_group variants.",
-  "intent": "Guarantee legible, on-brand text/link contrast against every theme panel.",
+  "rule_text": "[BASELINE] Contrast pairings by panel: on Purple/Navy/Green panels use white text only; on White/Silver panels use navy headlines, black body, and purple accents. Links on dark panels are white underlined; on light panels purple or navy underlined. Colors resolve via the semantic text/link tokens whose background_group variants carry the light/dark switching.",
+  "intent": "Ensure legible, on-brand text/link contrast for each panel background.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[3]",
   "group_id": "grp_ibsrela_color_scheme_rules_03",
   "status": "active",
   "version": 1,
-  "summary": "On Purple/Navy/Green panels use white text and white underlined links; on White/Silver panels navy headlines, black body text, purple accents, and purple/navy underlined links."
+  "summary": "Apply white text and underlined white links on Purple/Navy/Green panels; navy headlines, black body, purple accents, and purple/navy underlined links on White/Silver panels."
 }

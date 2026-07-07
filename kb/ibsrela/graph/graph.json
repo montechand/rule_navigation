@@ -63,103 +63,122 @@
     {
       "id": "rule_ibsrela_min_contrast_ratios",
       "kind": "rule",
-      "label": "Maintain minimum contrast of 4.5:1 for body text and 3:1 for bold headlines \u226518 px. White on #92278F",
+      "label": "Maintain minimum contrast of 4.5:1 for body text and 3:1 for \u226518 px bold headlines. White on #92278F",
+      "rule_class": "accessibility",
+      "scope": "org_baseline",
+      "all_sections": true,
+      "governance": "regulatory"
+    },
+    {
+      "id": "rule_ibsrela_images_require_alt_text_livetext_isi",
+      "kind": "rule",
+      "label": "All images require alt text. The email must communicate indication + safety even with images off \u2014 I",
+      "rule_class": "accessibility",
+      "scope": "org_baseline",
+      "all_sections": true,
+      "governance": "disclosure"
+    },
+    {
+      "id": "rule_ibsrela_min_text_sizes_and_tap_targets",
+      "kind": "rule",
+      "label": "Minimum live-text size is 10 px (footnotes); body text never below 12 px; tap targets \u2265 44 px; use l",
       "rule_class": "accessibility",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_images_alt_text_and_image_off_resilience",
+      "id": "rule_ibsrela_single_h1_per_email",
       "kind": "rule",
-      "label": "All images require alt text. The email must communicate indication and safety even with images off \u2014",
+      "label": "Use logical heading order with exactly one H1 per email.",
       "rule_class": "accessibility",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_min_text_size_and_tap_targets",
+      "id": "rule_ibsrela_underline_links_not_color_alone",
       "kind": "rule",
-      "label": "Minimum live-text size is 10 px (footnotes); body text never below 12 px; tap targets must be \u226544 px",
+      "label": "Underline links; do not rely on color alone to indicate links.",
       "rule_class": "accessibility",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_one_h1_per_email",
+      "id": "rule_ibsrela_semantic_presentation_table_markup",
       "kind": "rule",
-      "label": "Maintain a logical heading order with exactly one H1 per email.",
+      "label": "Use semantic <table role=\"presentation\"> markup for layout tables.",
       "rule_class": "accessibility",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_underline_links_and_semantic_markup",
+      "id": "rule_ibsrela_section_self_contained_flush_stacking",
       "kind": "rule",
-      "label": "Underline links; don't rely on color alone to indicate them. Use semantic <table role=\"presentation\"",
-      "rule_class": "accessibility",
-      "scope": "org_baseline",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_self_contained_section_flush_stacking",
-      "kind": "rule",
-      "label": "Every content section is a self-contained 600 px table with its own background, top/bottom padding (",
+      "label": "Every content section is a self-contained 600 px table with its own background and its own top/botto",
       "rule_class": "assembly",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_adjacent_section_theme_transition",
+      "id": "rule_ibsrela_adjacent_section_theme_edges_transition",
       "kind": "rule",
-      "label": "Sections must declare their theme background at top and bottom edge so adjacent sections either matc",
+      "label": "Sections must declare their theme background at their top and bottom edge so adjacent sections eithe",
       "rule_class": "assembly",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_email_wide_footnote_reference_coordination",
+      "id": "rule_ibsrela_footnote_reference_symbols_email_scope",
       "kind": "rule",
-      "label": "Footnote symbols run per the whole email, not per section: coordinate * \u2020 \u2021 \u00a7 order at assembly; ref",
-      "rule_class": "assembly",
+      "label": "Footnote symbols run per the whole email, not per section: coordinate the `*` `\u2020` `\u2021` `\u00a7` order at a",
+      "rule_class": "copy_editorial",
       "scope": "org_baseline",
-      "all_sections": true
+      "all_sections": false
     },
     {
-      "id": "rule_ibsrela_wave_callout_cta_cardinality",
+      "id": "rule_ibsrela_per_email_device_cardinality_limits",
       "kind": "rule",
-      "label": "Only one Wave graphic and one key-strategic-question callout per email; one primary CTA per section,",
+      "label": "Only one Wave graphic and only one key-strategic-question callout are allowed per email. One primary",
       "rule_class": "assembly",
       "scope": "org_baseline",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
+      "id": "rule_ibsrela_no_out_of_document_styling_tokens",
       "kind": "rule",
-      "label": "No section may introduce fonts, colors, button shapes, or icon styles outside this document; new ico",
+      "label": "No section may introduce fonts, colors, button shapes, or icon styles outside this document. New ico",
       "rule_class": "assembly",
       "scope": "org_baseline",
       "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_locked_components_own_logo_and_isi",
+      "kind": "rule",
+      "label": "No content section reproduces the logo lockup or any ISI/legal copy; the locked components (Top/End ",
+      "rule_class": "assembly",
+      "scope": "org_baseline",
+      "all_sections": false,
+      "governance": "regulatory"
     },
     {
       "id": "rule_ibsrela_final_assembly_qa_checklist",
       "kind": "rule",
-      "label": "Final assembly QA: confirm body size equals the locked ISI body size (12 px / 1.4), audience matches",
+      "label": "Final assembly QA must confirm: body size equals the locked ISI body size (12 px / 1.4), audience ma",
       "rule_class": "assembly",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_branded_palette_usage_ratio",
+      "id": "rule_ibsrela_palette_usage_ratio_and_roles",
       "kind": "rule",
-      "label": "The branded palette follows a 30/30/20/15/5 usage ratio (Purple 30%, Dark Blue 30%, White 20%, Silve",
+      "label": "The branded palette follows the 30/30/20/15/5 usage ratio (palette.usage_ratio). The three primary c",
       "rule_class": "color_application",
-      "scope": "brand",
+      "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_accent_color_reservations",
+      "id": "rule_ibsrela_accent_color_role_restrictions",
       "kind": "rule",
-      "label": "[BASELINE] Never set body copy in Purple or Green; reserve Green for CTA fills and small accents; Da",
+      "label": "[BASELINE] Never set body copy in Purple or Green. Reserve Green (tok_ibsrela_color_green) for CTA f",
       "rule_class": "color_application",
       "scope": "org_baseline",
       "all_sections": true
@@ -167,88 +186,96 @@
     {
       "id": "rule_ibsrela_text_color_assignments",
       "kind": "rule",
-      "label": "Explicit text color assignments: Titles \u2192 Purple (#92278F); Headlines & subheads \u2192 Dark Blue (#26226",
-      "rule_class": "color_application",
-      "scope": "brand",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_title_purple_only",
-      "kind": "rule",
-      "label": "The title is how the email starts and should always be purple; the first line in the email should al",
-      "rule_class": "color_application",
-      "scope": "brand",
-      "all_sections": false
-    },
-    {
-      "id": "rule_ibsrela_white_section_highlight_black_bold",
-      "kind": "rule",
-      "label": "If something needs to be highlighted on a white section in the body (not headings, sub-headings or t",
-      "rule_class": "color_application",
-      "scope": "brand",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_one_color_per_sentence",
-      "kind": "rule",
-      "label": "There should be no instance of mixing two colors within the same sentence. Each sentence, whether a ",
-      "rule_class": "color_application",
-      "scope": "brand",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_flip_script_campaign_palette_ratio",
-      "kind": "rule",
-      "label": "In Flip The Script campaign pieces the three campaign colors (Periwinkle, Purple, Green) are distrib",
-      "rule_class": "color_application",
-      "scope": "campaign",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_flip_script_scene_color_pairings_fixed",
-      "kind": "rule",
-      "label": "Scene-color pairings are fixed and may not be used interchangeably: Periwinkle\u2192Office, Purple\u2192Cafe, ",
-      "rule_class": "color_application",
-      "scope": "campaign",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_flip_script_callout_opacity_pairings",
-      "kind": "rule",
-      "label": "Callout opacity pairings over white are fixed: Periwinkle at 80% (opacity.callout.80), Purple at 60%",
-      "rule_class": "color_application",
-      "scope": "campaign",
-      "all_sections": false
-    },
-    {
-      "id": "rule_ibsrela_primary_gradient_definitions",
-      "kind": "rule",
-      "label": "Two brand gradients are defined: Dark Blue \u2192 Purple (section.gradient.primary \u2014 stops #262262 at 0, ",
-      "rule_class": "color_application",
-      "scope": "brand",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_gradient_headline_callout_sparing",
-      "kind": "rule",
-      "label": "The Dark Blue \u2192 Purple gradient may be applied to headlines and callouts, but only sparingly (e.g., ",
-      "rule_class": "color_application",
-      "scope": "brand",
-      "all_sections": false
-    },
-    {
-      "id": "rule_ibsrela_email_gradient_background_only",
-      "kind": "rule",
-      "label": "[BASELINE for email] Gradients may only be applied as section background images or CSS with a solid ",
+      "label": "Explicit text color assignments: Titles \u2192 Purple #92278F (title.color); Headlines & subheads \u2192 Dark ",
       "rule_class": "color_application",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_email_single_theme_inheritance",
+      "id": "rule_ibsrela_purple_reserved_for_title_first_line",
       "kind": "rule",
-      "label": "Theme variables style each email's frame and automatically restyle tile, button, and campaign-image ",
+      "label": "The Title is how the email starts and must always be purple; the first line in the email must always",
+      "rule_class": "color_application",
+      "scope": "org_baseline",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_white_section_body_highlight_black_bold",
+      "kind": "rule",
+      "label": "To highlight body text on a white section (not headings, sub-headings or titles), it must be black c",
+      "rule_class": "color_application",
+      "scope": "org_baseline",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_one_color_per_sentence",
+      "kind": "rule",
+      "label": "There must be no instance of mixing two colors within the same sentence. Each sentence, whether a he",
+      "rule_class": "color_application",
+      "scope": "org_baseline",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_flip_the_script_campaign_palette_ratio",
+      "kind": "rule",
+      "label": "For Flip The Script campaign pieces, the three campaign colors (Periwinkle #7B7BED, Purple #92278F, ",
+      "rule_class": "color_application",
+      "scope": "campaign",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_flip_the_script_scene_color_pairings_fixed",
+      "kind": "rule",
+      "label": "Scene-color pairings are fixed and may not be used interchangeably: Periwinkle pairs with Office, Pu",
+      "rule_class": "color_application",
+      "scope": "campaign",
+      "all_sections": false
+    },
+    {
+      "id": "rule_ibsrela_flip_the_script_callout_opacity_pairings",
+      "kind": "rule",
+      "label": "Callout opacity pairings over white are locked per campaign color: Periwinkle 80% (opacity.callout.8",
+      "rule_class": "color_application",
+      "scope": "campaign",
+      "all_sections": false
+    },
+    {
+      "id": "rule_ibsrela_primary_gradients_definition_and_usage",
+      "kind": "rule",
+      "label": "Two brand gradients are defined: the Dark Blue \u2192 Purple gradient (section.gradient.primary; stops #2",
+      "rule_class": "color_application",
+      "scope": "brand",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_gradient_on_headlines_callouts_sparingly",
+      "kind": "rule",
+      "label": "The Dark Blue \u2192 Purple gradient may be applied to headlines and callouts, but only sparingly \u2014 e.g.,",
+      "rule_class": "color_application",
+      "scope": "brand",
+      "all_sections": false
+    },
+    {
+      "id": "rule_ibsrela_email_gradient_background_only_no_gradient_text",
+      "kind": "rule",
+      "label": "[BASELINE for email] Gradients may only be used as section background images or CSS with a solid #92",
+      "rule_class": "color_application",
+      "scope": "org_baseline",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_one_theme_per_email",
+      "kind": "rule",
+      "label": "Exactly one theme is applied per email. Theme variables style the email's frame and automatically re",
       "rule_class": "assembly",
+      "scope": "brand",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_approved_theme_tiles",
+      "kind": "rule",
+      "label": "Email themes must come from the approved theme tile set: White, Silver/light, Purple (#92278F), Navy",
+      "rule_class": "color_application",
       "scope": "brand",
       "all_sections": true
     },
@@ -264,12 +291,12 @@
       "id": "rule_ibsrela_dtp_section_background_sequence",
       "kind": "rule",
       "label": "DTP emails alternate section backgrounds in a fixed rhythm: purple hero image \u2192 white content sectio",
-      "rule_class": "color_application",
+      "rule_class": "assembly",
       "scope": "brand",
-      "all_sections": false
+      "all_sections": true
     },
     {
-      "id": "rule_ibsrela_sections_butt_edge_to_edge",
+      "id": "rule_ibsrela_sections_butt_edge_to_edge_no_dividers",
       "kind": "rule",
       "label": "Sections butt edge-to-edge with no margin between them; transitions are achieved via background colo",
       "rule_class": "layout",
@@ -277,47 +304,47 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_green_panel_max_once_exclusive_use",
+      "id": "rule_ibsrela_green_panel_at_most_once_reserved",
       "kind": "rule",
-      "label": "Within one email, the green panel appears at most once and is reserved for either the affordability ",
+      "label": "Within one email, the green panel (#01A47E) appears at most once and is reserved for either the affo",
       "rule_class": "color_application",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_cta_button_fill_label_by_background_group",
+      "id": "rule_ibsrela_cta_button_light_dark_flip",
       "kind": "rule",
-      "label": "The system reduces to two background groups: light (White, Silver) and dark (Dark Gray, Purple, Dark",
+      "label": "The CTA button flips between the two background groups: on LIGHT backgrounds (White, Silver) use the",
       "rule_class": "color_application",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_cta_heading_body_color_by_background_group",
+      "id": "rule_ibsrela_cta_section_text_colors_by_group",
       "kind": "rule",
-      "label": "In the CTA section, heading and body color follow the background group per the lookup table: on ligh",
+      "label": "The rest of the CTA section follows the section background group: on light backgrounds headings are ",
       "rule_class": "color_application",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_cta_right_image_locked_to_background",
+      "id": "rule_ibsrela_cta_right_image_locked_backgrounds",
       "kind": "rule",
-      "label": "The CTA section may carry an image on the right side. There are three approved right-side images (as",
-      "rule_class": "imagery",
+      "label": "The CTA section may carry a right-side image chosen from exactly three approved options, each LOCKED",
+      "rule_class": "layout",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_cta_golf_teal_lpga_gated",
+      "id": "rule_ibsrela_cta_teal_golf_lpga_gated",
       "kind": "rule",
-      "label": "The golf image (Email_Primary_column_golf.png) is LPGA-gated: if the email has no LPGA content, do n",
-      "rule_class": "imagery",
+      "label": "The golf image and Teal #0F99BC background are LPGA-gated. The golf asset (ast_ibsrela_cta_email_pri",
+      "rule_class": "color_application",
       "scope": "campaign",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_cta_image_free_when_populated_section_above",
+      "id": "rule_ibsrela_cta_image_free_when_populated_above",
       "kind": "rule",
       "label": "When a populated content section sits directly above the CTA, the CTA runs image-free (text + button",
       "rule_class": "layout",
@@ -325,17 +352,17 @@
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_email_dual_layout_widths",
+      "id": "rule_ibsrela_email_canvas_dual_layout_widths",
       "kind": "rule",
-      "label": "Desktop email width is 600 px and mobile email width is 375 px (email.width). Both desktop and mobil",
+      "label": "Every component must exist in both desktop and mobile layouts. Desktop email width is 600 px and mob",
       "rule_class": "layout",
       "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_email_fixed_width_fluid_collapse",
+      "id": "rule_ibsrela_email_fixed_width_fluid_technique",
       "kind": "rule",
-      "label": "[BASELINE] Build emails on a 600 px fixed-width table; handle mobile via fluid/hybrid technique that",
+      "label": "[BASELINE] Build emails on a 600 px fixed-width table; handle mobile via a fluid/hybrid technique th",
       "rule_class": "layout",
       "scope": "org_baseline",
       "all_sections": true
@@ -349,23 +376,23 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_spacing_8pt_system_baseline",
+      "id": "rule_ibsrela_spacing_8pt_system",
       "kind": "rule",
-      "label": "All spacing values must be multiples of the 8 px base unit (8-pt system). Never introduce odd one-of",
+      "label": "All spacing values are multiples of 8 px (8-pt system). Never introduce odd one-off values; if a lay",
       "rule_class": "spacing",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_spacing_container_and_section_padding",
+      "id": "rule_ibsrela_section_padding_and_gutters",
       "kind": "rule",
-      "label": "Every section carries its own outer/container side padding (24 px desktop, 16 px mobile, left & righ",
+      "label": "Outer/container side padding is 24 px desktop / 16 px mobile inside every section; section vertical ",
       "rule_class": "spacing",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_spacing_no_margin_between_sections",
+      "id": "rule_ibsrela_sections_edge_to_edge_no_margin",
       "kind": "rule",
       "label": "Adjacent sections rely on their own padding \u2014 there must be no margin between stacked section tables",
       "rule_class": "spacing",
@@ -373,15 +400,15 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_spacing_two_column_gutter_and_grid",
+      "id": "rule_ibsrela_content_grid_structure",
       "kind": "rule",
-      "label": "Two-column layouts use a 24 px gutter on desktop; columns stack with a 24 px vertical gap on mobile.",
+      "label": "Use a 12-column mental grid over the 552 px content area (600 \u2212 2\u00d724 px side padding); a half-width ",
       "rule_class": "layout",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_key_question_callout_style",
+      "id": "rule_ibsrela_callout_key_question_white_outline",
       "kind": "rule",
       "label": "The rounded rectangle with white outline and transparent fill (callout.key_question.border) is reser",
       "rule_class": "color_application",
@@ -389,39 +416,39 @@
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_white_banner_callout_works_differently",
+      "id": "rule_ibsrela_callout_white_banner_claim",
       "kind": "rule",
-      "label": "The white banner callout at 80% opacity over background (callout.white_banner.opacity) is used for t",
+      "label": "The white banner callout at 80% opacity over the background (callout.white_banner.opacity) is used f",
       "rule_class": "color_application",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_scene_paired_banner_callout_fixed_colors",
+      "id": "rule_ibsrela_callout_scene_paired_banner_colors",
       "kind": "rule",
-      "label": "Scene-paired banner callouts over white backgrounds use fixed scene/color pairings via callout.scene",
+      "label": "Scene-paired banner callouts over white backgrounds use fixed scene-to-color pairings: Periwinkle @ ",
       "rule_class": "color_application",
       "scope": "campaign",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "id": "rule_ibsrela_symptom_icon_trio_style_and_order",
       "kind": "rule",
-      "label": "When referencing the three IBS-C symptoms together, use the approved icon trio: Constipation, Belly ",
+      "label": "When referencing the three IBS-C symptoms together, use the approved icon trio \u2014 Constipation, Belly",
       "rule_class": "iconography",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_symptom_trio_completeness_and_no_substitution",
+      "id": "rule_ibsrela_symptom_icon_trio_completeness",
       "kind": "rule",
-      "label": "All three symptom icons must appear together; do not show one or two in isolation, do not reorder th",
+      "label": "All three symptom icons must appear together as a complete trio; do not show one or two in isolation",
       "rule_class": "iconography",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_symptom_trio_placement_and_following_content",
+      "id": "rule_ibsrela_symptom_trio_placement_and_composition",
       "kind": "rule",
       "label": "The symptom-icon trio sits on a green/teal panel (or on white directly above one) and is followed by",
       "rule_class": "layout",
@@ -437,33 +464,33 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_cta_section_image_right_layout",
+      "id": "rule_ibsrela_cta_image_right_two_column_layout",
       "kind": "rule",
-      "label": "Any supporting image or visual sits to the right of the text block in the CTA section in a two-colum",
+      "label": "Any supporting image or visual sits to the right of the text block in the CTA section, in a two-colu",
       "rule_class": "layout",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "id": "rule_ibsrela_typography_hierarchy_parent_system",
       "kind": "rule",
-      "label": "The parent brand typography hierarchy sets font, weight, case and color per level: Headline (H1) is ",
+      "label": "Parent brand typographic hierarchy in Avenir: Headline (H1) = Avenir Black, Title Case, Dark Blue #2",
       "rule_class": "typography",
       "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
+      "id": "rule_ibsrela_isi_boxed_warning_heavy_reserved",
       "kind": "rule",
-      "label": "Avenir Heavy is reserved exclusively for ISI boxed warning text; it must not be used for any other l",
+      "label": "ISI boxed warning text is set in Avenir Heavy, a weight reserved exclusively for this use; case is p",
       "rule_class": "typography",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_email_ppt_avenir_arial_substitution",
+      "id": "rule_ibsrela_avenir_arial_substitution_email_ppt",
       "kind": "rule",
-      "label": "[BASELINE] For email and PowerPoint, Arial is the brand-sanctioned substitute for Avenir. Use the em",
+      "label": "In emails and PowerPoint, the system font replacement for Avenir is Arial and Arial must be used. Ma",
       "rule_class": "typography",
       "scope": "org_baseline",
       "all_sections": true
@@ -477,17 +504,26 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_type_scale_isi_footer_locked",
+      "id": "rule_ibsrela_isi_footer_type_scale_locked",
       "kind": "rule",
-      "label": "The End Matter ISI and legal footer are a fixed system constant and are NOT restyled by these conten",
+      "label": "The End Matter ISI and legal footer use a locked footer build type scale: ISI subheads 14px Bold, 'I",
       "rule_class": "typography",
-      "scope": "brand",
+      "scope": "org_baseline",
       "all_sections": false
+    },
+    {
+      "id": "rule_ibsrela_isi_end_matter_locked_content",
+      "kind": "rule",
+      "label": "The End Matter \u2014 ISI ('What is IBSRELA?', 'IMPORTANT RISK INFORMATION', 'Side Effects', boxed-warnin",
+      "rule_class": "assembly",
+      "scope": "org_baseline",
+      "all_sections": false,
+      "governance": "regulatory"
     },
     {
       "id": "rule_ibsrela_letter_spacing_email",
       "kind": "rule",
-      "label": "Letter-spacing/kerning is 0 for body; ALL-CAPS callouts and CTAs are set at +0.5px. Never use negati",
+      "label": "Letter-spacing/kerning is 0 for body; ALL-CAPS callouts and CTAs use +0.5px. Never use negative trac",
       "rule_class": "typography",
       "scope": "brand",
       "all_sections": true
@@ -495,29 +531,29 @@
     {
       "id": "rule_ibsrela_paragraph_rhythm",
       "kind": "rule",
-      "label": "Paragraph rhythm within a section: headline\u2192subhead 8px; subhead\u2192body 12px; headline\u2192body (no subhea",
+      "label": "Within a section, paragraph rhythm is fixed: headline\u2192subhead 8px; subhead\u2192body 12px; headline\u2192body ",
       "rule_class": "spacing",
       "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_section_padding_ownership",
+      "id": "rule_ibsrela_section_padding_by_type",
       "kind": "rule",
-      "label": "Because sections are built independently, spacing is owned by the section, not the boundary \u2014 every ",
+      "label": "Spacing is owned by the section, not the boundary \u2014 every section owns half of every gap. Apply fixe",
       "rule_class": "spacing",
       "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_boundary_gaps_resolved",
+      "id": "rule_ibsrela_boundary_resulting_gaps",
       "kind": "rule",
-      "label": "With fixed section padding tokens, every boundary resolves to one predictable gap: Editorial\u2192Editori",
+      "label": "Because padding tokens are fixed, every boundary resolves to one predictable gap: Editorial\u2192Editoria",
       "rule_class": "spacing",
       "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_no_padding_override_no_spacers",
+      "id": "rule_ibsrela_never_override_padding_no_spacers",
       "kind": "rule",
       "label": "Two hard rules: (1) Never override the vertical padding token \u2014 a designer picks Editorial or Dark f",
       "rule_class": "spacing",
@@ -525,9 +561,9 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_headline_body_case_defaults",
+      "id": "rule_ibsrela_capitalization_case_by_element",
       "kind": "rule",
-      "label": "Headlines are set in Title Case (h1.case); all other copy is sentence case (body.case / h2.case).",
+      "label": "Headlines are set in Title Case; all other copy is sentence case. Callouts and CTAs are set in ALL C",
       "rule_class": "typography",
       "scope": "brand",
       "all_sections": true
@@ -535,21 +571,13 @@
     {
       "id": "rule_ibsrela_campaign_headline_all_caps",
       "kind": "rule",
-      "label": "Campaign-specific headlines (FLIP THE SCRIPT) are set in ALL CAPS (campaign.headline.case), overridi",
+      "label": "Campaign-specific headlines (FLIP THE SCRIPT) are set in ALL CAPS, overriding the default Title Case",
       "rule_class": "typography",
       "scope": "campaign",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_callout_cta_all_caps",
-      "kind": "rule",
-      "label": "All caps is also required for callouts (callout.case) and CTAs (cta.button.label.case).",
-      "rule_class": "typography",
-      "scope": "brand",
-      "all_sections": false
-    },
-    {
-      "id": "rule_ibsrela_flip_the_script_body_capitalization",
+      "id": "rule_ibsrela_campaign_name_in_body_title_case",
       "kind": "rule",
       "label": "When the campaign name appears inside body copy, capitalize each word: 'Flip The Script' (not all ca",
       "rule_class": "copy_editorial",
@@ -559,29 +587,30 @@
     {
       "id": "rule_ibsrela_flip_the_script_display_lockup",
       "kind": "rule",
-      "label": "In the 'FLIP THE SCRIPT' display lockup, the word 'THE' is flipped upside down; 'ON IBS-C' is set in",
-      "rule_class": "typography",
+      "label": "The 'FLIP THE SCRIPT' display lockup sets the word 'THE' flipped upside down; 'ON IBS-C' is set in A",
+      "rule_class": "imagery",
       "scope": "campaign",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_bold_reserved_usage",
+      "id": "rule_ibsrela_bold_reserved_uses",
       "kind": "rule",
       "label": "Bold (Arial Bold) is reserved for: headlines, subheads, card titles, CTA labels, ISI subheads, boxed",
       "rule_class": "typography",
       "scope": "org_baseline",
-      "all_sections": true
+      "all_sections": true,
+      "governance": "mlr_claim"
     },
     {
-      "id": "rule_ibsrela_bold_prohibited_targets",
+      "id": "rule_ibsrela_bold_prohibited_uses",
       "kind": "rule",
-      "label": "Do not bold: whole body paragraphs, footnotes, references, links (links are underlined, not bolded),",
+      "label": "Do not bold whole body paragraphs, footnotes, references, or links (links are underlined, not bolded",
       "rule_class": "typography",
       "scope": "org_baseline",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_no_bold_italic_combo_italic_reserved",
+      "id": "rule_ibsrela_no_bold_italic_combo_and_italic_scope",
       "kind": "rule",
       "label": "Do not combine bold + italic in email body. Italic (Arial Italic) is only for journal titles in refe",
       "rule_class": "typography",
@@ -589,73 +618,91 @@
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_email_assembly_order",
+      "id": "rule_ibsrela_no_bold_as_hierarchy_substitute",
+      "kind": "rule",
+      "label": "Never use bold as a substitute for hierarchy \u2014 if a passage needs prominence, promote it to a subhea",
+      "rule_class": "typography",
+      "scope": "org_baseline",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_email_assembly_order_locked_brackets",
       "kind": "rule",
       "label": "Every SFMC email is built by stacking components in a mandatory sequence: (1) Top Matter \u2014 LOCKED, s",
       "rule_class": "assembly",
-      "scope": "org_baseline",
+      "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_locked_top_end_matter_no_modify",
+      "id": "rule_ibsrela_locked_matter_do_not_modify",
       "kind": "rule",
-      "label": "Top Matter and End Matter are LOCKED, supplied components \u2014 do not build or modify them.",
+      "label": "Top Matter and End Matter are LOCKED and supplied \u2014 do not build or modify them. They fall outside s",
       "rule_class": "assembly",
-      "scope": "org_baseline",
+      "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_template_formation_no_add_sections",
+      "id": "rule_ibsrela_premade_templates_no_added_sections",
       "kind": "rule",
-      "label": "Choose one of the two pre-made template formations shown in the wireframes. Remove any unnecessary s",
+      "label": "Choose one of the 2 pre-made template formations shown in the wireframes. Remove any unnecessary sec",
       "rule_class": "assembly",
-      "scope": "org_baseline",
+      "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_section_element_removal_only",
+      "id": "rule_ibsrela_dual_breakpoint_build_and_qa",
       "kind": "rule",
-      "label": "Elements within a section may be removed if unneeded (e.g., omitting a button or image), but new ele",
-      "rule_class": "assembly",
-      "scope": "org_baseline",
+      "label": "Both Desktop (600 px) and Mobile (375 px) layouts are provided for every component; SFMC serves the ",
+      "rule_class": "layout",
+      "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_dual_breakpoint_build_qa",
-      "kind": "rule",
-      "label": "Both Desktop (600 px) and Mobile (375 px) layouts are provided for every component \u2014 SFMC serves the",
-      "rule_class": "assembly",
-      "scope": "org_baseline",
-      "all_sections": true
-    },
-    {
-      "id": "rule_ibsrela_content_section_clean_edges_against_locked",
+      "id": "rule_ibsrela_clean_edges_against_locked_matter",
       "kind": "rule",
       "label": "[INHERITED] The first content section must open cleanly against the bottom edge of the locked Top Ma",
-      "rule_class": "assembly",
+      "rule_class": "layout",
       "scope": "org_baseline",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_top_matter_locked_no_logo_repeat",
+      "id": "rule_ibsrela_top_matter_locked_inheritance",
       "kind": "rule",
-      "label": "Top Matter is supplied pre-built and LOCKED per audience (DTP = logo without BID, patient-friendly s",
+      "label": "Top Matter is supplied pre-built and LOCKED per audience (DTP = logo without BID + patient-friendly ",
       "rule_class": "assembly",
       "scope": "brand",
-      "all_sections": false
+      "all_sections": false,
+      "governance": "trademark"
     },
     {
-      "id": "rule_ibsrela_top_matter_audience_fixes_content",
+      "id": "rule_ibsrela_content_audience_matches_header",
       "kind": "rule",
-      "label": "The email's audience is fixed by the supplied header (DTP vs HCP). All content-section copy and imag",
+      "label": "The email's audience is fixed by the supplied header; all content-section copy and imagery must matc",
       "rule_class": "assembly",
       "scope": "brand",
-      "all_sections": false
+      "all_sections": true
     },
     {
-      "id": "rule_ibsrela_end_matter_locked_isi_footer",
+      "id": "rule_ibsrela_end_matter_locked_inheritance",
       "kind": "rule",
-      "label": "End Matter is supplied pre-built and LOCKED, containing the full FDA-reviewed ISI, Ardelyx address/c",
+      "label": "End Matter is supplied pre-built and LOCKED; it contains the full FDA-reviewed ISI, Ardelyx address/",
+      "rule_class": "assembly",
+      "scope": "brand",
+      "all_sections": false,
+      "governance": "disclosure"
+    },
+    {
+      "id": "rule_ibsrela_content_body_matches_isi_settings",
+      "kind": "rule",
+      "label": "Content-section body copy size and line spacing must match the ISI body settings in the locked foote",
+      "rule_class": "typography",
+      "scope": "brand",
+      "all_sections": true
+    },
+    {
+      "id": "rule_ibsrela_references_coordinated_at_assembly",
+      "kind": "rule",
+      "label": "References and footnotes used in content sections resolve in/above End Matter, so their numbering an",
       "rule_class": "assembly",
       "scope": "brand",
       "all_sections": false
@@ -663,7 +710,7 @@
     {
       "id": "rule_ibsrela_primary_1_column_component_spec",
       "kind": "rule",
-      "label": "Email / Primary 1 Column (optional) is a single-column primary content block (~600\u00d71138 desktop / ~3",
+      "label": "Email / Primary 1 Column (~600\u00d71138 desktop, ~375\u00d7788 mobile) is a single-column primary content blo",
       "rule_class": "layout",
       "scope": "brand",
       "all_sections": false
@@ -671,7 +718,7 @@
     {
       "id": "rule_ibsrela_primary_2_column_component_spec",
       "kind": "rule",
-      "label": "Email / Primary 2 Column (optional) is a two-column layout (~600\u00d71088 desktop / ~375\u00d71538 mobile, co",
+      "label": "Email / Primary 2 Column (~600\u00d71088 desktop, ~375\u00d71538 mobile with columns stacking) is a two-column",
       "rule_class": "layout",
       "scope": "brand",
       "all_sections": false
@@ -679,72 +726,75 @@
     {
       "id": "rule_ibsrela_secondary_component_spec",
       "kind": "rule",
-      "label": "Email / Secondary (optional, repeatable) is a two-column card row for secondary content (~600\u00d7458 de",
+      "label": "Email / Secondary (repeatable; ~600\u00d7458 desktop, ~375\u00d71363 mobile when stacked) is a two-column card",
       "rule_class": "layout",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_dtp_second_person_everyday_life_framing",
+      "id": "rule_ibsrela_dtp_second_person_everyday_life_voice",
       "kind": "rule",
-      "label": "Address the reader in second person (\"you\", \"your\") and frame IBSRELA around getting back to everyda",
+      "label": "Patient-facing DTP copy must address the reader in second person (\"you\", \"your\") and frame IBSRELA a",
       "rule_class": "voice_tone",
       "scope": "brand",
       "all_sections": true
     },
     {
-      "id": "rule_ibsrela_dtp_ibsc_symptoms_phrasing",
+      "id": "rule_ibsrela_dtp_empathetic_lead_before_benefit",
+      "kind": "rule",
+      "label": "Lead with an empathetic acknowledgment of unresolved symptoms (e.g., \"If you're still experiencing\u2026 ",
+      "rule_class": "voice_tone",
+      "scope": "brand",
+      "all_sections": false
+    },
+    {
+      "id": "rule_ibsrela_dtp_ibs_c_symptoms_terminology",
       "kind": "rule",
       "label": "Use the phrase \"IBS-C symptoms\" (constipation, belly pain, and/or bloating) \u2014 not \"your condition\" o",
       "rule_class": "copy_editorial",
       "scope": "brand",
-      "all_sections": true
+      "all_sections": true,
+      "governance": "mlr_claim"
     },
     {
-      "id": "rule_ibsrela_patient_story_disclosure_verbatim",
+      "id": "rule_ibsrela_patient_story_disclosure",
       "kind": "rule",
       "label": "Patient-story modules must carry the disclosure \"Individual results and experiences may vary. [Name]",
       "rule_class": "copy_editorial",
       "scope": "brand",
-      "all_sections": false
+      "all_sections": false,
+      "governance": "disclosure"
     },
     {
-      "id": "rule_ibsrela_efficacy_claim_qualifier_and_limitation",
+      "id": "rule_ibsrela_efficacy_claim_required_qualifiers",
       "kind": "rule",
       "label": "Efficacy claims must carry the approved qualifier \"*Results may vary. Study results seen in 12- and ",
       "rule_class": "copy_editorial",
       "scope": "brand",
-      "all_sections": false
+      "all_sections": false,
+      "governance": "mlr_claim"
     },
     {
       "id": "rule_ibsrela_dtp_cta_label_conventions",
       "kind": "rule",
       "label": "Approved DTP CTA labels are short verb phrases in sentence case (not ALL CAPS), 1\u20133 words \u2014 e.g. \"Ex",
-      "rule_class": "cta",
+      "rule_class": "copy_editorial",
       "scope": "brand",
       "all_sections": false
     },
     {
       "id": "rule_ibsrela_dtp_poll_response_button",
       "kind": "rule",
-      "label": "A poll/segmentation question (e.g. \"Have you started taking IBSRELA?\") may use a single solid-fill r",
+      "label": "A poll/segmentation question (e.g., \"Have you started taking IBSRELA?\") may use a single solid-fill ",
       "rule_class": "cta",
       "scope": "brand",
       "all_sections": false
     },
     {
-      "id": "rule_ibsrela_dtp_no_hcp_get_connected_label",
+      "id": "rule_ibsrela_dtp_cta_label_scope_and_topic_match",
       "kind": "rule",
-      "label": "DTP CTAs do not use the HCP library default \"Get connected\"; that label is HCP-scope only.",
-      "rule_class": "cta",
-      "scope": "brand",
-      "all_sections": false
-    },
-    {
-      "id": "rule_ibsrela_dtp_cta_label_matches_section_topic",
-      "kind": "rule",
-      "label": "Per-section CTAs must match the section's topic: story \u2192 \"Watch [name]'s story\"; product overview \u2192 ",
-      "rule_class": "cta",
+      "label": "DTP CTAs must not use the HCP library default \"Get connected\" (that label is HCP-scope). Each per-se",
+      "rule_class": "copy_editorial",
       "scope": "brand",
       "all_sections": false
     },
@@ -1877,94 +1927,64 @@
       "label": "campaign.teal.reserved"
     },
     {
-      "id": "ast_ibsrela_email_primary_2_column",
+      "id": "ast_ibsrela_cta_email_primary_2_column",
       "kind": "asset",
-      "label": "Default/general CTA right-side image, locked to Purple #92278F background."
+      "label": "Default / general CTA right-side image, locked to Purple #92278F background."
     },
     {
-      "id": "ast_ibsrela_email_primary_column_golf",
+      "id": "ast_ibsrela_cta_email_primary_column_golf",
       "kind": "asset",
-      "label": "LPGA-gated CTA right-side image, locked to Teal #0F99BC background. Only used when the email contain"
+      "label": "LPGA golf CTA right-side image, locked to Teal #0F99BC background; only usable when the email contai"
     },
     {
-      "id": "ast_ibsrela_cake_lockup",
+      "id": "ast_ibsrela_cta_cake_lockup",
       "kind": "asset",
-      "label": "Alternate general CTA right-side image, locked to Periwinkle #7B7BED background."
+      "label": "Alternate general-purpose CTA right-side image (Cake lockup), locked to Periwinkle #7B7BED backgroun"
     },
     {
-      "id": "gov_ibsrela_patient_story_disclosure",
-      "kind": "governance",
-      "label": "Patient-story module disclosure"
+      "id": "ast_ibsrela_logo_lockup",
+      "kind": "asset",
+      "label": "IBSRELA logo lockup; DTP = logo without BID, HCP = logo with BID. Lives only in the locked Top Matte"
     },
     {
-      "id": "gov_ibsrela_efficacy_qualifier",
-      "kind": "governance",
-      "label": "Efficacy claim qualifier"
+      "id": "ast_ibsrela_flip_the_script_lockup",
+      "kind": "asset",
+      "label": "FLIP THE SCRIPT display lockup: the word 'THE' flipped upside down; 'ON IBS-C' set in Avenir Light a"
     },
     {
-      "id": "gov_ibsrela_efficacy_limitation",
-      "kind": "governance",
-      "label": "Efficacy limitation statement"
+      "id": "ast_ibsrela_because_ibsrela_can_lockup",
+      "kind": "asset",
+      "label": "'BECAUSE IBSRELA CAN' purple campaign image section lockup used in DTP background sequencing before "
     },
     {
-      "id": "gov_ibsrela_isi_live_text",
-      "kind": "governance",
-      "label": "ISI must be live text, never image-based"
+      "id": "ast_ibsrela_brand_swoosh",
+      "kind": "asset",
+      "label": "Brand swoosh graphic device at 100% opacity; used to replace the hyphen in the FLIP THE SCRIPT locku"
     },
     {
-      "id": "gov_ibsrela_no_duplicate_isi",
-      "kind": "governance",
-      "label": "Do not duplicate ISI fragments, indication statements, or legal lines in content sections"
+      "id": "ast_ibsrela_wave_edge",
+      "kind": "asset",
+      "label": "Decorative wave edge graphic used to transition between stacked sections; only one Wave graphic per "
     },
     {
-      "id": "gov_ibsrela_no_logo_in_content",
-      "kind": "governance",
-      "label": "Never repeat the IBSRELA logo lockup inside a content section"
+      "id": "ast_ibsrela_symptom_icon_constipation",
+      "kind": "asset",
+      "label": "Constipation symptom icon: circular green-tinted icon with the symptom label beneath in navy #262262"
     },
     {
-      "id": "gov_ibsrela_flip_the_script_body_capitalization",
-      "kind": "governance",
-      "label": "Campaign name capitalization in body copy"
+      "id": "ast_ibsrela_symptom_icon_belly_pain",
+      "kind": "asset",
+      "label": "Belly Pain symptom icon: circular green-tinted icon with the symptom label beneath in navy #262262. "
     },
     {
-      "id": "gov_ibsrela_ibsc_symptoms_phrase",
-      "kind": "governance",
-      "label": "Use 'IBS-C symptoms' phrasing for patient-facing copy"
-    },
-    {
-      "id": "gov_ibsrela_teal_reserved_lpga",
-      "kind": "governance",
-      "label": "Teal #0F99BC reserved for LPGA CTA background only"
-    },
-    {
-      "id": "gov_ibsrela_one_wave_one_key_question",
-      "kind": "governance",
-      "label": "One Wave graphic and one key-strategic-question callout per email; max ~3 CTAs"
-    },
-    {
-      "id": "gov_ibsrela_title_purple_only",
-      "kind": "governance",
-      "label": "Only the title/first line may be purple; no other text purple"
-    },
-    {
-      "id": "gov_ibsrela_no_body_purple_green",
-      "kind": "governance",
-      "label": "Never set body copy in Purple or Green"
-    },
-    {
-      "id": "gov_ibsrela_avenir_heavy_reserved",
-      "kind": "governance",
-      "label": "Avenir Heavy reserved exclusively for ISI boxed warning text"
+      "id": "ast_ibsrela_symptom_icon_bloating",
+      "kind": "asset",
+      "label": "Bloating symptom icon: circular green-tinted icon with the symptom label beneath in navy #262262. Th"
     },
     {
       "id": "sub_ibsrela_top_matter",
       "kind": "subtype",
-      "label": "Top Matter \u2014 LOCKED"
-    },
-    {
-      "id": "sub_ibsrela_end_matter",
-      "kind": "subtype",
-      "label": "End Matter \u2014 LOCKED (ISI + footer)"
+      "label": "Top Matter"
     },
     {
       "id": "sub_ibsrela_primary_1_column",
@@ -1982,13 +2002,18 @@
       "label": "Email / Secondary"
     },
     {
+      "id": "sub_ibsrela_end_matter",
+      "kind": "subtype",
+      "label": "End Matter"
+    },
+    {
       "id": "tpl_ibsrela_cta_image_variant_default",
       "kind": "template",
       "label": "CTA with right-side image (default \u2014 Purple + Email_Primary_2_column.png)",
       "source": "design_bible"
     },
     {
-      "id": "tpl_ibsrela_cta_image_free",
+      "id": "tpl_ibsrela_cta_image_free_variant",
       "kind": "template",
       "label": "CTA image-free (populated section directly above)",
       "source": "design_bible"
@@ -2036,6 +2061,11 @@
       "id": "agr_ibsrela_cta_right_images",
       "kind": "asset_group",
       "label": "Approved CTA right-side images"
+    },
+    {
+      "id": "agr_ibsrela_symptom_trio",
+      "kind": "asset_group",
+      "label": "Symptom-icon trio"
     }
   ],
   "edges": [
@@ -2055,107 +2085,122 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_images_alt_text_and_image_off_resilience",
-      "dst": "gov_ibsrela_isi_live_text",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_images_alt_text_and_image_off_resilience",
+      "src": "rule_ibsrela_images_require_alt_text_livetext_isi",
       "dst": "grp_ibsrela_other_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_min_text_size_and_tap_targets",
+      "src": "rule_ibsrela_min_text_sizes_and_tap_targets",
       "dst": "tok_ibsrela_min_livetext_size",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_min_text_size_and_tap_targets",
+      "src": "rule_ibsrela_min_text_sizes_and_tap_targets",
       "dst": "tok_ibsrela_tap_target_min",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_min_text_size_and_tap_targets",
+      "src": "rule_ibsrela_min_text_sizes_and_tap_targets",
       "dst": "grp_ibsrela_other_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_one_h1_per_email",
+      "src": "rule_ibsrela_single_h1_per_email",
       "dst": "grp_ibsrela_other_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_underline_links_and_semantic_markup",
+      "src": "rule_ibsrela_underline_links_not_color_alone",
       "dst": "tok_ibsrela_body_link_decoration",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_underline_links_and_semantic_markup",
+      "src": "rule_ibsrela_underline_links_not_color_alone",
       "dst": "grp_ibsrela_other_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_self_contained_section_flush_stacking",
+      "src": "rule_ibsrela_semantic_presentation_table_markup",
+      "dst": "grp_ibsrela_other_rules_00",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_section_self_contained_flush_stacking",
       "dst": "tok_ibsrela_email_width",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_self_contained_section_flush_stacking",
+      "src": "rule_ibsrela_section_self_contained_flush_stacking",
       "dst": "grp_ibsrela_other_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_adjacent_section_theme_transition",
+      "src": "rule_ibsrela_adjacent_section_theme_edges_transition",
       "dst": "tok_ibsrela_section_wave_edge",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_adjacent_section_theme_transition",
+      "src": "rule_ibsrela_adjacent_section_theme_edges_transition",
       "dst": "grp_ibsrela_other_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_wide_footnote_reference_coordination",
+      "src": "rule_ibsrela_footnote_reference_symbols_email_scope",
+      "dst": "sec_end_matter",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_footnote_reference_symbols_email_scope",
       "dst": "grp_ibsrela_other_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_wave_callout_cta_cardinality",
+      "src": "rule_ibsrela_per_email_device_cardinality_limits",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_wave_callout_cta_cardinality",
+      "src": "rule_ibsrela_per_email_device_cardinality_limits",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_wave_callout_cta_cardinality",
-      "dst": "gov_ibsrela_one_wave_one_key_question",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_wave_callout_cta_cardinality",
+      "src": "rule_ibsrela_per_email_device_cardinality_limits",
       "dst": "grp_ibsrela_other_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
+      "src": "rule_ibsrela_no_out_of_document_styling_tokens",
       "dst": "tok_ibsrela_general_icon_style",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
-      "dst": "gov_ibsrela_no_duplicate_isi",
-      "type": "governed_by"
+      "src": "rule_ibsrela_no_out_of_document_styling_tokens",
+      "dst": "grp_ibsrela_other_rules_01",
+      "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
-      "dst": "gov_ibsrela_no_logo_in_content",
-      "type": "governed_by"
+      "src": "rule_ibsrela_locked_components_own_logo_and_isi",
+      "dst": "sec_top_matter",
+      "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
+      "src": "rule_ibsrela_locked_components_own_logo_and_isi",
+      "dst": "sec_end_matter",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_locked_components_own_logo_and_isi",
+      "dst": "sub_ibsrela_top_matter",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_locked_components_own_logo_and_isi",
+      "dst": "sub_ibsrela_end_matter",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_locked_components_own_logo_and_isi",
       "dst": "grp_ibsrela_other_rules_01",
       "type": "from_group"
     },
@@ -2170,22 +2215,17 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_branded_palette_usage_ratio",
+      "src": "rule_ibsrela_palette_usage_ratio_and_roles",
       "dst": "tok_ibsrela_palette_usage_ratio",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_branded_palette_usage_ratio",
+      "src": "rule_ibsrela_palette_usage_ratio_and_roles",
       "dst": "grp_ibsrela_color_scheme_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_accent_color_reservations",
-      "dst": "gov_ibsrela_no_body_purple_green",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_accent_color_reservations",
+      "src": "rule_ibsrela_accent_color_role_restrictions",
       "dst": "grp_ibsrela_color_scheme_rules_00",
       "type": "from_group"
     },
@@ -2215,37 +2255,22 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_title_purple_only",
-      "dst": "sec_hero",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_title_purple_only",
-      "dst": "gov_ibsrela_title_purple_only",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_title_purple_only",
+      "src": "rule_ibsrela_purple_reserved_for_title_first_line",
       "dst": "grp_ibsrela_color_scheme_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_white_section_highlight_black_bold",
+      "src": "rule_ibsrela_white_section_body_highlight_black_bold",
       "dst": "tok_ibsrela_body_highlight_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_white_section_highlight_black_bold",
+      "src": "rule_ibsrela_white_section_body_highlight_black_bold",
       "dst": "tok_ibsrela_body_highlight_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_white_section_highlight_black_bold",
-      "dst": "gov_ibsrela_no_body_purple_green",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_white_section_highlight_black_bold",
+      "src": "rule_ibsrela_white_section_body_highlight_black_bold",
       "dst": "grp_ibsrela_color_scheme_rules_00",
       "type": "from_group"
     },
@@ -2255,87 +2280,87 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_flip_script_campaign_palette_ratio",
-      "dst": "tok_ibsrela_ratio_campaign_usage",
+      "src": "rule_ibsrela_flip_the_script_campaign_palette_ratio",
+      "dst": "tok_ibsrela_palette_usage_ratio",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_flip_script_campaign_palette_ratio",
+      "src": "rule_ibsrela_flip_the_script_campaign_palette_ratio",
       "dst": "grp_ibsrela_color_scheme_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_flip_script_scene_color_pairings_fixed",
-      "dst": "grp_ibsrela_color_scheme_rules_01",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
+      "src": "rule_ibsrela_flip_the_script_scene_color_pairings_fixed",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
-      "dst": "tok_ibsrela_opacity_callout_green_40",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
-      "dst": "tok_ibsrela_opacity_callout_periwinkle_80",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
-      "dst": "tok_ibsrela_opacity_callout_purple_60",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
-      "dst": "tok_ibsrela_opacity_white_banner_80",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
+      "src": "rule_ibsrela_flip_the_script_scene_color_pairings_fixed",
       "dst": "grp_ibsrela_color_scheme_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_primary_gradient_definitions",
+      "src": "rule_ibsrela_flip_the_script_callout_opacity_pairings",
+      "dst": "sec_callout",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_flip_the_script_callout_opacity_pairings",
+      "dst": "tok_ibsrela_callout_scene_opacity",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_flip_the_script_callout_opacity_pairings",
+      "dst": "tok_ibsrela_callout_white_banner_opacity",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_flip_the_script_callout_opacity_pairings",
+      "dst": "grp_ibsrela_color_scheme_rules_01",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_primary_gradients_definition_and_usage",
       "dst": "tok_ibsrela_gradient_angle",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_primary_gradient_definitions",
+      "src": "rule_ibsrela_primary_gradients_definition_and_usage",
       "dst": "tok_ibsrela_light_gradient_bg",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_primary_gradient_definitions",
+      "src": "rule_ibsrela_primary_gradients_definition_and_usage",
       "dst": "tok_ibsrela_primary_gradient_bg",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_primary_gradient_definitions",
+      "src": "rule_ibsrela_primary_gradients_definition_and_usage",
       "dst": "grp_ibsrela_color_scheme_rules_02",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_gradient_headline_callout_sparing",
+      "src": "rule_ibsrela_gradient_on_headlines_callouts_sparingly",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_gradient_headline_callout_sparing",
+      "src": "rule_ibsrela_gradient_on_headlines_callouts_sparingly",
       "dst": "grp_ibsrela_color_scheme_rules_02",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_gradient_background_only",
+      "src": "rule_ibsrela_email_gradient_background_only_no_gradient_text",
       "dst": "grp_ibsrela_color_scheme_rules_02",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_single_theme_inheritance",
+      "src": "rule_ibsrela_one_theme_per_email",
+      "dst": "grp_ibsrela_color_scheme_rules_03",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_approved_theme_tiles",
       "dst": "grp_ibsrela_color_scheme_rules_03",
       "type": "from_group"
     },
@@ -2366,181 +2391,136 @@
     },
     {
       "src": "rule_ibsrela_theme_contrast_pairings",
-      "dst": "tok_ibsrela_title_color",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_theme_contrast_pairings",
       "dst": "grp_ibsrela_color_scheme_rules_03",
       "type": "from_group"
     },
     {
       "src": "rule_ibsrela_dtp_section_background_sequence",
-      "dst": "sec_hero",
-      "type": "applies_to_section"
+      "dst": "grp_ibsrela_color_scheme_rules_04",
+      "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
-      "dst": "sec_efficacy",
-      "type": "applies_to_section"
+      "src": "rule_ibsrela_sections_butt_edge_to_edge_no_dividers",
+      "dst": "grp_ibsrela_color_scheme_rules_04",
+      "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
-      "dst": "sec_patient_story",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
+      "src": "rule_ibsrela_green_panel_at_most_once_reserved",
       "dst": "sec_affordability",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
+      "src": "rule_ibsrela_green_panel_at_most_once_reserved",
       "dst": "sec_symptom_trio",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
+      "src": "rule_ibsrela_green_panel_at_most_once_reserved",
+      "dst": "tok_ibsrela_dtp_green_panel_color",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_green_panel_at_most_once_reserved",
+      "dst": "grp_ibsrela_color_scheme_rules_04",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_cta_button_light_dark_flip",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
-      "dst": "sec_end_matter",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_dtp_section_background_sequence",
-      "dst": "grp_ibsrela_color_scheme_rules_04",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_sections_butt_edge_to_edge",
-      "dst": "grp_ibsrela_color_scheme_rules_04",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_green_panel_max_once_exclusive_use",
-      "dst": "sec_affordability",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_green_panel_max_once_exclusive_use",
-      "dst": "sec_symptom_trio",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_green_panel_max_once_exclusive_use",
-      "dst": "grp_ibsrela_color_scheme_rules_04",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_cta_button_fill_label_by_background_group",
-      "dst": "sec_cta",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_cta_button_fill_label_by_background_group",
+      "src": "rule_ibsrela_cta_button_light_dark_flip",
       "dst": "tok_ibsrela_cta_button_fill",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_cta_button_fill_label_by_background_group",
+      "src": "rule_ibsrela_cta_button_light_dark_flip",
       "dst": "tok_ibsrela_cta_button_label_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_cta_button_fill_label_by_background_group",
+      "src": "rule_ibsrela_cta_button_light_dark_flip",
       "dst": "grp_ibsrela_color_scheme_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_cta_heading_body_color_by_background_group",
+      "src": "rule_ibsrela_cta_section_text_colors_by_group",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_cta_heading_body_color_by_background_group",
+      "src": "rule_ibsrela_cta_section_text_colors_by_group",
       "dst": "tok_ibsrela_body_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_cta_heading_body_color_by_background_group",
+      "src": "rule_ibsrela_cta_section_text_colors_by_group",
       "dst": "tok_ibsrela_headline_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_cta_heading_body_color_by_background_group",
+      "src": "rule_ibsrela_cta_section_text_colors_by_group",
       "dst": "grp_ibsrela_color_scheme_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_cta_right_image_locked_to_background",
+      "src": "rule_ibsrela_cta_right_image_locked_backgrounds",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_cta_right_image_locked_to_background",
-      "dst": "gov_ibsrela_teal_reserved_lpga",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_cta_right_image_locked_to_background",
+      "src": "rule_ibsrela_cta_right_image_locked_backgrounds",
       "dst": "grp_ibsrela_color_scheme_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_cta_golf_teal_lpga_gated",
+      "src": "rule_ibsrela_cta_teal_golf_lpga_gated",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_cta_golf_teal_lpga_gated",
+      "src": "rule_ibsrela_cta_teal_golf_lpga_gated",
       "dst": "tok_ibsrela_color_teal",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_cta_golf_teal_lpga_gated",
-      "dst": "gov_ibsrela_teal_reserved_lpga",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_cta_golf_teal_lpga_gated",
+      "src": "rule_ibsrela_cta_teal_golf_lpga_gated",
       "dst": "grp_ibsrela_color_scheme_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_cta_image_free_when_populated_section_above",
+      "src": "rule_ibsrela_cta_image_free_when_populated_above",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_cta_image_free_when_populated_section_above",
+      "src": "rule_ibsrela_cta_image_free_when_populated_above",
       "dst": "grp_ibsrela_color_scheme_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_dual_layout_widths",
+      "src": "rule_ibsrela_email_canvas_dual_layout_widths",
       "dst": "tok_ibsrela_email_width",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_email_dual_layout_widths",
+      "src": "rule_ibsrela_email_canvas_dual_layout_widths",
       "dst": "grp_ibsrela_design_pattern_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_fixed_width_fluid_collapse",
+      "src": "rule_ibsrela_email_fixed_width_fluid_technique",
       "dst": "tok_ibsrela_email_fluid_breakpoint",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_email_fixed_width_fluid_collapse",
+      "src": "rule_ibsrela_email_fixed_width_fluid_technique",
       "dst": "tok_ibsrela_email_width",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_email_fixed_width_fluid_collapse",
+      "src": "rule_ibsrela_email_fixed_width_fluid_technique",
       "dst": "grp_ibsrela_design_pattern_rules_00",
       "type": "from_group"
     },
@@ -2580,147 +2560,147 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_spacing_8pt_system_baseline",
+      "src": "rule_ibsrela_spacing_8pt_system",
       "dst": "tok_ibsrela_spacing_base",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_spacing_8pt_system_baseline",
+      "src": "rule_ibsrela_spacing_8pt_system",
       "dst": "grp_ibsrela_design_pattern_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_spacing_container_and_section_padding",
+      "src": "rule_ibsrela_section_padding_and_gutters",
       "dst": "tok_ibsrela_card_padding",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_spacing_container_and_section_padding",
+      "src": "rule_ibsrela_section_padding_and_gutters",
       "dst": "tok_ibsrela_image_text_gap",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_spacing_container_and_section_padding",
+      "src": "rule_ibsrela_section_padding_and_gutters",
       "dst": "tok_ibsrela_section_padding_sides",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_spacing_container_and_section_padding",
+      "src": "rule_ibsrela_section_padding_and_gutters",
       "dst": "tok_ibsrela_section_padding_vertical",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_spacing_container_and_section_padding",
-      "dst": "grp_ibsrela_design_pattern_rules_01",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_spacing_no_margin_between_sections",
-      "dst": "grp_ibsrela_design_pattern_rules_01",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_spacing_two_column_gutter_and_grid",
-      "dst": "tok_ibsrela_content_area_width",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_spacing_two_column_gutter_and_grid",
-      "dst": "tok_ibsrela_half_column_width",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_spacing_two_column_gutter_and_grid",
+      "src": "rule_ibsrela_section_padding_and_gutters",
       "dst": "tok_ibsrela_two_column_gutter",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_spacing_two_column_gutter_and_grid",
+      "src": "rule_ibsrela_section_padding_and_gutters",
       "dst": "grp_ibsrela_design_pattern_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_key_question_callout_style",
+      "src": "rule_ibsrela_sections_edge_to_edge_no_margin",
+      "dst": "grp_ibsrela_design_pattern_rules_01",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_content_grid_structure",
+      "dst": "tok_ibsrela_content_area_width",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_content_grid_structure",
+      "dst": "tok_ibsrela_half_column_width",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_content_grid_structure",
+      "dst": "grp_ibsrela_design_pattern_rules_01",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_callout_key_question_white_outline",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_key_question_callout_style",
+      "src": "rule_ibsrela_callout_key_question_white_outline",
       "dst": "tok_ibsrela_callout_key_question_border",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_key_question_callout_style",
+      "src": "rule_ibsrela_callout_key_question_white_outline",
       "dst": "grp_ibsrela_design_pattern_rules_02",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_white_banner_callout_works_differently",
+      "src": "rule_ibsrela_callout_white_banner_claim",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_white_banner_callout_works_differently",
+      "src": "rule_ibsrela_callout_white_banner_claim",
       "dst": "tok_ibsrela_callout_white_banner_opacity",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_white_banner_callout_works_differently",
+      "src": "rule_ibsrela_callout_white_banner_claim",
       "dst": "grp_ibsrela_design_pattern_rules_02",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_scene_paired_banner_callout_fixed_colors",
+      "src": "rule_ibsrela_callout_scene_paired_banner_colors",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_scene_paired_banner_callout_fixed_colors",
+      "src": "rule_ibsrela_callout_scene_paired_banner_colors",
       "dst": "grp_ibsrela_design_pattern_rules_02",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "src": "rule_ibsrela_symptom_icon_trio_style_and_order",
       "dst": "sec_symptom_trio",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "src": "rule_ibsrela_symptom_icon_trio_style_and_order",
       "dst": "tok_ibsrela_symptom_icon_order",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "src": "rule_ibsrela_symptom_icon_trio_style_and_order",
       "dst": "tok_ibsrela_symptom_icon_style",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "src": "rule_ibsrela_symptom_icon_trio_style_and_order",
       "dst": "tok_ibsrela_symptom_label_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "src": "rule_ibsrela_symptom_icon_trio_style_and_order",
       "dst": "grp_ibsrela_design_pattern_rules_03",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_completeness_and_no_substitution",
+      "src": "rule_ibsrela_symptom_icon_trio_completeness",
       "dst": "sec_symptom_trio",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_completeness_and_no_substitution",
+      "src": "rule_ibsrela_symptom_icon_trio_completeness",
       "dst": "grp_ibsrela_design_pattern_rules_03",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_placement_and_following_content",
+      "src": "rule_ibsrela_symptom_trio_placement_and_composition",
       "dst": "sec_symptom_trio",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_symptom_trio_placement_and_following_content",
+      "src": "rule_ibsrela_symptom_trio_placement_and_composition",
       "dst": "grp_ibsrela_design_pattern_rules_03",
       "type": "from_group"
     },
@@ -2740,137 +2720,137 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_cta_section_image_right_layout",
+      "src": "rule_ibsrela_cta_image_right_two_column_layout",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_cta_section_image_right_layout",
+      "src": "rule_ibsrela_cta_image_right_two_column_layout",
       "dst": "tok_ibsrela_cta_section_image_alignment",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_cta_section_image_right_layout",
+      "src": "rule_ibsrela_cta_image_right_two_column_layout",
       "dst": "grp_ibsrela_design_pattern_rules_04",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_body_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_body_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_body_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_callout_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_callout_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_campaign_headline_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_footnote_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_global_font",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_h1_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_h1_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_h2_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_h2_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_headline_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_isi_body_size",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_isi_subheads_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_isi_subheads_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "tok_ibsrela_subhead_color",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_typography_hierarchy_parent_system",
       "dst": "grp_ibsrela_content_pattern_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
+      "src": "rule_ibsrela_isi_boxed_warning_heavy_reserved",
       "dst": "sec_safety",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
+      "src": "rule_ibsrela_isi_boxed_warning_heavy_reserved",
       "dst": "tok_ibsrela_weight_avenir_heavy",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
-      "dst": "gov_ibsrela_avenir_heavy_reserved",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
+      "src": "rule_ibsrela_isi_boxed_warning_heavy_reserved",
       "dst": "grp_ibsrela_content_pattern_rules_00",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_ppt_avenir_arial_substitution",
+      "src": "rule_ibsrela_avenir_arial_substitution_email_ppt",
       "dst": "tok_ibsrela_font_email_stack",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_email_ppt_avenir_arial_substitution",
+      "src": "rule_ibsrela_avenir_arial_substitution_email_ppt",
+      "dst": "tok_ibsrela_global_font",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_avenir_arial_substitution_email_ppt",
       "dst": "grp_ibsrela_content_pattern_rules_00",
       "type": "from_group"
     },
@@ -2940,58 +2920,78 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "sec_end_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "tok_ibsrela_footnote_size",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "tok_ibsrela_footnote_weight",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "tok_ibsrela_isi_body_line_height",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "tok_ibsrela_isi_body_size",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "tok_ibsrela_isi_important_risk_size",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "tok_ibsrela_isi_subheads_size",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
+      "dst": "tok_ibsrela_isi_subheads_weight",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "sub_ibsrela_end_matter",
       "type": "scoped_to_subtype"
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
+      "dst": "grp_ibsrela_content_pattern_rules_01",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_isi_end_matter_locked_content",
+      "dst": "sec_end_matter",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_isi_end_matter_locked_content",
+      "dst": "sub_ibsrela_end_matter",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_isi_end_matter_locked_content",
       "dst": "grp_ibsrela_content_pattern_rules_01",
       "type": "from_group"
     },
     {
       "src": "rule_ibsrela_letter_spacing_email",
-      "dst": "tok_ibsrela_letter_spacing_body_0",
+      "dst": "tok_ibsrela_body_letter_spacing",
       "type": "references_token"
     },
     {
       "src": "rule_ibsrela_letter_spacing_email",
-      "dst": "tok_ibsrela_letter_spacing_caps_05",
+      "dst": "tok_ibsrela_cta_label_letter_spacing",
       "type": "references_token"
     },
     {
@@ -3020,82 +3020,87 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_section_padding_by_type",
       "dst": "tok_ibsrela_card_padding",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_section_padding_by_type",
       "dst": "tok_ibsrela_card_radius",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_section_padding_by_type",
       "dst": "tok_ibsrela_section_padding_dark_feature",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_section_padding_by_type",
       "dst": "tok_ibsrela_section_padding_editorial",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_section_padding_by_type",
       "dst": "tok_ibsrela_section_padding_sides",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_section_padding_by_type",
       "dst": "grp_ibsrela_content_pattern_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_boundary_gaps_resolved",
+      "src": "rule_ibsrela_boundary_resulting_gaps",
       "dst": "tok_ibsrela_boundary_dark_dark",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_boundary_gaps_resolved",
+      "src": "rule_ibsrela_boundary_resulting_gaps",
       "dst": "tok_ibsrela_boundary_editorial_dark",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_boundary_gaps_resolved",
+      "src": "rule_ibsrela_boundary_resulting_gaps",
       "dst": "tok_ibsrela_boundary_editorial_editorial",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_boundary_gaps_resolved",
+      "src": "rule_ibsrela_boundary_resulting_gaps",
       "dst": "tok_ibsrela_boundary_hero_first",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_boundary_gaps_resolved",
+      "src": "rule_ibsrela_boundary_resulting_gaps",
       "dst": "grp_ibsrela_content_pattern_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_no_padding_override_no_spacers",
+      "src": "rule_ibsrela_never_override_padding_no_spacers",
       "dst": "grp_ibsrela_content_pattern_rules_01",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_headline_body_case_defaults",
+      "src": "rule_ibsrela_capitalization_case_by_element",
       "dst": "tok_ibsrela_body_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_headline_body_case_defaults",
+      "src": "rule_ibsrela_capitalization_case_by_element",
+      "dst": "tok_ibsrela_callout_case",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_capitalization_case_by_element",
+      "dst": "tok_ibsrela_cta_button_label_case",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_capitalization_case_by_element",
       "dst": "tok_ibsrela_h1_case",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_headline_body_case_defaults",
-      "dst": "tok_ibsrela_h2_case",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_headline_body_case_defaults",
+      "src": "rule_ibsrela_capitalization_case_by_element",
       "dst": "grp_ibsrela_content_pattern_rules_02",
       "type": "from_group"
     },
@@ -3110,37 +3115,7 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_callout_cta_all_caps",
-      "dst": "sec_callout",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_callout_cta_all_caps",
-      "dst": "sec_cta",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_callout_cta_all_caps",
-      "dst": "tok_ibsrela_callout_case",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_callout_cta_all_caps",
-      "dst": "tok_ibsrela_cta_button_label_case",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_callout_cta_all_caps",
-      "dst": "grp_ibsrela_content_pattern_rules_02",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_flip_the_script_body_capitalization",
-      "dst": "gov_ibsrela_flip_the_script_body_capitalization",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_flip_the_script_body_capitalization",
+      "src": "rule_ibsrela_campaign_name_in_body_title_case",
       "dst": "grp_ibsrela_content_pattern_rules_02",
       "type": "from_group"
     },
@@ -3165,167 +3140,187 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_bold_reserved_usage",
+      "src": "rule_ibsrela_bold_reserved_uses",
       "dst": "grp_ibsrela_content_pattern_rules_03",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_bold_prohibited_targets",
+      "src": "rule_ibsrela_bold_prohibited_uses",
       "dst": "grp_ibsrela_content_pattern_rules_03",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_no_bold_italic_combo_italic_reserved",
+      "src": "rule_ibsrela_no_bold_italic_combo_and_italic_scope",
       "dst": "grp_ibsrela_content_pattern_rules_03",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_email_assembly_order",
+      "src": "rule_ibsrela_no_bold_as_hierarchy_substitute",
+      "dst": "grp_ibsrela_content_pattern_rules_03",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
       "dst": "sec_top_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_email_assembly_order",
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
       "dst": "sec_end_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_email_assembly_order",
-      "dst": "grp_ibsrela_content_pattern_rules_04",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_locked_top_end_matter_no_modify",
-      "dst": "sec_top_matter",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_locked_top_end_matter_no_modify",
-      "dst": "sec_end_matter",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_locked_top_end_matter_no_modify",
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
       "dst": "sub_ibsrela_top_matter",
       "type": "scoped_to_subtype"
     },
     {
-      "src": "rule_ibsrela_locked_top_end_matter_no_modify",
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
+      "dst": "sub_ibsrela_primary_1_column",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
+      "dst": "sub_ibsrela_primary_2_column",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
+      "dst": "sub_ibsrela_secondary",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
       "dst": "sub_ibsrela_end_matter",
       "type": "scoped_to_subtype"
     },
     {
-      "src": "rule_ibsrela_locked_top_end_matter_no_modify",
+      "src": "rule_ibsrela_email_assembly_order_locked_brackets",
       "dst": "grp_ibsrela_content_pattern_rules_04",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_template_formation_no_add_sections",
+      "src": "rule_ibsrela_locked_matter_do_not_modify",
+      "dst": "sec_top_matter",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_locked_matter_do_not_modify",
+      "dst": "sec_end_matter",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_locked_matter_do_not_modify",
+      "dst": "sub_ibsrela_top_matter",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_locked_matter_do_not_modify",
+      "dst": "sub_ibsrela_end_matter",
+      "type": "scoped_to_subtype"
+    },
+    {
+      "src": "rule_ibsrela_locked_matter_do_not_modify",
       "dst": "grp_ibsrela_content_pattern_rules_04",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_section_element_removal_only",
+      "src": "rule_ibsrela_premade_templates_no_added_sections",
       "dst": "grp_ibsrela_content_pattern_rules_04",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_dual_breakpoint_build_qa",
+      "src": "rule_ibsrela_dual_breakpoint_build_and_qa",
       "dst": "tok_ibsrela_email_width",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_dual_breakpoint_build_qa",
+      "src": "rule_ibsrela_dual_breakpoint_build_and_qa",
       "dst": "grp_ibsrela_content_pattern_rules_04",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_content_section_clean_edges_against_locked",
+      "src": "rule_ibsrela_clean_edges_against_locked_matter",
       "dst": "sec_top_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_content_section_clean_edges_against_locked",
+      "src": "rule_ibsrela_clean_edges_against_locked_matter",
       "dst": "sec_end_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_content_section_clean_edges_against_locked",
+      "src": "rule_ibsrela_clean_edges_against_locked_matter",
       "dst": "tok_ibsrela_boundary_hero_first",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_content_section_clean_edges_against_locked",
+      "src": "rule_ibsrela_clean_edges_against_locked_matter",
       "dst": "tok_ibsrela_section_wave_edge",
       "type": "references_token"
     },
     {
-      "src": "rule_ibsrela_content_section_clean_edges_against_locked",
+      "src": "rule_ibsrela_clean_edges_against_locked_matter",
       "dst": "grp_ibsrela_content_pattern_rules_04",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_top_matter_locked_no_logo_repeat",
+      "src": "rule_ibsrela_top_matter_locked_inheritance",
       "dst": "sec_top_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_top_matter_locked_no_logo_repeat",
-      "dst": "gov_ibsrela_no_logo_in_content",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_top_matter_locked_no_logo_repeat",
+      "src": "rule_ibsrela_top_matter_locked_inheritance",
       "dst": "sub_ibsrela_top_matter",
       "type": "scoped_to_subtype"
     },
     {
-      "src": "rule_ibsrela_top_matter_locked_no_logo_repeat",
+      "src": "rule_ibsrela_top_matter_locked_inheritance",
       "dst": "grp_ibsrela_content_pattern_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_top_matter_audience_fixes_content",
-      "dst": "sec_top_matter",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_top_matter_audience_fixes_content",
-      "dst": "sub_ibsrela_top_matter",
-      "type": "scoped_to_subtype"
-    },
-    {
-      "src": "rule_ibsrela_top_matter_audience_fixes_content",
+      "src": "rule_ibsrela_content_audience_matches_header",
       "dst": "grp_ibsrela_content_pattern_rules_05",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
+      "src": "rule_ibsrela_end_matter_locked_inheritance",
       "dst": "sec_end_matter",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
-      "dst": "tok_ibsrela_isi_body_line_height",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
-      "dst": "tok_ibsrela_isi_body_size",
-      "type": "references_token"
-    },
-    {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
-      "dst": "gov_ibsrela_no_duplicate_isi",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
+      "src": "rule_ibsrela_end_matter_locked_inheritance",
       "dst": "sub_ibsrela_end_matter",
       "type": "scoped_to_subtype"
     },
     {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
+      "src": "rule_ibsrela_end_matter_locked_inheritance",
+      "dst": "grp_ibsrela_content_pattern_rules_05",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_content_body_matches_isi_settings",
+      "dst": "tok_ibsrela_isi_body_line_height",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_content_body_matches_isi_settings",
+      "dst": "tok_ibsrela_type_scale_isi_body_12",
+      "type": "references_token"
+    },
+    {
+      "src": "rule_ibsrela_content_body_matches_isi_settings",
+      "dst": "grp_ibsrela_content_pattern_rules_05",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_references_coordinated_at_assembly",
+      "dst": "sec_end_matter",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_references_coordinated_at_assembly",
       "dst": "grp_ibsrela_content_pattern_rules_05",
       "type": "from_group"
     },
@@ -3381,6 +3376,16 @@
     },
     {
       "src": "rule_ibsrela_secondary_component_spec",
+      "dst": "sec_affordability",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_secondary_component_spec",
+      "dst": "sec_cta",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_secondary_component_spec",
       "dst": "sec_callout",
       "type": "applies_to_section"
     },
@@ -3395,52 +3400,47 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_dtp_second_person_everyday_life_framing",
+      "src": "rule_ibsrela_dtp_second_person_everyday_life_voice",
       "dst": "grp_ibsrela_content_pattern_rules_06",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_dtp_ibsc_symptoms_phrasing",
-      "dst": "gov_ibsrela_ibsc_symptoms_phrase",
-      "type": "governed_by"
+      "src": "rule_ibsrela_dtp_empathetic_lead_before_benefit",
+      "dst": "sec_intro",
+      "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_dtp_ibsc_symptoms_phrasing",
+      "src": "rule_ibsrela_dtp_empathetic_lead_before_benefit",
+      "dst": "sec_hero",
+      "type": "applies_to_section"
+    },
+    {
+      "src": "rule_ibsrela_dtp_empathetic_lead_before_benefit",
       "dst": "grp_ibsrela_content_pattern_rules_06",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_patient_story_disclosure_verbatim",
+      "src": "rule_ibsrela_dtp_ibs_c_symptoms_terminology",
+      "dst": "grp_ibsrela_content_pattern_rules_06",
+      "type": "from_group"
+    },
+    {
+      "src": "rule_ibsrela_patient_story_disclosure",
       "dst": "sec_patient_story",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_patient_story_disclosure_verbatim",
-      "dst": "gov_ibsrela_patient_story_disclosure",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_patient_story_disclosure_verbatim",
+      "src": "rule_ibsrela_patient_story_disclosure",
       "dst": "grp_ibsrela_content_pattern_rules_06",
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_efficacy_claim_qualifier_and_limitation",
+      "src": "rule_ibsrela_efficacy_claim_required_qualifiers",
       "dst": "sec_efficacy",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_efficacy_claim_qualifier_and_limitation",
-      "dst": "gov_ibsrela_efficacy_limitation",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_efficacy_claim_qualifier_and_limitation",
-      "dst": "gov_ibsrela_efficacy_qualifier",
-      "type": "governed_by"
-    },
-    {
-      "src": "rule_ibsrela_efficacy_claim_qualifier_and_limitation",
+      "src": "rule_ibsrela_efficacy_claim_required_qualifiers",
       "dst": "grp_ibsrela_content_pattern_rules_06",
       "type": "from_group"
     },
@@ -3451,7 +3451,7 @@
     },
     {
       "src": "rule_ibsrela_dtp_cta_label_conventions",
-      "dst": "tok_ibsrela_case_body_sentence",
+      "dst": "tok_ibsrela_cta_button_label_case",
       "type": "references_token"
     },
     {
@@ -3470,22 +3470,12 @@
       "type": "from_group"
     },
     {
-      "src": "rule_ibsrela_dtp_no_hcp_get_connected_label",
+      "src": "rule_ibsrela_dtp_cta_label_scope_and_topic_match",
       "dst": "sec_cta",
       "type": "applies_to_section"
     },
     {
-      "src": "rule_ibsrela_dtp_no_hcp_get_connected_label",
-      "dst": "grp_ibsrela_content_pattern_rules_07",
-      "type": "from_group"
-    },
-    {
-      "src": "rule_ibsrela_dtp_cta_label_matches_section_topic",
-      "dst": "sec_cta",
-      "type": "applies_to_section"
-    },
-    {
-      "src": "rule_ibsrela_dtp_cta_label_matches_section_topic",
+      "src": "rule_ibsrela_dtp_cta_label_scope_and_topic_match",
       "dst": "grp_ibsrela_content_pattern_rules_07",
       "type": "from_group"
     },
@@ -4120,35 +4110,113 @@
       "type": "resolves_to"
     },
     {
-      "src": "ast_ibsrela_email_primary_2_column",
+      "src": "ast_ibsrela_cta_email_primary_2_column",
       "dst": "tok_ibsrela_color_purple",
       "type": "requires_pairing_token"
     },
     {
-      "src": "ast_ibsrela_email_primary_2_column",
+      "src": "ast_ibsrela_cta_email_primary_2_column",
       "dst": "agr_ibsrela_cta_right_images",
       "type": "member_of",
       "order": 1
     },
     {
-      "src": "ast_ibsrela_email_primary_column_golf",
+      "src": "ast_ibsrela_cta_email_primary_column_golf",
       "dst": "tok_ibsrela_color_teal",
       "type": "requires_pairing_token"
     },
     {
-      "src": "ast_ibsrela_email_primary_column_golf",
+      "src": "ast_ibsrela_cta_email_primary_column_golf",
       "dst": "agr_ibsrela_cta_right_images",
       "type": "member_of",
       "order": 2
     },
     {
-      "src": "ast_ibsrela_cake_lockup",
+      "src": "ast_ibsrela_cta_cake_lockup",
       "dst": "tok_ibsrela_color_periwinkle",
       "type": "requires_pairing_token"
     },
     {
-      "src": "ast_ibsrela_cake_lockup",
+      "src": "ast_ibsrela_cta_cake_lockup",
       "dst": "agr_ibsrela_cta_right_images",
+      "type": "member_of",
+      "order": 3
+    },
+    {
+      "src": "ast_ibsrela_flip_the_script_lockup",
+      "dst": "tok_ibsrela_campaign_lockup_on_ibsc_weight",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_flip_the_script_lockup",
+      "dst": "tok_ibsrela_campaign_lockup_on_ibsc_opacity",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_flip_the_script_lockup",
+      "dst": "tok_ibsrela_campaign_lockup_swoosh",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_because_ibsrela_can_lockup",
+      "dst": "tok_ibsrela_color_purple",
+      "type": "requires_pairing_token"
+    },
+    {
+      "src": "ast_ibsrela_brand_swoosh",
+      "dst": "tok_ibsrela_decorative_swoosh",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_wave_edge",
+      "dst": "tok_ibsrela_section_wave_edge",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_constipation",
+      "dst": "tok_ibsrela_symptom_icon_style",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_constipation",
+      "dst": "tok_ibsrela_symptom_label_color",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_constipation",
+      "dst": "agr_ibsrela_symptom_trio",
+      "type": "member_of",
+      "order": 1
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_belly_pain",
+      "dst": "tok_ibsrela_symptom_icon_style",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_belly_pain",
+      "dst": "tok_ibsrela_symptom_label_color",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_belly_pain",
+      "dst": "agr_ibsrela_symptom_trio",
+      "type": "member_of",
+      "order": 2
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_bloating",
+      "dst": "tok_ibsrela_symptom_icon_style",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_bloating",
+      "dst": "tok_ibsrela_symptom_label_color",
+      "type": "contains_token"
+    },
+    {
+      "src": "ast_ibsrela_symptom_icon_bloating",
+      "dst": "agr_ibsrela_symptom_trio",
       "type": "member_of",
       "order": 3
     },
@@ -4158,119 +4226,124 @@
       "type": "fills_section"
     },
     {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_hero",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_intro",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_efficacy",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_safety",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_patient_story",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_affordability",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_cta",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_callout",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_1_column",
+      "dst": "sec_chart",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_hero",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_intro",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_efficacy",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_safety",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_patient_story",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_affordability",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_cta",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_primary_2_column",
+      "dst": "sec_callout",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_secondary",
+      "dst": "sec_efficacy",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_secondary",
+      "dst": "sec_safety",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_secondary",
+      "dst": "sec_patient_story",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_secondary",
+      "dst": "sec_affordability",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_secondary",
+      "dst": "sec_cta",
+      "type": "hosts_section"
+    },
+    {
+      "src": "sub_ibsrela_secondary",
+      "dst": "sec_callout",
+      "type": "hosts_section"
+    },
+    {
       "src": "sub_ibsrela_end_matter",
       "dst": "sec_end_matter",
       "type": "fills_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_hero",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_intro",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_efficacy",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_safety",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_patient_story",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_affordability",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_cta",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_callout",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_chart",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_1_column",
-      "dst": "sec_symptom_trio",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_2_column",
-      "dst": "sec_hero",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_2_column",
-      "dst": "sec_intro",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_2_column",
-      "dst": "sec_efficacy",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_2_column",
-      "dst": "sec_patient_story",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_2_column",
-      "dst": "sec_cta",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_primary_2_column",
-      "dst": "sec_callout",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_secondary",
-      "dst": "sec_efficacy",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_secondary",
-      "dst": "sec_safety",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_secondary",
-      "dst": "sec_patient_story",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_secondary",
-      "dst": "sec_affordability",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_secondary",
-      "dst": "sec_callout",
-      "type": "hosts_section"
-    },
-    {
-      "src": "sub_ibsrela_secondary",
-      "dst": "sec_chart",
-      "type": "hosts_section"
     },
     {
       "src": "tpl_ibsrela_cta_image_variant_default",
@@ -4289,17 +4362,17 @@
       "order": 0
     },
     {
-      "src": "tpl_ibsrela_cta_image_free",
+      "src": "tpl_ibsrela_cta_image_free_variant",
       "dst": "sec_cta",
       "type": "fills_section"
     },
     {
-      "src": "tpl_ibsrela_cta_image_free",
+      "src": "tpl_ibsrela_cta_image_free_variant",
       "dst": "sub_ibsrela_primary_1_column",
       "type": "instance_of"
     },
     {
-      "src": "tpl_ibsrela_cta_image_free",
+      "src": "tpl_ibsrela_cta_image_free_variant",
       "dst": "tgr_ibsrela_cta_variants",
       "type": "member_of",
       "order": 1
@@ -4369,286 +4442,298 @@
       "order": 2
     },
     {
-      "src": "rule_ibsrela_one_h1_per_email",
-      "dst": "rule_ibsrela_min_text_size_and_tap_targets",
-      "type": "refines",
-      "note": "The one-H1 heading-order obligation is called out alongside the minimum size/tap-target rules and refines the logical heading-order statement."
+      "src": "rule_ibsrela_min_text_sizes_and_tap_targets",
+      "dst": "rule_ibsrela_single_h1_per_email",
+      "type": "co_applies",
+      "note": "Both derive from the logical-heading-order / minimum-sizing accessibility baseline."
     },
     {
-      "src": "rule_ibsrela_images_alt_text_and_image_off_resilience",
-      "dst": "rule_ibsrela_min_contrast_ratios",
-      "type": "cluster",
-      "note": "Both belong to the baseline accessibility topic group."
+      "src": "rule_ibsrela_section_self_contained_flush_stacking",
+      "dst": "rule_ibsrela_adjacent_section_theme_edges_transition",
+      "type": "co_applies",
+      "note": "Flush stacking requires declared edge themes so seams transition cleanly."
     },
     {
-      "src": "rule_ibsrela_adjacent_section_theme_transition",
-      "dst": "rule_ibsrela_self_contained_section_flush_stacking",
+      "src": "rule_ibsrela_adjacent_section_theme_edges_transition",
+      "dst": "rule_ibsrela_per_email_device_cardinality_limits",
       "type": "depends_on",
-      "note": "Flush stacking with no margins makes edge-theme declaration necessary to avoid seams."
+      "note": "Wave-edge transitions are constrained by the one-Wave-graphic-per-email cap."
     },
     {
       "src": "rule_ibsrela_final_assembly_qa_checklist",
-      "dst": "rule_ibsrela_adjacent_section_theme_transition",
+      "dst": "rule_ibsrela_locked_components_own_logo_and_isi",
       "type": "cross_reference",
-      "note": "QA verifies theme consistency established by the transition rule."
+      "note": "QA verifies locked ISI body size which lives in the locked End Matter."
     },
     {
-      "src": "rule_ibsrela_final_assembly_qa_checklist",
-      "dst": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
-      "type": "cross_reference",
-      "note": "QA confirms content obligations tied to closed-vocabulary and locked-component rules."
-    },
-    {
-      "src": "rule_ibsrela_title_purple_only",
+      "src": "rule_ibsrela_purple_reserved_for_title_first_line",
       "dst": "rule_ibsrela_text_color_assignments",
       "type": "refines",
-      "note": "Title-purple exclusivity refines the general title color binding."
+      "note": "Restricts the purple title color to the first line only, no other text."
     },
     {
-      "src": "rule_ibsrela_white_section_highlight_black_bold",
-      "dst": "rule_ibsrela_accent_color_reservations",
+      "src": "rule_ibsrela_white_section_body_highlight_black_bold",
+      "dst": "rule_ibsrela_accent_color_role_restrictions",
       "type": "co_applies",
-      "note": "Both forbid purple/green in body copy."
+      "note": "Both forbid blue/purple in body copy; highlight rule specifies the allowed emphasis treatment."
     },
     {
-      "src": "rule_ibsrela_title_purple_only",
-      "dst": "rule_ibsrela_one_color_per_sentence",
+      "src": "rule_ibsrela_one_color_per_sentence",
+      "dst": "rule_ibsrela_text_color_assignments",
       "type": "co_applies",
-      "note": "Purple restriction interacts with single-color-per-sentence rule."
+      "note": "Sentence-level unity operates on top of the per-role color assignments."
     },
     {
-      "src": "rule_ibsrela_flip_script_scene_color_pairings_fixed",
-      "dst": "rule_ibsrela_flip_script_campaign_palette_ratio",
+      "src": "rule_ibsrela_flip_the_script_callout_opacity_pairings",
+      "dst": "rule_ibsrela_flip_the_script_scene_color_pairings_fixed",
       "type": "co_applies",
-      "note": "Both govern the Flip The Script campaign palette usage."
+      "note": "Both govern campaign callout scene-color treatment."
     },
     {
-      "src": "rule_ibsrela_flip_script_callout_opacity_pairings",
-      "dst": "rule_ibsrela_flip_script_scene_color_pairings_fixed",
-      "type": "co_applies",
-      "note": "Opacity pairings apply to the same campaign color set as the scene pairings."
+      "src": "rule_ibsrela_flip_the_script_scene_color_pairings_fixed",
+      "dst": "rule_ibsrela_flip_the_script_campaign_palette_ratio",
+      "type": "cluster",
+      "note": "Both define the Flip The Script campaign palette system."
     },
     {
-      "src": "rule_ibsrela_email_gradient_background_only",
-      "dst": "rule_ibsrela_gradient_headline_callout_sparing",
+      "src": "rule_ibsrela_email_gradient_background_only_no_gradient_text",
+      "dst": "rule_ibsrela_gradient_on_headlines_callouts_sparingly",
       "type": "overrides",
-      "note": "In email, gradient text is forbidden; the sparing gradient-headline allowance does not apply \u2014 use the split-headline technique instead."
+      "note": "In email the gradient-on-headline allowance is restricted to the two-color split technique; no true gradient text."
     },
     {
-      "src": "rule_ibsrela_gradient_headline_callout_sparing",
-      "dst": "rule_ibsrela_primary_gradient_definitions",
-      "type": "depends_on",
-      "note": "The headline/callout gradient usage references the primary Dark Blue \u2192 Purple gradient."
+      "src": "rule_ibsrela_gradient_on_headlines_callouts_sparingly",
+      "dst": "rule_ibsrela_primary_gradients_definition_and_usage",
+      "type": "refines",
+      "note": "Specifies limited application of the primary gradient to headlines/callouts."
+    },
+    {
+      "src": "rule_ibsrela_email_gradient_background_only_no_gradient_text",
+      "dst": "rule_ibsrela_primary_gradients_definition_and_usage",
+      "type": "refines",
+      "note": "Constrains how the defined gradients may be applied in email surfaces."
+    },
+    {
+      "src": "rule_ibsrela_approved_theme_tiles",
+      "dst": "rule_ibsrela_one_theme_per_email",
+      "type": "co_applies",
+      "note": "The single chosen theme must be one of the approved tiles."
     },
     {
       "src": "rule_ibsrela_theme_contrast_pairings",
-      "dst": "rule_ibsrela_email_single_theme_inheritance",
+      "dst": "rule_ibsrela_approved_theme_tiles",
       "type": "depends_on",
-      "note": "Contrast pairings resolve per the single email-wide theme's panel colors."
+      "note": "Contrast pairings follow from whether the chosen theme tile is light or dark."
     },
     {
-      "src": "rule_ibsrela_green_panel_max_once_exclusive_use",
+      "src": "rule_ibsrela_green_panel_at_most_once_reserved",
       "dst": "rule_ibsrela_dtp_section_background_sequence",
       "type": "refines",
-      "note": "Constrains the green accent panel that appears in the fixed background sequence to a single, exclusive use."
+      "note": "Constrains the green accent panel step of the background sequence to a single, exclusive use per email."
     },
     {
-      "src": "rule_ibsrela_sections_butt_edge_to_edge",
+      "src": "rule_ibsrela_sections_butt_edge_to_edge_no_dividers",
       "dst": "rule_ibsrela_dtp_section_background_sequence",
       "type": "co_applies",
-      "note": "Edge-to-edge transitions are how the sequenced background changes are rendered."
+      "note": "The edge-to-edge transition rule governs how the sequenced backgrounds join."
     },
     {
-      "src": "rule_ibsrela_cta_golf_teal_lpga_gated",
-      "dst": "rule_ibsrela_cta_right_image_locked_to_background",
+      "src": "rule_ibsrela_cta_button_light_dark_flip",
+      "dst": "rule_ibsrela_cta_section_text_colors_by_group",
+      "type": "co_applies",
+      "note": "Button flip and heading/body colors are both driven by the same light/dark background group."
+    },
+    {
+      "src": "rule_ibsrela_cta_teal_golf_lpga_gated",
+      "dst": "rule_ibsrela_cta_right_image_locked_backgrounds",
       "type": "refines",
-      "note": "Golf/teal gating narrows the general image-locked-to-background pairing rule."
+      "note": "Adds the LPGA gating/reservation constraint on top of the general image-to-background locking."
     },
     {
-      "src": "rule_ibsrela_cta_image_free_when_populated_section_above",
-      "dst": "rule_ibsrela_cta_right_image_locked_to_background",
+      "src": "rule_ibsrela_cta_image_free_when_populated_above",
+      "dst": "rule_ibsrela_cta_right_image_locked_backgrounds",
       "type": "overrides",
-      "note": "When a populated section sits above, the image-free path overrides the right-side image pairing."
+      "note": "When a populated section is directly above, the image-free path supersedes the right-side image requirement."
     },
     {
-      "src": "rule_ibsrela_cta_heading_body_color_by_background_group",
-      "dst": "rule_ibsrela_cta_button_fill_label_by_background_group",
-      "type": "co_applies",
-      "note": "Both driven by the same light/dark background group split within the CTA section."
-    },
-    {
-      "src": "rule_ibsrela_cta_right_image_locked_to_background",
-      "dst": "rule_ibsrela_cta_button_fill_label_by_background_group",
-      "type": "depends_on",
-      "note": "Approved image backgrounds are all dark-group, forcing white button / green label."
-    },
-    {
-      "src": "rule_ibsrela_email_fixed_width_fluid_collapse",
-      "dst": "rule_ibsrela_email_dual_layout_widths",
+      "src": "rule_ibsrela_email_fixed_width_fluid_technique",
+      "dst": "rule_ibsrela_email_canvas_dual_layout_widths",
       "type": "refines",
-      "note": "Baseline build technique implements the dual 600/375 width requirement."
+      "note": "Baseline build technique implements the dual desktop/mobile width requirement."
     },
     {
-      "src": "rule_ibsrela_spacing_container_and_section_padding",
-      "dst": "rule_ibsrela_spacing_8pt_system_baseline",
+      "src": "rule_ibsrela_section_padding_and_gutters",
+      "dst": "rule_ibsrela_spacing_8pt_system",
       "type": "depends_on",
-      "note": "Padding values are all multiples of the 8 px base unit."
+      "note": "All padding/gutter values are constrained to multiples of the 8-pt base unit."
     },
     {
-      "src": "rule_ibsrela_spacing_no_margin_between_sections",
-      "dst": "rule_ibsrela_spacing_container_and_section_padding",
+      "src": "rule_ibsrela_content_grid_structure",
+      "dst": "rule_ibsrela_section_padding_and_gutters",
       "type": "depends_on",
-      "note": "Edge-to-edge stacking relies on each section owning its own padding."
+      "note": "Content-area width is derived from the 24 px side padding."
     },
     {
-      "src": "rule_ibsrela_spacing_two_column_gutter_and_grid",
-      "dst": "rule_ibsrela_spacing_8pt_system_baseline",
-      "type": "depends_on",
-      "note": "Grid and gutter values conform to the 8-pt system."
-    },
-    {
-      "src": "rule_ibsrela_key_question_callout_style",
-      "dst": "rule_ibsrela_white_banner_callout_works_differently",
-      "type": "cluster",
-      "note": "Both define explicit callout styles for specific content devices."
-    },
-    {
-      "src": "rule_ibsrela_white_banner_callout_works_differently",
-      "dst": "rule_ibsrela_scene_paired_banner_callout_fixed_colors",
-      "type": "cluster",
-      "note": "Related callout-style specifications differing by content trigger."
-    },
-    {
-      "src": "rule_ibsrela_symptom_trio_completeness_and_no_substitution",
-      "dst": "rule_ibsrela_symptom_trio_icon_style_and_order",
-      "type": "refines",
-      "note": "Completeness/no-substitution rule reinforces the approved style and order binding."
-    },
-    {
-      "src": "rule_ibsrela_symptom_trio_placement_and_following_content",
-      "dst": "rule_ibsrela_symptom_trio_icon_style_and_order",
+      "src": "rule_ibsrela_sections_edge_to_edge_no_margin",
+      "dst": "rule_ibsrela_section_padding_and_gutters",
       "type": "co_applies",
-      "note": "Placement/following-content applies alongside the trio's icon style and order within the same section."
+      "note": "Sections rely solely on their own padding since no inter-section margin is allowed."
     },
     {
-      "src": "rule_ibsrela_cta_section_image_right_layout",
+      "src": "rule_ibsrela_callout_key_question_white_outline",
+      "dst": "rule_ibsrela_callout_white_banner_claim",
+      "type": "cluster",
+      "note": "Both define reserved callout style devices tied to specific verbatim messages."
+    },
+    {
+      "src": "rule_ibsrela_callout_scene_paired_banner_colors",
+      "dst": "rule_ibsrela_callout_white_banner_claim",
+      "type": "cluster",
+      "note": "Related callout banner treatments; scene-paired banners are campaign-specific."
+    },
+    {
+      "src": "rule_ibsrela_symptom_icon_trio_completeness",
+      "dst": "rule_ibsrela_symptom_icon_trio_style_and_order",
+      "type": "refines",
+      "note": "Completeness/no-reorder constraint reinforces the styled trio binding."
+    },
+    {
+      "src": "rule_ibsrela_symptom_trio_placement_and_composition",
+      "dst": "rule_ibsrela_symptom_icon_trio_style_and_order",
+      "type": "co_applies",
+      "note": "Placement/composition applies to the same styled trio section."
+    },
+    {
+      "src": "rule_ibsrela_cta_image_right_two_column_layout",
       "dst": "rule_ibsrela_global_left_alignment",
-      "type": "co_applies",
-      "note": "CTA section text (and button) follows the global left-alignment rule while any supporting image sits to the right."
-    },
-    {
-      "src": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
-      "dst": "rule_ibsrela_typography_hierarchy_parent_brand",
       "type": "refines",
-      "note": "Constrains the Heavy weight within the broader hierarchy to a single reserved use."
+      "note": "CTA section image placement refines the global left-alignment rule by defining where the supporting visual sits relative to the left-aligned text block."
     },
     {
-      "src": "rule_ibsrela_email_ppt_avenir_arial_substitution",
-      "dst": "rule_ibsrela_typography_hierarchy_parent_brand",
+      "src": "rule_ibsrela_isi_boxed_warning_heavy_reserved",
+      "dst": "rule_ibsrela_typography_hierarchy_parent_system",
+      "type": "refines",
+      "note": "Boxed-warning Heavy weight is the reserved exception within the parent hierarchy."
+    },
+    {
+      "src": "rule_ibsrela_avenir_arial_substitution_email_ppt",
+      "dst": "rule_ibsrela_typography_hierarchy_parent_system",
       "type": "overrides",
-      "note": "In email/PPT surfaces, Arial substitutes for the Avenir families named in the hierarchy."
+      "note": "In email/PPT, Arial substitutes for Avenir in the hierarchy's font mapping."
     },
     {
-      "src": "rule_ibsrela_boundary_gaps_resolved",
-      "dst": "rule_ibsrela_section_padding_ownership",
-      "type": "depends_on",
-      "note": "Boundary gaps are the deterministic outcome of the section-owned padding tokens."
-    },
-    {
-      "src": "rule_ibsrela_no_padding_override_no_spacers",
-      "dst": "rule_ibsrela_section_padding_ownership",
+      "src": "rule_ibsrela_never_override_padding_no_spacers",
+      "dst": "rule_ibsrela_section_padding_by_type",
       "type": "refines",
-      "note": "Enforcement rules that protect the section-padding-ownership model."
+      "note": "Enforces the fixed section-type padding by forbidding overrides and spacer rows."
     },
     {
-      "src": "rule_ibsrela_type_scale_isi_footer_locked",
+      "src": "rule_ibsrela_boundary_resulting_gaps",
+      "dst": "rule_ibsrela_section_padding_by_type",
+      "type": "depends_on",
+      "note": "Boundary gaps are the deterministic result of the fixed section padding tokens."
+    },
+    {
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
       "dst": "rule_ibsrela_type_scale_editorial",
       "type": "overrides",
-      "note": "Locked ISI/footer type build is exempt from editorial type-scale defaults."
+      "note": "Locked footer build type scale is not restyled by editorial content defaults."
+    },
+    {
+      "src": "rule_ibsrela_isi_footer_type_scale_locked",
+      "dst": "rule_ibsrela_isi_end_matter_locked_content",
+      "type": "co_applies",
+      "note": "Both govern the locked End Matter/ISI build."
     },
     {
       "src": "rule_ibsrela_campaign_headline_all_caps",
-      "dst": "rule_ibsrela_headline_body_case_defaults",
+      "dst": "rule_ibsrela_capitalization_case_by_element",
       "type": "overrides",
-      "note": "Campaign FLIP THE SCRIPT headlines override the default headline Title Case."
+      "note": "Flip The Script campaign headlines are ALL CAPS instead of default Title Case."
     },
     {
-      "src": "rule_ibsrela_flip_the_script_body_capitalization",
+      "src": "rule_ibsrela_campaign_name_in_body_title_case",
       "dst": "rule_ibsrela_campaign_headline_all_caps",
       "type": "refines",
-      "note": "In body copy the campaign name is title-cased, not the all-caps display treatment."
+      "note": "Distinguishes body-copy usage of the campaign name (Title Case) from its all-caps display headline."
     },
     {
       "src": "rule_ibsrela_flip_the_script_display_lockup",
-      "dst": "rule_ibsrela_campaign_headline_all_caps",
-      "type": "co_applies",
-      "note": "Display lockup is the styled form of the all-caps campaign headline."
-    },
-    {
-      "src": "rule_ibsrela_bold_reserved_usage",
-      "dst": "rule_ibsrela_bold_prohibited_targets",
-      "type": "cluster",
-      "note": "Positive reservation and prohibited targets are two sides of the same bolding policy."
-    },
-    {
-      "src": "rule_ibsrela_bold_reserved_usage",
-      "dst": "rule_ibsrela_no_bold_italic_combo_italic_reserved",
-      "type": "co_applies",
-      "note": "Emphasis controls governing bold and italic apply together in body copy."
-    },
-    {
-      "src": "rule_ibsrela_locked_top_end_matter_no_modify",
-      "dst": "rule_ibsrela_email_assembly_order",
-      "type": "refines",
-      "note": "Locked-component protection refines the mandatory assembly order."
-    },
-    {
-      "src": "rule_ibsrela_section_element_removal_only",
-      "dst": "rule_ibsrela_template_formation_no_add_sections",
-      "type": "refines",
-      "note": "Element-level removal rule refines the section-level no-add constraint."
-    },
-    {
-      "src": "rule_ibsrela_content_section_clean_edges_against_locked",
-      "dst": "rule_ibsrela_email_assembly_order",
-      "type": "depends_on",
-      "note": "Clean-edge seaming depends on the locked bracketing established by the assembly order."
-    },
-    {
-      "src": "rule_ibsrela_top_matter_audience_fixes_content",
-      "dst": "rule_ibsrela_top_matter_locked_no_logo_repeat",
-      "type": "cluster",
-      "note": "Both are inherited consequences of the LOCKED Top Matter."
-    },
-    {
-      "src": "rule_ibsrela_end_matter_locked_isi_footer",
-      "dst": "rule_ibsrela_primary_1_column_component_spec",
+      "dst": "rule_ibsrela_campaign_name_in_body_title_case",
       "type": "cross_reference",
-      "note": "Content body typography must match locked ISI body settings referenced in End Matter."
+      "note": "Display lockup is the visual treatment; body-copy usage follows the separate Title Case rule."
     },
     {
-      "src": "rule_ibsrela_dtp_second_person_everyday_life_framing",
-      "dst": "rule_ibsrela_dtp_ibsc_symptoms_phrasing",
+      "src": "rule_ibsrela_bold_prohibited_uses",
+      "dst": "rule_ibsrela_bold_reserved_uses",
+      "type": "refines",
+      "note": "Prohibited-uses list is the negative complement of the reserved-uses allowlist."
+    },
+    {
+      "src": "rule_ibsrela_no_bold_as_hierarchy_substitute",
+      "dst": "rule_ibsrela_bold_reserved_uses",
       "type": "co_applies",
-      "note": "Both govern the patient-facing voice/terminology of the same DTP copy."
+      "note": "Reinforces bold's reserved role by redirecting prominence needs to subheads/callouts."
+    },
+    {
+      "src": "rule_ibsrela_locked_matter_do_not_modify",
+      "dst": "rule_ibsrela_email_assembly_order_locked_brackets",
+      "type": "refines",
+      "note": "The locked-brackets in the mandatory order are the very Top/End Matter that must not be modified."
+    },
+    {
+      "src": "rule_ibsrela_clean_edges_against_locked_matter",
+      "dst": "rule_ibsrela_email_assembly_order_locked_brackets",
+      "type": "depends_on",
+      "note": "Clean-edge obligation depends on the fixed positions of the locked Top/End Matter."
+    },
+    {
+      "src": "rule_ibsrela_premade_templates_no_added_sections",
+      "dst": "rule_ibsrela_email_assembly_order_locked_brackets",
+      "type": "co_applies",
+      "note": "Template-formation choice operates within the mandatory assembly sequence."
+    },
+    {
+      "src": "rule_ibsrela_content_body_matches_isi_settings",
+      "dst": "rule_ibsrela_end_matter_locked_inheritance",
+      "type": "depends_on",
+      "note": "Content body settings inherit from the locked End Matter ISI body settings."
+    },
+    {
+      "src": "rule_ibsrela_references_coordinated_at_assembly",
+      "dst": "rule_ibsrela_end_matter_locked_inheritance",
+      "type": "depends_on",
+      "note": "Reference numbering resolves in/above the locked End Matter."
+    },
+    {
+      "src": "rule_ibsrela_content_audience_matches_header",
+      "dst": "rule_ibsrela_top_matter_locked_inheritance",
+      "type": "depends_on",
+      "note": "Content audience is fixed by the supplied locked header."
+    },
+    {
+      "src": "rule_ibsrela_dtp_ibs_c_symptoms_terminology",
+      "dst": "rule_ibsrela_dtp_second_person_everyday_life_voice",
+      "type": "co_applies",
+      "note": "Both govern DTP patient-facing copy voice and terminology."
+    },
+    {
+      "src": "rule_ibsrela_dtp_empathetic_lead_before_benefit",
+      "dst": "rule_ibsrela_dtp_second_person_everyday_life_voice",
+      "type": "refines",
+      "note": "Empathetic lead sequencing is a specific application of the everyday-life voice."
+    },
+    {
+      "src": "rule_ibsrela_dtp_cta_label_scope_and_topic_match",
+      "dst": "rule_ibsrela_dtp_cta_label_conventions",
+      "type": "refines",
+      "note": "Topic-matching and HCP-label exclusion refine the general DTP CTA label conventions."
     },
     {
       "src": "rule_ibsrela_dtp_poll_response_button",
       "dst": "rule_ibsrela_dtp_cta_label_conventions",
-      "type": "refines",
-      "note": "Poll response button is a specific styled instance of the general DTP CTA label conventions."
-    },
-    {
-      "src": "rule_ibsrela_dtp_cta_label_matches_section_topic",
-      "dst": "rule_ibsrela_dtp_cta_label_conventions",
       "type": "co_applies",
-      "note": "Topic-matching constrains which approved label is chosen per section."
-    },
-    {
-      "src": "rule_ibsrela_dtp_no_hcp_get_connected_label",
-      "dst": "rule_ibsrela_dtp_cta_label_conventions",
-      "type": "co_applies",
-      "note": "Excludes the HCP default label from the approved DTP label set."
+      "note": "Poll response buttons still follow the DTP sentence-case label conventions (e.g. \"Yes, I have\")."
     }
   ]
 }

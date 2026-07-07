@@ -36,7 +36,7 @@ Key attributes:
   - ordering: `{sequence: [...], strict}`
   - pairing: `{a, b, relation: requires|forbids}`
   - exclusivity: `{subject, reserved_for}`
-  - verbatim_content: `{content | governance_id, trigger}`
+  - verbatim_content: `{content, trigger}`
   May be null when the source statement resists structuring; `rule_text` is then authoritative.
 - `polarity`: must | must_not | should | should_not | may.
 - `hardness`: hard_constraint (compiled validator) | strong_default (prompt rule) |
@@ -44,5 +44,12 @@ Key attributes:
 - `precedence`: int, tie-break among rules matching the same query after selector specificity.
 - `rule_text` (WHAT, human-readable, faithful to source), `intent` (WHY, one line),
   `summary` (one-line compressed), `snippets` (illustrative MJML/SVG if any).
-- `governance_ids`: claims/disclosures gating this rule.
+- `governance`: compliance facet — set on rules that adjudicate claims, required language,
+  disclosures, or trademark use: `{gov_type: regulatory|legal|mlr_claim|disclosure|
+  trademark, verdict: allowed|forbidden|allowed_with_disclosure|requires_qualifier|
+  verbatim_only, preferred_form?: <exact verbatim string>, match?: {method}, severity:
+  info|warn|block}`. Governance is a FACET of a rule, not a separate entity — such rules
+  are almost always hard_constraint and surface in every normal rule query; filter them
+  explicitly with query_rules(has_governance/gov_type/verdict). severity meaning:
+  info -> prompt context, warn -> QA flag, block -> generation guard.
 - Provenance: `source`, `doc_ref`, `group_id` (the original blob it was atomized from).

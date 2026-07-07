@@ -41,7 +41,7 @@ SPECIALISTS: dict[str, dict[str, Any]] = {
                   "list_templates", "rules_for_token", "neighbors", "related_rules",
                   "resolve_token", "get_rules", "get_entity", "get_section_vocab"],
         "blurb": ("You are the GRAPH specialist. Navigate typed edges: section nodes "
-                  "(sec_hero, sec_cta, ...), rule->token/asset/governance links, semantic "
+                  "(sec_hero, sec_cta, ...), rule->token/asset links, semantic "
                   "token->primitive resolves_to edges, class/template fills_section and "
                   "hosts_section edges (rules_for_subtype = class view; rules_for_template "
                   "= instance view incl. usage_conditions and pick-one group alternates), "

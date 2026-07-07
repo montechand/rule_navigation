@@ -1,0 +1,36 @@
+{
+  "id": "rule_lisraya_dm_abbreviation_first_mention",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "accessibility"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "first_mention",
+      "value": "dermatomyositis"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "dermatomyositis (DM)",
+    "trigger": "first mention of dermatomyositis in a standalone section"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition; first-mention pattern is `dermatomyositis (DM)`. [GENERAL] Because sections are assembled later, every standalone section must establish `dermatomyositis (DM)` at its own first mention unless the assembly brief states the abbreviation is established upstream.",
+  "intent": "Ensure the abbreviation is defined per section so modular assembly never leaves DM undefined.",
+  "snippets": "dermatomyositis (DM)",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[4]",
+  "group_id": "grp_lisraya_content_pattern_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "After first mention, use \"dermatomyositis (DM)\" then \"DM\"; each standalone section must establish abbreviation unless brief states otherwise."
+}

@@ -1,0 +1,48 @@
+{
+  "id": "rule_ibsrela_white_section_body_highlight_black_bold",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "typography"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "body.highlight.color"
+  },
+  "applies_when": [
+    {
+      "kind": "background_group",
+      "value": "white"
+    }
+  ],
+  "evaluation_scope": "sentence",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "body.highlight.color",
+        "token_id": "tok_ibsrela_body_highlight_color"
+      },
+      {
+        "element_path": "body.highlight.weight",
+        "token_id": "tok_ibsrela_body_highlight_weight"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_body_highlight_color",
+    "tok_ibsrela_body_highlight_weight"
+  ],
+  "asset_ids": [],
+  "rule_text": "To highlight body text on a white section (not headings, sub-headings or titles), it must be black colored and bold (body.highlight.color / body.highlight.weight). Blue or purple may not be used within the body section of a paragraph.",
+  "intent": "Keep in-body emphasis on white to black+bold, never re-purposing headline colors inside body copy.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[0]",
+  "group_id": "grp_ibsrela_color_scheme_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "In white sections, body text highlights must be black and bold; blue or purple are prohibited in paragraph body text."
+}

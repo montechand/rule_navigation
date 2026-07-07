@@ -52,6 +52,18 @@ section?** (Benchmarked later against humans doing the same task; FNR-first.)
   at validation. New tools: `list_templates`, `rules_for_template` (instance view:
   rules via class + via filled sections + own usage_conditions + group alternates).
 
+## Governance as a rule facet (this branch)
+
+The standalone `governance` entity is retired. Compliance statements (required
+disclosures, mandated qualifiers, verbatim-only messaging, trademark adjudications) are
+ordinary `brand_rule` rows carrying a `governance` facet:
+`{gov_type, verdict, preferred_form?, match?, severity}` — the exact required strings
+live in `governance.preferred_form`, and such rules land as `hard_constraint`. They
+surface in every normal rule query (no separate corner for the agent to forget) and are
+filterable via `query_rules(has_governance / gov_type / verdict)`; `keyword_search`
+indexes the verbatim strings. MLR-specific bookkeeping (`evidence`, `effective_from`,
+`expires_at`) was dropped for now.
+
 Inputs: a structured brand-rules KB (migrated from the design bibles) + an email blueprint
 (`content_blueprint[]`, with or without per-section `design_concept`).
 Output per section: `targeted_rules` (precisely scoped to that section) and

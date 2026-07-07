@@ -83,6 +83,7 @@ def hydrate_rules(kb: KB, result: RunResult) -> dict[str, Any]:
             "polarity": rule.polarity,
             "constraint_type": rule.constraint_type,
             "applies_when": [p.model_dump(exclude_none=True) for p in rule.applies_when] if rule.applies_when else None,
+            "governance": rule.governance,  # incl. preferred_form verbatims for generation
             "summary": rule.summary,
             "rule_text": rule.rule_text,
         }

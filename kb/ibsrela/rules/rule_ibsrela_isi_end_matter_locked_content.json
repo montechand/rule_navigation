@@ -1,0 +1,43 @@
+{
+  "id": "rule_ibsrela_isi_end_matter_locked_content",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "copy_editorial"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_end_matter"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "section_types": [
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "regulatory",
+    "verdict": "verbatim_only",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "The End Matter \u2014 ISI ('What is IBSRELA?', 'IMPORTANT RISK INFORMATION', 'Side Effects', boxed-warning reference) and the legal footer/unsubscribe block \u2014 is a fixed system constant and is NOT restyled or altered by these content defaults.",
+  "intent": "Guarantee regulatory ISI/legal content remains the approved locked build.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_ibsrela_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "End Matter\u2014ISI texts and legal footer/unsubscribe block fixed system constants; never restyled or altered by content defaults."
+}

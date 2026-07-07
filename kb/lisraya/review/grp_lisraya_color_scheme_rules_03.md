@@ -18,19 +18,24 @@ doc_ref: `color_scheme_rules[3]`
 - Used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark. Approved values only.
 ````
 
-## Extracted rules (3)
+## Extracted rules (4)
 
-### rule_lisraya_approved_gradient_set_only
+### rule_lisraya_approved_gradients_only
 - class=color_application scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
-- rule_text: Never invent gradients. Only the approved gradient set may be used: Brand Blue → Dark Navy (tok_lisraya_gradient_brand_blue_dark_navy), Sky Blue → Deep Blue (tok_lisraya_gradient_sky_blue_deep_blue), Sunshine → 75% Gold (tok_lisraya_gradient_sunshine_gold75), Golden Sand → White → Light Blue (tok_lisraya_gradient_goldensand_white_lightblue), Golden Sand → 75% Gold → Sunshine (tok_lisraya_gradient_goldensand_gold75_sunshine), and the Masthead Sunshine → light gold gradient (tok_lisraya_gradient_masthead_sunshine_lightgold). Approved values only; gradients are used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark.
-- intent: Restrict gradient usage to the approved palette-derived set to preserve brand consistency.
+- rule_text: Never invent gradients. Only the approved gradient set may be used: Brand Blue → Dark Navy (tok_lisraya_gradient_brand_blue_dark_navy), Sky Blue → Deep Blue (tok_lisraya_gradient_sky_blue_deep_blue), Sunshine → 75% Gold (tok_lisraya_gradient_sunshine_gold75), Golden Sand → White → Light Blue (tok_lisraya_gradient_goldensand_white_lightblue), Golden Sand → 75% Gold → Sunshine (tok_lisraya_gradient_goldensand_gold75_sunshine), and the Masthead Sunshine → light gold (tok_lisraya_gradient_masthead_sunshine_lightgold). Approved values only.
+- intent: Keep gradient usage on-brand and prevent ad-hoc color blends.
 
-### rule_lisraya_masthead_gradient_with_logo_mark
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=['top_matter'] constraint=binding
-- rule_text: The Masthead gradient (Sunshine → light gold, tok_lisraya_masthead_gradient) is the gradient to use with the LISRAYA logo mark for contrast; the logo mark sits at the lightest end of the gradient.
-- intent: Ensure the logo mark reads clearly by pairing it with the designated masthead gradient at its lightest end.
+### rule_lisraya_gradient_usage_contexts
+- class=color_application scope=brand hardness=strong_default polarity=should sections=None constraint=binding
+- rule_text: Approved gradients are used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark. Match gradient to context: Brand Blue → Dark Navy for dark backgrounds and blue masthead/waves; Sky Blue → Deep Blue for blue backgrounds and waves; Sunshine → 75% Gold for warm backgrounds; Golden Sand → White → Light Blue for soft light backgrounds; Golden Sand → 75% Gold → Sunshine for warm light-to-saturated backgrounds.
+- intent: Guide selection of the correct approved gradient per surface context.
 
 ### rule_lisraya_gradient_horizontal_direction
-- class=color_application scope=brand hardness=strong_default polarity=must sections=['top_matter'] constraint=binding
+- class=color_application scope=brand hardness=hard_constraint polarity=must sections=['top_matter'] constraint=binding
 - rule_text: In masthead/banner applications, gradients run horizontally: dark/saturated → light, left → right (tok_lisraya_gradient_angle_horizontal).
-- intent: Standardize gradient direction across masthead and banner applications.
+- intent: Ensure consistent gradient direction in masthead and banner layouts.
+
+### rule_lisraya_masthead_gradient_logo_mark_contrast
+- class=color_application scope=brand hardness=hard_constraint polarity=must sections=['top_matter'] constraint=binding
+- rule_text: The Masthead gradient (Sunshine → light gold ≈#ffe05c, tok_lisraya_gradient_masthead_sunshine_lightgold) is the gradient to use with the logo mark for contrast; the logo mark sits at the lightest end of the gradient.
+- intent: Guarantee logo-mark legibility against the masthead gradient.

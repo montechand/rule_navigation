@@ -1,0 +1,45 @@
+{
+  "id": "rule_ibsrela_adjacent_section_theme_edges_transition",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "layout",
+    "color_application"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "adjacent_section_state",
+      "value": "edge_meeting"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.wave_edge",
+        "token_id": "tok_ibsrela_section_wave_edge"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_section_wave_edge"
+  ],
+  "asset_ids": [],
+  "rule_text": "Sections must declare their theme background at their top and bottom edge so adjacent sections either match or transition via a wave edge \u2014 never a hard unstyled seam. The first section must meet the header on white/theme; the last section must end on a background the locked footer's wave edge is approved against.",
+  "intent": "Prevent unstyled seams between independently authored sections and ensure clean handoff to locked header/footer.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[1]",
+  "group_id": "grp_ibsrela_other_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Sections must declare theme backgrounds at top/bottom edges for seamless or wave transitions; first section meets header on white/theme; last ends with footer-approved wave background."
+}

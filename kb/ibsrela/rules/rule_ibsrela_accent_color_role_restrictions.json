@@ -1,0 +1,29 @@
+{
+  "id": "rule_ibsrela_accent_color_role_restrictions",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "accessibility"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "email",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "accent colors (Green, Dark Gray, Silver)",
+    "reserved_for": "Green -> CTA fills and small accents; Dark Gray -> charts/secondary UI only; Silver -> never for text"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "[BASELINE] Never set body copy in Purple or Green. Reserve Green (tok_ibsrela_color_green) for CTA fills and small accents; reserve Dark Gray (tok_ibsrela_color_dark_gray) for charts/secondary UI only; never use Silver (tok_ibsrela_color_silver) for text.",
+  "intent": "Keep accent colors in their reserved roles so they never dilute the primary palette or harm text legibility.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[0]",
+  "group_id": "grp_ibsrela_color_scheme_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Do not use Purple or Green for body copy; use Green (tok_ibsrela_color_green) only for CTA fills and accents; Dark Gray for charts/UI; Silver never for text."
+}

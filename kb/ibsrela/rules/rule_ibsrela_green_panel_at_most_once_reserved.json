@@ -1,0 +1,41 @@
+{
+  "id": "rule_ibsrela_green_panel_at_most_once_reserved",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "assembly"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "affordability",
+      "symptom_trio"
+    ],
+    "element_path": "dtp.green_panel.background"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "tok_ibsrela_dtp_green_panel_color",
+    "reserved_for": "affordability block OR symptom-icon trio (never both stacked), max once per email"
+  },
+  "polarity": "must_not",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_dtp_green_panel_color"
+  ],
+  "asset_ids": [],
+  "rule_text": "Within one email, the green panel (#01A47E) appears at most once and is reserved for either the affordability block or the symptom-icon trio \u2014 never both stacked.",
+  "intent": "Preserve the green accent as a rare, single-purpose emphasis panel per email.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[4]",
+  "group_id": "grp_ibsrela_color_scheme_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "Green panel (#01A47E) appears once per email, reserved for either affordability block or symptom-icon trio, never both stacked."
+}

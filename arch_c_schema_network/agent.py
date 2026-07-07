@@ -5,7 +5,8 @@ A fixed parallel fan-out of four shard agents, each owning one region of the sch
   color_typography — color_application + typography rules, token bindings/gating
   imagery_assets   — imagery + iconography rules, design_assets, pairings, asset groups
   layout_assembly  — layout/spacing/assembly/cta rules, content_sub_types, cardinality
-  copy_governance  — copy_editorial/voice_tone/accessibility rules, governance verbatims
+  copy_governance  — copy_editorial/voice_tone/accessibility rules incl. governance-faceted
+                     rules (disclosures/qualifiers/verbatim language)
 
 Each shard explores only its region (scoped tools + scoped facet queries) and reports
 {targeted, email_wide, evidence}. A Composer agent merges the reports, resolves
@@ -80,10 +81,12 @@ SHARDS: dict[str, dict[str, Any]] = {
                   "get_entity", "get_section_vocab"],
         "blurb": ("You own COPY, VOICE and GOVERNANCE: editorial style, abbreviations, "
                   "capitalization in copy, inclusive language, claims/disclosures/"
-                  "qualifiers (governance rows carry the verbatim strings — grep or "
-                  "get_entity them), trademark usage, CTA label conventions, accessibility "
-                  "copy rules (alt text, contrast reliance). Match the section's copy "
-                  "outline against governance subjects."),
+                  "qualifiers, trademark usage, CTA label conventions, accessibility "
+                  "copy rules (alt text, contrast reliance). Governance/compliance items "
+                  "are ordinary rules carrying a `governance` facet whose preferred_form "
+                  "holds the exact verbatim string — enumerate them exhaustively with "
+                  "query_rules(has_governance=true) and match the section's copy outline "
+                  "against them; keyword_search also indexes the verbatim strings."),
     },
 }
 

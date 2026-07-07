@@ -11,7 +11,7 @@ GLOBAL_CONVENTIONS = """# Global conventions
   A rule with `selector.section_types = null` applies to EVERY section; treat those as
   candidates for email-wide/baseline rules.
 - IDs: `{entity_prefix}_{brand}_{slug}`. Prefixes: `rule_` brand_rule, `tok_` brand_token,
-  `ast_` design_asset, `gov_` governance, `sub_` content_sub_type (structural class),
+  `ast_` design_asset, `sub_` content_sub_type (structural class),
   `tpl_` design_template (concrete instance), `tgr_` template_group, `grp_` rule_group,
   `agr_` asset_group.
 - `token_ids` / `asset_ids` on a rule are derived indices of what its `effect` references.
@@ -56,7 +56,7 @@ Key attributes:
   - ordering: `{sequence: [...], strict}`
   - pairing: `{a, b, relation: requires|forbids}`
   - exclusivity: `{subject, reserved_for}`
-  - verbatim_content: `{content | governance_id, trigger}`
+  - verbatim_content: `{content, trigger}`
   May be null when the source statement resists structuring; `rule_text` is then authoritative.
 - `polarity`: must | must_not | should | should_not | may.
 - `hardness`: hard_constraint (compiled validator) | strong_default (prompt rule) |
@@ -64,7 +64,14 @@ Key attributes:
 - `precedence`: int, tie-break among rules matching the same query after selector specificity.
 - `rule_text` (WHAT, human-readable, faithful to source), `intent` (WHY, one line),
   `summary` (one-line compressed), `snippets` (illustrative MJML/SVG if any).
-- `governance_ids`: claims/disclosures gating this rule.
+- `governance`: compliance facet — set on rules that adjudicate claims, required language,
+  disclosures, or trademark use: `{gov_type: regulatory|legal|mlr_claim|disclosure|
+  trademark, verdict: allowed|forbidden|allowed_with_disclosure|requires_qualifier|
+  verbatim_only, preferred_form?: <exact verbatim string>, match?: {method}, severity:
+  info|warn|block}`. Governance is a FACET of a rule, not a separate entity — such rules
+  are almost always hard_constraint and surface in every normal rule query; filter them
+  explicitly with query_rules(has_governance/gov_type/verdict). severity meaning:
+  info -> prompt context, warn -> QA flag, block -> generation guard.
 - Provenance: `source`, `doc_ref`, `group_id` (the original blob it was atomized from).
 """
 
@@ -183,19 +190,6 @@ Rule inheritance: a template obeys (a) rules scoped to its class via content_sub
 directly.
 """
 
-GOVERNANCE_DOC = """# Entity: governance
-
-Regulatory/legal/MLR adjudication of claims and required language.
-
-- `gov_type`: regulatory | legal | mlr_claim | disclosure | trademark.
-- `subject`: the claim/topic being adjudicated.
-- `match`: `{method: semantic|lexical|exact, threshold?}` — how generated text triggers it.
-- `verdict`: allowed | forbidden | allowed_with_disclosure | requires_qualifier | verbatim_only.
-- `preferred_form`: the verbatim string (disclosure text, qualifier, approved claim wording).
-- `severity`: info (prompt context) | warn (QA flag) | block (generation guard).
-- Rules referencing a governance row carry it in `governance_ids`.
-"""
-
 def support_entities_doc() -> str:
     from shared.registries import get_registries
 
@@ -291,7 +285,6 @@ def entity_docs() -> dict[str, str]:
         "design_asset": DESIGN_ASSET_DOC,
         "content_sub_type": CONTENT_SUB_TYPE_DOC,
         "design_template": DESIGN_TEMPLATE_DOC,
-        "governance": GOVERNANCE_DOC,
         "support_entities": support_entities_doc(),
         "predicate_registry": PREDICATE_REGISTRY_DOC,
     }
@@ -303,10 +296,10 @@ def overview_doc(brand: str, counts: dict[str, int]) -> str:
 This KB is the structured form of the {brand.upper()} design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: {counts.get('rules', 0)} brand_rules (topic clusters),
-{counts.get('tokens', 0)} brand_tokens ({counts.get('tokens_primitive', 0)} primitive /
-{counts.get('tokens_semantic', 0)} semantic), {counts.get('assets', 0)} design_assets,
-{counts.get('governance', 0)} governance rows, {counts.get('subtypes', 0)} content_sub_type
+Contents: {counts.get('rules', 0)} brand_rules (topic clusters; {counts.get('rules_governance', 0)}
+carry the governance/compliance facet), {counts.get('tokens', 0)} brand_tokens
+({counts.get('tokens_primitive', 0)} primitive / {counts.get('tokens_semantic', 0)} semantic),
+{counts.get('assets', 0)} design_assets, {counts.get('subtypes', 0)} content_sub_type
 classes, {counts.get('templates', 0)} design_templates in {counts.get('template_groups', 0)}
 template_groups, {counts.get('rule_groups', 0)} rule_groups,
 {counts.get('asset_groups', 0)} asset_groups.
@@ -317,13 +310,19 @@ template_groups, {counts.get('rule_groups', 0)} rule_groups,
 - `rules/_index.json` — compact row per rule (id, rule_class, tags, sections, scope,
   hardness, polarity, constraint_type, applies_when, one-line summary)
 - `rules/{{rule_id}}.json` — full rule rows
-- `tokens/ assets/ subtypes/ governance/` — side entities, each with `_index.json`
+- `tokens/ assets/ subtypes/` — side entities, each with `_index.json`
 - `templates/` — concrete approved artifacts: bodies as `{{id}}.mjml`, metadata in
   `_meta/{{id}}.json`, index in `_index.json`
 - `groups/rule_groups.json` — original pre-atomization text blobs (provenance)
 - `groups/asset_groups.json`, `groups/template_groups.json`, `groups/relations.json`
 - `graph/graph.json` — nodes + typed edges (rule->section, rule->token, rule->asset,
-  rule->governance, rule->group, asset->token, asset->asset_group, rule->rule)
+  rule->group, class/template->section, template->class/group, asset->token,
+  asset->asset_group, rule->rule)
+
+Governance/compliance is a RULE FACET, not an entity: disclosures, required qualifiers,
+verbatim messaging, and trademark adjudications are brand_rules with `governance` set
+(the exact required strings live in governance.preferred_form). They surface in every
+normal rule query; filter with query_rules(has_governance / gov_type / verdict).
 
 ## Token-first layering
 

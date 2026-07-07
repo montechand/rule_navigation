@@ -13,22 +13,22 @@ doc_ref: `content_pattern_rules[6]`
 
 ## Extracted rules (4)
 
-### rule_lisraya_callout_three_styles_no_repeat
+### rule_lisraya_callout_style_exclusivity
 - class=layout scope=brand hardness=hard_constraint polarity=must_not sections=['callout'] constraint=exclusivity
-- rule_text: There are three approved callout styles (Main callout, Secondary/data callout, Text-heavy callout); use them judiciously and never have two of the same style competing on one screen or section.
-- intent: Prevent visual redundancy and preserve callout hierarchy.
+- rule_text: There are three approved callout styles (main callout, secondary/data callout, text-heavy callout). Use them judiciously; never place two of the same style competing on one screen/section.
+- intent: Prevent visual competition/redundancy among callout devices.
 
-### rule_lisraya_callout_main_key_point
+### rule_lisraya_main_callout_key_point
 - class=color_application scope=brand hardness=strong_default polarity=must sections=['callout'] constraint=binding
-- rule_text: Main callout (key point): Bold Brand Blue text with Gold horizontal rules above and below, centered. [GENERAL] rule weight 2px, rule width ≈ 60–100% of the text block, and 16px padding between rule and text.
+- rule_text: Main callout (key point): Bold Brand Blue text with Gold horizontal rules above and below, centered. Rule weight 2px, rule width ≈60–100% of the text block, 16px padding between rule and text.
 - intent: Standardize the key-point callout treatment.
 
-### rule_lisraya_callout_secondary_data
+### rule_lisraya_secondary_data_callout
 - class=color_application scope=brand hardness=strong_default polarity=must sections=['callout'] constraint=binding
-- rule_text: Secondary/data callout: Light Blue box at 70% tint with Bold Brand Blue text; may include one line icon (e.g., 1x pill icon). [GENERAL] 20px internal padding, corner radius per accent-shape rules §2.5.
-- intent: Standardize the supporting/data callout treatment.
+- rule_text: Secondary/data callout: Light Blue box at 70% tint with Bold Brand Blue text; may include one line icon (e.g., 1x pill icon). 20px internal padding; corner radius per accent-shape rules §2.5.
+- intent: Standardize the data callout treatment.
 
-### rule_lisraya_callout_text_heavy_list
+### rule_lisraya_text_heavy_callout
 - class=color_application scope=brand hardness=strong_default polarity=must sections=['callout'] constraint=binding
-- rule_text: Text-heavy callout (lists/descriptions): Golden Sand box at 30% tint, Bold Brand Blue headline, line icons, Bold Sky Blue subheads, Regular Graphite body text. [GENERAL] 24px internal padding; two-column icon+text layout collapses to single column on mobile.
-- intent: Standardize the list/description callout treatment and its mobile reflow.
+- rule_text: Text-heavy callout (lists/descriptions): Golden Sand box at 30% tint, Bold Brand Blue headline, line icons, Bold Sky Blue subheads, Regular Graphite body text. 24px internal padding; two-column icon+text layout collapses to single column on mobile.
+- intent: Standardize the text-heavy callout treatment for lists/descriptions.

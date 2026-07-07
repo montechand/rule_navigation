@@ -1,0 +1,44 @@
+{
+  "id": "rule_ibsrela_flip_the_script_campaign_palette_ratio",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "accessibility"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "element_path": "palette.usage_ratio"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "palette.usage_ratio",
+        "token_id": "tok_ibsrela_palette_usage_ratio"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_palette_usage_ratio"
+  ],
+  "asset_ids": [],
+  "rule_text": "For Flip The Script campaign pieces, the three campaign colors (Periwinkle #7B7BED, Purple #92278F, Green #01A47E) are used at an even 33% / 33% / 33% ratio (palette.usage_ratio campaign variant). In campaign-specific pieces these colors act as accents to the branded palette, not as replacements for it.",
+  "intent": "Keep campaign color usage balanced and subordinate to the core brand palette.",
+  "snippets": "Ratio across the three campaign colors: 33% / 33% / 33%.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_ibsrela_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Flip The Script campaign uses Periwinkle #7B7BED, Purple #92278F, Green #01A47E evenly (33% each) as accents, not replacing the branded palette."
+}

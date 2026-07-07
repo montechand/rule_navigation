@@ -7,42 +7,27 @@
     "section_types": [
       "chart"
     ],
-    "element_path": "chart.series"
+    "element_path": "chart.series.color"
   },
   "evaluation_scope": "section",
-  "constraint_type": "binding",
+  "constraint_type": "exclusivity",
   "effect": {
-    "assignments": [
-      {
-        "element_path": "chart.series.color",
-        "token_id": "tok_lisraya_chart_color_dominant"
-      },
-      {
-        "element_path": "chart.emphasis.color",
-        "token_id": "tok_lisraya_chart_emphasis_color"
-      },
-      {
-        "element_path": "chart.placebo.color",
-        "token_id": "tok_lisraya_chart_placebo_color"
-      }
-    ]
+    "subject": "tok_lisraya_chart_emphasis_color",
+    "reserved_for": "emphasis on key figures/data points only"
   },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_chart_color_dominant",
-    "tok_lisraya_chart_emphasis_color",
-    "tok_lisraya_chart_placebo_color"
+    "tok_lisraya_chart_emphasis_color"
   ],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "Chart color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) are dominant for series; Sunshine (#faa31b) and Gold (#ffc60a) are reserved for emphasis on key figures/data points only. Placebo/comparator series use a neutral gray.",
-  "intent": "Reserve warm accents for emphasis so key data points stand out.",
+  "rule_text": "Chart color logic: Brand Blue and Sky Blue are dominant series colors (chart.series.dominant_color); Sunshine and Gold (chart.emphasis.color) are reserved for emphasis on key figures/data points only. Placebo/comparator series use neutral gray (chart.placebo.color).",
+  "intent": "Direct viewer attention to key data using reserved emphasis colors while keeping dominant/comparator series neutral.",
   "source": "design_bible",
   "doc_ref": "design_pattern_rules[4]",
   "group_id": "grp_lisraya_design_pattern_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "Use Brand Blue (#00529b) and Sky Blue (#358CCB) for series, Sunshine (#faa31b) and Gold (#ffc60a) for key emphasis, neutral gray for placebo/comparator."
+  "summary": "Use Brand Blue and Sky Blue for dominant series, Sunshine and Gold for emphasis on key data, neutral gray for placebo/comparator series colors in charts."
 }

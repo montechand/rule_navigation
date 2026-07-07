@@ -1,0 +1,50 @@
+{
+  "id": "rule_ibsrela_email_assembly_order_locked_brackets",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_top_matter",
+    "sub_ibsrela_primary_1_column",
+    "sub_ibsrela_primary_2_column",
+    "sub_ibsrela_secondary",
+    "sub_ibsrela_end_matter"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "top_matter",
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "ordering",
+  "effect": {
+    "sequence": [
+      "top_matter",
+      "primary_1_column",
+      "primary_2_column",
+      "secondary",
+      "end_matter"
+    ],
+    "strict": true
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "Every SFMC email is built by stacking components in a mandatory sequence: (1) Top Matter \u2014 LOCKED, supplied; (2) Email / Primary 1 Column (optional); (3) Email / Primary 2 Column (optional); (4) Email / Secondary (optional, may be repeated); (5) End Matter \u2014 LOCKED, supplied. The two required LOCKED components (Top Matter and End Matter) bracket one or more optional content components. The Secondary component may be repeated.",
+  "intent": "Guarantee a consistent, compliant email skeleton bracketed by locked, supplied components.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[4]",
+  "group_id": "grp_ibsrela_content_pattern_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "SFMC emails stack: (1) Top Matter LOCKED, (2) optional Primary 1 Col, (3) optional Primary 2 Col, (4) optional repeatable Secondary, (5) End Matter LOCKED."
+}

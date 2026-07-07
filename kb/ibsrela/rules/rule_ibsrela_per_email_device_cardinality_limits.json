@@ -1,0 +1,40 @@
+{
+  "id": "rule_ibsrela_per_email_device_cardinality_limits",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "cta",
+    "iconography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "section_types": [
+      "cta",
+      "callout"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "cardinality",
+  "effect": {
+    "target": "cta",
+    "min": null,
+    "max": 3,
+    "per": "email"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "Only one Wave graphic and only one key-strategic-question callout are allowed per email. One primary CTA per section, with a maximum of ~3 CTAs per email.",
+  "intent": "Cap repeatable devices so assembled emails stay focused and on-strategy.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[1]",
+  "group_id": "grp_ibsrela_other_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "One Wave graphic and one key-strategic-question callout per email; one primary CTA per section; max ~3 CTAs per email."
+}

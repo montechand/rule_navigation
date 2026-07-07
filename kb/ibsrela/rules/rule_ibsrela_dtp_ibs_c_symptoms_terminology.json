@@ -1,0 +1,42 @@
+{
+  "id": "rule_ibsrela_dtp_ibs_c_symptoms_terminology",
+  "brand_id": "ibsrela",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "voice_tone"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "IBS-C symptoms",
+    "trigger": "referring to the patient's condition or listing the three symptoms"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "mlr_claim",
+    "verdict": "verbatim_only",
+    "preferred_form": "IBS-C symptoms",
+    "match": {
+      "method": "lexical"
+    },
+    "severity": "warn"
+  },
+  "rule_text": "Use the phrase \"IBS-C symptoms\" (constipation, belly pain, and/or bloating) \u2014 not \"your condition\" or clinical jargon \u2014 and consistently name the three symptoms together when listing benefits.",
+  "intent": "Enforce approved, plain-language symptom terminology and consistent triad naming.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[6]",
+  "group_id": "grp_ibsrela_content_pattern_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Use \"IBS-C symptoms\" (constipation, belly pain, bloating), avoid clinical jargon, consistently list all three symptoms together when stating benefits."
+}

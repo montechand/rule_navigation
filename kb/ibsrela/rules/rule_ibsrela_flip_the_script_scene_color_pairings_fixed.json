@@ -1,0 +1,42 @@
+{
+  "id": "rule_ibsrela_flip_the_script_scene_color_pairings_fixed",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "imagery"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.scene_banner.fill"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "pairing",
+  "effect": {
+    "a": "scene",
+    "b": "campaign_color",
+    "relation": "requires"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "Scene-color pairings are fixed and may not be used interchangeably: Periwinkle pairs with Office, Purple with Cafe, Green with Soccer. The scene-banner fill (callout.scene_banner.fill, content_tag variants) must follow these locked pairings.",
+  "intent": "Preserve consistent visual identity by locking each scene to its campaign color.",
+  "snippets": "**Scene-color pairings are fixed and may not be used interchangeably.**",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[1]",
+  "group_id": "grp_ibsrela_color_scheme_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Scene-banner fill colors must match fixed pairs: Periwinkle-Office, Purple-Cafe, Green-Soccer; no interchange allowed in content_tag variants."
+}

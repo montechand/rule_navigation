@@ -1,0 +1,58 @@
+{
+  "id": "rule_ibsrela_section_padding_and_gutters",
+  "brand_id": "ibsrela",
+  "rule_class": "spacing",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.padding.sides",
+        "token_id": "tok_ibsrela_section_padding_sides"
+      },
+      {
+        "element_path": "section.padding.vertical",
+        "token_id": "tok_ibsrela_section_padding_vertical"
+      },
+      {
+        "element_path": "grid.two_column.gutter",
+        "token_id": "tok_ibsrela_two_column_gutter"
+      },
+      {
+        "element_path": "card.internal.padding",
+        "token_id": "tok_ibsrela_card_padding"
+      },
+      {
+        "element_path": "image.text.gap",
+        "token_id": "tok_ibsrela_image_text_gap"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_card_padding",
+    "tok_ibsrela_image_text_gap",
+    "tok_ibsrela_section_padding_sides",
+    "tok_ibsrela_section_padding_vertical",
+    "tok_ibsrela_two_column_gutter"
+  ],
+  "asset_ids": [],
+  "rule_text": "Outer/container side padding is 24 px desktop / 16 px mobile inside every section; section vertical padding is 32 px top and bottom desktop / 24 px mobile; two-column gutter is 24 px desktop with columns stacking at 24 px vertical gap on mobile; card internal padding is 16 px all sides; image-to-text gap is 16 px.",
+  "intent": "Standardize internal padding and gutters so sections read as one system.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[1]",
+  "group_id": "grp_ibsrela_design_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Outer padding 24px desktop/16px mobile; section vertical 32px desktop/24px mobile; two-column gutter 24px desktop/24px stacked mobile; card/internal padding 16px all; image-text gap 16px."
+}

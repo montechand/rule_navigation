@@ -1,0 +1,53 @@
+{
+  "id": "rule_lisraya_icon_callout_accent_radius_never_change",
+  "brand_id": "lisraya",
+  "rule_class": "layout",
+  "audience": "dtp_patient",
+  "content_types": [
+    "email",
+    "print"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "icon_callout.box.radius"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "icon_callout.box.radius",
+        "token_id": "tok_lisraya_radius_icon_callout_box"
+      },
+      {
+        "element_path": "icon_callout.badge.radius",
+        "token_id": "tok_lisraya_radius_icon_callout_badge"
+      },
+      {
+        "element_path": "accent_shape.ratio",
+        "token_id": "tok_lisraya_ratio_radius_5_1"
+      }
+    ]
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [
+    "tok_lisraya_radius_icon_callout_badge",
+    "tok_lisraya_radius_icon_callout_box",
+    "tok_lisraya_ratio_radius_5_1"
+  ],
+  "asset_ids": [],
+  "rule_text": "Corner radius is mandatory and must never change: the box is border-radius 40px 8px 40px 8px (TL TR BR BL) \u2014 large on top-left + bottom-right, near-point on top-right + bottom-left, a 5:1 ratio. The white badge mirrors the same accent shape at smaller scale, border-radius 20px 4px 20px 4px (also 5:1, large TL+BR). Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+  "intent": "Preserve the signature 5:1 asymmetric accent-shape identity on both box and badge.",
+  "snippets": "border-radius:40px 8px 40px 8px;  /* box */   border-radius:20px 4px 20px 4px; /* badge */",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[6]",
+  "group_id": "grp_lisraya_color_scheme_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Corner radius fixed: box border-radius 40px 8px 40px 8px (TL TR BR BL), badge 20px 4px 20px 4px, 5:1 large TL+BR, no swaps or simplifications."
+}

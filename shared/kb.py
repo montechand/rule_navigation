@@ -4,7 +4,7 @@ On-disk layout produced by indexing/build_kb.py under kb/{brand}/:
   schema/*.md                      entity docs, section vocab, predicate registry
   rules/{rule_id}.json             one file per brand_rule
   rules/_index.json                compact row per rule
-  tokens|assets|subtypes|governance/{id}.json + _index.json
+  tokens|assets|subtypes/{id}.json + _index.json
   groups/rule_groups.json, asset_groups.json, relations.json
   graph/graph.json                 {nodes:[{id,kind,label}], edges:[{src,dst,type}]}
   review/*.md                      original blob vs extracted rules
@@ -26,7 +26,6 @@ from .schemas import (
     ContentSubType,
     DesignAsset,
     DesignTemplate,
-    Governance,
     RuleGroup,
     RuleRelation,
     TemplateGroup,
@@ -36,7 +35,6 @@ ENTITY_PREFIXES = {
     "rule_": "rule",
     "tok_": "token",
     "ast_": "asset",
-    "gov_": "governance",
     "sub_": "subtype",
     "tpl_": "template",
     "tgr_": "template_group",
@@ -88,9 +86,6 @@ class KB:
         self.subtypes: dict[str, ContentSubType] = {
             k: ContentSubType(**v) for k, v in _load_dir(self.root / "subtypes").items()
         }
-        self.governance: dict[str, Governance] = {
-            k: Governance(**v) for k, v in _load_dir(self.root / "governance").items()
-        }
         # design_template metadata lives in templates/_meta/*.json; bodies are the
         # sibling .mjml files referenced by DesignTemplate.file.
         self.templates: dict[str, DesignTemplate] = {
@@ -133,11 +128,11 @@ class KB:
     # ------------------------------------------------------------------
     def exists(self, entity_id: str) -> bool:
         return any(entity_id in store for store in (
-            self.rules, self.tokens, self.assets, self.subtypes, self.governance,
+            self.rules, self.tokens, self.assets, self.subtypes,
             self.templates, self.template_groups, self.rule_groups, self.asset_groups))
 
     def get_any(self, entity_id: str) -> Optional[dict[str, Any]]:
-        for store in (self.rules, self.tokens, self.assets, self.subtypes, self.governance,
+        for store in (self.rules, self.tokens, self.assets, self.subtypes,
                       self.templates, self.template_groups, self.rule_groups, self.asset_groups):
             if entity_id in store:
                 return store[entity_id].model_dump(exclude_none=True)
@@ -149,7 +144,7 @@ class KB:
     # ------------------------------------------------------------------
     def short_rule(self, rule: BrandRule) -> dict[str, Any]:
         """Compact view used in indices/tool results to keep agent context small."""
-        return {
+        out = {
             "id": rule.id,
             "rule_class": rule.rule_class,
             "tags": rule.tags or [],
@@ -162,6 +157,10 @@ class KB:
             "applies_when": [p.model_dump(exclude_none=True) for p in rule.applies_when] if rule.applies_when else None,
             "summary": rule.summary or (rule.rule_text[:160] + ("..." if len(rule.rule_text) > 160 else "")),
         }
+        if rule.governance:
+            out["governance"] = {k: rule.governance.get(k) for k in ("gov_type", "verdict", "severity")
+                                 if rule.governance.get(k)}
+        return out
 
     def full_rule(self, rule: BrandRule) -> dict[str, Any]:
         return rule.model_dump(exclude_none=True)

@@ -9,9 +9,6 @@
   "content_types": [
     "email"
   ],
-  "content_sub_type_ids": [
-    "sub_lisraya_email_primary_1col"
-  ],
   "scope": "org_baseline",
   "selector": {
     "element_path": "section"
@@ -31,24 +28,28 @@
       {
         "element_path": "section.padding.bottom",
         "token_id": "tok_lisraya_section_vertical_padding"
+      },
+      {
+        "element_path": "section.background",
+        "token_id": "tok_lisraya_section_bg_alternation"
       }
     ]
   },
   "polarity": "must",
-  "hardness": "hard_constraint",
+  "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
+    "tok_lisraya_section_bg_alternation",
     "tok_lisraya_section_vertical_padding",
     "tok_lisraya_section_width"
   ],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "Each section is a self-contained <table>-based block at 600px with its own top/bottom 32px padding and a declared background color. There must be no margins outside the section \u2014 assembly is direct stacking.",
-  "intent": "Guarantee modular, directly-stackable sections with predictable width and spacing.",
+  "rule_text": "Each section is a self-contained <table>-based block at 600px with its own top/bottom 32px padding and a declared background color. There are no margins outside the section \u2014 assembly is direct stacking.",
+  "intent": "Guarantee modular sections stack cleanly without external spacing.",
   "source": "design_bible",
   "doc_ref": "other_rules[2]",
   "group_id": "grp_lisraya_other_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Each section is a 600px wide self-contained <table> block with 32px top/bottom padding, declared background color, and no external margins; sections stack directly."
+  "summary": "Each section is a 600px-wide self-contained table block with 32px top/bottom padding, own background color, and no outside margins; sections stack directly."
 }

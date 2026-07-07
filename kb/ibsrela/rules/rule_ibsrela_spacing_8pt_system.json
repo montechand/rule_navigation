@@ -1,0 +1,40 @@
+{
+  "id": "rule_ibsrela_spacing_8pt_system",
+  "brand_id": "ibsrela",
+  "rule_class": "spacing",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "spacing.base.unit"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "spacing.base.unit",
+        "token_id": "tok_ibsrela_spacing_base"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_spacing_base"
+  ],
+  "asset_ids": [],
+  "rule_text": "All spacing values are multiples of 8 px (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8 px steps.",
+  "intent": "Keep independently-built sections dimensionally consistent on a shared rhythm.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[1]",
+  "group_id": "grp_ibsrela_design_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Spacing values must be multiples of 8 px; adjust layouts only in 8 px increments, avoiding any odd or one-off spacing values."
+}

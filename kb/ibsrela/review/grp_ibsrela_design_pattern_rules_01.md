@@ -18,22 +18,22 @@ Defined so independently-built sections butt together cleanly:
 
 ## Extracted rules (4)
 
-### rule_ibsrela_spacing_8pt_system_baseline
+### rule_ibsrela_spacing_8pt_system
 - class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: All spacing values must be multiples of the 8 px base unit (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8 px steps.
-- intent: Keep a consistent spatial rhythm so independently-built sections align.
+- rule_text: All spacing values are multiples of 8 px (8-pt system). Never introduce odd one-off values; if a layout needs adjustment, move in 8 px steps.
+- intent: Keep independently-built sections dimensionally consistent on a shared rhythm.
 
-### rule_ibsrela_spacing_container_and_section_padding
+### rule_ibsrela_section_padding_and_gutters
 - class=spacing scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Every section carries its own outer/container side padding (24 px desktop, 16 px mobile, left & right) and section vertical padding (32 px desktop, 24 px mobile top and bottom). Card internal padding is 16 px on all sides and the image-to-text gap is 16 px. Concrete values and breakpoint switching live on the referenced tokens.
-- intent: Give each independently-built section self-contained padding so sections butt together cleanly.
+- rule_text: Outer/container side padding is 24 px desktop / 16 px mobile inside every section; section vertical padding is 32 px top and bottom desktop / 24 px mobile; two-column gutter is 24 px desktop with columns stacking at 24 px vertical gap on mobile; card internal padding is 16 px all sides; image-to-text gap is 16 px.
+- intent: Standardize internal padding and gutters so sections read as one system.
 
-### rule_ibsrela_spacing_no_margin_between_sections
+### rule_ibsrela_sections_edge_to_edge_no_margin
 - class=spacing scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=binding
 - rule_text: Adjacent sections rely on their own padding — there must be no margin between stacked section tables. Sections must be edge-to-edge so backgrounds and wave shapes meet flush.
-- intent: Ensure backgrounds and wave shapes meet flush when sections are stacked.
+- intent: Ensure independently-built sections butt together cleanly with flush backgrounds/wave edges.
 
-### rule_ibsrela_spacing_two_column_gutter_and_grid
+### rule_ibsrela_content_grid_structure
 - class=layout scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Two-column layouts use a 24 px gutter on desktop; columns stack with a 24 px vertical gap on mobile. Layout follows a 12-column mental grid over the 552 px content area (600 − 2×24), where a half-width column is 264 px content plus 24 px gutter. Values live on the referenced tokens.
-- intent: Standardize column structure and content width for consistent multi-column layouts.
+- rule_text: Use a 12-column mental grid over the 552 px content area (600 − 2×24 px side padding); a half-width column is 264 px content plus 24 px gutter.
+- intent: Provide a shared grid so multi-column layouts align across sections.
