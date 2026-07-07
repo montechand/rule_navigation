@@ -4,8 +4,18 @@
   "rule_class": "copy_editorial",
   "audience": "dtp_patient",
   "scope": "campaign",
-  "selector": {},
-  "evaluation_scope": "section",
+  "selector": {
+    "section_types": [
+      "efficacy"
+    ]
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "you_deserve_more"
+    }
+  ],
+  "evaluation_scope": "sentence",
   "constraint_type": "verbatim_content",
   "effect": {
     "content": "Primary: \"Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease.\" Alternate: \"...LISRAYA works by turning off the specific inflammatory switches that are stuck in the 'on' position.\"",
@@ -18,16 +28,15 @@
   "token_ids": [],
   "asset_ids": [],
   "governance_ids": [
-    "gov_lisraya_dm_abbreviation",
     "gov_lisraya_moa_alt",
     "gov_lisraya_moa_primary"
   ],
-  "rule_text": "The mechanism-of-action language must be used verbatim. Primary: \"Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease.\" Alternate: \"...LISRAYA works by turning off the specific inflammatory switches that are stuck in the 'on' position.\"",
-  "intent": "Lock approved MOA claims exactly as reviewed.",
+  "rule_text": "Mechanism-of-action copy must use the approved primary statement (\"Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease.\") or the approved alternate (\"...LISRAYA works by turning off the specific inflammatory switches that are stuck in the 'on' position.\") verbatim.",
+  "intent": "Preserve MLR-approved MOA claims.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "Use verbatim mechanism-of-action text: primary \"Unlike other treatments for dermatomyositis (DM), which suppress immune system generally, LISRAYA targets root cause.\" Alternate: \"LISRAYA works by turning off specific inflammatory switches stuck 'on'."
+  "summary": "Mechanism-of-action copy must use the exact approved primary or alternate LISRAYA statements verbatim without alterations."
 }

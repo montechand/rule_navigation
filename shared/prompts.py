@@ -36,10 +36,11 @@ Method notes:
 - First map the blueprint's free-form section_id to the section vocabulary — it is
   dynamic per brand (curated core + brand-discovered devices; get_section_vocab lists it).
   A section may map to several types, e.g. a benefits panel = intro + callout.
-- Templates/components: concrete approved templates live as content_sub_type rows with
-  covers_section_types (a header template may cover top_matter + hero). Rules scoped via
-  content_sub_type_ids apply only to those components; null = all email sub-types.
-  rules_for_subtype surfaces everything applying to one template.
+- Classes vs templates: content_sub_type rows are structural CLASSES (component library,
+  locked matter, formats) — rules scope to them via content_sub_type_ids (null = all
+  sub-types). Concrete approved artifacts are design_template rows that fill section
+  roles, may realize a class (instance_of), sit in pick-one groups, and carry their own
+  usage_conditions. rules_for_subtype = class view; rules_for_template = instance view.
 - Conditional (applies_when) rules: include them when the section's design concept or copy
   makes the condition plausible; the generator downstream re-checks predicates.
 - Token-first layering: concrete values and their conditional switching live in the

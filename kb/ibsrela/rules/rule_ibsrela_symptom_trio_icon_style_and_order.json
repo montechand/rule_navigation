@@ -1,0 +1,62 @@
+{
+  "id": "rule_ibsrela_symptom_trio_icon_style_and_order",
+  "brand_id": "ibsrela",
+  "rule_class": "iconography",
+  "tags": [
+    "imagery",
+    "layout"
+  ],
+  "audience": "dtp_patient",
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "symptom_trio"
+    ],
+    "element_path": "symptom_trio.icon.style"
+  },
+  "applies_when": [
+    {
+      "kind": "content_tag",
+      "value": "three_ibsc_symptoms_together"
+    }
+  ],
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "symptom_trio.icon.style",
+        "token_id": "tok_ibsrela_symptom_icon_style"
+      },
+      {
+        "element_path": "symptom_trio.icon.order",
+        "token_id": "tok_ibsrela_symptom_icon_order"
+      },
+      {
+        "element_path": "symptom_trio.label.color",
+        "token_id": "tok_ibsrela_symptom_label_color"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_symptom_icon_order",
+    "tok_ibsrela_symptom_icon_style",
+    "tok_ibsrela_symptom_label_color"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "When referencing the three IBS-C symptoms together, use the approved icon trio: Constipation, Belly Pain, Bloating displayed left-to-right in that order (symptom_trio.icon.order). Each symptom is a circular green-tinted icon (symptom_trio.icon.style) with the symptom label beneath it in navy #262262 (symptom_trio.label.color).",
+  "intent": "Enforce the standardized, approved presentation of the three IBS-C symptoms.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_ibsrela_design_pattern_rules_03",
+  "status": "active",
+  "version": 1,
+  "summary": "Use approved icon trio left-to-right: Constipation, Belly Pain, Bloating; each circular green-tinted icon with navy #262262 label beneath (symptom_trio rules)."
+}

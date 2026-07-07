@@ -37,18 +37,18 @@ SPECIALISTS: dict[str, dict[str, Any]] = {
                   "verify borderline hits with get_rules(view='full')."),
     },
     "graph": {
-        "tools": ["rules_for_section", "rules_for_subtype", "rules_for_token", "neighbors",
-                  "related_rules", "resolve_token", "get_rules", "get_entity",
-                  "get_section_vocab"],
+        "tools": ["rules_for_section", "rules_for_subtype", "rules_for_template",
+                  "list_templates", "rules_for_token", "neighbors", "related_rules",
+                  "resolve_token", "get_rules", "get_entity", "get_section_vocab"],
         "blurb": ("You are the GRAPH specialist. Navigate typed edges: section nodes "
                   "(sec_hero, sec_cta, ...), rule->token/asset/governance links, semantic "
-                  "token->primitive resolves_to edges, subtype covers_section edges "
-                  "(templates/components covering sections — rules_for_subtype surfaces "
-                  "everything for one template), asset pairing edges, rule-rule relations "
-                  "(refines/conflicts/overrides/...). Start from the mapped section node(s) "
-                  "via rules_for_section (set include_all_section_rules=true once to see "
-                  "the email-wide pool), then walk neighbors of the strongest hits to find "
-                  "conditioned/related rules."),
+                  "token->primitive resolves_to edges, class/template fills_section and "
+                  "hosts_section edges (rules_for_subtype = class view; rules_for_template "
+                  "= instance view incl. usage_conditions and pick-one group alternates), "
+                  "asset pairing edges, rule-rule relations (refines/conflicts/overrides/...). "
+                  "Start from the mapped section node(s) via rules_for_section (set "
+                  "include_all_section_rules=true once to see the email-wide pool), then "
+                  "walk neighbors of the strongest hits to find conditioned/related rules."),
     },
     "lexical": {
         "tools": ["keyword_search", "grep", "query_rules", "query_tokens", "search_tokens",

@@ -170,6 +170,11 @@ class DesignAsset(BaseModel):
 
 
 class ContentSubType(BaseModel):
+    """Structural CLASS or format — only what the source itself defines as a reusable
+    component/format (a named component-library entry, a locked supplied component, a
+    dimension format). Concrete approved artifacts are design_template rows, NOT classes.
+    """
+
     id: str
     brand_id: str
     kind: str
@@ -183,15 +188,48 @@ class ContentSubType(BaseModel):
     slots: Optional[list[str] | dict[str, Any]] = None
     reference_dims: Optional[dict[str, Any]] = None
     assembly: Optional[dict[str, Any]] = None  # {position, repeatable, locked}
-    # Which section vocabulary entries this component/template covers (e.g. the ibsrela
-    # header template covers [top_matter, hero]). Powers subtype<->section graph edges
-    # and rule surfacing when filtering by template.
-    covers_section_types: Optional[list[str]] = None
-    template_ref: Optional[str] = None  # external template-library id (concrete instance)
-    template_file: Optional[str] = None  # kb-relative path to the stored template body
+    # fills = this class IS that section role (locked Top Matter fills [top_matter]).
+    # hosts = this class CAN CARRY those roles (Primary 1-Col hosts [hero, intro, ...]).
+    # Only fills feeds rule surfacing; hosts is an affordance hint.
+    fills_section_types: Optional[list[str]] = None
+    hosts_section_types: Optional[list[str]] = None
     notes: Optional[str] = None
     status: Status = "active"
     version: int = 1
+
+
+class DesignTemplate(BaseModel):
+    """Concrete approved artifact (MJML/HTML block): a template-library entry or an
+    approved snippet embedded verbatim in the design bible. Instances, not classes —
+    rules do NOT scope to templates; they scope to classes/roles and templates inherit
+    via instance_of / fills_section. Per-instance selection conditions live here.
+    """
+
+    id: str  # tpl_{brand}_{slug}
+    brand_id: str
+    name: str
+    description: Optional[str] = None
+    source: str = "template_library"  # template_library | design_bible
+    template_ref: Optional[str] = None  # external library id
+    file: Optional[str] = None  # kb-relative path to the stored body
+    instance_of: Optional[str] = None  # FK -> content_sub_type (when it realizes a class)
+    fills_section_types: Optional[list[str]] = None
+    group_id: Optional[str] = None  # FK -> template_group
+    group_order: Optional[int] = None
+    usage_conditions: Optional[dict[str, Any]] = None  # {requires_content_tags: [...], ...}
+    audience: Optional[str] = None
+    notes: Optional[str] = None
+    status: Status = "active"
+    version: int = 1
+
+
+class TemplateGroup(BaseModel):
+    """Pick-one set of alternate templates (e.g. the brand's approved email headers)."""
+
+    id: str  # tgr_{brand}_{slug}
+    brand_id: str
+    name: str
+    semantics: Optional[str] = None  # e.g. "assemble exactly one member per email"
 
 
 class Governance(BaseModel):

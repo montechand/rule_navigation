@@ -25,17 +25,17 @@ doc_ref: `content_pattern_rules[0]`
 
 ## Extracted rules (3)
 
-### rule_ibsrela_typography_hierarchy_parent_system
+### rule_ibsrela_typography_hierarchy_parent_brand
 - class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Typography hierarchy follows the parent brand system: Headline (H1) is Avenir Black, Title Case, Dark Blue or Purple; Subhead (H2) is Avenir Black, sentence case, Dark Blue or Purple; Body copy and ISI body are Avenir Roman, sentence case, Black; ISI subheads (e.g. 'INDICATION', 'IMPORTANT SAFETY INFORMATION') are Avenir Black, ALL CAPS, Black; Footnotes/end matter are Avenir Book, sentence case, Black; campaign headlines are Avenir Black, ALL CAPS per campaign palette; callouts are Avenir Black, ALL CAPS. Concrete font, weight, case, and color values are carried by their tokens.
-- intent: Establish the single brand type hierarchy across all levels.
+- rule_text: The parent brand typography hierarchy sets font, weight, case and color per level: Headline (H1) is Avenir Black, Title Case, in Dark Blue #262262 or Purple #92278F; Subhead (H2) is Avenir Black, sentence case, Dark Blue or Purple; Body copy and ISI body are Avenir Roman, sentence case, Black #000000; ISI subheads ('INDICATION', 'IMPORTANT SAFETY INFORMATION') are Avenir Black, ALL CAPS, Black; Footnotes/end matter are Avenir Book, sentence case, Black; Campaign headline ('FLIP THE SCRIPT') is Avenir Black, ALL CAPS, per campaign palette; Callouts are Avenir Black, ALL CAPS. Concrete values and background-driven color switching live on the referenced tokens.
+- intent: Establish the single source of truth for text style across all typographic levels.
 
-### rule_ibsrela_isi_heavy_weight_reserved
-- class=typography scope=brand hardness=hard_constraint polarity=must sections=['end_matter'] constraint=exclusivity
-- rule_text: Avenir Heavy weight is reserved exclusively for ISI boxed-warning text and must not be used for any other content.
-- intent: Reserve Heavy weight so it uniquely signals the boxed warning.
+### rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning
+- class=typography scope=brand hardness=hard_constraint polarity=must sections=['safety'] constraint=exclusivity
+- rule_text: Avenir Heavy is reserved exclusively for ISI boxed warning text; it must not be used for any other level. The boxed warning is set in Avenir Heavy (Arial Bold in email), per approved ISI, in Black #000000.
+- intent: Prevent dilution of the Heavy weight so the boxed warning remains its unique typographic signal.
 
-### rule_ibsrela_email_ppt_font_substitution
+### rule_ibsrela_email_ppt_avenir_arial_substitution
 - class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: In email and PowerPoint, Arial is the sanctioned Avenir substitute and must be used: email font stack is 'Arial, Helvetica, sans-serif'. Never load Avenir via webfont in email (Outlook/SFMC rendering inconsistency). Weight mapping: Avenir Black → Arial Bold; Avenir Heavy → Arial Bold; Avenir Roman → Arial Regular; Avenir Book → Arial Regular (or reduce size 1pt for footnote distinction).
-- intent: Guarantee consistent rendering in email/PPT where Avenir is unavailable.
+- rule_text: [BASELINE] For email and PowerPoint, Arial is the brand-sanctioned substitute for Avenir. Use the email font stack 'Arial, Helvetica, sans-serif'. Never load Avenir via webfont in email (Outlook/SFMC rendering inconsistency). Weight mapping: Avenir Black → Arial Bold; Avenir Heavy → Arial Bold; Avenir Roman → Arial Regular; Avenir Book → Arial Regular (or reduce size 1pt for footnote distinction).
+- intent: Guarantee consistent rendering in email/PPT environments where Avenir cannot be reliably embedded.

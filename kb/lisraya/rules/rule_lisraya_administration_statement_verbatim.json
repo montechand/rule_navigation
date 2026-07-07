@@ -5,6 +5,12 @@
   "audience": "dtp_patient",
   "scope": "campaign",
   "selector": {},
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "you_deserve_more"
+    }
+  ],
   "evaluation_scope": "sentence",
   "constraint_type": "verbatim_content",
   "effect": {
@@ -20,12 +26,12 @@
   "governance_ids": [
     "gov_lisraya_administration"
   ],
-  "rule_text": "The administration statement must be used verbatim: \"LISRAYA is a once-daily pill\u2014you can take it at home or anywhere you like, with no shots or infusions required.\"",
-  "intent": "Lock approved administration claim.",
+  "rule_text": "The administration statement must read verbatim: \"LISRAYA is a once-daily pill\u2014you can take it at home or anywhere you like, with no shots or infusions required.\"",
+  "intent": "Preserve MLR-approved administration claim.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "Use the exact administration statement: \"LISRAYA is a once-daily pill\u2014you can take it at home or anywhere you like, with no shots or infusions required."
+  "summary": "Administration statement must read verbatim: \"LISRAYA is a once-daily pill\u2014you can take it at home or anywhere you like, with no shots or infusions required."
 }

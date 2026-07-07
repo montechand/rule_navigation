@@ -1,0 +1,46 @@
+{
+  "id": "rule_lisraya_body_minimum_size",
+  "brand_id": "lisraya",
+  "rule_class": "typography",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "element_path": "body.min_size"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "body.min_size",
+        "token_id": "tok_lisraya_body_min_size"
+      },
+      {
+        "element_path": "running_text.min_size",
+        "token_id": "tok_lisraya_running_text_min_size"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_body_min_size",
+    "tok_lisraya_running_text_min_size"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "16px is the brand-mandated minimum for body copy (\"bigger is better\"). Never set running text below 12px. (ISI sizing is owned by the locked component.)",
+  "intent": "Legible minimum text sizes for patient readability.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_lisraya_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Typography: Body copy minimum 16px (brand mandate), never below 12px running text; ISI sizing controlled by locked component."
+}

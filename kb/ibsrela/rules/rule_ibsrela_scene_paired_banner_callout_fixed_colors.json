@@ -1,0 +1,46 @@
+{
+  "id": "rule_ibsrela_scene_paired_banner_callout_fixed_colors",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "content_types": [
+    "email"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.scene_banner.fill"
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "flip_the_script"
+    },
+    {
+      "kind": "content_tag",
+      "value": "scene_banner"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "pairing",
+  "effect": {
+    "a": "scene_tag",
+    "b": "callout.scene_banner.fill",
+    "relation": "requires"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Scene-paired banner callouts over white backgrounds use fixed scene/color pairings via callout.scene_banner.fill and callout.scene_banner.opacity: Periwinkle @ 80% opacity for Office-scene pieces; Purple @ 60% opacity for Cafe-scene pieces; Green @ 40% opacity for Soccer-scene pieces. These pairings are fixed \u2014 do not mix scene and color.",
+  "intent": "Lock each scene to its designated callout color/opacity so scene and color never mix.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[2]",
+  "group_id": "grp_ibsrela_design_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Scene banners over white: Office = Periwinkle 80% opacity, Cafe = Purple 60%, Soccer = Green 40%; fixed scene/color pairings only."
+}

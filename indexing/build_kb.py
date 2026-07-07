@@ -62,11 +62,13 @@ from shared.schemas import (
     BrandToken,
     ContentSubType,
     DesignAsset,
+    DesignTemplate,
     Governance,
     Predicate,
     RuleGroup,
     RuleRelation,
     Selector,
+    TemplateGroup,
 )
 from indexing import schema_docs
 
@@ -271,9 +273,19 @@ REST of the entity catalog from the design bible. Return JSON:
     "audience": null, "best_for": "..." | null,
     "slots": ["..."] | null, "reference_dims": {{"desktop": {{"w":600,"h":1138}}, "mobile": {{"w":375,"h":788}}}} | null,
     "assembly": {{"position": "first|last|any", "repeatable": <bool>, "locked": <bool>}} | null,
-    "covers_section_types": subset of {section_types} | null (which section vocabulary entries the component covers, e.g. a locked header -> ["top_matter"], a header-with-hero -> ["top_matter","hero"], End Matter/ISI+footer -> ["end_matter"]),
+    "fills_section_types": subset of {section_types} | null (the class IS this section role: a locked header fills ["top_matter"], End Matter/ISI+footer fills ["end_matter"]),
+    "hosts_section_types": subset of {section_types} | null (roles the component CAN CARRY as content: a generic 1-column primary component may host ["hero","intro","efficacy",...]),
     "notes": null
   }}],
+  "templates": [{{
+    "id": "tpl_{brand}_<slug>", "name": "...", "description": "...",
+    "body": "<the VERBATIM approved MJML/HTML block quoted in the document>" | null,
+    "instance_of": "sub_{brand}_<slug>" | null (the class it realizes, if any),
+    "fills_section_types": subset of {section_types} (the section role(s) this concrete block IS, e.g. an approved CTA banner block fills ["cta"]),
+    "usage_conditions": {{"requires_content_tags": [], "forbidden_content_tags": []}} | null,
+    "audience": null, "notes": null
+  }}],
+  "template_groups": [{{"id": "tgr_{brand}_<slug>", "name": "...", "semantics": "<pick-one/alternates contract>", "member_template_ids": ["tpl_..."]}}],
   "asset_groups": [{{"id": "agr_{brand}_<slug>", "name": "...", "semantics": "..."}}]
 }}
 
@@ -284,8 +296,19 @@ Guidance:
   content-tag gating (e.g. lpga) or per-email caps.
 - governance: verbatim disclosures, required qualifiers, approved messaging frameworks,
   trademark usage adjudications. preferred_form carries the exact required string.
-- subtypes: the email component library (locked header/footer components, section
-  components with their editable slots, reference dims, assembly constraints).
+- subtypes — STRUCTURAL CLASSES ONLY, strict discipline:
+  * Create a content_sub_type ONLY when the source ITSELF defines a reusable
+    component/format: a named component-library entry ("Email / Primary 1 Column",
+    "Secondary"), a locked supplied component (Top Matter, End Matter/ISI footer), or a
+    dimension/platform format (banner "Medium Rectangle 300x250").
+  * Do NOT invent classes for recurring section patterns, styling variants, or "approved
+    styles" (e.g. callout style families, hero content patterns) — those are rules +
+    selector + tokens, not classes.
+- templates — CONCRETE APPROVED ARTIFACTS: when the document embeds a complete approved
+  MJML/HTML block (a plug-and-play section with exact markup), extract it as a template
+  with the body VERBATIM. A template is an instance, never a class. Set instance_of only
+  when it realizes a defined class.
+- template_groups: only when the document presents alternates to choose among.
 - asset_groups: named ordered sets (e.g. a fixed icon trio, wave variant families).
 - Use lowercase snake_case slugs. Do not duplicate entities; merge aliases instead.
 
@@ -384,11 +407,12 @@ Hard requirements — TOKEN-FIRST CLUSTERING:
 9. relations: only within this blob's rules (e.g. an exception refining a base rule ->
    "refines", a rule that wins over another -> "overrides", devices that cannot co-occur ->
    "mutually_exclusive"). Use sparingly.
-10. content_sub_type_ids: the catalog lists email components AND concrete approved
-   templates (sub_..._tpl_...). Scope the rule to them when the source ties it to specific
-   components/templates ("Top Matter — LOCKED", "use the Secondary component for...",
-   which header/footer template to use when); leave null for rules that hold across all
-   email sub-types.
+10. content_sub_type_ids: CLASSES ONLY (sub_ ids) — scope the rule to structural
+   components/formats when the source ties it there ("Top Matter — LOCKED", "use the
+   Secondary component for..."); leave null for rules that hold across all email
+   sub-types. NEVER scope rules to template instances (tpl_/tgr_ ids): a concrete
+   template inherits rules via its class (instance_of) and its section roles (fills);
+   per-template selection conditions already live on the template entity.
 
 ENTITY CATALOG (ids you may reference):
 {catalog}
@@ -436,16 +460,30 @@ def catalog_summary(catalog: dict[str, list[dict[str, Any]]]) -> str:
     lines.append("governance:")
     for g in catalog["governance"]:
         lines.append(f"  {g['id']}  type={g.get('gov_type')}  verdict={g.get('verdict')}  subject={(g.get('subject') or '')[:90]}")
-    lines.append("subtypes (components + concrete templates; rules scope via content_sub_type_ids):")
+    lines.append("subtypes (structural CLASSES; rules scope via content_sub_type_ids):")
     for s in catalog["subtypes"]:
         bits = [s["id"], str(s.get("name"))]
-        if s.get("covers_section_types"):
-            bits.append(f"covers={s['covers_section_types']}")
+        if s.get("fills_section_types"):
+            bits.append(f"fills={s['fills_section_types']}")
+        if s.get("hosts_section_types"):
+            bits.append(f"hosts={s['hosts_section_types']}")
         if bool((s.get("assembly") or {}).get("locked")):
             bits.append("LOCKED")
-        if s.get("template_ref"):
-            bits.append("TEMPLATE")
         lines.append("  " + "  ".join(bits))
+    if catalog.get("templates"):
+        lines.append("templates (concrete approved instances — do NOT scope rules to tpl_ ids; "
+                     "they inherit via instance_of/fills):")
+        for t in catalog["templates"]:
+            bits = [t["id"], str(t.get("name"))]
+            if t.get("fills_section_types"):
+                bits.append(f"fills={t['fills_section_types']}")
+            if t.get("instance_of"):
+                bits.append(f"instance_of={t['instance_of']}")
+            lines.append("  " + "  ".join(bits))
+    if catalog.get("template_groups"):
+        lines.append("template_groups:")
+        for g in catalog["template_groups"]:
+            lines.append(f"  {g['id']}  {g.get('name')}  {g.get('semantics', '')[:80]}")
     lines.append("asset_groups:")
     for ag in catalog["asset_groups"]:
         lines.append(f"  {ag['id']}  {ag.get('name')}")
@@ -493,7 +531,7 @@ def coerce_enum_list(values: Any, vocab: list[str], field: str, ctx: str,
     return kept
 
 
-ID_SCAN_RE = re.compile(r"\b(?:tok|ast|gov|sub|agr)_[a-z0-9_]+\b")
+ID_SCAN_RE = re.compile(r"\b(?:tok|ast|gov|sub|agr|tpl|tgr)_[a-z0-9_]+\b")
 
 
 def scan_ids(obj: Any) -> set[str]:
@@ -594,6 +632,11 @@ def validate_rule(raw: dict[str, Any], brand: str, group_id: str, doc_ref: str,
 
     # Derived indices from the structured effect (per dictionary: derived, never authored).
     referenced = scan_ids(effect) | scan_ids(applies_when and [p.model_dump() for p in applies_when])
+    instance_refs = {r for r in referenced if r.startswith(("tpl_", "tgr_"))}
+    if instance_refs:
+        warns.add(f"{ctx}: references template instances {sorted(instance_refs)} — rules scope "
+                  "to classes/roles, not instances (kept in effect text, not indexed)")
+        referenced -= instance_refs
     unknown_refs = {r for r in referenced if r not in catalog_ids}
     if unknown_refs:
         warns.add(f"{ctx}: effect references unknown ids {sorted(unknown_refs)} (kept in effect, not indexed)")
@@ -604,8 +647,11 @@ def validate_rule(raw: dict[str, Any], brand: str, group_id: str, doc_ref: str,
 
     sub_ids = raw.get("content_sub_type_ids")
     if sub_ids:
-        valid_subs = [s for s in sub_ids if s in catalog_ids]
-        if len(valid_subs) != len(sub_ids):
+        dropped_instances = [s for s in sub_ids if isinstance(s, str) and s.startswith(("tpl_", "tgr_"))]
+        if dropped_instances:
+            warns.add(f"{ctx}: content_sub_type_ids may only hold classes (sub_); dropped {dropped_instances}")
+        valid_subs = [s for s in sub_ids if s in catalog_ids and str(s).startswith("sub_")]
+        if len(valid_subs) != len([s for s in sub_ids if s not in dropped_instances]):
             warns.add(f"{ctx}: dropped unknown content_sub_type_ids")
         sub_ids = valid_subs or None
 
@@ -707,11 +753,14 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
     for a in raw.get("assets", []):
         ctx = a.get("id", "asset?")
         try:
+            dims = a.get("dims")
+            if isinstance(dims, str):
+                dims = {"note": dims}
             asset = DesignAsset(
                 id=a["id"], brand_id=brand,
                 asset_type=coerce_enum(a.get("asset_type"), ASSET_TYPES, "photo",
                                        "asset_type", ctx, warns, ASSET_TYPE_ALIASES) or "photo",
-                uri=a.get("uri"), mime=a.get("mime"), dims=a.get("dims"),
+                uri=a.get("uri"), mime=a.get("mime"), dims=dims,
                 description=a.get("description") or "",
                 alt_text=a.get("alt_text"),
                 contains_token_ids=[x for x in (a.get("contains_token_ids") or []) if x in tokens],
@@ -764,15 +813,70 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
                 audience=coerce_enum(s.get("audience"), AUDIENCES, None, "audience", ctx, warns),
                 best_for=s.get("best_for"), slots=s.get("slots"),
                 reference_dims=s.get("reference_dims"), assembly=s.get("assembly"),
-                covers_section_types=coerce_sections_with_discovery(
-                    s.get("covers_section_types"), brand, section_vocab, ctx, warns),
-                template_ref=s.get("template_ref"),
-                template_file=s.get("template_file"),
+                fills_section_types=coerce_sections_with_discovery(
+                    s.get("fills_section_types") or s.get("covers_section_types"),
+                    brand, section_vocab, ctx, warns),
+                hosts_section_types=coerce_sections_with_discovery(
+                    s.get("hosts_section_types"), brand, section_vocab, ctx, warns),
                 notes=s.get("notes"),
             )
             subtypes[sub.id] = sub
         except (ValidationError, KeyError) as e:
             warns.add(f"{ctx}: subtype invalid, skipped ({e})")
+
+    # Bible-embedded templates (LLM-extracted); bodies collected for write_kb.
+    templates: dict[str, DesignTemplate] = {}
+    template_groups: dict[str, TemplateGroup] = {}
+    template_bodies: dict[str, str] = {}
+    for t in raw.get("templates", []):
+        ctx = t.get("id", "template?")
+        try:
+            tid = t["id"]
+            if not tid.startswith("tpl_"):
+                tid = f"tpl_{brand}_{slugify(tid)}"
+            n = 2
+            while tid in templates:
+                tid = f"{tid}_{n}"
+                n += 1
+            instance_of = t.get("instance_of")
+            if instance_of and instance_of not in subtypes:
+                warns.add(f"{ctx}: instance_of {instance_of} unknown; cleared")
+                instance_of = None
+            body = t.get("body")
+            tpl = DesignTemplate(
+                id=tid, brand_id=brand,
+                name=t.get("name") or tid,
+                description=t.get("description"),
+                source="design_bible",
+                file=f"templates/{tid}.mjml" if body else None,
+                instance_of=instance_of,
+                fills_section_types=coerce_sections_with_discovery(
+                    t.get("fills_section_types"), brand, section_vocab, ctx, warns),
+                usage_conditions=t.get("usage_conditions"),
+                audience=coerce_enum(t.get("audience"), AUDIENCES, None, "audience", ctx, warns),
+                notes=t.get("notes"),
+            )
+            templates[tpl.id] = tpl
+            if body:
+                template_bodies[tpl.id] = body
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: template invalid, skipped ({e})")
+
+    for g in raw.get("template_groups", []):
+        ctx = g.get("id", "template_group?")
+        try:
+            gid = g["id"]
+            if not gid.startswith("tgr_"):
+                gid = f"tgr_{brand}_{slugify(gid)}"
+            grp = TemplateGroup(id=gid, brand_id=brand, name=g.get("name") or gid,
+                                semantics=g.get("semantics"))
+            template_groups[grp.id] = grp
+            for order, mid in enumerate(g.get("member_template_ids") or []):
+                if mid in templates and templates[mid].group_id is None:
+                    templates[mid].group_id = grp.id
+                    templates[mid].group_order = order
+        except (ValidationError, KeyError) as e:
+            warns.add(f"{ctx}: template_group invalid, skipped ({e})")
 
     for ag in raw.get("asset_groups", []):
         ctx = ag.get("id", "asset_group?")
@@ -788,9 +892,15 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
         if asset.group_id and asset.group_id not in asset_groups:
             warns.add(f"{asset.id}: unknown group_id {asset.group_id}; cleared")
             asset.group_id = None
+    for tpl in templates.values():
+        if tpl.group_id and tpl.group_id not in template_groups:
+            warns.add(f"{tpl.id}: unknown group_id {tpl.group_id}; cleared")
+            tpl.group_id = None
 
     return {"tokens": tokens, "assets": assets, "governance": governance,
-            "subtypes": subtypes, "asset_groups": asset_groups}
+            "subtypes": subtypes, "templates": templates,
+            "template_groups": template_groups, "template_bodies": template_bodies,
+            "asset_groups": asset_groups}
 
 
 # ---------------------------------------------------------------------------
@@ -815,49 +925,135 @@ def _template_covers(description: str, html: str) -> list[str]:
     return covers
 
 
-def ingest_template_library(brand: str, subtypes: dict[str, ContentSubType],
-                            warns: Warnings) -> dict[str, str]:
-    """Merge concrete approved templates into content_sub_type rows.
-
-    Returns {subtype_id: template_body} for write_kb to store under kb/{brand}/templates/.
-    """
+def ingest_template_library(brand: str, cat: dict[str, Any], warns: Warnings) -> None:
+    """Ingest concrete approved templates from the brand's template library as
+    design_template rows (instances, not classes). Mutates cat['templates'] and
+    cat['template_bodies']."""
     path = config.TEMPLATE_LIBRARIES.get(brand)
     if not path:
-        return {}
+        return
     if not path.exists():
         warns.add(f"template library configured but missing: {path}")
-        return {}
+        return
+    templates: dict[str, DesignTemplate] = cat["templates"]
+    bodies: dict[str, str] = cat["template_bodies"]
     entries = json.loads(path.read_text()).get("template_library", [])
-    bodies: dict[str, str] = {}
+    count = 0
     for entry in entries:
         if (entry.get("template_content_type") or "").upper() != "EMAIL":
             continue
         desc = (entry.get("template_description") or "").strip().lstrip("#").strip()
         html = entry.get("html_code") or ""
-        covers = _template_covers(desc, html)
-        if not covers:
-            warns.add(f"template {entry.get('id')}: could not classify covers_section_types "
+        fills = _template_covers(desc, html)
+        if not fills:
+            warns.add(f"template {entry.get('id')}: could not classify fills_section_types "
                       f"from description {desc!r}; ingested unclassified")
-        sub_id = f"sub_{brand}_tpl_{slugify(desc or entry.get('id', 'template'))}"
+        tid = f"tpl_{brand}_{slugify(desc or entry.get('id', 'template'))}"
         n = 2
-        while sub_id in subtypes or sub_id in bodies:
-            sub_id = f"sub_{brand}_tpl_{slugify(desc or 'template')}_{n}"
+        while tid in templates:
+            tid = f"tpl_{brand}_{slugify(desc or 'template')}_{n}"
             n += 1
-        position = "first" if "top_matter" in covers else ("last" if "end_matter" in covers else "any")
-        subtypes[sub_id] = ContentSubType(
-            id=sub_id, brand_id=brand, kind="email_component", content_type="email",
-            name=desc or sub_id, channel="email",
-            best_for=desc or None,
-            assembly={"position": position, "repeatable": False, "locked": True},
-            covers_section_types=covers or None,
-            template_ref=entry.get("id"),
-            template_file=f"templates/{sub_id}.mjml",
+        templates[tid] = DesignTemplate(
+            id=tid, brand_id=brand, name=desc or tid, description=desc or None,
+            source="template_library", template_ref=entry.get("id"),
+            file=f"templates/{tid}.mjml",
+            fills_section_types=fills or None,
             notes=f"concrete approved template from library (id {entry.get('id')})",
         )
-        bodies[sub_id] = html
-    if bodies:
-        warns.add(f"ingested {len(bodies)} concrete templates from {path.name}")
-    return bodies
+        bodies[tid] = html
+        count += 1
+    if count:
+        warns.add(f"ingested {count} concrete templates from {path.name}")
+
+
+def link_templates(brand: str, cat: dict[str, Any], warns: Warnings) -> None:
+    """Deterministic post-pass over ALL templates (bible-embedded + library):
+
+    1. instance_of: a template whose fills exactly match a LOCKED class's fills realizes
+       that class (header template -> Top Matter class). Composites (top_matter+hero)
+       stay unlinked — they are honest multi-role instances.
+    2. grouping: pick-one families by fills signature (email headers / email footers)
+       unless the LLM already grouped them.
+    3. gated-content inheritance: if a template's body/description references a gated
+       asset/token (matched via distinctive tokens of the gated entity's uri/description/
+       aliases), the template inherits its requires_content_tags.
+    """
+    templates: dict[str, DesignTemplate] = cat["templates"]
+    groups: dict[str, TemplateGroup] = cat["template_groups"]
+    bodies: dict[str, str] = cat["template_bodies"]
+
+    # 1. instance_of
+    fills_to_locked_class = {}
+    for sub in cat["subtypes"].values():
+        if (sub.assembly or {}).get("locked") and sub.fills_section_types:
+            fills_to_locked_class[tuple(sorted(sub.fills_section_types))] = sub.id
+    for tpl in templates.values():
+        if tpl.instance_of or not tpl.fills_section_types:
+            continue
+        match = fills_to_locked_class.get(tuple(sorted(tpl.fills_section_types)))
+        if match:
+            tpl.instance_of = match
+
+    # 2. deterministic pick-one groups
+    def ensure_group(gid: str, name: str, semantics: str) -> str:
+        if gid not in groups:
+            groups[gid] = TemplateGroup(id=gid, brand_id=brand, name=name, semantics=semantics)
+        return gid
+
+    families = {
+        "email_headers": ("top_matter", "Approved email headers",
+                          "alternates; assemble exactly one at the top of every email"),
+        "email_footers": ("end_matter", "Approved email footers",
+                          "alternates; assemble exactly one at the bottom of every email"),
+    }
+    for fam_slug, (role, name, semantics) in families.items():
+        members = [t for t in templates.values()
+                   if role in (t.fills_section_types or []) and t.group_id is None]
+        if not members:
+            continue
+        gid = ensure_group(f"tgr_{brand}_{fam_slug}", name, semantics)
+        for order, tpl in enumerate(sorted(members, key=lambda t: t.id)):
+            tpl.group_id = gid
+            tpl.group_order = order
+
+    # 3. gated-content inheritance. Deliberately narrow: a template inherits a gated
+    # asset's requires_content_tags only when its body/description references the tag
+    # itself or a DISTINCTIVE token of the asset's URI basename (filename). Description
+    # words and gated tokens are excluded — their vocabulary ("locked", "boxed",
+    # "chart", ...) is too generic and over-fires across unrelated templates.
+    stop = {"image", "images", "primary", "email", "emails", "column", "background",
+            "logo", "white", "default", "general", "brand", "lockup", "https",
+            "solstice", "content", "header", "footer", "banner", "update", "final"}
+    gate_keywords: dict[str, set[str]] = {}
+    for asset in cat["assets"].values():
+        tags = (asset.usage_conditions or {}).get("requires_content_tags") or []
+        if not tags or not asset.uri:
+            continue
+        basename = asset.uri.rstrip("/").rsplit("/", 1)[-1].lower()
+        words = set(re.findall(r"[a-z]{4,}", basename)) - stop
+        for tag in tags:
+            gate_keywords.setdefault(tag, set()).update(words | {tag})
+
+    for tpl in templates.values():
+        blob = f"{tpl.name} {tpl.description or ''} {bodies.get(tpl.id, '')}".lower()
+        inherited = sorted({tag for tag, kws in gate_keywords.items()
+                            if any(kw in blob for kw in kws)})
+        if inherited:
+            uc = dict(tpl.usage_conditions or {})
+            merged = sorted(set(uc.get("requires_content_tags") or []) | set(inherited))
+            if merged != (uc.get("requires_content_tags") or []):
+                uc["requires_content_tags"] = merged
+                uc.setdefault("inferred", True)
+                tpl.usage_conditions = uc
+                warns.add(f"{tpl.id}: inherited requires_content_tags {inherited} from gated "
+                          "assets/tokens referenced in its body (inferred; review)")
+
+    # 4. prune groups that ended up with no template members (e.g. an LLM group whose
+    # members were dropped in validation, or copy-alternates misfiled as templates)
+    member_gids = {t.group_id for t in templates.values() if t.group_id}
+    for gid in [g for g in groups if g not in member_gids]:
+        warns.add(f"{gid}: template_group has no members; pruned")
+        del groups[gid]
 
 
 # ---------------------------------------------------------------------------
@@ -957,9 +1153,11 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
     nodes: list[dict[str, Any]] = []
     edges: list[dict[str, Any]] = []
 
-    # Brand vocab plus anything referenced by rules/subtypes (safety net).
+    # Brand vocab plus anything referenced by rules/subtypes/templates (safety net).
     referenced = {s for r in rules.values() for s in (r.selector.section_types or [])}
-    referenced |= {s for sub in cat["subtypes"].values() for s in (sub.covers_section_types or [])}
+    referenced |= {s for sub in cat["subtypes"].values()
+                   for s in (sub.fills_section_types or []) + (sub.hosts_section_types or [])}
+    referenced |= {s for tpl in cat["templates"].values() for s in (tpl.fills_section_types or [])}
     for s in list(dict.fromkeys([*section_vocab, *sorted(referenced)])):
         nodes.append({"id": f"sec_{s}", "kind": "section_type", "label": s})
     for r in rules.values():
@@ -1001,10 +1199,23 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
     for g in cat["governance"].values():
         nodes.append({"id": g.id, "kind": "governance", "label": g.subject[:100]})
     for s in cat["subtypes"].values():
-        nodes.append({"id": s.id, "kind": "subtype", "label": s.name,
-                      "is_template": bool(s.template_ref)})
-        for sec in s.covers_section_types or []:
-            edges.append({"src": s.id, "dst": f"sec_{sec}", "type": "covers_section"})
+        nodes.append({"id": s.id, "kind": "subtype", "label": s.name})
+        for sec in s.fills_section_types or []:
+            edges.append({"src": s.id, "dst": f"sec_{sec}", "type": "fills_section"})
+        for sec in s.hosts_section_types or []:
+            edges.append({"src": s.id, "dst": f"sec_{sec}", "type": "hosts_section"})
+    for tpl in cat["templates"].values():
+        nodes.append({"id": tpl.id, "kind": "template", "label": tpl.name,
+                      "source": tpl.source})
+        for sec in tpl.fills_section_types or []:
+            edges.append({"src": tpl.id, "dst": f"sec_{sec}", "type": "fills_section"})
+        if tpl.instance_of:
+            edges.append({"src": tpl.id, "dst": tpl.instance_of, "type": "instance_of"})
+        if tpl.group_id:
+            edges.append({"src": tpl.id, "dst": tpl.group_id, "type": "member_of",
+                          "order": tpl.group_order})
+    for tg in cat["template_groups"].values():
+        nodes.append({"id": tg.id, "kind": "template_group", "label": tg.name})
     for ag in cat["asset_groups"].values():
         nodes.append({"id": ag.id, "kind": "asset_group", "label": ag.name})
 
@@ -1021,9 +1232,8 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
 
 def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
              groups: dict[str, RuleGroup], relations: list[RuleRelation],
-             warns: Warnings, template_bodies: Optional[dict[str, str]] = None,
-             near_dupes: Optional[list[str]] = None) -> None:
-    template_bodies = template_bodies or {}
+             warns: Warnings, near_dupes: Optional[list[str]] = None) -> None:
+    template_bodies: dict[str, str] = cat.get("template_bodies", {})
     section_vocab = get_registries().section_types(brand)
     root = config.kb_dir(brand)
     if root.exists():
@@ -1044,6 +1254,7 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
               "tokens_semantic": sum(1 for t in cat["tokens"].values() if t.kind == "semantic"),
               "assets": len(cat["assets"]),
               "governance": len(cat["governance"]), "subtypes": len(cat["subtypes"]),
+              "templates": len(cat["templates"]), "template_groups": len(cat["template_groups"]),
               "rule_groups": len(groups), "asset_groups": len(cat["asset_groups"])}
     (schema_dir / "overview.md").write_text(schema_docs.overview_doc(brand, counts))
 
@@ -1086,8 +1297,8 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
             elif name == "subtypes":
                 idx.append({"id": e.id, "name": e.name, "kind": e.kind,
                             "locked": bool((e.assembly or {}).get("locked")),
-                            "covers_section_types": e.covers_section_types,
-                            "template_ref": e.template_ref})
+                            "fills_section_types": e.fills_section_types,
+                            "hosts_section_types": e.hosts_section_types})
             else:
                 idx.append({"id": e.id, "type": e.gov_type, "verdict": e.verdict,
                             "subject": e.subject[:120]})
@@ -1100,15 +1311,28 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
         json.dumps([g.model_dump(exclude_none=True) for g in groups.values()], indent=2))
     (groups_dir / "asset_groups.json").write_text(
         json.dumps([g.model_dump(exclude_none=True) for g in cat["asset_groups"].values()], indent=2))
+    (groups_dir / "template_groups.json").write_text(
+        json.dumps([g.model_dump(exclude_none=True) for g in cat["template_groups"].values()], indent=2))
     (groups_dir / "relations.json").write_text(
         json.dumps([r.model_dump(exclude_none=True) for r in relations], indent=2))
 
-    # templates (concrete approved bodies referenced by subtype.template_file)
-    if template_bodies:
+    # design templates: metadata under templates/_meta/, bodies as sibling .mjml files
+    if cat["templates"]:
         tpl_dir = root / "templates"
-        tpl_dir.mkdir(exist_ok=True)
-        for sub_id, body in template_bodies.items():
-            (tpl_dir / f"{sub_id}.mjml").write_text(body)
+        meta_dir = tpl_dir / "_meta"
+        meta_dir.mkdir(parents=True, exist_ok=True)
+        tpl_idx = []
+        for tpl in cat["templates"].values():
+            (meta_dir / f"{tpl.id}.json").write_text(
+                json.dumps(tpl.model_dump(exclude_none=True), indent=2))
+            if tpl.id in template_bodies:
+                (tpl_dir / f"{tpl.id}.mjml").write_text(template_bodies[tpl.id])
+            tpl_idx.append({"id": tpl.id, "name": tpl.name, "source": tpl.source,
+                            "fills_section_types": tpl.fills_section_types,
+                            "instance_of": tpl.instance_of, "group_id": tpl.group_id,
+                            "usage_conditions": tpl.usage_conditions,
+                            "file": tpl.file})
+        (tpl_dir / "_index.json").write_text(json.dumps(tpl_idx, indent=2))
 
     # graph
     graph_dir = root / "graph"
@@ -1205,12 +1429,16 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
                                    section_types=section_vocab,
                                    tokens="\n".join(token_lines(all_tokens))), usage)
 
-    raw_catalog = {"tokens": all_tokens, **{k: raw_rest.get(k, []) for k in
-                                            ("assets", "governance", "subtypes", "asset_groups")}}
+    raw_catalog = {"tokens": all_tokens,
+                   **{k: raw_rest.get(k, []) for k in
+                      ("assets", "governance", "subtypes", "templates",
+                       "template_groups", "asset_groups")}}
     cat = validate_catalog(raw_catalog, brand, warns)
 
-    # Deterministic post-passes: concrete template ingestion + exact-duplicate token merge.
-    template_bodies = ingest_template_library(brand, cat["subtypes"], warns)
+    # Deterministic post-passes: library template ingestion, template linking
+    # (instance_of / pick-one groups / gated-content inheritance), token dedupe.
+    ingest_template_library(brand, cat, warns)
+    link_templates(brand, cat, warns)
     merge_map, near_dupes = dedupe_tokens(cat["tokens"], warns)
     for asset in cat["assets"].values():
         asset.contains_token_ids = [merge_map.get(x, x) for x in asset.contains_token_ids]
@@ -1222,8 +1450,9 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
     n_sem = len(cat["tokens"]) - n_prim
     console.print(f"  catalog: {len(cat['tokens'])} tokens ({n_prim} primitive / {n_sem} semantic, "
                   f"{len(merge_map)} deduped), {len(cat['assets'])} assets, "
-                  f"{len(cat['governance'])} governance, {len(cat['subtypes'])} subtypes "
-                  f"({len(template_bodies)} concrete templates), {len(cat['asset_groups'])} asset_groups")
+                  f"{len(cat['governance'])} governance, {len(cat['subtypes'])} subtype classes, "
+                  f"{len(cat['templates'])} templates in {len(cat['template_groups'])} groups, "
+                  f"{len(cat['asset_groups'])} asset_groups")
 
     # Pass B — rules per blob, parallel
     cat_text = catalog_summary({
@@ -1285,7 +1514,7 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
 
     console.print(f"  [bold]{len(rules)} rules[/bold], {len(relations)} relations, "
                   f"{len(warns.items)} warnings")
-    write_kb(brand, rules, cat, groups, relations, warns, template_bodies, near_dupes)
+    write_kb(brand, rules, cat, groups, relations, warns, near_dupes)
     reg.save()  # persist any other.* discoveries permanently
     console.print(f"  KB written to {config.kb_dir(brand)}")
 

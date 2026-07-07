@@ -35,6 +35,23 @@ section?** (Benchmarked later against humans doing the same task; FNR-first.)
 - Asset vocabulary: `wave` generalized to `graphic_device` (brand-look motifs: waves,
   swooshes, accent shapes, patterns).
 
+## v0.3 class/template split (this branch)
+
+- `content_sub_type` = structural CLASSES only (source-defined component library, locked
+  matter, dimension formats). Role-echo pseudo-components are gone — recurring section
+  patterns stay rules + selector + tokens.
+- New `design_template` entity (`tpl_`): concrete approved artifacts from template
+  libraries AND approved MJML blocks embedded verbatim in the bibles. Templates fill
+  section roles (`fills_section_types`), may realize a class (`instance_of`), sit in
+  pick-one `template_group`s (`tgr_`, e.g. approved email headers), and carry their own
+  `usage_conditions` (selection gates like `requires_content_tags: [lpga]`, inferred
+  automatically when a template's body references a gated asset).
+- `covers_section_types` split into `fills_section_types` (IS the role; feeds rule
+  surfacing) vs `hosts_section_types` (CAN CARRY the role; affordance hint only).
+- Rules scope to classes only; `tpl_`/`tgr_` ids in `content_sub_type_ids` are rejected
+  at validation. New tools: `list_templates`, `rules_for_template` (instance view:
+  rules via class + via filled sections + own usage_conditions + group alternates).
+
 Inputs: a structured brand-rules KB (migrated from the design bibles) + an email blueprint
 (`content_blueprint[]`, with or without per-section `design_concept`).
 Output per section: `targeted_rules` (precisely scoped to that section) and

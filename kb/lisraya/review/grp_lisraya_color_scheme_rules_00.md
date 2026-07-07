@@ -32,7 +32,7 @@ doc_ref: `color_scheme_rules[0]`
 
 ## Extracted rules (1)
 
-### rule_lisraya_palette_hierarchy_ratio
-- class=color_application scope=brand hardness=strong_default polarity=should sections=None constraint=binding
-- rule_text: The Lisraya palette is organized into three tiers: PRIMARY (dominant tier — Brand Blue #00529b, Sunshine #faa31b, Gold #ffc60a), SECONDARY (Sky Blue #358CCB, Deep Blue #003D74, Dark Navy #011E45), and TERTIARY (Coral #F26A38, Light Blue #E6F0F9, Golden Sand #FEF1C8, Graphite #212121, White #ffffff). Usage should follow the tier hierarchy primary > secondary > tertiary.
-- intent: Preserve brand color dominance hierarchy across materials.
+### rule_lisraya_palette_tier_usage_hierarchy
+- class=color_application scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: The LISRAYA palette is organized into a dominant Primary tier (Brand Blue, Sunshine, Gold), a Secondary tier (Sky Blue, Deep Blue, Dark Navy), and a Tertiary tier (Coral, Light Blue, Golden Sand, Graphite, White). Color usage must follow the primary > secondary > tertiary weighting, with Primary colors dominant.
+- intent: Preserve brand recognizability by weighting palette usage toward the primary tier.

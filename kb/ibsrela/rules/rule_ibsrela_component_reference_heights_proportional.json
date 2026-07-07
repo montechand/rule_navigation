@@ -1,0 +1,51 @@
+{
+  "id": "rule_ibsrela_component_reference_heights_proportional",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_primary_1_column",
+    "sub_ibsrela_primary_2_column",
+    "sub_ibsrela_secondary"
+  ],
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "component.primary_1col.dimension",
+        "token_id": "tok_ibsrela_primary1col_dimension"
+      },
+      {
+        "element_path": "component.primary_2col.dimension",
+        "token_id": "tok_ibsrela_primary2col_dimension"
+      },
+      {
+        "element_path": "component.secondary.dimension",
+        "token_id": "tok_ibsrela_secondary_dimension"
+      }
+    ]
+  },
+  "polarity": "should",
+  "hardness": "soft_guidance",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_primary1col_dimension",
+    "tok_ibsrela_primary2col_dimension",
+    "tok_ibsrela_secondary_dimension"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Component reference heights from the library (Primary 1-Col 600\u00d71138 / 375\u00d7788; Primary 2-Col 600\u00d71088 / 375\u00d71538; Secondary 600\u00d7458 desktop row) should be treated as proportions, not hard limits.",
+  "intent": "Provide sizing guidance without imposing rigid height caps.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_ibsrela_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Component reference heights (Primary 1-Col 600\u00d71138/375\u00d7788; Primary 2-Col 600\u00d71088/375\u00d71538; Secondary 600\u00d7458) are proportional guidelines, not fixed limits."
+}

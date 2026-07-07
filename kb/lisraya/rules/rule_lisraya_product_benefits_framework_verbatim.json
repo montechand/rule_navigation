@@ -4,11 +4,21 @@
   "rule_class": "copy_editorial",
   "audience": "dtp_patient",
   "scope": "campaign",
-  "selector": {},
+  "selector": {
+    "section_types": [
+      "efficacy"
+    ]
+  },
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "you_deserve_more"
+    }
+  ],
   "evaluation_scope": "section",
   "constraint_type": "verbatim_content",
   "effect": {
-    "content": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can: Increase your muscle strength / Improve your skin symptoms / Rely less on steroids / Do more of the activities you love",
+    "content": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can: Increase your muscle strength / Improve your skin symptoms / Rely less on steroids / Do more of the activities you love.",
     "governance_id": "gov_lisraya_product_benefits",
     "trigger": null
   },
@@ -20,12 +30,12 @@
   "governance_ids": [
     "gov_lisraya_product_benefits"
   ],
-  "rule_text": "The product benefits framework must be stated verbatim: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by the bullets \"Increase your muscle strength\" / \"Improve your skin symptoms\" / \"Rely less on steroids\" / \"Do more of the activities you love\".",
-  "intent": "Lock approved efficacy/benefit language.",
+  "rule_text": "The product benefits framework must use the approved lead-in \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by the verbatim bullets: Increase your muscle strength; Improve your skin symptoms; Rely less on steroids; Do more of the activities you love.",
+  "intent": "Preserve MLR-approved benefits claim and bullet wording.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "copy_editorial: Product benefits must be verbatim with intro \"LISRAYA...\" plus bullets: Increase muscle strength, Improve skin symptoms, Rely less on steroids, Do more activities you love."
+  "summary": "copy_editorial: Use lead-in \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by exact bullets: Increase your muscle strength; Improve your skin symptoms; Rely less on steroids; Do more of the activities you love."
 }

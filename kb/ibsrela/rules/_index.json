@@ -1,6 +1,6 @@
 [
   {
-    "id": "rule_ibsrela_contrast_minimums",
+    "id": "rule_ibsrela_min_contrast_ratios",
     "rule_class": "accessibility",
     "tags": [
       "color_application",
@@ -15,28 +15,27 @@
     "evaluation_scope": "element",
     "audience": null,
     "applies_when": null,
-    "summary": "Ensure minimum contrast 4.5:1 body text, 3:1 bold headlines \u226518px; white on #92278F/#262262/#01A47E OK; avoid silver or periwinkle on white."
+    "summary": "Maintain 4.5:1 contrast for body, 3:1 for bold \u226518px; white on #92278F/#262262/#01A47E passes; avoid silver/periwinkle on white."
   },
   {
-    "id": "rule_ibsrela_images_alt_text_and_live_isi",
+    "id": "rule_ibsrela_images_alt_text_and_image_off_resilience",
     "rule_class": "accessibility",
     "tags": [
-      "imagery",
-      "assembly"
+      "imagery"
     ],
     "sections": null,
     "element_path": null,
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
-    "constraint_type": null,
+    "constraint_type": "binding",
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "All images require alt text; ISI must be live text, not image-based, ensuring indication and safety messages display with images off."
+    "summary": "All images require alt text; ISI must be live text (never image) to ensure indication and safety with images off."
   },
   {
-    "id": "rule_ibsrela_min_text_size_tap_target_heading_order",
+    "id": "rule_ibsrela_min_text_size_and_tap_targets",
     "rule_class": "accessibility",
     "tags": [
       "typography",
@@ -51,28 +50,46 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Minimum live-text 10px (footnotes), body \u226512px, tap targets \u226544px; single H1 per email with logical heading order."
+    "summary": "Accessibility: Live-text min 10px (footnotes), body \u226512px, tap targets \u226544px, logical heading order, exactly one H1 per email."
   },
   {
-    "id": "rule_ibsrela_link_underline_and_semantic_markup",
+    "id": "rule_ibsrela_one_h1_per_email",
     "rule_class": "accessibility",
     "tags": [
       "copy_editorial",
       "assembly"
     ],
     "sections": null,
-    "element_path": "body.link.decoration",
+    "element_path": null,
+    "scope": "org_baseline",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "cardinality",
+    "evaluation_scope": "email",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Use exactly one H1 per email, ensuring all headings follow a logical order for accessibility."
+  },
+  {
+    "id": "rule_ibsrela_underline_links_and_semantic_markup",
+    "rule_class": "accessibility",
+    "tags": [
+      "copy_editorial",
+      "layout"
+    ],
+    "sections": null,
+    "element_path": null,
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
-    "evaluation_scope": "element",
+    "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Underline links for accessibility; use <table role=\"presentation\"> for layout tables to ensure semantic markup."
+    "summary": "Underline links to ensure accessibility, avoid relying solely on color; use semantic <table role=\"presentation\"> markup for non-data tables."
   },
   {
-    "id": "rule_ibsrela_self_contained_600px_section_no_margins",
+    "id": "rule_ibsrela_self_contained_section_flush_stacking",
     "rule_class": "assembly",
     "tags": [
       "layout",
@@ -87,17 +104,17 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Content sections are 600px tables with background, top/bottom padding (\u00a72.2), optional wave edge; no outer margins for flush stacking with Top/End Matter."
+    "summary": "Each content section is a 600px table with background, top/bottom padding (\u00a72.2), optional wave edge, no outer margins, stacking flush with adjacent sections and Top/End Matter."
   },
   {
-    "id": "rule_ibsrela_theme_edge_declaration_transition",
+    "id": "rule_ibsrela_adjacent_section_theme_transition",
     "rule_class": "assembly",
     "tags": [
       "color_application",
-      "layout"
+      "imagery"
     ],
     "sections": null,
-    "element_path": "section.wave_edge",
+    "element_path": null,
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -107,13 +124,13 @@
     "applies_when": [
       {
         "kind": "adjacent_section_state",
-        "value": "edge_background_mismatch"
+        "value": "edge_theme_background"
       }
     ],
-    "summary": "Section themes must declare top/bottom backgrounds for matching or wave transitions; first meets header on white/theme, last ends matching locked footer wave edge."
+    "summary": "Sections declare theme backgrounds at top/bottom; adjacent sections match or wave-transition; first section meets header on white/theme; last section ends with footer-approved wave background."
   },
   {
-    "id": "rule_ibsrela_footnote_reference_numbering_per_email",
+    "id": "rule_ibsrela_email_wide_footnote_reference_coordination",
     "rule_class": "assembly",
     "tags": [
       "copy_editorial"
@@ -127,10 +144,10 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Footnote symbols in assembly follow continuous *, \u2020, \u2021, \u00a7 order across whole email, numbering continuous across sections including locked End Matter."
+    "summary": "Footnote symbols use * \u2020 \u2021 \u00a7 sequence continuously throughout the email, numbered across sections, resolving above/within locked End Matter per template rules."
   },
   {
-    "id": "rule_ibsrela_email_singleton_cardinality",
+    "id": "rule_ibsrela_wave_callout_cta_cardinality",
     "rule_class": "assembly",
     "tags": [
       "cta",
@@ -148,19 +165,18 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Use max one Wave graphic and one key-strategic-question callout per email; limit to one primary CTA per section and ~3 CTAs total per email."
+    "summary": "Assembly rule: max 1 Wave graphic and 1 key-strategic-question callout per email; max 1 primary CTA per section; approx. 3 CTAs total per email."
   },
   {
-    "id": "rule_ibsrela_no_out_of_document_styles_or_locked_copy",
+    "id": "rule_ibsrela_no_new_styles_no_locked_copy_in_sections",
     "rule_class": "assembly",
     "tags": [
       "typography",
       "color_application",
-      "iconography",
-      "voice_tone"
+      "iconography"
     ],
     "sections": null,
-    "element_path": "icon.new.style",
+    "element_path": null,
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must_not",
@@ -168,14 +184,13 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "No new fonts, colors, button shapes, or icon styles outside doc; new icons match existing simplified line style; no logo lockup or legal copy reproduction."
+    "summary": "No section introduces fonts, colors, button shapes, icons outside this doc; new icons match existing simplified line style/weight; no logo lockup or ISI/legal copy reproduction."
   },
   {
     "id": "rule_ibsrela_final_assembly_qa_checklist",
     "rule_class": "assembly",
     "tags": [
       "accessibility",
-      "layout",
       "typography"
     ],
     "sections": null,
@@ -187,63 +202,37 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Final assembly QA: body size locked ISI body size 12px/1.4, audience matches \u00a74.2 header/footer, all \u00a71.8 content present, theme consistent, breakpoints no horizontal scroll."
+    "summary": "Final assembly QA: verify body size (12 px/1.4), audience matches header/footer (\u00a74.2), all \u00a71.8 content sections included, consistent theme, no horizontal scroll at both breakpoints."
   },
   {
     "id": "rule_ibsrela_branded_palette_usage_ratio",
     "rule_class": "color_application",
-    "tags": [
-      "accessibility"
-    ],
+    "tags": [],
     "sections": null,
     "element_path": "palette.usage_ratio",
     "scope": "brand",
     "hardness": "strong_default",
-    "polarity": "must",
+    "polarity": "should",
     "constraint_type": "binding",
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Primary colors: Purple (30%), Dark Blue (30%), White (20%) convey 'creative reliability'; Silver, Dark Gray, Green used as accents (15%/5% ratio)."
+    "summary": "Use brand palette with 30% Purple, 30% Dark Blue, 20% White, 15% Silver/Dark Gray, 5% Green; prioritize Purple, Dark Blue, White as primary colors; others are accents."
   },
   {
-    "id": "rule_ibsrela_accent_color_usage_restrictions",
+    "id": "rule_ibsrela_accent_color_reservations",
     "rule_class": "color_application",
     "tags": [],
     "sections": null,
     "element_path": null,
     "scope": "org_baseline",
     "hardness": "hard_constraint",
-    "polarity": "must_not",
-    "constraint_type": "exclusivity",
-    "evaluation_scope": "element",
-    "audience": null,
-    "applies_when": null,
-    "summary": "Never use Purple/Green in body copy; Green only for CTA fills/accents; Dark Gray for charts/secondary UI; Silver never for text."
-  },
-  {
-    "id": "rule_ibsrela_title_purple_exclusive",
-    "rule_class": "color_application",
-    "tags": [
-      "typography"
-    ],
-    "sections": [
-      "intro"
-    ],
-    "element_path": "title.color",
-    "scope": "brand",
-    "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "exclusivity",
     "evaluation_scope": "email",
     "audience": null,
-    "applies_when": [
-      {
-        "kind": "position_in_email",
-        "value": "first_line"
-      }
-    ],
-    "summary": "Title and first email line must be #92278F purple; no other email text may use purple color."
+    "applies_when": null,
+    "summary": "Avoid Purple/Green for body text; Green only for CTAs/accents; Dark Gray for charts/secondary UI; Silver not for text."
   },
   {
     "id": "rule_ibsrela_text_color_assignments",
@@ -260,16 +249,38 @@
     "evaluation_scope": "element",
     "audience": null,
     "applies_when": null,
-    "summary": "Use Dark Blue #262262 for h1/h2 headlines/subheads; black #000000 for body copy and ISI text; titles use title-purple rule."
+    "summary": "Explicit text colors: Titles #92278F purple; Headlines & subheads #262262 dark blue; Body copy & ISI #000000 black."
   },
   {
-    "id": "rule_ibsrela_body_highlight_black_bold",
+    "id": "rule_ibsrela_title_purple_only",
+    "rule_class": "color_application",
+    "tags": [],
+    "sections": [
+      "hero"
+    ],
+    "element_path": "title.color",
+    "scope": "brand",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "exclusivity",
+    "evaluation_scope": "email",
+    "audience": null,
+    "applies_when": [
+      {
+        "kind": "position_in_email",
+        "value": "first_line"
+      }
+    ],
+    "summary": "Email title and first line must be purple; no other text in email may use purple."
+  },
+  {
+    "id": "rule_ibsrela_white_section_highlight_black_bold",
     "rule_class": "color_application",
     "tags": [
       "typography"
     ],
     "sections": null,
-    "element_path": "body.highlight",
+    "element_path": "body.highlight.color",
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -279,25 +290,27 @@
     "applies_when": [
       {
         "kind": "background_group",
-        "value": "white"
+        "value": "light"
       }
     ],
-    "summary": "Highlight on white body section must be black and bold; blue and purple colors are prohibited in body paragraphs."
+    "summary": "Highlight on white body sections (excluding headings/sub-headings/titles) must be black and bold; blue or purple disallowed in body paragraphs."
   },
   {
-    "id": "rule_ibsrela_single_color_per_sentence",
+    "id": "rule_ibsrela_one_color_per_sentence",
     "rule_class": "color_application",
-    "tags": [],
+    "tags": [
+      "typography"
+    ],
     "sections": null,
     "element_path": null,
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must_not",
-    "constraint_type": "exclusivity",
+    "constraint_type": "binding",
     "evaluation_scope": "sentence",
     "audience": null,
     "applies_when": null,
-    "summary": "Each sentence, including headings and body, must use only one color; no mixing of two colors within the same sentence."
+    "summary": "(color_application) Each sentence, heading or body, must use only one color; mixing two colors within the same sentence is prohibited."
   },
   {
     "id": "rule_ibsrela_flip_script_campaign_palette_ratio",
@@ -309,7 +322,7 @@
     "element_path": "palette.usage_ratio",
     "scope": "campaign",
     "hardness": "strong_default",
-    "polarity": "should",
+    "polarity": "must",
     "constraint_type": "binding",
     "evaluation_scope": "email",
     "audience": null,
@@ -319,7 +332,7 @@
         "value": "flip_the_script"
       }
     ],
-    "summary": "In Flip The Script campaign, Periwinkle #7B7BED, Purple #92278F, Green #01A47E are used equally (33% each) as accents, not palette replacements."
+    "summary": "In Flip The Script campaign, Periwinkle, Purple, Green used evenly at 33% each as accents, not replacing branded palette colors."
   },
   {
     "id": "rule_ibsrela_flip_script_scene_color_pairings_fixed",
@@ -327,15 +340,13 @@
     "tags": [
       "imagery"
     ],
-    "sections": [
-      "callout"
-    ],
-    "element_path": "callout.scene_banner.color",
+    "sections": null,
+    "element_path": null,
     "scope": "campaign",
     "hardness": "hard_constraint",
     "polarity": "must_not",
     "constraint_type": "pairing",
-    "evaluation_scope": "section",
+    "evaluation_scope": "email",
     "audience": null,
     "applies_when": [
       {
@@ -343,7 +354,7 @@
         "value": "flip_the_script"
       }
     ],
-    "summary": "Flip The Script scene-banner colors must match fixed pairings: Periwinkle\u2192Office, Purple\u2192Cafe, Green\u2192Soccer; no interchange of scene-color pairs allowed."
+    "summary": "Scene-color pairings fixed: Periwinkle\u2192Office, Purple\u2192Cafe, Green\u2192Soccer; White (Safe White) unpaired and unrestricted."
   },
   {
     "id": "rule_ibsrela_flip_script_callout_opacity_pairings",
@@ -365,48 +376,64 @@
         "value": "flip_the_script"
       }
     ],
-    "summary": "Callout opacity over white: Periwinkle 80%, Purple 60%, Green 40%; white banner over imagery fixed at 80% opacity."
+    "summary": "Callout colors over white: Periwinkle 80%, Purple 60%, Green 40% opacity; White banner over imagery at 80% opacity."
   },
   {
-    "id": "rule_ibsrela_primary_gradients_definition_and_usage",
+    "id": "rule_ibsrela_primary_gradient_definitions",
     "rule_class": "color_application",
-    "tags": [
-      "typography"
-    ],
+    "tags": [],
     "sections": null,
-    "element_path": "section.background.gradient",
+    "element_path": "section.gradient.primary",
     "scope": "brand",
     "hardness": "strong_default",
-    "polarity": "should",
+    "polarity": "must",
     "constraint_type": "binding",
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Primary gradients: Dark Blue (#262262)\u2192Purple (#92278F) at 45\u00b0 for backgrounds/callouts; Silver (#CFDCE3)\u2192White (#FFFFFF) for panels; rotation allowed; limited headline use."
+    "summary": "Primary gradient: #262262(0)-#92278F(100) at 45\u00b0 in section.gradient.primary; light gradient: #CFDCE3 to #FFFFFF in section.gradient.light; rotation allowed."
   },
   {
-    "id": "rule_ibsrela_email_gradient_fallback_no_gradient_text",
+    "id": "rule_ibsrela_gradient_headline_callout_sparing",
     "rule_class": "color_application",
     "tags": [
-      "accessibility",
       "typography"
     ],
+    "sections": [
+      "callout"
+    ],
+    "element_path": "headline.color",
+    "scope": "brand",
+    "hardness": "soft_guidance",
+    "polarity": "should",
+    "constraint_type": null,
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Dark Blue \u2192 Purple gradient applies sparingly to headlines/callouts, e.g., two-tone headline with back half in Purple only."
+  },
+  {
+    "id": "rule_ibsrela_email_gradient_background_only",
+    "rule_class": "color_application",
+    "tags": [
+      "accessibility"
+    ],
     "sections": null,
-    "element_path": "section.background.gradient",
+    "element_path": "section.gradient.primary",
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must_not",
-    "constraint_type": "binding",
+    "constraint_type": null,
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "In email, use gradients only as section backgrounds with #92278F/#262262 fallback; no gradient body text, use navy+purple split headline instead."
+    "summary": "Gradients in email: only section background or CSS with #92278F/#262262 fallback; no gradient text, use two-color split headline (navy + purple)."
   },
   {
-    "id": "rule_ibsrela_one_theme_per_email",
-    "rule_class": "color_application",
+    "id": "rule_ibsrela_email_single_theme_inheritance",
+    "rule_class": "assembly",
     "tags": [
-      "assembly",
+      "color_application",
       "layout"
     ],
     "sections": null,
@@ -418,32 +445,14 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Use one theme per email; theme styles frame, tile, button, campaign-image colors; sections inherit theme\u2014no independent section theming in a send."
-  },
-  {
-    "id": "rule_ibsrela_approved_theme_tiles",
-    "rule_class": "color_application",
-    "tags": [
-      "typography",
-      "cta"
-    ],
-    "sections": null,
-    "element_path": "theme.tile.background",
-    "scope": "brand",
-    "hardness": "strong_default",
-    "polarity": "must",
-    "constraint_type": "binding",
-    "evaluation_scope": "email",
-    "audience": null,
-    "applies_when": null,
-    "summary": "Use White, Silver/light, Purple (#92278F), Navy (#262262), Green (#01A47E); light themes: dark text + teal buttons; dark themes: white text, knockout logo, light/outlined buttons; tile/button/campaign-image colors switch per theme background variants."
+    "summary": "Use one theme per email (White, Silver/light, Purple #92278F, Navy #262262, Green #01A47E); frame styles tile, button, campaign-image colors; light themes = dark text + teal buttons; dark themes = white text + knockout logo + light/outlined buttons; no section-level theming within a send."
   },
   {
     "id": "rule_ibsrela_theme_contrast_pairings",
     "rule_class": "color_application",
     "tags": [
-      "typography",
-      "accessibility"
+      "accessibility",
+      "typography"
     ],
     "sections": null,
     "element_path": null,
@@ -456,20 +465,16 @@
     "applies_when": [
       {
         "kind": "background_group",
-        "value": "dark"
-      },
-      {
-        "kind": "background_group",
-        "value": "light"
+        "value": "dark_and_light_panels"
       }
     ],
-    "summary": "Use white text and underlined white links on Purple/Navy/Green backgrounds; navy headlines, black body, purple accents, and purple/navy underlined links on White/Silver panels."
+    "summary": "On Purple/Navy/Green panels use white text and white underlined links; on White/Silver panels navy headlines, black body text, purple accents, and purple/navy underlined links."
   },
   {
     "id": "rule_ibsrela_dtp_section_background_sequence",
-    "rule_class": "layout",
+    "rule_class": "color_application",
     "tags": [
-      "color_application",
+      "layout",
       "assembly"
     ],
     "sections": [
@@ -478,9 +483,10 @@
       "patient_story",
       "affordability",
       "symptom_trio",
+      "cta",
       "end_matter"
     ],
-    "element_path": null,
+    "element_path": "section.background",
     "scope": "brand",
     "hardness": "strong_default",
     "polarity": "must",
@@ -488,13 +494,14 @@
     "evaluation_scope": "email",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "DTP emails cycle backgrounds: purple hero \u2192 white content \u2192 white/light photo \u2192 green #01A47E accent panel \u2192 purple campaign image \u2192 locked End Matter."
+    "summary": "DTP emails alternate backgrounds: purple hero \u2192 white content (efficacy + side-effects) \u2192 white/light photo (story/lifestyle) \u2192 green #01A47E accent (affordability/icons) \u2192 purple campaign image \u2192 locked End Matter."
   },
   {
     "id": "rule_ibsrela_sections_butt_edge_to_edge",
-    "rule_class": "spacing",
+    "rule_class": "layout",
     "tags": [
-      "layout"
+      "spacing",
+      "assembly"
     ],
     "sections": null,
     "element_path": null,
@@ -508,10 +515,11 @@
     "summary": "Sections have no edge margin; transitions use background color changes or full-bleed hero images, not dividers or rules."
   },
   {
-    "id": "rule_ibsrela_green_panel_once_per_email",
+    "id": "rule_ibsrela_green_panel_max_once_exclusive_use",
     "rule_class": "color_application",
     "tags": [
-      "layout"
+      "layout",
+      "iconography"
     ],
     "sections": [
       "affordability",
@@ -519,20 +527,19 @@
     ],
     "element_path": "dtp.green_panel.background",
     "scope": "brand",
-    "hardness": "hard_constraint",
-    "polarity": "must_not",
+    "hardness": "strong_default",
+    "polarity": "must",
     "constraint_type": "cardinality",
     "evaluation_scope": "email",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "Green panel appears once per DTP email, reserved for either affordability block or symptom-icon trio, never both stacked."
+    "summary": "Green panel appears max once per email, used exclusively for either affordability block or symptom-icon trio, never both together."
   },
   {
     "id": "rule_ibsrela_cta_button_fill_label_by_background_group",
     "rule_class": "color_application",
     "tags": [
-      "cta",
-      "accessibility"
+      "cta"
     ],
     "sections": [
       "cta"
@@ -542,10 +549,29 @@
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
+    "evaluation_scope": "element",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Light backgrounds (White, Silver) use green (#01A47E) filled button with white (#FFFFFF) label; dark backgrounds use white (#FFFFFF) button with green (#01A47E) label."
+  },
+  {
+    "id": "rule_ibsrela_cta_heading_body_color_by_background_group",
+    "rule_class": "color_application",
+    "tags": [
+      "typography"
+    ],
+    "sections": [
+      "cta"
+    ],
+    "element_path": null,
+    "scope": "brand",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "binding",
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Use light backgrounds (White, Silver) with green (#01A47E) filled CTA and white label; dark backgrounds (Dark Gray, Purple, etc.) with white filled CTA and green label; headings/body colors also switch accordingly."
+    "summary": "In CTA, on light backgrounds (White, Silver) heading is #262262, body #000000; on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) both are #FFFFFF."
   },
   {
     "id": "rule_ibsrela_cta_right_image_locked_to_background",
@@ -557,7 +583,7 @@
     "sections": [
       "cta"
     ],
-    "element_path": "cta.right_image.asset",
+    "element_path": "cta.section.right_image",
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -565,35 +591,36 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "CTA right-image must match background color: Email_Primary_2_column.png=Purple #92278F, Cake_lockup.png=Periwinkle #7B7BED, Email_Primary_column_golf.png=Teal #0F99BC; use white text/buttons and green label."
+    "summary": "CTA section right image must match background: Email_Primary_2_column.png with purple #92278F (default), Email_Primary_column_golf.png with teal #0F99BC (LPGA content), Cake_lockup.png with periwinkle #7B7BED; use one image and matching background only, swap both together; all backgrounds are dark-group\u2014heading/body/button white, label green."
   },
   {
-    "id": "rule_ibsrela_cta_teal_golf_lpga_gated",
-    "rule_class": "color_application",
+    "id": "rule_ibsrela_cta_golf_teal_lpga_gated",
+    "rule_class": "imagery",
     "tags": [
       "cta",
-      "imagery"
+      "color_application",
+      "accessibility"
     ],
     "sections": [
       "cta"
     ],
-    "element_path": "cta.section.background",
+    "element_path": "cta.section.golf_image",
     "scope": "campaign",
     "hardness": "hard_constraint",
-    "polarity": "must",
+    "polarity": "must_not",
     "constraint_type": "exclusivity",
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": [
       {
-        "kind": "content_tag",
+        "kind": "campaign",
         "value": "lpga"
       }
     ],
-    "summary": "Use Email_Primary_column_golf.png and teal #0F99BC background only for LPGA emails; do not use golf image or #0F99BC background without LPGA content."
+    "summary": "Use Email_Primary_column_golf.png and Teal #0F99BC background only if email contains LPGA content; Teal #0F99BC is exclusive to LPGA golf CTA section."
   },
   {
-    "id": "rule_ibsrela_cta_image_free_when_section_above",
+    "id": "rule_ibsrela_cta_image_free_when_populated_section_above",
     "rule_class": "layout",
     "tags": [
       "cta",
@@ -602,31 +629,29 @@
     "sections": [
       "cta"
     ],
-    "element_path": "cta.right_image.asset",
+    "element_path": "cta.section.right_image",
     "scope": "brand",
     "hardness": "strong_default",
-    "polarity": "must",
+    "polarity": "must_not",
     "constraint_type": "binding",
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": [
       {
         "kind": "adjacent_section_state",
-        "value": {
-          "above": "populated_content_section"
-        }
+        "value": "populated_section_directly_above"
       }
     ],
-    "summary": "If content section is directly above CTA, show CTA text+button only, no right image, use approved background; on light backgrounds (e.g. Silver), button is green fill with white label."
+    "summary": "If content section is above CTA, CTA shows text+button only on approved background, no right-side image; colors follow the background group rules."
   },
   {
-    "id": "rule_ibsrela_email_canvas_breakpoints",
+    "id": "rule_ibsrela_email_dual_layout_widths",
     "rule_class": "layout",
     "tags": [
-      "spacing"
+      "accessibility"
     ],
     "sections": null,
-    "element_path": "breakpoint.email",
+    "element_path": "email.width",
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -634,14 +659,14 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Desktop email width 600px, mobile 375px; both layouts required for each component; SFMC auto-serves correct layout."
+    "summary": "Email layout widths: Desktop 600px, Mobile 375px; both layouts required per component; SFMC auto-serves correct version."
   },
   {
-    "id": "rule_ibsrela_email_responsive_build_technique",
+    "id": "rule_ibsrela_email_fixed_width_fluid_collapse",
     "rule_class": "layout",
     "tags": [],
     "sections": null,
-    "element_path": "breakpoint.email.fluid",
+    "element_path": "email.fluid_breakpoint",
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -651,17 +676,17 @@
     "applies_when": [
       {
         "kind": "breakpoint",
-        "value": "below_480"
+        "value": "480px"
       }
     ],
-    "summary": "Use 600px fixed-width table for emails; apply fluid/hybrid design collapsing to 375px width; below 480px, switch to 100% fluid layout for mobile."
+    "summary": "Build emails on 600 px fixed-width table; use fluid/hybrid technique collapsing to 375 px width, fully fluid below 480 px breakpoint."
   },
   {
-    "id": "rule_ibsrela_component_reference_heights",
+    "id": "rule_ibsrela_component_reference_heights_proportional",
     "rule_class": "layout",
     "tags": [],
     "sections": null,
-    "element_path": "component.dimension",
+    "element_path": null,
     "scope": "brand",
     "hardness": "soft_guidance",
     "polarity": "should",
@@ -669,7 +694,7 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Component reference heights (Primary 1-Col, 2-Col; Secondary) are proportional, not fixed limits, for layouts at specified desktop/mobile sizes."
+    "summary": "Component reference heights (Primary 1-Col 600\u00d71138/375\u00d7788; Primary 2-Col 600\u00d71088/375\u00d71538; Secondary 600\u00d7458) are proportional guidelines, not fixed limits."
   },
   {
     "id": "rule_ibsrela_spacing_8pt_system_baseline",
@@ -678,7 +703,7 @@
       "layout"
     ],
     "sections": null,
-    "element_path": null,
+    "element_path": "spacing.base.unit",
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -686,10 +711,27 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Spacing uses 24px desktop / 16px mobile side padding; 32px/24px vertical padding; 24px gutter two-column desktop, 24px vertical mobile; card padding 16px; image-text gap 16px; 12-column 8pt grid."
+    "summary": "All spacing values must be multiples of 8 px; adjust layouts only in 8 px increments, avoiding odd one-off values."
   },
   {
-    "id": "rule_ibsrela_sections_edge_to_edge_no_margin",
+    "id": "rule_ibsrela_spacing_container_and_section_padding",
+    "rule_class": "spacing",
+    "tags": [
+      "layout"
+    ],
+    "sections": null,
+    "element_path": "section.padding.sides",
+    "scope": "org_baseline",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "binding",
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Section side padding 24px desktop/16px mobile, vertical padding 32px desktop/24px mobile, card padding 16px all sides, image-text gap 16px."
+  },
+  {
+    "id": "rule_ibsrela_spacing_no_margin_between_sections",
     "rule_class": "spacing",
     "tags": [
       "layout",
@@ -704,7 +746,24 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Adjacent sections use only padding, no margin; sections sit edge-to-edge so backgrounds and wave shapes align flush."
+    "summary": "Adjacent stacked sections have no margin; spacing is managed by each section\u2019s padding for flush edge-to-edge backgrounds and wave shapes."
+  },
+  {
+    "id": "rule_ibsrela_spacing_two_column_gutter_and_grid",
+    "rule_class": "layout",
+    "tags": [
+      "spacing"
+    ],
+    "sections": null,
+    "element_path": "grid.two_column.gutter",
+    "scope": "org_baseline",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "binding",
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Two-column layouts: 24px gutter desktop, 24px vertical gap mobile; 12-column grid over 552px content, half-column 264px + 24px gutter; uses tokens."
   },
   {
     "id": "rule_ibsrela_key_question_callout_style",
@@ -717,21 +776,21 @@
     ],
     "element_path": "callout.key_question.border",
     "scope": "brand",
-    "hardness": "hard_constraint",
+    "hardness": "strong_default",
     "polarity": "must",
     "constraint_type": "exclusivity",
     "evaluation_scope": "element",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": [
       {
         "kind": "content_tag",
         "value": "key_strategic_question"
       }
     ],
-    "summary": "Use rounded-rectangle callout with white outline, transparent fill (callout.key_question.border) exclusively for key strategic questions like 'DO YOU WANT TO TRY SOMETHING DIFFERENT?'."
+    "summary": "Use white-outline rounded rectangle with transparent fill (callout.key_question.border) exclusively for key strategic questions like 'DO YOU WANT TO TRY SOMETHING DIFFERENT?'"
   },
   {
-    "id": "rule_ibsrela_white_banner_works_differently_callout",
+    "id": "rule_ibsrela_white_banner_callout_works_differently",
     "rule_class": "color_application",
     "tags": [],
     "sections": [
@@ -741,41 +800,45 @@
     "scope": "brand",
     "hardness": "strong_default",
     "polarity": "must",
-    "constraint_type": "exclusivity",
+    "constraint_type": "binding",
     "evaluation_scope": "element",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": [
       {
         "kind": "content_tag",
-        "value": "ibsrela_works_differently"
+        "value": "works_differently_claim"
       }
     ],
-    "summary": "White banner callout at 80% opacity overlays background for 'IBSRELA WORKS DIFFERENTLY\u2026' claim."
+    "summary": "Use white banner callout at 80% opacity over background for 'IBSRELA WORKS DIFFERENTLY\u2026' claim."
   },
   {
-    "id": "rule_ibsrela_scene_paired_banner_callouts",
+    "id": "rule_ibsrela_scene_paired_banner_callout_fixed_colors",
     "rule_class": "color_application",
     "tags": [],
     "sections": [
       "callout"
     ],
-    "element_path": "callout.scene_banner.color",
+    "element_path": "callout.scene_banner.fill",
     "scope": "campaign",
     "hardness": "hard_constraint",
-    "polarity": "must",
+    "polarity": "must_not",
     "constraint_type": "pairing",
     "evaluation_scope": "element",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": [
       {
         "kind": "campaign",
         "value": "flip_the_script"
+      },
+      {
+        "kind": "content_tag",
+        "value": "scene_banner"
       }
     ],
-    "summary": "Scene-paired banner callouts on white: Office=Periwinkle@80% opacity, Cafe=Purple@60%, Soccer=Green@40%; fixed scene/color/opacity pairings only."
+    "summary": "Scene banners over white: Office = Periwinkle 80% opacity, Cafe = Purple 60%, Soccer = Green 40%; fixed scene/color pairings only."
   },
   {
-    "id": "rule_ibsrela_symptom_trio_icon_composition",
+    "id": "rule_ibsrela_symptom_trio_icon_style_and_order",
     "rule_class": "iconography",
     "tags": [
       "imagery",
@@ -794,13 +857,13 @@
     "applies_when": [
       {
         "kind": "content_tag",
-        "value": "ibs_c_symptoms_reference"
+        "value": "three_ibsc_symptoms_together"
       }
     ],
-    "summary": "Use fixed left-to-right green circular icons for IBS-C symptoms Constipation, Belly Pain, Bloating with navy #262262 labels beneath."
+    "summary": "Use approved icon trio left-to-right: Constipation, Belly Pain, Bloating; each circular green-tinted icon with navy #262262 label beneath (symptom_trio rules)."
   },
   {
-    "id": "rule_ibsrela_symptom_trio_integrity_all_three",
+    "id": "rule_ibsrela_symptom_trio_completeness_and_no_substitution",
     "rule_class": "iconography",
     "tags": [
       "assembly"
@@ -818,17 +881,17 @@
     "applies_when": [
       {
         "kind": "content_tag",
-        "value": "ibs_c_symptoms_reference"
+        "value": "three_ibsc_symptoms_together"
       }
     ],
-    "summary": "Symptom icons must always appear together in original order, no partial display or alternate styles allowed."
+    "summary": "All three symptom icons must appear together, in order, without isolation or alternate styles."
   },
   {
-    "id": "rule_ibsrela_symptom_trio_placement_layout",
+    "id": "rule_ibsrela_symptom_trio_placement_and_following_content",
     "rule_class": "layout",
     "tags": [
       "color_application",
-      "typography"
+      "spacing"
     ],
     "sections": [
       "symptom_trio"
@@ -843,19 +906,20 @@
     "applies_when": [
       {
         "kind": "content_tag",
-        "value": "ibs_c_symptoms_reference"
+        "value": "three_ibsc_symptoms_together"
       }
     ],
-    "summary": "Trio sits on green/teal panel or white above it, followed by headline (\"Different matters...\"), body copy, and CTA."
+    "summary": "Symptom-icon trio on green/teal panel or white above it, followed by headline, body copy, and CTA in the layout section."
   },
   {
     "id": "rule_ibsrela_global_left_alignment",
     "rule_class": "layout",
     "tags": [
-      "typography"
+      "typography",
+      "cta"
     ],
     "sections": null,
-    "element_path": null,
+    "element_path": "text.alignment",
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -863,32 +927,33 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "All text (titles, headlines, subheads, body, CTAs) is left-aligned, regardless of background color."
+    "summary": "All text and CTA buttons are left-aligned; CTA buttons align flush with the left edge of the text block above, never centered or right-aligned."
   },
   {
-    "id": "rule_ibsrela_cta_button_left_flush_layout",
-    "rule_class": "cta",
+    "id": "rule_ibsrela_cta_section_image_right_layout",
+    "rule_class": "layout",
     "tags": [
-      "layout"
+      "cta",
+      "imagery"
     ],
     "sections": [
       "cta"
     ],
-    "element_path": "cta.button",
+    "element_path": "cta.section.image.alignment",
     "scope": "brand",
-    "hardness": "hard_constraint",
+    "hardness": "strong_default",
     "polarity": "must",
     "constraint_type": "binding",
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "CTA button left-aligned flush with text block edge; supporting image right in two-column layout; no visual means CTA section full-width left-aligned."
+    "summary": "In the CTA section, visuals appear right of text in two-column layout; without visuals, text is left-aligned, full-width."
   },
   {
-    "id": "rule_ibsrela_typography_hierarchy_parent_system",
+    "id": "rule_ibsrela_typography_hierarchy_parent_brand",
     "rule_class": "typography",
     "tags": [
-      "color_application"
+      "copy_editorial"
     ],
     "sections": null,
     "element_path": null,
@@ -899,16 +964,16 @@
     "evaluation_scope": "element",
     "audience": null,
     "applies_when": null,
-    "summary": "Typography hierarchy uses Avenir with specific weights, cases, and colors: H1 & H2 Avenir Black (Title Case/sentence), Body Avenir Roman black, ISI subheads Avenir Black ALL CAPS black, footnotes Avenir Book black; campaign and callouts Avenir Black ALL CAPS per palette."
+    "summary": "Parent brand typography: H1 Avenir Black Title Case Dark Blue #262262/Purple #92278F; H2 Avenir Black sentence case Dark Blue/Purple; Body Avenir Roman sentence case Black #000000; ISI subheads Avenir Black ALL CAPS Black; Footnotes Avenir Book sentence case Black; Campaign headline Avenir Black ALL CAPS campaign palette; Callouts Avenir Black ALL CAPS."
   },
   {
-    "id": "rule_ibsrela_isi_heavy_weight_reserved",
+    "id": "rule_ibsrela_avenir_heavy_reserved_isi_boxed_warning",
     "rule_class": "typography",
     "tags": [
       "accessibility"
     ],
     "sections": [
-      "end_matter"
+      "safety"
     ],
     "element_path": "isi.boxed_warning.weight",
     "scope": "brand",
@@ -918,32 +983,61 @@
     "evaluation_scope": "element",
     "audience": null,
     "applies_when": null,
-    "summary": "Use Avenir Heavy only for ISI boxed-warning text; do not use for other content."
+    "summary": "Use Avenir Heavy (Arial Bold in email) Black #000000 exclusively for ISI boxed warning text; no other usage allowed."
   },
   {
-    "id": "rule_ibsrela_email_ppt_font_substitution",
+    "id": "rule_ibsrela_email_ppt_avenir_arial_substitution",
     "rule_class": "typography",
     "tags": [
       "assembly"
     ],
     "sections": null,
-    "element_path": "headline.font",
+    "element_path": "global.font",
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
     "evaluation_scope": "email",
     "audience": null,
-    "applies_when": [
-      {
-        "kind": "theme",
-        "value": "email_or_powerpoint"
-      }
-    ],
-    "summary": "Use Arial in email/PowerPoint as Avenir substitute with font stack 'Arial, Helvetica, sans-serif'; map Avenir weights to Arial Bold/Regular; no webfont loading for email."
+    "applies_when": null,
+    "summary": "For email/PowerPoint, substitute Avenir with Arial using 'Arial, Helvetica, sans-serif'; map weights (Black/Heavy\u2192Bold, Roman/Book\u2192Regular), never webfont Avenir in email."
   },
   {
-    "id": "rule_ibsrela_email_type_scale",
+    "id": "rule_ibsrela_type_scale_editorial",
+    "rule_class": "typography",
+    "tags": [],
+    "sections": null,
+    "element_path": null,
+    "scope": "brand",
+    "hardness": "strong_default",
+    "polarity": "must",
+    "constraint_type": "binding",
+    "evaluation_scope": "element",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Typography editorial scale: H1 24px desktop/22px mobile Bold 1.25lh; H2 16px Bold 1.5lh; body 16px Regular 1.5lh; CTA 14px Bold 1.2lh single line."
+  },
+  {
+    "id": "rule_ibsrela_type_scale_isi_footer_locked",
+    "rule_class": "typography",
+    "tags": [
+      "accessibility"
+    ],
+    "sections": [
+      "end_matter"
+    ],
+    "element_path": null,
+    "scope": "brand",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "binding",
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "End Matter ISI/legal footer fonts fixed: ISI subheads 14px Bold, RISK INFO 15px Bold, ISI body 13px Regular, footnotes/abbrevs/references/footer 11px Regular, line-height 1.4."
+  },
+  {
+    "id": "rule_ibsrela_letter_spacing_email",
     "rule_class": "typography",
     "tags": [],
     "sections": null,
@@ -952,16 +1046,31 @@
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
-    "evaluation_scope": "email",
+    "evaluation_scope": "element",
     "audience": null,
     "applies_when": null,
-    "summary": "Email typography: H1 24px desktop/22px mobile bold, line-height 1.25; H2 16px bold, 1.5; body 16px regular, 1.5; CTA 14px bold, 1.2; ISI subheads 14px bold; ISI text 13-15px; footnotes/footer 11px, line-height 1.4."
+    "summary": "Typography: Body text letter-spacing 0; ALL-CAPS callouts/CTAs +0.5px; no negative tracking in email."
   },
   {
-    "id": "rule_ibsrela_paragraph_rhythm_and_tracking",
+    "id": "rule_ibsrela_paragraph_rhythm",
+    "rule_class": "spacing",
+    "tags": [],
+    "sections": null,
+    "element_path": null,
+    "scope": "brand",
+    "hardness": "strong_default",
+    "polarity": "must",
+    "constraint_type": "binding",
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Paragraph spacing in sections: headline\u2192subhead 8px; subhead\u2192body 12px; headline\u2192body (no subhead) 12px; body paragraphs 12px; body\u2192CTA 16px."
+  },
+  {
+    "id": "rule_ibsrela_section_padding_ownership",
     "rule_class": "spacing",
     "tags": [
-      "typography"
+      "layout"
     ],
     "sections": null,
     "element_path": null,
@@ -972,10 +1081,10 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Within sections: body letter-spacing 0; ALL-CAPS callouts/CTAs +0.5px; no negative tracking in email; paragraph spacing: headline-subhead 8px, subhead-body 12px, headline-body 12px, body paragraphs 12px, body-CTA 16px."
+    "summary": "Sections own half gaps; Editorial white sections use 12px 24px 12px 24px padding; Dark feature blocks get 24px all sides; Inset cards have 12px radius, 24px padding; side gutters 24px always."
   },
   {
-    "id": "rule_ibsrela_section_padding_and_boundaries",
+    "id": "rule_ibsrela_boundary_gaps_resolved",
     "rule_class": "spacing",
     "tags": [
       "layout"
@@ -989,48 +1098,28 @@
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Sections own half gaps; Editorial white sections use 12x24x12x24px padding; Dark feature navy/purple blocks 24px all sides; Insets 12px radius, 24px padding; 24px side gutters always; gap totals: Editorial\u2192Editorial 24px, Editorial\u2192Dark feature 36px, Dark feature\u2192Dark feature 48px, full-bleed hero/swirl\u2192section 12px; adjust spacing by section type only."
+    "summary": "Section padding rules: Editorial\u2192Editorial 24px; Editorial\u2194Dark feature 36px; Dark feature\u2192Dark feature 48px; full-bleed hero/swirl(0)\u2192edges 12px gap."
   },
   {
-    "id": "rule_ibsrela_no_padding_override_or_spacers",
+    "id": "rule_ibsrela_no_padding_override_no_spacers",
     "rule_class": "spacing",
     "tags": [
-      "layout",
-      "assembly"
+      "assembly",
+      "layout"
     ],
     "sections": null,
     "element_path": null,
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must_not",
-    "constraint_type": "binding",
+    "constraint_type": null,
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Never override vertical padding tokens; do not use empty spacer rows or placeholder cells as they add 12-16px and disrupt spacing math."
+    "summary": "Never override vertical padding tokens; never use empty spacer rows or placeholder cells, as they add 12\u201316px and break spacing calculations."
   },
   {
-    "id": "rule_ibsrela_locked_isi_footer_not_restyled",
-    "rule_class": "copy_editorial",
-    "tags": [
-      "typography",
-      "accessibility"
-    ],
-    "sections": [
-      "end_matter"
-    ],
-    "element_path": null,
-    "scope": "brand",
-    "hardness": "hard_constraint",
-    "polarity": "must",
-    "constraint_type": "verbatim_content",
-    "evaluation_scope": "email",
-    "audience": null,
-    "applies_when": null,
-    "summary": "End Matter ISI fixed system constant, ISI body 13px locked, editorial content body 16px approved for digital emails; no restyling by content defaults."
-  },
-  {
-    "id": "rule_ibsrela_capitalization_headlines_body_callouts",
+    "id": "rule_ibsrela_headline_body_case_defaults",
     "rule_class": "typography",
     "tags": [
       "copy_editorial"
@@ -1041,27 +1130,25 @@
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
-    "evaluation_scope": "element",
+    "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Headlines use Title Case (h1.case), body copy uses sentence case (body.case), callouts and CTAs use ALL CAPS (callout.case)."
+    "summary": "Headlines use Title Case (h1.case); all other text uses sentence case (body.case, h2.case)."
   },
   {
     "id": "rule_ibsrela_campaign_headline_all_caps",
     "rule_class": "typography",
     "tags": [
-      "color_application",
-      "copy_editorial"
+      "copy_editorial",
+      "color_application"
     ],
-    "sections": [
-      "hero"
-    ],
+    "sections": null,
     "element_path": "campaign.headline.case",
     "scope": "campaign",
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
-    "evaluation_scope": "element",
+    "evaluation_scope": "email",
     "audience": null,
     "applies_when": [
       {
@@ -1069,10 +1156,31 @@
         "value": "flip_the_script"
       }
     ],
-    "summary": "Campaign-specific headlines (FLIP THE SCRIPT) use ALL CAPS, overriding the default Title Case in campaign.headline.case."
+    "summary": "Campaign-specific headlines (FLIP THE SCRIPT) use ALL CAPS, overriding default Title Case (campaign.headline.case)."
   },
   {
-    "id": "rule_ibsrela_campaign_name_body_capitalization",
+    "id": "rule_ibsrela_callout_cta_all_caps",
+    "rule_class": "typography",
+    "tags": [
+      "cta",
+      "copy_editorial"
+    ],
+    "sections": [
+      "callout",
+      "cta"
+    ],
+    "element_path": null,
+    "scope": "brand",
+    "hardness": "hard_constraint",
+    "polarity": "must",
+    "constraint_type": "binding",
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "All caps required for callouts (callout.case) and CTAs (cta.button.label.case) in typography."
+  },
+  {
+    "id": "rule_ibsrela_flip_the_script_body_capitalization",
     "rule_class": "copy_editorial",
     "tags": [
       "voice_tone"
@@ -1089,9 +1197,13 @@
       {
         "kind": "campaign",
         "value": "flip_the_script"
+      },
+      {
+        "kind": "first_mention",
+        "value": "campaign_name_in_body"
       }
     ],
-    "summary": "Capitalize each word in campaign names within body copy (e.g., 'Flip The Script'), avoid all caps or lowercase."
+    "summary": "Capitalize each word in campaign names within body copy (e.g., Flip The Script), no all caps or lowercase."
   },
   {
     "id": "rule_ibsrela_flip_the_script_display_lockup",
@@ -1100,10 +1212,8 @@
       "imagery",
       "color_application"
     ],
-    "sections": [
-      "hero"
-    ],
-    "element_path": null,
+    "sections": null,
+    "element_path": "campaign.lockup",
     "scope": "campaign",
     "hardness": "hard_constraint",
     "polarity": "must",
@@ -1116,10 +1226,10 @@
         "value": "flip_the_script"
       }
     ],
-    "summary": "In 'FLIP THE SCRIPT' lockup, 'THE' is upside down; 'ON IBS-C' uses Avenir Light at 50% opacity, hyphen replaced by brand swoosh at 100% opacity per \u00a72.6."
+    "summary": "In 'FLIP THE SCRIPT' display lockup, 'THE' is upside down; 'ON IBS-C' in Avenir Light at 50% opacity with hyphen replaced by 100% opacity brand swoosh."
   },
   {
-    "id": "rule_ibsrela_bold_reserved_targets",
+    "id": "rule_ibsrela_bold_reserved_usage",
     "rule_class": "typography",
     "tags": [
       "copy_editorial"
@@ -1130,19 +1240,19 @@
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "exclusivity",
-    "evaluation_scope": "element",
+    "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Use Arial Bold for headlines, subheads, card titles, CTA labels, ISI subheads, boxed-warning text, and MLR-approved key claim phrases with body.highlight.weight (700) for highlights."
+    "summary": "Use Arial Bold only for headlines, subheads, card titles, CTA labels, ISI subheads, boxed-warning text, and MLR-approved key claim phrases; avoid using bold for hierarchy."
   },
   {
-    "id": "rule_ibsrela_bold_prohibited_uses",
+    "id": "rule_ibsrela_bold_prohibited_targets",
     "rule_class": "typography",
     "tags": [
       "copy_editorial"
     ],
     "sections": null,
-    "element_path": null,
+    "element_path": "body.highlight.weight",
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must_not",
@@ -1150,7 +1260,7 @@
     "evaluation_scope": "sentence",
     "audience": null,
     "applies_when": null,
-    "summary": "Avoid bolding entire body paragraphs, footnotes, references, or links; bold max ~10 consecutive words; use subheads/callouts for hierarchy, not bold alone."
+    "summary": "Avoid bolding entire body paragraphs, footnotes, references, links (underline links only), or over ~10 consecutive words in body copy."
   },
   {
     "id": "rule_ibsrela_no_bold_italic_combo_italic_reserved",
@@ -1164,10 +1274,10 @@
     "hardness": "hard_constraint",
     "polarity": "must_not",
     "constraint_type": "exclusivity",
-    "evaluation_scope": "element",
+    "evaluation_scope": "sentence",
     "audience": null,
     "applies_when": null,
-    "summary": "Do not combine bold+italic in email body; italic (Arial Italic) only for journal titles in references or approved copy decks."
+    "summary": "Avoid bold+italic in email body; use Arial Italic only for journal titles in references or as specified in approved copy deck."
   },
   {
     "id": "rule_ibsrela_email_assembly_order",
@@ -1175,23 +1285,24 @@
     "tags": [
       "layout"
     ],
-    "sections": null,
+    "sections": [
+      "top_matter",
+      "end_matter"
+    ],
     "element_path": null,
     "scope": "org_baseline",
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "ordering",
     "evaluation_scope": "email",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": null,
-    "summary": "SFMC emails stack components in order: Top Matter (LOCKED), optional Primary 1 Column, optional Primary 2 Column, optional repeatable Secondary, End Matter (LOCKED)."
+    "summary": "SFMC emails stack components in order: (1) locked Top Matter, (2) optional Primary 1 Column, (3) optional Primary 2 Column, (4) repeatable optional Secondary, (5) locked End Matter."
   },
   {
-    "id": "rule_ibsrela_locked_matter_no_modify",
+    "id": "rule_ibsrela_locked_top_end_matter_no_modify",
     "rule_class": "assembly",
-    "tags": [
-      "copy_editorial"
-    ],
+    "tags": [],
     "sections": [
       "top_matter",
       "end_matter"
@@ -1202,12 +1313,12 @@
     "polarity": "must_not",
     "constraint_type": "binding",
     "evaluation_scope": "email",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": null,
-    "summary": "Top Matter and End Matter are LOCKED; do not build or modify them; supplied as-is."
+    "summary": "Top Matter and End Matter sections are LOCKED; use supplied components only, do not build or modify."
   },
   {
-    "id": "rule_ibsrela_template_no_added_components",
+    "id": "rule_ibsrela_template_formation_no_add_sections",
     "rule_class": "assembly",
     "tags": [
       "layout"
@@ -1219,15 +1330,33 @@
     "polarity": "must_not",
     "constraint_type": "cardinality",
     "evaluation_scope": "email",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": null,
-    "summary": "Select one of two wireframe templates; remove unnecessary sections without adding; adjust content to fit templates; remove unneeded elements but no new types added."
+    "summary": "Select one wireframe template, remove unnecessary sections, do not add components; adjust content to fit templates without altering their structure."
+  },
+  {
+    "id": "rule_ibsrela_section_element_removal_only",
+    "rule_class": "assembly",
+    "tags": [
+      "layout"
+    ],
+    "sections": null,
+    "element_path": null,
+    "scope": "org_baseline",
+    "hardness": "hard_constraint",
+    "polarity": "must_not",
+    "constraint_type": "binding",
+    "evaluation_scope": "section",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Elements within a section can be removed if unneeded, but no new element types may be added or invented."
   },
   {
     "id": "rule_ibsrela_dual_breakpoint_build_qa",
-    "rule_class": "layout",
+    "rule_class": "assembly",
     "tags": [
-      "accessibility"
+      "accessibility",
+      "layout"
     ],
     "sections": null,
     "element_path": null,
@@ -1235,26 +1364,26 @@
     "hardness": "hard_constraint",
     "polarity": "must",
     "constraint_type": "binding",
-    "evaluation_scope": "email",
-    "audience": "dtp_patient",
+    "evaluation_scope": "section",
+    "audience": null,
     "applies_when": [
       {
         "kind": "breakpoint",
-        "value": "desktop_600"
+        "value": "desktop"
       },
       {
         "kind": "breakpoint",
-        "value": "mobile_375"
+        "value": "mobile"
       }
     ],
-    "summary": "Design both Desktop (600px) and Mobile (375px) layouts for all components; SFMC auto-serves device-appropriate version; QA every content section at both breakpoints."
+    "summary": "Provide Desktop (600px) and Mobile (375px) layouts for each component; SFMC auto-serves based on device; all content sections QA'd at both breakpoints."
   },
   {
-    "id": "rule_ibsrela_content_edges_against_locked_matter",
+    "id": "rule_ibsrela_content_section_clean_edges_against_locked",
     "rule_class": "assembly",
     "tags": [
-      "layout",
-      "spacing"
+      "spacing",
+      "imagery"
     ],
     "sections": [
       "top_matter",
@@ -1266,7 +1395,7 @@
     "polarity": "must",
     "constraint_type": "binding",
     "evaluation_scope": "email",
-    "audience": "dtp_patient",
+    "audience": null,
     "applies_when": [
       {
         "kind": "position_in_email",
@@ -1277,14 +1406,34 @@
         "value": "last_content_section"
       }
     ],
-    "summary": "First content section aligns bottom edge of locked Top Matter (white/theme background, optional wave top); last content section aligns top of locked End Matter with wave-edge ISI panel below."
+    "summary": "First content section aligns flush against locked Top Matter with white/theme background, optional top wave; last content section aligns flush against locked End Matter with wave-edge ISI panel below."
   },
   {
-    "id": "rule_ibsrela_top_matter_locked_inherited",
+    "id": "rule_ibsrela_top_matter_locked_no_logo_repeat",
     "rule_class": "assembly",
     "tags": [
-      "accessibility",
-      "copy_editorial"
+      "imagery",
+      "layout"
+    ],
+    "sections": [
+      "top_matter"
+    ],
+    "element_path": null,
+    "scope": "brand",
+    "hardness": "hard_constraint",
+    "polarity": "must_not",
+    "constraint_type": "binding",
+    "evaluation_scope": "email",
+    "audience": null,
+    "applies_when": null,
+    "summary": "Top Matter locked by audience (DTP: logo without BID, patient-friendly safety; HCP: logo with BID), includes mandatory safety message, links, View in Browser; no IBSRELA logo in content."
+  },
+  {
+    "id": "rule_ibsrela_top_matter_audience_fixes_content",
+    "rule_class": "assembly",
+    "tags": [
+      "copy_editorial",
+      "imagery"
     ],
     "sections": [
       "top_matter"
@@ -1293,18 +1442,19 @@
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must",
-    "constraint_type": "verbatim_content",
+    "constraint_type": "binding",
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "Top Matter is pre-built per audience (DTP = logo without BID, patient-friendly language; HCP = logo with BID), locked; no logo in content sections; content matches header's fixed audience."
+    "summary": "Email audience set by header (DTP vs HCP); all content and images must align with the audience from the Top Matter."
   },
   {
-    "id": "rule_ibsrela_end_matter_locked_inherited",
+    "id": "rule_ibsrela_end_matter_locked_isi_footer",
     "rule_class": "assembly",
     "tags": [
-      "typography",
-      "copy_editorial"
+      "accessibility",
+      "copy_editorial",
+      "typography"
     ],
     "sections": [
       "end_matter"
@@ -1313,26 +1463,24 @@
     "scope": "brand",
     "hardness": "hard_constraint",
     "polarity": "must",
-    "constraint_type": "verbatim_content",
+    "constraint_type": "binding",
     "evaluation_scope": "email",
     "audience": null,
     "applies_when": null,
-    "summary": "End Matter locked, includes full FDA-reviewed ISI, Ardelyx contact, legal lines; content body copy fixed 12px/1.4 line spacing; references coordinate numbering; no ISI duplication."
+    "summary": "End Matter is locked with full FDA-reviewed ISI, Ardelyx contact, copyright/trademark; body copy 12px/1.4 line spacing; coordinate references/footnotes numbering; no ISI duplicates."
   },
   {
-    "id": "rule_ibsrela_primary_1col_spec",
+    "id": "rule_ibsrela_primary_1_column_component_spec",
     "rule_class": "layout",
     "tags": [
-      "imagery",
       "typography",
-      "cta"
+      "cta",
+      "imagery"
     ],
     "sections": [
       "hero",
       "intro",
-      "efficacy",
-      "cta",
-      "patient_story"
+      "cta"
     ],
     "element_path": null,
     "scope": "brand",
@@ -1342,22 +1490,19 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Email Primary 1 Column: single-column 600\u00d71138px desktop / 375\u00d7788px mobile; full-width hero image, purple H1, bold subheadline, body copy, CTA button; optional wave borders; theme background varies."
+    "summary": "Email Primary 1 Column: single column (~600\u00d71138 desktop/375\u00d7788 mobile) full-width hero image \u2192 purple H1 \u2192 bold subheadline \u2192 body copy \u2192 teal 'Get connected' CTA; theme alters background, optional wave borders top; editable hero image, headlines, body, CTA label."
   },
   {
-    "id": "rule_ibsrela_primary_2col_spec",
+    "id": "rule_ibsrela_primary_2_column_component_spec",
     "rule_class": "layout",
     "tags": [
+      "cta",
       "imagery",
-      "color_application",
-      "cta"
+      "color_application"
     ],
     "sections": [
-      "cta",
-      "callout",
-      "patient_story",
-      "symptom_trio",
-      "affordability"
+      "hero",
+      "cta"
     ],
     "element_path": null,
     "scope": "brand",
@@ -1367,19 +1512,18 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Email Primary 2 Column: Desktop 600\u00d71088px, Mobile 375\u00d71538px stacked; text left, image right on purple/gradient background with white text and outlined CTA; editable headline, body, CTA, image; options wave shape, image content, button style; default placeholder image."
+    "summary": "Email Primary 2 Column layout: two columns (~600\u00d71088 desktop, ~375\u00d71538 mobile, stacked), text left, image right; purple/gradient background, white text, outlined CTA; editable headline, body, CTA, image; options: wave shape, button style."
   },
   {
     "id": "rule_ibsrela_secondary_component_spec",
     "rule_class": "layout",
     "tags": [
-      "imagery",
-      "cta"
+      "cta",
+      "imagery"
     ],
     "sections": [
-      "callout",
       "efficacy",
-      "cta"
+      "callout"
     ],
     "element_path": null,
     "scope": "brand",
@@ -1389,10 +1533,10 @@
     "evaluation_scope": "section",
     "audience": null,
     "applies_when": null,
-    "summary": "Email Secondary layout: two-column card row ~600\u00d7458px desktop, ~375\u00d71363px stacked mobile; cards with brand image, navy headline, body, CTA button; toggles for columns, image side, subhead, button."
+    "summary": "Email Secondary layout: two-column ~600\u00d7458 desktop or stacked ~375\u00d71363 mobile cards with brand image, navy headline, body copy, teal CTA; toggles for columns, image position, subhead, button."
   },
   {
-    "id": "rule_ibsrela_dtp_second_person_everyday_life_voice",
+    "id": "rule_ibsrela_dtp_second_person_everyday_life_framing",
     "rule_class": "voice_tone",
     "tags": [
       "copy_editorial"
@@ -1406,10 +1550,10 @@
     "evaluation_scope": "email",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "Use second person voice, empathetically acknowledge unresolved symptoms first, then frame IBSRELA as helping you return to everyday life, not just clinical performance."
+    "summary": "Use second person tone; empathize unresolved symptoms; frame IBSRELA as return to daily life, not clinical performance; lead with empathy before product benefits."
   },
   {
-    "id": "rule_ibsrela_ibsc_symptoms_terminology",
+    "id": "rule_ibsrela_dtp_ibsc_symptoms_phrasing",
     "rule_class": "copy_editorial",
     "tags": [
       "voice_tone"
@@ -1423,7 +1567,7 @@
     "evaluation_scope": "email",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "Use 'IBS-C symptoms' (constipation, belly pain, bloating), avoid 'your condition' or jargon, always list all three symptoms together in benefits."
+    "summary": "Use \"IBS-C symptoms\" (constipation, belly pain, and/or bloating), not clinical jargon; always list all three symptoms together when mentioning benefits."
   },
   {
     "id": "rule_ibsrela_patient_story_disclosure_verbatim",
@@ -1442,13 +1586,13 @@
     "evaluation_scope": "section",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "Patient-story modules require disclosure: 'Individual results may vary. [Name] is an actual patient on IBSRELA, compensated for discussing experience,' placed immediately under story copy."
+    "summary": "Patient-story modules require disclosure: \"Individual results and experiences may vary. [Name] is an actual compensated IBSRELA patient,\" placed directly below story copy."
   },
   {
-    "id": "rule_ibsrela_efficacy_claim_qualifier_verbatim",
+    "id": "rule_ibsrela_efficacy_claim_qualifier_and_limitation",
     "rule_class": "copy_editorial",
     "tags": [
-      "accessibility"
+      "voice_tone"
     ],
     "sections": [
       "efficacy"
@@ -1461,7 +1605,7 @@
     "evaluation_scope": "section",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "Efficacy claims require qualifier '*Results may vary. Study results seen in 12- and 26-week trials\u2026' plus limitation 'These results were observed, but analysis can't draw conclusions.'"
+    "summary": "Efficacy claims require qualifier \"*Results may vary. Study results seen in 12- and 26-week trials\u2026\" and limitation \"These results observed but analysis can't draw conclusions."
   },
   {
     "id": "rule_ibsrela_dtp_cta_label_conventions",
@@ -1480,10 +1624,35 @@
     "evaluation_scope": "element",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "CTA labels must be 1\u20133 word short verb phrases in sentence case, matching their section's topic (e.g., story: \"Watch [name]'s story\", overview: \"Explore IBSRELA\")."
+    "summary": "DTP CTA labels: short verb phrases, 1\u20133 words, sentence case per cta.button.label.case for dtp_patient audience."
   },
   {
-    "id": "rule_ibsrela_dtp_cta_no_hcp_default_label",
+    "id": "rule_ibsrela_dtp_poll_response_button",
+    "rule_class": "cta",
+    "tags": [
+      "copy_editorial",
+      "layout"
+    ],
+    "sections": [
+      "cta"
+    ],
+    "element_path": "cta.button",
+    "scope": "brand",
+    "hardness": "soft_guidance",
+    "polarity": "may",
+    "constraint_type": null,
+    "evaluation_scope": "section",
+    "audience": "dtp_patient",
+    "applies_when": [
+      {
+        "kind": "content_tag",
+        "value": "poll_segmentation_question"
+      }
+    ],
+    "summary": "Poll/segmentation questions can use a single solid-fill response button styled as a primary CTA, e.g., \"Yes, I have."
+  },
+  {
+    "id": "rule_ibsrela_dtp_no_hcp_get_connected_label",
     "rule_class": "cta",
     "tags": [
       "copy_editorial"
@@ -1499,28 +1668,25 @@
     "evaluation_scope": "element",
     "audience": "dtp_patient",
     "applies_when": null,
-    "summary": "DTP CTAs must avoid using HCP library default label \"Get connected,\" reserved exclusively for HCP scope."
+    "summary": "DTP CTAs must avoid HCP-only label \"Get connected\" from HCP library."
   },
   {
-    "id": "rule_ibsrela_dtp_poll_response_button",
+    "id": "rule_ibsrela_dtp_cta_label_matches_section_topic",
     "rule_class": "cta",
-    "tags": [],
+    "tags": [
+      "copy_editorial"
+    ],
     "sections": [
       "cta"
     ],
-    "element_path": "cta.button",
+    "element_path": "cta.button.label",
     "scope": "brand",
-    "hardness": "soft_guidance",
-    "polarity": "may",
+    "hardness": "strong_default",
+    "polarity": "must",
     "constraint_type": null,
-    "evaluation_scope": "element",
+    "evaluation_scope": "section",
     "audience": "dtp_patient",
-    "applies_when": [
-      {
-        "kind": "content_tag",
-        "value": "poll_segmentation_question"
-      }
-    ],
-    "summary": "Poll/segmentation questions can use one solid-fill response button styled as primary CTA (e.g., \"Yes, I have\") for single answers."
+    "applies_when": null,
+    "summary": "Rule (cta): Per-section CTAs match section topic\u2014story: \"Watch [name]'s story\"; product overview: \"Explore IBSRELA\" or \"Learn more about how IBSRELA is different\"."
   }
 ]

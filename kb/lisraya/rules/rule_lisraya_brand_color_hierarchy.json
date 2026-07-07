@@ -2,37 +2,34 @@
   "id": "rule_lisraya_brand_color_hierarchy",
   "brand_id": "lisraya",
   "rule_class": "color_application",
-  "tags": [
-    "layout"
-  ],
   "scope": "brand",
-  "selector": {},
-  "evaluation_scope": "element",
-  "constraint_type": "ordering",
+  "selector": {
+    "element_path": "palette.usage_ratio"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
   "effect": {
-    "sequence": [
-      "tok_lisraya_color_brand_blue",
-      "tok_lisraya_color_sunshine",
-      "tok_lisraya_color_gold"
-    ],
-    "strict": true
+    "assignments": [
+      {
+        "element_path": "palette.usage_ratio",
+        "token_id": "tok_lisraya_palette_usage_ratio"
+      }
+    ]
   },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_color_brand_blue",
-    "tok_lisraya_color_gold",
-    "tok_lisraya_color_sunshine"
+    "tok_lisraya_palette_usage_ratio"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "The three approved brand colors must be used in hierarchy order: (1) #00529B Deep Blue as the dominant color, (2) #FAA31B Amber Orange as the secondary accent, (3) #FFC60A Golden Yellow as the tertiary accent. Palette hierarchy follows primary > secondary > tertiary.",
-  "intent": "Preserve brand color dominance and prevent accent overuse.",
+  "rule_text": "The three approved brand colors are used in a fixed hierarchy: Deep/Brand Blue (#00529B) is dominant, Amber Orange/Sunshine (#FAA31B) is the secondary accent, and Golden Yellow/Gold (#FFC60A) is the tertiary accent. Usage follows primary > secondary > tertiary.",
+  "intent": "Preserve the intended visual dominance of the primary brand color.",
   "source": "design_bible",
   "doc_ref": "internal_banner_rules[0]",
   "group_id": "grp_lisraya_internal_banner_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Use brand colors in hierarchy: #00529B Deep Blue dominant, #FAA31B Amber Orange secondary accent, #FFC60A Golden Yellow tertiary accent."
+  "summary": "Use brand colors in fixed hierarchy: Deep Blue (#00529B) dominant, Amber Orange (#FAA31B) secondary, Golden Yellow (#FFC60A) tertiary, in primary > secondary > tertiary order."
 }

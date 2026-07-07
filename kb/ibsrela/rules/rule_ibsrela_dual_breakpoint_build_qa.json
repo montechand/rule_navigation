@@ -1,11 +1,11 @@
 {
   "id": "rule_ibsrela_dual_breakpoint_build_qa",
   "brand_id": "ibsrela",
-  "rule_class": "layout",
+  "rule_class": "assembly",
   "tags": [
-    "accessibility"
+    "accessibility",
+    "layout"
   ],
-  "audience": "dtp_patient",
   "content_types": [
     "email"
   ],
@@ -14,24 +14,20 @@
   "applies_when": [
     {
       "kind": "breakpoint",
-      "value": "desktop_600"
+      "value": "desktop"
     },
     {
       "kind": "breakpoint",
-      "value": "mobile_375"
+      "value": "mobile"
     }
   ],
-  "evaluation_scope": "email",
+  "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "breakpoint.email.desktop",
-        "token_id": "tok_ibsrela_email_desktop_width"
-      },
-      {
-        "element_path": "breakpoint.email.mobile",
-        "token_id": "tok_ibsrela_email_mobile_width"
+        "element_path": "email.width",
+        "token_id": "tok_ibsrela_email_width"
       }
     ]
   },
@@ -39,17 +35,16 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_email_desktop_width",
-    "tok_ibsrela_email_mobile_width"
+    "tok_ibsrela_email_width"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Both Desktop (600px) and Mobile (375px) layouts are provided for every component; SFMC serves the appropriate version automatically based on the recipient's device. Every content section must be built and QA'd at both breakpoints.",
-  "intent": "Ensure every section renders and is verified at both supported email breakpoints.",
+  "rule_text": "Both Desktop (600 px) and Mobile (375 px) layouts are provided for every component \u2014 SFMC serves the appropriate version automatically based on the recipient's device. Every content section must be built and QA'd at both breakpoints.",
+  "intent": "Guarantee every section is verified at both served breakpoints.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[4]",
   "group_id": "grp_ibsrela_content_pattern_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "Design both Desktop (600px) and Mobile (375px) layouts for all components; SFMC auto-serves device-appropriate version; QA every content section at both breakpoints."
+  "summary": "Provide Desktop (600px) and Mobile (375px) layouts for each component; SFMC auto-serves based on device; all content sections QA'd at both breakpoints."
 }

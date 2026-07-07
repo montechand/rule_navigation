@@ -30,16 +30,16 @@ use this shape and treatment for CTAs:
 ## Extracted rules (3)
 
 ### rule_lisraya_brand_color_hierarchy
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=ordering
-- rule_text: The three approved brand colors must be used in hierarchy order: (1) #00529B Deep Blue as the dominant color, (2) #FAA31B Amber Orange as the secondary accent, (3) #FFC60A Golden Yellow as the tertiary accent. Palette hierarchy follows primary > secondary > tertiary.
-- intent: Preserve brand color dominance and prevent accent overuse.
+- class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: The three approved brand colors are used in a fixed hierarchy: Deep/Brand Blue (#00529B) is dominant, Amber Orange/Sunshine (#FAA31B) is the secondary accent, and Golden Yellow/Gold (#FFC60A) is the tertiary accent. Usage follows primary > secondary > tertiary.
+- intent: Preserve the intended visual dominance of the primary brand color.
 
 ### rule_lisraya_headline_body_font_assignment
-- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Agenda is the primary headline font and must be used for all headlines and headers. Nunito Sans must be used for all body copy in print. (Per the semantic font tokens, surface variants supply the email stack fallbacks.)
-- intent: Enforce consistent brand typeface roles across headlines and body.
+- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Agenda is the primary headline font and should be used for all headlines and headers. Nunito Sans should be used for all body copy (in print).
+- intent: Maintain consistent typographic voice across headlines and body copy.
 
-### rule_lisraya_cta_signature_svg_shape
+### rule_lisraya_internal_banner_cta_shape
 - class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: Use the signature CTA SVG shape and treatment for CTAs (viewBox 0 0 180 58.5, rendered 180x59), filled with the CTA gradient (#FFDF55 -> #FAA21B).
-- intent: Standardize the branded CTA button silhouette and gradient fill.
+- rule_text: For internal banner CTAs, use the approved asymmetric rounded SVG shape (180x59, viewBox 0 0 180 59) filled with the CTA gradient (#FFDF55 → #FAA21B). Use this shape and treatment for CTAs.
+- intent: Enforce a single approved CTA shape and gradient treatment on internal banners.

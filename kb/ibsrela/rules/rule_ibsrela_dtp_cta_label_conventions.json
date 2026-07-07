@@ -21,8 +21,8 @@
   "effect": {
     "assignments": [
       {
-        "element_path": "dtp.cta.label.case",
-        "token_id": "tok_ibsrela_dtp_cta_label_case"
+        "element_path": "cta.button.label.case",
+        "token_id": "tok_ibsrela_case_body_sentence"
       }
     ]
   },
@@ -30,18 +30,16 @@
   "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_dtp_cta_label_case"
+    "tok_ibsrela_case_body_sentence"
   ],
   "asset_ids": [],
-  "governance_ids": [
-    "gov_ibsrela_dtp_cta_labels"
-  ],
-  "rule_text": "Approved DTP CTA labels are short verb phrases in sentence case (not ALL CAPS), 1\u20133 words \u2014 e.g. \"Explore IBSRELA\", \"Watch Regina's story\", \"Watch video\", \"Learn more about how IBSRELA is different\", \"Yes, I have\". Each per-section CTA label must match the section's topic (story \u2192 \"Watch [name]'s story\"; product overview \u2192 \"Explore IBSRELA\" or \"Learn more about how IBSRELA is different\").",
-  "intent": "Keep DTP CTA labels concise, patient-toned, and topically matched to their section.",
+  "governance_ids": [],
+  "rule_text": "Approved DTP CTA labels are short verb phrases in sentence case (not ALL CAPS), 1\u20133 words \u2014 e.g. \"Explore IBSRELA\", \"Watch Regina's story\", \"Watch video\", \"Learn more about how IBSRELA is different\", \"Yes, I have\". The DTP label case follows cta.button.label.case (sentence_case for dtp_patient audience).",
+  "intent": "Keep DTP CTA labels short, action-oriented, and in sentence case per patient-facing voice.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_ibsrela_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "CTA labels must be 1\u20133 word short verb phrases in sentence case, matching their section's topic (e.g., story: \"Watch [name]'s story\", overview: \"Explore IBSRELA\")."
+  "summary": "DTP CTA labels: short verb phrases, 1\u20133 words, sentence case per cta.button.label.case for dtp_patient audience."
 }

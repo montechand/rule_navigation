@@ -1,0 +1,40 @@
+{
+  "id": "rule_ibsrela_self_contained_section_flush_stacking",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "layout",
+    "spacing"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "email.width",
+        "token_id": "tok_ibsrela_email_width"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_email_width"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Every content section is a self-contained 600 px table with its own background, top/bottom padding (\u00a72.2), and an optional wave edge. Sections carry no outer margins, so they stack flush against each other and against the locked Top/End Matter.",
+  "intent": "Guarantee independently built sections compose without gaps or overlap.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[1]",
+  "group_id": "grp_ibsrela_other_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Each content section is a 600px table with background, top/bottom padding (\u00a72.2), optional wave edge, no outer margins, stacking flush with adjacent sections and Top/End Matter."
+}

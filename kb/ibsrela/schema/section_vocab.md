@@ -24,7 +24,9 @@ A blueprint's free-form `section_id` values (e.g. "what_it_means") must be
 mapped to the closest vocabulary entries by the querying agent; a section may
 match several (e.g. a benefits panel = intro + callout).
 
-Concrete templates/components (content_sub_type) declare which section types
-they cover via `covers_section_types` (graph edge `covers_section`) — e.g. a
-header template covering [top_matter, hero] bundles the locked header
-obligations with the hero design rules.
+Component classes (content_sub_type) and concrete templates (design_template)
+attach to roles via `fills_section_types` (IS that role; feeds rule surfacing)
+and classes additionally via `hosts_section_types` (CAN CARRY those roles;
+affordance only) — graph edges fills_section / hosts_section. E.g. a
+header-with-hero template fills [top_matter, hero], bundling locked-header
+obligations with hero design rules.

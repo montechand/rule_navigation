@@ -1,0 +1,48 @@
+{
+  "id": "rule_ibsrela_cta_heading_body_color_by_background_group",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "typography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta"
+    ]
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "headline.color",
+        "token_id": "tok_ibsrela_headline_color"
+      },
+      {
+        "element_path": "body.color",
+        "token_id": "tok_ibsrela_body_color"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_body_color",
+    "tok_ibsrela_headline_color"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "In the CTA section, heading and body color follow the background group per the lookup table: on light backgrounds (White, Silver) heading is Dark Blue #262262 and body is Black #000000; on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) both heading and body are White #FFFFFF. These variants are carried on headline.color and body.color by background_group.",
+  "intent": "Keep heading/body legible against the section background group.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_ibsrela_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "In CTA, on light backgrounds (White, Silver) heading is #262262, body #000000; on dark backgrounds (Dark Gray, Purple, Dark Blue, Green, Teal, Periwinkle) both are #FFFFFF."
+}

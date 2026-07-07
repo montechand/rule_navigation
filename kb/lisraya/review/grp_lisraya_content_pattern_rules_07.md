@@ -19,30 +19,30 @@ doc_ref: `content_pattern_rules[7]`
 
 ### rule_lisraya_campaign_headline_verbatim
 - class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=['hero'] constraint=verbatim_content
-- rule_text: The approved campaign headline lockup must be used verbatim: "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis."
-- intent: Preserve MLR-approved campaign headline exactly as reviewed.
+- rule_text: The approved campaign headline lockup must read verbatim: "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis."
+- intent: Preserve MLR-approved campaign headline claim.
 
 ### rule_lisraya_product_benefits_framework_verbatim
-- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
-- rule_text: The product benefits framework must be stated verbatim: "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:" followed by the bullets "Increase your muscle strength" / "Improve your skin symptoms" / "Rely less on steroids" / "Do more of the activities you love".
-- intent: Lock approved efficacy/benefit language.
+- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=['efficacy'] constraint=verbatim_content
+- rule_text: The product benefits framework must use the approved lead-in "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:" followed by the verbatim bullets: Increase your muscle strength; Improve your skin symptoms; Rely less on steroids; Do more of the activities you love.
+- intent: Preserve MLR-approved benefits claim and bullet wording.
 
 ### rule_lisraya_moa_statements_verbatim
-- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
-- rule_text: The mechanism-of-action language must be used verbatim. Primary: "Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease." Alternate: "...LISRAYA works by turning off the specific inflammatory switches that are stuck in the 'on' position."
-- intent: Lock approved MOA claims exactly as reviewed.
+- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=['efficacy'] constraint=verbatim_content
+- rule_text: Mechanism-of-action copy must use the approved primary statement ("Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease.") or the approved alternate ("...LISRAYA works by turning off the specific inflammatory switches that are stuck in the 'on' position.") verbatim.
+- intent: Preserve MLR-approved MOA claims.
 
 ### rule_lisraya_administration_statement_verbatim
 - class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
-- rule_text: The administration statement must be used verbatim: "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required."
-- intent: Lock approved administration claim.
+- rule_text: The administration statement must read verbatim: "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required."
+- intent: Preserve MLR-approved administration claim.
 
-### rule_lisraya_doctor_discussion_cta_verbatim
+### rule_lisraya_doctor_discussion_cta_pattern
 - class=cta scope=campaign hardness=hard_constraint polarity=must sections=['cta'] constraint=verbatim_content
 - rule_text: The doctor-discussion CTA must follow the approved pattern verbatim: "Talk to your doctor about LISRAYA, the DM treatment you may be looking for."
-- intent: Lock approved doctor-discussion CTA copy.
+- intent: Preserve MLR-approved doctor-discussion CTA wording.
 
 ### rule_lisraya_support_program_name_verbatim
 - class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=None constraint=verbatim_content
-- rule_text: The patient support program must be named verbatim as "My Compass Support", offering Personalized Communication via PAL (text, phone, email, in person) and Authorization Support.
-- intent: Lock approved support-program branding and offerings.
+- rule_text: The patient support program must be named verbatim "My Compass Support", offering Personalized Communication via PAL (text, phone, email, in person) and Authorization Support.
+- intent: Preserve the approved support program name and offerings.

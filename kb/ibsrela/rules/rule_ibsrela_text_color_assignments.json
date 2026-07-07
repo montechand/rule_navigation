@@ -12,12 +12,16 @@
   "effect": {
     "assignments": [
       {
-        "element_path": "h1.color",
-        "token_id": "tok_ibsrela_h1_color"
+        "element_path": "title.color",
+        "token_id": "tok_ibsrela_title_color"
       },
       {
-        "element_path": "h2.color",
-        "token_id": "tok_ibsrela_h2_color"
+        "element_path": "headline.color",
+        "token_id": "tok_ibsrela_headline_color"
+      },
+      {
+        "element_path": "subhead.color",
+        "token_id": "tok_ibsrela_subhead_color"
       },
       {
         "element_path": "body.color",
@@ -30,17 +34,18 @@
   "precedence": 0,
   "token_ids": [
     "tok_ibsrela_body_color",
-    "tok_ibsrela_h1_color",
-    "tok_ibsrela_h2_color"
+    "tok_ibsrela_headline_color",
+    "tok_ibsrela_subhead_color",
+    "tok_ibsrela_title_color"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Text color assignments: Headlines & subheads \u2192 Dark Blue #262262 (h1.color / h2.color); Body copy & ISI \u2192 black #000000 (body.color). (Titles handled by the title-purple rule.)",
-  "intent": "Lock the default text colors to their semantic tokens.",
+  "rule_text": "Explicit text color assignments: Titles \u2192 Purple (#92278F); Headlines & subheads \u2192 Dark Blue (#262262); Body copy & ISI \u2192 black (#000000; the guide's '#00000' is a 5-digit typo, use #000000).",
+  "intent": "Bind each text role to its mandated color.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[0]",
   "group_id": "grp_ibsrela_color_scheme_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Use Dark Blue #262262 for h1/h2 headlines/subheads; black #000000 for body copy and ISI text; titles use title-purple rule."
+  "summary": "Explicit text colors: Titles #92278F purple; Headlines & subheads #262262 dark blue; Body copy & ISI #000000 black."
 }

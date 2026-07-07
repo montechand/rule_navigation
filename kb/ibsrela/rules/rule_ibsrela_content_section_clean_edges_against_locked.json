@@ -1,0 +1,60 @@
+{
+  "id": "rule_ibsrela_content_section_clean_edges_against_locked",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "spacing",
+    "imagery"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "section_types": [
+      "top_matter",
+      "end_matter"
+    ]
+  },
+  "applies_when": [
+    {
+      "kind": "position_in_email",
+      "value": "first_content_section"
+    },
+    {
+      "kind": "position_in_email",
+      "value": "last_content_section"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "boundary.hero_first.gap",
+        "token_id": "tok_ibsrela_boundary_hero_first"
+      },
+      {
+        "element_path": "section.wave_edge",
+        "token_id": "tok_ibsrela_section_wave_edge"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_boundary_hero_first",
+    "tok_ibsrela_section_wave_edge"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "[INHERITED] The first content section must open cleanly against the bottom edge of the locked Top Matter (white/theme background, optional wave edge at its own top); the last content section must close cleanly against the locked End Matter, whose wave-edge ISI panel sits directly below it.",
+  "intent": "Ensure content sections seam cleanly against the locked Top/End Matter brackets.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[4]",
+  "group_id": "grp_ibsrela_content_pattern_rules_04",
+  "status": "active",
+  "version": 1,
+  "summary": "First content section aligns flush against locked Top Matter with white/theme background, optional top wave; last content section aligns flush against locked End Matter with wave-edge ISI panel below."
+}

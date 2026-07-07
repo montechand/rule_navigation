@@ -1,0 +1,55 @@
+{
+  "id": "rule_ibsrela_end_matter_locked_isi_footer",
+  "brand_id": "ibsrela",
+  "rule_class": "assembly",
+  "tags": [
+    "accessibility",
+    "copy_editorial",
+    "typography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_ibsrela_end_matter"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "isi.body.size",
+        "token_id": "tok_ibsrela_isi_body_size"
+      },
+      {
+        "element_path": "isi.body.line_height",
+        "token_id": "tok_ibsrela_isi_body_line_height"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [
+    "tok_ibsrela_isi_body_line_height",
+    "tok_ibsrela_isi_body_size"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_no_duplicate_isi"
+  ],
+  "rule_text": "End Matter is supplied pre-built and LOCKED, containing the full FDA-reviewed ISI, Ardelyx address/contact, copyright/trademark/job code, and unsubscribe links. Consequences for content sections: (a) body copy size and line spacing must match the locked ISI body settings (fixed at 12 px / 1.4 in this system, see \u00a71.2); (b) references and footnotes used in content sections resolve in/above End Matter, so numbering and symbol order must be coordinated at assembly (\u00a74.5); (c) do not duplicate ISI fragments, indication statements, or legal lines inside content sections.",
+  "intent": "Preserve the locked regulatory footer and keep content typography and references consistent with it.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[5]",
+  "group_id": "grp_ibsrela_content_pattern_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "End Matter is locked with full FDA-reviewed ISI, Ardelyx contact, copyright/trademark; body copy 12px/1.4 line spacing; coordinate references/footnotes numbering; no ISI duplicates."
+}

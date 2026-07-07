@@ -6,47 +6,52 @@
   "key": "accent_shape.radius",
   "value": {
     "default": {
-      "$ref": "tok_lisraya_radius_accent_large_email"
+      "$ref": "tok_lisraya_radius_accent_email_large"
     },
     "variants": [
       {
         "when": {
-          "surface": "print"
+          "surface": "print",
+          "content_tag": "large"
         },
         "value": {
-          "$ref": "tok_lisraya_radius_accent_large_print"
+          "$ref": "tok_lisraya_radius_accent_print_large"
         }
       },
       {
         "when": {
+          "surface": "print",
           "content_tag": "banner"
         },
         "value": {
-          "$ref": "tok_lisraya_radius_accent_banner_email"
+          "$ref": "tok_lisraya_radius_accent_print_banner"
         }
       },
       {
         "when": {
-          "content_tag": "banner_print"
-        },
-        "value": {
-          "$ref": "tok_lisraya_radius_accent_banner_print"
-        }
-      },
-      {
-        "when": {
+          "surface": "print",
           "content_tag": "callout"
         },
         "value": {
-          "$ref": "tok_lisraya_radius_accent_callout_email"
+          "$ref": "tok_lisraya_radius_accent_print_callout"
         }
       },
       {
         "when": {
-          "content_tag": "callout_print"
+          "surface": "email",
+          "content_tag": "banner"
         },
         "value": {
-          "$ref": "tok_lisraya_radius_accent_callout_print"
+          "$ref": "tok_lisraya_radius_accent_email_banner"
+        }
+      },
+      {
+        "when": {
+          "surface": "email",
+          "content_tag": "callout"
+        },
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_email_callout"
         }
       }
     ]
@@ -56,7 +61,7 @@
   ],
   "aliases": [],
   "scope": "global",
-  "notes": "Accent shape: large radius one diagonal, 6px the other; default large TL & BR.",
+  "notes": "Accent shape radius pairs vary by surface and container size; default large radius TL & BR.",
   "status": "active",
   "version": 1
 }

@@ -3,24 +3,28 @@
   "brand_id": "lisraya",
   "token_type": "color",
   "kind": "semantic",
-  "key": "section.background.alternation",
+  "key": "section.background",
   "value": {
-    "default": "alternate White / Light Blue / Golden Sand / gradient",
+    "default": {
+      "$ref": "tok_lisraya_color_white"
+    },
     "variants": [
       {
         "when": {
           "adjacent_section_state": "same_background"
         },
-        "value": "must change to avoid identical adjacent backgrounds"
+        "value": {
+          "$ref": "tok_lisraya_color_light_blue"
+        }
       }
     ]
   },
   "element_paths": [
-    "section.background.alternation"
+    "section.background"
   ],
   "aliases": [],
   "scope": "global",
-  "notes": "Color blocks delineate topics; no two identical adjacent backgrounds; declare bg in metadata.",
+  "notes": "Alternate White / Light Blue / Golden Sand / gradient so adjacent sections don't merge; dark sections not adjacent to dark.",
   "status": "active",
   "version": 1
 }

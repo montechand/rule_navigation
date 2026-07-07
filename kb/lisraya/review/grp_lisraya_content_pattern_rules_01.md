@@ -30,32 +30,32 @@ doc_ref: `content_pattern_rules[1]`
 
 ## Extracted rules (6)
 
-### rule_lisraya_font_family_hierarchy
-- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: Typography families are surface-dependent: print headlines use Agenda, digital/email headlines and all body copy use Nunito Sans (bolder weights, Title Case), and Word/PPT/Excel fallback uses Aptos. Available weights: Agenda (Light, Regular, Medium, Semibold, Bold), Nunito Sans (Light, Regular, SemiBold, Bold, ExtraBold), Aptos (Regular, Bold). Agenda may be used as live text in digital only for the campaign headline. Footers/fine print follow the same body family per surface.
-- intent: Enforce consistent, surface-appropriate typeface selection across the brand.
+### rule_lisraya_typography_font_families_by_surface
+- class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Font families are assigned by surface: headlines/headers use Agenda in print and Nunito Sans (bolder weights, Title Case) in digital/email; body copy and footers/fine print use Nunito Sans across print and digital; Word/PPT/Excel fallback for all levels is Aptos. Agenda may be used as live text in digital only for the campaign headline. Available weights: Agenda (Light, Regular, Medium, Semibold, Bold); Nunito Sans (Light, Regular, SemiBold, Bold, ExtraBold); Aptos (Regular, Bold).
+- intent: Consistent, correctly-loaded typeface use across every production surface.
 
-### rule_lisraya_email_font_stack
-- class=typography scope=org_baseline hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: [GENERAL] Email CSS font stack must be `'Nunito Sans', Verdana, Helvetica, Arial, sans-serif`. Nunito Sans must be loaded via @font-face/Google Fonts link where the client supports it; the stack guarantees graceful fallback in Outlook and other clients that strip webfonts.
-- intent: Guarantee webfont loading with graceful fallback across email clients.
+### rule_lisraya_email_font_stack_css
+- class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: [GENERAL] Email CSS font stack is 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif. Nunito Sans must be loaded via @font-face/Google Fonts link where the client supports it; the stack guarantees graceful fallback in Outlook and other clients that strip webfonts.
+- intent: Guarantee readable fallback where webfonts are stripped.
 
-### rule_lisraya_email_type_scale
-- class=typography scope=org_baseline hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: [GENERAL] Email type scale: H1 section hero headline 28px/36px Nunito Sans ExtraBold or Bold; H2 section heading 22px/30px Nunito Sans Bold; H3 subhead 18px/26px Nunito Sans Bold or SemiBold; Body 16px/24px Nunito Sans Regular; Secondary/supporting body 14px/21px Nunito Sans Regular (use sparingly, never for primary content); Footnote/reference text within a section 12px/18px, must be noticeably smaller than primary data and clearly separated from it.
-- intent: Standardize the email typographic scale and weights across all sections.
+### rule_lisraya_email_type_scale_and_weights
+- class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: [GENERAL] Email type scale: H1 hero headline 28/36 Nunito Sans ExtraBold or Bold; H2 heading 22/30 Nunito Sans Bold; H3 subhead 18/26 Nunito Sans Bold or SemiBold; Body 16/24 Nunito Sans Regular; Secondary/supporting body 14/21 Nunito Sans Regular used sparingly and never for primary content; Footnote/reference text within a section 12/18, which must be noticeably smaller than primary data and clearly separated from it. ISI sizing is owned by the locked component.
+- intent: Fixed, hierarchical email type scale with weights per level.
 
-### rule_lisraya_body_minimum_size_and_floor
-- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: 16px is the brand-mandated minimum for body copy ('bigger is better'). Secondary body (14px) is used sparingly, never for primary content. Never set running text below 12px. (ISI sizing is owned by the locked component.)
-- intent: Ensure readable minimum text sizes for patients.
+### rule_lisraya_body_minimum_size
+- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: 16px is the brand-mandated minimum for body copy ("bigger is better"). Never set running text below 12px. (ISI sizing is owned by the locked component.)
+- intent: Legible minimum text sizes for patient readability.
 
 ### rule_lisraya_body_line_height_minimum
-- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
-- rule_text: Line height must be a minimum of 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px). The dark-background 160% value is carried on the body.line_height token variant.
-- intent: Maintain accessible line spacing, with extra leading for light-on-dark text.
+- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Line height is minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px). The body.line_height token carries the 150%→160% switch by background group.
+- intent: Readable leading, boosted for light-on-dark contexts.
 
-### rule_lisraya_visual_hierarchy_distinction
+### rule_lisraya_visual_hierarchy_distinct_levels
 - class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=None
 - rule_text: Use a clear type scale / visual hierarchy so the reader knows what to read first, next, last. Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels.
-- intent: Preserve legible reading order through distinct typographic levels.
+- intent: Make reading order unambiguous through distinct type levels.

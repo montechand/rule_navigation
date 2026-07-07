@@ -68,29 +68,39 @@ in the approved build; the editorial content body at 16 px is the approved digit
 content size for these emails.
 ````
 
-## Extracted rules (5)
+## Extracted rules (7)
 
-### rule_ibsrela_email_type_scale
+### rule_ibsrela_type_scale_editorial
+- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Editorial type scale: H1 main section headline 24px desktop / 22px mobile, line-height 1.25, Bold; H2 secondary/two-column card headline 16px, line-height 1.5, Bold; body copy 16px, line-height 1.5, Regular; CTA button label 14px, line-height 1.2 single line, Bold. The 16px editorial content body is the approved digital content size for these emails.
+- intent: Establish the standard editorial type scale for email content sections.
+
+### rule_ibsrela_type_scale_isi_footer_locked
+- class=typography scope=brand hardness=hard_constraint polarity=must sections=['end_matter'] constraint=binding
+- rule_text: The End Matter ISI and legal footer are a fixed system constant and are NOT restyled by these content defaults: ISI subheads 14px Bold, IMPORTANT RISK INFORMATION 15px Bold, ISI body 13px Regular, footnotes/abbreviations/references and footer/legal/unsubscribe 11px Regular — all at line-height 1.4, in the locked footer build. ISI body sits at 13px in the approved build.
+- intent: Preserve the locked, approved ISI/footer type build separate from editorial defaults.
+
+### rule_ibsrela_letter_spacing_email
 - class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Email type scale is fixed per element: H1 main section headline 24px desktop / 22px mobile, line-height 1.25, bold; H2 secondary/two-column card headline 16px, line-height 1.5, bold; body copy 16px, line-height 1.5, regular; CTA button label 14px, line-height 1.2 (single line), bold; ISI subheads 14px bold; ISI 'IMPORTANT RISK INFORMATION' 15px bold; ISI body 13px regular; footnotes/abbreviations/references 11px; footer/legal/unsubscribe 11px; all ISI/footer text at line-height 1.4. ISI subhead/IRI/body/footnote/footer sizes are part of the locked footer build.
-- intent: Enforce a consistent, approved typographic hierarchy across all email templates.
+- rule_text: Letter-spacing/kerning is 0 for body; ALL-CAPS callouts and CTAs are set at +0.5px. Never use negative tracking in email.
+- intent: Standardize kerning and forbid negative tracking in email.
 
-### rule_ibsrela_paragraph_rhythm_and_tracking
+### rule_ibsrela_paragraph_rhythm
+- class=spacing scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Paragraph rhythm within a section: headline→subhead 8px; subhead→body 12px; headline→body (no subhead) 12px; between body paragraphs 12px; body→CTA button 16px.
+- intent: Define consistent vertical rhythm inside sections.
+
+### rule_ibsrela_section_padding_ownership
 - class=spacing scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Within a section: letter-spacing/kerning is 0 for body; ALL-CAPS callouts and CTAs use +0.5px; never use negative tracking in email. Paragraph rhythm: headline→subhead 8px, subhead→body 12px, headline→body (no subhead) 12px, between body paragraphs 12px, body→CTA button 16px.
-- intent: Maintain consistent vertical rhythm and legible tracking within sections.
+- rule_text: Because sections are built independently, spacing is owned by the section, not the boundary — every section owns half of every gap. Apply the section type's fixed padding verbatim: Editorial (default) 12px 24px 12px 24px for all white content sections; Dark feature 24px all sides for navy #262262 / purple #92278F blocks (CTA, partnership, closing); Inset card/callout hosted in an Editorial section with 12px radius and 24px internal padding on all sides (border-collapse: separate; squares off in Outlook). Side gutters are always 24px on both edges, every section, no exceptions. Adjust 'air' only by choosing the section type.
+- intent: Make section spacing deterministic and section-owned so independently built sections stack predictably.
 
-### rule_ibsrela_section_padding_and_boundaries
+### rule_ibsrela_boundary_gaps_resolved
 - class=spacing scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Spacing is owned by the section, not the boundary; every section owns half of every gap. Pick the section type and apply its fixed padding verbatim: Editorial (default) 12px 24px 12px 24px for all white content sections; Dark feature 24px all sides for navy #262262 / purple #92278F blocks (CTA, partnership, closing); Inset card/callout hosted in an Editorial section with radius 12px and 24px internal padding (border-collapse: separate; squares off in Outlook). Side gutters are always 24px on both edges, every section, no exceptions. Resulting boundary gaps resolve predictably: Editorial→Editorial 24px, Editorial↔Dark feature 36px, Dark feature→Dark feature 48px, full-bleed hero/swirl→first/last section 12px. Adjust 'air' only by choosing the section type.
-- intent: Guarantee predictable spacing math across independently-built sections.
+- rule_text: With fixed section padding tokens, every boundary resolves to one predictable gap: Editorial→Editorial 24px; Editorial↔Dark feature 36px; Dark feature→Dark feature 48px; full-bleed hero/swirl (0)→first/last section 12px.
+- intent: Document the deterministic boundary gaps produced by section-owned padding.
 
-### rule_ibsrela_no_padding_override_or_spacers
-- class=spacing scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=binding
-- rule_text: Two hard rules: (1) Never override the vertical padding token — a designer picks Editorial or Dark feature and uses it as-is, and must not hand-tune padding values. (2) No empty spacer rows or placeholder cells — they silently add 12–16px and break the spacing math.
-- intent: Protect the fixed-token spacing system from ad-hoc edits that break the math.
-
-### rule_ibsrela_locked_isi_footer_not_restyled
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=['end_matter'] constraint=verbatim_content
-- rule_text: The End Matter — ISI ('What is IBSRELA?', 'IMPORTANT RISK INFORMATION', 'Side Effects', boxed-warning reference) and the legal footer/unsubscribe block is a fixed system constant and is NOT restyled by these content defaults. The ISI body sits at 13px in the approved locked build; the editorial content body at 16px is the approved digital content size for these emails.
-- intent: Keep the regulated ISI/footer as a locked constant separate from editorial content defaults.
+### rule_ibsrela_no_padding_override_no_spacers
+- class=spacing scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=None
+- rule_text: Two hard rules: (1) Never override the vertical padding token — a designer picks Editorial or Dark feature and uses it as-is. (2) No empty spacer rows or placeholder cells — they silently add 12–16px and break the spacing math.
+- intent: Protect the deterministic spacing math from manual overrides and stray spacers.

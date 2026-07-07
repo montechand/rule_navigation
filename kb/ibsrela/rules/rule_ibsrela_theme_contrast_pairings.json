@@ -3,8 +3,8 @@
   "brand_id": "ibsrela",
   "rule_class": "color_application",
   "tags": [
-    "typography",
-    "accessibility"
+    "accessibility",
+    "typography"
   ],
   "content_types": [
     "email"
@@ -14,11 +14,7 @@
   "applies_when": [
     {
       "kind": "background_group",
-      "value": "dark"
-    },
-    {
-      "kind": "background_group",
-      "value": "light"
+      "value": "dark_and_light_panels"
     }
   ],
   "evaluation_scope": "section",
@@ -26,20 +22,28 @@
   "effect": {
     "assignments": [
       {
+        "element_path": "headline.color",
+        "token_id": "tok_ibsrela_headline_color"
+      },
+      {
+        "element_path": "subhead.color",
+        "token_id": "tok_ibsrela_subhead_color"
+      },
+      {
         "element_path": "body.color",
         "token_id": "tok_ibsrela_body_color"
       },
       {
-        "element_path": "h1.color",
-        "token_id": "tok_ibsrela_h1_color"
-      },
-      {
-        "element_path": "h2.color",
-        "token_id": "tok_ibsrela_h2_color"
-      },
-      {
         "element_path": "body.link.color",
         "token_id": "tok_ibsrela_body_link_color"
+      },
+      {
+        "element_path": "body.link.decoration",
+        "token_id": "tok_ibsrela_body_link_decoration"
+      },
+      {
+        "element_path": "title.color",
+        "token_id": "tok_ibsrela_title_color"
       }
     ]
   },
@@ -49,17 +53,19 @@
   "token_ids": [
     "tok_ibsrela_body_color",
     "tok_ibsrela_body_link_color",
-    "tok_ibsrela_h1_color",
-    "tok_ibsrela_h2_color"
+    "tok_ibsrela_body_link_decoration",
+    "tok_ibsrela_headline_color",
+    "tok_ibsrela_subhead_color",
+    "tok_ibsrela_title_color"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "[BASELINE] Contrast pairings: on Purple/Navy/Green panels use white text only; on White/Silver panels use navy headlines, black body, and purple accents. Links on dark panels are white underlined; on light panels purple or navy underlined. Concrete color switching is carried by the background_group variants of the bound text/link color tokens.",
-  "intent": "Ensure legible, on-brand text and link colors across dark and light theme backgrounds.",
+  "rule_text": "[BASELINE] Contrast pairings by panel: on Purple/Navy/Green panels use white text only; on White/Silver panels use navy headlines, black body, and purple accents. Links on dark panels are white and underlined; on light panels purple or navy and underlined. Concrete color-per-background switching lives on the semantic tokens (headline.color, subhead.color, body.color, body.link.color) via their background_group variants.",
+  "intent": "Guarantee legible, on-brand text/link contrast against every theme panel.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[3]",
   "group_id": "grp_ibsrela_color_scheme_rules_03",
   "status": "active",
   "version": 1,
-  "summary": "Use white text and underlined white links on Purple/Navy/Green backgrounds; navy headlines, black body, purple accents, and purple/navy underlined links on White/Silver panels."
+  "summary": "On Purple/Navy/Green panels use white text and white underlined links; on White/Silver panels navy headlines, black body text, purple accents, and purple/navy underlined links."
 }

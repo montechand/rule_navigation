@@ -1,0 +1,51 @@
+{
+  "id": "rule_ibsrela_spacing_two_column_gutter_and_grid",
+  "brand_id": "ibsrela",
+  "rule_class": "layout",
+  "tags": [
+    "spacing"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "grid.two_column.gutter"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "grid.two_column.gutter",
+        "token_id": "tok_ibsrela_two_column_gutter"
+      },
+      {
+        "element_path": "grid.content_area.width",
+        "token_id": "tok_ibsrela_content_area_width"
+      },
+      {
+        "element_path": "grid.half_column.width",
+        "token_id": "tok_ibsrela_half_column_width"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_ibsrela_content_area_width",
+    "tok_ibsrela_half_column_width",
+    "tok_ibsrela_two_column_gutter"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Two-column layouts use a 24 px gutter on desktop; columns stack with a 24 px vertical gap on mobile. Layout follows a 12-column mental grid over the 552 px content area (600 \u2212 2\u00d724), where a half-width column is 264 px content plus 24 px gutter. Values live on the referenced tokens.",
+  "intent": "Standardize column structure and content width for consistent multi-column layouts.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[1]",
+  "group_id": "grp_ibsrela_design_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Two-column layouts: 24px gutter desktop, 24px vertical gap mobile; 12-column grid over 552px content, half-column 264px + 24px gutter; uses tokens."
+}

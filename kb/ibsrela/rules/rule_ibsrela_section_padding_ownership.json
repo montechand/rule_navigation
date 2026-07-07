@@ -1,0 +1,59 @@
+{
+  "id": "rule_ibsrela_section_padding_ownership",
+  "brand_id": "ibsrela",
+  "rule_class": "spacing",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.editorial.padding",
+        "token_id": "tok_ibsrela_section_padding_editorial"
+      },
+      {
+        "element_path": "section.dark_feature.padding",
+        "token_id": "tok_ibsrela_section_padding_dark_feature"
+      },
+      {
+        "element_path": "card.internal.padding",
+        "token_id": "tok_ibsrela_card_padding"
+      },
+      {
+        "element_path": "card.radius",
+        "token_id": "tok_ibsrela_card_radius"
+      },
+      {
+        "element_path": "section.padding.sides",
+        "token_id": "tok_ibsrela_section_padding_sides"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 5,
+  "token_ids": [
+    "tok_ibsrela_card_padding",
+    "tok_ibsrela_card_radius",
+    "tok_ibsrela_section_padding_dark_feature",
+    "tok_ibsrela_section_padding_editorial",
+    "tok_ibsrela_section_padding_sides"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Because sections are built independently, spacing is owned by the section, not the boundary \u2014 every section owns half of every gap. Apply the section type's fixed padding verbatim: Editorial (default) 12px 24px 12px 24px for all white content sections; Dark feature 24px all sides for navy #262262 / purple #92278F blocks (CTA, partnership, closing); Inset card/callout hosted in an Editorial section with 12px radius and 24px internal padding on all sides (border-collapse: separate; squares off in Outlook). Side gutters are always 24px on both edges, every section, no exceptions. Adjust 'air' only by choosing the section type.",
+  "intent": "Make section spacing deterministic and section-owned so independently built sections stack predictably.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_ibsrela_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Sections own half gaps; Editorial white sections use 12px 24px 12px 24px padding; Dark feature blocks get 24px all sides; Inset cards have 12px radius, 24px padding; side gutters 24px always."
+}

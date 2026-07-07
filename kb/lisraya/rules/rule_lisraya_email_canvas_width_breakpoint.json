@@ -1,0 +1,52 @@
+{
+  "id": "rule_lisraya_email_canvas_width_breakpoint",
+  "brand_id": "lisraya",
+  "rule_class": "layout",
+  "tags": [
+    "assembly",
+    "spacing"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "canvas.email.width"
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.width",
+        "token_id": "tok_lisraya_section_width"
+      },
+      {
+        "element_path": "layout.mobile_breakpoint",
+        "token_id": "tok_lisraya_layout_mobile_breakpoint"
+      },
+      {
+        "element_path": "layout.grid.image_text_split",
+        "token_id": "tok_lisraya_layout_grid_image_text_split"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_layout_grid_image_text_split",
+    "tok_lisraya_layout_mobile_breakpoint",
+    "tok_lisraya_section_width"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Email body width is fixed at 600px (section.width), centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly. Mobile breakpoint is 480px (layout.mobile_breakpoint); all multi-column layouts collapse to single column. Internal section grid uses a 12-column mental model; practical layouts are 1-col, 2-col (50/50), or image/text split (\u224840/60, layout.grid.image_text_split).",
+  "intent": "Guarantee seamless section assembly at a fixed canvas width with a defined mobile collapse.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[0]",
+  "group_id": "grp_lisraya_design_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Email body fixed at 600px width, centered; sections must be exactly 600px wide edge-to-edge; below 480px breakpoint, multi-column layouts collapse to single column; 12-column internal grid with practical 1-, 2-col (50/50), or 40/60 image/text splits."
+}

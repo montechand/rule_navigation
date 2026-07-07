@@ -3,11 +3,13 @@
 This KB is the structured form of the IBSRELA design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: 76 brand_rules (topic clusters),
-190 brand_tokens (86 primitive /
-104 semantic), 10 design_assets,
-21 governance rows, 9 content_sub_types,
-21 rule_groups, 2 asset_groups.
+Contents: 86 brand_rules (topic clusters),
+188 brand_tokens (87 primitive /
+101 semantic), 3 design_assets,
+13 governance rows, 5 content_sub_type
+classes, 6 design_templates in 3
+template_groups, 21 rule_groups,
+1 asset_groups.
 
 ## Layout
 
@@ -16,8 +18,10 @@ Contents: 76 brand_rules (topic clusters),
   hardness, polarity, constraint_type, applies_when, one-line summary)
 - `rules/{rule_id}.json` — full rule rows
 - `tokens/ assets/ subtypes/ governance/` — side entities, each with `_index.json`
+- `templates/` — concrete approved artifacts: bodies as `{id}.mjml`, metadata in
+  `_meta/{id}.json`, index in `_index.json`
 - `groups/rule_groups.json` — original pre-atomization text blobs (provenance)
-- `groups/asset_groups.json`, `groups/relations.json`
+- `groups/asset_groups.json`, `groups/template_groups.json`, `groups/relations.json`
 - `graph/graph.json` — nodes + typed edges (rule->section, rule->token, rule->asset,
   rule->governance, rule->group, asset->token, asset->asset_group, rule->rule)
 

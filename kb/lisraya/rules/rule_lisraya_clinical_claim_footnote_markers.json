@@ -6,9 +6,7 @@
     "accessibility"
   ],
   "scope": "brand",
-  "selector": {
-    "element_path": "footnote"
-  },
+  "selector": {},
   "applies_when": [
     {
       "kind": "content_tag",
@@ -16,31 +14,26 @@
     }
   ],
   "evaluation_scope": "section",
-  "constraint_type": "binding",
+  "constraint_type": "verbatim_content",
   "effect": {
-    "assignments": [
-      {
-        "element_path": "footnote.type_scale",
-        "token_id": "tok_lisraya_footnote_type_scale"
-      }
-    ]
+    "content": null,
+    "governance_id": "gov_lisraya_clinical_claim_footnote",
+    "trigger": "clinical claim present"
   },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 0,
-  "token_ids": [
-    "tok_lisraya_footnote_type_scale"
-  ],
+  "token_ids": [],
   "asset_ids": [],
   "governance_ids": [
     "gov_lisraya_clinical_claim_footnote"
   ],
-  "rule_text": "Clinical claims require footnote markers (\u2020), with the footnote text clearly separated and rendered noticeably smaller (per footnote type scale) (\u00a71.2).",
-  "intent": "Ensure clinical claims are properly qualified and visually distinguished from body copy.",
+  "rule_text": "Clinical claims require footnote markers (\u2020) with footnote text clearly separated and noticeably smaller (\u00a71.2).",
+  "intent": "Substantiate clinical claims with visible, separated footnotes.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[9]",
   "group_id": "grp_lisraya_content_pattern_rules_09",
   "status": "active",
   "version": 1,
-  "summary": "Clinical claims must include \u2020 footnote markers with distinct, smaller footnote text per type scale, separated per \u00a71.2."
+  "summary": "Clinical claims need footnote markers (\u2020) with clearly separated, smaller footnote text per \u00a71.2."
 }

@@ -29,6 +29,7 @@ TOOL_FAMILIES: dict[str, list[str]] = {
     "lookup": ["get_rules", "get_entity"],
     "structured": ["query_rules"],
     "tokens": ["query_tokens", "search_tokens", "resolve_token"],
+    "templates": ["list_templates", "rules_for_template"],
     "keyword": ["keyword_search"],
     "vector": ["vector_search"],
     "graph": ["rules_for_section", "rules_for_subtype", "rules_for_token", "neighbors",
@@ -446,14 +447,23 @@ class ToolRepo:
             raise ToolError(f"unknown section_type '{section}'; vocab: {self.kb.section_types}")
         targeted = [self.kb.short_rule(r) for r in self.kb.rules.values()
                     if r.selector.section_types and section in r.selector.section_types]
-        covering = [{"id": s.id, "name": s.name, "covers": s.covers_section_types,
-                     "is_template": bool(s.template_ref)}
-                    for s in self.kb.subtypes.values()
-                    if s.covers_section_types and section in s.covers_section_types]
+        filled_by = [{"id": s.id, "name": s.name, "kind": "class",
+                      "fills": s.fills_section_types}
+                     for s in self.kb.subtypes.values()
+                     if s.fills_section_types and section in s.fills_section_types]
+        filled_by += [{"id": t.id, "name": t.name, "kind": "template",
+                       "fills": t.fills_section_types, "group_id": t.group_id}
+                      for t in self.kb.templates.values()
+                      if t.fills_section_types and section in t.fills_section_types]
+        hosted_by = [{"id": s.id, "name": s.name}
+                     for s in self.kb.subtypes.values()
+                     if s.hosts_section_types and section in s.hosts_section_types]
         result: dict[str, Any] = {"section": section, "targeted_count": len(targeted),
                                   "targeted_rules": targeted}
-        if covering:
-            result["covered_by_subtypes"] = covering
+        if filled_by:
+            result["filled_by"] = filled_by
+        if hosted_by:
+            result["can_be_hosted_by"] = hosted_by
         if args.get("include_all_section_rules", False):
             allsec = [self.kb.short_rule(r) for r in self.kb.rules.values()
                       if r.selector.section_types is None]
@@ -464,27 +474,80 @@ class ToolRepo:
                               "included; pass include_all_section_rules=true or query them separately")
         return result
 
+    def _rules_for_sections(self, sections: list[str]) -> dict[str, list[dict[str, Any]]]:
+        return {sec: [self.kb.short_rule(r) for r in self.kb.rules.values()
+                      if r.selector.section_types and sec in r.selector.section_types]
+                for sec in sections}
+
     async def _rules_for_subtype(self, args: dict[str, Any]) -> Any:
         sid = args["subtype_id"]
         sub = self.kb.subtypes.get(sid)
         if sub is None:
-            raise ToolError(f"unknown content_sub_type id: {sid}. See subtypes/_index.json")
+            raise ToolError(f"unknown content_sub_type id: {sid}. See subtypes/_index.json "
+                            "(for concrete templates use rules_for_template)")
         directly = [self.kb.short_rule(r) for r in self.kb.rules.values()
                     if r.content_sub_type_ids and sid in r.content_sub_type_ids]
-        via_sections: dict[str, list[dict[str, Any]]] = {}
-        for sec in sub.covers_section_types or []:
-            via_sections[sec] = [self.kb.short_rule(r) for r in self.kb.rules.values()
-                                 if r.selector.section_types and sec in r.selector.section_types]
+        instances = [{"id": t.id, "name": t.name, "group_id": t.group_id}
+                     for t in self.kb.templates.values() if t.instance_of == sid]
         all_subtype_count = sum(1 for r in self.kb.rules.values() if r.content_sub_type_ids is None)
-        return {
+        result: dict[str, Any] = {
             "subtype": {"id": sub.id, "name": sub.name, "kind": sub.kind,
-                        "covers_section_types": sub.covers_section_types,
-                        "locked": bool((sub.assembly or {}).get("locked")),
-                        "template_ref": sub.template_ref, "template_file": sub.template_file},
+                        "fills_section_types": sub.fills_section_types,
+                        "hosts_section_types": sub.hosts_section_types,
+                        "locked": bool((sub.assembly or {}).get("locked"))},
             "directly_scoped_rules": directly,
-            "rules_via_covered_sections": via_sections,
+            "rules_via_filled_sections": self._rules_for_sections(sub.fills_section_types or []),
             "note": (f"{all_subtype_count} further rules have content_sub_type_ids=null "
-                     "(apply to ALL sub-types); enumerate via query_rules if needed"),
+                     "(apply to ALL sub-types); hosts_section_types is an affordance hint — "
+                     "hosted-role rules attach to the hosted section, not this class"),
+        }
+        if instances:
+            result["template_instances"] = instances
+        return result
+
+    async def _list_templates(self, args: dict[str, Any]) -> Any:
+        fills = args.get("fills_section_type")
+        group = args.get("group_id")
+        out = []
+        for t in self.kb.templates.values():
+            if fills and fills not in (t.fills_section_types or []):
+                continue
+            if group and t.group_id != group:
+                continue
+            out.append({"id": t.id, "name": t.name, "source": t.source,
+                        "fills_section_types": t.fills_section_types,
+                        "instance_of": t.instance_of, "group_id": t.group_id,
+                        "usage_conditions": t.usage_conditions, "file": t.file})
+        groups = [{"id": g.id, "name": g.name, "semantics": g.semantics}
+                  for g in self.kb.template_groups.values()
+                  if not group or g.id == group]
+        return {"templates": out, "template_groups": groups}
+
+    async def _rules_for_template(self, args: dict[str, Any]) -> Any:
+        tid = args["template_id"]
+        tpl = self.kb.templates.get(tid)
+        if tpl is None:
+            raise ToolError(f"unknown design_template id: {tid}. See templates/_index.json")
+        via_class = []
+        if tpl.instance_of:
+            via_class = [self.kb.short_rule(r) for r in self.kb.rules.values()
+                         if r.content_sub_type_ids and tpl.instance_of in r.content_sub_type_ids]
+        group = self.kb.template_groups.get(tpl.group_id) if tpl.group_id else None
+        siblings = [t.id for t in self.kb.templates.values()
+                    if tpl.group_id and t.group_id == tpl.group_id and t.id != tid]
+        return {
+            "template": {"id": tpl.id, "name": tpl.name, "source": tpl.source,
+                         "fills_section_types": tpl.fills_section_types,
+                         "instance_of": tpl.instance_of,
+                         "usage_conditions": tpl.usage_conditions,
+                         "file": tpl.file},
+            "group": ({"id": group.id, "name": group.name, "semantics": group.semantics,
+                       "alternates": siblings} if group else None),
+            "rules_via_class": via_class,
+            "rules_via_filled_sections": self._rules_for_sections(tpl.fills_section_types or []),
+            "note": ("plus email-wide baseline rules (content_sub_type_ids=null / "
+                     "selector=null); usage_conditions above are this instance's own "
+                     "selection gates"),
         }
 
     async def _rules_for_token(self, args: dict[str, Any]) -> Any:
@@ -656,13 +719,23 @@ class ToolRepo:
               {"type": "object", "properties": {"section_type": {"type": "string"},
                                                 "include_all_section_rules": {"type": "boolean"}},
                "required": ["section_type"]}, self._rules_for_section),
-            S("rules_for_subtype", "Everything that applies to one component/template "
-              "(content_sub_type): rules directly scoped to it via content_sub_type_ids, plus "
-              "rules targeting the section types it covers (covers_section_types), e.g. a header "
-              "template covering [top_matter, hero] surfaces both pools. Subtype ids are in "
-              "subtypes/_index.json.",
+            S("rules_for_subtype", "Class view: rules directly scoped to a structural "
+              "component/format (content_sub_type) plus rules for the section roles it FILLS, "
+              "and its concrete template instances. Ids in subtypes/_index.json.",
               {"type": "object", "properties": {"subtype_id": {"type": "string"}},
                "required": ["subtype_id"]}, self._rules_for_subtype),
+            S("list_templates", "List concrete approved templates (design_template) and "
+              "pick-one template_groups. Filter by fills_section_type and/or group_id. Bodies "
+              "are readable via read_file on the returned file path.",
+              {"type": "object", "properties": {"fills_section_type": {"type": "string"},
+                                                "group_id": {"type": "string"}},
+               "required": []}, self._list_templates),
+            S("rules_for_template", "Instance view: everything one concrete template must obey "
+              "— rules via its class (instance_of), rules for the section roles it fills, its "
+              "own usage_conditions (selection gates like requires_content_tags), and its "
+              "pick-one group alternates. Ids in templates/_index.json.",
+              {"type": "object", "properties": {"template_id": {"type": "string"}},
+               "required": ["template_id"]}, self._rules_for_template),
             S("rules_for_token", "Graph lookup: rules whose effect references a given token.",
               {"type": "object", "properties": {"token_id": {"type": "string"}}, "required": ["token_id"]},
               self._rules_for_token),

@@ -11,7 +11,7 @@
   "applies_when": [
     {
       "kind": "first_mention",
-      "value": "brand_name"
+      "value": "most_prominent"
     }
   ],
   "evaluation_scope": "sentence",
@@ -19,7 +19,11 @@
   "effect": {
     "content": "LISRAYA\u00ae (brepocitinib)",
     "governance_id": "gov_lisraya_registered_trademark",
-    "trigger": "generic name included AND first/most prominent mention AND external-facing document"
+    "trigger": {
+      "generic_name_included": true,
+      "external_facing": true,
+      "mention": "first_or_most_prominent"
+    }
   },
   "polarity": "must",
   "hardness": "hard_constraint",
@@ -30,13 +34,13 @@
     "gov_lisraya_generic_name_format",
     "gov_lisraya_registered_trademark"
   ],
-  "rule_text": "Include the \u00ae registered trademark symbol only when the generic name is included \u2014 i.e., LISRAYA\u00ae (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat \u00ae on subsequent mentions. Generic name format: lowercase, in parentheses: (brepocitinib).",
-  "intent": "Correct, non-redundant trademark and generic-name presentation.",
+  "rule_text": "Include the \u00ae registered trademark symbol only when the generic name is included \u2014 i.e., LISRAYA\u00ae (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat \u00ae on subsequent mentions. Generic name format is lowercase in parentheses: (brepocitinib).",
+  "intent": "Correct trademark qualification and generic-name pairing per legal rules.",
   "snippets": "LISRAYA\u00ae (brepocitinib)",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[0]",
   "group_id": "grp_lisraya_content_pattern_rules_00",
   "status": "active",
   "version": 1,
-  "summary": "Include \u00ae only on first prominent mention with generic name lowercase in parentheses (brepocitinib) in external docs; do not repeat \u00ae thereafter."
+  "summary": "Include \u00ae only on first/most prominent external mention of brand with generic lowercase in parentheses; e.g., LISRAYA\u00ae (brepocitinib); no repeats."
 }

@@ -4,15 +4,10 @@
   "rule_class": "assembly",
   "tags": [
     "accessibility",
-    "layout",
     "typography"
   ],
   "content_types": [
     "email"
-  ],
-  "content_sub_type_ids": [
-    "sub_ibsrela_top_matter",
-    "sub_ibsrela_end_matter"
   ],
   "scope": "org_baseline",
   "selector": {},
@@ -22,11 +17,7 @@
     "assignments": [
       {
         "element_path": "isi.body.size",
-        "token_id": "tok_ibsrela_type_scale_isi_body_locked"
-      },
-      {
-        "element_path": "isi.line_height",
-        "token_id": "tok_ibsrela_line_height_14"
+        "token_id": "tok_ibsrela_isi_body_size"
       }
     ]
   },
@@ -34,17 +25,16 @@
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [
-    "tok_ibsrela_line_height_14",
-    "tok_ibsrela_type_scale_isi_body_locked"
+    "tok_ibsrela_isi_body_size"
   ],
   "asset_ids": [],
   "governance_ids": [],
-  "rule_text": "Final assembly QA must confirm: body size equals the locked ISI body size (12px / 1.4), audience matches the supplied header/footer (\u00a74.2), all \u00a71.8 content-section obligations are present, theme consistency across sections, and both breakpoints render without horizontal scroll.",
-  "intent": "Enforce a release gate that verifies consistency, audience match and responsive integrity before ship.",
+  "rule_text": "Final assembly QA: confirm body size equals the locked ISI body size (12 px / 1.4), audience matches the supplied header/footer (\u00a74.2), all \u00a71.8 content-section obligations are present, theme is consistent across sections, and both breakpoints render without horizontal scroll.",
+  "intent": "Enforce a pre-ship verification pass on assembled emails.",
   "source": "design_bible",
   "doc_ref": "other_rules[1]",
   "group_id": "grp_ibsrela_other_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "Final assembly QA: body size locked ISI body size 12px/1.4, audience matches \u00a74.2 header/footer, all \u00a71.8 content present, theme consistent, breakpoints no horizontal scroll."
+  "summary": "Final assembly QA: verify body size (12 px/1.4), audience matches header/footer (\u00a74.2), all \u00a71.8 content sections included, consistent theme, no horizontal scroll at both breakpoints."
 }

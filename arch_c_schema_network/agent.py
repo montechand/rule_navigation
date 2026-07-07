@@ -60,13 +60,15 @@ SHARDS: dict[str, dict[str, Any]] = {
     "layout_assembly": {
         "rule_classes": ["layout", "spacing", "assembly", "cta"],
         "tools": ["query_rules", "get_rules", "keyword_search", "vector_search",
-                  "rules_for_section", "rules_for_subtype", "query_tokens", "search_tokens",
+                  "rules_for_section", "rules_for_subtype", "rules_for_template",
+                  "list_templates", "query_tokens", "search_tokens",
                   "rules_for_token", "get_entity", "get_section_vocab"],
         "blurb": ("You own LAYOUT, SPACING, ASSEMBLY and CTA structure: canvas/grid, "
-                  "padding/spacing/radius/size tokens, section stacking/adjacency, component "
-                  "library (content_sub_types incl. locked top/end matter AND concrete "
-                  "approved templates — rules_for_subtype surfaces template-scoped rules "
-                  "plus rules for the sections a template covers), button geometry, "
+                  "padding/spacing/radius/size tokens, section stacking/adjacency, the "
+                  "component-class library (content_sub_types incl. locked top/end matter; "
+                  "rules_for_subtype = class view) and concrete approved templates "
+                  "(list_templates / rules_for_template = instance view with "
+                  "usage_conditions and pick-one groups), button geometry, "
                   "CTA placement/cardinality, callout/chart container geometry. "
                   "rules_for_section gives the per-section pool; query_tokens(token_type="
                   "['spacing','padding','radius','size','dimension']) enumerates the "

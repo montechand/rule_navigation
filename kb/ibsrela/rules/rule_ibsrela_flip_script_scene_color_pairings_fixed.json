@@ -6,23 +6,18 @@
     "imagery"
   ],
   "scope": "campaign",
-  "selector": {
-    "section_types": [
-      "callout"
-    ],
-    "element_path": "callout.scene_banner.color"
-  },
+  "selector": {},
   "applies_when": [
     {
       "kind": "campaign",
       "value": "flip_the_script"
     }
   ],
-  "evaluation_scope": "section",
+  "evaluation_scope": "email",
   "constraint_type": "pairing",
   "effect": {
-    "a": "callout.scene_banner.color",
-    "b": "scene",
+    "a": "campaign_scene",
+    "b": "campaign_color",
     "relation": "requires"
   },
   "polarity": "must_not",
@@ -30,15 +25,13 @@
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [
-    "gov_ibsrela_scene_color_pairings"
-  ],
-  "rule_text": "Flip The Script scene-color pairings are fixed and may not be used interchangeably: Periwinkle \u2192 Office, Purple \u2192 Cafe, Green \u2192 Soccer. The scene-banner color (callout.scene_banner.color) must match the paired scene.",
-  "intent": "Preserve fixed campaign color-to-scene associations.",
+  "governance_ids": [],
+  "rule_text": "Scene-color pairings are fixed and may not be used interchangeably: Periwinkle\u2192Office, Purple\u2192Cafe, Green\u2192Soccer. White (Safe White) has no paired scene.",
+  "intent": "Preserve the intended color-to-scene mapping across campaign creative.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[1]",
   "group_id": "grp_ibsrela_color_scheme_rules_01",
   "status": "active",
   "version": 1,
-  "summary": "Flip The Script scene-banner colors must match fixed pairings: Periwinkle\u2192Office, Purple\u2192Cafe, Green\u2192Soccer; no interchange of scene-color pairs allowed."
+  "summary": "Scene-color pairings fixed: Periwinkle\u2192Office, Purple\u2192Cafe, Green\u2192Soccer; White (Safe White) unpaired and unrestricted."
 }

@@ -18,14 +18,19 @@ doc_ref: `color_scheme_rules[3]`
 - Used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark. Approved values only.
 ````
 
-## Extracted rules (2)
+## Extracted rules (3)
 
-### rule_lisraya_approved_gradients_only
+### rule_lisraya_approved_gradient_set_only
 - class=color_application scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
-- rule_text: Never invent gradients. Only the approved gradient set may be used: Brand Blue → Dark Navy (background.dark.gradient), Sky Blue → Deep Blue (wave.blue.gradient), Sunshine → 75% Gold (wave.gold.gradient), Golden Sand → White → Light Blue (background.soft_light.gradient), Golden Sand → 75% Gold → Sunshine (background.warm.gradient), and the Masthead gradient. Approved values only — each gradient's stops are fixed per its token.
-- intent: Prevent off-palette gradients and enforce the sanctioned gradient inventory.
+- rule_text: Never invent gradients. Only the approved gradient set may be used: Brand Blue → Dark Navy (tok_lisraya_gradient_brand_blue_dark_navy), Sky Blue → Deep Blue (tok_lisraya_gradient_sky_blue_deep_blue), Sunshine → 75% Gold (tok_lisraya_gradient_sunshine_gold75), Golden Sand → White → Light Blue (tok_lisraya_gradient_goldensand_white_lightblue), Golden Sand → 75% Gold → Sunshine (tok_lisraya_gradient_goldensand_gold75_sunshine), and the Masthead Sunshine → light gold gradient (tok_lisraya_gradient_masthead_sunshine_lightgold). Approved values only; gradients are used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark.
+- intent: Restrict gradient usage to the approved palette-derived set to preserve brand consistency.
 
-### rule_lisraya_gradient_usage_and_orientation
+### rule_lisraya_masthead_gradient_with_logo_mark
+- class=color_application scope=brand hardness=hard_constraint polarity=must sections=['top_matter'] constraint=binding
+- rule_text: The Masthead gradient (Sunshine → light gold, tok_lisraya_masthead_gradient) is the gradient to use with the LISRAYA logo mark for contrast; the logo mark sits at the lightest end of the gradient.
+- intent: Ensure the logo mark reads clearly by pairing it with the designated masthead gradient at its lightest end.
+
+### rule_lisraya_gradient_horizontal_direction
 - class=color_application scope=brand hardness=strong_default polarity=must sections=['top_matter'] constraint=binding
-- rule_text: In masthead/banner applications gradients run horizontally, transitioning from the dark/saturated end to the light end (left → right as shown). Gradients are used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark. The Masthead gradient (Sunshine → light gold, ≈#ffe05c) is the gradient to use with the logo mark for contrast, with the mark sitting at the lightest end.
-- intent: Ensure gradient orientation and the correct masthead gradient for logo-mark contrast.
+- rule_text: In masthead/banner applications, gradients run horizontally: dark/saturated → light, left → right (tok_lisraya_gradient_angle_horizontal).
+- intent: Standardize gradient direction across masthead and banner applications.

@@ -17,7 +17,9 @@ Key attributes:
 - `tags`: secondary facets, same vocabulary (cross-cutting rules carry extra classes here).
 - `audience`: dtp_patient | hcp | caregiver | null (null = all audiences).
 - `content_types`: [email, banner, social, print, web, ppt] | null = all surfaces.
-- `content_sub_type_ids`: FK[] -> content_sub_type; null = all sub-types.
+- `content_sub_type_ids`: FK[] -> content_sub_type CLASSES (sub_ ids only); null = all
+  sub-types. Rules never scope to template instances (tpl_) — instances inherit through
+  instance_of and fills_section.
 - `scope`: org_baseline | brand | campaign. org_baseline = general production baseline
   (marked [BASELINE]/[GENERAL] in source docs), brand = from the brand guide,
   campaign = tied to a named campaign.

@@ -5,11 +5,17 @@
   "audience": "dtp_patient",
   "scope": "campaign",
   "selector": {},
+  "applies_when": [
+    {
+      "kind": "campaign",
+      "value": "you_deserve_more"
+    }
+  ],
   "evaluation_scope": "sentence",
   "constraint_type": "verbatim_content",
   "effect": {
     "content": "My Compass Support (patient support: Personalized Communication via PAL \u2014 text, phone, email, in person; Authorization Support)",
-    "governance_id": "gov_lisraya_support_program",
+    "governance_id": "gov_lisraya_support_program_name",
     "trigger": null
   },
   "polarity": "must",
@@ -18,14 +24,14 @@
   "token_ids": [],
   "asset_ids": [],
   "governance_ids": [
-    "gov_lisraya_support_program"
+    "gov_lisraya_support_program_name"
   ],
-  "rule_text": "The patient support program must be named verbatim as \"My Compass Support\", offering Personalized Communication via PAL (text, phone, email, in person) and Authorization Support.",
-  "intent": "Lock approved support-program branding and offerings.",
+  "rule_text": "The patient support program must be named verbatim \"My Compass Support\", offering Personalized Communication via PAL (text, phone, email, in person) and Authorization Support.",
+  "intent": "Preserve the approved support program name and offerings.",
   "source": "design_bible",
   "doc_ref": "content_pattern_rules[7]",
   "group_id": "grp_lisraya_content_pattern_rules_07",
   "status": "active",
   "version": 1,
-  "summary": "Name patient support \"My Compass Support\" with Personalized Communication via PAL (text, phone, email, in person) and Authorization Support."
+  "summary": "Patient support program named \"My Compass Support\" offering Personalized Communication via PAL (text, phone, email, in person) and Authorization Support."
 }

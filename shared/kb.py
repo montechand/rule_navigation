@@ -25,9 +25,11 @@ from .schemas import (
     BrandToken,
     ContentSubType,
     DesignAsset,
+    DesignTemplate,
     Governance,
     RuleGroup,
     RuleRelation,
+    TemplateGroup,
 )
 
 ENTITY_PREFIXES = {
@@ -36,6 +38,8 @@ ENTITY_PREFIXES = {
     "ast_": "asset",
     "gov_": "governance",
     "sub_": "subtype",
+    "tpl_": "template",
+    "tgr_": "template_group",
     "grp_": "rule_group",
     "agr_": "asset_group",
 }
@@ -87,10 +91,16 @@ class KB:
         self.governance: dict[str, Governance] = {
             k: Governance(**v) for k, v in _load_dir(self.root / "governance").items()
         }
+        # design_template metadata lives in templates/_meta/*.json; bodies are the
+        # sibling .mjml files referenced by DesignTemplate.file.
+        self.templates: dict[str, DesignTemplate] = {
+            k: DesignTemplate(**v) for k, v in _load_dir(self.root / "templates" / "_meta").items()
+        }
 
         groups_dir = self.root / "groups"
         self.rule_groups: dict[str, RuleGroup] = {}
         self.asset_groups: dict[str, AssetGroup] = {}
+        self.template_groups: dict[str, TemplateGroup] = {}
         self.relations: list[RuleRelation] = []
         if (groups_dir / "rule_groups.json").exists():
             for g in json.loads((groups_dir / "rule_groups.json").read_text()):
@@ -98,6 +108,9 @@ class KB:
         if (groups_dir / "asset_groups.json").exists():
             for g in json.loads((groups_dir / "asset_groups.json").read_text()):
                 self.asset_groups[g["id"]] = AssetGroup(**g)
+        if (groups_dir / "template_groups.json").exists():
+            for g in json.loads((groups_dir / "template_groups.json").read_text()):
+                self.template_groups[g["id"]] = TemplateGroup(**g)
         if (groups_dir / "relations.json").exists():
             self.relations = [RuleRelation(**r) for r in json.loads((groups_dir / "relations.json").read_text())]
 
@@ -109,19 +122,23 @@ class KB:
                 if s not in self.section_types:
                     self.section_types.append(s)
         for sub in self.subtypes.values():
-            for s in sub.covers_section_types or []:
+            for s in (sub.fills_section_types or []) + (sub.hosts_section_types or []):
+                if s not in self.section_types:
+                    self.section_types.append(s)
+        for tpl in self.templates.values():
+            for s in tpl.fills_section_types or []:
                 if s not in self.section_types:
                     self.section_types.append(s)
 
     # ------------------------------------------------------------------
     def exists(self, entity_id: str) -> bool:
-        return entity_id in self.rules or entity_id in self.tokens or entity_id in self.assets \
-            or entity_id in self.subtypes or entity_id in self.governance \
-            or entity_id in self.rule_groups or entity_id in self.asset_groups
+        return any(entity_id in store for store in (
+            self.rules, self.tokens, self.assets, self.subtypes, self.governance,
+            self.templates, self.template_groups, self.rule_groups, self.asset_groups))
 
     def get_any(self, entity_id: str) -> Optional[dict[str, Any]]:
-        for store in (self.rules, self.tokens, self.assets, self.subtypes,
-                      self.governance, self.rule_groups, self.asset_groups):
+        for store in (self.rules, self.tokens, self.assets, self.subtypes, self.governance,
+                      self.templates, self.template_groups, self.rule_groups, self.asset_groups):
             if entity_id in store:
                 return store[entity_id].model_dump(exclude_none=True)
         return None

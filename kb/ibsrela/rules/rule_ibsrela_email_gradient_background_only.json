@@ -1,0 +1,30 @@
+{
+  "id": "rule_ibsrela_email_gradient_background_only",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "tags": [
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "section.gradient.primary"
+  },
+  "evaluation_scope": "email",
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "[BASELINE for email] Gradients may only be applied as section background images or CSS with a solid #92278F/#262262 fallback for Outlook. Never use gradient body text in email; instead use the two-color split headline technique (navy phrase + purple phrase).",
+  "intent": "Ensure email/Outlook rendering safety by forbidding gradient text and requiring solid fallbacks.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[2]",
+  "group_id": "grp_ibsrela_color_scheme_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Gradients in email: only section background or CSS with #92278F/#262262 fallback; no gradient text, use two-color split headline (navy + purple)."
+}

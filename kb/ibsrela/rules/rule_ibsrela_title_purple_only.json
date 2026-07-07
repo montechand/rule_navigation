@@ -1,0 +1,40 @@
+{
+  "id": "rule_ibsrela_title_purple_only",
+  "brand_id": "ibsrela",
+  "rule_class": "color_application",
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "hero"
+    ],
+    "element_path": "title.color"
+  },
+  "applies_when": [
+    {
+      "kind": "position_in_email",
+      "value": "first_line"
+    }
+  ],
+  "evaluation_scope": "email",
+  "constraint_type": "exclusivity",
+  "effect": {
+    "subject": "purple text color (#92278F)",
+    "reserved_for": "the title / first line of the email only"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_ibsrela_title_purple_only"
+  ],
+  "rule_text": "The title is how the email starts and should always be purple; the first line in the email should always be purple. No other text in the email may be purple colored.",
+  "intent": "Reserve purple text exclusively for the opening title line.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[0]",
+  "group_id": "grp_ibsrela_color_scheme_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Email title and first line must be purple; no other text in email may use purple."
+}

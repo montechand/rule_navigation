@@ -3,11 +3,13 @@
 This KB is the structured form of the LISRAYA design bible, atomized into the
 v0.2 brand-rules data model.
 
-Contents: 107 brand_rules (topic clusters),
-232 brand_tokens (104 primitive /
-128 semantic), 10 design_assets,
-26 governance rows, 10 content_sub_types,
-28 rule_groups, 2 asset_groups.
+Contents: 114 brand_rules (topic clusters),
+234 brand_tokens (110 primitive /
+124 semantic), 6 design_assets,
+29 governance rows, 4 content_sub_type
+classes, 3 design_templates in 0
+template_groups, 28 rule_groups,
+1 asset_groups.
 
 ## Layout
 
@@ -16,8 +18,10 @@ Contents: 107 brand_rules (topic clusters),
   hardness, polarity, constraint_type, applies_when, one-line summary)
 - `rules/{rule_id}.json` — full rule rows
 - `tokens/ assets/ subtypes/ governance/` — side entities, each with `_index.json`
+- `templates/` — concrete approved artifacts: bodies as `{id}.mjml`, metadata in
+  `_meta/{id}.json`, index in `_index.json`
 - `groups/rule_groups.json` — original pre-atomization text blobs (provenance)
-- `groups/asset_groups.json`, `groups/relations.json`
+- `groups/asset_groups.json`, `groups/template_groups.json`, `groups/relations.json`
 - `graph/graph.json` — nodes + typed edges (rule->section, rule->token, rule->asset,
   rule->governance, rule->group, asset->token, asset->asset_group, rule->rule)
 

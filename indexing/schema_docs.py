@@ -11,7 +11,8 @@ GLOBAL_CONVENTIONS = """# Global conventions
   A rule with `selector.section_types = null` applies to EVERY section; treat those as
   candidates for email-wide/baseline rules.
 - IDs: `{entity_prefix}_{brand}_{slug}`. Prefixes: `rule_` brand_rule, `tok_` brand_token,
-  `ast_` design_asset, `gov_` governance, `sub_` content_sub_type, `grp_` rule_group,
+  `ast_` design_asset, `gov_` governance, `sub_` content_sub_type (structural class),
+  `tpl_` design_template (concrete instance), `tgr_` template_group, `grp_` rule_group,
   `agr_` asset_group.
 - `token_ids` / `asset_ids` on a rule are derived indices of what its `effect` references.
 - Only `status = active` rows are queryable.
@@ -36,7 +37,9 @@ Key attributes:
 - `tags`: secondary facets, same vocabulary (cross-cutting rules carry extra classes here).
 - `audience`: dtp_patient | hcp | caregiver | null (null = all audiences).
 - `content_types`: [email, banner, social, print, web, ppt] | null = all surfaces.
-- `content_sub_type_ids`: FK[] -> content_sub_type; null = all sub-types.
+- `content_sub_type_ids`: FK[] -> content_sub_type CLASSES (sub_ ids only); null = all
+  sub-types. Rules never scope to template instances (tpl_) — instances inherit through
+  instance_of and fills_section.
 - `scope`: org_baseline | brand | campaign. org_baseline = general production baseline
   (marked [BASELINE]/[GENERAL] in source docs), brand = from the brand guide,
   campaign = tied to a named campaign.
@@ -129,26 +132,55 @@ campaign_lockup, cta_image).
 
 CONTENT_SUB_TYPE_DOC = """# Entity: content_sub_type
 
-Format or structural component of a surface (kind: dimension_format | platform_format |
-email_component). For email: the component library (Top Matter, Primary 1 Column,
-Primary 2 Column, Secondary, End Matter, ...) PLUS concrete approved templates ingested
-from the brand's template library (ids like `sub_{brand}_tpl_*`, `template_ref` = library
-id, `template_file` = kb-relative path to the stored MJML body). For banners, dimension
-formats (kind=dimension_format with `size`) play the same role.
+Structural CLASS or format of a surface (kind: dimension_format | platform_format |
+email_component) — only what the source itself defines as reusable: named component-
+library entries (Primary 1 Column, Secondary), locked supplied components (Top Matter,
+End Matter/ISI footer), dimension formats (banner "Medium Rectangle 300x250"). Concrete
+approved artifacts are design_template rows (see design_template.md), never classes;
+recurring section patterns / styling variants are rules + selector + tokens, not classes.
 
 - `slots`: editable fields of the component (hero image, H1, body, CTA label, ...).
 - `reference_dims`: `{desktop: {w,h}, mobile: {w,h}}` reference proportions.
 - `assembly`: `{position: first|last|any, repeatable: bool, locked: bool}` — assembly-order
   constraints. Locked components are supplied by the core team, never built or modified.
-- `covers_section_types`: which section vocabulary entries the component/template covers
-  (a header-with-hero template covers [top_matter, hero]) — graph edge `covers_section`.
+- `fills_section_types`: the class IS this section role (locked header fills
+  [top_matter]) — graph edge `fills_section`. Feeds rule surfacing.
+- `hosts_section_types`: roles the component CAN CARRY as content (Primary 1-Col hosts
+  [hero, intro, ...]) — graph edge `hosts_section`. An affordance hint, NOT used to pull
+  section rules onto the class.
 - `best_for`: retrieval hint describing when to use the component.
 - `notes` are non-normative; constraints were promoted to brand_rule rows scoped here.
 
 Rule scoping: `brand_rule.content_sub_type_ids` — null means the rule applies to ALL
-sub-types of its content_types; ids scope it to specific components/templates/formats.
-Use the `rules_for_subtype` tool to surface everything applying to one template:
-directly-scoped rules + rules targeting its covered sections + the all-subtype baseline.
+sub-types of its content_types; sub_ ids scope it to specific classes/formats. Rules never
+scope to template instances; instances inherit via instance_of/fills_section.
+Tools: `rules_for_subtype` (class view), `rules_for_template` (instance view).
+"""
+
+DESIGN_TEMPLATE_DOC = """# Entity: design_template (+ template_group)
+
+A CONCRETE approved artifact — a complete MJML/HTML block from the brand's template
+library or embedded verbatim in the design bible. Instances, not classes.
+
+- `source`: template_library | design_bible. `template_ref`: external library id.
+- `file`: kb-relative path to the stored body (templates/{id}.mjml); metadata lives in
+  templates/_meta/{id}.json, index in templates/_index.json.
+- `instance_of`: FK -> content_sub_type when the template realizes a defined class (a
+  header template realizes the locked Top Matter class). Composite templates (e.g.
+  header+hero) may have no single class — their `fills_section_types` carry the roles.
+- `fills_section_types`: the section role(s) this block IS (graph edge `fills_section`).
+- `group_id`/`group_order`: membership in a template_group — a pick-one set of alternates
+  (e.g. the brand's approved email headers; `semantics` carries the contract, like
+  "assemble exactly one per email").
+- `usage_conditions`: per-instance selection conditions, e.g.
+  `{requires_content_tags: ["lpga"], inferred: true}` — inherited automatically when the
+  template's body references gated assets/tokens. This is where "use template X only
+  when ..." lives; it is NOT expressed as rules.
+
+Rule inheritance: a template obeys (a) rules scoped to its class via content_sub_type_ids,
+(b) rules targeting the section roles it fills, and (c) email-wide baseline rules. The
+`rules_for_template` tool assembles exactly that view. Templates are never rule-scoped
+directly.
 """
 
 GOVERNANCE_DOC = """# Entity: governance
@@ -224,10 +256,12 @@ def section_vocab_doc(brand: str) -> str:
               "A blueprint's free-form `section_id` values (e.g. \"what_it_means\") must be",
               "mapped to the closest vocabulary entries by the querying agent; a section may",
               "match several (e.g. a benefits panel = intro + callout).", "",
-              "Concrete templates/components (content_sub_type) declare which section types",
-              "they cover via `covers_section_types` (graph edge `covers_section`) — e.g. a",
-              "header template covering [top_matter, hero] bundles the locked header",
-              "obligations with the hero design rules."]
+              "Component classes (content_sub_type) and concrete templates (design_template)",
+              "attach to roles via `fills_section_types` (IS that role; feeds rule surfacing)",
+              "and classes additionally via `hosts_section_types` (CAN CARRY those roles;",
+              "affordance only) — graph edges fills_section / hosts_section. E.g. a",
+              "header-with-hero template fills [top_matter, hero], bundling locked-header",
+              "obligations with hero design rules."]
     return "\n".join(lines)
 
 PREDICATE_REGISTRY_DOC = """# applies_when predicate registry (closed)
@@ -256,6 +290,7 @@ def entity_docs() -> dict[str, str]:
         "brand_token": BRAND_TOKEN_DOC,
         "design_asset": DESIGN_ASSET_DOC,
         "content_sub_type": CONTENT_SUB_TYPE_DOC,
+        "design_template": DESIGN_TEMPLATE_DOC,
         "governance": GOVERNANCE_DOC,
         "support_entities": support_entities_doc(),
         "predicate_registry": PREDICATE_REGISTRY_DOC,
@@ -271,8 +306,10 @@ v0.2 brand-rules data model.
 Contents: {counts.get('rules', 0)} brand_rules (topic clusters),
 {counts.get('tokens', 0)} brand_tokens ({counts.get('tokens_primitive', 0)} primitive /
 {counts.get('tokens_semantic', 0)} semantic), {counts.get('assets', 0)} design_assets,
-{counts.get('governance', 0)} governance rows, {counts.get('subtypes', 0)} content_sub_types,
-{counts.get('rule_groups', 0)} rule_groups, {counts.get('asset_groups', 0)} asset_groups.
+{counts.get('governance', 0)} governance rows, {counts.get('subtypes', 0)} content_sub_type
+classes, {counts.get('templates', 0)} design_templates in {counts.get('template_groups', 0)}
+template_groups, {counts.get('rule_groups', 0)} rule_groups,
+{counts.get('asset_groups', 0)} asset_groups.
 
 ## Layout
 
@@ -281,8 +318,10 @@ Contents: {counts.get('rules', 0)} brand_rules (topic clusters),
   hardness, polarity, constraint_type, applies_when, one-line summary)
 - `rules/{{rule_id}}.json` — full rule rows
 - `tokens/ assets/ subtypes/ governance/` — side entities, each with `_index.json`
+- `templates/` — concrete approved artifacts: bodies as `{{id}}.mjml`, metadata in
+  `_meta/{{id}}.json`, index in `_index.json`
 - `groups/rule_groups.json` — original pre-atomization text blobs (provenance)
-- `groups/asset_groups.json`, `groups/relations.json`
+- `groups/asset_groups.json`, `groups/template_groups.json`, `groups/relations.json`
 - `graph/graph.json` — nodes + typed edges (rule->section, rule->token, rule->asset,
   rule->governance, rule->group, asset->token, asset->asset_group, rule->rule)
 

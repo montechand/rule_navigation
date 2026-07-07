@@ -1,0 +1,48 @@
+{
+  "id": "rule_lisraya_typography_font_families_by_surface",
+  "brand_id": "lisraya",
+  "rule_class": "typography",
+  "tags": [
+    "assembly"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "headline.font"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "headline.font",
+        "token_id": "tok_lisraya_headline_font"
+      },
+      {
+        "element_path": "body.font",
+        "token_id": "tok_lisraya_body_font"
+      },
+      {
+        "element_path": "font.fallback",
+        "token_id": "tok_lisraya_font_aptos"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_body_font",
+    "tok_lisraya_font_aptos",
+    "tok_lisraya_headline_font"
+  ],
+  "asset_ids": [],
+  "governance_ids": [],
+  "rule_text": "Font families are assigned by surface: headlines/headers use Agenda in print and Nunito Sans (bolder weights, Title Case) in digital/email; body copy and footers/fine print use Nunito Sans across print and digital; Word/PPT/Excel fallback for all levels is Aptos. Agenda may be used as live text in digital only for the campaign headline. Available weights: Agenda (Light, Regular, Medium, Semibold, Bold); Nunito Sans (Light, Regular, SemiBold, Bold, ExtraBold); Aptos (Regular, Bold).",
+  "intent": "Consistent, correctly-loaded typeface use across every production surface.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_lisraya_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Headlines use Agenda (print) or bold Nunito Sans Title Case (digital/email); body/footers use Nunito Sans; fallback Aptos for all; Agenda live text only in digital campaign headlines."
+}

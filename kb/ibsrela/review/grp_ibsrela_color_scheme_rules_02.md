@@ -13,14 +13,19 @@ doc_ref: `color_scheme_rules[2]`
 - [BASELINE for email: gradients only as section background images or CSS with solid `#92278F`/`#262262` fallback for Outlook; never gradient body text in email — use the two-color split headline technique (navy phrase + purple phrase) instead.]
 ````
 
-## Extracted rules (2)
+## Extracted rules (3)
 
-### rule_ibsrela_primary_gradients_definition_and_usage
-- class=color_application scope=brand hardness=strong_default polarity=should sections=None constraint=binding
-- rule_text: Two primary gradients are defined: Dark Blue → Purple (gradient.primary.dark_blue_to_purple, #262262 → #92278F) is the primary background/color-block gradient; Silver → White (gradient.primary.silver_to_white, #CFDCE3 → #FFFFFF) is the light background/panel gradient. The ideal gradient angle is 45° (gradient.setting.angle_45), but rotation is permitted as needed. The Dark Blue → Purple gradient may additionally be applied to headlines and callouts, but only sparingly (e.g., a two-tone headline where the back half of the phrase shifts to Purple).
-- intent: Establish the brand's two primary gradients, their default 45° angle, and permitted sparing use on headlines/callouts.
+### rule_ibsrela_primary_gradient_definitions
+- class=color_application scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Two brand gradients are defined: Dark Blue → Purple (section.gradient.primary — stops #262262 at 0, midpoint at 40, #92278F at 100) is the primary background/color-block gradient; Silver → White (section.gradient.light — #CFDCE3 to #FFFFFF) is the light background/panel gradient. The ideal gradient angle is 45° (section.gradient.angle), but rotation is permitted as needed.
+- intent: Establish the two canonical brand gradients and their default 45° angle.
 
-### rule_ibsrela_email_gradient_fallback_no_gradient_text
-- class=color_application scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=binding
-- rule_text: [BASELINE for email] In email, gradients may only be used as section background images or as CSS with a solid #92278F/#262262 fallback for Outlook. Never use gradient body text in email — instead use the two-color split headline technique (navy phrase + purple phrase).
-- intent: Ensure email-client (Outlook) reliability and legibility by forbidding gradient text and requiring solid fallbacks.
+### rule_ibsrela_gradient_headline_callout_sparing
+- class=color_application scope=brand hardness=soft_guidance polarity=should sections=['callout'] constraint=None
+- rule_text: The Dark Blue → Purple gradient may be applied to headlines and callouts, but only sparingly (e.g., a two-tone headline where the back half of the phrase shifts to Purple).
+- intent: Allow but restrain decorative use of the primary gradient on text elements.
+
+### rule_ibsrela_email_gradient_background_only
+- class=color_application scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=None
+- rule_text: [BASELINE for email] Gradients may only be applied as section background images or CSS with a solid #92278F/#262262 fallback for Outlook. Never use gradient body text in email; instead use the two-color split headline technique (navy phrase + purple phrase).
+- intent: Ensure email/Outlook rendering safety by forbidding gradient text and requiring solid fallbacks.

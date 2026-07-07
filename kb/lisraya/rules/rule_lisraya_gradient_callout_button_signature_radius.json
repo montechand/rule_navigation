@@ -1,0 +1,51 @@
+{
+  "id": "rule_lisraya_gradient_callout_button_signature_radius",
+  "brand_id": "lisraya",
+  "rule_class": "cta",
+  "tags": [
+    "layout"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_email_primary_1col"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "cta",
+      "callout"
+    ],
+    "element_path": "gradient_callout.button.radius"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "gradient_callout.button.radius",
+        "token_id": "tok_lisraya_gradient_callout_button_radius"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [
+    "tok_lisraya_gradient_callout_button_radius"
+  ],
+  "asset_ids": [],
+  "governance_ids": [
+    "gov_lisraya_gradient_callout_button_radius"
+  ],
+  "rule_text": "The button's four-value asymmetric border-radius (49.52px 1.76px 40px 1.76px) is the signature shape and is always required on every instance, even when the background is skipped. Never simplify it to a single value, swap the corners, or round the decimals.",
+  "intent": "Protect the mandatory signature button shape from simplification.",
+  "snippets": "border-radius: 49.52px 1.76px 40px 1.76px;",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[5]",
+  "group_id": "grp_lisraya_color_scheme_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "CTA buttons must always have the asymmetric border-radius 49.52px 1.76px 40px 1.76px exactly, without simplification, swapping, or rounding decimals."
+}

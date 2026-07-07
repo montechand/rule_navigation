@@ -6,17 +6,25 @@
   "key": "cta.button.label.weight",
   "value": {
     "default": {
-      "$ref": "tok_ibsrela_weight_bold"
+      "$ref": "tok_ibsrela_weight_avenir_black"
     },
-    "variants": null
+    "variants": [
+      {
+        "when": {
+          "surface": "email"
+        },
+        "value": {
+          "$ref": "tok_ibsrela_weight_email_bold"
+        }
+      }
+    ]
   },
   "element_paths": [
     "cta.button.label.weight"
   ],
   "aliases": [],
-  "tier": "primary",
   "scope": "global",
-  "notes": "CTA labels bold.",
+  "notes": "CTA label bold; email uses font-weight 700.",
   "status": "active",
   "version": 1
 }

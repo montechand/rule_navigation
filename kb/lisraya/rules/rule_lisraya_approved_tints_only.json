@@ -2,29 +2,28 @@
   "id": "rule_lisraya_approved_tints_only",
   "brand_id": "lisraya",
   "rule_class": "color_application",
-  "tags": [
-    "imagery"
-  ],
   "scope": "brand",
   "selector": {},
   "evaluation_scope": "element",
   "constraint_type": "exclusivity",
   "effect": {
-    "subject": "ad-hoc tint / opacity of palette colors",
-    "reserved_for": "the specified tint tokens: campaign headline D/M \u224840% tint, Light Blue callout 70%, Golden Sand callout 30%, wave top layers 70%"
+    "subject": "tint/transparency values",
+    "reserved_for": "the specified tints (campaign headline letter 40%, Light Blue callout 70%, Golden Sand callout 30%, wave top layer 70%) \u2014 otherwise use palette values"
   },
   "polarity": "must_not",
   "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "governance_ids": [],
-  "rule_text": "No ad-hoc tints are permitted. Only full palette values or the specified tint values may be used: the campaign headline 'D' and 'M' letters at \u224840% tint of the headline color (Gold or Brand Blue colorway) (tok_lisraya_campaign_headline_letter_tint), the Light Blue callout box at 70% tint (tok_lisraya_opacity_light_blue_callout_70), the Golden Sand callout box at 30% tint (tok_lisraya_opacity_golden_sand_callout_30), and wave top layers at 70% transparency (tok_lisraya_opacity_wave_top_70).",
-  "intent": "Prevent inconsistent, off-palette transparency by restricting tints to a fixed approved set.",
+  "governance_ids": [
+    "gov_lisraya_no_adhoc_tints"
+  ],
+  "rule_text": "No other ad-hoc tints are permitted \u2014 use palette values or the specified tints only: campaign headline 'D'/'M' letters at \u224840% tint of the headline color (campaign_headline.letter.tint), Light Blue callout box at 70% (callout.data.fill.opacity), Golden Sand callout box at 30% (callout.text_heavy.fill.opacity), and wave top layers at 70% transparency (waves.top_layer.opacity).",
+  "intent": "Keep tinting to a controlled, approved set to protect palette integrity.",
   "source": "design_bible",
   "doc_ref": "color_scheme_rules[2]",
   "group_id": "grp_lisraya_color_scheme_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Only full palette colors or specified tints allowed: campaign headline 'D'/'M' at ~40% tint (Gold/Brand Blue), Light Blue callout 70%, Golden Sand callout 30%, wave top 70% transparency."
+  "summary": "Use only palette or specified tints: campaign headline letters \u224840%, Light Blue callout box 70%, Golden Sand callout box 30%, waves top layer 70% opacity."
 }
