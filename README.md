@@ -128,10 +128,19 @@ architectural, not prompt-shaped.
 
 filesystem (`list_dir`, `read_file`, `grep`) · schema (`describe_entity`,
 `get_section_vocab`, `get_predicate_registry`) · lookup (`get_rules` short/full,
-`get_entity`) · structured (`query_rules` facet filters) · tokens (`query_tokens` facet
+`get_entity`) · structured (`query_rules` facet filters, paginated at 80 rows via
+`offset`/`next_offset`) · tokens (`query_tokens` facet
 filters, `search_tokens` BM25 over keys/aliases/paths/values) · keyword (BM25) · vector
 (3 collections, metadata filters) · graph (`rules_for_section`, `rules_for_token`,
 `neighbors`, `related_rules`) · terminal `finalize_section_ruleset` factory.
+
+`finalize_section_ruleset` enforces an FNR-first **coverage check**: the payload must
+declare `section_type_mapping` (the agent's vocab mapping for the section), and every
+mechanically-derivable candidate — rules whose selector matches the mapping, plus all
+null-selector (all-sections) rules — must appear in `targeted`/`email_wide` or in an
+`excluded` map with a one-line disqualifier. The call fails listing anything unaccounted,
+so silent drops (the dominant false-negative mode observed in vetting) are impossible.
+Mapping and exclusions persist to `result.json` (`section_types`, `excluded_rules`).
 
 ## Outputs (`outputs/{run_id}/`)
 

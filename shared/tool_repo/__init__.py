@@ -274,8 +274,13 @@ class ToolRepo:
             if f_eval and r.evaluation_scope not in f_eval:
                 continue
             out.append(self.kb.short_rule(r))
-        return {"count": len(out), "rules": out[:80],
-                **({"truncated": True} if len(out) > 80 else {})}
+        offset = max(int(args.get("offset") or 0), 0)
+        page = out[offset:offset + 80]
+        result: dict[str, Any] = {"count": len(out), "offset": offset, "rules": page}
+        if offset + len(page) < len(out):
+            result["truncated"] = True
+            result["next_offset"] = offset + len(page)
+        return result
 
     # ------------------------------------------------------------------
     # tokens family
@@ -669,7 +674,9 @@ class ToolRepo:
               "components/templates; rules with content_sub_type_ids=null (all sub-types) are "
               "included unless include_all_subtype_rules=false. Governance/compliance rules "
               "(disclosures, required qualifiers, verbatim language, trademark) carry a "
-              "governance facet: filter with has_governance / gov_type / verdict.",
+              "governance facet: filter with has_governance / gov_type / verdict. Results "
+              "page at 80 rows: when the response has next_offset, call again with "
+              "offset=next_offset to see the rest.",
               {"type": "object", "properties": {
                   "rule_class": {"type": "array", "items": {"type": "string"}},
                   "tags": {"type": "array", "items": {"type": "string"}},
@@ -686,7 +693,9 @@ class ToolRepo:
                                "description": "regulatory|legal|mlr_claim|disclosure|trademark"},
                   "verdict": {"type": "array", "items": {"type": "string"}},
                   "include_all_section_rules": {"type": "boolean"},
-                  "include_all_subtype_rules": {"type": "boolean"}},
+                  "include_all_subtype_rules": {"type": "boolean"},
+                  "offset": {"type": "integer",
+                             "description": "pagination offset; use next_offset from a truncated response"}},
                "required": []}, self._query_rules),
             S("query_tokens", "Filter the brand_token layer (the value/IF-ELSE layer: every "
               "concrete styling value is a token; semantic tokens bind element paths with "
@@ -775,14 +784,61 @@ class ToolRepo:
     # ------------------------------------------------------------------
     # finalize (terminal tool factory)
     # ------------------------------------------------------------------
+    # Predicates that make a rule applicable to ANY section depending on its position or
+    # neighbors (e.g. "adjacent to a locked component"), regardless of what the rule's
+    # selector says — such rules must always be accounted for.
+    _POSITIONAL_PREDICATES = {"adjacent_section_state", "position_in_email"}
+
+    def coverage_candidates(self, section_types: list[str]) -> list[str]:
+        """The mechanically-derivable candidate set the finalize payload must account for:
+        every rule whose selector targets one of the mapped section types, every rule with
+        a null selector (applies to all sections / email-wide baseline pool), and every
+        rule conditioned on position/adjacency (applicable to any section in principle)."""
+        wanted = set(section_types)
+        out = []
+        for r in self.kb.rules.values():
+            secs = r.selector.section_types
+            if secs is None or (wanted and set(secs) & wanted):
+                out.append(r.id)
+                continue
+            if any(p.kind in self._POSITIONAL_PREDICATES for p in (r.applies_when or [])):
+                out.append(r.id)
+        return out
+
+    def _coverage_line(self, rid: str) -> str:
+        r = self.kb.rules[rid]
+        gov = r.governance or {}
+        bits = [rid,
+                f"sections={r.selector.section_types or 'ALL'}",
+                f"hardness={r.hardness}"]
+        if gov:
+            bits.append(f"gov_severity={gov.get('severity')}")
+        if r.applies_when:
+            bits.append("conditional")
+        summary = (r.summary or r.rule_text or "")[:110]
+        return "  - " + " | ".join(bits) + f" :: {summary}"
+
     def finalize_spec(self, name: str = "finalize_section_ruleset") -> ToolSpec:
         async def handler(args: dict[str, Any]) -> dict[str, Any]:
             targeted = args.get("targeted_rule_ids") or []
             email_wide = args.get("email_wide_rule_ids") or []
             rationale = args.get("rationale") or {}
+            mapping = args.get("section_type_mapping")
+            excluded = args.get("excluded") or {}
             if not isinstance(targeted, list) or not isinstance(email_wide, list):
                 raise ToolError("targeted_rule_ids and email_wide_rule_ids must be arrays of rule ids")
-            unknown = self.kb.unknown_rule_ids(list(targeted) + list(email_wide))
+            if not isinstance(mapping, list):
+                raise ToolError("section_type_mapping is required: the list of section-vocabulary "
+                                "types you mapped this blueprint section to (may be empty only if "
+                                "the section genuinely maps to no vocab type). "
+                                f"Vocabulary: {self.kb.section_types}")
+            bad_types = [t for t in mapping if t not in self.kb.section_types]
+            if bad_types:
+                raise ToolError(f"section_type_mapping contains unknown section types: {bad_types}. "
+                                f"Vocabulary: {self.kb.section_types}")
+            if not isinstance(excluded, dict):
+                raise ToolError("excluded must be an object mapping rule_id -> one-line reason")
+            unknown = self.kb.unknown_rule_ids(list(targeted) + list(email_wide) + list(excluded))
             if unknown:
                 raise ToolError(f"unknown rule ids: {unknown}. Fix or drop them, then call again.")
             overlap = set(targeted) & set(email_wide)
@@ -790,11 +846,41 @@ class ToolRepo:
                 raise ToolError(f"rules in BOTH targeted and email_wide: {sorted(overlap)}. "
                                 "Each rule goes in exactly one bucket: email_wide only for rules "
                                 "that apply to the whole email / every section.")
+            included = set(targeted) | set(email_wide)
+            contradicted = included & set(excluded)
+            if contradicted:
+                raise ToolError(f"rules both included and excluded: {sorted(contradicted)}. "
+                                "Remove them from one side.")
+            empty_reasons = [rid for rid, why in excluded.items() if not str(why).strip()]
+            if empty_reasons:
+                raise ToolError(f"excluded rules need a non-empty one-line reason: {empty_reasons}")
             if not targeted and not email_wide:
                 raise ToolError("empty result; a section always has at least some applicable rules")
+
+            # FNR-first coverage check: every rule that mechanically matches the declared
+            # section-type mapping, plus every null-selector (all-sections) rule, must be
+            # either included or explicitly excluded with a reason. Silent drops are the
+            # dominant false-negative mode, so they are rejected here.
+            accounted = included | set(excluded)
+            missing = [rid for rid in self.coverage_candidates(mapping) if rid not in accounted]
+            if missing:
+                shown = missing[:40]
+                listing = "\n".join(self._coverage_line(rid) for rid in shown)
+                more = f"\n  ... and {len(missing) - len(shown)} more" if len(missing) > len(shown) else ""
+                raise ToolError(
+                    f"COVERAGE CHECK FAILED: {len(missing)} rule(s) match your "
+                    f"section_type_mapping={mapping} or apply to all sections (selector=null), "
+                    "but are neither included nor excluded-with-reason. For each: add it to "
+                    "targeted_rule_ids / email_wide_rule_ids, or add it to `excluded` with a "
+                    "specific disqualifier (audience mismatch, non-email surface, applies_when "
+                    "predicate the blueprint contradicts). Unaccounted rules:\n"
+                    f"{listing}{more}"
+                )
             return {
                 "targeted_rule_ids": list(dict.fromkeys(targeted)),
                 "email_wide_rule_ids": list(dict.fromkeys(email_wide)),
+                "section_type_mapping": list(dict.fromkeys(mapping)),
+                "excluded": {rid: str(why)[:200] for rid, why in excluded.items()},
                 "rationale": {k: str(v) for k, v in rationale.items() if isinstance(k, str)},
             }
 
@@ -806,17 +892,29 @@ class ToolRepo:
                 "copy (selector match, conditional rules whose predicates this section satisfies, "
                 "component rules for what the section contains). email_wide_rule_ids: baseline rules "
                 "that apply email-wide / to every section (selector null, evaluation_scope=email, "
-                "global typography/accessibility/assembly). rationale: one line per rule id on why "
-                "it applies."
+                "global typography/accessibility/assembly). section_type_mapping: the section-vocab "
+                "types you mapped this section to (drives a mechanical coverage check). excluded: "
+                "rule_id -> one-line reason for every candidate rule you deliberately left out "
+                "(candidates = rules matching your mapping + all null-selector rules). The call "
+                "FAILS listing any candidate you neither included nor excluded — account for all "
+                "of them. rationale: one line per included rule id on why it applies."
             ),
             parameters={
                 "type": "object",
                 "properties": {
                     "targeted_rule_ids": {"type": "array", "items": {"type": "string"}},
                     "email_wide_rule_ids": {"type": "array", "items": {"type": "string"}},
+                    "section_type_mapping": {
+                        "type": "array", "items": {"type": "string"},
+                        "description": "section-vocabulary types this blueprint section maps to",
+                    },
+                    "excluded": {
+                        "type": "object", "additionalProperties": {"type": "string"},
+                        "description": "rule_id -> one-line disqualifier for candidates left out",
+                    },
                     "rationale": {"type": "object", "additionalProperties": {"type": "string"}},
                 },
-                "required": ["targeted_rule_ids", "email_wide_rule_ids"],
+                "required": ["targeted_rule_ids", "email_wide_rule_ids", "section_type_mapping"],
             },
             handler=handler,
             terminal=True,

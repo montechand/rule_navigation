@@ -42,8 +42,10 @@ reads/grep, and schema docs.
    otherwise miss.
 5. Inspect uncertain candidates with get_rules(view='full') — check applies_when, audience,
    content_types before including them.
-6. Call finalize_section_ruleset exactly once with your final answer. If it errors
-   (unknown ids / overlap), fix and call it again.
+6. Call finalize_section_ruleset with your final answer, including your
+   section_type_mapping and an `excluded` reason for every candidate you left out. If it
+   errors (unknown ids / overlap / coverage check listing unaccounted rules), resolve each
+   listed rule — include it or exclude it with a reason — and call again.
 
 {schema_primer}
 """
@@ -88,9 +90,12 @@ async def run_section(
     rationale = loop.final.get("rationale", {})
     return SectionResult(
         section_id=section.section_id,
+        section_types=loop.final.get("section_type_mapping", []),
         targeted_rules=[RuleVerdict(id=i, why=rationale.get(i, ""))
                         for i in loop.final["targeted_rule_ids"]],
         email_wide_rules=[RuleVerdict(id=i, why=rationale.get(i, ""))
                           for i in loop.final["email_wide_rule_ids"]],
+        excluded_rules=[RuleVerdict(id=i, why=w)
+                        for i, w in loop.final.get("excluded", {}).items()],
         stats=stats,
     )

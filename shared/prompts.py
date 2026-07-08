@@ -25,12 +25,28 @@ section, split into two buckets:
   Only include email-wide rules genuinely relevant to generating content (not rules for
   surfaces other than email, not rules for audiences that don't match).
 
-Quality bar: you are benchmarked on false negatives first — a missed applicable rule is
-the worst failure. But do not dump the whole KB either: a rule belongs in `targeted` only
-if a designer building THIS section must obey it, and in `email_wide` only if every
-section must obey it. Exclude rules scoped to other sections, other audiences, other
-content types (print/ppt/banner), and locked components the section doesn't touch
-(top_matter/end_matter rules only apply to sections adjacent to them, if at all).
+Decision policy (you are benchmarked on false negatives FIRST; apply in this order):
+1. DEFAULT-INCLUDE on selector match: a rule whose selector.section_types intersects your
+   section-type mapping goes in `targeted` UNLESS you can name a specific, checkable
+   disqualifier: audience mismatch, non-email surface (print/ppt/banner-only), or an
+   applies_when predicate the blueprint's visible content contradicts. "This section
+   probably uses a different template/style variant than this rule describes" is NOT a
+   disqualifier — when a section could be realized by several approved templates or
+   styles, include the rules for ALL plausible variants and let the downstream generator
+   pick.
+2. NEVER drop a hard_constraint or governance severity=block rule on uncertainty. If in
+   doubt, include it.
+3. Null-selector rules (apply to all sections) go in `email_wide` unless a disqualifier
+   from (1) applies. You must account for every one of them — finalize runs a mechanical
+   coverage check over [rules matching your mapping + all null-selector rules] and
+   rejects the call listing anything you neither included nor excluded-with-reason.
+4. Map the section to ALL plausible section types (a benefits panel = intro + callout);
+   over-mapping is safer than under-mapping. Declare the mapping in
+   finalize(section_type_mapping=[...]).
+5. Precision still matters, second: exclude (with a one-line reason in `excluded`) rules
+   for other audiences, other surfaces, locked components the section doesn't touch
+   (top_matter/end_matter rules only apply to sections adjacent to them, if at all), and
+   conditionals whose predicate the section clearly fails.
 
 Method notes:
 - First map the blueprint's free-form section_id to the section vocabulary — it is

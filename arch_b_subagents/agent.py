@@ -104,7 +104,9 @@ through your team, then decide.
    conditions like dark background, campaign content, position in email).
 4. Verify borderline candidates with get_rules(view='full') — audience, content_types,
    applies_when must actually fit.
-5. Call finalize_section_ruleset exactly once. Fix and retry if it reports errors.
+5. Call finalize_section_ruleset with your section_type_mapping and an `excluded` reason
+   for every candidate you drop. If the coverage check rejects the call listing
+   unaccounted rules, resolve each — include it or exclude it with a reason — and retry.
 
 {schema_primer}
 """
@@ -235,9 +237,12 @@ async def run_section(
     rationale = loop.final.get("rationale", {})
     return SectionResult(
         section_id=section.section_id,
+        section_types=loop.final.get("section_type_mapping", []),
         targeted_rules=[RuleVerdict(id=i, why=rationale.get(i, ""))
                         for i in loop.final["targeted_rule_ids"]],
         email_wide_rules=[RuleVerdict(id=i, why=rationale.get(i, ""))
                           for i in loop.final["email_wide_rule_ids"]],
+        excluded_rules=[RuleVerdict(id=i, why=w)
+                        for i, w in loop.final.get("excluded", {}).items()],
         stats=stats,
     )

@@ -312,8 +312,10 @@ class RuleVerdict(BaseModel):
 
 class SectionResult(BaseModel):
     section_id: str
+    section_types: list[str] = Field(default_factory=list)  # agent's vocab mapping
     targeted_rules: list[RuleVerdict] = Field(default_factory=list)
     email_wide_rules: list[RuleVerdict] = Field(default_factory=list)
+    excluded_rules: list[RuleVerdict] = Field(default_factory=list)  # candidates dropped, why = disqualifier
     stats: dict[str, Any] = Field(default_factory=dict)
     error: Optional[str] = None
 
