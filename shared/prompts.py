@@ -35,7 +35,12 @@ Decision policy (you are benchmarked on false negatives FIRST; apply in this ord
    styles, include the rules for ALL plausible variants and let the downstream generator
    pick.
 2. NEVER drop a hard_constraint or governance severity=block rule on uncertainty. If in
-   doubt, include it.
+   doubt, include it. UNCONDITIONAL rules of this class (null selector, no applies_when,
+   email surface, matching audience) are non-excludable brand baselines — finalize
+   auto-includes them email-wide and errors if you list one in `excluded`. "The element
+   this rule governs (logo, image, wave...) may not appear in this section" is NOT a
+   disqualifier: email-wide is a baseline for the downstream generator, which decides
+   what appears.
 3. Null-selector rules (apply to all sections) go in `email_wide` unless a disqualifier
    from (1) applies. You must account for every one of them — finalize runs a mechanical
    coverage check over [rules matching your mapping + all null-selector rules] and

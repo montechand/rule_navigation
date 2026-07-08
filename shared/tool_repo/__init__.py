@@ -789,6 +789,35 @@ class ToolRepo:
     # selector says — such rules must always be accounted for.
     _POSITIONAL_PREDICATES = {"adjacent_section_state", "position_in_email"}
 
+    # Audience these emails target; rules for other audiences are mechanically out of
+    # scope for the mandatory baseline (mirrors the task brief's dtp_patient default).
+    _RUN_AUDIENCE = "dtp_patient"
+
+    def mandatory_baseline_ids(self) -> list[str]:
+        """Rules the agent gets NO discretion over: unconditional (null section_types
+        selector, no applies_when gate) AND hard_constraint or governance severity=block,
+        on the email surface, for a matching audience. Every mechanically-checkable
+        disqualifier the decision policy accepts (audience, surface, failed predicate)
+        is already verified false here, so no valid exclusion reason can remain —
+        'the governed element may not appear in this section' is not a disqualifier for
+        an email-wide baseline. Auto-included by finalize; observed FNs (e.g. the
+        blueprint1/2 logo-mark-opacity trademark miss) were exactly this class."""
+        out = []
+        for r in self.kb.rules.values():
+            if r.selector.section_types is not None or r.applies_when:
+                continue
+            if r.content_sub_type_ids is not None:
+                continue  # scoped to specific components (e.g. locked matter), not a section baseline
+            gov_block = (r.governance or {}).get("severity") == "block"
+            if r.hardness != "hard_constraint" and not gov_block:
+                continue
+            if r.content_types is not None and "email" not in r.content_types:
+                continue
+            if r.audience is not None and r.audience != self._RUN_AUDIENCE:
+                continue
+            out.append(r.id)
+        return sorted(out)
+
     def coverage_candidates(self, section_types: list[str]) -> list[str]:
         """The mechanically-derivable candidate set the finalize payload must account for:
         every rule whose selector targets one of the mapped section types, every rule with
@@ -857,6 +886,33 @@ class ToolRepo:
             if not targeted and not email_wide:
                 raise ToolError("empty result; a section always has at least some applicable rules")
 
+            # Mandatory baseline: unconditional hard_constraint / governance-block rules
+            # (email surface, matching audience) are non-excludable. Agents repeatedly
+            # rationalized dropping these ("the logo won't appear in this section"),
+            # producing the dominant residual FN class — so discretion is removed:
+            # excluding one is an error, and any not already included are auto-added
+            # to email_wide with a mechanical rationale.
+            mandatory = self.mandatory_baseline_ids()
+            bad_excluded = [rid for rid in mandatory if rid in excluded]
+            if bad_excluded:
+                listing = "\n".join(self._coverage_line(rid) for rid in bad_excluded)
+                raise ToolError(
+                    "NON-EXCLUDABLE RULES in `excluded`: these are unconditional "
+                    "hard-constraint/governance-block baseline rules for this surface and "
+                    "audience. 'The governed element may not appear in this section' is not "
+                    "a valid disqualifier for an email-wide baseline — the downstream "
+                    "generator decides what appears. Remove them from `excluded` (they are "
+                    f"auto-included email-wide):\n{listing}"
+                )
+            auto_added = [rid for rid in mandatory
+                          if rid not in included and rid not in targeted]
+            for rid in auto_added:
+                email_wide.append(rid)
+                rationale.setdefault(
+                    rid, "auto-included: unconditional hard-constraint/governance-block "
+                         "email baseline (non-excludable)")
+            included = set(targeted) | set(email_wide)
+
             # FNR-first coverage check: every rule that mechanically matches the declared
             # section-type mapping, plus every null-selector (all-sections) rule, must be
             # either included or explicitly excluded with a reason. Silent drops are the
@@ -876,13 +932,16 @@ class ToolRepo:
                     "predicate the blueprint contradicts). Unaccounted rules:\n"
                     f"{listing}{more}"
                 )
-            return {
+            out = {
                 "targeted_rule_ids": list(dict.fromkeys(targeted)),
                 "email_wide_rule_ids": list(dict.fromkeys(email_wide)),
                 "section_type_mapping": list(dict.fromkeys(mapping)),
                 "excluded": {rid: str(why)[:200] for rid, why in excluded.items()},
                 "rationale": {k: str(v) for k, v in rationale.items() if isinstance(k, str)},
             }
+            if auto_added:
+                out["auto_included_email_wide"] = auto_added
+            return out
 
         return ToolSpec(
             name=name,
@@ -897,7 +956,10 @@ class ToolRepo:
                 "rule_id -> one-line reason for every candidate rule you deliberately left out "
                 "(candidates = rules matching your mapping + all null-selector rules). The call "
                 "FAILS listing any candidate you neither included nor excluded — account for all "
-                "of them. rationale: one line per included rule id on why it applies."
+                "of them. Unconditional hard-constraint/governance-block baseline rules are "
+                "NON-EXCLUDABLE: putting one in `excluded` is an error, and any you omit are "
+                "auto-included email-wide. rationale: one line per included rule id on why it "
+                "applies."
             ),
             parameters={
                 "type": "object",
