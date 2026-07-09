@@ -181,3 +181,104 @@ class KB:
     def schema_doc_names(self) -> list[str]:
         d = self.root / "schema"
         return sorted(p.stem for p in d.glob("*.md")) if d.exists() else []
+
+    # ------------------------------------------------------------------
+    # Boundary resolution.
+    #
+    # rule_text deliberately carries only representative values; the full value
+    # tables AND their conditional switching live in the token layer (semantic
+    # tokens with variants -> $ref -> primitives). Consumers of a targeting
+    # result (IF/THEN/WHY prompt blocks, result.json) have no KB access, so the
+    # bindings must be flattened to literals at this boundary or the concrete
+    # values are lost. resolved_bindings() is that flattener.
+    # ------------------------------------------------------------------
+    def _resolve_literal(self, value: Any, hoisted: list[dict[str, Any]],
+                         path: frozenset = frozenset(), depth: int = 0) -> Any:
+        """Resolve a token-value fragment to a JSON literal, following {'$ref': ...}
+        chains. Variants found on referenced tokens are hoisted into `hoisted` so
+        conditional switching survives the flattening. The cycle guard is
+        per-resolution-path (a token legitimately appears in several branches)."""
+        if depth > 6 or value is None:
+            return value
+        if isinstance(value, dict):
+            if set(value.keys()) == {"$ref"}:
+                ref = value["$ref"]
+                tok = self.tokens.get(ref)
+                if tok is None or ref in path:
+                    return {"unresolved_ref": ref}
+                branch = path | {ref}
+                inner = tok.value
+                if isinstance(inner, dict) and "default" in inner:
+                    for var in inner.get("variants") or []:
+                        if isinstance(var, dict):
+                            hoisted.append({
+                                "when": var.get("when"),
+                                "value": self._resolve_literal(var.get("value"), hoisted, branch, depth + 1),
+                            })
+                    return self._resolve_literal(inner.get("default"), hoisted, branch, depth + 1)
+                return self._resolve_literal(inner, hoisted, branch, depth + 1)
+            return {k: self._resolve_literal(v, hoisted, path, depth) for k, v in value.items()}
+        if isinstance(value, list):
+            return [self._resolve_literal(x, hoisted, path, depth) for x in value]
+        return value
+
+    def flatten_token(self, token_id: str) -> Optional[dict[str, Any]]:
+        """Flatten one token to `{'default': literal, 'variants': [{'when','value'}]}`."""
+        tok = self.tokens.get(token_id)
+        if tok is None:
+            return None
+        v = tok.value if isinstance(tok.value, dict) else {"default": tok.value}
+        if "default" not in v:  # bare structured value (e.g. gradient spec) without wrapper
+            v = {"default": v}
+        variants: list[dict[str, Any]] = []
+        root = frozenset({token_id})
+        default = self._resolve_literal(v.get("default"), variants, root)
+        for var in v.get("variants") or []:
+            if isinstance(var, dict):
+                variants.append({"when": var.get("when"),
+                                 "value": self._resolve_literal(var.get("value"), variants, root)})
+        # Hoisting can surface the same (when, value) twice; keep first occurrence.
+        seen: set = set()
+        deduped = []
+        for var in variants:
+            key = json.dumps(var, sort_keys=True, default=str)
+            if key not in seen:
+                seen.add(key)
+                deduped.append(var)
+        return {"default": default, "variants": deduped}
+
+    def resolved_bindings(self, rule: BrandRule) -> list[dict[str, Any]]:
+        """One entry per token the rule binds: element path, resolved default
+        literal, conditional variants (the IF/ELSE demoted from prose into
+        tokens), plus gates and derivation notes."""
+        path_by_token: dict[str, str] = {}
+        assignments = (rule.effect or {}).get("assignments") if isinstance(rule.effect, dict) else None
+        for a in assignments or []:
+            if isinstance(a, dict) and a.get("token_id") and a.get("element_path"):
+                path_by_token.setdefault(a["token_id"], a["element_path"])
+
+        out: list[dict[str, Any]] = []
+        for tid in rule.token_ids:
+            tok = self.tokens.get(tid)
+            flat = self.flatten_token(tid) if tok else None
+            if tok is None or flat is None:
+                continue
+            entry: dict[str, Any] = {
+                "path": path_by_token.get(tid)
+                        or (tok.element_paths[0] if tok.element_paths else tok.key),
+                "token": tid,
+                "default": flat["default"],
+            }
+            if flat["variants"]:
+                entry["variants"] = flat["variants"]
+            gate = (tok.gated or {}).get("gate") if tok.gated else None
+            if gate:
+                entry["gated"] = gate
+            if isinstance(tok.derived_from, dict) and tok.derived_from.get("base_token_id"):
+                base = self.tokens.get(tok.derived_from["base_token_id"])
+                base_label = base.key if base else tok.derived_from["base_token_id"]
+                op = tok.derived_from.get("op", "derived")
+                amount = tok.derived_from.get("amount")
+                entry["note"] = f"{op} of {base_label}" + (f" @ {amount}" if amount is not None else "")
+            out.append(entry)
+        return out

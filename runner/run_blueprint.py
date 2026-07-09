@@ -86,6 +86,9 @@ def hydrate_rules(kb: KB, result: RunResult) -> dict[str, Any]:
             "governance": rule.governance,  # incl. preferred_form verbatims for generation
             "summary": rule.summary,
             "rule_text": rule.rule_text,
+            # rule_text is deliberately lossy; the resolved token bindings carry the
+            # full value tables + conditional variants for downstream consumers.
+            "bindings": kb.resolved_bindings(rule) or None,
         }
     return payloads
 

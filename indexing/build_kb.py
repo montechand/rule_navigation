@@ -381,6 +381,10 @@ Hard requirements — TOKEN-FIRST CLUSTERING:
      (e.g. bind cta.button.fill's token — its light/dark variants come with it).
    - rule_text states the constraint topic and relationships, naming token keys; cite at
      most a couple of representative values for readability, never full value tables.
+   - NEVER cite a token key bare: a key mentioned in rule_text always carries its concrete
+     default inline — "the green filled button (cta.button.fill = #01A47E)", not
+     "the green filled button (cta.button.fill)". Readers of rule_text alone must never
+     hit an unresolvable symbol.
    - Do NOT restate a semantic token's variant switching as applies_when. applies_when
      gates whether the RULE applies at all (campaign, content tags, position); value
      switching stays on the token.
