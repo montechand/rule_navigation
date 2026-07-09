@@ -183,6 +183,12 @@ Extract as primitives (non-exhaustive checklist — mine the whole document):
 
 Rules of thumb:
 - One value = one token. The SAME hex appearing under two names = ONE token with aliases.
+- VALUES ARE CONCRETE: a token's value.default must be a hex / px / number / ratio /
+  enum / short machine-usable spec (e.g. {{"stops": ["#00529b", "#011E45"]}}) — NEVER a
+  prose sentence or a vague ranking ("primary > secondary > tertiary" is not a value; a
+  usage ratio token is only extractable when the document gives numbers like
+  30/30/20/15/5). If the statement has no concrete value, it is a RULE, not a token;
+  put the semantics in `notes`, not in `value`.
 - Derived values (40% tint of X, top layer at 70% over base) -> derived_from.
 - Reserved/conditional values (teal only with LPGA; Avenir Heavy only for boxed warning)
   -> gated with a predicate {{kind, value}} from: {predicates}.
@@ -385,6 +391,10 @@ Hard requirements — TOKEN-FIRST CLUSTERING:
      default inline — "the green filled button (cta.button.fill = #01A47E)", not
      "the green filled button (cta.button.fill)". Readers of rule_text alone must never
      hit an unresolvable symbol.
+   - NEVER write raw entity ids (tok_*/ast_*/sub_*/tpl_*/gov_*) inside rule_text — ids
+     belong in effect/content_sub_type_ids. In prose use the human name and/or concrete
+     value ("Brand Blue → Dark Navy (#00529b → #011E45)", never
+     "(tok_lisraya_gradient_brand_blue_dark_navy)").
    - Do NOT restate a semantic token's variant switching as applies_when. applies_when
      gates whether the RULE applies at all (campaign, content tags, position); value
      switching stays on the token.
@@ -897,6 +907,64 @@ def validate_catalog(raw: dict[str, Any], brand: str, warns: Warnings) -> dict[s
 
 
 # ---------------------------------------------------------------------------
+# Rule dedupe (deterministic)
+# ---------------------------------------------------------------------------
+
+def dedupe_rules(rules: dict[str, BrandRule], relations: list[RuleRelation],
+                 warns: Warnings) -> list[str]:
+    """Merge cross-blob duplicate rules using the id-uniquifier signal.
+
+    A numeric-suffix id (rule_x_2) only exists because two source blobs produced the
+    SAME slug — a strong duplicate signal. Confirm structurally (same rule_class AND
+    same non-empty token set / same element_path / high text overlap), keep the richer
+    row, merge doc provenance into its intent trail, and retarget relations.
+    Returns merge notes for the review file.
+    """
+    notes: list[str] = []
+    remap: dict[str, str] = {}
+    for rid in sorted(rules):
+        base = re.sub(r"_\d+$", "", rid)
+        if base == rid or base not in rules or rid in remap or base in remap:
+            continue
+        a, b = rules[base], rules[rid]
+        if a.rule_class != b.rule_class:
+            continue
+        wa = set(re.findall(r"[a-z0-9#]+", a.rule_text.lower()))
+        wb = set(re.findall(r"[a-z0-9#]+", b.rule_text.lower()))
+        jaccard = len(wa & wb) / max(len(wa | wb), 1)
+        same_tokens = bool(a.token_ids) and a.token_ids == b.token_ids
+        same_path = bool(a.selector.element_path) and a.selector.element_path == b.selector.element_path
+        if not (same_tokens or same_path or jaccard >= 0.4):
+            continue
+        keep, drop = (a, b) if (len(a.token_ids), len(a.rule_text)) >= (len(b.token_ids), len(b.rule_text)) else (b, a)
+        # Union the scoping so the survivor covers both originals' reach.
+        if keep.selector.section_types is not None and drop.selector.section_types is None:
+            keep.selector.section_types = None  # null = all sections wins
+        elif keep.selector.section_types is not None and drop.selector.section_types is not None:
+            keep.selector.section_types = sorted(set(keep.selector.section_types) | set(drop.selector.section_types))
+        remap[drop.id] = keep.id
+        notes.append(f"- merged `{drop.id}` (from {drop.group_id}, doc_ref {drop.doc_ref}) into "
+                     f"`{keep.id}` — same_tokens={same_tokens}, same_path={same_path}, "
+                     f"jaccard={jaccard:.2f}. Dropped text: {drop.rule_text[:180]}")
+        warns.add(f"rule dedupe: {drop.id} merged into {keep.id}")
+        del rules[drop.id]
+
+    if remap:
+        seen: set[tuple] = set()
+        kept_relations = []
+        for rel in relations:
+            rel.src_rule_id = remap.get(rel.src_rule_id, rel.src_rule_id)
+            rel.dst_rule_id = remap.get(rel.dst_rule_id, rel.dst_rule_id)
+            key = (rel.src_rule_id, rel.dst_rule_id, rel.relation)
+            if rel.src_rule_id == rel.dst_rule_id or key in seen:
+                continue
+            seen.add(key)
+            kept_relations.append(rel)
+        relations[:] = kept_relations
+    return notes
+
+
+# ---------------------------------------------------------------------------
 # Template library ingestion (deterministic)
 # ---------------------------------------------------------------------------
 
@@ -1222,7 +1290,8 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
 
 def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
              groups: dict[str, RuleGroup], relations: list[RuleRelation],
-             warns: Warnings, near_dupes: Optional[list[str]] = None) -> None:
+             warns: Warnings, near_dupes: Optional[list[str]] = None,
+             rule_merge_notes: Optional[list[str]] = None) -> None:
     template_bodies: dict[str, str] = cat.get("template_bodies", {})
     section_vocab = get_registries().section_types(brand)
     root = config.kb_dir(brand)
@@ -1357,6 +1426,10 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
         (review_dir / "token_near_duplicates.md").write_text(
             "# Token near-duplicates (same type+value, different scope/metadata — NOT "
             "auto-merged; review whether they should unify)\n\n" + "\n".join(near_dupes))
+    if rule_merge_notes:
+        (review_dir / "rule_dedupe.md").write_text(
+            "# Cross-blob duplicate rules auto-merged (id-uniquifier signal + structural "
+            "confirmation; survivor keeps the union of scoping)\n\n" + "\n".join(rule_merge_notes))
 
 
 # ---------------------------------------------------------------------------
@@ -1505,9 +1578,11 @@ async def build_brand(brand: str, usage: Usage, concurrency: int = 4) -> None:
             else:
                 warns.add(f"{gid}: unresolved relation {rel}")
 
-    console.print(f"  [bold]{len(rules)} rules[/bold], {len(relations)} relations, "
-                  f"{len(warns.items)} warnings")
-    write_kb(brand, rules, cat, groups, relations, warns, near_dupes)
+    rule_merge_notes = dedupe_rules(rules, relations, warns)
+
+    console.print(f"  [bold]{len(rules)} rules[/bold] ({len(rule_merge_notes)} duplicates merged), "
+                  f"{len(relations)} relations, {len(warns.items)} warnings")
+    write_kb(brand, rules, cat, groups, relations, warns, near_dupes, rule_merge_notes)
     reg.save()  # persist any other.* discoveries permanently
     console.print(f"  KB written to {config.kb_dir(brand)}")
 
