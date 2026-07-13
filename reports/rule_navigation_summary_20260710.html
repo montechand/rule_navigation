@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule Navigation — Progress Report · Jul 10, 2026</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --panel: #111b2e;
+    --panel2: #16233b;
+    --line: #24344f;
+    --text: #e8eef7;
+    --muted: #9fb0c7;
+    --dim: #6b7c95;
+    --blue: #4da3ff;
+    --teal: #35d0ba;
+    --gold: #f0b429;
+    --coral: #ff6b6b;
+    --green: #51cf66;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    overflow: hidden;
+  }
+  .deck { height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 56px 72px 88px;
+    overflow-y: auto;
+    background:
+      radial-gradient(1200px 500px at 85% -10%, rgba(77,163,255,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(53,208,186,.07), transparent 60%),
+      var(--bg);
+  }
+  .slide.active { display: block; animation: fadein .25s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .kicker {
+    font-size: 13px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--blue); font-weight: 700; margin-bottom: 14px;
+  }
+  h1 { font-size: 52px; line-height: 1.08; font-weight: 800; letter-spacing: -.02em; }
+  h2 { font-size: 34px; line-height: 1.15; font-weight: 750; letter-spacing: -.015em; margin-bottom: 22px; }
+  h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  p, li { font-size: 16.5px; line-height: 1.55; color: var(--muted); }
+  strong { color: var(--text); font-weight: 650; }
+  em { color: var(--teal); font-style: normal; font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: .86em;
+    background: rgba(77,163,255,.10); border: 1px solid rgba(77,163,255,.18);
+    padding: 1px 6px; border-radius: 5px; color: #bcd6f5;
+  }
+  ul { list-style: none; }
+  ul li { padding-left: 22px; position: relative; margin-bottom: 9px; }
+  ul li::before { content: "▸"; position: absolute; left: 2px; color: var(--blue); }
+
+  .cols { display: grid; gap: 24px; }
+  .cols.c2 { grid-template-columns: 1fr 1fr; }
+  .cols.c3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px 22px;
+  }
+  .card .tag {
+    display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .tag.blue { background: rgba(77,163,255,.14); color: var(--blue); }
+  .tag.teal { background: rgba(53,208,186,.13); color: var(--teal); }
+  .tag.gold { background: rgba(240,180,41,.13); color: var(--gold); }
+  .tag.coral { background: rgba(255,107,107,.13); color: var(--coral); }
+
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: 9px 12px; text-align: left; font-size: 14.5px; border-bottom: 1px solid var(--line); }
+  th { color: var(--dim); font-weight: 650; font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; }
+  td { color: var(--muted); }
+  td b, td strong { color: var(--text); }
+  tr.hl td { background: rgba(53,208,186,.06); }
+  .num { font-family: var(--mono); font-size: 13.5px; }
+  .good { color: var(--green); font-weight: 700; }
+  .bad { color: var(--coral); font-weight: 700; }
+  .warn { color: var(--gold); font-weight: 700; }
+
+  .statgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 34px 0; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 20px; }
+  .stat .v { font-size: 40px; font-weight: 800; letter-spacing: -.02em; }
+  .stat .l { font-size: 13px; color: var(--dim); margin-top: 6px; line-height: 1.4; }
+
+  .bar-row { display: grid; grid-template-columns: 130px 1fr 64px; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .bar-label { font-size: 13.5px; color: var(--muted); text-align: right; }
+  .bar-track { background: var(--panel2); border-radius: 6px; height: 26px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; }
+  .bar-val { font-family: var(--mono); font-size: 14px; color: var(--text); }
+
+  .timeline { position: relative; margin-top: 10px; }
+  .timeline::before { content: ""; position: absolute; left: 92px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+  .trow { display: grid; grid-template-columns: 78px 40px 1fr; margin-bottom: 15px; align-items: baseline; }
+  .tdate { font-family: var(--mono); font-size: 13px; color: var(--dim); text-align: right; }
+  .tdot { position: relative; }
+  .tdot::before { content: ""; position: absolute; left: 8px; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--blue); border: 2px solid var(--bg); }
+  .tbody-t { font-size: 15.5px; color: var(--muted); }
+  .tbody-t b { color: var(--text); }
+
+  .flow { display: flex; align-items: stretch; gap: 0; margin: 26px 0; flex-wrap: wrap; }
+  .fstep {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; flex: 1; min-width: 150px; position: relative; margin-right: 34px;
+  }
+  .fstep:last-child { margin-right: 0; }
+  .fstep::after {
+    content: "→"; position: absolute; right: -27px; top: 50%; transform: translateY(-50%);
+    color: var(--dim); font-size: 20px;
+  }
+  .fstep:last-child::after { content: none; }
+  .fstep .t { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+  .fstep .d { font-size: 12.5px; color: var(--dim); line-height: 1.45; }
+  .fstep.accent { border-color: rgba(53,208,186,.45); }
+  .fstep.accent .t { color: var(--teal); }
+
+  .pathbox {
+    font-family: var(--mono); font-size: 13px; color: #bcd6f5;
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 10px 14px; margin: 6px 0; overflow-x: auto; white-space: nowrap;
+  }
+
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px; background: rgba(11,18,32,.9); backdrop-filter: blur(8px);
+    border-top: 1px solid var(--line); z-index: 10;
+  }
+  .nav .title { font-size: 13px; color: var(--dim); }
+  .nav .ctr { display: flex; gap: 10px; align-items: center; }
+  .nav button {
+    background: var(--panel); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 7px 16px; font-size: 14px; cursor: pointer;
+  }
+  .nav button:hover { border-color: var(--blue); }
+  .nav .count { font-family: var(--mono); font-size: 13px; color: var(--dim); min-width: 64px; text-align: center; }
+  .progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--teal)); z-index: 11; transition: width .2s; }
+
+  .footnote { margin-top: 20px; font-size: 13px; color: var(--dim); }
+  .hero-sub { font-size: 21px; color: var(--muted); margin-top: 20px; max-width: 880px; line-height: 1.5; }
+
+  @media print {
+    body { overflow: visible; }
+    .deck { height: auto; }
+    .slide { display: block !important; position: relative; page-break-after: always; overflow: visible; height: auto; min-height: 95vh; }
+    .nav, .progress { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- ============ 1 · TITLE ============ -->
+<section class="slide active">
+  <div style="max-width:1060px; margin:0 auto; padding-top:7vh;">
+    <div class="kicker">Solstice · Progress Report · July 6–10, 2026</div>
+    <h1>Rule Navigation</h1>
+    <h1 style="color:var(--blue); font-size:34px; margin-top:10px;">Agentic brand-rule targeting for pharma email generation</h1>
+    <p class="hero-sub">
+      Five days from research question to a benchmarked, pipeline-integrated system:
+      design bibles migrated to a structured knowledge graph, three agent architectures
+      raced over it, an FNR-first finalize contract, and the winning architecture vendored
+      into <code>newest_email_pipeline</code> — now measurably beating the legacy static rule pull.
+    </p>
+    <div class="statgrid">
+      <div class="stat"><div class="v" style="color:var(--teal)">98.7%</div><div class="l">agent recall, micro-pooled over 6 ground-truth audits (legacy static pull: 94.1%)</div></div>
+      <div class="stat"><div class="v" style="color:var(--blue)">95.3%</div><div class="l">agent precision over the same audits (static pull: 85.1%)</div></div>
+      <div class="stat"><div class="v"><span class="good">2</span> <span style="color:var(--dim);font-size:22px">vs</span> <span class="bad">20</span></div><div class="l">hard-constraint / governance-block misses: agent vs static, all runs pooled</div></div>
+      <div class="stat"><div class="v">2 <span style="color:var(--dim);font-size:22px">KBs</span></div><div class="l">lisraya (112 rules · 234 tokens) and ibsrela (91 rules · 188 tokens), fully structured + vendored</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · PROBLEM ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Why</div>
+    <h2>The problem: brand rules live in prose blobs, generation needs per-section rulesets</h2>
+    <div class="cols c2" style="margin-top:26px;">
+      <div class="card">
+        <span class="tag coral">Before — static pull</span>
+        <p>The pipeline attached <code>applicable_brand_rules</code> per section by pulling whole
+        design-bible <strong>markdown blobs</strong> selected by heading-level heuristics.</p>
+        <ul style="margin-top:12px;">
+          <li><strong>Blob burial:</strong> a rule inside a blob the selector never picks is unreachable — the brand color hierarchy hid inside a "banner" blob, the alt-text mandate inside an imagery blob.</li>
+          <li><strong>Blob riders:</strong> a mostly-relevant blob drags in rules for absent devices — chart rules with no chart, campaign lockups with no campaign.</li>
+          <li>Include/exclude granularity is the blob, never the rule.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag teal">Goal — precise navigation</span>
+        <p>Can an LLM agent navigate a <strong>structured brand-rule knowledge graph</strong> precisely enough
+        to assign the right ruleset to each email-blueprint section?</p>
+        <ul style="margin-top:12px;">
+          <li>Per section: <code>targeted_brand_rules</code> (precisely scoped) + <code>email_wide_brand_rules</code> (baseline, union-deduped with vote provenance).</li>
+          <li><em>FNR-first:</em> a missed hard constraint is a compliance defect; an extra rule is only prompt bloat. Optimize recall, then precision.</li>
+          <li>Benchmarked later against humans doing the same task.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footnote">Inputs: structured brand-rules KB (migrated from the design bibles) + an email blueprint (<code>content_blueprint[]</code>, with or without per-section design concepts).</p>
+  </div>
+</section>
+
+<!-- ============ 3 · TIMELINE ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">What happened</div>
+    <h2>Five-day arc: experiment repo → schema maturity → pipeline integration → benchmark</h2>
+    <div class="timeline">
+      <div class="trow"><div class="tdate">Jul 6</div><div class="tdot"></div><div class="tbody-t"><b>Experiment suite stood up</b> (standalone repo, 11 commits total): KB migration from design bibles, 3 agent architectures (A/B/C), shared tool repo + tracing; first ibsrela/lisraya runs. Evening: <b>token-first KB</b> branch — exhaustive token layer, cluster-level rules.</div></div>
+      <div class="trow"><div class="tdate">Jul 7</div><div class="tdot"></div><div class="tbody-t"><b>Schema maturity:</b> dynamic registries, template ingestion + <code>resolve_token</code>; <b>v0.3 class/template split</b> (<code>design_template</code> + <code>template_group</code>); governance retired as an entity, reborn as a <b>rule facet</b>. Blueprint sweep runs (lisraya 1–4).</div></div>
+      <div class="trow"><div class="tdate">Jul 8</div><div class="tdot"></div><div class="tbody-t"><b>FNR-first finalize contract:</b> coverage check + excluded-with-reason + section-type mapping; <b>non-excludable mandatory baseline</b> (unconditional hard/block rules auto-include). Full 4-blueprint re-sweep. Vendoring into the pipeline begins (<code>Agentic_Workflows/rule_navigation</code>).</div></div>
+      <div class="trow"><div class="tdate">Jul 9</div><div class="tdot"></div><div class="tbody-t"><b>Boundary resolution</b> (token bindings flattened into hydrated payloads), extraction-hygiene rules staged for the next KB rebuild (#5), <code>_tmp_boundary_polish</code> compensating in-pipeline. <b>7 enrichment runs</b> dumped; <b>6 FN/FP ground-truth audits</b> written (4 lisraya + 2 ibsrela).</div></div>
+      <div class="trow"><div class="tdate">Jul 10</div><div class="tdot"></div><div class="tbody-t"><b>PRE-art-director targeting hook</b> (curated rules can now shape design concepts, not just constrain the designer), cache schema v3; 5 more enrichment runs incl. cache-hit and PRE-mode exercises. <b>This report + FNR collection.</b></div></div>
+    </div>
+    <p class="footnote">Standalone repo: ~29 experiment runs (<code>outputs/</code> + <code>outputs1/</code>) across 6 example blueprints. Pipeline: 12 enrichment runs dumped so far.</p>
+  </div>
+</section>
+
+<!-- ============ 4 · KB ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Foundation</div>
+    <h2>The knowledge base: design bibles → typed, queryable rule graph</h2>
+    <div class="cols c2" style="margin-top:24px; grid-template-columns: 1.15fr .85fr;">
+      <div>
+        <ul>
+          <li><strong>Atomic rules</strong> (<code>brand_rule</code>): closed-vocab <code>rule_class</code>, section-type selectors, <code>applies_when</code> predicates, typed effects, hardness, governance facet.</li>
+          <li><strong>Token-first layer:</strong> every concrete styling value is a <em>primitive</em> token; every element-path binding is a <em>semantic</em> token whose <code>when</code>-variants carry the IF/ELSE formerly written as prose. Rules become topic clusters that <strong>bind tokens instead of restating values</strong> (<code>resolves_to</code> edges).</li>
+          <li><strong>v0.3 split:</strong> <code>content_sub_type</code> = structural classes; <code>design_template</code> (<code>tpl_</code>) = concrete approved artifacts filling section roles, grouped in pick-one <code>template_group</code>s with their own usage gates.</li>
+          <li><strong>Governance as a facet:</strong> required disclosures / verbatim messaging are ordinary rules carrying <code>{gov_type, verdict, preferred_form, severity}</code> — they surface in every normal query, no forgotten corner.</li>
+          <li><strong>Hygiene:</strong> build-time exact-duplicate token merge, near-duplicate review reports, human-reviewable <code>review/</code> per-blob original-vs-extracted files.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag blue">Vendored KB stats</span>
+        <table>
+          <tr><th></th><th>lisraya</th><th>ibsrela</th></tr>
+          <tr><td>atomic rules</td><td class="num"><b>112</b></td><td class="num"><b>91</b></td></tr>
+          <tr><td>tokens</td><td class="num">234</td><td class="num">188</td></tr>
+          <tr><td>assets</td><td class="num">12</td><td class="num">11</td></tr>
+          <tr><td>subtypes / templates</td><td class="num">3 / 3</td><td class="num">5 / 6</td></tr>
+          <tr><td>graph nodes</td><td class="num">376</td><td class="num">318</td></tr>
+          <tr><td>graph edges</td><td class="num">596</td><td class="num">521</td></tr>
+        </table>
+        <p style="font-size:13px; margin-top:12px; color:var(--dim);">Plus rule-group provenance (<code>groups/</code>), schema docs the agent reads, and 3 Chroma vector collections per brand (summary / intent / text) in the standalone repo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 · ARCHITECTURES ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Experiment</div>
+    <h2>Three architectures raced over the same task, tools, and finalize contract</h2>
+    <div class="cols c3" style="margin-top:26px;">
+      <div class="card" style="border-color:rgba(53,208,186,.5);">
+        <span class="tag teal">Arch A — chosen</span>
+        <h3>Generalist orchestrator</h3>
+        <p>One agent loop, full chat history, the <strong>entire tool repository</strong>; explores freely, must end with the terminal <code>finalize_section_ruleset</code> call.</p>
+        <p style="margin-top:10px; font-size:14px; color:var(--dim);">Won on results-per-dollar and simplicity → vendored into the pipeline.</p>
+      </div>
+      <div class="card">
+        <span class="tag blue">Arch B</span>
+        <h3>Querying-style specialists</h3>
+        <p>Orchestrator can only delegate — <code>ask_vector/graph/lexical_specialist</code> — each specialist a scoped loop reporting candidates + evidence; orchestrator merges, iterates, finalizes.</p>
+      </div>
+      <div class="card">
+        <span class="tag gold">Arch C</span>
+        <h3>Schema-sharded network</h3>
+        <p>Fixed parallel fan-out of 4 shard agents (color+typography / imagery+assets / layout+cta / copy+governance); a composer agent merges and finalizes.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;">
+      <h3 style="color:var(--blue);">Shared tool repository (identical across archs)</h3>
+      <p style="font-size:14.5px;">filesystem (<code>list_dir</code> · <code>read_file</code> · <code>grep</code>) · schema docs · lookup (<code>get_rules</code> · <code>get_entity</code>) · structured facet queries (<code>query_rules</code>, paginated) · tokens (<code>query_tokens</code> · <code>search_tokens</code> · <code>resolve_token</code>) · BM25 keyword · vector (3 collections, metadata filters) · graph walks (<code>rules_for_section/token</code> · <code>related_rules</code> · <code>rules_for_template</code>) · terminal finalize.</p>
+      <p style="font-size:14px; margin-top:8px; color:var(--dim);">Same task brief, section rendering, validation, and JSONL tracing — so output differences are architectural, not prompt-shaped.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 · FNR CONTRACT ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Key design decision</div>
+    <h2>The FNR-first finalize contract: silent drops are structurally impossible</h2>
+    <div class="cols c2" style="margin-top:26px;">
+      <div class="card">
+        <span class="tag teal">Coverage check</span>
+        <p>The <code>finalize_section_ruleset</code> payload must declare the agent's
+        <code>section_type_mapping</code>, and <strong>every mechanically-derivable candidate</strong> —
+        selector matches for that mapping plus all null-selector (all-sections) rules —
+        must appear in <code>targeted</code>, <code>email_wide</code>, or an <code>excluded</code> map
+        with a one-line disqualifier.</p>
+        <p style="margin-top:10px;">The call <strong>fails listing anything unaccounted</strong>. The dominant
+        false-negative mode observed in early vetting — the quiet omission — cannot happen.</p>
+      </div>
+      <div class="card">
+        <span class="tag gold">Mandatory baseline</span>
+        <p><strong>Unconditional hard-constraint / governance-block rules are auto-included</strong> and
+        non-excludable — the agent cannot talk itself out of an accessibility mandate or a
+        verbatim-messaging requirement that applies everywhere.</p>
+        <p style="margin-top:10px;">Exclusions and the section-type mapping persist to
+        <code>result.json</code>, so every "why was this rule left out" question has a recorded answer.</p>
+      </div>
+    </div>
+    <p class="footnote">Result artifacts per run: <code>result.json</code> (targeted + email-wide + excluded + usage/cost/latency) and <code>traces/*.jsonl</code> (every LLM turn and tool call — the substrate for the later human-benchmark harness).</p>
+  </div>
+</section>
+
+<!-- ============ 7 · INTEGRATION ============ -->
+<section class="slide">
+  <div style="max-width:1080px; margin:0 auto;">
+    <div class="kicker">Productization</div>
+    <h2>Vendored into <code>newest_email_pipeline</code> as design-enrichment targeting</h2>
+    <div class="flow">
+      <div class="fstep"><div class="t">Blueprint arrives</div><div class="d">enrich_blueprint_design_flow, brand resolved to a vendored KB slug</div></div>
+      <div class="fstep accent"><div class="t">PRE targeting (opt-in)</div><div class="d">arch_a before the art director — concepts get composed against curated rules</div></div>
+      <div class="fstep"><div class="t">Art director</div><div class="d">writes design concepts (optionally rule-aware)</div></div>
+      <div class="fstep accent"><div class="t">POST targeting (default)</div><div class="d">re-targets with concepts in the fingerprint; conditional rules can key off them</div></div>
+      <div class="fstep"><div class="t">Designer node</div><div class="d">curated rules served as XML IF/THEN/WHY blocks, marked SUPREME; falls back to full bible</div></div>
+    </div>
+    <div class="cols c2">
+      <div class="card">
+        <h3 style="color:var(--blue);">What the integration does</h3>
+        <ul style="font-size:15px;">
+          <li>One arch_a agent per section, parallel (concurrency 3); every rule id <strong>hydrated to a full payload</strong> — rule text, intent, hardness, severity, <code>preferred_form</code>, resolved token bindings — so downstream needs <em>zero KB access</em>.</li>
+          <li><strong>File cache</strong> keyed by brand + agent-visible section content (schema v3): a run costs ~$10 / ~15 min per blueprint; cache makes repeated local docker spin-ups free. Partial runs never cached.</li>
+          <li><strong>Never raises:</strong> any failure logs and returns False; the designer falls back to the legacy full-ruleset path.</li>
+          <li><code>_tmp_boundary_polish</code> (disposable, documented): 4 boundary-side fixes for pre-#5 KB defects — prose-token binding recovery, tok-id → literal rewrite, redundant-SET suppression, cross-blob duplicate collapse. Dropped after the KB rebuild.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--blue);">Env gates (all greppable)</h3>
+        <table style="font-size:13px;">
+          <tr><td class="num">RULE_TARGETING_ENABLED</td><td>master gate</td></tr>
+          <tr><td class="num">RULE_TARGETING_USE_IN_ART_DIRECTOR</td><td>PRE run (default off)</td></tr>
+          <tr><td class="num">RULE_TARGETING_POST_DESIGN_CONCEPT</td><td>POST run (default on)</td></tr>
+          <tr><td class="num">RULE_TARGETING_USE_IN_DESIGNER</td><td>curated vs full-bible A/B lever</td></tr>
+          <tr><td class="num">RULE_TARGETING_DUMP_ENRICHMENT</td><td>run-wise before/after dumps</td></tr>
+          <tr><td class="num">RULE_NAV_AGENT_MODEL / _PROVIDER</td><td>agent model config</td></tr>
+        </table>
+        <p style="font-size:13px; margin-top:10px; color:var(--dim);">Consumers: designer context (<code>designer_tools/brand_rules.py</code>), art-director prompt (<code>query_agent_v3/tools/blueprint.py</code>), message generator state plumbing. Tests: <code>tests/test_targeting.py</code>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · BENCHMARK METHOD ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Evaluation</div>
+    <h2>FN/FP benchmark: agent vs legacy static pull, same atomic rule space</h2>
+    <div class="cols c2" style="margin-top:26px;">
+      <div class="card">
+        <span class="tag blue">Ground truth</span>
+        <p>For each audited enrichment run: a manual per-rule judgment of the brand's <strong>entire
+        atomic-rule universe</strong> (112 lisraya / 91 ibsrela) against that run's blueprint —
+        applicable / not applicable / borderline (borderline excluded from both FN and FP counting).</p>
+        <p style="margin-top:10px;">Blueprint families share audits where content is identical; judgments adjusted to each run's copy.</p>
+      </div>
+      <div class="card">
+        <span class="tag gold">Two approaches, one artifact</span>
+        <p>Both scored from the same <code>03_rule_attachments.json</code>:</p>
+        <ul style="margin-top:10px; font-size:15px;">
+          <li><strong>query_agent</strong> — per-section <code>targeted_brand_rules</code> + <code>email_wide_brand_rules</code>.</li>
+          <li><strong>static_pull</strong> — legacy <code>applicable_brand_rules</code> blobs, mapped blob → rule_group → member atomic rules (every blob matched; 0 unmatched in all runs) so both live in the same atomic space.</li>
+        </ul>
+        <p style="margin-top:10px; font-size:14px; color:var(--dim);">FP split: <em>structural</em> (wrong device/surface) vs <em>defensive-verbatim</em> (untriggered conditional hedges the generator re-checks — cheap).</p>
+      </div>
+    </div>
+    <p class="footnote">6 audited runs: 4 lisraya (two blueprint families × two variants each) + 2 ibsrela (because_i_can campaign, different section mixes). 6 further runs not yet audited.</p>
+  </div>
+</section>
+
+<!-- ============ 9 · PER-RUN RESULTS ============ -->
+<section class="slide">
+  <div style="max-width:1080px; margin:0 auto;">
+    <div class="kicker">Results · per run</div>
+    <h2>The agent wins every run — recall <em>and</em> precision</h2>
+    <table style="margin-top:18px;">
+      <tr>
+        <th>run · blueprint</th><th>approach</th>
+        <th>TP</th><th>FN</th><th>FN hard/block</th><th>FP struct</th><th>FP defens.</th><th>Precision</th><th>Recall</th>
+      </tr>
+      <tr class="hl"><td rowspan="2" class="num">153557 · lisraya bp4<br><span style="color:var(--dim)">intro/benefits/callout/cta</span></td>
+        <td><b>query_agent</b></td><td class="num">83</td><td class="num good">0</td><td class="num good">0</td><td class="num">1</td><td class="num">3</td><td class="num">95.4%</td><td class="num good">100%</td></tr>
+      <tr><td>static_pull</td><td class="num">81</td><td class="num">2</td><td class="num bad">2</td><td class="num">8</td><td class="num">2</td><td class="num">89.0%</td><td class="num">97.6%</td></tr>
+      <tr class="hl"><td rowspan="2" class="num">193028 · lisraya bp2<br><span style="color:var(--dim)">intro/savings/enrollment/cta</span></td>
+        <td><b>query_agent</b></td><td class="num">77</td><td class="num">1</td><td class="num good">0</td><td class="num">1</td><td class="num">3</td><td class="num">95.1%</td><td class="num">98.7%</td></tr>
+      <tr><td>static_pull</td><td class="num">71</td><td class="num">7</td><td class="num bad">6</td><td class="num">8</td><td class="num">8</td><td class="num">81.6%</td><td class="num">91.0%</td></tr>
+      <tr class="hl"><td rowspan="2" class="num">204535 · lisraya bp2<br><span style="color:var(--dim)">intro/copay/enrollment/cta</span></td>
+        <td><b>query_agent</b></td><td class="num">77</td><td class="num">1</td><td class="num good">0</td><td class="num">1</td><td class="num">4</td><td class="num">93.9%</td><td class="num">98.7%</td></tr>
+      <tr><td>static_pull</td><td class="num">71</td><td class="num">7</td><td class="num bad">6</td><td class="num">14</td><td class="num">8</td><td class="num">76.3%</td><td class="num">91.0%</td></tr>
+      <tr class="hl"><td rowspan="2" class="num">212538 · lisraya bp4<br><span style="color:var(--dim)">intro/efficacy/safety/cta</span></td>
+        <td><b>query_agent</b></td><td class="num">82</td><td class="num">1</td><td class="num good">0</td><td class="num good">0</td><td class="num">3</td><td class="num">96.5%</td><td class="num">98.8%</td></tr>
+      <tr><td>static_pull</td><td class="num">81</td><td class="num">2</td><td class="num bad">2</td><td class="num">8</td><td class="num">2</td><td class="num">89.0%</td><td class="num">97.6%</td></tr>
+      <tr class="hl"><td rowspan="2" class="num">215930 · ibsrela<br><span style="color:var(--dim)">intro/causes/cta/closing</span></td>
+        <td><b>query_agent</b></td><td class="num">66</td><td class="num warn">3</td><td class="num warn">2</td><td class="num good">0</td><td class="num good">0</td><td class="num good">100%</td><td class="num">95.7%</td></tr>
+      <tr><td>static_pull</td><td class="num">62</td><td class="num">7</td><td class="num bad">3</td><td class="num">1</td><td class="num">6</td><td class="num">89.9%</td><td class="num">89.9%</td></tr>
+      <tr class="hl"><td rowspan="2" class="num">223059 · ibsrela<br><span style="color:var(--dim)">intro/guide/video/cta</span></td>
+        <td><b>query_agent</b></td><td class="num">63</td><td class="num good">0</td><td class="num good">0</td><td class="num good">0</td><td class="num">6</td><td class="num">91.3%</td><td class="num good">100%</td></tr>
+      <tr><td>static_pull</td><td class="num">61</td><td class="num">2</td><td class="num bad">1</td><td class="num">3</td><td class="num">7</td><td class="num">85.9%</td><td class="num">96.8%</td></tr>
+    </table>
+    <p class="footnote">Ground truths: lisraya bp4 = 83 applicable of 112; bp2 = 78 of 112; ibsrela = 69 and 63 of 91. Borderline rules excluded from both FN and FP counting.</p>
+  </div>
+</section>
+
+<!-- ============ 10 · AGGREGATE ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Results · pooled</div>
+    <h2>Aggregate over all six audits: the gap is in the misses that matter</h2>
+    <div class="cols c2" style="margin-top:28px; align-items:center;">
+      <div>
+        <h3 style="margin-bottom:16px;">Recall (micro)</h3>
+        <div class="bar-row"><div class="bar-label">query_agent</div><div class="bar-track"><div class="bar-fill" style="width:98.7%; background:linear-gradient(90deg,var(--teal),#20b2a0);"></div></div><div class="bar-val">98.7%</div></div>
+        <div class="bar-row"><div class="bar-label">static_pull</div><div class="bar-track"><div class="bar-fill" style="width:94.1%; background:#3a4c68;"></div></div><div class="bar-val">94.1%</div></div>
+        <h3 style="margin:26px 0 16px;">Precision (micro, all FP counted)</h3>
+        <div class="bar-row"><div class="bar-label">query_agent</div><div class="bar-track"><div class="bar-fill" style="width:95.3%; background:linear-gradient(90deg,var(--blue),#2e7fd6);"></div></div><div class="bar-val">95.3%</div></div>
+        <div class="bar-row"><div class="bar-label">static_pull</div><div class="bar-track"><div class="bar-fill" style="width:85.1%; background:#3a4c68;"></div></div><div class="bar-val">85.1%</div></div>
+      </div>
+      <div class="card">
+        <table>
+          <tr><th></th><th>query_agent</th><th>static_pull</th></tr>
+          <tr><td>True Positives</td><td class="num">448</td><td class="num">427</td></tr>
+          <tr><td>False Negatives</td><td class="num good">6</td><td class="num bad">27</td></tr>
+          <tr><td>— hard-constraint / gov-block</td><td class="num good"><b>2</b></td><td class="num bad"><b>20</b></td></tr>
+          <tr><td>FP structural</td><td class="num">3</td><td class="num">42</td></tr>
+          <tr><td>FP defensive-verbatim</td><td class="num">19</td><td class="num">33</td></tr>
+        </table>
+        <p style="font-size:14px; margin-top:14px;">The agent's only hard/block misses across all six audits are 2 of the 3 symptom-icon-trio rules in one ibsrela run. The static pull misses hard/block rules <strong>in every single run</strong> — and they're the <em>same</em> rules each time, because they're structurally unreachable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · FAILURE MODES ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Diagnosis</div>
+    <h2>Failure modes: deterministic for the static pull, incidental for the agent</h2>
+    <div class="cols c2" style="margin-top:26px;">
+      <div class="card">
+        <span class="tag coral">static_pull — structural, repeats every run</span>
+        <ul style="font-size:15px;">
+          <li><strong>Blob burial (FN):</strong> lisraya's Blue&gt;Orange&gt;Gold color-hierarchy rule buried in a "banner" blob and the alt-text mandate in the imagery blob — missed in <em>all four</em> lisraya runs. The 5-rule Icon-Callout-Box family missed in both bp2 runs ($0-copay callout is exactly that device). ibsrela's gradient pair missed in both runs.</li>
+          <li><strong>Blob riders (FP):</strong> all 9 chart rules dragged into a chartless email (204535); campaign-lockup, patient-story, masthead-gradient rules riding pulled blobs everywhere; whole "Approved Campaign Messaging" blob surfacing 8 untriggered verbatims.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag teal">query_agent — small, addressable</span>
+        <ul style="font-size:15px;">
+          <li><strong>Recurring structural FP</strong> (3 of 4 lisraya runs): <code>cta_svg_button_shape_treatment</code>, a <code>content_types=['banner']</code> rule targeted at email CTAs — mechanically filterable on content type.</li>
+          <li><strong>Defensive-verbatim hedges</strong> (0–6 per run): untriggered conditional rules surfaced email-wide; cheap, since the generator re-checks their gates.</li>
+          <li><strong>One real content miss:</strong> the ibsrela symptom-icon trio — copy enumerating "constipation + belly pain + other belly symptoms" is the <code>content_tag</code> trigger, read as editorial. Suggests content-tag-gated families deserve the same mechanical-trigger treatment the mandatory baseline got.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footnote">Notably: the agent <em>did</em> catch the analogous LPGA-gated CTA rule in the same run — the trio miss is a gap in trigger salience, not capability.</p>
+  </div>
+</section>
+
+<!-- ============ 12 · DELIVERABLES ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Artifacts</div>
+    <h2>Where everything lives</h2>
+    <div style="margin-top:24px;">
+      <h3 style="color:var(--teal);">Standalone experiment repo (git: main + token-first-kb, 11 commits)</h3>
+      <div class="pathbox">solstice/rule_navigation/ — indexing/ (KB build) · kb/{lisraya,ibsrela}/ · arch_{a,b,c}_*/ · runner/ (run_blueprint, compare) · viz/ (KB graph HTML) · outputs*/ (~29 runs)</div>
+      <h3 style="color:var(--teal); margin-top:18px;">Pipeline integration (vendored)</h3>
+      <div class="pathbox">Backend-Server/src/content_generation_new/application/Agentic_Workflows/rule_navigation/ — targeting.py · arch_a.py · shared/ · kb/ · _tmp_boundary_polish/ · tests/</div>
+      <h3 style="color:var(--teal); margin-top:18px;">Run-wise enrichment dumps + FNR audits</h3>
+      <div class="pathbox">…/rule_navigation/outputs/enrichment/&lt;run&gt;/ — 01_blueprint_before · 02_after · 03_rule_attachments · 04_with_section_rules · fnfp_comparison.md + _data.json</div>
+      <h3 style="color:var(--teal); margin-top:18px;">Collected FNR reports (new, this report)</h3>
+      <div class="pathbox">…/rule_navigation/outputs/enrichment/fnr_reports/ — README.md (consolidated index + aggregates) · &lt;run&gt;__fnfp_comparison.md ×6 · fnr_collected_data.json</div>
+    </div>
+    <p class="footnote">12 enrichment runs dumped to date: 6 audited (4 lisraya + 2 ibsrela), 6 pending audit (incl. today's PRE-mode and cache-exercise runs and a fresh ibsrela run).</p>
+  </div>
+</section>
+
+<!-- ============ 13 · NEXT ============ -->
+<section class="slide">
+  <div style="max-width:1060px; margin:0 auto;">
+    <div class="kicker">Where this goes</div>
+    <h2>Next steps</h2>
+    <div class="cols c2" style="margin-top:26px;">
+      <div class="card">
+        <span class="tag blue">KB / extraction</span>
+        <ul style="font-size:15px;">
+          <li>Rebuild both KBs with the staged <strong>#5 extraction hygiene</strong> (no raw token ids in prose, concrete token values, cross-blob rule dedupe) → re-vendor → <strong>delete <code>_tmp_boundary_polish</code></strong> and bump the cache schema.</li>
+          <li>Mechanical trigger tables for <code>content_tag</code>-gated rule families (the symptom-trio lesson) — same treatment the mandatory baseline got.</li>
+          <li>Mechanical <code>content_types</code> filter to kill the recurring banner-rule FP.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag gold">Evaluation / rollout</span>
+        <ul style="font-size:15px;">
+          <li>Audit the 6 pending runs — especially the <strong>PRE-art-director</strong> runs (do rule-aware design concepts change downstream rule adherence?).</li>
+          <li>End-to-end A/B via <code>RULE_TARGETING_USE_IN_DESIGNER</code>: same enriched blueprint, curated vs full-bible designer context, compare rendered emails.</li>
+          <li>The original benchmark: humans doing the same navigation task, scored FNR-first against the same ground truths.</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:40px; text-align:center;">
+      <p style="font-size:20px; color:var(--text);"><strong>Bottom line:</strong> agentic navigation over an atomized rule graph already beats the legacy static pull on every audited run — <em>98.7% recall / 95.3% precision, 2 vs 20 hard-constraint misses</em> — and it's wired into the pipeline behind env gates, cached, and safe to fail.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="nav">
+  <div class="title">Rule Navigation — Progress Report · Jul 10, 2026</div>
+  <div class="ctr">
+    <button id="prev">← Prev</button>
+    <div class="count" id="count">1 / 13</div>
+    <button id="next">Next →</button>
+  </div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  let idx = 0;
+  const hash = parseInt(location.hash.slice(1), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) idx = hash - 1;
+
+  function show(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, j) => s.classList.toggle("active", j === idx));
+    document.getElementById("count").textContent = (idx + 1) + " / " + slides.length;
+    document.getElementById("progress").style.width = ((idx + 1) / slides.length * 100) + "%";
+    history.replaceState(null, "", "#" + (idx + 1));
+    slides[idx].scrollTop = 0;
+  }
+  document.getElementById("prev").onclick = () => show(idx - 1);
+  document.getElementById("next").onclick = () => show(idx + 1);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); show(idx + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); show(idx - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+  });
+  show(idx);
+</script>
+</body>
+</html>
