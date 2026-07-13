@@ -13,8 +13,14 @@ Usage:
       [--model claude-sonnet-4-6] [--section-concurrency 3] [--sections hero cta] \\
       [--thinking-effort none|low|medium|high|xhigh|max] [--max-tokens 128000]
 
---thinking-effort / --max-tokens only apply to arch "a" (Anthropic adaptive thinking);
-other archs ignore them.
+  # Arch D A/B: filesystem-only vs filesystem + structured ToolRepo tools
+  .venv/bin/python -m runner.run_blueprint --arch d --d-tools fs --brand ibsrela \\
+      --blueprint examples/ibsrela_blueprint.json
+  .venv/bin/python -m runner.run_blueprint --arch d --d-tools full --brand ibsrela \\
+      --blueprint examples/ibsrela_blueprint.json
+
+--thinking-effort / --max-tokens only apply to arch "a" (Anthropic adaptive thinking).
+--d-tools only applies to arch "d" (fs = Claude Code FS tools only; full = FS + ToolRepo).
 """
 
 from __future__ import annotations
@@ -99,17 +105,20 @@ def hydrate_rules(kb: KB, result: RunResult) -> dict[str, Any]:
 
 async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
                    sections_filter: list[str], include_dc: bool, model: str,
-                   section_concurrency: int, thinking_effort: str, max_tokens: int) -> Path:
+                   section_concurrency: int, thinking_effort: str, max_tokens: int,
+                   d_tools: str = "fs") -> Path:
     module = ARCHS[arch]
     kb = KB(brand)
     repo = ToolRepo(kb)
-    run_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{arch}_{brand}_{blueprint_path.stem}"
+    arch_tag = f"{arch}-{d_tools}" if arch == "d" else arch
+    run_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{arch_tag}_{brand}_{blueprint_path.stem}"
     out_dir = config.OUTPUTS_DIR / run_id
     (out_dir / "traces").mkdir(parents=True, exist_ok=True)
 
     sections = [s for s in bp.content_blueprint
                 if not sections_filter or s.section_id in sections_filter]
-    console.print(f"[bold cyan]== arch {arch} | {brand} | {len(sections)} sections | "
+    mode_bit = f" | d-tools={d_tools}" if arch == "d" else ""
+    console.print(f"[bold cyan]== arch {arch}{mode_bit} | {brand} | {len(sections)} sections | "
                   f"model {model} | design_concept={'on' if include_dc else 'off'} ==[/bold cyan]")
 
     usage = Usage()
@@ -122,8 +131,12 @@ async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
         async with sem:
             try:
                 # thinking_effort/max_tokens are arch-a-only (Anthropic extended thinking);
-                # other archs' run_section don't accept them.
-                extra = {"thinking_effort": thinking_effort, "max_tokens": max_tokens} if arch == "a" else {}
+                # d_tools is arch-d-only (fs vs full ToolRepo MCP).
+                extra: dict[str, Any] = {}
+                if arch == "a":
+                    extra = {"thinking_effort": thinking_effort, "max_tokens": max_tokens}
+                elif arch == "d":
+                    extra = {"tool_mode": d_tools}
                 result = await module.run_section(
                     repo, bp, section,
                     model=model, include_design_concept=include_dc,
@@ -143,13 +156,17 @@ async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
 
     section_results = list(await asyncio.gather(*(one(s) for s in sections)))
 
+    stats = {**usage.as_dict(), "wall_s": round(time.time() - t0, 1), "model": model,
+             "sections_ok": sum(1 for s in section_results if not s.error)}
+    if arch == "d":
+        stats["d_tools"] = d_tools
     result = RunResult(
-        arch=arch, brand=brand, blueprint_path=str(blueprint_path),
+        arch=arch_tag if arch == "d" else arch, brand=brand,
+        blueprint_path=str(blueprint_path),
         design_concept_used=include_dc,
         sections=section_results,
         email_wide_rules=aggregate_email_wide(section_results),
-        stats={**usage.as_dict(), "wall_s": round(time.time() - t0, 1), "model": model,
-               "sections_ok": sum(1 for s in section_results if not s.error)},
+        stats=stats,
     )
     payload = result.model_dump()
     payload["rules"] = hydrate_rules(kb, result)
@@ -174,6 +191,9 @@ async def main() -> None:
                         help="arch 'a' only: Anthropic adaptive-thinking effort level")
     parser.add_argument("--max-tokens", type=int, default=128_000,
                         help="arch 'a' only: max_tokens per LLM call (thinking + response text)")
+    parser.add_argument("--d-tools", default="fs", choices=["fs", "full"],
+                        help="arch 'd' only: fs = Claude Code FS tools (+finalize); "
+                             "full = FS + structured ToolRepo MCP tools (+finalize)")
     args = parser.parse_args()
 
     config.require_keys()
@@ -184,7 +204,7 @@ async def main() -> None:
         out_dirs.append(await run_arch(
             arch, args.brand, args.blueprint, bp, args.sections,
             args.design_concept == "on", args.model, args.section_concurrency,
-            args.thinking_effort, args.max_tokens))
+            args.thinking_effort, args.max_tokens, args.d_tools))
 
     if len(out_dirs) > 1:
         table = Table(title="runs")

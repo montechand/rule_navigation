@@ -105,7 +105,7 @@ Useful flags on `run_blueprint`: `--design-concept off` (blueprint-only navigati
 | `arch_a_orchestrator` | generalist orchestrator | one loop, full chat history, ALL tools, terminal `finalize_section_ruleset` |
 | `arch_b_subagents` | querying-style specialists | orchestrator can only delegate (`ask_vector/graph/lexical_specialist`), each specialist is a scoped loop reporting candidates+evidence; orchestrator merges, iterates, finalizes |
 | `arch_c_schema_network` | schema-sharded network | fixed parallel fan-out of 4 shard agents (color+typography / imagery+assets / layout+assembly+cta / copy+governance), composer agent merges and finalizes |
-| `arch_d_claude_sdk` | Claude Agent SDK retriever | `claude-agent-sdk` in-process MCP tools over the same ToolRepo; built-in Claude Code tools disallowed; opt-in via `--arch d` (not in `--arch all` yet) |
+| `arch_d_claude_sdk` | Claude Agent SDK filesystem retriever | Claude Code built-ins (Read/Bash/Glob/Grep) navigate `kb/{brand}/` on the local disk (Docker/server session). A/B via `--d-tools fs|full`: FS-only vs FS + ToolRepo MCP. Two prompts. Opt-in `--arch d` (not in `--arch all`) |
 
 All four share the same task brief, section rendering, finalize contract (validated ids,
 targeted/email-wide disjoint), tool repository, and tracing — so differences in output are

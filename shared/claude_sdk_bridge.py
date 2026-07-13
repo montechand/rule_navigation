@@ -1,4 +1,9 @@
-"""Bridge shared ToolRepo ToolSpec handlers to claude-agent-sdk in-process MCP tools."""
+"""Bridge shared ToolRepo ToolSpec handlers to claude-agent-sdk in-process MCP tools.
+
+Architecture D's baseline is Claude Code built-in filesystem tools (Read / Bash / Glob /
+Grep) against the local KB tree. Custom ToolRepo tools are an optional experimental arm
+for A/B comparison — wrap them here as an in-process MCP server when enabled.
+"""
 
 from __future__ import annotations
 
@@ -10,14 +15,14 @@ from claude_agent_sdk import SdkMcpTool, create_sdk_mcp_server
 from .llm import ToolError, ToolSpec, Trace
 
 SERVER_NAME = "kb"
-# Claude Code built-ins we block so arch_d navigation is KB-tool-only.
+
+# Built-ins the agent SHOULD use to navigate the local KB on disk.
+ALLOWED_BUILTIN_TOOLS = ["Read", "Bash", "Glob", "Grep", "Write"]
+
+# Everything else from Claude Code's default toolset — blocked so the agent stays on
+# KB navigation + our MCP tools (no web, no subagents, no notebook edits, etc.).
 DISALLOWED_BUILTIN_TOOLS = [
-    "Read",
-    "Write",
     "Edit",
-    "Bash",
-    "Glob",
-    "Grep",
     "WebSearch",
     "WebFetch",
     "Task",
