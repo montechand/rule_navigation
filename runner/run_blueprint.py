@@ -106,7 +106,7 @@ def hydrate_rules(kb: KB, result: RunResult) -> dict[str, Any]:
 async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
                    sections_filter: list[str], include_dc: bool, model: str,
                    section_concurrency: int, thinking_effort: str, max_tokens: int,
-                   d_tools: str = "fs") -> Path:
+                   d_tools: str = "fs", d_max_turns: int = 48) -> Path:
     module = ARCHS[arch]
     kb = KB(brand)
     repo = ToolRepo(kb)
@@ -117,7 +117,7 @@ async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
 
     sections = [s for s in bp.content_blueprint
                 if not sections_filter or s.section_id in sections_filter]
-    mode_bit = f" | d-tools={d_tools}" if arch == "d" else ""
+    mode_bit = f" | d-tools={d_tools} | max_turns={d_max_turns}" if arch == "d" else ""
     console.print(f"[bold cyan]== arch {arch}{mode_bit} | {brand} | {len(sections)} sections | "
                   f"model {model} | design_concept={'on' if include_dc else 'off'} ==[/bold cyan]")
 
@@ -131,12 +131,12 @@ async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
         async with sem:
             try:
                 # thinking_effort/max_tokens are arch-a-only (Anthropic extended thinking);
-                # d_tools is arch-d-only (fs vs full ToolRepo MCP).
+                # d_tools / d_max_turns are arch-d-only.
                 extra: dict[str, Any] = {}
                 if arch == "a":
                     extra = {"thinking_effort": thinking_effort, "max_tokens": max_tokens}
                 elif arch == "d":
-                    extra = {"tool_mode": d_tools}
+                    extra = {"tool_mode": d_tools, "max_turns": d_max_turns}
                 result = await module.run_section(
                     repo, bp, section,
                     model=model, include_design_concept=include_dc,
@@ -160,6 +160,7 @@ async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
              "sections_ok": sum(1 for s in section_results if not s.error)}
     if arch == "d":
         stats["d_tools"] = d_tools
+        stats["d_max_turns"] = d_max_turns
     result = RunResult(
         arch=arch_tag if arch == "d" else arch, brand=brand,
         blueprint_path=str(blueprint_path),
@@ -194,6 +195,9 @@ async def main() -> None:
     parser.add_argument("--d-tools", default="fs", choices=["fs", "full"],
                         help="arch 'd' only: fs = Claude Code FS tools (+finalize); "
                              "full = FS + structured ToolRepo MCP tools (+finalize)")
+    parser.add_argument("--d-max-turns", type=int, default=48,
+                        help="arch 'd' only: Claude Agent SDK max_turns (default 48; "
+                             "FS mode is turn-hungry vs structured tools)")
     args = parser.parse_args()
 
     config.require_keys()
@@ -204,7 +208,7 @@ async def main() -> None:
         out_dirs.append(await run_arch(
             arch, args.brand, args.blueprint, bp, args.sections,
             args.design_concept == "on", args.model, args.section_concurrency,
-            args.thinking_effort, args.max_tokens, args.d_tools))
+            args.thinking_effort, args.max_tokens, args.d_tools, args.d_max_turns))
 
     if len(out_dirs) > 1:
         table = Table(title="runs")

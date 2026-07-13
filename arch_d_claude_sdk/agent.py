@@ -39,7 +39,11 @@ from shared.schemas import Blueprint, BlueprintSection, RuleVerdict, SectionResu
 from shared.tool_repo import ToolRepo
 
 ARCH_ID = "d"
-MAX_TURNS = 24
+# FS navigation is turn-hungry (many small Bash reads). Empirically at max_turns=24,
+# successes finalized on attempt 2 around turn ~40 of the SDK counter; failures never
+# called finalize at all — they burned the budget exploring. Cap raised; prompts below
+# also force an early first finalize so coverage-check iteration fits.
+DEFAULT_MAX_TURNS = 48
 MCP_SERVER = "kb"
 ToolMode = Literal["fs", "full"]
 
@@ -55,26 +59,43 @@ There are NO structured query tools — you must find rules by reading and searc
 {task_brief}
 
 ## KB layout (cwd = brand KB root)
-- `schema/` — start here: `overview.md`, `section_vocab.md`, `brand_rule.md`,
-  `brand_token.md`, `predicate_registry.md`, …
+- `schema/` — start here: `overview.md`, `section_vocab.md`, …
 - `rules/_index.json` — compact catalog of every rule (id, sections, scope, hardness,
-  summary). Grep / jq this heavily.
-- `rules/{{rule_id}}.json` — full rule payloads
+  summary). Prefer ONE python/jq dump over many tiny Bash calls.
+- `rules/{{rule_id}}.json` — full rule payloads (read only uncertain candidates)
 - `tokens/`, `assets/`, `subtypes/`, `templates/` — side entities (each with `_index.json`)
-- `graph/graph.json` — typed nodes + edges (rule→section/token/asset, resolves_to, …)
-- `groups/` — provenance blobs + relations
+- `graph/graph.json` — typed edges (optional; do NOT deep-walk before first finalize)
 
-## Strategy that works well
-1. Read `schema/overview.md` + `schema/section_vocab.md` for orientation.
-2. Map the target section to section type(s) from the vocab.
-3. Grep / jq `rules/_index.json` for selector matches on those section types AND for
-   null-selector (all-sections) baseline rules. Read full `rules/{{id}}.json` for
-   uncertain candidates — check applies_when, audience, content_types, governance.
-4. For concrete design-concept details (hex, opacity, radius, font, device names), Grep
-   `tokens/` then follow `token_ids` / graph edges in `graph/graph.json` back to rules.
-5. Call finalize_section_ruleset with your final answer, including section_type_mapping
-   and an `excluded` reason for every coverage candidate you left out. If it errors,
-   resolve each listed rule and call again.
+## Turn budget (critical)
+You have a hard turn cap. DO NOT spend the whole budget exploring.
+1. Turns 1–8: gather candidates with LARGE batched reads (see script below). Map section
+   types. Skim `_index.json` summaries — do not cat every rule file.
+2. By ~turn 10–15: call finalize_section_ruleset with your BEST CURRENT answer. Put every
+   coverage candidate you are unsure about into `excluded` with a one-line reason (or
+   include it). A coverage-check error listing missing ids is EXPECTED and cheap to fix —
+   that is the intended iteration loop.
+3. Turns after first finalize: only resolve the ids finalize complained about (Read those
+   few JSON files), then finalize again. Stop once finalize succeeds.
+Do NOT graph-walk, token-walk, or open templates before the first finalize attempt.
+
+## Preferred first Bash (adapt section types)
+```bash
+python3 - <<'PY'
+import json
+TYPES = {{"hero", "intro"}}  # <-- your mapped section types
+idx = json.load(open("rules/_index.json"))
+targeted = [r for r in idx if r.get("sections") and set(r["sections"]) & TYPES]
+email_wide = [r for r in idx if r.get("sections") is None]
+print("TARGETED", len(targeted))
+for r in targeted:
+    print(r["id"], r.get("hardness"), r.get("applies_when"), "|", r["summary"][:100])
+print("EMAIL_WIDE", len(email_wide))
+for r in email_wide:
+    print(r["id"], r.get("hardness"), r.get("applies_when"), "|", r["summary"][:100])
+PY
+```
+Then Read full JSON only for rules whose summary / applies_when is unclear. Prefer Grep
+over dozens of `cat` calls when searching tokens/ or rule text.
 
 {schema_primer}
 """
@@ -101,17 +122,15 @@ TWO tool surfaces:
 schema/ · rules/(_index.json + {{id}}.json) · tokens/ · assets/ · subtypes/ · templates/
 · graph/graph.json · groups/
 
-## Strategy that works well
-1. Orient via schema primer below, or Read `schema/overview.md` / get_section_vocab.
-2. Map the target section to section type(s), then run BOTH:
-   - query_rules(section_types=[...], include_all_section_rules=false) for targeted matches
-   - a null-selector / include_all_section_rules pass for the email-wide baseline pool
-3. Probe conditionals and devices the blueprint implies (vector_search / keyword_search /
-   Grep): design concept, colors, components, copy phrases.
-4. Token pivot: search_tokens / query_tokens (or Grep tokens/) → rules_for_token.
-5. Inspect uncertain candidates with get_rules(view='full') or Read `rules/{{id}}.json`.
-6. Call finalize_section_ruleset with section_type_mapping + `excluded` reasons for every
-   coverage candidate you left out. If it errors, resolve and call again.
+## Turn budget (critical)
+You have a hard turn cap. Prefer structured tools (fewer round-trips than Bash).
+1. Early: query_rules for mapped section types + null-selector / include_all_section_rules
+   pass for the email-wide pool. Optional: keyword_search / search_tokens for devices in
+   the design concept.
+2. By ~turn 8–12: call finalize_section_ruleset with best current answer. Put unsure
+   coverage candidates in `excluded` with reasons. Coverage-check errors are the intended
+   iteration loop — fix only the listed ids, then finalize again.
+3. Do not exhaust the budget exploring; stop once finalize succeeds.
 
 {schema_primer}
 """
@@ -127,6 +146,7 @@ async def run_section(
     trace: Trace,
     usage: Usage,
     tool_mode: ToolMode = "fs",
+    max_turns: int = DEFAULT_MAX_TURNS,
     max_tokens: int = 128_000,  # accepted for runner parity; SDK manages its own budgets
     thinking_effort: Optional[str] = "medium",  # accepted for runner parity; unused here
 ) -> SectionResult:
@@ -160,7 +180,7 @@ async def run_section(
     options = ClaudeAgentOptions(
         system_prompt=system,
         model=model,
-        max_turns=MAX_TURNS,
+        max_turns=max_turns,
         cwd=kb_cwd,
         mcp_servers={MCP_SERVER: kb_server},
         allowed_tools=allowed,
@@ -175,7 +195,7 @@ async def run_section(
 
     if trace:
         trace.log("arch_d_config", agent_name, tool_mode=tool_mode, cwd=kb_cwd,
-                  allowed_tools=allowed)
+                  max_turns=max_turns, allowed_tools=allowed)
 
     try:
         async for message in query(prompt=user, options=options):
