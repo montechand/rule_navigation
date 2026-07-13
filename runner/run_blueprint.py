@@ -33,6 +33,7 @@ from rich.table import Table
 import arch_a_orchestrator
 import arch_b_subagents
 import arch_c_schema_network
+import arch_d_claude_sdk
 from shared import config
 from shared.kb import KB
 from shared.llm import Trace, Usage
@@ -45,7 +46,10 @@ ARCHS = {
     "a": arch_a_orchestrator,
     "b": arch_b_subagents,
     "c": arch_c_schema_network,
+    "d": arch_d_claude_sdk,
 }
+# arch "d" (Claude Agent SDK) is experimental — opt in explicitly, not part of "all".
+ARCHS_ALL = ("a", "b", "c")
 
 
 def load_blueprint(path: Path) -> Blueprint:
@@ -174,7 +178,7 @@ async def main() -> None:
 
     config.require_keys()
     bp = load_blueprint(args.blueprint)
-    archs = list(ARCHS) if args.arch == "all" else [args.arch]
+    archs = list(ARCHS_ALL) if args.arch == "all" else [args.arch]
     out_dirs = []
     for arch in archs:
         out_dirs.append(await run_arch(

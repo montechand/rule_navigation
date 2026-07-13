@@ -1,4 +1,4 @@
-# rule_navigation — Brand Rule Navigation Pipelines (3 agentic architectures)
+# rule_navigation — Brand Rule Navigation Pipelines (4 agentic architectures)
 
 Standalone experiment suite answering: **can an LLM agent navigate a structured brand-rule
 knowledge graph precisely enough to assign the right ruleset to each email-blueprint
@@ -98,15 +98,16 @@ Useful flags on `run_blueprint`: `--design-concept off` (blueprint-only navigati
 `--sections hero cta` (subset), `--model` (any claude-*/gpt-* chat model),
 `--section-concurrency`.
 
-## The three architectures
+## The four architectures
 
 | | style | mechanics |
 |---|---|---|
 | `arch_a_orchestrator` | generalist orchestrator | one loop, full chat history, ALL tools, terminal `finalize_section_ruleset` |
 | `arch_b_subagents` | querying-style specialists | orchestrator can only delegate (`ask_vector/graph/lexical_specialist`), each specialist is a scoped loop reporting candidates+evidence; orchestrator merges, iterates, finalizes |
 | `arch_c_schema_network` | schema-sharded network | fixed parallel fan-out of 4 shard agents (color+typography / imagery+assets / layout+assembly+cta / copy+governance), composer agent merges and finalizes |
+| `arch_d_claude_sdk` | Claude Agent SDK retriever | `claude-agent-sdk` in-process MCP tools over the same ToolRepo; built-in Claude Code tools disallowed; opt-in via `--arch d` (not in `--arch all` yet) |
 
-All three share the same task brief, section rendering, finalize contract (validated ids,
+All four share the same task brief, section rendering, finalize contract (validated ids,
 targeted/email-wide disjoint), tool repository, and tracing — so differences in output are
 architectural, not prompt-shaped.
 
@@ -158,7 +159,7 @@ Mapping and exclusions persist to `result.json` (`section_types`, `excluded_rule
 shared/      config, pydantic schemas, LLM tool-loop client, KB access, tool repo, prompts
 indexing/    build_kb.py (migration), summarize_embed.py, static schema docs, _cache/
 kb/          generated KB per brand (checked in, human-reviewable)
-arch_a_orchestrator/  arch_b_subagents/  arch_c_schema_network/
+arch_a_orchestrator/  arch_b_subagents/  arch_c_schema_network/  arch_d_claude_sdk/
 runner/      run_blueprint.py, compare.py
 examples/    lisraya_blueprint.json (from rob_in_the_loop_v1), ibsrela_blueprint.json
 outputs/     run results + traces (gitignored-ish; safe to delete)
