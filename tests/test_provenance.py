@@ -10,6 +10,11 @@ import pytest
 from pydantic import BaseModel
 
 from indexing_v2.contracts import EVIDENCE_PATHS, EntityKind, SourceUnit, read_jsonl
+from indexing_v2.extraction.ledger import (
+    CandidatesBundle,
+    _claims_by_unit,
+    _orphan_entity_ids,
+)
 from indexing_v2.extraction.provenance import (
     STAGE_VERSION,
     ProvenanceError,
@@ -42,7 +47,7 @@ def _load_json(name: str) -> dict[str, Any]:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION
+    assert STAGE_VERSION == "1.1.0"
 
 
 def test_unknown_entity_kind_raises() -> None:
@@ -81,6 +86,49 @@ def test_exact_value_default_verification(units: list[SourceUnit]) -> None:
     assert record.verification == "value_verified"
     assert record.value_check.status == "pass"
     assert record.spans[0].match == "exact"
+
+
+def test_sparse_quote_value_is_verified_without_quarantine() -> None:
+    text = "Primary Green #01A47E is the approved brand color."
+    unit = SourceUnit(
+        unit_id="u_sparse_value_0000",
+        brand_id="minibible",
+        doc_ref="sparse-value[0]",
+        ordinal=0,
+        start=50,
+        end=50 + len(text),
+        kind="sentence",
+        text=text,
+    )
+    quote = "Primary Grene #01A47E is the approved brand color."
+    entity: dict[str, Any] = {
+        "id": "tok_sparse_value",
+        "token_type": "color",
+        "evidence": {
+            "quotes": [quote],
+            "unit_ids": [unit.unit_id],
+        },
+        "value": {
+            "default": "#01A47E",
+            "default_evidence": {
+                "quotes": [quote],
+                "unit_ids": [unit.unit_id],
+            },
+            "variants": None,
+        },
+    }
+
+    result = verify_entities({"token_primitive": [entity]}, [unit])
+    record = next(
+        item
+        for item in result.records_by_entity[entity["id"]]
+        if item.field == "value.default"
+    )
+
+    assert record.verification == "value_verified"
+    assert record.value_check.status == "pass"
+    assert record.spans[0].match == "unit"
+    assert result.quarantine == []
 
 
 def test_normalized_entity_level_span(units: list[SourceUnit]) -> None:
@@ -646,6 +694,55 @@ def test_reverse_index_lists_verified_citations(units: list[SourceUnit]) -> None
                     continue
                 for unit_id in span.unit_ids:
                     assert entity_id in result.by_unit[unit_id]
+
+
+def test_unit_spans_claim_ledger_units_and_are_not_orphans() -> None:
+    first_text = "Approved logo "
+    second_text = "usage is mandatory."
+    first = SourceUnit(
+        unit_id="u_ledger_unit_0000",
+        brand_id="minibible",
+        doc_ref="ledger-unit[0]",
+        ordinal=0,
+        start=0,
+        end=len(first_text),
+        kind="sentence",
+        text=first_text,
+    )
+    second = SourceUnit(
+        unit_id="u_ledger_unit_0001",
+        brand_id="minibible",
+        doc_ref="ledger-unit[0]",
+        ordinal=1,
+        start=first.end,
+        end=first.end + len(second_text),
+        kind="sentence",
+        text=second_text,
+    )
+    entity: dict[str, Any] = {
+        "id": "asset_unit_witness",
+        "name": "Approved logo",
+        "evidence": {
+            "quotes": ["Approved logo usage"],
+            "unit_ids": [second.unit_id, first.unit_id],
+        },
+    }
+    units = [first, second]
+    result = verify_entities({"asset": [entity]}, units)
+    record = result.records_by_entity[entity["id"]][0]
+    candidates = CandidatesBundle(
+        brand="minibible",
+        assets=[entity],
+        units_by_id={unit.unit_id: unit for unit in units},
+    )
+
+    assert record.verification == "span_verified"
+    assert record.spans[0].match == "unit"
+    assert _claims_by_unit(result, candidates) == {
+        first.unit_id: [(entity["id"], "asset")],
+        second.unit_id: [(entity["id"], "asset")],
+    }
+    assert _orphan_entity_ids(result, candidates) == []
 
 
 def test_reverse_index_excludes_failed_quote_hull(units: list[SourceUnit]) -> None:

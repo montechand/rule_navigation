@@ -1,12 +1,18 @@
-"""§5.4.2 quote→span alignment and §5.4.3 value verification.
+"""§5.4.2 quote→span alignment and §5.4.3 witness-model verification.
 
 Usage: call ``align_quote`` for spans or ``verify_value_path`` for path-level verification.
 
-The fuzzy rung uses a locate-then-score semi-global pass: one longest-common-block
-anchor projects the likely text window, then a bounded local boundary refinement
-scores candidate windows with ``SequenceMatcher.ratio()``. Inputs without a
-substantial common block now fail closed instead of falling back to an exhaustive
-window grid; this intentionally favors provenance precision over pathological recall.
+Verification treats cited units as the primary provenance pointer and the quote as a
+witness. Deterministic unit-text containment establishes provenance first; exact or
+normalized alignment then opportunistically upgrades the span to character precision.
+Only non-value paths may use the anchor-and-refine fuzzy rung as a last resort after
+containment misses. Concrete values are verified independently of quote alignment by
+searching their canonical literal in cited unit text (with one-unit widening) and in
+the quote witness. Verbatim fields retain their exact-only contract.
+
+The fuzzy last resort uses one longest-common-block anchor plus bounded local boundary
+refinement. Inputs without a substantial common block fail closed, intentionally
+favoring provenance precision over pathological recall.
 """
 
 from __future__ import annotations
@@ -14,7 +20,8 @@ from __future__ import annotations
 import unicodedata
 from dataclasses import dataclass
 from difflib import SequenceMatcher
-from typing import Any, Mapping, Optional
+from re import Pattern
+from typing import Any, Mapping, Optional, Sequence
 
 from indexing_v2.contracts import (
     EvidenceSpan,
@@ -26,7 +33,7 @@ from indexing_v2.contracts import (
 
 from .normalize import normalize_value, value_patterns
 
-STAGE_VERSION = "1.1.0"
+STAGE_VERSION = "2.0.0"
 
 _CURLY_MAP = str.maketrans(
     {
@@ -39,8 +46,9 @@ _CURLY_MAP = str.maketrans(
 
 _VERBATIM_FIELD_PATHS = frozenset({"governance.preferred_form", "body"})
 _MATCH_RANK: dict[MatchQuality, int] = {
-    "exact": 4,
-    "normalized": 3,
+    "exact": 5,
+    "normalized": 4,
+    "unit": 3,
     "fuzzy": 2,
     "failed": 1,
 }
@@ -96,6 +104,23 @@ def _normalize_with_index_map(text: str) -> tuple[str, list[tuple[int, int]]]:
             out.append(normalized_ch)
             idx_map.append(raw_range)
     return "".join(out), idx_map
+
+
+def _normalize_plain(text: str) -> str:
+    """Normalize like ``_normalize_with_index_map`` without building raw offsets."""
+    converted = unicodedata.normalize("NFC", text).translate(_CURLY_MAP).casefold()
+    out: list[str] = []
+    prev_space = False
+    for ch in converted:
+        if ch.isspace():
+            if prev_space:
+                continue
+            out.append(" ")
+            prev_space = True
+            continue
+        out.append(ch)
+        prev_space = False
+    return "".join(out)
 
 
 def _raw_span_from_norm(
@@ -329,7 +354,7 @@ def _fuzzy_candidates(
     return best
 
 
-def _consecutive_cited_runs(units: list[SourceUnit]) -> list[tuple[SourceUnit, ...]]:
+def _consecutive_runs(units: Sequence[SourceUnit]) -> list[tuple[SourceUnit, ...]]:
     by_doc: dict[str, list[SourceUnit]] = {}
     for unit in units:
         by_doc.setdefault(unit.doc_ref, []).append(unit)
@@ -343,13 +368,16 @@ def _consecutive_cited_runs(units: list[SourceUnit]) -> list[tuple[SourceUnit, .
         current: list[SourceUnit] = []
         for unit in ordered:
             if current and unit.ordinal != current[-1].ordinal + 1:
-                if len(current) > 1:
-                    runs.append(tuple(current))
+                runs.append(tuple(current))
                 current = []
             current.append(unit)
-        if len(current) > 1:
+        if current:
             runs.append(tuple(current))
     return runs
+
+
+def _consecutive_cited_runs(units: list[SourceUnit]) -> list[tuple[SourceUnit, ...]]:
+    return [run for run in _consecutive_runs(units) if len(run) > 1]
 
 
 def _cross_unit_fuzzy_candidates(
@@ -456,6 +484,61 @@ def _neighbor_units(
     return list(neighbors.values())
 
 
+def _sorted_units(units: Sequence[SourceUnit]) -> list[SourceUnit]:
+    return sorted(
+        {unit.unit_id: unit for unit in units}.values(),
+        key=lambda unit: (unit.doc_ref, unit.ordinal, unit.start, unit.unit_id),
+    )
+
+
+def _unit_hull_span(quote: str, units: Sequence[SourceUnit]) -> EvidenceSpan:
+    ordered = _sorted_units(units)
+    if not ordered:
+        return EvidenceSpan(
+            doc_ref="",
+            unit_ids=[],
+            start=0,
+            end=0,
+            quote=quote,
+            match="failed",
+        )
+    doc_ref = ordered[0].doc_ref
+    same_doc = [unit for unit in ordered if unit.doc_ref == doc_ref]
+    return EvidenceSpan(
+        doc_ref=doc_ref,
+        unit_ids=[unit.unit_id for unit in same_doc],
+        start=min(unit.start for unit in same_doc),
+        end=max(unit.end for unit in same_doc),
+        quote=quote,
+        match="unit",
+    )
+
+
+def _containment_run(
+    quote: str,
+    units: Sequence[SourceUnit],
+) -> tuple[SourceUnit, ...] | None:
+    quote_norm = _normalize_plain(quote)
+    if not quote_norm:
+        return None
+    for run in _consecutive_runs(units):
+        combined_norm = _normalize_plain("".join(unit.text for unit in run))
+        if quote_norm in combined_norm:
+            return run
+    return None
+
+
+def _units_containing_patterns(
+    units: Sequence[SourceUnit],
+    patterns: Sequence[Pattern[str]],
+) -> list[SourceUnit]:
+    return [
+        unit
+        for unit in _sorted_units(units)
+        if any(pattern.search(unit.text) for pattern in patterns)
+    ]
+
+
 def _pick_best(candidates: list[_Candidate]) -> tuple[Optional[_Candidate], Optional[str]]:
     if not candidates:
         return None, None
@@ -492,6 +575,38 @@ def _pick_best(candidates: list[_Candidate]) -> tuple[Optional[_Candidate], Opti
     )
     detail = f"ambiguous(n={len(top)})" if len(top) > 1 else None
     return best, detail
+
+
+def _exact_normalized_upgrade(
+    quote: str,
+    units: Sequence[SourceUnit],
+) -> AlignmentResult | None:
+    ordered = _sorted_units(units)
+    candidates = [
+        candidate
+        for unit in ordered
+        for candidate in _exact_candidates(quote, unit, True)
+    ]
+    if not candidates:
+        candidates = [
+            candidate
+            for unit in ordered
+            for candidate in _normalized_candidates(quote, unit, True)
+        ]
+    best, detail = _pick_best(candidates)
+    if best is None:
+        return None
+    return AlignmentResult(
+        span=EvidenceSpan(
+            doc_ref=best.units[0].doc_ref,
+            unit_ids=[unit.unit_id for unit in best.units],
+            start=best.start,
+            end=best.end,
+            quote=quote,
+            match=best.quality,
+        ),
+        detail=detail,
+    )
 
 
 def align_quote_with_detail(
@@ -602,9 +717,17 @@ def _slice_blob(span: EvidenceSpan, units_by_id: Mapping[str, SourceUnit]) -> st
     )
 
 
-def _quote_contains_value(token_type: str, raw_value: Any, quote: str) -> bool:
-    norm = normalize_value(token_type, raw_value)
-    return any(pattern.search(quote) for pattern in value_patterns(token_type, norm.canon))
+def _quote_contains_value(
+    token_type: str,
+    raw_value: Any,
+    quote: str,
+    *,
+    patterns: Sequence[Pattern[str]] | None = None,
+) -> bool:
+    if patterns is None:
+        norm = normalize_value(token_type, raw_value)
+        patterns = value_patterns(token_type, norm.canon)
+    return any(pattern.search(quote) for pattern in patterns)
 
 
 def check_value_in_span(
@@ -703,17 +826,42 @@ def verify_value_path(
             detail=alignment.detail,
         )
 
+    cited = _sorted_units(
+        [units_by_id[unit_id] for unit_id in cited_unit_ids if unit_id in units_by_id]
+    )
+
     if not is_concrete_value_field(field_path):
+        run = _containment_run(quote, cited)
+        containment_detail: str | None = None
+        if run is None:
+            neighbors = _neighbor_units(units_by_id, cited_unit_ids)
+            run = _containment_run(quote, [*cited, *neighbors])
+            if run is not None:
+                containment_detail = "widened"
+
+        if run is not None:
+            span = _unit_hull_span(quote, run)
+            upgrade = _exact_normalized_upgrade(quote, run)
+            if upgrade is not None:
+                span = upgrade.span
+                if containment_detail is None:
+                    containment_detail = upgrade.detail
+            return ValueVerificationResult(
+                span=span,
+                value_check=ValueCheck(status="n/a"),
+                verification="span_verified",
+                detail=containment_detail,
+            )
+
         alignment = align_quote_with_detail(
             quote,
             units_by_id,
             cited_unit_ids,
             fuzzy_min_ratio=fuzzy_min_ratio,
         )
-        if alignment.span.match == "failed":
-            verification: Verification = "unverified"
-        else:
-            verification = "span_verified"
+        verification: Verification = (
+            "unverified" if alignment.span.match == "failed" else "span_verified"
+        )
         return ValueVerificationResult(
             span=alignment.span,
             value_check=ValueCheck(status="n/a"),
@@ -721,33 +869,51 @@ def verify_value_path(
             detail=alignment.detail,
         )
 
-    alignment = align_quote_with_detail(
-        quote,
-        units_by_id,
-        cited_unit_ids,
-        fuzzy_min_ratio=fuzzy_min_ratio,
-    )
-    if alignment.span.match == "failed":
+    norm = normalize_value(token_type, raw_value)
+    patterns = value_patterns(token_type, norm.canon)
+    hit_units = _units_containing_patterns(cited, patterns)
+    containment_detail = None
+    if not hit_units:
+        neighbors = _neighbor_units(units_by_id, cited_unit_ids)
+        hit_units = _units_containing_patterns(neighbors, patterns)
+        if hit_units:
+            containment_detail = "widened"
+
+    if not hit_units:
         return ValueVerificationResult(
-            span=alignment.span,
-            value_check=ValueCheck(status="fail", detail="alignment failed"),
+            span=_hull_span(quote, units_by_id, cited_unit_ids),
+            value_check=ValueCheck(
+                status="fail",
+                detail=f"normalized {norm.canon!r} not found in cited units or neighbors",
+            ),
             verification="unverified",
-            detail=alignment.detail,
         )
-    value_check = check_value_in_span(token_type, raw_value, alignment.span, units_by_id)
-    quote_has_value = _quote_contains_value(token_type, raw_value, quote)
-    if value_check.status == "pass" and quote_has_value:
-        verification = "value_verified"
-    else:
-        verification = "unverified"
-        if value_check.status == "pass" and not quote_has_value:
-            value_check = ValueCheck(
+
+    span = _unit_hull_span(quote, hit_units)
+    if not _quote_contains_value(
+        token_type,
+        raw_value,
+        quote,
+        patterns=patterns,
+    ):
+        return ValueVerificationResult(
+            span=span,
+            value_check=ValueCheck(
                 status="fail",
                 detail="quote missing normalized value literal",
-            )
+            ),
+            verification="unverified",
+            detail=containment_detail,
+        )
+
+    upgrade = _exact_normalized_upgrade(quote, hit_units)
+    if upgrade is not None:
+        span = upgrade.span
+        if containment_detail is None:
+            containment_detail = upgrade.detail
     return ValueVerificationResult(
-        span=alignment.span,
-        value_check=value_check,
-        verification=verification,
-        detail=alignment.detail,
+        span=span,
+        value_check=ValueCheck(status="pass", detail=f"matched {norm.canon!r}"),
+        verification="value_verified",
+        detail=containment_detail,
     )

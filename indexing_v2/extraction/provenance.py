@@ -27,7 +27,7 @@ from indexing_v2.contracts import (
 
 from .align import ValueVerificationResult, is_concrete_value_field, verify_value_path
 
-STAGE_VERSION = "1.0.2"
+STAGE_VERSION = "1.1.0"
 
 _PATH_SEGMENT_RE = re.compile(r"([^.\[\]]+)|\[(\d+)\]")
 _VARIANT_VALUE_RE = re.compile(r"^value\.variants\[\d+\]\.value$")

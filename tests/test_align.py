@@ -9,11 +9,14 @@ from pathlib import Path
 import pytest
 
 from indexing_v2.contracts import EvidenceSpan, SourceUnit, read_jsonl
+from indexing_v2.extraction import align as align_module
 from indexing_v2.extraction.align import (
     STAGE_VERSION,
     AlignmentResult,
     _best_fuzzy_windows,
     _fuzzy_candidates,
+    _normalize_plain,
+    _normalize_with_index_map,
     align_quote,
     align_quote_with_detail,
     check_value_in_span,
@@ -228,6 +231,30 @@ def test_best_fuzzy_windows_is_deterministic_and_offsets_are_valid() -> None:
         assert all(0 <= start < end <= len(text) for start, end, _ in first)
 
 
+def test_normalize_plain_matches_indexed_normalization() -> None:
+    rng = random.Random(20260716)
+    alphabet = [
+        "a",
+        "B",
+        "ß",
+        "é",
+        "e",
+        "\u0301",
+        " ",
+        "\t",
+        "\n",
+        "\u2003",
+        "“",
+        "”",
+        "‘",
+        "’",
+        "!",
+    ]
+    for _ in range(200):
+        text = "".join(rng.choice(alphabet) for _ in range(rng.randint(0, 100)))
+        assert _normalize_plain(text) == _normalize_with_index_map(text)[0]
+
+
 def test_best_fuzzy_windows_returns_all_sorted_maximal_ties() -> None:
     windows = _best_fuzzy_windows("aaaaba", "ababbaabb", 0.6)
 
@@ -350,6 +377,229 @@ def test_verify_concrete_value_path(units_by_id: dict[str, SourceUnit]) -> None:
     )
     assert result.verification == "value_verified"
     assert result.value_check.status == "pass"
+    assert result.span.match == "exact"
+    unit = units_by_id["u_brand_foundation_0_0004"]
+    assert result.span.start == unit.start + unit.text.index(quote)
+    assert result.span.end == result.span.start + len(quote)
+
+
+def test_value_with_sparse_quote_edit_is_verified_at_unit_granularity() -> None:
+    text = "Primary Green #01A47E is the approved brand color."
+    unit = SourceUnit(
+        unit_id="u_value_sparse_0000",
+        brand_id="minibible",
+        doc_ref="value-sparse[0]",
+        ordinal=0,
+        start=100,
+        end=100 + len(text),
+        kind="sentence",
+        text=text,
+    )
+
+    result = verify_value_path(
+        field_path="value.default",
+        token_type="color",
+        raw_value="#01A47E",
+        quote="Primary Grene #01A47E is the approved brand color.",
+        units_by_id={unit.unit_id: unit},
+        cited_unit_ids=[unit.unit_id],
+    )
+
+    assert result.verification == "value_verified"
+    assert result.value_check.status == "pass"
+    assert result.span.match == "unit"
+    assert result.span.unit_ids == [unit.unit_id]
+    assert (result.span.start, result.span.end) == (unit.start, unit.end)
+
+
+def test_value_containment_miss_never_consults_fuzzy(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    text = "Primary Green #01A47E is the approved brand color."
+    unit = SourceUnit(
+        unit_id="u_value_miss_0000",
+        brand_id="minibible",
+        doc_ref="value-miss[0]",
+        ordinal=0,
+        start=0,
+        end=len(text),
+        kind="sentence",
+        text=text,
+    )
+    quote = "Primary Green #01A47F is the approved brand color."
+    assert (
+        align_quote(
+            quote,
+            {unit.unit_id: unit},
+            [unit.unit_id],
+        ).match
+        == "fuzzy"
+    )
+
+    def fuzzy_forbidden(
+        quote_norm: str,
+        text_norm: str,
+        fuzzy_min_ratio: float,
+    ) -> list[tuple[int, int, float]]:
+        raise AssertionError("value verification must not consult fuzzy alignment")
+
+    monkeypatch.setattr(align_module, "_best_fuzzy_windows", fuzzy_forbidden)
+    result = verify_value_path(
+        field_path="value.default",
+        token_type="color",
+        raw_value="#01A47F",
+        quote=quote,
+        units_by_id={unit.unit_id: unit},
+        cited_unit_ids=[unit.unit_id],
+    )
+
+    assert result.verification == "unverified"
+    assert result.value_check.status == "fail"
+    assert result.span.match == "failed"
+
+
+def test_value_present_in_unit_but_absent_from_quote_fails_witness_check() -> None:
+    text = "Primary Green is approved. Color #01A47E."
+    unit = SourceUnit(
+        unit_id="u_value_witness_0000",
+        brand_id="minibible",
+        doc_ref="value-witness[0]",
+        ordinal=0,
+        start=40,
+        end=40 + len(text),
+        kind="sentence",
+        text=text,
+    )
+
+    result = verify_value_path(
+        field_path="value.default",
+        token_type="color",
+        raw_value="#01A47E",
+        quote="Primary Green is approved.",
+        units_by_id={unit.unit_id: unit},
+        cited_unit_ids=[unit.unit_id],
+    )
+
+    assert result.verification == "unverified"
+    assert result.value_check.status == "fail"
+    assert result.value_check.detail == "quote missing normalized value literal"
+    assert result.span.match == "unit"
+
+
+def test_value_widens_to_actual_neighbor_unit() -> None:
+    first_text = "Typography guidance only."
+    second_text = "Primary Green #01A47E is approved."
+    first = SourceUnit(
+        unit_id="u_value_widen_0000",
+        brand_id="minibible",
+        doc_ref="value-widen[0]",
+        ordinal=0,
+        start=0,
+        end=len(first_text),
+        kind="sentence",
+        text=first_text,
+    )
+    second = SourceUnit(
+        unit_id="u_value_widen_0001",
+        brand_id="minibible",
+        doc_ref="value-widen[0]",
+        ordinal=1,
+        start=first.end,
+        end=first.end + len(second_text),
+        kind="sentence",
+        text=second_text,
+    )
+
+    result = verify_value_path(
+        field_path="value.default",
+        token_type="color",
+        raw_value="#01A47E",
+        quote=second_text,
+        units_by_id={first.unit_id: first, second.unit_id: second},
+        cited_unit_ids=[first.unit_id],
+    )
+
+    assert result.verification == "value_verified"
+    assert result.value_check.status == "pass"
+    assert result.span.match == "exact"
+    assert result.span.unit_ids == [second.unit_id]
+    assert (result.span.start, result.span.end) == (second.start, second.end)
+    assert result.detail == "widened"
+
+
+def test_non_value_cross_unit_containment_skips_fuzzy(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    first_text = "The approved logo "
+    second_text = "usage is mandatory."
+    first = SourceUnit(
+        unit_id="u_witness_cross_0000",
+        brand_id="minibible",
+        doc_ref="witness-cross[0]",
+        ordinal=0,
+        start=10,
+        end=10 + len(first_text),
+        kind="sentence",
+        text=first_text,
+    )
+    second = SourceUnit(
+        unit_id="u_witness_cross_0001",
+        brand_id="minibible",
+        doc_ref="witness-cross[0]",
+        ordinal=1,
+        start=first.end,
+        end=first.end + len(second_text),
+        kind="sentence",
+        text=second_text,
+    )
+
+    def fuzzy_forbidden(
+        quote_norm: str,
+        text_norm: str,
+        fuzzy_min_ratio: float,
+    ) -> list[tuple[int, int, float]]:
+        raise AssertionError("contained non-value quote must not consult fuzzy")
+
+    monkeypatch.setattr(align_module, "_best_fuzzy_windows", fuzzy_forbidden)
+    result = verify_value_path(
+        field_path="",
+        token_type="asset",
+        raw_value=None,
+        quote="approved logo usage",
+        units_by_id={first.unit_id: first, second.unit_id: second},
+        cited_unit_ids=[second.unit_id, first.unit_id],
+    )
+
+    assert result.verification == "span_verified"
+    assert result.span.match == "unit"
+    assert result.span.unit_ids == [first.unit_id, second.unit_id]
+    assert (result.span.start, result.span.end) == (first.start, second.end)
+
+
+def test_non_value_sparse_edit_uses_fuzzy_last_resort() -> None:
+    text = "Always retain clear space around the approved logo."
+    unit = SourceUnit(
+        unit_id="u_witness_fuzzy_0000",
+        brand_id="minibible",
+        doc_ref="witness-fuzzy[0]",
+        ordinal=0,
+        start=25,
+        end=25 + len(text),
+        kind="sentence",
+        text=text,
+    )
+
+    result = verify_value_path(
+        field_path="",
+        token_type="rule",
+        raw_value=None,
+        quote="Always retain cler space around the approved logo.",
+        units_by_id={unit.unit_id: unit},
+        cited_unit_ids=[unit.unit_id],
+    )
+
+    assert result.verification == "span_verified"
+    assert result.span.match == "fuzzy"
 
 
 def test_verify_preferred_form_requires_exact(units_by_id: dict[str, SourceUnit]) -> None:
@@ -380,7 +630,6 @@ def test_preferred_form_fuzzy_only_fails(units_by_id: dict[str, SourceUnit]) -> 
     )
     assert result.verification == "unverified"
     assert result.span.match in {"fuzzy", "failed", "normalized"}
-    assert result.span.match != "exact"
 
 
 def test_corrupt_quote_fixture_path_fails(units_by_id: dict[str, SourceUnit]) -> None:
@@ -427,8 +676,8 @@ def test_alignment_result_typed() -> None:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION == "1.1.0"
-    assert PROVENANCE_STAGE_VERSION == "1.0.2"
+    assert STAGE_VERSION == "2.0.0"
+    assert PROVENANCE_STAGE_VERSION == "1.1.0"
 
 
 def test_no_cross_doc_neighbor_join(units_by_id: dict[str, SourceUnit]) -> None:

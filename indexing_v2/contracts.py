@@ -93,7 +93,7 @@ class Evidence(BaseModel):
     quotes: list[str] = Field(default_factory=list)
 
 
-MatchQuality = Literal["exact", "normalized", "fuzzy", "failed"]
+MatchQuality = Literal["exact", "normalized", "unit", "fuzzy", "failed"]
 Verification = Literal["value_verified", "span_verified", "unverified"]
 
 
