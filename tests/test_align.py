@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+import time
 from pathlib import Path
 
 import pytest
@@ -11,11 +12,14 @@ from indexing_v2.contracts import EvidenceSpan, SourceUnit, read_jsonl
 from indexing_v2.extraction.align import (
     STAGE_VERSION,
     AlignmentResult,
+    _best_fuzzy_windows,
+    _fuzzy_candidates,
     align_quote,
     align_quote_with_detail,
     check_value_in_span,
     verify_value_path,
 )
+from indexing_v2.extraction.provenance import STAGE_VERSION as PROVENANCE_STAGE_VERSION
 
 FIXTURE_ROOT = Path(__file__).resolve().parent / "fixtures" / "minibible"
 
@@ -114,6 +118,156 @@ def test_fuzzy_alignment_when_quote_is_close(units_by_id: dict[str, SourceUnit])
     quote = "Primary Green #01A47E is the main brand colour"
     span = align_quote(quote, units_by_id, [unit.unit_id], fuzzy_min_ratio=0.85)
     assert span.match in {"fuzzy", "normalized", "exact"}
+
+
+@pytest.mark.parametrize(
+    ("quote", "unit_text", "expected_core"),
+    [
+        (
+            "Use the approved main logo in every email header.",
+            "Intro. Use the approved logo in every email header. Outro.",
+            "approved logo in every email header",
+        ),
+        (
+            "Use the approved primary logo, in every email header.",
+            "Intro. Use the approved primary logo; in every email header. Outro.",
+            "approved primary logo; in every email header",
+        ),
+        (
+            "Maintain at least 4.5:1 contrast for all body copy.",
+            "Intro. Maintain at least 4.5:1 contrast for all body. Outro.",
+            "Maintain at least 4.5:1 contrast for all body",
+        ),
+        (
+            "Always use the approved primary brand logo with generous clear safe "
+            "space around every side in all email header layouts and campaign templates.",
+            "Intro. Always use the approved primary brand logo with space around every "
+            "side in all email header layouts and campaign templates. Outro.",
+            "primary brand logo with space around every side",
+        ),
+    ],
+    ids=["dropped-word", "swapped-punctuation", "truncated-tail", "interior-elision"],
+)
+def test_fuzzy_equivalence_corpus(
+    quote: str,
+    unit_text: str,
+    expected_core: str,
+) -> None:
+    unit = SourceUnit(
+        unit_id="u_fuzzy_0000",
+        brand_id="minibible",
+        doc_ref="fuzzy[0]",
+        ordinal=0,
+        start=100,
+        end=100 + len(unit_text),
+        kind="sentence",
+        text=unit_text,
+    )
+    candidates = _fuzzy_candidates(quote, unit, True, fuzzy_min_ratio=0.92)
+
+    assert candidates
+    assert all(candidate.quality == "fuzzy" for candidate in candidates)
+    assert all(candidate.ratio >= 0.92 for candidate in candidates)
+    assert any(
+        expected_core
+        in unit_text[candidate.start - unit.start : candidate.end - unit.start]
+        for candidate in candidates
+    )
+
+
+def test_curly_quotes_and_double_spaces_use_normalized_rung() -> None:
+    text = "Use “trusted  guidance” in every campaign."
+    unit = SourceUnit(
+        unit_id="u_normalized_0000",
+        brand_id="minibible",
+        doc_ref="normalized[0]",
+        ordinal=0,
+        start=30,
+        end=30 + len(text),
+        kind="sentence",
+        text=text,
+    )
+
+    span = align_quote(
+        'Use "trusted guidance" in every campaign.',
+        {unit.unit_id: unit},
+        [unit.unit_id],
+    )
+
+    assert span.match == "normalized"
+    assert text[span.start - unit.start : span.end - unit.start] == text
+
+
+def test_best_fuzzy_windows_finds_planted_exact_quotes() -> None:
+    rng = random.Random(20260715)
+    alphabet = "abcdefghijkmnopqrstuvwxyz "
+    for _ in range(50):
+        quote = "".join(rng.choice(alphabet) for _ in range(rng.randint(20, 80)))
+        prefix = "".join(rng.choice(alphabet) for _ in range(rng.randint(10, 60)))
+        suffix = "".join(rng.choice(alphabet) for _ in range(rng.randint(10, 60)))
+        windows = _best_fuzzy_windows(quote, prefix + quote + suffix, 0.92)
+
+        assert any(
+            (start, end, ratio) == (len(prefix), len(prefix) + len(quote), 1.0)
+            for start, end, ratio in windows
+        )
+
+
+def test_best_fuzzy_windows_is_deterministic_and_offsets_are_valid() -> None:
+    rng = random.Random(7)
+    for _ in range(50):
+        quote = "".join(rng.choice("abcde ") for _ in range(40))
+        text = "".join(rng.choice("vwxyz ") for _ in range(30)) + quote
+        text += "".join(rng.choice("vwxyz ") for _ in range(30))
+
+        first = _best_fuzzy_windows(quote, text, 0.92)
+        second = _best_fuzzy_windows(quote, text, 0.92)
+
+        assert first == second
+        assert first == sorted(first, key=lambda item: (item[0], item[1]))
+        assert all(0 <= start < end <= len(text) for start, end, _ in first)
+
+
+def test_best_fuzzy_windows_returns_all_sorted_maximal_ties() -> None:
+    windows = _best_fuzzy_windows("aaaaba", "ababbaabb", 0.6)
+
+    assert windows == [
+        (2, 8, 2 / 3),
+        (5, 8, 2 / 3),
+    ]
+    assert _best_fuzzy_windows("aaaaba", "ababbaabb", 2 / 3) == windows
+    assert _best_fuzzy_windows("aaaaba", "ababbaabb", (2 / 3) + 0.001) == []
+
+
+def test_best_fuzzy_windows_rejects_scattered_short_runs() -> None:
+    quote = "abcdefghijklmno"
+    text = "a1b2c3d4e5f6g7h8i9j0k"
+
+    assert _best_fuzzy_windows(quote, text, 0.1) == []
+
+
+@pytest.mark.parametrize(
+    ("quote_length", "text_length"),
+    [(300, 2_000)],
+    ids=["300-by-2000"],
+)
+def test_best_fuzzy_windows_performance_smoke(
+    quote_length: int,
+    text_length: int,
+) -> None:
+    quote = "".join(chr(0x1000 + index) for index in range(quote_length))
+    filler_length = (text_length - quote_length) // 2
+    text = "x" * filler_length
+    text += quote[:149] + "x" + quote[150:]
+    text += "y" * (text_length - len(text))
+
+    started = time.perf_counter()
+    windows = _best_fuzzy_windows(quote, text, 0.92)
+    elapsed = time.perf_counter() - started
+
+    assert len(text) == text_length
+    assert windows
+    assert elapsed < 1.0
 
 
 def test_widen_to_neighbor_unit(units_by_id: dict[str, SourceUnit]) -> None:
@@ -273,7 +427,8 @@ def test_alignment_result_typed() -> None:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION
+    assert STAGE_VERSION == "1.1.0"
+    assert PROVENANCE_STAGE_VERSION == "1.0.2"
 
 
 def test_no_cross_doc_neighbor_join(units_by_id: dict[str, SourceUnit]) -> None:
@@ -351,3 +506,39 @@ def test_fuzzy_alignment_spans_consecutive_cited_units() -> None:
     )
     assert _blob_slice(units, span) == quote
     assert check_value_in_span("color", "#aabbcc", span, units).status == "pass"
+
+
+def test_fuzzy_alignment_with_typo_spans_two_consecutive_units() -> None:
+    first_text = "The approved primary logo must "
+    second_text = "retain clear space in every email."
+    first = SourceUnit(
+        unit_id="u_cross_typo_0000",
+        brand_id="minibible",
+        doc_ref="cross-typo[0]",
+        ordinal=0,
+        start=0,
+        end=len(first_text),
+        kind="sentence",
+        text=first_text,
+    )
+    second = SourceUnit(
+        unit_id="u_cross_typo_0001",
+        brand_id="minibible",
+        doc_ref="cross-typo[0]",
+        ordinal=1,
+        start=first.end,
+        end=first.end + len(second_text),
+        kind="sentence",
+        text=second_text,
+    )
+    units = {first.unit_id: first, second.unit_id: second}
+
+    span = align_quote(
+        "approved primary logo must retain clear spase in every email",
+        units,
+        [second.unit_id, first.unit_id],
+    )
+
+    assert span.match == "fuzzy"
+    assert span.unit_ids == [first.unit_id, second.unit_id]
+    assert len(span.unit_ids) == 2

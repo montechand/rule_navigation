@@ -1,6 +1,12 @@
 """§5.4.2 quote→span alignment and §5.4.3 value verification.
 
 Usage: call ``align_quote`` for spans or ``verify_value_path`` for path-level verification.
+
+The fuzzy rung uses a locate-then-score semi-global pass: one longest-common-block
+anchor projects the likely text window, then a bounded local boundary refinement
+scores candidate windows with ``SequenceMatcher.ratio()``. Inputs without a
+substantial common block now fail closed instead of falling back to an exhaustive
+window grid; this intentionally favors provenance precision over pathological recall.
 """
 
 from __future__ import annotations
@@ -20,7 +26,7 @@ from indexing_v2.contracts import (
 
 from .normalize import normalize_value, value_patterns
 
-STAGE_VERSION = "1.0.0"
+STAGE_VERSION = "1.1.0"
 
 _CURLY_MAP = str.maketrans(
     {
@@ -196,6 +202,93 @@ def _normalized_candidates(
     return hits
 
 
+def _best_fuzzy_windows(
+    quote_norm: str,
+    text_norm: str,
+    fuzzy_min_ratio: float,
+) -> list[tuple[int, int, float]]:
+    """Locate and score the best fuzzy windows near one substantial anchor."""
+    if not quote_norm or not text_norm:
+        return []
+
+    matcher = SequenceMatcher(None, quote_norm, text_norm, autojunk=False)
+    anchor = matcher.find_longest_match(
+        0,
+        len(quote_norm),
+        0,
+        len(text_norm),
+    )
+    if anchor.size < max(3, len(quote_norm) // 4):
+        return []
+
+    quote_len = len(quote_norm)
+    projected_start = max(0, min(anchor.b - anchor.a, len(text_norm)))
+    projected_end = max(
+        projected_start,
+        min(projected_start + quote_len, len(text_norm)),
+    )
+    if projected_start >= projected_end:
+        return []
+
+    budget = max(2, quote_len // 10)
+    min_start = max(0, projected_start - budget)
+    max_start = min(projected_end - 1, projected_start + budget)
+    min_end = max(projected_start + 1, projected_end - budget)
+    max_end = min(len(text_norm), projected_end + budget)
+    scores: dict[tuple[int, int], float] = {}
+
+    def score(start: int, end: int) -> float:
+        key = (start, end)
+        if key not in scores:
+            scores[key] = SequenceMatcher(
+                None,
+                quote_norm,
+                text_norm[start:end],
+            ).ratio()
+        return scores[key]
+
+    current_start = projected_start
+    current_end = projected_end
+    score(current_start, current_end)
+
+    # Coordinate refinement keeps ratio() calls linear in the quote length while
+    # allowing both boundaries to move within the fixed local neighborhood.
+    for _ in range(2):
+        start_scores = [
+            (score(start, current_end), start)
+            for start in range(min_start, min(max_start, current_end - 1) + 1)
+        ]
+        best_start_ratio = max(item[0] for item in start_scores)
+        current_start = min(
+            start
+            for ratio, start in start_scores
+            if ratio == best_start_ratio
+        )
+
+        end_scores = [
+            (score(current_start, end), end)
+            for end in range(max(min_end, current_start + 1), max_end + 1)
+        ]
+        best_end_ratio = max(item[0] for item in end_scores)
+        current_end = min(
+            end
+            for ratio, end in end_scores
+            if ratio == best_end_ratio
+        )
+
+    best_ratio = max(scores.values())
+    if best_ratio < fuzzy_min_ratio:
+        return []
+    return sorted(
+        (
+            (start, end, ratio)
+            for (start, end), ratio in scores.items()
+            if ratio == best_ratio
+        ),
+        key=lambda item: (item[0], item[1]),
+    )
+
+
 def _fuzzy_candidates(
     quote: str,
     unit: SourceUnit,
@@ -210,22 +303,20 @@ def _fuzzy_candidates(
     if not unit_norm:
         return []
 
-    q_len = len(quote_norm)
-    min_w = max(1, int(q_len * 0.8))
-    max_w = max(min_w, int(q_len * 1.2))
-    best_ratio = -1.0
     best: list[_Candidate] = []
-
-    for win_len in range(min_w, max_w + 1):
-        if win_len > len(unit_norm):
-            continue
-        for idx in range(0, len(unit_norm) - win_len + 1):
-            window = unit_norm[idx : idx + win_len]
-            ratio = SequenceMatcher(None, quote_norm, window).ratio()
-            if ratio < fuzzy_min_ratio:
-                continue
-            raw_start, raw_end = _raw_span_from_norm(unit, norm_map, idx, idx + win_len)
-            cand = _Candidate(
+    for norm_start, norm_end, ratio in _best_fuzzy_windows(
+        quote_norm,
+        unit_norm,
+        fuzzy_min_ratio,
+    ):
+        raw_start, raw_end = _raw_span_from_norm(
+            unit,
+            norm_map,
+            norm_start,
+            norm_end,
+        )
+        best.append(
+            _Candidate(
                 units=(unit,),
                 start=raw_start,
                 end=raw_end,
@@ -233,11 +324,7 @@ def _fuzzy_candidates(
                 ratio=ratio,
                 cited=cited,
             )
-            if cand.ratio > best_ratio:
-                best_ratio = cand.ratio
-                best = [cand]
-            elif cand.ratio == best_ratio:
-                best.append(cand)
+        )
 
     return best
 
@@ -284,33 +371,26 @@ def _cross_unit_fuzzy_candidates(
             for offset in range(len(unit.text))
         ]
         combined_norm, norm_map = _normalize_with_index_map(combined)
-        q_len = len(quote_norm)
-        min_w = max(1, int(q_len * 0.8))
-        max_w = max(min_w, int(q_len * 1.2))
-        best_ratio = -1.0
         best: list[_Candidate] = []
 
-        for win_len in range(min_w, min(max_w, len(combined_norm)) + 1):
-            for idx in range(0, len(combined_norm) - win_len + 1):
-                ratio = SequenceMatcher(
-                    None,
-                    quote_norm,
-                    combined_norm[idx : idx + win_len],
-                ).ratio()
-                if ratio < fuzzy_min_ratio:
-                    continue
-                local_start = norm_map[idx][0]
-                local_end = norm_map[idx + win_len - 1][1]
-                raw_start = raw_offsets[local_start]
-                raw_end = raw_offsets[local_end - 1] + 1
-                actual = tuple(
-                    unit
-                    for unit in run
-                    if unit.start < raw_end and unit.end > raw_start
-                )
-                if len(actual) < 2:
-                    continue
-                candidate = _Candidate(
+        for norm_start, norm_end, ratio in _best_fuzzy_windows(
+            quote_norm,
+            combined_norm,
+            fuzzy_min_ratio,
+        ):
+            local_start = norm_map[norm_start][0]
+            local_end = norm_map[norm_end - 1][1]
+            raw_start = raw_offsets[local_start]
+            raw_end = raw_offsets[local_end - 1] + 1
+            actual = tuple(
+                unit
+                for unit in run
+                if unit.start < raw_end and unit.end > raw_start
+            )
+            if len(actual) < 2:
+                continue
+            best.append(
+                _Candidate(
                     units=actual,
                     start=raw_start,
                     end=raw_end,
@@ -318,11 +398,7 @@ def _cross_unit_fuzzy_candidates(
                     ratio=ratio,
                     cited=True,
                 )
-                if candidate.ratio > best_ratio:
-                    best_ratio = candidate.ratio
-                    best = [candidate]
-                elif candidate.ratio == best_ratio:
-                    best.append(candidate)
+            )
         candidates.extend(best)
     return candidates
 
