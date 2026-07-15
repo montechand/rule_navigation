@@ -1,7 +1,20 @@
 .venv/
 __pycache__/
-outputs/
-indexing/_cache/
-kb/*/vectors/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .DS_Store
+
+# Pipeline outputs and caches (regenerated locally)
+outputs/
 outputs1/
+indexing/_cache/
+indexing_v2/_cache/
+kb/*/_work/
+kb/*/vectors/
+
+# Local env / secrets
+.env
+.env.*
+!.env.example

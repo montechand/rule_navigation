@@ -166,7 +166,7 @@ async def chat(
     system: str,
     messages: list[dict[str, Any]],
     tools: Optional[list[ToolSpec]] = None,
-    max_tokens: int = 8192,
+    max_tokens: int = 128_000,
     usage: Optional[Usage] = None,
     thinking_effort: Optional[str] = None,
 ) -> AssistantTurn:
@@ -360,7 +360,7 @@ async def complete_json(
     model: str,
     system: str,
     user: str,
-    max_tokens: int = 16000,
+    max_tokens: int = 128_000,
     usage: Optional[Usage] = None,
 ) -> Any:
     turn = await chat(model, system, [{"role": "user", "content": user}], tools=None,
@@ -397,11 +397,38 @@ async def run_tool_loop(
     agent_name: str = "agent",
     max_tokens: int = 8192,
     thinking_effort: Optional[str] = None,
+    api: str = "chat_completions",
 ) -> LoopResult:
     """Run an agent loop: model <-> tools with full chat history, until a terminal
     tool succeeds or max_turns is hit. Tool handler exceptions (ToolError) are fed
     back to the model as error results so it can self-correct.
+
+    api selects the OpenAI transport:
+      - "chat_completions" (default): the neutral chat() path used by all providers.
+      - "responses": the OpenAI Responses API, which supports function tools together
+        with reasoning (reasoning={"effort": ...}). Chat Completions rejects the
+        tools + non-none reasoning combination for some reasoning models (e.g.
+        gpt-5.6-luna), so reasoning-plus-tools OpenAI runs must use "responses".
+        Only valid for OpenAI models.
     """
+    if api == "responses":
+        if is_anthropic_model(model):
+            raise ValueError("api='responses' is only supported for OpenAI models")
+        return await _run_tool_loop_responses(
+            model=model,
+            system=system,
+            user_message=user_message,
+            tools=tools,
+            max_turns=max_turns,
+            usage=usage,
+            trace=trace,
+            agent_name=agent_name,
+            max_tokens=max_tokens,
+            thinking_effort=thinking_effort,
+        )
+    if api != "chat_completions":
+        raise ValueError(f"unknown api {api!r}; expected 'chat_completions' or 'responses'")
+
     by_name = {t.name: t for t in tools}
     messages: list[dict[str, Any]] = [{"role": "user", "content": user_message}]
     tool_call_count = 0
@@ -478,4 +505,155 @@ async def run_tool_loop(
             messages.append({"role": "tool", "tool_call_id": tc.id, "name": tc.name, "content": content})
 
     return LoopResult(final=None, messages=messages, turns=max_turns,
+                      tool_call_count=tool_call_count, error=f"max_turns ({max_turns}) exceeded")
+
+
+# ---------------------------------------------------------------------------
+# OpenAI Responses API tool loop
+# ---------------------------------------------------------------------------
+# Chat Completions rejects function tools combined with non-none reasoning effort
+# for some OpenAI reasoning models. The Responses API supports that combination and
+# configures reasoning via reasoning={"effort": ...}. This loop mirrors run_tool_loop's
+# behavior (terminal tool ends the loop, tool errors are fed back for self-repair) but
+# maintains Responses `input` history instead of the neutral chat format. Reasoning and
+# function-call items from each response are appended back verbatim so the model keeps
+# its reasoning state across tool calls.
+
+
+def _to_responses_tool(spec: ToolSpec) -> dict[str, Any]:
+    # Responses uses a flat function-tool definition (not nested under "function").
+    # strict=False because these schemas allow optional properties and do not set
+    # additionalProperties: false, which strict mode requires.
+    return {
+        "type": "function",
+        "name": spec.name,
+        "description": spec.description,
+        "parameters": spec.parameters,
+        "strict": False,
+    }
+
+
+async def _run_tool_loop_responses(
+    *,
+    model: str,
+    system: str,
+    user_message: str,
+    tools: list[ToolSpec],
+    max_turns: int,
+    usage: Optional[Usage],
+    trace: Optional[Trace],
+    agent_name: str,
+    max_tokens: int,
+    thinking_effort: Optional[str],
+) -> LoopResult:
+    by_name = {t.name: t for t in tools}
+    api_tools = [_to_responses_tool(t) for t in tools]
+
+    # This list is the full Responses input history; SDK output items are appended
+    # back verbatim (reasoning + function_call) so reasoning state is preserved.
+    input_items: list[Any] = [{"role": "user", "content": user_message}]
+    tool_call_count = 0
+    nudged = False
+
+    for turn_i in range(max_turns):
+        request: dict[str, Any] = {
+            "model": model,
+            "instructions": system,
+            "input": input_items,
+            "tools": api_tools,
+            "max_output_tokens": max_tokens,
+            # Deterministic terminal-tool handling: one tool call per turn.
+            "parallel_tool_calls": False,
+        }
+        if thinking_effort and thinking_effort != "none":
+            request["reasoning"] = {"effort": thinking_effort}
+
+        resp = await _call_with_retry(lambda: _openai().responses.create(**request))
+
+        if usage is not None and resp.usage is not None:
+            usage.add(model, resp.usage.input_tokens or 0, resp.usage.output_tokens or 0)
+
+        # Preserve reasoning and function-call items for the next request.
+        input_items.extend(resp.output)
+
+        calls = [item for item in resp.output if item.type == "function_call"]
+        text = resp.output_text or ""
+
+        if trace:
+            trace.log(
+                "llm_call", agent_name, model=model, turn=turn_i,
+                text=_truncate(text, 400),
+                tool_calls=[{"name": c.name, "args": _truncate(c.arguments or "", 800)} for c in calls],
+                stop_reason=resp.status or "",
+            )
+
+        if not calls:
+            # Model stopped without calling a tool: nudge once, then give up.
+            if nudged:
+                return LoopResult(final=None, messages=input_items, turns=turn_i + 1,
+                                  tool_call_count=tool_call_count,
+                                  error="model ended without calling the terminal tool"
+                                        + (f": {text[:500]}" if text else ""))
+            nudged = True
+            terminal_names = [t.name for t in tools if t.terminal]
+            input_items.append({
+                "role": "user",
+                "content": f"You must finish by calling {terminal_names or ['the terminal tool']}. "
+                           "Call it now with your best answer.",
+            })
+            continue
+
+        for call in calls:
+            tool_call_count += 1
+            spec = by_name.get(call.name)
+            if spec is None:
+                input_items.append({
+                    "type": "function_call_output", "call_id": call.call_id,
+                    "output": json.dumps({"error": f"unknown tool: {call.name}"}),
+                })
+                continue
+            try:
+                args = json.loads(call.arguments or "{}")
+            except json.JSONDecodeError as e:
+                input_items.append({
+                    "type": "function_call_output", "call_id": call.call_id,
+                    "output": json.dumps({"error": f"invalid JSON arguments: {e}"}),
+                })
+                continue
+
+            try:
+                result = await spec.handler(args)
+            except ToolError as e:
+                if trace:
+                    trace.log("tool_error", agent_name, tool=call.name, error=str(e))
+                input_items.append({
+                    "type": "function_call_output", "call_id": call.call_id,
+                    "output": json.dumps({"error": f"ERROR: {e}"}),
+                })
+                continue
+            except Exception as e:  # noqa: BLE001 — surfaced to the model, loop continues; run fails via max_turns if persistent
+                if trace:
+                    trace.log("tool_crash", agent_name, tool=call.name, error=repr(e))
+                input_items.append({
+                    "type": "function_call_output", "call_id": call.call_id,
+                    "output": json.dumps({"error": f"ERROR: tool crashed: {e!r}"}),
+                })
+                continue
+
+            if spec.terminal:
+                if trace:
+                    trace.log("finalize", agent_name, tool=call.name)
+                return LoopResult(final=result, messages=input_items, turns=turn_i + 1,
+                                  tool_call_count=tool_call_count)
+
+            content = result if isinstance(result, str) else json.dumps(result, default=str)
+            if trace:
+                trace.log("tool_call", agent_name, tool=call.name,
+                          args=_truncate(json.dumps(args, default=str), 800),
+                          result_chars=len(content), result_preview=_truncate(content, 300))
+            input_items.append({
+                "type": "function_call_output", "call_id": call.call_id, "output": content,
+            })
+
+    return LoopResult(final=None, messages=input_items, turns=max_turns,
                       tool_call_count=tool_call_count, error=f"max_turns ({max_turns}) exceeded")

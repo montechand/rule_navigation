@@ -110,7 +110,7 @@ def _cache_path(brand: str, kind: str, content: str) -> Path:
 
 
 async def cached_json_call(brand: str, kind: str, system: str, user: str,
-                           usage: Usage, max_tokens: int = 32000) -> Any:
+                           usage: Usage, max_tokens: int = 128_000) -> Any:
     cp = _cache_path(brand, kind, system + "\n" + user)
     if cp.exists():
         return json.loads(cp.read_text())

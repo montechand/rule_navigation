@@ -1,0 +1,95 @@
+{
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": {
+        "value": "sentence_case"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "sentence case"
+        ],
+        "unit_ids": [
+          "u_brand_foundation_0_0022"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "sentence case"
+        ],
+        "unit_ids": [
+          "u_brand_foundation_0_0022"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_sentence_case_headlines",
+      "polarity": "must",
+      "rule_class": "typography",
+      "selector": {
+        "element_path": "headline"
+      }
+    },
+    {
+      "constraint_type": "verbatim_content",
+      "evidence": {
+        "quotes": [
+          "Ask your doctor about treatment options appropriate for you."
+        ],
+        "unit_ids": [
+          "u_brand_foundation_0_0042"
+        ]
+      },
+      "governance": {
+        "preferred_form": "Ask your doctor about treatment options appropriate for you.",
+        "preferred_form_evidence": {
+          "quotes": [
+            "Ask your doctor about treatment options appropriate for you."
+          ],
+          "unit_ids": [
+            "u_brand_foundation_0_0042"
+          ]
+        }
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_disclosure_verbatim",
+      "polarity": "must",
+      "rule_class": "governance",
+      "selector": {
+        "element_path": "disclosure"
+      }
+    },
+    {
+      "constraint_type": "ordering",
+      "effect": {
+        "sequence": [
+          "home",
+          "about",
+          "contact"
+        ]
+      },
+      "effect_evidence": {
+        "quotes": [
+          "brand navigation order"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0018"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "brand navigation order"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0018"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_minibible_footer_nav_order",
+      "polarity": "must",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "footer.links"
+      }
+    }
+  ]
+}

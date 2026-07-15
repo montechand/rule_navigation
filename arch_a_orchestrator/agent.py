@@ -11,13 +11,13 @@ import time
 from typing import Optional
 
 from shared import config
-from shared.llm import Trace, Usage, run_tool_loop
+from shared.llm import Trace, Usage, is_anthropic_model, run_tool_loop
 from shared.prompts import TASK_BRIEF, render_blueprint_context, schema_primer
 from shared.schemas import Blueprint, BlueprintSection, RuleVerdict, SectionResult
 from shared.tool_repo import ToolRepo
 
 ARCH_ID = "a"
-MAX_TURNS = 24
+MAX_TURNS = 60
 
 SYSTEM_TEMPLATE = """You are a brand-rule navigation agent for pharma email generation.
 You have a full toolbox over a structured brand-rules knowledge base: structured facet
@@ -69,6 +69,12 @@ async def run_section(
     system = SYSTEM_TEMPLATE.format(task_brief=TASK_BRIEF, schema_primer=schema_primer(repo.kb))
     user = render_blueprint_context(blueprint, section, include_design_concept)
 
+    # OpenAI reasoning models reject function tools + reasoning on Chat Completions, so
+    # route them through the Responses API. This is inherently a reasoning-plus-tools
+    # workflow whose coverage-repair cycle benefits from preserving reasoning between
+    # calls. Anthropic models stay on the default chat path.
+    api = "chat_completions" if is_anthropic_model(model) else "responses"
+
     loop = await run_tool_loop(
         model=model,
         system=system,
@@ -80,6 +86,7 @@ async def run_section(
         agent_name="orchestrator_a",
         max_tokens=max_tokens,
         thinking_effort=thinking_effort,
+        api=api,
     )
 
     stats = {"turns": loop.turns, "tool_calls": loop.tool_call_count,

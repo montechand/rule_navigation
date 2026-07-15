@@ -1,0 +1,206 @@
+{
+  "rules": [
+    {
+      "constraint_type": "cardinality",
+      "effect": {
+        "max": 1,
+        "per": "email",
+        "target": "cta.button.primary"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "at most one primary CTA"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0004"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "at most one primary CTA"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0004"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_cta_max_one",
+      "polarity": "must",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "cta.button.primary"
+      }
+    },
+    {
+      "constraint_type": "cardinality",
+      "effect": {
+        "min": 2,
+        "per": "email",
+        "target": "cta"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "at least two CTA touchpoints"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0006"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "at least two CTA touchpoints"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0006"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_cta_min_two_touchpoints",
+      "polarity": "must",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "cta"
+      }
+    },
+    {
+      "applies_when": {
+        "background_group": {
+          "op": "eq",
+          "values": [
+            "light"
+          ]
+        }
+      },
+      "constraint_type": "binding",
+      "effect": {
+        "value": "#01A47E"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "#01A47E"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0008"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "#01A47E"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0008"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_cta_fill_green",
+      "polarity": "must",
+      "rule_class": "color_application",
+      "selector": {
+        "element_path": "cta.button.fill"
+      }
+    },
+    {
+      "applies_when": {
+        "background_group": {
+          "op": "eq",
+          "values": [
+            "light"
+          ]
+        }
+      },
+      "constraint_type": "binding",
+      "effect": {
+        "value": "#FF5733"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "#FF5733"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0010"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "#FF5733"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0010"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_cta_fill_orange",
+      "polarity": "must",
+      "rule_class": "color_application",
+      "selector": {
+        "element_path": "cta.button.fill"
+      }
+    },
+    {
+      "applies_when": {
+        "campaign": {
+          "op": "eq",
+          "values": [
+            "retired_campaign"
+          ]
+        }
+      },
+      "constraint_type": "binding",
+      "effect": {
+        "value": "legacy_hero_gradient"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "legacy hero gradient layout"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0012"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "retired_campaign"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0012"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_minibible_retired_campaign_layout",
+      "polarity": "must",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "hero"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": {
+        "value": "title_case"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "title case"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0030"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "title case"
+        ],
+        "unit_ids": [
+          "u_layout_constraints_0_0030"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_minibible_secondary_cta_title_case",
+      "polarity": "must",
+      "rule_class": "typography",
+      "selector": {
+        "element_path": "cta.button.secondary.label"
+      }
+    }
+  ]
+}

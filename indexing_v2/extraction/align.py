@@ -1,0 +1,677 @@
+"""§5.4.2 quote→span alignment and §5.4.3 value verification.
+
+Usage: call ``align_quote`` for spans or ``verify_value_path`` for path-level verification.
+"""
+
+from __future__ import annotations
+
+import unicodedata
+from dataclasses import dataclass
+from difflib import SequenceMatcher
+from typing import Any, Mapping, Optional
+
+from indexing_v2.contracts import (
+    EvidenceSpan,
+    MatchQuality,
+    SourceUnit,
+    ValueCheck,
+    Verification,
+)
+
+from .normalize import normalize_value, value_patterns
+
+STAGE_VERSION = "1.0.0"
+
+_CURLY_MAP = str.maketrans(
+    {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+    }
+)
+
+_VERBATIM_FIELD_PATHS = frozenset({"governance.preferred_form", "body"})
+_MATCH_RANK: dict[MatchQuality, int] = {
+    "exact": 4,
+    "normalized": 3,
+    "fuzzy": 2,
+    "failed": 1,
+}
+
+
+@dataclass(frozen=True, slots=True)
+class AlignmentResult:
+    """Alignment span plus optional disambiguation detail for verifiers."""
+
+    span: EvidenceSpan
+    detail: Optional[str] = None
+
+
+def _nfc_with_index_map(text: str) -> tuple[str, list[tuple[int, int]]]:
+    """Build NFC text and one original-raw range per normalized character."""
+    # ponytail: prefix normalization is O(n²); source units are short, so avoid a Unicode
+    # normalization-boundary implementation until profiling shows this is material.
+    previous = ""
+    idx_map: list[tuple[int, int]] = []
+    for raw_end in range(1, len(text) + 1):
+        current = unicodedata.normalize("NFC", text[:raw_end])
+        common = 0
+        limit = min(len(previous), len(current))
+        while common < limit and previous[common] == current[common]:
+            common += 1
+        changed_start = raw_end - 1
+        if common < len(idx_map):
+            changed_start = min(start for start, _ in idx_map[common:])
+        idx_map[common:] = [(changed_start, raw_end)] * (len(current) - common)
+        previous = current
+    return previous, idx_map
+
+
+def _normalize_with_index_map(text: str) -> tuple[str, list[tuple[int, int]]]:
+    """NFC + curly-quote fix + whitespace collapse + casefold with norm→raw map."""
+    nfc, nfc_map = _nfc_with_index_map(text)
+    out: list[str] = []
+    idx_map: list[tuple[int, int]] = []
+    prev_space = False
+    for ch, raw_range in zip(nfc, nfc_map):
+        converted = ch.translate(_CURLY_MAP).casefold()
+        for normalized_ch in converted:
+            if normalized_ch.isspace():
+                if prev_space:
+                    start, _ = idx_map[-1]
+                    idx_map[-1] = (start, raw_range[1])
+                    continue
+                out.append(" ")
+                idx_map.append(raw_range)
+                prev_space = True
+                continue
+            prev_space = False
+            out.append(normalized_ch)
+            idx_map.append(raw_range)
+    return "".join(out), idx_map
+
+
+def _raw_span_from_norm(
+    unit: SourceUnit,
+    norm_map: list[tuple[int, int]],
+    norm_start: int,
+    norm_end: int,
+) -> tuple[int, int]:
+    raw_start = unit.start + norm_map[norm_start][0]
+    raw_end = unit.start + norm_map[norm_end - 1][1]
+    return raw_start, raw_end
+
+
+def _hull_span(
+    quote: str,
+    units_by_id: Mapping[str, SourceUnit],
+    unit_ids: list[str],
+) -> EvidenceSpan:
+    cited = [units_by_id[uid] for uid in unit_ids if uid in units_by_id]
+    if not cited:
+        return EvidenceSpan(
+            doc_ref="",
+            unit_ids=[],
+            start=0,
+            end=0,
+            quote=quote,
+            match="failed",
+        )
+    doc_ref = cited[0].doc_ref
+    same_doc = sorted(
+        {u.unit_id: u for u in cited if u.doc_ref == doc_ref}.values(),
+        key=lambda u: (u.ordinal, u.start, u.unit_id),
+    )
+    start = min(u.start for u in same_doc)
+    end = max(u.end for u in same_doc)
+    return EvidenceSpan(
+        doc_ref=doc_ref,
+        unit_ids=[u.unit_id for u in same_doc],
+        start=start,
+        end=end,
+        quote=quote,
+        match="failed",
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class _Candidate:
+    units: tuple[SourceUnit, ...]
+    start: int
+    end: int
+    quality: MatchQuality
+    ratio: float
+    cited: bool
+
+
+def _exact_candidates(quote: str, unit: SourceUnit, cited: bool) -> list[_Candidate]:
+    hits: list[_Candidate] = []
+    start = 0
+    while True:
+        idx = unit.text.find(quote, start)
+        if idx < 0:
+            break
+        hits.append(
+            _Candidate(
+                units=(unit,),
+                start=unit.start + idx,
+                end=unit.start + idx + len(quote),
+                quality="exact",
+                ratio=1.0,
+                cited=cited,
+            )
+        )
+        start = idx + 1
+    return hits
+
+
+def _normalized_candidates(
+    quote: str,
+    unit: SourceUnit,
+    cited: bool,
+) -> list[_Candidate]:
+    quote_norm, _ = _normalize_with_index_map(quote)
+    if not quote_norm:
+        return []
+    unit_norm, norm_map = _normalize_with_index_map(unit.text)
+    hits: list[_Candidate] = []
+    start = 0
+    while True:
+        idx = unit_norm.find(quote_norm, start)
+        if idx < 0:
+            break
+        raw_start, raw_end = _raw_span_from_norm(unit, norm_map, idx, idx + len(quote_norm))
+        hits.append(
+            _Candidate(
+                units=(unit,),
+                start=raw_start,
+                end=raw_end,
+                quality="normalized",
+                ratio=1.0,
+                cited=cited,
+            )
+        )
+        start = idx + 1
+    return hits
+
+
+def _fuzzy_candidates(
+    quote: str,
+    unit: SourceUnit,
+    cited: bool,
+    *,
+    fuzzy_min_ratio: float,
+) -> list[_Candidate]:
+    quote_norm, _ = _normalize_with_index_map(quote)
+    if not quote_norm:
+        return []
+    unit_norm, norm_map = _normalize_with_index_map(unit.text)
+    if not unit_norm:
+        return []
+
+    q_len = len(quote_norm)
+    min_w = max(1, int(q_len * 0.8))
+    max_w = max(min_w, int(q_len * 1.2))
+    best_ratio = -1.0
+    best: list[_Candidate] = []
+
+    for win_len in range(min_w, max_w + 1):
+        if win_len > len(unit_norm):
+            continue
+        for idx in range(0, len(unit_norm) - win_len + 1):
+            window = unit_norm[idx : idx + win_len]
+            ratio = SequenceMatcher(None, quote_norm, window).ratio()
+            if ratio < fuzzy_min_ratio:
+                continue
+            raw_start, raw_end = _raw_span_from_norm(unit, norm_map, idx, idx + win_len)
+            cand = _Candidate(
+                units=(unit,),
+                start=raw_start,
+                end=raw_end,
+                quality="fuzzy",
+                ratio=ratio,
+                cited=cited,
+            )
+            if cand.ratio > best_ratio:
+                best_ratio = cand.ratio
+                best = [cand]
+            elif cand.ratio == best_ratio:
+                best.append(cand)
+
+    return best
+
+
+def _consecutive_cited_runs(units: list[SourceUnit]) -> list[tuple[SourceUnit, ...]]:
+    by_doc: dict[str, list[SourceUnit]] = {}
+    for unit in units:
+        by_doc.setdefault(unit.doc_ref, []).append(unit)
+
+    runs: list[tuple[SourceUnit, ...]] = []
+    for doc_ref in sorted(by_doc):
+        ordered = sorted(
+            {u.unit_id: u for u in by_doc[doc_ref]}.values(),
+            key=lambda u: (u.ordinal, u.start, u.unit_id),
+        )
+        current: list[SourceUnit] = []
+        for unit in ordered:
+            if current and unit.ordinal != current[-1].ordinal + 1:
+                if len(current) > 1:
+                    runs.append(tuple(current))
+                current = []
+            current.append(unit)
+        if len(current) > 1:
+            runs.append(tuple(current))
+    return runs
+
+
+def _cross_unit_fuzzy_candidates(
+    quote: str,
+    cited: list[SourceUnit],
+    *,
+    fuzzy_min_ratio: float,
+) -> list[_Candidate]:
+    quote_norm, _ = _normalize_with_index_map(quote)
+    if not quote_norm:
+        return []
+
+    candidates: list[_Candidate] = []
+    for run in _consecutive_cited_runs(cited):
+        combined = "".join(unit.text for unit in run)
+        raw_offsets = [
+            unit.start + offset
+            for unit in run
+            for offset in range(len(unit.text))
+        ]
+        combined_norm, norm_map = _normalize_with_index_map(combined)
+        q_len = len(quote_norm)
+        min_w = max(1, int(q_len * 0.8))
+        max_w = max(min_w, int(q_len * 1.2))
+        best_ratio = -1.0
+        best: list[_Candidate] = []
+
+        for win_len in range(min_w, min(max_w, len(combined_norm)) + 1):
+            for idx in range(0, len(combined_norm) - win_len + 1):
+                ratio = SequenceMatcher(
+                    None,
+                    quote_norm,
+                    combined_norm[idx : idx + win_len],
+                ).ratio()
+                if ratio < fuzzy_min_ratio:
+                    continue
+                local_start = norm_map[idx][0]
+                local_end = norm_map[idx + win_len - 1][1]
+                raw_start = raw_offsets[local_start]
+                raw_end = raw_offsets[local_end - 1] + 1
+                actual = tuple(
+                    unit
+                    for unit in run
+                    if unit.start < raw_end and unit.end > raw_start
+                )
+                if len(actual) < 2:
+                    continue
+                candidate = _Candidate(
+                    units=actual,
+                    start=raw_start,
+                    end=raw_end,
+                    quality="fuzzy",
+                    ratio=ratio,
+                    cited=True,
+                )
+                if candidate.ratio > best_ratio:
+                    best_ratio = candidate.ratio
+                    best = [candidate]
+                elif candidate.ratio == best_ratio:
+                    best.append(candidate)
+        candidates.extend(best)
+    return candidates
+
+
+def _collect_candidates(
+    quote: str,
+    units: list[SourceUnit],
+    cited_ids: set[str],
+    *,
+    fuzzy_min_ratio: float,
+    cap_quality: Optional[MatchQuality] = None,
+) -> list[_Candidate]:
+    out: list[_Candidate] = []
+    for unit in units:
+        cited = unit.unit_id in cited_ids
+        for cand in (
+            *_exact_candidates(quote, unit, cited),
+            *_normalized_candidates(quote, unit, cited),
+            *_fuzzy_candidates(quote, unit, cited, fuzzy_min_ratio=fuzzy_min_ratio),
+        ):
+            quality = cand.quality
+            if cap_quality is not None and _MATCH_RANK[quality] > _MATCH_RANK[cap_quality]:
+                quality = cap_quality
+            out.append(
+                _Candidate(
+                    units=cand.units,
+                    start=cand.start,
+                    end=cand.end,
+                    quality=quality,
+                    ratio=cand.ratio,
+                    cited=cand.cited,
+                )
+            )
+    return out
+
+
+def _neighbor_units(
+    units_by_id: Mapping[str, SourceUnit],
+    cited_unit_ids: list[str],
+) -> list[SourceUnit]:
+    by_doc: dict[str, dict[int, SourceUnit]] = {}
+    for unit in units_by_id.values():
+        by_doc.setdefault(unit.doc_ref, {})[unit.ordinal] = unit
+
+    neighbors: dict[str, SourceUnit] = {}
+    for uid in cited_unit_ids:
+        cited_unit = units_by_id.get(uid)
+        if cited_unit is None:
+            continue
+        ordinal_map = by_doc.get(cited_unit.doc_ref, {})
+        for ordinal in (cited_unit.ordinal - 1, cited_unit.ordinal + 1):
+            neighbor = ordinal_map.get(ordinal)
+            if neighbor is not None:
+                neighbors[neighbor.unit_id] = neighbor
+    return list(neighbors.values())
+
+
+def _pick_best(candidates: list[_Candidate]) -> tuple[Optional[_Candidate], Optional[str]]:
+    if not candidates:
+        return None, None
+
+    unique: dict[tuple[object, ...], _Candidate] = {}
+    for candidate in candidates:
+        key = (
+            tuple(unit.unit_id for unit in candidate.units),
+            candidate.start,
+            candidate.end,
+            candidate.quality,
+            candidate.ratio,
+            candidate.cited,
+        )
+        unique.setdefault(key, candidate)
+    candidates = list(unique.values())
+
+    def quality_key(c: _Candidate) -> tuple[int, float, int]:
+        return (
+            _MATCH_RANK[c.quality],
+            c.ratio,
+            1 if c.cited else 0,
+        )
+
+    best_quality = max(quality_key(candidate) for candidate in candidates)
+    top = [candidate for candidate in candidates if quality_key(candidate) == best_quality]
+    best = min(
+        top,
+        key=lambda candidate: (
+            candidate.start,
+            candidate.end,
+            tuple(unit.unit_id for unit in candidate.units),
+        ),
+    )
+    detail = f"ambiguous(n={len(top)})" if len(top) > 1 else None
+    return best, detail
+
+
+def align_quote_with_detail(
+    quote: str,
+    units_by_id: Mapping[str, SourceUnit],
+    cited_unit_ids: list[str],
+    *,
+    fuzzy_min_ratio: float = 0.92,
+) -> AlignmentResult:
+    """Align ``quote`` to source units; returns span and optional ambiguity detail."""
+    cited = [units_by_id[uid] for uid in cited_unit_ids if uid in units_by_id]
+    if not cited:
+        return AlignmentResult(span=_hull_span(quote, units_by_id, cited_unit_ids))
+
+    cited_ids = set(cited_unit_ids)
+
+    direct = _collect_candidates(
+        quote,
+        cited,
+        cited_ids,
+        fuzzy_min_ratio=fuzzy_min_ratio,
+    )
+    direct.extend(
+        _cross_unit_fuzzy_candidates(
+            quote,
+            cited,
+            fuzzy_min_ratio=fuzzy_min_ratio,
+        )
+    )
+    best, detail = _pick_best(direct)
+    if best is not None:
+        return AlignmentResult(
+            span=EvidenceSpan(
+                doc_ref=best.units[0].doc_ref,
+                unit_ids=[unit.unit_id for unit in best.units],
+                start=best.start,
+                end=best.end,
+                quote=quote,
+                match=best.quality,
+            ),
+            detail=detail,
+        )
+
+    neighbors = _neighbor_units(units_by_id, cited_unit_ids)
+    widened = _collect_candidates(
+        quote,
+        neighbors,
+        cited_ids,
+        fuzzy_min_ratio=fuzzy_min_ratio,
+        cap_quality="fuzzy",
+    )
+    best, detail = _pick_best(widened)
+    if best is not None:
+        return AlignmentResult(
+            span=EvidenceSpan(
+                doc_ref=best.units[0].doc_ref,
+                unit_ids=[unit.unit_id for unit in best.units],
+                start=best.start,
+                end=best.end,
+                quote=quote,
+                match=best.quality,
+            ),
+            detail=detail,
+        )
+
+    return AlignmentResult(
+        span=_hull_span(quote, units_by_id, cited_unit_ids),
+        detail=detail,
+    )
+
+
+def align_quote(
+    quote: str,
+    units_by_id: Mapping[str, SourceUnit],
+    cited_unit_ids: list[str],
+    *,
+    fuzzy_min_ratio: float = 0.92,
+) -> EvidenceSpan:
+    """Pure quote→span alignment ladder (§5.4.2)."""
+    return align_quote_with_detail(
+        quote,
+        units_by_id,
+        cited_unit_ids,
+        fuzzy_min_ratio=fuzzy_min_ratio,
+    ).span
+
+
+def _slice_blob(span: EvidenceSpan, units_by_id: Mapping[str, SourceUnit]) -> str:
+    if not span.unit_ids:
+        return ""
+    units = sorted(
+        (
+            units_by_id[unit_id]
+            for unit_id in span.unit_ids
+            if unit_id in units_by_id
+            and units_by_id[unit_id].doc_ref == span.doc_ref
+            and units_by_id[unit_id].start < span.end
+            and units_by_id[unit_id].end > span.start
+        ),
+        key=lambda unit: (unit.ordinal, unit.start, unit.unit_id),
+    )
+    return "".join(
+        unit.text[
+            max(span.start, unit.start) - unit.start
+            : min(span.end, unit.end) - unit.start
+        ]
+        for unit in units
+    )
+
+
+def _quote_contains_value(token_type: str, raw_value: Any, quote: str) -> bool:
+    norm = normalize_value(token_type, raw_value)
+    return any(pattern.search(quote) for pattern in value_patterns(token_type, norm.canon))
+
+
+def check_value_in_span(
+    token_type: str,
+    raw_value: Any,
+    span: EvidenceSpan,
+    units_by_id: Mapping[str, SourceUnit],
+) -> ValueCheck:
+    """Return whether the normalized literal appears inside the aligned span."""
+    if raw_value is not None and isinstance(raw_value, dict) and "$ref" in raw_value:
+        return ValueCheck(status="n/a", detail="structural $ref")
+
+    norm = normalize_value(token_type, raw_value)
+    haystack = _slice_blob(span, units_by_id)
+    if not haystack:
+        return ValueCheck(status="fail", detail="empty span slice")
+
+    for pattern in value_patterns(token_type, norm.canon):
+        if pattern.search(haystack):
+            return ValueCheck(status="pass", detail=f"matched {norm.canon!r}")
+    return ValueCheck(status="fail", detail=f"normalized {norm.canon!r} not found")
+
+
+def is_concrete_value_field(field_path: str) -> bool:
+    """Whether ``field_path`` carries a concrete value requiring literal verification."""
+    if field_path in _VERBATIM_FIELD_PATHS:
+        return True
+    if field_path.endswith(".value") or field_path == "value.default":
+        return True
+    return field_path in {"value.default", "body", "governance.preferred_form"}
+
+
+def is_verbatim_exact_field(field_path: str) -> bool:
+    return field_path in _VERBATIM_FIELD_PATHS or field_path == "body"
+
+
+@dataclass(frozen=True, slots=True)
+class ValueVerificationResult:
+    """Alignment + value check + verification level for one evidence path."""
+
+    span: EvidenceSpan
+    value_check: ValueCheck
+    verification: Verification
+    detail: Optional[str] = None
+
+
+def verify_value_path(
+    *,
+    field_path: str,
+    token_type: str,
+    raw_value: Any,
+    quote: str,
+    units_by_id: Mapping[str, SourceUnit],
+    cited_unit_ids: list[str],
+    fuzzy_min_ratio: float = 0.92,
+) -> ValueVerificationResult:
+    """Verify one value-bearing evidence path (§5.4.3)."""
+    if raw_value is not None and isinstance(raw_value, dict) and "$ref" in raw_value:
+        alignment = align_quote_with_detail(
+            quote,
+            units_by_id,
+            cited_unit_ids,
+            fuzzy_min_ratio=fuzzy_min_ratio,
+        )
+        return ValueVerificationResult(
+            span=alignment.span,
+            value_check=ValueCheck(status="n/a", detail="structural $ref"),
+            verification="unverified",
+            detail=alignment.detail,
+        )
+
+    verbatim_exact = is_verbatim_exact_field(field_path)
+    if verbatim_exact:
+        alignment = align_quote_with_detail(
+            quote,
+            units_by_id,
+            cited_unit_ids,
+            fuzzy_min_ratio=fuzzy_min_ratio,
+        )
+        expected = normalize_value("preferred_form" if "preferred_form" in field_path else "body", raw_value)
+        actual = normalize_value("preferred_form" if "preferred_form" in field_path else "body", quote)
+        if alignment.span.match != "exact" or expected.canon != actual.canon:
+            return ValueVerificationResult(
+                span=alignment.span,
+                value_check=ValueCheck(
+                    status="fail",
+                    detail="verbatim field requires exact NFC-trimmed match",
+                ),
+                verification="unverified",
+                detail=alignment.detail,
+            )
+        return ValueVerificationResult(
+            span=alignment.span,
+            value_check=ValueCheck(status="pass", detail="verbatim exact match"),
+            verification="value_verified",
+            detail=alignment.detail,
+        )
+
+    if not is_concrete_value_field(field_path):
+        alignment = align_quote_with_detail(
+            quote,
+            units_by_id,
+            cited_unit_ids,
+            fuzzy_min_ratio=fuzzy_min_ratio,
+        )
+        if alignment.span.match == "failed":
+            verification: Verification = "unverified"
+        else:
+            verification = "span_verified"
+        return ValueVerificationResult(
+            span=alignment.span,
+            value_check=ValueCheck(status="n/a"),
+            verification=verification,
+            detail=alignment.detail,
+        )
+
+    alignment = align_quote_with_detail(
+        quote,
+        units_by_id,
+        cited_unit_ids,
+        fuzzy_min_ratio=fuzzy_min_ratio,
+    )
+    if alignment.span.match == "failed":
+        return ValueVerificationResult(
+            span=alignment.span,
+            value_check=ValueCheck(status="fail", detail="alignment failed"),
+            verification="unverified",
+            detail=alignment.detail,
+        )
+    value_check = check_value_in_span(token_type, raw_value, alignment.span, units_by_id)
+    quote_has_value = _quote_contains_value(token_type, raw_value, quote)
+    if value_check.status == "pass" and quote_has_value:
+        verification = "value_verified"
+    else:
+        verification = "unverified"
+        if value_check.status == "pass" and not quote_has_value:
+            value_check = ValueCheck(
+                status="fail",
+                detail="quote missing normalized value literal",
+            )
+    return ValueVerificationResult(
+        span=alignment.span,
+        value_check=value_check,
+        verification=verification,
+        detail=alignment.detail,
+    )

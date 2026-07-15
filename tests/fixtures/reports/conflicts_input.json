@@ -1,0 +1,53 @@
+{
+  "conflicts": [
+    {
+      "a_id": "tok_b",
+      "b_id": "tok_a",
+      "detail": "value conflict at cta.button.fill",
+      "element_path": "cta.button.fill",
+      "kind": "hard_hard",
+      "overlap_guard": {
+        "background_group": {"op": "eq", "values": ["dark"]}
+      }
+    },
+    {
+      "a_id": "tok_d",
+      "b_id": "tok_c",
+      "detail": "equal specificity at cta.button.fill",
+      "element_path": "cta.button.fill",
+      "kind": "equal_specificity",
+      "overlap_guard": {
+        "background_group": {"op": "in", "values": ["dark", "light"]}
+      }
+    }
+  ],
+  "dead_entries": [
+    {
+      "detail": "rule rule_dead selector.section_types is empty",
+      "entry_id": "rule_dead",
+      "reason": "empty_selector_sections",
+      "schema_version": "2.0",
+      "source_kind": "rule"
+    }
+  ],
+  "domains": {
+    "background_group": ["dark", "light"]
+  },
+  "global_unsat": [
+    {
+      "context_key": "audience=dtp_patient;campaign=none;surface=email;tags=none;theme=none",
+      "core": ["rule_max_cta", "rule_min_cta"],
+      "detail": "global_unsat in audience=dtp_patient;campaign=none;surface=email;tags=none;theme=none: core=[\"rule_max_cta\", \"rule_min_cta\"]",
+      "kind": "global_unsat",
+      "schema_version": "2.0"
+    }
+  ],
+  "precedence_proposals": [
+    {
+      "detail": "propose precedence 5 for rule_later over rule_earlier",
+      "precedence": 5,
+      "rule_id": "rule_later",
+      "schema_version": "2.0"
+    }
+  ]
+}

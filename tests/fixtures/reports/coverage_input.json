@@ -1,0 +1,69 @@
+{
+  "report": {
+    "brand": "minibible",
+    "rounds": 1,
+    "value_coverage": 0.5,
+    "normative_coverage": 1.0,
+    "verbatim_coverage": 0.0,
+    "per_blob": {
+      "color[0]": {
+        "normative": 1.0,
+        "n_required": 2.0,
+        "value": 0.5,
+        "verbatim": 0.0
+      }
+    },
+    "rows": [],
+    "schema_version": "2.0",
+    "unclaimed_unit_ids": ["u_missing", "u_pipe"],
+    "over_claimed_unit_ids": [],
+    "orphan_entity_ids": ["tok_orphan"]
+  },
+  "source_units": {
+    "u_pipe": {
+      "brand_id": "minibible",
+      "doc_ref": "color[0]",
+      "end": 20,
+      "kind": "sentence",
+      "ordinal": 1,
+      "schema_version": "2.0",
+      "start": 0,
+      "text": "line one|col\ntwo",
+      "unit_id": "u_pipe"
+    }
+  },
+  "triage": [
+    {
+      "context": "required unit unclaimed in color[0]",
+      "disposition": {"status": "open"},
+      "key": "k1",
+      "queue": "unclaimed_unit",
+      "schema_version": "2.0",
+      "subject_id": "u_missing"
+    },
+    {
+      "context": "semantic token unverified",
+      "disposition": {"reason": "accepted_risk", "status": "waived"},
+      "key": "k2",
+      "queue": "unverified_value",
+      "schema_version": "2.0",
+      "subject_id": "tok_x"
+    },
+    {
+      "context": "normative unit claimed by >1 rule",
+      "disposition": {"owner": "qa", "status": "deferred"},
+      "key": "k3",
+      "queue": "over_claimed",
+      "schema_version": "2.0",
+      "subject_id": "u_oc"
+    },
+    {
+      "context": "hard_hard conflict",
+      "disposition": {"status": "waived"},
+      "key": "k4",
+      "queue": "conflict",
+      "schema_version": "2.0",
+      "subject_id": "rule_a"
+    }
+  ]
+}

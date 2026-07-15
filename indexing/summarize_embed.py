@@ -54,7 +54,7 @@ async def summarize_rule(brand: str, rule: dict[str, Any], usage: Usage,
         turn = await chat(
             config.SUMMARY_MODEL, SUMMARY_SYSTEM,
             [{"role": "user", "content": f"Rule ({rule.get('rule_class')}): {text}"}],
-            max_tokens=100, usage=usage,
+            max_tokens=128_000, usage=usage,
         )
     summary = turn.text.strip().strip('"')
     cp.parent.mkdir(parents=True, exist_ok=True)

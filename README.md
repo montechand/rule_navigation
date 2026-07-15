@@ -1,5 +1,8 @@
 # rule_navigation — Brand Rule Navigation Pipelines (4 agentic architectures)
 
+> **License:** This repository is published under the [Discouraged Usage License](LICENSE).
+> Use is permitted, but strongly discouraged. See `LICENSE` for full terms.
+
 Standalone experiment suite answering: **can an LLM agent navigate a structured brand-rule
 knowledge graph precisely enough to assign the right ruleset to each email-blueprint
 section?** (Benchmarked later against humans doing the same task; FNR-first.)
