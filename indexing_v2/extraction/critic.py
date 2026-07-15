@@ -11,6 +11,8 @@ import asyncio
 import copy
 import json
 import re
+import time
+from collections import Counter
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any, Literal, Protocol, get_args
@@ -783,6 +785,22 @@ def _patch_product_failed(
     return False
 
 
+def _entities_for_verification(
+    candidates: CandidateSet,
+    entity_ids: Sequence[str],
+) -> EntitiesByKind:
+    """Return only patch products that S5 consumes from provenance verification."""
+    index = _entity_index(candidates)
+    scoped: EntitiesByKind = {}
+    for entity_id in entity_ids:
+        indexed = index.get(entity_id)
+        if indexed is None:
+            raise PatchApplicationError(f"entity not found: {entity_id}")
+        kind, entity, _ = indexed
+        scoped.setdefault(kind, []).append(entity)
+    return scoped
+
+
 def _before_hash(candidates: CandidateSet, patch: Patch) -> str:
     if patch.op == "add":
         return stable_hash({"op": "add", "kind": patch.entity_kind, "payload": patch.payload})
@@ -877,7 +895,6 @@ def triage_findings(
         before = _audit_before_hash(current, patch)
         try:
             trial = apply_patch_to_candidates(current, patch)
-            verify = verify_entities(trial.to_entities_by_kind(), units)
             resulting_ids = _resulting_entity_ids(patch)
             attempted_after = _after_hash(trial, patch, resulting_ids)
             if patch.op == "delete":
@@ -888,6 +905,10 @@ def triage_findings(
                     )
                 failed = False
             else:
+                verify = verify_entities(
+                    _entities_for_verification(trial, resulting_ids),
+                    units,
+                )
                 failed = _patch_product_failed(
                     trial,
                     resulting_ids,
@@ -1336,6 +1357,7 @@ async def run_critic(
     champion_run_id: str | None = None,
     max_rounds: int | None = None,
     concurrency: int | None = None,
+    console: Any | None = None,
 ) -> CriticResult:
     """Run ≤ ``MAX_CRITIC_ROUNDS`` adversarial critique with patch triage."""
     rounds = settings.MAX_CRITIC_ROUNDS if max_rounds is None else max_rounds
@@ -1355,7 +1377,13 @@ async def run_critic(
     all_audit: list[PatchAuditRecord] = []
     next_finding_seq = 1
 
+    def _log(message: str) -> None:
+        if console is not None:
+            console.print(f"[cyan][{brand}][/cyan] {message}")
+
     for round_num in range(1, rounds + 1):
+        _log(f"s5 round {round_num}/{rounds}: critique LLM pass")
+        critique_started = time.perf_counter()
         raw_findings = await _critique_round(
             brand=brand,
             units=units,
@@ -1368,16 +1396,26 @@ async def run_critic(
             cache_root=resolved_cache_root,
             semaphore=semaphore,
         )
+        _log(
+            f"s5 round {round_num}: critique returned {len(raw_findings)} findings "
+            f"in {time.perf_counter() - critique_started:.1f}s; starting triage"
+        )
         normalized_findings, next_finding_seq = _normalize_finding_ids(
             brand,
             raw_findings,
             start_seq=next_finding_seq,
         )
+        triage_started = time.perf_counter()
         current, round_findings, round_audit = triage_findings(
             normalized_findings,
             current,
             units,
             round_num=round_num,
+        )
+        resolutions = Counter(item.resolution or "unset" for item in round_findings)
+        _log(
+            f"s5 round {round_num}: triage done in {time.perf_counter() - triage_started:.1f}s "
+            f"resolutions={dict(resolutions)}"
         )
         all_findings.extend(round_findings)
         all_audit.extend(round_audit)

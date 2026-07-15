@@ -15,6 +15,7 @@ import hashlib
 import json
 import shutil
 import sys
+import time
 from collections import Counter
 from collections.abc import Awaitable, Callable, Mapping, Sequence
 from dataclasses import dataclass, field
@@ -719,6 +720,48 @@ def _should_skip_stage(ctx: BuildContext, stage_id: str) -> bool:
     return bool(prior.get("outputs_hash") == current_hash)
 
 
+def _stage_log(ctx: BuildContext, message: str) -> None:
+    """Emit stderr progress for humans watching long KB builds."""
+    ctx.console.print(f"[cyan][{ctx.brand}][/cyan] {message}")
+
+
+_STAGE_TITLES: dict[str, str] = {
+    "s0": "segment bible → units/blobs",
+    "s1": "classify units",
+    "s2": "ensemble extraction runs",
+    "s3": "provenance verify runs",
+    "s4": "reconcile ensemble",
+    "s5": "adversarial critic + patch triage",
+    "s6": "coverage ledger + gap loop",
+    "s7": "Pass C materialization",
+    "s8": "write KB artifacts",
+    "s9": "pairwise + SMT consistency",
+    "s10": "compile cascade sheets",
+    "s11": "summarize + embed rules",
+}
+
+
+def _entity_counts(bundle: CandidatesBundle | Mapping[str, Any]) -> dict[str, int]:
+    if isinstance(bundle, CandidatesBundle):
+        return {
+            "token_primitive": len(bundle.tokens_primitive),
+            "token_semantic": len(bundle.tokens_semantic),
+            "asset": len(bundle.assets),
+            "subtype": len(bundle.subtypes),
+            "template": len(bundle.templates),
+            "rule": sum(len(rules) for rules in bundle.rules_by_group.values()),
+            "rule_groups": len(bundle.rules_by_group),
+        }
+    return {
+        key: len(value) if isinstance(value, list) else 0
+        for key, value in bundle.items()
+    }
+
+
+def _format_counts(counts: Mapping[str, int]) -> str:
+    return ", ".join(f"{key}={value}" for key, value in counts.items())
+
+
 def _ensemble_variants(options: BuildOptions) -> list[RunVariant]:
     if options.no_ensemble:
         return [settings.ENSEMBLE_RUNS[0]]
@@ -809,13 +852,18 @@ def _confidence(entity: Mapping[str, Any]) -> str | None:
 
 async def _run_s0(ctx: BuildContext) -> None:
     bible = load_bible(ctx.brand)
+    blob_count = sum(len(chunks) for chunks in bible.values())
+    _stage_log(ctx, f"s0 workload: {len(bible)} docs, {blob_count} bible chunks")
     units = run_segmenter(ctx.brand, bible, ctx.work_dir)
+    docs = {unit.doc_ref for unit in units}
+    _stage_log(ctx, f"s0 result: units={len(units)} docs={len(docs)}")
     ctx.artifacts["units"] = units
     ctx.artifacts["bible"] = bible
 
 
 async def _run_s1(ctx: BuildContext) -> None:
     units = ctx.artifacts.get("units") or read_jsonl(ctx.work_dir / "units.jsonl", SourceUnit)
+    _stage_log(ctx, f"s1 workload: classify {len(units)} units model={settings.CLASSIFY_MODEL}")
     labels = await run_classifier(
         ctx.brand,
         list(units),
@@ -824,17 +872,38 @@ async def _run_s1(ctx: BuildContext) -> None:
         usage=ctx.usage,
         cache_root=ctx.cache_root,
     )
+    required = sum(1 for label in labels if label.required)
+    yields = Counter(
+        kind
+        for label in labels
+        for kind in label.expected_yield
+    )
+    _stage_log(
+        ctx,
+        f"s1 result: labels={len(labels)} required={required} yields={dict(yields)}",
+    )
     ctx.artifacts["labels"] = labels
 
 
 async def _run_s2(ctx: BuildContext) -> None:
     units = ctx.artifacts.get("units") or read_jsonl(ctx.work_dir / "units.jsonl", SourceUnit)
     labels = ctx.artifacts.get("labels") or read_jsonl(ctx.work_dir / "unit_labels.jsonl", UnitLabel)
+    variants = _ensemble_variants(ctx.options)
+    _stage_log(
+        ctx,
+        f"s2 workload: {len(variants)} extraction run(s) over "
+        f"{len(units)} units concurrency={ctx.options.concurrency}",
+    )
     runs_dir = ctx.work_dir / "runs"
     if runs_dir.exists():
         shutil.rmtree(runs_dir)
     outputs = []
-    for variant in _ensemble_variants(ctx.options):
+    for index, variant in enumerate(variants, start=1):
+        _stage_log(
+            ctx,
+            f"s2 run {index}/{len(variants)}: {variant.run_id} model={variant.model}",
+        )
+        started = time.perf_counter()
         output = await run_extraction(
             ctx.brand,
             variant,
@@ -848,6 +917,12 @@ async def _run_s2(ctx: BuildContext) -> None:
             concurrency=ctx.options.concurrency,
         )
         outputs.append(output)
+        _stage_log(
+            ctx,
+            f"s2 run {variant.run_id} done in {time.perf_counter() - started:.1f}s "
+            f"tokens_p={len(output.primitive_tokens)} tokens_s={len(output.semantic_tokens)} "
+            f"rule_groups={len(output.rule_groups)}",
+        )
     ctx.artifacts["run_outputs"] = outputs
 
 
@@ -910,12 +985,33 @@ async def _run_s3(ctx: BuildContext) -> None:
                 )
             )
         run_outputs = normalized_outputs
+    _stage_log(
+        ctx,
+        f"s3 workload: verify {len(run_outputs)} run(s) against {len(units)} units "
+        f"fuzzy_min={settings.FUZZY_MATCH_MIN_RATIO}",
+    )
     verified: list[VerifiedRunInput] = []
     for output in run_outputs:
+        started = time.perf_counter()
+        entity_total = (
+            len(output.primitive_tokens)
+            + len(output.semantic_tokens)
+            + sum(len(group.rules) for group in output.rule_groups)
+        )
+        _stage_log(
+            ctx,
+            f"s3 verifying {output.variant.run_id}: ~{entity_total} core entities",
+        )
         verified_run = build_verified_run(output, units)
         run_dir = ctx.work_dir / "runs" / output.variant.run_id
         write_provenance(verified_run.provenance, run_dir)
         verified.append(verified_run)
+        quarantine = len(verified_run.provenance.quarantine)
+        _stage_log(
+            ctx,
+            f"s3 {output.variant.run_id} done in {time.perf_counter() - started:.1f}s "
+            f"quarantine={quarantine}",
+        )
     atomic_write_json(
         ctx.work_dir / "verified_runs.json",
         [item.model_dump(mode="json") for item in verified],
@@ -968,6 +1064,11 @@ async def _run_s4(ctx: BuildContext) -> None:
         brand=ctx.brand,
         units=units,
         champion_variant=champion_variant,
+    )
+    _stage_log(
+        ctx,
+        f"s4 result: champion={ensemble.champion_run} "
+        f"{_format_counts(_entity_counts(bundle))} conflicts={len(ensemble.conflicts)}",
     )
     ctx.artifacts["ensemble"] = ensemble
     ctx.artifacts["candidates_bundle"] = bundle
@@ -1029,6 +1130,7 @@ async def _run_s5(ctx: BuildContext) -> None:
             critic_dir / "manifest.json",
             {"schema_version": SCHEMA_VERSION, "files": _s5_owned_files(ctx.work_dir)},
         )
+        _stage_log(ctx, "s5 skipped (--no-critic)")
         return
 
     units = ctx.artifacts.get("units") or read_jsonl(ctx.work_dir / "units.jsonl", SourceUnit)
@@ -1036,6 +1138,17 @@ async def _run_s5(ctx: BuildContext) -> None:
         json.loads((ctx.work_dir / "ensemble.json").read_text(encoding="utf-8"))
     )
     critic_input = CandidateSet.from_ensemble(ensemble)
+    max_rounds = (
+        ctx.options.max_critic_rounds
+        if ctx.options.max_critic_rounds is not None
+        else settings.MAX_CRITIC_ROUNDS
+    )
+    _stage_log(
+        ctx,
+        f"s5 workload: {_format_counts(_entity_counts(bundle))} units={len(units)} "
+        f"rounds≤{max_rounds} concurrency={ctx.options.concurrency} "
+        f"model={settings.CRITIC_MODEL}",
+    )
     result = await run_critic(
         ctx.brand,
         list(units),
@@ -1047,6 +1160,13 @@ async def _run_s5(ctx: BuildContext) -> None:
         champion_run_id=bundle.champion_variant.run_id if bundle.champion_variant else None,
         concurrency=ctx.options.concurrency,
         max_rounds=ctx.options.max_critic_rounds,
+        console=ctx.console,
+    )
+    resolutions = Counter(finding.resolution or "unset" for finding in result.findings)
+    _stage_log(
+        ctx,
+        f"s5 result: rounds={result.rounds_completed} findings={len(result.findings)} "
+        f"resolutions={dict(resolutions)}",
     )
     bundle = bundle.with_critic_candidates(result.candidates)
     ctx.artifacts["candidates_bundle"] = bundle
@@ -1068,10 +1188,27 @@ async def _run_s6(ctx: BuildContext) -> None:
             json.loads((ctx.work_dir / "critic" / "bundle.json").read_text(encoding="utf-8"))
         )
     triage_path = ctx.kb_root / settings.TRIAGE_FILE
+    max_rounds = (
+        ctx.options.max_gap_rounds
+        if ctx.options.max_gap_rounds is not None
+        else settings.MAX_GAP_ROUNDS
+    )
+    _stage_log(
+        ctx,
+        f"s6 workload: {_format_counts(_entity_counts(bundle))} units={len(units)} "
+        f"labels={len(labels)} rounds≤{max_rounds} no_gaps={ctx.options.no_gaps}",
+    )
     if ctx.options.no_gaps:
         from indexing_v2.extraction.provenance import verify_entities
 
+        _stage_log(ctx, "s6 verifying full candidate bundle (no gap loop)")
+        started = time.perf_counter()
         provenance_result = verify_entities(bundle.entities_by_kind(), units)
+        _stage_log(
+            ctx,
+            f"s6 verify done in {time.perf_counter() - started:.1f}s "
+            f"quarantine={len(provenance_result.quarantine)}",
+        )
         report, soft = build_ledger(labels, provenance_result, bundle, rounds=0)
         computed = compute_triage_items(
             report,
@@ -1097,13 +1234,14 @@ async def _run_s6(ctx: BuildContext) -> None:
             provenance=provenance_result,
         )
     else:
-        from indexing_v2.extraction.provenance import verify_entities
+        from indexing_v2.extraction.provenance import ProvenanceResult
 
-        provenance_result = verify_entities(bundle.entities_by_kind(), units)
+        # run_gap_loop re-verifies against authoritative units; the passed
+        # provenance object is discarded after that refresh.
         gap_result = await run_gap_loop(
             labels,
             bundle,
-            provenance_result,
+            ProvenanceResult(),
             units=units,
             client=ctx.client,
             usage=ctx.usage,
@@ -1111,8 +1249,15 @@ async def _run_s6(ctx: BuildContext) -> None:
             triage_path=triage_path,
             cache_root=ctx.cache_root,
             max_rounds=ctx.options.max_gap_rounds,
+            console=ctx.console,
         )
         bundle = gap_result.candidates
+    _stage_log(
+        ctx,
+        f"s6 result: rounds={gap_result.rounds_run} stop={gap_result.stopped_reason} "
+        f"unclaimed={len(gap_result.coverage.unclaimed_unit_ids)} "
+        f"soft={len(gap_result.soft_mismatches)} triage={len(gap_result.triage)}",
+    )
     ctx.artifacts["gap_result"] = gap_result
     ctx.artifacts["candidates_bundle"] = bundle
     ctx.artifacts["triage"] = gap_result.triage
@@ -1275,9 +1420,17 @@ def _serialize_pass_c(result: PassCResult) -> dict[str, Any]:
 
 
 async def _run_s7(ctx: BuildContext) -> None:
+    _stage_log(ctx, "s7 workload: materialize Pass C catalog + rules")
+    started = time.perf_counter()
     result = _build_pass_c(ctx)
     atomic_write_json(ctx.work_dir / "pass_c.json", _serialize_pass_c(result))
     ctx.artifacts["pass_c"] = result
+    _stage_log(
+        ctx,
+        f"s7 result in {time.perf_counter() - started:.1f}s: rules={len(result.rules)} "
+        f"tokens={len(result.cat.get('tokens', {}))} assets={len(result.cat.get('assets', {}))} "
+        f"warns={len(result.warns)} sidecars={len(result.sidecars)}",
+    )
 
 
 async def _run_s8(ctx: BuildContext) -> None:
@@ -1287,6 +1440,11 @@ async def _run_s8(ctx: BuildContext) -> None:
     if pass_c is None:
         pass_c = _build_pass_c(ctx)
         ctx.artifacts["pass_c"] = pass_c
+    _stage_log(
+        ctx,
+        f"s8 workload: write KB rules={len(pass_c.rules)} "
+        f"tokens={len(pass_c.cat.get('tokens', {}))} provenance={len(pass_c.sidecars)}",
+    )
     warns = Warnings()
     warns.items.extend(pass_c.warns)
     near_dupes: list[str] = []
@@ -1349,6 +1507,7 @@ async def _run_s8(ctx: BuildContext) -> None:
         ctx.work_dir / "s8_outputs.json",
         {"schema_version": SCHEMA_VERSION, "files": _s8_owned_files(ctx.kb_root)},
     )
+    _stage_log(ctx, f"s8 result: wrote KB under {ctx.kb_root}")
 
 
 async def _run_s9(ctx: BuildContext) -> None:
@@ -1356,9 +1515,22 @@ async def _run_s9(ctx: BuildContext) -> None:
     from indexing_v2.consistency.smt import analyze_smt, smt_status, write_analysis_conflicts
     from indexing_v2.contracts import KBSnapshot
 
+    _stage_log(ctx, "s9 workload: pairwise analysis + optional SMT")
     snapshot = KBSnapshot.load(ctx.brand)
+    started = time.perf_counter()
     pairwise = analyze_pairwise(snapshot)
+    _stage_log(
+        ctx,
+        f"s9 pairwise done in {time.perf_counter() - started:.1f}s "
+        f"dead={len(pairwise.dead_entries)} precedence={len(pairwise.precedence_proposals)}",
+    )
+    started = time.perf_counter()
     smt = analyze_smt(snapshot, console=ctx.console)
+    _stage_log(
+        ctx,
+        f"s9 smt done in {time.perf_counter() - started:.1f}s "
+        f"status={smt.status} unsat={len(smt.global_unsat)}",
+    )
     analysis_dir = ctx.kb_root / "analysis"
     if analysis_dir.exists():
         shutil.rmtree(analysis_dir)
@@ -1411,10 +1583,16 @@ async def _run_s10(ctx: BuildContext) -> None:
     snapshot = KBSnapshot.load(ctx.brand)
     kb_hash = compute_kb_hash(ctx.kb_root)
     cascade_root = ctx.kb_root / "cascade"
+    _stage_log(ctx, f"s10 workload: compile cascade sheets kb_hash={kb_hash}")
+    started = time.perf_counter()
     index = compile_cascade(snapshot, cascade_root, kb_hash)
     schema_dir = ctx.kb_root / "schema"
     schema_dir.mkdir(parents=True, exist_ok=True)
     (schema_dir / "cascade.md").write_text(render_cascade_schema(), encoding="utf-8")
+    _stage_log(
+        ctx,
+        f"s10 result in {time.perf_counter() - started:.1f}s contexts={len(index.contexts)}",
+    )
     ctx.artifacts["cascade_index"] = index
     ctx.artifacts["kb_hash"] = kb_hash
 
@@ -1431,7 +1609,10 @@ async def _run_s11(ctx: BuildContext) -> None:
                 "rules_hash": _hash_kb_artifact(ctx.kb_root, "rules/"),
             },
         )
+        _stage_log(ctx, "s11 skipped (--skip-summarize-embed)")
         return
+    _stage_log(ctx, f"s11 workload: summarize+embed rules for {ctx.brand}")
+    started = time.perf_counter()
     runner: SummarizeEmbedRunner
     if ctx.summarize_embed is not None:
         runner = ctx.summarize_embed
@@ -1448,6 +1629,7 @@ async def _run_s11(ctx: BuildContext) -> None:
             "rules_hash": _hash_kb_artifact(ctx.kb_root, "rules/"),
         },
     )
+    _stage_log(ctx, f"s11 result in {time.perf_counter() - started:.1f}s status=completed")
 
 
 _STAGE_RUNNERS: dict[str, Callable[[BuildContext], Awaitable[None]]] = {
@@ -1952,13 +2134,25 @@ def _record_determinism(ctx: BuildContext) -> None:
 
 
 async def run_stages(ctx: BuildContext, stages: Sequence[str]) -> None:
+    _stage_log(
+        ctx,
+        f"pipeline start stages={list(stages)} concurrency={ctx.options.concurrency}",
+    )
     for stage_id in stages:
         spec = _STAGE_REGISTRY[stage_id]
+        title = _STAGE_TITLES.get(stage_id, stage_id)
         inputs_hash = _inputs_hash(ctx, spec)
         if _should_skip_stage(ctx, stage_id):
             # ponytail: a cache hit is a no-op; keep the byte-identical successful record.
+            _stage_log(
+                ctx,
+                f"{stage_id} skip (cache hit) — {title} inputs={inputs_hash}",
+            )
             continue
+        _stage_log(ctx, f"{stage_id} start — {title} inputs={inputs_hash}")
+        started = time.perf_counter()
         await _STAGE_RUNNERS[stage_id](ctx)
+        elapsed = time.perf_counter() - started
         outputs_hash = _compute_outputs_hash(ctx, spec)
         _record_stage(
             ctx,
@@ -1968,6 +2162,11 @@ async def run_stages(ctx: BuildContext, stages: Sequence[str]) -> None:
             outputs_hash=outputs_hash,
             skipped=False,
         )
+        _stage_log(
+            ctx,
+            f"{stage_id} done in {elapsed:.1f}s — {title} outputs={outputs_hash}",
+        )
+    _stage_log(ctx, "pipeline stages complete")
 
 
 async def build_brand(

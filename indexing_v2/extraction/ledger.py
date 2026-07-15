@@ -9,6 +9,7 @@ Hand-off surfaces for sibling workers:
 from __future__ import annotations
 
 import json
+import time
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, Protocol, cast, runtime_checkable
@@ -1097,7 +1098,12 @@ def _legacy_group_doc_ref(
 
 
 def _to_critic_candidates(candidates: CandidatesBundle) -> CandidateSet:
-    rules_by_group: dict[str, list[dict[str, Any]]] = {}
+    # Preserve empty groups so rule_group_doc_refs stays aligned with
+    # rules_by_doc_ref. Dropping empty buckets left orphan mappings that
+    # with_critic_candidates rejected after S5 emptied a group.
+    rules_by_group: dict[str, list[dict[str, Any]]] = {
+        group_id: [] for group_id in sorted(candidates.rules_by_group)
+    }
     if candidates.rule_group_doc_refs:
         missing = sorted(
             set(candidates.rules_by_group)
@@ -1124,7 +1130,7 @@ def _to_critic_candidates(candidates: CandidatesBundle) -> CandidateSet:
         for rule in _sorted_entities(candidates.rules_by_group[group_id]):
             clean = dict(rule)
             clean.pop("doc_ref", None)
-            rules_by_group.setdefault(group_id, []).append(clean)
+            rules_by_group[group_id].append(clean)
     return CandidateSet(
         token_primitive=_sorted_entities(candidates.tokens_primitive),
         token_semantic=_sorted_entities(candidates.tokens_semantic),
@@ -1545,6 +1551,7 @@ async def run_gap_loop(
     cache_root: Path | None = None,
     prompts_dir: Path | None = None,
     max_rounds: int | None = None,
+    console: Any | None = None,
 ) -> GapLoopResult:
     """Async gap driver (≤ ``MAX_GAP_ROUNDS``) with blob escalation on no-shrink."""
     from .runner import DEFAULT_CACHE_ROOT
@@ -1566,6 +1573,10 @@ async def run_gap_loop(
             f"required unit_ids missing from units: {missing_required}"
         )
 
+    def _log(message: str) -> None:
+        if console is not None:
+            console.print(f"[cyan][{candidates.brand}][/cyan] {message}")
+
     resolved_patcher = patcher or CriticEntityPatcher()
     variant = candidates.champion_variant or RunVariant(run_id="r0", model=settings.EXTRACT_MODEL)
     units_by_doc = _units_by_doc_ref(units)
@@ -1575,10 +1586,19 @@ async def run_gap_loop(
         update={"units_by_id": units_by_id},
         deep=True,
     )
+    entity_total = sum(
+        len(bucket) for bucket in current_candidates.entities_by_kind().values()
+    )
     # Authoritative source units invalidate stale pre-S6 quote verification.
+    _log(f"s6 initial full-KB verify: entities={entity_total} units={len(units)}")
+    verify_started = time.perf_counter()
     current_provenance = verify_entities(
         current_candidates.entities_by_kind(),
         units,
+    )
+    _log(
+        f"s6 initial verify done in {time.perf_counter() - verify_started:.1f}s "
+        f"quarantine={len(current_provenance.quarantine)}"
     )
     del provenance
     rounds_run = 0
@@ -1593,10 +1613,15 @@ async def run_gap_loop(
         unclaimed = set(report.unclaimed_unit_ids)
         if not unclaimed:
             stopped_reason = "empty_queue"
+            _log(f"s6 round {rounds_run}: empty unclaimed queue — stopping")
             break
 
         if rounds_run > 0 and unclaimed == prev_unclaimed and not escalate_next:
             stopped_reason = "zero_progress"
+            _log(
+                f"s6 round {rounds_run}: zero progress "
+                f"(unclaimed={len(unclaimed)}) — stopping"
+            )
             break
 
         by_blob: dict[str, set[str]] = {}
@@ -1604,14 +1629,29 @@ async def run_gap_loop(
             unit = units_by_id[unit_id]
             by_blob.setdefault(unit.doc_ref, set()).add(unit_id)
 
+        _log(
+            f"s6 round {rounds_run + 1}/{cap}: unclaimed_units={len(unclaimed)} "
+            f"blobs={len(by_blob)} escalate={sorted(escalate_next) or '[]'}"
+        )
+
         blob_unclaimed_before: dict[str, set[str]] = {}
         escalated_docs_this_round: set[str] = set()
-        for doc_ref, blob_targets in sorted(by_blob.items()):
+        for blob_index, (doc_ref, blob_targets) in enumerate(
+            sorted(by_blob.items()),
+            start=1,
+        ):
             blob_unclaimed_before[doc_ref] = set(blob_targets)
+            mode = "escalate" if doc_ref in escalate_next else "gap_patch"
+            _log(
+                f"s6 round {rounds_run + 1} blob {blob_index}/{len(by_blob)}: "
+                f"{doc_ref} targets={len(blob_targets)} mode={mode}"
+            )
+            blob_started = time.perf_counter()
             if doc_ref in escalate_next:
                 escalated_docs_this_round.add(doc_ref)
                 escalated_doc_refs.add(doc_ref)
                 blob_units = units_by_doc[doc_ref]
+                _log(f"s6 {doc_ref}: full blob re-extract LLM")
                 payload = await _full_blob_reextract(
                     brand=current_candidates.brand,
                     doc_ref=doc_ref,
@@ -1623,6 +1663,11 @@ async def run_gap_loop(
                     cache_root=resolved_cache,
                     gap_round=rounds_run + 1,
                     prompts_dir=prompts_dir,
+                )
+                _log(
+                    f"s6 {doc_ref}: applying escalate payload "
+                    f"tokens={len(payload.tokens)} rules={len(payload.rules)} "
+                    f"assets={len(payload.assets)}"
                 )
                 current_candidates, current_provenance = (
                     resolved_patcher.apply_gap_payload(
@@ -1640,6 +1685,7 @@ async def run_gap_loop(
                     )
                 )
             else:
+                _log(f"s6 {doc_ref}: gap_patch LLM")
                 payload = await _gap_patch_blob(
                     brand=current_candidates.brand,
                     doc_ref=doc_ref,
@@ -1659,6 +1705,12 @@ async def run_gap_loop(
                     gap_round=rounds_run + 1,
                     prompts_dir=prompts_dir,
                 )
+                _log(
+                    f"s6 {doc_ref}: applying gap payload "
+                    f"tokens={len(payload.tokens)} rules={len(payload.rules)} "
+                    f"assets={len(payload.assets)} "
+                    f"(includes full-KB re-verify)"
+                )
                 current_candidates, current_provenance = (
                     resolved_patcher.apply_gap_payload(
                         payload,
@@ -1673,6 +1725,9 @@ async def run_gap_loop(
                         },
                     )
                 )
+            _log(
+                f"s6 {doc_ref}: blob done in {time.perf_counter() - blob_started:.1f}s"
+            )
 
         rounds_run += 1
         post_report, soft = build_ledger(
@@ -1684,6 +1739,7 @@ async def run_gap_loop(
         if not post_report.unclaimed_unit_ids:
             stopped_reason = "empty_queue"
             report, soft = post_report, soft
+            _log(f"s6 after round {rounds_run}: queue drained")
             break
         post_unclaimed = set(post_report.unclaimed_unit_ids)
         next_escalate: set[str] = set()
@@ -1697,6 +1753,10 @@ async def run_gap_loop(
                 next_escalate.add(doc_ref)
 
         pending_escalations = next_escalate - escalated_docs_this_round
+        _log(
+            f"s6 after round {rounds_run}: unclaimed={len(post_unclaimed)} "
+            f"(was {len(unclaimed)}) escalate_next={sorted(pending_escalations) or '[]'}"
+        )
         if post_unclaimed == unclaimed:
             if pending_escalations and rounds_run < cap:
                 escalate_next = pending_escalations
@@ -1736,6 +1796,10 @@ async def run_gap_loop(
             LedgerDocument(coverage=final_report, soft_mismatches=final_soft),
         )
 
+    _log(
+        f"s6 gap loop finished: rounds={rounds_run} stop={stopped_reason} "
+        f"unclaimed={len(final_report.unclaimed_unit_ids)}"
+    )
     return GapLoopResult(
         coverage=final_report,
         soft_mismatches=final_soft,

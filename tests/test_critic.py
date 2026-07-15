@@ -631,6 +631,46 @@ def test_triage_rejects_verification_without_mutation(units) -> None:
     assert candidates.model_dump() == after.model_dump()
 
 
+def test_triage_verifies_only_patch_products(units, monkeypatch) -> None:
+    candidates = _fixture_candidates(include_subhead=False)
+    patch = Patch(
+        op="add",
+        entity_kind="token_primitive",
+        payload=_subhead_token(),
+    )
+    finding = _finding(
+        finding_id="f_scoped_verification",
+        finding_type="omission",
+        patch=patch,
+    )
+    verified_entity_ids: list[set[str]] = []
+
+    def recording_verify(entities_by_kind, source_units):
+        verified_entity_ids.append(
+            {
+                entity["id"]
+                for bucket in entities_by_kind.values()
+                for entity in bucket
+            }
+        )
+        return verify_entities(entities_by_kind, source_units)
+
+    monkeypatch.setattr(
+        "indexing_v2.extraction.critic.verify_entities",
+        recording_verify,
+    )
+
+    _, resolved, _ = triage_findings(
+        [finding],
+        candidates,
+        units,
+        round_num=1,
+    )
+
+    assert resolved[0].resolution == "applied"
+    assert verified_entity_ids == [{"tok_minibible_type_subhead_size"}]
+
+
 def test_triage_accepts_all_five_patch_ops(units) -> None:
     add_patch = Patch(
         op="add",

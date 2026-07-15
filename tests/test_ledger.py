@@ -47,6 +47,7 @@ from indexing_v2.extraction.ledger import (
     GapPayloadError,
     LedgerDocument,
     _parse_gap_payload,
+    _to_critic_candidates,
     append_triage_items,
     build_ledger,
     catalog_summary_text,
@@ -414,6 +415,29 @@ async def test_cp3_stage_chain_uses_public_critic_handoff(
         match="unknown patched group",
     ):
         source.with_critic_candidates(unknown_mapping)
+
+
+def test_to_critic_candidates_preserves_empty_rule_groups(
+    units: list[SourceUnit],
+    units_by_id: dict[str, SourceUnit],
+) -> None:
+    source = _fixture_candidates(units_by_id)
+    empty_group = "grp_minibible_emptied_00"
+    source.rules_by_group[empty_group] = []
+    source.rule_group_doc_refs[empty_group] = "brand_foundation[0]"
+
+    critic = _to_critic_candidates(source)
+
+    assert empty_group in critic.rules_by_doc_ref
+    assert critic.rules_by_doc_ref[empty_group] == []
+    assert critic.rule_group_doc_refs[empty_group] == "brand_foundation[0]"
+    round_tripped = source.with_critic_candidates(critic)
+    assert empty_group in round_tripped.rules_by_group
+    assert round_tripped.rules_by_group[empty_group] == []
+    assert (
+        round_tripped.rule_group_doc_refs[empty_group]
+        == "brand_foundation[0]"
+    )
 
 
 def _over_claimed_fixture(
