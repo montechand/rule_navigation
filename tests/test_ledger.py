@@ -46,6 +46,7 @@ from indexing_v2.extraction.ledger import (
     GapPatchPayload,
     GapPayloadError,
     LedgerDocument,
+    _normalize_full_blob_payload,
     _parse_gap_payload,
     _to_critic_candidates,
     append_triage_items,
@@ -879,6 +880,43 @@ def test_gap_payload_validation_is_strict() -> None:
                 ]
             }
         )
+
+
+def test_full_blob_payload_assigns_rule_ids_and_maps_relations(
+    units: list[SourceUnit],
+    units_by_id: dict[str, SourceUnit],
+) -> None:
+    candidates = _fixture_candidates(units_by_id)
+    doc_ref = "layout_constraints[0]"
+    group_id = _group_id(MINIBIBLE_BRAND, doc_ref)
+    normalized = _normalize_full_blob_payload(
+        {
+            "rules": [
+                {
+                    "slug": "content-contrast",
+                    "rule_text": "Maintain sufficient content contrast.",
+                }
+            ],
+            "relations": [
+                {
+                    "src_slug": "content-contrast",
+                    "dst_slug": "content-contrast",
+                    "relation": "depends_on",
+                }
+            ],
+        },
+        brand=MINIBIBLE_BRAND,
+        doc_ref=doc_ref,
+        group_id=group_id,
+        blob_units=[unit for unit in units if unit.doc_ref == doc_ref],
+        candidates=candidates,
+    )
+
+    payload = _parse_gap_payload(normalized)
+
+    assert payload.rules[0]["id"] == "rule_minibible_content_contrast"
+    assert payload.relations[0]["src_rule_id"] == payload.rules[0]["id"]
+    assert payload.relations[0]["dst_rule_id"] == payload.rules[0]["id"]
 
 
 def test_gap_token_kind_is_explicit_for_new_semantics(

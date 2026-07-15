@@ -43,9 +43,11 @@ from .provenance import ProvenanceResult, verify_entities
 from .runner import (
     CacheContext,
     LLMClient,
+    RuleGroupOutput,
     RunOutput,
     _group_id,
     complete_json_cached,
+    normalize_rule_groups,
     render_units,
 )
 
@@ -1527,7 +1529,65 @@ async def _full_blob_reextract(
         gap_round=gap_round,
         extra={"doc_ref": doc_ref, "group_id": group_id, "gap_escalation": True},
     )
-    return _parse_gap_payload(result)
+    return _parse_gap_payload(
+        _normalize_full_blob_payload(
+            result,
+            brand=brand,
+            doc_ref=doc_ref,
+            group_id=group_id,
+            blob_units=blob_units,
+            candidates=candidates,
+        )
+    )
+
+
+def _normalize_full_blob_payload(
+    raw: Any,
+    *,
+    brand: str,
+    doc_ref: str,
+    group_id: str,
+    blob_units: Sequence[SourceUnit],
+    candidates: CandidatesBundle,
+) -> Any:
+    """Adapt slug-only rules_cluster output to the strict S6 gap contract."""
+    if not isinstance(raw, Mapping):
+        return raw
+    rules = raw.get("rules")
+    relations = raw.get("relations", [])
+    if not isinstance(rules, list) or not isinstance(relations, list):
+        return raw
+    if not all(isinstance(rule, Mapping) for rule in rules) or not all(
+        isinstance(relation, Mapping) for relation in relations
+    ):
+        return raw
+
+    # IDs belonging to the group being replaced may be reused. IDs in every
+    # other group are reserved so escalation cannot create cross-group collisions.
+    reserved_ids = {
+        str(rule["id"])
+        for existing_group_id, existing_rules in candidates.rules_by_group.items()
+        if existing_group_id != group_id
+        for rule in existing_rules
+        if isinstance(rule.get("id"), str) and rule["id"]
+    }
+    group = RuleGroupOutput(
+        group_id=group_id,
+        doc_ref=doc_ref,
+        original_text="".join(unit.text for unit in blob_units),
+        rules=[dict(rule) for rule in rules],
+        relations=[dict(relation) for relation in relations],
+    )
+    normalized = normalize_rule_groups(
+        brand,
+        [group],
+        used_ids=reserved_ids,
+    )[0]
+    return {
+        **raw,
+        "rules": normalized.rules,
+        "relations": normalized.relations,
+    }
 
 
 def _parse_gap_payload(raw: Any) -> GapPatchPayload:

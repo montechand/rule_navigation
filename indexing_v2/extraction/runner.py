@@ -397,16 +397,23 @@ def _map_relation_endpoints(
 
 
 def normalize_rule_groups(
-    brand: str, rule_groups: Sequence[RuleGroupOutput]
+    brand: str,
+    rule_groups: Sequence[RuleGroupOutput],
+    *,
+    used_ids: set[str] | None = None,
 ) -> list[RuleGroupOutput]:
     """Assign stable rule ids and rewrite slug relations to id endpoints.
 
     The rules_cluster prompt emits slug-only rules; provenance and Pass C require ``id``.
     """
-    used_ids: set[str] = set()
+    assigned_ids = set(used_ids or ())
     normalized: list[RuleGroupOutput] = []
     for group in rule_groups:
-        rules = [_assign_rule_id(brand, rule, used_ids) for rule in group.rules if isinstance(rule, dict)]
+        rules = [
+            _assign_rule_id(brand, rule, assigned_ids)
+            for rule in group.rules
+            if isinstance(rule, dict)
+        ]
         slug_to_id: dict[str, str] = {}
         for rule in rules:
             slug = rule.get("slug")
