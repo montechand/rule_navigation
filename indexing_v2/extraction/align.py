@@ -10,9 +10,11 @@ containment misses. Concrete values are verified independently of quote alignmen
 searching their canonical literal in cited unit text (with one-unit widening) and in
 the quote witness. Verbatim fields retain their exact-only contract.
 
-The fuzzy last resort uses one longest-common-block anchor plus bounded local boundary
-refinement. Inputs without a substantial common block fail closed, intentionally
-favoring provenance precision over pathological recall.
+The fuzzy last resort uses a two-tier locate gate: a longest-common-block anchor is
+the fast path, while evenly distributed sparse edits may use a local cluster of
+substantial matching blocks. Both feed the same bounded boundary refinement, and
+acceptance remains solely ``SequenceMatcher.ratio() >= fuzzy_min_ratio``. Inputs whose
+matching blocks are too scattered or sparse fail closed.
 """
 
 from __future__ import annotations
@@ -33,7 +35,7 @@ from indexing_v2.contracts import (
 
 from .normalize import normalize_value, value_patterns
 
-STAGE_VERSION = "2.0.0"
+STAGE_VERSION = "2.1.0"
 
 _CURLY_MAP = str.maketrans(
     {
@@ -45,6 +47,12 @@ _CURLY_MAP = str.maketrans(
 )
 
 _VERBATIM_FIELD_PATHS = frozenset({"governance.preferred_form", "body"})
+# Minimum matching-block size counted by the multi-anchor gate.
+_FUZZY_BLOCK_MIN = 3
+# Maximum local block-cluster text extent relative to quote length.
+_FUZZY_CLUSTER_EXTENT_FACTOR = 1.2
+# Minimum quote-length coverage required to attempt final fuzzy scoring.
+_FUZZY_CLUSTER_COVERAGE = 0.75
 _MATCH_RANK: dict[MatchQuality, int] = {
     "exact": 5,
     "normalized": 4,
@@ -227,34 +235,15 @@ def _normalized_candidates(
     return hits
 
 
-def _best_fuzzy_windows(
+def _refine_window(
     quote_norm: str,
     text_norm: str,
     fuzzy_min_ratio: float,
+    projected_start: int,
+    projected_end: int,
 ) -> list[tuple[int, int, float]]:
-    """Locate and score the best fuzzy windows near one substantial anchor."""
-    if not quote_norm or not text_norm:
-        return []
-
-    matcher = SequenceMatcher(None, quote_norm, text_norm, autojunk=False)
-    anchor = matcher.find_longest_match(
-        0,
-        len(quote_norm),
-        0,
-        len(text_norm),
-    )
-    if anchor.size < max(3, len(quote_norm) // 4):
-        return []
-
+    """Refine and score one projected fuzzy window."""
     quote_len = len(quote_norm)
-    projected_start = max(0, min(anchor.b - anchor.a, len(text_norm)))
-    projected_end = max(
-        projected_start,
-        min(projected_start + quote_len, len(text_norm)),
-    )
-    if projected_start >= projected_end:
-        return []
-
     budget = max(2, quote_len // 10)
     min_start = max(0, projected_start - budget)
     max_start = min(projected_end - 1, projected_start + budget)
@@ -311,6 +300,121 @@ def _best_fuzzy_windows(
             if ratio == best_ratio
         ),
         key=lambda item: (item[0], item[1]),
+    )
+
+
+def _multi_anchor_projection(
+    matcher: SequenceMatcher[str],
+    quote_len: int,
+    text_len: int,
+) -> tuple[int, int] | None:
+    """Return a projected window for the best qualifying local block cluster."""
+    blocks = [
+        block
+        for block in matcher.get_matching_blocks()
+        if block.size >= _FUZZY_BLOCK_MIN
+    ]
+    if len(blocks) < 2:
+        return None
+
+    max_extent = _FUZZY_CLUSTER_EXTENT_FACTOR * quote_len
+    left = 0
+    cluster_sum = 0
+    best_left = -1
+    best_right = -1
+    best_sum = -1
+    best_first_b = -1
+    best_count = -1
+
+    for right, block in enumerate(blocks):
+        cluster_sum += block.size
+        while (
+            left <= right
+            and (block.b + block.size) - blocks[left].b > max_extent
+        ):
+            cluster_sum -= blocks[left].size
+            left += 1
+        if left > right:
+            continue
+
+        first_b = blocks[left].b
+        count = right - left + 1
+        if (
+            cluster_sum > best_sum
+            or (
+                cluster_sum == best_sum
+                and (
+                    best_left < 0
+                    or first_b < best_first_b
+                    or (first_b == best_first_b and count < best_count)
+                )
+            )
+        ):
+            best_left = left
+            best_right = right
+            best_sum = cluster_sum
+            best_first_b = first_b
+            best_count = count
+
+    if (
+        best_left < 0
+        or best_sum < _FUZZY_CLUSTER_COVERAGE * quote_len
+    ):
+        return None
+
+    first = blocks[best_left]
+    last = blocks[best_right]
+    projected_start = max(0, first.b - first.a)
+    projected_end = min(
+        text_len,
+        (last.b + last.size) + (quote_len - (last.a + last.size)),
+    )
+    if projected_start >= projected_end:
+        return None
+    return projected_start, projected_end
+
+
+def _best_fuzzy_windows(
+    quote_norm: str,
+    text_norm: str,
+    fuzzy_min_ratio: float,
+) -> list[tuple[int, int, float]]:
+    """Locate and score the best fuzzy windows near one qualifying anchor set."""
+    if not quote_norm or not text_norm:
+        return []
+
+    matcher = SequenceMatcher(None, quote_norm, text_norm, autojunk=False)
+    anchor = matcher.find_longest_match(
+        0,
+        len(quote_norm),
+        0,
+        len(text_norm),
+    )
+    if anchor.size < max(3, len(quote_norm) // 4):
+        projection = _multi_anchor_projection(
+            matcher,
+            len(quote_norm),
+            len(text_norm),
+        )
+        if projection is None:
+            return []
+        projected_start, projected_end = projection
+    else:
+        quote_len = len(quote_norm)
+        projected_start = max(0, min(anchor.b - anchor.a, len(text_norm)))
+        projected_end = max(
+            projected_start,
+            min(projected_start + quote_len, len(text_norm)),
+        )
+        if projected_start >= projected_end:
+            return []
+
+    return _refine_window(
+        quote_norm,
+        text_norm,
+        fuzzy_min_ratio,
+        projected_start,
+        projected_end,
     )
 
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import random
 import time
+from difflib import SequenceMatcher
 from pathlib import Path
 
 import pytest
@@ -45,6 +46,24 @@ def _blob_slice(units_by_id: dict[str, SourceUnit], span: EvidenceSpan) -> str:
         ]
         for unit in units
     )
+
+
+def _evenly_edited_fuzzy_case() -> tuple[str, str, str]:
+    source = (
+        "Before approved teams preserve clear space, typography rhythm, accessible "
+        "contrast, and consistent logo placement across every campaign template "
+        "after review."
+    )
+    true_window = source[7:107]
+    chars = list(true_window)
+    edit_count = 7
+    positions = [
+        round((index + 1) * len(chars) / (edit_count + 1))
+        for index in range(edit_count)
+    ]
+    for position in positions:
+        chars[position] = "¤"
+    return source, true_window, "".join(chars)
 
 
 def test_exact_alignment_on_fixture_color(units_by_id: dict[str, SourceUnit]) -> None:
@@ -295,6 +314,231 @@ def test_best_fuzzy_windows_performance_smoke(
     assert len(text) == text_length
     assert windows
     assert elapsed < 1.0
+
+
+def test_multi_anchor_recalls_evenly_distributed_sparse_edits() -> None:
+    source, true_window, quote = _evenly_edited_fuzzy_case()
+    matcher = SequenceMatcher(None, quote, true_window, autojunk=False)
+    anchor = matcher.find_longest_match(0, len(quote), 0, len(true_window))
+    assert len(quote) == 100
+    assert matcher.ratio() >= 0.93
+    assert anchor.size < len(quote) // 4
+
+    unit = SourceUnit(
+        unit_id="u_multi_anchor_0000",
+        brand_id="minibible",
+        doc_ref="multi-anchor[0]",
+        ordinal=0,
+        start=200,
+        end=200 + len(source),
+        kind="sentence",
+        text=source,
+    )
+    candidates = _fuzzy_candidates(quote, unit, True, fuzzy_min_ratio=0.92)
+
+    assert candidates
+    assert all(candidate.ratio >= 0.92 for candidate in candidates)
+    assert any(
+        true_window[15:-15]
+        in source[candidate.start - unit.start : candidate.end - unit.start]
+        for candidate in candidates
+    )
+
+
+def test_multi_anchor_rejects_blocks_scattered_over_wide_extent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    blocks = [
+        "".join(chr(0x1000 + block_index * 6 + offset) for offset in range(6))
+        for block_index in range(10)
+    ]
+    quote = "|".join(blocks)
+    text = ("~" * 30).join(blocks)
+    matcher = SequenceMatcher(None, quote, text, autojunk=False)
+    counted = [block for block in matcher.get_matching_blocks() if block.size >= 3]
+    assert sum(block.size for block in counted) >= 0.75 * len(quote)
+    for first_index, first in enumerate(counted):
+        for last_index in range(first_index, len(counted)):
+            last = counted[last_index]
+            coverage = sum(
+                block.size
+                for block in counted[first_index : last_index + 1]
+            )
+            if coverage >= 0.75 * len(quote):
+                assert (last.b + last.size) - first.b > 1.2 * len(quote)
+
+    def refine_forbidden(
+        quote_norm: str,
+        text_norm: str,
+        fuzzy_min_ratio: float,
+        projected_start: int,
+        projected_end: int,
+    ) -> list[tuple[int, int, float]]:
+        raise AssertionError("spread blocks must be rejected before scoring")
+
+    monkeypatch.setattr(align_module, "_refine_window", refine_forbidden)
+    assert _best_fuzzy_windows(quote, text, 0.5) == []
+
+
+def test_multi_anchor_rejects_insufficient_local_coverage(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    first = "".join(chr(0x2000 + offset) for offset in range(8))
+    second = "".join(chr(0x2100 + offset) for offset in range(8))
+    quote = first + ("q" * 12) + second + ("r" * 12)
+    text = first + ("x" * 12) + second + ("y" * 12)
+    matcher = SequenceMatcher(None, quote, text, autojunk=False)
+    counted = [block for block in matcher.get_matching_blocks() if block.size >= 3]
+    assert len(counted) == 2
+    assert (counted[-1].b + counted[-1].size) - counted[0].b <= 1.2 * len(quote)
+    assert sum(block.size for block in counted) < 0.75 * len(quote)
+
+    def refine_forbidden(
+        quote_norm: str,
+        text_norm: str,
+        fuzzy_min_ratio: float,
+        projected_start: int,
+        projected_end: int,
+    ) -> list[tuple[int, int, float]]:
+        raise AssertionError("low-coverage blocks must be rejected before scoring")
+
+    monkeypatch.setattr(align_module, "_refine_window", refine_forbidden)
+    assert _best_fuzzy_windows(quote, text, 0.1) == []
+
+
+def test_multi_anchor_attempt_still_requires_final_ratio(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source, true_window, quote = _evenly_edited_fuzzy_case()
+    matcher = SequenceMatcher(None, quote, true_window, autojunk=False)
+    assert matcher.ratio() == pytest.approx(0.93)
+    anchor = matcher.find_longest_match(0, len(quote), 0, len(true_window))
+    assert anchor.size < len(quote) // 4
+    refine_calls = 0
+    original_refine = align_module._refine_window
+
+    def recording_refine(
+        quote_norm: str,
+        text_norm: str,
+        fuzzy_min_ratio: float,
+        projected_start: int,
+        projected_end: int,
+    ) -> list[tuple[int, int, float]]:
+        nonlocal refine_calls
+        refine_calls += 1
+        return original_refine(
+            quote_norm,
+            text_norm,
+            fuzzy_min_ratio,
+            projected_start,
+            projected_end,
+        )
+
+    monkeypatch.setattr(align_module, "_refine_window", recording_refine)
+    assert _best_fuzzy_windows(quote, source, 0.99) == []
+    assert refine_calls == 1
+
+
+@pytest.mark.parametrize(
+    ("quote", "text", "expected"),
+    [
+        (
+            "Use the approved main logo in every email header.",
+            "Intro. Use the approved logo in every email header. Outro.",
+            [(6, 51, 0.9361702127659575)],
+        ),
+        (
+            "Use the approved primary logo, in every email header.",
+            "Intro. Use the approved primary logo; in every email header. Outro.",
+            [(7, 60, 0.9811320754716981)],
+        ),
+        (
+            "Maintain at least 4.5:1 contrast for all body copy.",
+            "Intro. Maintain at least 4.5:1 contrast for all body. Outro.",
+            [(7, 55, 0.9494949494949495)],
+        ),
+    ],
+    ids=["dropped-word", "swapped-punctuation", "truncated-tail"],
+)
+def test_single_anchor_fast_path_is_byte_equivalent(
+    quote: str,
+    text: str,
+    expected: list[tuple[int, int, float]],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    quote_norm, _ = _normalize_with_index_map(quote)
+    text_norm, _ = _normalize_with_index_map(text)
+    matcher = SequenceMatcher(None, quote_norm, text_norm, autojunk=False)
+    anchor = matcher.find_longest_match(
+        0,
+        len(quote_norm),
+        0,
+        len(text_norm),
+    )
+    assert anchor.size >= max(3, len(quote_norm) // 4)
+
+    def cluster_forbidden(
+        matcher: SequenceMatcher[str],
+        quote_len: int,
+        text_len: int,
+    ) -> tuple[int, int] | None:
+        raise AssertionError("single-anchor fast path must not use cluster fallback")
+
+    monkeypatch.setattr(align_module, "_multi_anchor_projection", cluster_forbidden)
+    assert _best_fuzzy_windows(quote_norm, text_norm, 0.92) == expected
+
+
+def test_multi_anchor_results_are_deterministic_valid_and_above_threshold() -> None:
+    source, _, quote = _evenly_edited_fuzzy_case()
+    first = _best_fuzzy_windows(quote, source, 0.92)
+    second = _best_fuzzy_windows(quote, source, 0.92)
+
+    assert first == second
+    assert first
+    assert all(
+        0 <= start < end <= len(source) and ratio >= 0.92
+        for start, end, ratio in first
+    )
+
+
+def test_passing_single_anchor_is_never_rejected() -> None:
+    rng = random.Random(20260717)
+    for _ in range(50):
+        quote = "".join(rng.choice("abcdefghijk ") for _ in range(60))
+        prefix = "".join(rng.choice("uvwxyz ") for _ in range(20))
+        suffix = "".join(rng.choice("uvwxyz ") for _ in range(20))
+        text = prefix + quote + suffix
+        matcher = SequenceMatcher(None, quote, text, autojunk=False)
+        anchor = matcher.find_longest_match(0, len(quote), 0, len(text))
+
+        assert anchor.size >= max(3, len(quote) // 4)
+        assert _best_fuzzy_windows(quote, text, 0.92)
+
+
+def test_non_value_evenly_edited_quote_uses_fuzzy_last_resort() -> None:
+    source, _, quote = _evenly_edited_fuzzy_case()
+    unit = SourceUnit(
+        unit_id="u_multi_anchor_e2e_0000",
+        brand_id="minibible",
+        doc_ref="multi-anchor-e2e[0]",
+        ordinal=0,
+        start=75,
+        end=75 + len(source),
+        kind="sentence",
+        text=source,
+    )
+
+    result = verify_value_path(
+        field_path="rule_text",
+        token_type="rule",
+        raw_value=None,
+        quote=quote,
+        units_by_id={unit.unit_id: unit},
+        cited_unit_ids=[unit.unit_id],
+    )
+
+    assert result.verification == "span_verified"
+    assert result.span.match == "fuzzy"
 
 
 def test_widen_to_neighbor_unit(units_by_id: dict[str, SourceUnit]) -> None:
@@ -676,8 +920,8 @@ def test_alignment_result_typed() -> None:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION == "2.0.0"
-    assert PROVENANCE_STAGE_VERSION == "1.1.0"
+    assert STAGE_VERSION == "2.1.0"
+    assert PROVENANCE_STAGE_VERSION == "1.1.1"
 
 
 def test_no_cross_doc_neighbor_join(units_by_id: dict[str, SourceUnit]) -> None:
