@@ -35,7 +35,7 @@ from indexing_v2.contracts import (
 
 from .normalize import normalize_value, value_patterns
 
-STAGE_VERSION = "2.1.0"
+STAGE_VERSION = "2.1.1"
 
 _CURLY_MAP = str.maketrans(
     {
@@ -258,6 +258,7 @@ def _refine_window(
                 None,
                 quote_norm,
                 text_norm[start:end],
+                autojunk=False,
             ).ratio()
         return scores[key]
 

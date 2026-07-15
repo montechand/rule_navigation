@@ -66,6 +66,15 @@ def _evenly_edited_fuzzy_case() -> tuple[str, str, str]:
     return source, true_window, "".join(chars)
 
 
+def _long_repetitive_fuzzy_case() -> tuple[str, str]:
+    source = "approved language remains clear and accurate " * 7
+    chars = list(source)
+    positions = [len(source) // 4, len(source) // 2, 3 * len(source) // 4]
+    for position in positions:
+        chars[position] = "e" if chars[position] != "e" else "a"
+    return source, "".join(chars)
+
+
 def test_exact_alignment_on_fixture_color(units_by_id: dict[str, SourceUnit]) -> None:
     quote = "Primary Green #01A47E"
     span = align_quote(
@@ -314,6 +323,53 @@ def test_best_fuzzy_windows_performance_smoke(
     assert len(text) == text_length
     assert windows
     assert elapsed < 1.0
+
+
+def test_long_repetitive_quote_scores_without_autojunk() -> None:
+    source, quote = _long_repetitive_fuzzy_case()
+    default_ratio = SequenceMatcher(None, quote, source).ratio()
+    no_junk_ratio = SequenceMatcher(
+        None,
+        quote,
+        source,
+        autojunk=False,
+    ).ratio()
+
+    assert len(quote) >= 220
+    assert len(source) >= 200
+    assert max(source.count(char) for char in set(source)) / len(source) > 0.01
+    assert default_ratio < 0.92
+    assert no_junk_ratio >= 0.92
+
+    windows = _best_fuzzy_windows(quote, source, 0.92)
+    assert windows == [(0, len(source), no_junk_ratio)]
+
+
+def test_long_repetitive_non_value_quote_is_fuzzy_verified() -> None:
+    source, quote = _long_repetitive_fuzzy_case()
+    unit = SourceUnit(
+        unit_id="u_autojunk_e2e_0000",
+        brand_id="minibible",
+        doc_ref="autojunk-e2e[0]",
+        ordinal=0,
+        start=125,
+        end=125 + len(source),
+        kind="sentence",
+        text=source,
+    )
+
+    result = verify_value_path(
+        field_path="rule_text",
+        token_type="rule",
+        raw_value=None,
+        quote=quote,
+        units_by_id={unit.unit_id: unit},
+        cited_unit_ids=[unit.unit_id],
+    )
+
+    assert result.verification == "span_verified"
+    assert result.span.match == "fuzzy"
+    assert (result.span.start, result.span.end) == (unit.start, unit.end)
 
 
 def test_multi_anchor_recalls_evenly_distributed_sparse_edits() -> None:
@@ -920,8 +976,8 @@ def test_alignment_result_typed() -> None:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION == "2.1.0"
-    assert PROVENANCE_STAGE_VERSION == "1.1.1"
+    assert STAGE_VERSION == "2.1.1"
+    assert PROVENANCE_STAGE_VERSION == "1.1.2"
 
 
 def test_no_cross_doc_neighbor_join(units_by_id: dict[str, SourceUnit]) -> None:
