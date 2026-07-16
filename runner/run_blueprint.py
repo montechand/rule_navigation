@@ -7,6 +7,9 @@ JSONL trace. Results aggregate into outputs/{run_id}/result.json with:
   - hydrated rule payloads for everything referenced
   - usage stats (tokens, cost, tool calls, latency)
 
+Architecture E is an exception: one Claude Agent SDK session per whole blueprint, reading
+original design-bible passages under simple_kb/{brand}/ (not the structured kb/).
+
 Usage:
   .venv/bin/python -m runner.run_blueprint --arch all --brand ibsrela \\
       --blueprint examples/ibsrela_blueprint.json [--design-concept on|off] \\
@@ -19,8 +22,13 @@ Usage:
   .venv/bin/python -m runner.run_blueprint --arch d --d-tools full --brand ibsrela \\
       --blueprint examples/ibsrela_blueprint.json
 
+  # Arch E: original design bible passages via Claude Agent SDK
+  .venv/bin/python -m runner.run_blueprint --arch e --brand lisraya \\
+      --blueprint examples/lisraya_blueprint1.json
+
 --thinking-effort / --max-tokens only apply to arch "a" (Anthropic adaptive thinking).
 --d-tools only applies to arch "d" (fs = Claude Code FS tools only; full = FS + ToolRepo).
+--e-max-turns only applies to arch "e".
 """
 
 from __future__ import annotations
@@ -40,10 +48,12 @@ import arch_a_orchestrator
 import arch_b_subagents
 import arch_c_schema_network
 import arch_d_claude_sdk
+import arch_e_claude_sdk
 from shared import config
 from shared.kb import KB
 from shared.llm import Trace, Usage
 from shared.schemas import Blueprint, EmailWideRule, RunResult, SectionResult
+from shared.simple_kb import SimpleBible
 from shared.tool_repo import ToolRepo
 
 console = Console()
@@ -53,8 +63,9 @@ ARCHS = {
     "b": arch_b_subagents,
     "c": arch_c_schema_network,
     "d": arch_d_claude_sdk,
+    "e": arch_e_claude_sdk,
 }
-# arch "d" (Claude Agent SDK) is experimental — opt in explicitly, not part of "all".
+# arch "d"/"e" (Claude Agent SDK) are experimental — opt in explicitly, not part of "all".
 ARCHS_ALL = ("a", "b", "c")
 
 
@@ -103,10 +114,90 @@ def hydrate_rules(kb: KB, result: RunResult) -> dict[str, Any]:
     return payloads
 
 
+def hydrate_simple_passages(bible: SimpleBible, result: RunResult) -> dict[str, Any]:
+    ids: set[str] = {e.id for e in result.email_wide_rules}
+    for s in result.sections:
+        ids.update(v.id for v in s.targeted_rules)
+        ids.update(v.id for v in s.email_wide_rules)
+    return bible.hydrate(ids)
+
+
+async def run_arch_e(brand: str, blueprint_path: Path, bp: Blueprint,
+                     sections_filter: list[str], include_dc: bool, model: str,
+                     e_max_turns: int) -> Path:
+    """Whole-blueprint Architecture E run against simple_kb original bibles."""
+    bible = SimpleBible(brand)
+    run_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_e_{brand}_{blueprint_path.stem}"
+    out_dir = config.OUTPUTS_DIR / run_id
+    (out_dir / "traces").mkdir(parents=True, exist_ok=True)
+
+    sections = [s for s in bp.content_blueprint
+                if not sections_filter or s.section_id in sections_filter]
+    console.print(f"[bold cyan]== arch e | max_turns={e_max_turns} | {brand} | "
+                  f"{len(sections)} sections | model {model} | "
+                  f"design_concept={'on' if include_dc else 'off'} | "
+                  f"passages={len(bible.refs)} ==[/bold cyan]")
+
+    usage = Usage()
+    trace = Trace()
+    t0 = time.time()
+    try:
+        section_results, email_wide, arch_stats = await arch_e_claude_sdk.run_blueprint(
+            bible, bp, sections,
+            model=model, include_design_concept=include_dc,
+            trace=trace, usage=usage, max_turns=e_max_turns,
+        )
+    except Exception as e:  # noqa: BLE001 — whole-run failure still writes a result artifact
+        section_results = [
+            SectionResult(section_id=s.section_id, error=repr(e)) for s in sections
+        ]
+        email_wide = []
+        arch_stats = {}
+
+    for s, sec in zip(sections, section_results):
+        status = f"[red]ERROR: {sec.error}[/red]" if sec.error else (
+            f"targeted={len(sec.targeted_rules)}")
+        console.print(f"  [e] {sec.section_id}: {status}")
+    console.print(f"  [e] email_wide={len(email_wide)} "
+                  f"({arch_stats.get('tool_calls', 0)} tool calls, "
+                  f"{arch_stats.get('latency_s', 0)}s)")
+
+    trace.dump(out_dir / "traces" / "00_blueprint.jsonl")
+    stats = {
+        **usage.as_dict(),
+        **arch_stats,
+        "wall_s": round(time.time() - t0, 1),
+        "model": model,
+        "sections_ok": sum(1 for s in section_results if not s.error),
+        "e_max_turns": e_max_turns,
+        "source": "simple_kb",
+    }
+    result = RunResult(
+        arch="e", brand=brand,
+        blueprint_path=str(blueprint_path),
+        design_concept_used=include_dc,
+        sections=section_results,
+        email_wide_rules=email_wide,
+        stats=stats,
+    )
+    payload = result.model_dump()
+    payload["rules"] = hydrate_simple_passages(bible, result)
+    (out_dir / "result.json").write_text(json.dumps(payload, indent=2))
+    console.print(f"  -> {out_dir / 'result.json'}  "
+                  f"[dim]{usage.as_dict()} wall={payload['stats']['wall_s']}s[/dim]")
+    return out_dir
+
+
 async def run_arch(arch: str, brand: str, blueprint_path: Path, bp: Blueprint,
                    sections_filter: list[str], include_dc: bool, model: str,
                    section_concurrency: int, thinking_effort: str, max_tokens: int,
-                   d_tools: str = "fs", d_max_turns: int = 48) -> Path:
+                   d_tools: str = "fs", d_max_turns: int = 48,
+                   e_max_turns: int = 32) -> Path:
+    if arch == "e":
+        return await run_arch_e(
+            brand, blueprint_path, bp, sections_filter, include_dc, model, e_max_turns,
+        )
+
     module = ARCHS[arch]
     kb = KB(brand)
     repo = ToolRepo(kb)
@@ -198,6 +289,9 @@ async def main() -> None:
     parser.add_argument("--d-max-turns", type=int, default=48,
                         help="arch 'd' only: Claude Agent SDK max_turns (default 48; "
                              "FS mode is turn-hungry vs structured tools)")
+    parser.add_argument("--e-max-turns", type=int, default=32,
+                        help="arch 'e' only: Claude Agent SDK max_turns for the "
+                             "whole-blueprint simple_kb session (default 32)")
     args = parser.parse_args()
 
     config.require_keys()
@@ -208,7 +302,8 @@ async def main() -> None:
         out_dirs.append(await run_arch(
             arch, args.brand, args.blueprint, bp, args.sections,
             args.design_concept == "on", args.model, args.section_concurrency,
-            args.thinking_effort, args.max_tokens, args.d_tools, args.d_max_turns))
+            args.thinking_effort, args.max_tokens, args.d_tools, args.d_max_turns,
+            args.e_max_turns))
 
     if len(out_dirs) > 1:
         table = Table(title="runs")

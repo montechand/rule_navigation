@@ -1,19 +1,16 @@
 {
   "doc_ref": "design_pattern_rules[5]",
   "group_id": "grp_lisraya_design_pattern_rules_05",
+  "missing_token_requests": [],
   "original_text": "### Iconography\n- Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work).\n- Icon colors and backgrounds adjustable **only within the brand palette**.\n- Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]",
   "relations": [
     {
-      "dst_slug": "icon_style_minimal_line",
-      "note": "Icon color/palette constraint co-applies with the minimal line style.",
+      "dst_rule_id": "rule_lisraya_icon_minimal_line_style",
+      "dst_slug": "icon_minimal_line_style",
+      "note": "Both constrain the same icon element: style and palette.",
       "relation": "co_applies",
-      "src_slug": "icon_color_brand_palette_only"
-    },
-    {
-      "dst_slug": "icon_style_minimal_line",
-      "note": "Minimum render size applies to icons drawn in the minimal line style.",
-      "relation": "co_applies",
-      "src_slug": "icon_min_render_low_vision"
+      "src_rule_id": "rule_lisraya_icon_colors_brand_palette_only",
+      "src_slug": "icon_colors_brand_palette_only"
     }
   ],
   "rules": [
@@ -26,13 +23,12 @@
       "effect": [
         {
           "element_path": "icon.style",
-          "token_id": "tok_lisraya_icon_style"
+          "token_id": "tok_lisraya_icon_style_minimal_line"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "minimal line illustration",
-          "consistent stroke weight, rounded line caps, single-color line work"
+          "minimal line illustration"
         ],
         "unit_ids": [
           "u_design_pattern_rules_5_0001"
@@ -41,24 +37,27 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work)."
+          "**minimal line illustration** for clarity and quick recall",
+          "must match this stylistic approach",
+          "consistent stroke weight, rounded line caps, single-color line work"
         ],
         "unit_ids": [
           "u_design_pattern_rules_5_0001"
         ]
       },
       "hardness": "hard_constraint",
-      "intent": "Maintain a consistent iconographic system.",
+      "id": "rule_lisraya_icon_minimal_line_style",
+      "intent": "Maintain a consistent, recognizable icon system.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "iconography",
-      "rule_text": "Icons use the minimal line illustration style (icon.style = minimal line illustration, consistent stroke weight, rounded line caps, single-color) for clarity and quick recall. New icons are permitted but must match this stylistic approach.",
+      "rule_text": "Icons use the minimal line illustration style (icon_style.minimal_line) for clarity and quick recall. New icons are permitted but must match this stylistic approach: consistent stroke weight, rounded line caps, single-color line work.",
       "scope": "brand",
       "selector": {
         "element_path": "icon.style",
         "section_types": null
       },
-      "slug": "icon_style_minimal_line",
+      "slug": "icon_minimal_line_style",
       "tags": [
         "accessibility"
       ]
@@ -71,7 +70,7 @@
       "content_types": null,
       "effect": {
         "reserved_for": "brand palette",
-        "subject": "icon colors and backgrounds"
+        "subject": "icon color and background"
       },
       "effect_evidence": {
         "quotes": [
@@ -84,7 +83,7 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Icon colors and backgrounds adjustable **only within the brand palette**.",
+          "Icon colors and backgrounds adjustable **only within the brand palette**",
           "default Brand Blue strokes on light backgrounds"
         ],
         "unit_ids": [
@@ -93,17 +92,18 @@
         ]
       },
       "hardness": "hard_constraint",
-      "intent": "Keep icon colorways on-brand.",
+      "id": "rule_lisraya_icon_colors_brand_palette_only",
+      "intent": "Keep iconography within approved brand colors.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "iconography",
-      "rule_text": "Icon colors and backgrounds are adjustable only within the brand palette. Default icon strokes are Brand Blue (icon.stroke.color = #00529b) on light backgrounds.",
+      "rule_text": "Icon colors and backgrounds may be adjusted only within the brand palette; default icon strokes are Brand Blue (icon.stroke_color = #00529b) on light backgrounds.",
       "scope": "brand",
       "selector": {
-        "element_path": "icon.stroke.color",
+        "element_path": "icon.stroke_color",
         "section_types": null
       },
-      "slug": "icon_color_brand_palette_only",
+      "slug": "icon_colors_brand_palette_only",
       "tags": [
         "color_application"
       ]
@@ -119,7 +119,7 @@
       "effect": [
         {
           "element_path": "icon.min_render_size",
-          "token_id": "tok_lisraya_icon_min_render"
+          "token_id": "tok_lisraya_icon_min_render_size"
         }
       ],
       "effect_evidence": {
@@ -133,24 +133,26 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]"
+          "Consider scale and contrast for low-vision audiences.",
+          "minimum render size 32×32px in email"
         ],
         "unit_ids": [
           "u_design_pattern_rules_5_0003"
         ]
       },
       "hardness": "hard_constraint",
-      "intent": "Ensure icons remain legible for low-vision audiences.",
+      "id": "rule_lisraya_icon_min_render_size",
+      "intent": "Ensure icons remain legible and accessible at small sizes.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "iconography",
-      "rule_text": "Consider scale and contrast for low-vision audiences: minimum icon render size is 32×32px in email (icon.min_render_size = 32×32px).",
+      "rule_text": "Consider scale and contrast for low-vision audiences: icons render at a minimum size of 32×32px in email (icon.min_render_size).",
       "scope": "org_baseline",
       "selector": {
         "element_path": "icon.min_render_size",
         "section_types": null
       },
-      "slug": "icon_min_render_low_vision",
+      "slug": "icon_min_render_size",
       "tags": [
         "accessibility"
       ]

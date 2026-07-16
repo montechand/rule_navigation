@@ -1,15 +1,9 @@
 {
   "doc_ref": "content_pattern_rules[8]",
   "group_id": "grp_lisraya_content_pattern_rules_08",
+  "missing_token_requests": [],
   "original_text": "### Brand Voice\n- **Confident, not boastful** — first-of-its-kind significance stated clearly and directly, never overstated or sensationalized.\n- **Warm, not overly emotional** — genuine empathy about DM's daily impact; patients at the center.\n- **Clear, not complicated** — plain, respectful language; easy to understand without losing accuracy.\n- Tone may flex slightly by context; core voice never changes.",
-  "relations": [
-    {
-      "dst_slug": "brand_voice_pillars",
-      "note": "Consistency clause qualifies how the three voice pillars may adapt without being altered.",
-      "relation": "refines",
-      "src_slug": "brand_voice_core_consistency"
-    }
-  ],
+  "relations": [],
   "rules": [
     {
       "applies_when": null,
@@ -23,73 +17,33 @@
       "evidence": {
         "quotes": [
           "Confident, not boastful",
-          "first-of-its-kind significance stated clearly and directly, never overstated or sensationalized",
+          "never overstated or sensationalized",
           "Warm, not overly emotional",
-          "genuine empathy about DM's daily impact; patients at the center",
           "Clear, not complicated",
-          "plain, respectful language; easy to understand without losing accuracy"
+          "Tone may flex slightly by context; core voice never changes."
         ],
         "unit_ids": [
           "u_content_pattern_rules_8_0000",
           "u_content_pattern_rules_8_0001",
           "u_content_pattern_rules_8_0002",
-          "u_content_pattern_rules_8_0003"
+          "u_content_pattern_rules_8_0003",
+          "u_content_pattern_rules_8_0004"
         ]
       },
       "governance": null,
       "hardness": "strong_default",
-      "intent": "Keep all patient-facing and brand copy consistently confident, warm, and clear rather than drifting into boastful, over-emotional, or overly technical tone.",
-      "polarity": "should",
+      "id": "rule_lisraya_brand_voice_pillars",
+      "intent": "Keep messaging consistently confident, warm, and clear across all content while allowing contextual tone flexibility without altering the underlying brand voice.",
+      "polarity": "must",
       "precedence": 0,
       "rule_class": "voice_tone",
-      "rule_text": "Brand voice rests on three pillars: (1) Confident, not boastful — state first-of-its-kind significance clearly and directly, never overstated or sensationalized; (2) Warm, not overly emotional — convey genuine empathy about the condition's daily impact, keeping patients at the center; (3) Clear, not complicated — use plain, respectful language that stays easy to understand without sacrificing accuracy.",
+      "rule_text": "Brand voice rests on three pillars: confident, not boastful (state first-of-its-kind significance clearly, never overstated or sensationalized); warm, not overly emotional (genuine empathy for patients' daily impact, patients centered); and clear, not complicated (plain, respectful, accurate language). Tone may flex slightly by context, but the core voice must never change.",
       "scope": "brand",
       "selector": {
         "element_path": null,
         "section_types": null
       },
       "slug": "brand_voice_pillars",
-      "snippets": null,
-      "snippets_evidence": null,
-      "tags": [
-        "copy_editorial"
-      ]
-    },
-    {
-      "applies_when": [
-        {
-          "kind": "content_tag",
-          "value": "context_variant_copy"
-        }
-      ],
-      "audience": null,
-      "constraint_type": null,
-      "content_sub_type_ids": null,
-      "content_types": null,
-      "effect": null,
-      "effect_evidence": null,
-      "evaluation_scope": "email",
-      "evidence": {
-        "quotes": [
-          "Tone may flex slightly by context; core voice never changes."
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_8_0004"
-        ]
-      },
-      "governance": null,
-      "hardness": "hard_constraint",
-      "intent": "Allow contextual tonal adjustment while preserving a non-negotiable, recognizable core voice across all materials.",
-      "polarity": "must_not",
-      "precedence": 1,
-      "rule_class": "voice_tone",
-      "rule_text": "Tone may flex slightly depending on context (e.g., channel or audience), but the core brand voice — confident, warm, and clear — must never change.",
-      "scope": "brand",
-      "selector": {
-        "element_path": null,
-        "section_types": null
-      },
-      "slug": "brand_voice_core_consistency",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [

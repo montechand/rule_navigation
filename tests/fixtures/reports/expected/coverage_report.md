@@ -42,3 +42,5 @@
 | unverified_value | 0 | 1 | 0 |
 | over_claimed | 0 | 0 | 1 |
 | conflict | 0 | 1 | 0 |
+| orphan_token | 0 | 0 | 0 |
+| needs_rule | 0 | 0 | 0 |

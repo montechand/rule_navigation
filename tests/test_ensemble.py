@@ -25,6 +25,7 @@ from indexing_v2.extraction.ensemble import (
     RuleGroupMappingError,
     SemanticResolutionError,
     VerifiedRunInput,
+    _rule_signature,
     build_token_catalog,
     build_verified_run,
     reconcile_ensemble,
@@ -235,7 +236,7 @@ def _record(
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION
+    assert STAGE_VERSION == "1.3.0"
 
 
 def test_minibible_three_run_reconcile(
@@ -497,6 +498,7 @@ def test_rule_prose_is_champion_verbatim(units: list[SourceUnit]) -> None:
     def rule(run_id: str, text: str) -> dict[str, Any]:
         return {
             "id": f"rule_{run_id}",
+            "slug": "headline_style",
             "rule_class": "typography",
             "selector": {"element_path": "headline"},
             "rule_text": text,
@@ -519,6 +521,54 @@ def test_rule_prose_is_champion_verbatim(units: list[SourceUnit]) -> None:
     merged = result.rule_groups["grp_test"][0]
     assert merged["rule_text"] == "champion prose"
     assert merged["intent"] == "intent champion prose"
+
+
+def test_rules_merge_by_effect_signature_across_different_slugs(
+    units: list[SourceUnit],
+) -> None:
+    source = _unit(units, "u_layout_constraints_0_0008")
+    quote = source.text.strip()
+
+    def rule(run_id: str, slug: str) -> dict[str, Any]:
+        return {
+            "id": f"rule_{run_id}",
+            "slug": slug,
+            "rule_class": "spacing",
+            "constraint_type": "binding",
+            "effect": [
+                {
+                    "element_path": "section.padding",
+                    "token_id": "tok_spacing",
+                }
+            ],
+            "rule_text": "Use section padding.",
+            "effect_evidence": {
+                "unit_ids": [source.unit_id],
+                "quotes": [quote],
+            },
+            "evidence": {
+                "unit_ids": [source.unit_id],
+                "quotes": [quote],
+            },
+        }
+
+    result = reconcile_ensemble(
+        [
+            _manual_run(_output("r0", rules=[rule("r0", "section_spacing_rhythm")])),
+            _manual_run(
+                _output("r1", rules=[rule("r1", "section_padding_vertical_rhythm")])
+            ),
+        ],
+        units,
+        [],
+    )
+    assert len(result.rule_groups["grp_test"]) == 1
+    assert any(
+        finding.severity == "info"
+        and "merged_by_signature" in finding.description
+        for finding in result.findings
+    )
+    assert _rule_signature({"slug": "alpha"}) != _rule_signature({"slug": "beta"})
 
 
 def test_rule_group_handoff_preserves_doc_ref_and_consensus_relations(

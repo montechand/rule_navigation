@@ -1,13 +1,16 @@
 {
   "doc_ref": "internal_banner_rules[0]",
   "group_id": "grp_lisraya_internal_banner_rules_00",
+  "missing_token_requests": [],
   "original_text": "\nThe three approved brand colors in hierarchy order are: (1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent).\n\nAgenda, is the primary headline font\nand should be used for all headlines and headers.\nNunito Sans should be used for\nall body copy in print.\n\nAgenda:\n\n\nNunito Sans:\nhttps://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap\" rel=\"stylesheet\n\nuse this shape and treatment for CTAs:\n\n<svg width=\"180\" height=\"59\" viewBox=\"0 0 180 59\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"M0 25C0 11.1929 11.1929 0 25 0H177.5C178.605 0 179.5 0.895431 179.5 2V33.5C179.5 47.3071 168.307 58.5 154.5 58.5H2C0.895433 58.5 0 57.6046 0 56.5V25Z\" fill=\"url(#paint0_linear_75_5202)\"/> <defs> <linearGradient id=\"paint0_linear_75_5202\" x1=\"0\" y1=\"29.25\" x2=\"179.5\" y2=\"29.25\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"`#FFDF55`\"/> <stop offset=\"1\" stop-color=\"`#FAA21B`\"/> </linearGradient> </defs> </svg>",
   "relations": [
     {
-      "dst_slug": "internal_banner_color_hierarchy",
-      "note": "The CTA gradient's gold/amber tones echo the brand's secondary and tertiary accent colors defined in the hierarchy.",
-      "relation": "cross_reference",
-      "src_slug": "internal_banner_cta_shape"
+      "dst_rule_id": "rule_lisraya_body_font_print_assignment",
+      "dst_slug": "body_font_print_assignment",
+      "note": "Together these define the brand's typeface pairing: Agenda for headlines, Nunito Sans for print body copy.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_headline_font_assignment",
+      "src_slug": "headline_font_assignment"
     }
   ],
   "rules": [
@@ -16,14 +19,12 @@
       "audience": null,
       "constraint_type": "ordering",
       "content_sub_type_ids": null,
-      "content_types": [
-        "banner"
-      ],
+      "content_types": null,
       "effect": {
         "sequence": [
-          "tok_lisraya_color_primary_brand_blue",
-          "tok_lisraya_color_primary_sunshine",
-          "tok_lisraya_color_primary_gold"
+          "Deep Blue (#00529b, dominant) — color.primary.brand_blue",
+          "Amber Orange (#faa31b, secondary accent) — color.primary.sunshine",
+          "Golden Yellow (#ffc60a, tertiary accent) — color.primary.gold"
         ],
         "strict": true
       },
@@ -40,10 +41,7 @@
       "evaluation_scope": "email",
       "evidence": {
         "quotes": [
-          "The three approved brand colors in hierarchy order are",
-          "#00529B Deep Blue (dominant)",
-          "#FAA31B Amber Orange (secondary accent)",
-          "#FFC60A Golden Yellow (tertiary accent)"
+          "The three approved brand colors in hierarchy order are: (1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent)."
         ],
         "unit_ids": [
           "u_internal_banner_rules_0_0001"
@@ -51,22 +49,70 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Preserve consistent brand color dominance and accent usage across internal banner assets.",
+      "id": "rule_lisraya_brand_color_hierarchy",
+      "intent": "Preserve consistent brand color dominance and accent hierarchy across materials.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "color_application",
-      "rule_text": "The three approved brand colors for the internal banner must be applied in strict hierarchy order: Deep Blue (#00529B) is dominant/primary, Amber Orange/Sunshine (#FAA31B) is the secondary accent, and Golden Yellow/Gold (#FFC60A) is the tertiary accent.",
+      "rule_text": "The three approved brand colors have a fixed usage hierarchy: Deep Blue (#00529b) is dominant, Amber Orange (#faa31b) is the secondary accent, and Golden Yellow (#ffc60a) is the tertiary accent. This priority order must be respected wherever the palette is applied.",
       "scope": "brand",
       "selector": {
-        "element_path": "internal_banner.color_hierarchy",
+        "element_path": "color.hierarchy",
         "section_types": null
       },
-      "slug": "internal_banner_color_hierarchy",
+      "slug": "brand_color_hierarchy",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "color_application"
-      ]
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.font",
+          "token_id": "tok_lisraya_headline_font"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Agenda, is the primary headline font\nand should be used for all headlines and headers."
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Agenda, is the primary headline font\nand should be used for all headlines and headers.",
+          "Agenda:"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0003",
+          "u_internal_banner_rules_0_0006"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_headline_font_assignment",
+      "intent": "Keep headline typography consistent across all materials.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Agenda (headline.font = Agenda) is the primary headline font and must be used for all headlines and headers.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "headline.font",
+        "section_types": null
+      },
+      "slug": "headline_font_assignment",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
     },
     {
       "applies_when": null,
@@ -74,103 +120,88 @@
       "constraint_type": "binding",
       "content_sub_type_ids": null,
       "content_types": [
-        "banner",
         "print"
       ],
       "effect": [
         {
-          "element_path": "internal_banner.headline.font",
-          "token_id": "tok_lisraya_internal_banner_headline_font"
-        },
-        {
-          "element_path": "internal_banner.body.font",
-          "token_id": "tok_lisraya_internal_banner_body_font"
+          "element_path": "body.font",
+          "token_id": "tok_lisraya_font_body"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "the primary headline font",
-          "should be used for all headlines and headers.",
-          "Nunito Sans should be used for",
-          "body copy in print"
+          "Nunito Sans should be used for\nall body copy in print."
         ],
         "unit_ids": [
-          "u_internal_banner_rules_0_0003",
           "u_internal_banner_rules_0_0004"
         ]
       },
-      "evaluation_scope": "section",
+      "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Agenda, is the primary headline font",
-          "Nunito Sans should be used for",
-          "Agenda:",
+          "Nunito Sans should be used for\nall body copy in print.",
           "Nunito Sans:"
         ],
         "unit_ids": [
-          "u_internal_banner_rules_0_0003",
           "u_internal_banner_rules_0_0004",
-          "u_internal_banner_rules_0_0006",
           "u_internal_banner_rules_0_0008"
         ]
       },
       "governance": null,
       "hardness": "strong_default",
-      "intent": "Keep headline/body typography consistent across internal banner and print production.",
-      "polarity": "should",
+      "id": "rule_lisraya_body_font_print_assignment",
+      "intent": "Maintain consistent body typography for printed collateral.",
+      "polarity": "must",
       "precedence": 0,
       "rule_class": "typography",
-      "rule_text": "Agenda is the primary headline font (internal_banner.headline.font = Agenda) and should be used for all headlines and headers; Nunito Sans is the required body copy font in print (internal_banner.body.font = Nunito Sans).",
+      "rule_text": "Nunito Sans (body.font = Nunito Sans) must be used for all body copy in print materials.",
       "scope": "brand",
       "selector": {
-        "element_path": "internal_banner.headline.font",
+        "element_path": "body.font",
         "section_types": null
       },
-      "slug": "internal_banner_font_pairing",
-      "snippets": "https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap\" rel=\"stylesheet",
-      "snippets_evidence": {
-        "quotes": [
-          "https://fonts.googleapis.com/css2?family=Nunito+Sans"
-        ],
-        "unit_ids": [
-          "u_internal_banner_rules_0_0008"
-        ]
-      },
-      "tags": [
-        "typography"
-      ]
+      "slug": "body_font_print_assignment",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
     },
     {
       "applies_when": null,
       "audience": null,
       "constraint_type": "binding",
       "content_sub_type_ids": null,
-      "content_types": [
-        "banner"
-      ],
+      "content_types": null,
       "effect": [
         {
-          "element_path": "internal_banner.cta.shape_gradient",
-          "token_id": "tok_lisraya_internal_banner_cta_shape_gradient"
+          "element_path": "cta.button.gradient_start",
+          "token_id": "tok_lisraya_color_cta_svg_gradient_light"
         },
         {
-          "element_path": "internal_banner.cta.size",
-          "token_id": "tok_lisraya_internal_banner_cta_size"
+          "element_path": "cta.button.gradient_end",
+          "token_id": "tok_lisraya_color_cta_svg_gradient_dark"
+        },
+        {
+          "element_path": "cta.button.radius",
+          "token_id": "tok_lisraya_radius_gradient_cta_button"
         }
       ],
       "effect_evidence": {
         "quotes": [
+          "use this shape and treatment for CTAs:",
           "stop-color=\"`#FFDF55`\"",
           "stop-color=\"`#FAA21B`\""
         ],
         "unit_ids": [
+          "u_internal_banner_rules_0_0010",
           "u_internal_banner_rules_0_0012"
         ]
       },
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "use this shape and treatment for CTAs:"
+          "use this shape and treatment for CTAs:",
+          "stop-color=\"`#FFDF55`\"",
+          "stop-color=\"`#FAA21B`\""
         ],
         "unit_ids": [
           "u_internal_banner_rules_0_0010",
@@ -179,31 +210,31 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Standardize the CTA shape and gradient treatment for internal banners.",
+      "id": "rule_lisraya_cta_gradient_button_shape",
+      "intent": "Lock the approved CTA gradient shape so buttons remain visually consistent and recognizable across banners.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "cta",
-      "rule_text": "Internal banner CTAs must use the approved rounded shield SVG shape (180×59px) filled with the gold-to-amber linear gradient (Golden Yellow #FFDF55 → Amber Orange #FAA21B).",
+      "rule_text": "CTA buttons must use the signature asymmetric pill shape (cta.button.radius ≈ 49.52px 1.76px 40px 1.76px) filled with the gold-to-orange linear gradient running from light gold (#FFDF55) to dark orange (#FAA21B), exactly as shown in the locked SVG treatment.",
       "scope": "brand",
       "selector": {
-        "element_path": "internal_banner.cta.shape_gradient",
+        "element_path": "cta.button.gradient_shape",
         "section_types": [
           "cta"
         ]
       },
-      "slug": "internal_banner_cta_shape",
+      "slug": "cta_gradient_button_shape",
       "snippets": "<svg width=\"180\" height=\"59\" viewBox=\"0 0 180 59\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"M0 25C0 11.1929 11.1929 0 25 0H177.5C178.605 0 179.5 0.895431 179.5 2V33.5C179.5 47.3071 168.307 58.5 154.5 58.5H2C0.895433 58.5 0 57.6046 0 56.5V25Z\" fill=\"url(#paint0_linear_75_5202)\"/> <defs> <linearGradient id=\"paint0_linear_75_5202\" x1=\"0\" y1=\"29.25\" x2=\"179.5\" y2=\"29.25\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"`#FFDF55`\"/> <stop offset=\"1\" stop-color=\"`#FAA21B`\"/> </linearGradient> </defs> </svg>",
       "snippets_evidence": {
         "quotes": [
-          "<svg width=\"180\" height=\"59\" viewBox=\"0 0 180 59\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+          "<svg width=\"180\" height=\"59\" viewBox=\"0 0 180 59\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"M0 25C0 11.1929 11.1929 0 25 0H177.5C178.605 0 179.5 0.895431 179.5 2V33.5C179.5 47.3071 168.307 58.5 154.5 58.5H2C0.895433 58.5 0 57.6046 0 56.5V25Z\" fill=\"url(#paint0_linear_75_5202)\"/>"
         ],
         "unit_ids": [
           "u_internal_banner_rules_0_0012"
         ]
       },
       "tags": [
-        "imagery",
-        "color_application"
+        "imagery"
       ]
     }
   ],

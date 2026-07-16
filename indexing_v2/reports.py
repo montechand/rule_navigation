@@ -24,6 +24,8 @@ _TRIAGE_QUEUES: tuple[TriageQueue, ...] = (
     "unverified_value",
     "over_claimed",
     "conflict",
+    "orphan_token",
+    "needs_rule",
 )
 _SEVERITY_ORDER = ("critical", "major", "minor", "info")
 _RESOLUTION_ORDER = (
@@ -71,6 +73,7 @@ class ManifestMetrics(BaseModel):
     verification: dict[str, float | int] = Field(default_factory=dict)
     ensemble: dict[str, int] = Field(default_factory=dict)
     critic: dict[str, int] = Field(default_factory=dict)
+    linker: dict[str, int] = Field(default_factory=dict)
     consistency: dict[str, int] = Field(default_factory=dict)
     cascade: dict[str, int] = Field(default_factory=dict)
 
@@ -264,6 +267,17 @@ def render_manifest_summary(data: ManifestReportInput) -> str:
     lines.extend(_metric_block("verification", metrics.verification))
     lines.extend(_metric_block("ensemble", metrics.ensemble))
     lines.extend(_metric_block("critic", metrics.critic))
+    lines.extend(_metric_block("linker", metrics.linker))
+    minted_delta = data.acceptance.telemetry_deltas.get("linker.minted_edges", "")
+    if minted_delta.startswith("+") and minted_delta not in {"+0", "+0.0"}:
+        lines.extend(
+            [
+                "### linker alert",
+                "",
+                f"- minted_edges increased build-over-build: {minted_delta}",
+                "",
+            ]
+        )
     lines.extend(_metric_block("consistency", metrics.consistency))
     lines.extend(_metric_block("cascade", metrics.cascade))
     acceptance = data.acceptance

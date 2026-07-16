@@ -47,7 +47,7 @@ def _load_json(name: str) -> dict[str, Any]:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION == "1.1.2"
+    assert STAGE_VERSION == "1.1.4"
 
 
 def test_unknown_entity_kind_raises() -> None:

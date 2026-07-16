@@ -254,7 +254,7 @@ def test_required_dtcg_value_shapes() -> None:
     assert spacing["$value"] == "24px"
     font = _leaf(bundle, "font.brand.primary")
     assert font["$type"] == "fontFamily"
-    assert font["$value"] == ["avenir", "arial", "sans-serif"]
+    assert font["$value"] == ["avenir", "arial", "sans_serif"]
     weight = _leaf(bundle, "weight.heading.bold")
     assert weight["$type"] == "fontWeight"
     assert weight["$value"] == 700
@@ -322,8 +322,8 @@ def test_number_dimension_and_untyped_string_decisions() -> None:
     enum_values = {
         "alignment.text.center": "center",
         "icon_style.default": "outline",
-        "image_treatment.hero": "full-bleed",
-        "motion.default": "ease-out",
+        "image_treatment.hero": "full_bleed",
+        "motion.default": "ease_out",
     }
     for path, expected in enum_values.items():
         assert "$type" not in _leaf(bundle, path)

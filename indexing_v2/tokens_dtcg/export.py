@@ -219,8 +219,12 @@ def _replace_refs(value: Any, ids_to_paths: dict[str, str]) -> Any:
 def _font_families(value: Any) -> Any:
     if not isinstance(value, str):
         return value
-    canon = normalize_value("font", value).canon
-    return [part.strip().strip("'\"") for part in canon.split(",") if part.strip()]
+    families: list[str] = []
+    for part in value.split(","):
+        family = part.strip().strip("'\"")
+        if family:
+            families.append(normalize_value("font", family).canon)
+    return families
 
 
 def _typography_value(value: dict[str, Any], ids_to_paths: dict[str, str]) -> dict[str, Any]:

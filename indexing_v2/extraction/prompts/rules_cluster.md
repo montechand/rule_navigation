@@ -40,7 +40,12 @@ Cluster the SOURCE UNITS below into coherent brand_rule rows. Return JSON only:
     "snippets_evidence": {{"unit_ids": ["<unit_id>"], "quotes": ["<verbatim snippet substring>"]}} | null,
     "evidence": {{"unit_ids": ["<unit_id>", ...], "quotes": ["<verbatim substring>", ...]}}
   }}],
-  "relations": [{{"src_slug": "...", "dst_slug": "...", "relation": one of [refines, conflicts, cross_reference, cluster, co_applies, overrides, mutually_exclusive, depends_on] (or "other.<new_relation>" if the semantic is genuinely new), "note": "..."}}]
+  "relations": [{{"src_slug": "...", "dst_slug": "...", "relation": one of [refines, conflicts, cross_reference, cluster, co_applies, overrides, mutually_exclusive, depends_on] (or "other.<new_relation>" if the semantic is genuinely new), "note": "..."}}],
+  "missing_token_requests": [{{"key_proposal": "<type>.<group>.<name>",
+                              "value": <concrete value>,
+                              "unit_ids": ["<unit_id>"],
+                              "quotes": ["<verbatim substring>"],
+                              "for_rule_slug": "<slug>"}}] | []
 }}
 
 Example (binding + governance + snippets evidence):
@@ -80,6 +85,27 @@ Example (binding + governance + snippets evidence):
     "snippets": "<mj-text>Ask your doctor...</mj-text>",
     "snippets_evidence": {{"unit_ids": ["u_example_0022"], "quotes": ["<mj-text>Ask your doctor...</mj-text>"]}},
     "evidence": {{"unit_ids": ["u_example_0021"], "quotes": ["Ask your doctor about treatment options appropriate for you."]}}
+  }}]
+}}
+
+Example when a concrete value has no catalog token:
+{{
+  "rules": [{{
+    "slug": "headline_size",
+    "rule_class": "typography",
+    "constraint_type": "binding",
+    "effect": [],
+    "rule_text": "Headlines use the source-specified 28px size.",
+    "intent": "Preserve the approved headline scale.",
+    "evidence": {{"unit_ids": ["u_example_0023"], "quotes": ["Headline: 28px"]}}
+  }}],
+  "relations": [],
+  "missing_token_requests": [{{
+    "key_proposal": "size.type.headline",
+    "value": "28px",
+    "unit_ids": ["u_example_0023"],
+    "quotes": ["Headline: 28px"],
+    "for_rule_slug": "headline_size"
   }}]
 }}
 
@@ -136,8 +162,12 @@ Hard requirements — TOKEN-FIRST CLUSTERING:
    verbatim strings pair naturally with constraint_type=verbatim_content. Do not set
    governance on pure styling/layout rules.
 4. Reference catalog ids (tok_/ast_/sub_/agr_) inside effect wherever the blob refers
-   to a cataloged value/asset/claim/component. Use ids EXACTLY as given. Purely descriptive
-   value tables already captured by tokens need NO rule unless they state a usage constraint
+   to a cataloged value/asset/claim/component. Use ids EXACTLY as given.
+   Any `token_id` you emit MUST appear verbatim in CANDIDATE TOKEN CATALOG below. Ids not
+   in the catalog are rejected and you will be asked to re-emit. If the blob defines a
+   concrete value with no catalog token, DO NOT invent an id — emit a
+   `missing_token_requests` entry instead.
+   Purely descriptive value tables already captured by tokens need NO rule unless they state a usage constraint
    beyond the token's own value/gate.
 5. scope: statements marked [BASELINE]/[GENERAL]/(Solstice production rules) -> "org_baseline";
    campaign-specific (e.g. named campaign lockups/palettes) -> "campaign"; else "brand".

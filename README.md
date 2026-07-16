@@ -101,7 +101,7 @@ Useful flags on `run_blueprint`: `--design-concept off` (blueprint-only navigati
 `--sections hero cta` (subset), `--model` (any claude-*/gpt-* chat model),
 `--section-concurrency`.
 
-## The four architectures
+## The five architectures
 
 | | style | mechanics |
 |---|---|---|
@@ -109,10 +109,13 @@ Useful flags on `run_blueprint`: `--design-concept off` (blueprint-only navigati
 | `arch_b_subagents` | querying-style specialists | orchestrator can only delegate (`ask_vector/graph/lexical_specialist`), each specialist is a scoped loop reporting candidates+evidence; orchestrator merges, iterates, finalizes |
 | `arch_c_schema_network` | schema-sharded network | fixed parallel fan-out of 4 shard agents (color+typography / imagery+assets / layout+assembly+cta / copy+governance), composer agent merges and finalizes |
 | `arch_d_claude_sdk` | Claude Agent SDK filesystem retriever | Claude Code built-ins (Read/Bash/Glob/Grep) navigate `kb/{brand}/` on the local disk (Docker/server session). A/B via `--d-tools fs|full`: FS-only vs FS + ToolRepo MCP. Two prompts. Opt-in `--arch d` (not in `--arch all`) |
+| `arch_e_claude_sdk` | Claude Agent SDK over original bibles | One whole-blueprint session. Built-ins navigate `simple_kb/{brand}/` (verbatim design bible + `_index.json`). Terminal `finalize_blueprint_ruleset` assigns passage refs like `website.color_scheme_rules[3]` to sections + email-wide. Opt-in `--arch e` (not in `--arch all`). Does **not** use the structured KB. |
 
-All four share the same task brief, section rendering, finalize contract (validated ids,
-targeted/email-wide disjoint), tool repository, and tracing — so differences in output are
-architectural, not prompt-shaped.
+Architectures A–D share the same task brief, section rendering, finalize contract (validated
+ids, targeted/email-wide disjoint), tool repository, and tracing — so differences in output
+are architectural, not prompt-shaped. Architecture E keeps the same result envelope and
+`--design-concept` toggle, but its rule ids are original-passage refs rather than atomic
+`rule_*` KB ids.
 
 ## Knowledge base (`kb/{brand}/`)
 
@@ -127,6 +130,17 @@ architectural, not prompt-shaped.
   pairings, rule↔rule relations)
 - `review/` — per-blob original-vs-extracted files + build warnings (human spot-checking)
 - `vectors/chroma/` — persistent local vector store
+
+## Simple KB (`simple_kb/{brand}/`) — Architecture E only
+
+Byte-identical copies of the original design bibles (not the structured atomization):
+
+- `design_bible.json` — from `newest_email_pipeline/brand_rules/design_bible_{brand}_1.json`
+- `_index.json` — catalog of every Markdown passage with stable refs
+  (`website.color_scheme_rules[3]`, …)
+
+Architecture E assigns those passage refs to blueprint sections; `result.json` hydrates
+each ref with the verbatim Markdown text.
 
 ## Tool repository (`shared/tool_repo`)
 
@@ -159,11 +173,14 @@ Mapping and exclusions persist to `result.json` (`section_types`, `excluded_rule
 ## Layout
 
 ```
-shared/      config, pydantic schemas, LLM tool-loop client, KB access, tool repo, prompts
+shared/      config, pydantic schemas, LLM tool-loop client, KB access, tool repo, prompts,
+             simple_kb (original-bible passages for arch e)
 indexing/    build_kb.py (migration), summarize_embed.py, static schema docs, _cache/
 kb/          generated KB per brand (checked in, human-reviewable)
-arch_a_orchestrator/  arch_b_subagents/  arch_c_schema_network/  arch_d_claude_sdk/
+simple_kb/   original design bibles per brand (Architecture E)
+arch_a_orchestrator/  arch_b_subagents/  arch_c_schema_network/
+arch_d_claude_sdk/  arch_e_claude_sdk/
 runner/      run_blueprint.py, compare.py
-examples/    lisraya_blueprint.json (from rob_in_the_loop_v1), ibsrela_blueprint.json
+examples/    lisraya_blueprint.json (+ blueprint1–4), ibsrela_blueprint.json
 outputs/     run results + traces (gitignored-ish; safe to delete)
 ```

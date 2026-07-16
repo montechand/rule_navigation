@@ -26,6 +26,11 @@ _ENV_KEYS: dict[str, str] = {
     "FUZZY_MATCH_MIN_RATIO": "RULE_NAV_FUZZY_MATCH_MIN_RATIO",
     "DTCG_NAMESPACE": "RULE_NAV_DTCG_NAMESPACE",
     "CONCURRENCY": "RULE_NAV_CONCURRENCY",
+    "TWO_PHASE": "RULE_NAV_TWO_PHASE",
+    "REF_RETRIES": "RULE_NAV_REF_RETRIES",
+    "LINKER_MODEL": "RULE_NAV_LINKER_MODEL",
+    "LINKER_MAX_ADJUDICATIONS": "RULE_NAV_LINKER_MAX_ADJUDICATIONS",
+    "LINKER_GAP_FEEDBACK": "RULE_NAV_LINKER_GAP_FEEDBACK",
 }
 
 
@@ -55,6 +60,17 @@ def _resolve_float(name: str, default: float) -> float:
     return float(cfg_val)
 
 
+def _resolve_bool(name: str, default: bool) -> bool:
+    env_key = _ENV_KEYS[name]
+    env_val = os.getenv(env_key)
+    if env_val is not None:
+        return env_val.strip().lower() in {"1", "true"}
+    cfg_val = getattr(config, name, default)
+    if isinstance(cfg_val, str):
+        return cfg_val.strip().lower() in {"1", "true"}
+    return bool(cfg_val)
+
+
 def _default_ensemble_runs(extract_model: str, secondary_model: str) -> list[RunVariant]:
     return [
         RunVariant(run_id="r0", model=extract_model, temperature=0.0, replicate=0),
@@ -76,6 +92,11 @@ def reload_settings() -> None:
     global FUZZY_MATCH_MIN_RATIO
     global DTCG_NAMESPACE
     global CONCURRENCY
+    global TWO_PHASE
+    global REF_RETRIES
+    global LINKER_MODEL
+    global LINKER_MAX_ADJUDICATIONS
+    global LINKER_GAP_FEEDBACK
 
     CLASSIFY_MODEL = _resolve_str("CLASSIFY_MODEL", _DEFAULT_CLASSIFY_MODEL)
     EXTRACT_MODEL = _resolve_str("EXTRACT_MODEL", _DEFAULT_EXTRACT_MODEL)
@@ -88,6 +109,11 @@ def reload_settings() -> None:
     FUZZY_MATCH_MIN_RATIO = _resolve_float("FUZZY_MATCH_MIN_RATIO", 0.92)
     DTCG_NAMESPACE = _resolve_str("DTCG_NAMESPACE", _DEFAULT_DTCG_NAMESPACE)
     CONCURRENCY = _resolve_int("CONCURRENCY", 4)
+    TWO_PHASE = _resolve_bool("TWO_PHASE", False)
+    REF_RETRIES = _resolve_int("REF_RETRIES", 2)
+    LINKER_MODEL = _resolve_str("LINKER_MODEL", CRITIC_MODEL)
+    LINKER_MAX_ADJUDICATIONS = _resolve_int("LINKER_MAX_ADJUDICATIONS", 64)
+    LINKER_GAP_FEEDBACK = _resolve_bool("LINKER_GAP_FEEDBACK", False)
 
 
 # Initialized on import; call reload_settings() after env changes in tests.
@@ -102,5 +128,10 @@ TRIAGE_FILE: str
 FUZZY_MATCH_MIN_RATIO: float
 DTCG_NAMESPACE: str
 CONCURRENCY: int
+TWO_PHASE: bool
+REF_RETRIES: int
+LINKER_MODEL: str
+LINKER_MAX_ADJUDICATIONS: int
+LINKER_GAP_FEEDBACK: bool
 
 reload_settings()

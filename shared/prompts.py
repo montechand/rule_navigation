@@ -75,6 +75,36 @@ Method notes:
 """
 
 
+# Architecture E uses original design-bible passages (not the structured KB atomization).
+TASK_BRIEF_SIMPLE = """## Task
+
+You are given a FULL email blueprint (all sections). Read the brand's ORIGINAL design
+bible on disk and return the PRECISE set of relevant passages, split into:
+
+- per-section targeted_rule_ids — passages that specifically constrain THAT section's
+  design / copy / components (palette application for its background, accent-shape photo
+  crop, Gradient Callout CTA, Icon Callout Box, typography for its headlines, etc.)
+- email_wide_rule_ids — baseline passages that apply to the whole email / every section
+  (accessibility floors, modular assembly, brand-name / trademark, global type scale,
+  voice, audience language). Only include email-relevant baselines.
+
+Passage identity: each selectable unit is one Markdown entry from design_bible.json,
+addressed by a stable ref like `website.color_scheme_rules[3]`. Use ONLY those refs
+(see `_index.json`). Do not invent refs or split passages into sub-rules.
+
+Decision policy (false negatives first):
+1. Prefer over-inclusion of passages that clearly govern a device/treatment the section
+   uses or could use given the blueprint (+ design_concept when present).
+2. Put global / every-section baselines in email_wide, not duplicated into every section.
+3. A passage may be targeted by multiple sections when each genuinely needs it, but a
+   passage MUST NOT appear in both targeted and email_wide.
+4. Audience is patient-facing (DTC) unless stated otherwise — skip HCP-only or
+   print/PPT-only guidance when the bible distinguishes surfaces.
+5. Call finalize_blueprint_ruleset once with EVERY blueprint section_id present exactly
+   once. If finalize errors, fix only the listed problems and finalize again.
+"""
+
+
 def schema_primer(kb: KB) -> str:
     parts = ["## Knowledge base"]
     overview = kb.schema_doc("overview")
@@ -102,3 +132,24 @@ def render_blueprint_context(bp: Blueprint, target: BlueprintSection,
         "last" if target.order == max(s.order for s in bp.content_blueprint) else "middle")
     lines.append(f"position_in_email: {position} (of the content sections)")
     return "\n".join(lines)
+
+
+def render_full_blueprint_context(bp: Blueprint, sections: list[BlueprintSection],
+                                  include_design_concept: bool) -> str:
+    """Whole-blueprint prompt context for Architecture E."""
+    lines = ["## Email blueprint"]
+    if bp.email_summary:
+        lines.append(f"email_summary: {bp.email_summary}")
+    lines.append(f"content_type: {bp.content_type}")
+    lines.append("sections (in order): " + ", ".join(
+        f"{s.order}:{s.section_id}" for s in sections
+    ))
+    lines.append("")
+    for s in sections:
+        position = "first" if s.order == min(x.order for x in bp.content_blueprint) else (
+            "last" if s.order == max(x.order for x in bp.content_blueprint) else "middle")
+        lines.append(f"## SECTION {s.order}: {s.section_id}")
+        lines.append(s.render(include_design_concept=include_design_concept))
+        lines.append(f"position_in_email: {position}")
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"

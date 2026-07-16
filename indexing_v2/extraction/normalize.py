@@ -11,7 +11,7 @@ import unicodedata
 from dataclasses import dataclass
 from typing import Any
 
-STAGE_VERSION = "1.0.0"
+STAGE_VERSION = "1.1.0"
 
 _HEX3_RE = re.compile(r"^#([0-9a-fA-F]{3})$")
 _HEX6_RE = re.compile(r"^#([0-9a-fA-F]{6})$")
@@ -181,7 +181,7 @@ def _nfc_outer_trim(text: str) -> str:
 
 def _normalize_enum_string(raw: Any) -> NormalizedValue:
     text = unicodedata.normalize("NFC", str(raw).strip())
-    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"[\s_-]+", "_", text)
     return NormalizedValue(canon=text.casefold(), kind="string")
 
 
@@ -262,11 +262,15 @@ def value_patterns(token_type: str, canon: str) -> list[re.Pattern[str]]:
         pct_text = f"{numeric * 100.0:g}"
         return [
             re.compile(rf"\b{re.escape(canon)}\b"),
-            re.compile(rf"\b{re.escape(pct_text)}\s*%\b"),
+            re.compile(rf"\b{re.escape(pct_text)}\s*%(?!\w)"),
         ]
     if key in _RATIO_TYPES:
         return [re.compile(re.escape(canon))]
     if key in _GRADIENT_TYPES:
         return [re.compile(re.escape(canon))]
+    if key in _ENUM_STRING_TYPES:
+        words = [re.escape(word) for word in canon.split("_") if word]
+        joined = r"[\s_-]+".join(words)
+        return [re.compile(rf"(?<!\w){joined}(?!\w)", re.IGNORECASE)]
     escaped = re.escape(canon)
     return [re.compile(escaped, re.IGNORECASE if key not in _VERBATIM_TYPES else 0)]

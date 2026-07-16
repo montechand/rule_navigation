@@ -1,12 +1,15 @@
 {
   "doc_ref": "design_pattern_rules[1]",
   "group_id": "grp_lisraya_design_pattern_rules_01",
+  "missing_token_requests": [],
   "original_text": "### Graphic Elements — Waves\n- Fluid wave forms in **two colorways**: **Sunshine/Gold** and **Sky Blue/Deep Blue**; each in **long and short** variants.\n- Construction: top wave layer at **70% transparency** over the base wave (Gold over Sunshine; Sky Blue over Deep Blue) — always preserve the layered, translucent quality.\n- Usage: alone, or overlaid on photography or gradient backgrounds; to support layout flow, frame content, or add depth. Approved color values only.\n- **Masthead gradient with logo mark** (Sunshine → 0C,10M,78Y,0K, logo mark placed at the lightest end) is the approved device for holding copy in masthead positions.",
   "relations": [
     {
+      "dst_rule_id": "rule_lisraya_wave_graphic_construction",
       "dst_slug": "wave_graphic_construction",
-      "note": "Usage guidance refines the base wave construction rule.",
-      "relation": "refines",
+      "note": "Usage guidance applies to the wave device whose construction/colorways are defined by the construction rule.",
+      "relation": "depends_on",
+      "src_rule_id": "rule_lisraya_wave_graphic_usage",
       "src_slug": "wave_graphic_usage"
     }
   ],
@@ -19,21 +22,15 @@
       "content_types": null,
       "effect": [
         {
-          "element_path": "wave.form",
-          "token_id": "tok_lisraya_wave_form"
-        },
-        {
           "element_path": "wave.top_layer.opacity",
           "token_id": "tok_lisraya_wave_top_layer_opacity"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "Fluid wave forms in **two colorways**",
           "top wave layer at **70% transparency** over the base wave"
         ],
         "unit_ids": [
-          "u_design_pattern_rules_1_0001",
           "u_design_pattern_rules_1_0002"
         ]
       },
@@ -51,14 +48,15 @@
         ]
       },
       "hardness": "hard_constraint",
-      "intent": "Preserve the signature layered translucent wave treatment and approved colorways.",
+      "id": "rule_lisraya_wave_graphic_construction",
+      "intent": "Preserve the signature layered translucent wave device and approved colorways.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "imagery",
-      "rule_text": "Wave graphics are fluid, layered translucent forms (wave.form = fluid_layered_translucent) in two approved colorways — Sunshine/Gold and Sky Blue/Deep Blue — each in long and short variants. Construction layers a top wave (Gold over Sunshine; Sky Blue over Deep Blue) at 70% transparency (wave.top_layer.opacity = 0.7) over the base wave; always preserve the layered, translucent quality and use approved color values only.",
+      "rule_text": "Wave graphics come in two colorways (Sunshine/Gold and Sky Blue/Deep Blue), each in long and short variants. Construction is a top wave layer at 70% transparency (wave.top_layer.opacity = 0.7) over the base wave — Gold over Sunshine, Sky Blue over Deep Blue — and must always preserve the layered, translucent quality. Use only approved color values.",
       "scope": "brand",
       "selector": {
-        "element_path": "wave.form",
+        "element_path": "wave.top_layer.opacity",
         "section_types": null
       },
       "slug": "wave_graphic_construction",
@@ -79,21 +77,22 @@
       "evaluation_scope": "section",
       "evidence": {
         "quotes": [
-          "Usage: alone, or overlaid on photography or gradient backgrounds; to support layout flow, frame content, or add depth. Approved color values only."
+          "Usage: alone, or overlaid on photography or gradient backgrounds; to support layout flow, frame content, or add depth."
         ],
         "unit_ids": [
           "u_design_pattern_rules_1_0003"
         ]
       },
       "hardness": "soft_guidance",
-      "intent": "Guide permissible wave placements while restricting to approved colors.",
+      "id": "rule_lisraya_wave_graphic_usage",
+      "intent": "Guide flexible but on-brand deployment of the wave device.",
       "polarity": "may",
       "precedence": 0,
       "rule_class": "imagery",
-      "rule_text": "Waves may be used alone, or overlaid on photography or gradient backgrounds, to support layout flow, frame content, or add depth. Only approved color values are permitted.",
+      "rule_text": "Wave graphics may be used alone, or overlaid on photography or gradient backgrounds, to support layout flow, frame content, or add depth.",
       "scope": "brand",
       "selector": {
-        "element_path": "wave.form",
+        "element_path": null,
         "section_types": null
       },
       "slug": "wave_graphic_usage",
@@ -111,12 +110,8 @@
       "content_types": null,
       "effect": [
         {
-          "element_path": "masthead.background.gradient",
+          "element_path": "masthead.gradient",
           "token_id": "tok_lisraya_masthead_gradient"
-        },
-        {
-          "element_path": "logo.mark.opacity",
-          "token_id": "tok_lisraya_logo_mark_opacity"
         }
       ],
       "effect_evidence": {
@@ -136,25 +131,26 @@
           "u_design_pattern_rules_1_0004"
         ]
       },
-      "hardness": "hard_constraint",
-      "intent": "Standardize the approved masthead copy-holding device.",
+      "hardness": "strong_default",
+      "id": "rule_lisraya_masthead_gradient_logo_device",
+      "intent": "Standardize the approved copy-holding device in mastheads.",
       "polarity": "must",
       "precedence": 0,
-      "rule_class": "color_application",
-      "rule_text": "The masthead gradient with logo mark (masthead.background.gradient = Sunshine → Light Gold #faa31b → #ffe05c, with the logo mark placed at the lightest end) is the approved device for holding copy in masthead positions.",
+      "rule_class": "layout",
+      "rule_text": "The masthead gradient with logo mark (Sunshine → light gold #ffe05c, with the logo mark placed at the lightest end) is the approved device for holding copy in masthead positions.",
       "scope": "brand",
       "selector": {
-        "element_path": "masthead.background.gradient",
+        "element_path": "masthead.gradient",
         "section_types": [
           "top_matter"
         ]
       },
-      "slug": "masthead_gradient_copy_device",
+      "slug": "masthead_gradient_logo_device",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "layout",
-        "typography"
+        "color_application",
+        "imagery"
       ]
     }
   ],

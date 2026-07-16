@@ -93,6 +93,25 @@ def test_normalize_enum_string() -> None:
     assert normalize_value("alignment", "  Left  ").canon == "left"
 
 
+def test_normalize_enum_separators_are_equivalent_and_idempotent() -> None:
+    variants = ["sentence case", "sentence_case", "Sentence-Case"]
+    normalized = [normalize_value("case", value) for value in variants]
+
+    assert {value.canon for value in normalized} == {"sentence_case"}
+    assert all(normalize_value("case", value.canon) == value for value in normalized)
+
+
+def test_enum_value_patterns_accept_separator_variants() -> None:
+    canon = normalize_value("case", "sentence_case").canon
+    patterns = value_patterns("case", canon)
+
+    assert all(
+        any(pattern.search(value) for pattern in patterns)
+        for value in ["sentence case", "sentence_case", "Sentence-Case"]
+    )
+    assert not any(pattern.search("nonsentence casework") for pattern in patterns)
+
+
 def test_normalize_verbatim_outer_trim_only() -> None:
     inner = "  Ask  your doctor.  "
     out = normalize_value("preferred_form", inner)
@@ -151,7 +170,7 @@ def test_normalized_value_object_is_reused() -> None:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION
+    assert STAGE_VERSION == "1.1.0"
 
 
 def test_color_pattern_case_insensitive() -> None:

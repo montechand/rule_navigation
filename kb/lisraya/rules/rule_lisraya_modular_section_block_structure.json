@@ -13,10 +13,27 @@
   "selector": {},
   "evaluation_scope": "section",
   "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "section.padding.vertical",
+        "token_id": "tok_lisraya_padding_section_vertical",
+        "linked_by": "linker-v1.0.0:auto"
+      },
+      {
+        "element_path": "email.size.body_width",
+        "token_id": "tok_lisraya_size_email_body_width",
+        "linked_by": "linker-v1.0.0:auto"
+      }
+    ]
+  },
   "polarity": "must",
   "hardness": "hard_constraint",
   "precedence": 0,
-  "token_ids": [],
+  "token_ids": [
+    "tok_lisraya_padding_section_vertical",
+    "tok_lisraya_size_email_body_width"
+  ],
   "asset_ids": [],
   "rule_text": "Each section is a self-contained `<table>`-based block at 600px (size.email.body_width_600 = 600px) with its own top/bottom 32px padding (padding.section.vertical_32 = 32px) and a declared background color; sections carry no margins outside the block so assembly is direct stacking. Section metadata must declare: background color, whether the section establishes `dermatomyositis (DM)`, footnote symbols consumed (\u2020, \u2021 assigned at assembly to avoid collisions), and whether it contains a CTA.",
   "intent": "Enable safe modular stacking of independent section blocks.",

@@ -1,0 +1,53 @@
+{
+  "id": "rule_lisraya_audience_person_first_language",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "voice_tone"
+  ],
+  "audience": "dtp_patient",
+  "scope": "brand",
+  "selector": {
+    "element_path": "content.patient_materials.audience_terms"
+  },
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "care_team_prohibited": "staff",
+    "care_team_scope": "network of patients, HCPs, and support systems",
+    "care_team_term": "care team",
+    "content": "someone/people with dermatomyositis",
+    "patients_allowed_in": "HCP materials",
+    "person_first": true,
+    "preferred": [
+      "someone with dermatomyositis",
+      "people with dermatomyositis"
+    ],
+    "prohibited_in_patient_materials": [
+      "patients"
+    ],
+    "trigger": "patient (DTC) materials"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "regulatory",
+    "verdict": "requires_qualifier",
+    "preferred_form": "someone/people with dermatomyositis",
+    "match": {
+      "method": "semantic"
+    },
+    "severity": "warn"
+  },
+  "rule_text": "This guide governs patient (DTC) materials. Language rules differ by audience: use person-first phrasing \"someone/people with dermatomyositis\" for patient materials, while \"patients\" is acceptable in HCP materials. Confirm the audience in every brief before writing.",
+  "intent": "Enforce audience-appropriate, person-first language.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[1]",
+  "group_id": "grp_lisraya_other_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Use person-first phrasing for DTC patient materials (\"people with dermatomyositis\"), \"patients\" allowed in HCP materials; confirm audience each brief."
+}

@@ -2,7 +2,7 @@
 
 Usage:
   python -m indexing_v2.build_kb --brand lisraya ibsrela [--stages s0..s11 | --from s5] \\
-      [--no-ensemble] [--no-critic] [--no-gaps] [--strict] [--ratchet] \\
+      [--no-ensemble] [--no-critic] [--no-gaps] [--no-linker] [--strict] [--ratchet] \\
       [--accept-baseline] [--force] [--concurrency N]
 """
 
@@ -28,10 +28,12 @@ from rich.console import Console
 
 from indexing.build_kb import (
     Warnings,
+    _remap_refs,
     dedupe_rules,
     dedupe_tokens,
     ingest_template_library,
     link_templates,
+    scan_ids,
     validate_catalog,
     validate_rule,
     write_kb,
@@ -40,6 +42,7 @@ from indexing_v2 import settings
 from indexing_v2.contracts import (
     SCHEMA_VERSION,
     CoverageReport,
+    LinkerResult,
     RunVariant,
     SourceUnit,
     TriageItem,
@@ -83,7 +86,10 @@ from indexing_v2.extraction.runner import (
     LLMClient,
     normalize_rule_groups,
     normalize_token_ids,
+    repair_missing_token_requests,
     run_extraction,
+    run_rules_phase,
+    run_token_phase,
 )
 from indexing_v2.extraction.segmenter import STAGE_VERSION as S0_VERSION
 from indexing_v2.extraction.segmenter import run_segmenter
@@ -94,11 +100,26 @@ from shared.schemas import RuleGroup, RuleRelation
 
 MANIFEST_SCHEMA_VERSION = "2.0"
 DRIVER_VERSION = "wp16-1.0.0"
-S7_VERSION = "pass-c-v1"
+S6B_VERSION = "linker-v1.0.0"
+S7_VERSION = "pass-c-v3"
 S8_VERSION = "write-kb-v1"
 S11_VERSION = "summarize-embed-v1"
 
-STAGE_IDS: tuple[str, ...] = tuple(f"s{i}" for i in range(12))
+STAGE_IDS: tuple[str, ...] = (
+    "s0",
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5",
+    "s6",
+    "s6b",
+    "s7",
+    "s8",
+    "s9",
+    "s10",
+    "s11",
+)
 _STAGE_ORDER = {stage: index for index, stage in enumerate(STAGE_IDS)}
 
 _EVIDENCE_KEYS = frozenset(
@@ -116,6 +137,7 @@ _INVARIANT_KEYS = (
     "no_live_contradictions",
     "no_silent_quarantine",
     "no_open_criticals",
+    "ref_closure",
     "determinism",
 )
 # ponytail: only metrics with an explicit, spec-approved direction gate ratchet;
@@ -150,6 +172,7 @@ class BuildOptions(BaseModel):
     no_ensemble: bool = False
     no_critic: bool = False
     no_gaps: bool = False
+    no_linker: bool = False
     strict: bool = False
     ratchet: bool = False
     accept_baseline: bool = False
@@ -244,7 +267,14 @@ _STAGE_REGISTRY: dict[str, _StageSpec] = {
         ("s5",),
         ("no_gaps", "max_gap_rounds"),
     ),
-    "s7": _StageSpec("s7", S7_VERSION, ("pass_c.json",), ("s6",)),
+    "s6b": _StageSpec(
+        "s6b",
+        S6B_VERSION,
+        ("linker/",),
+        ("s6",),
+        ("no_linker",),
+    ),
+    "s7": _StageSpec("s7", S7_VERSION, ("pass_c.json",), ("s6b",)),
     "s8": _StageSpec("s8", S8_VERSION, ("s8_outputs.json",), ("s7",)),
     "s9": _StageSpec(
         "s9",
@@ -733,6 +763,7 @@ _STAGE_TITLES: dict[str, str] = {
     "s4": "reconcile ensemble",
     "s5": "adversarial critic + patch triage",
     "s6": "coverage ledger + gap loop",
+    "s6b": "link repair: bind orphan tokens to rules",
     "s7": "Pass C materialization",
     "s8": "write KB artifacts",
     "s9": "pairwise + SMT consistency",
@@ -898,15 +929,12 @@ async def _run_s2(ctx: BuildContext) -> None:
     if runs_dir.exists():
         shutil.rmtree(runs_dir)
     outputs = []
-    for index, variant in enumerate(variants, start=1):
-        _stage_log(
-            ctx,
-            f"s2 run {index}/{len(variants)}: {variant.run_id} model={variant.model}",
-        )
-        started = time.perf_counter()
-        output = await run_extraction(
+    frozen = None
+    if settings.TWO_PHASE:
+        _stage_log(ctx, "s2 phase 1: extract and reconcile frozen token catalog")
+        frozen = await run_token_phase(
             ctx.brand,
-            variant,
+            variants,
             list(units),
             list(labels),
             ctx.usage,
@@ -914,14 +942,64 @@ async def _run_s2(ctx: BuildContext) -> None:
             cache_root=ctx.cache_root,
             work_dir=ctx.work_dir,
             force=ctx.options.force,
-            concurrency=ctx.options.concurrency,
         )
+        _stage_log(
+            ctx,
+            f"s2 frozen catalog: primitive={len(frozen.tokens_primitive)} "
+            f"semantic={len(frozen.tokens_semantic)} hash={frozen.hash}",
+        )
+    for index, variant in enumerate(variants, start=1):
+        _stage_log(
+            ctx,
+            f"s2 run {index}/{len(variants)}: {variant.run_id} model={variant.model}",
+        )
+        started = time.perf_counter()
+        if frozen is not None:
+            output = await run_rules_phase(
+                ctx.brand,
+                variant,
+                list(units),
+                list(labels),
+                frozen,
+                ctx.usage,
+                ctx.client,
+                cache_root=ctx.cache_root,
+                work_dir=ctx.work_dir,
+                force=ctx.options.force,
+                concurrency=ctx.options.concurrency,
+            )
+        else:
+            output = await run_extraction(
+                ctx.brand,
+                variant,
+                list(units),
+                list(labels),
+                ctx.usage,
+                ctx.client,
+                cache_root=ctx.cache_root,
+                work_dir=ctx.work_dir,
+                force=ctx.options.force,
+                concurrency=ctx.options.concurrency,
+            )
         outputs.append(output)
         _stage_log(
             ctx,
             f"s2 run {variant.run_id} done in {time.perf_counter() - started:.1f}s "
             f"tokens_p={len(output.primitive_tokens)} tokens_s={len(output.semantic_tokens)} "
             f"rule_groups={len(output.rule_groups)}",
+        )
+    if frozen is not None:
+        frozen, outputs = await repair_missing_token_requests(
+            brand=ctx.brand,
+            outputs=outputs,
+            frozen=frozen,
+            units=list(units),
+            labels=list(labels),
+            usage=ctx.usage,
+            client=ctx.client,
+            cache_root=ctx.cache_root,
+            work_dir=ctx.work_dir,
+            concurrency=ctx.options.concurrency,
         )
     ctx.artifacts["run_outputs"] = outputs
 
@@ -1266,6 +1344,103 @@ async def _run_s6(ctx: BuildContext) -> None:
     atomic_write_json(ctx.work_dir / "gap_result.json", gap_result.model_dump(mode="json"))
 
 
+async def _run_s6b(ctx: BuildContext) -> None:
+    from indexing_v2.linker import compute_linker_triage, run_linker_stage
+
+    units = ctx.artifacts.get("units") or read_jsonl(
+        ctx.work_dir / "units.jsonl",
+        SourceUnit,
+    )
+    gap: GapLoopResult | None = ctx.artifacts.get("gap_result")
+    if gap is None:
+        gap = GapLoopResult.model_validate(
+            json.loads((ctx.work_dir / "gap_result.json").read_text(encoding="utf-8"))
+        )
+    bundle = ctx.artifacts.get("candidates_bundle")
+    if bundle is None:
+        bundle = gap.candidates
+    result, patched_bundle = await run_linker_stage(
+        bundle=bundle,
+        provenance=gap.provenance,
+        units=units,
+        client=None if ctx.options.no_linker else ctx.client,
+        usage=ctx.usage,
+        work_dir=ctx.work_dir,
+        cache_root=ctx.cache_root,
+        no_linker=ctx.options.no_linker,
+    )
+    if settings.LINKER_GAP_FEEDBACK and result.needs_rule_tokens:
+        labels = ctx.artifacts.get("labels") or read_jsonl(
+            ctx.work_dir / "unit_labels.jsonl",
+            UnitLabel,
+        )
+        target_unit_ids = {
+            str(unit_id)
+            for row in result.needs_rule_tokens
+            for unit_id in (row.get("unit_ids") or [])
+        }
+        feedback_labels = [
+            label.model_copy(
+                update={
+                    "expected_yield": ["rule"],
+                    "required": True,
+                }
+            )
+            for label in labels
+            if label.unit_id in target_unit_ids
+        ]
+        if feedback_labels:
+            feedback = await run_gap_loop(
+                feedback_labels,
+                patched_bundle,
+                gap.provenance,
+                units=units,
+                client=ctx.client,
+                usage=ctx.usage,
+                cache_root=ctx.cache_root,
+                max_rounds=1,
+                console=ctx.console,
+            )
+            atomic_write_json(
+                ctx.work_dir / "linker" / "gap_feedback.json",
+                feedback.model_dump(mode="json"),
+            )
+            gap = feedback
+            result, patched_bundle = await run_linker_stage(
+                bundle=feedback.candidates,
+                provenance=feedback.provenance,
+                units=units,
+                client=ctx.client,
+                usage=ctx.usage,
+                work_dir=ctx.work_dir,
+                cache_root=ctx.cache_root,
+            )
+            ctx.artifacts["gap_result"] = feedback
+    ctx.artifacts["candidates_bundle"] = patched_bundle
+    ctx.artifacts["linker_result"] = result
+    _persist_bundle(ctx, patched_bundle)
+
+    items = compute_linker_triage(result)
+    triage_path = ctx.kb_root / settings.TRIAGE_FILE
+    computed = [*gap.triage, *items]
+    merged, to_append = rebuild_triage(computed, load_triage_history(triage_path))
+    if to_append:
+        append_triage_items(triage_path, to_append)
+    ctx.artifacts["triage"] = merged
+    remaining = list(result.metrics.get("remaining_orphan_ids") or [])
+    coverage = gap.coverage.model_copy(
+        update={"unreferenced_token_ids": remaining},
+    )
+    ctx.artifacts["coverage"] = coverage
+    _stage_log(
+        ctx,
+        f"s6b result: auto={result.metrics['orphans_auto_bound']} "
+        f"adjudicated={result.metrics.get('adjudicated_binds', 0)} "
+        f"needs_rule={result.metrics['orphans_needs_rule']} "
+        f"orphans_after={result.metrics['orphans_after_transitive']}",
+    )
+
+
 def _build_pass_c(ctx: BuildContext) -> PassCResult:
     units = ctx.artifacts.get("units") or read_jsonl(ctx.work_dir / "units.jsonl", SourceUnit)
     bundle: CandidatesBundle = ctx.artifacts.get("candidates_bundle") or _load_bundle(ctx, units)
@@ -1330,8 +1505,38 @@ def _build_pass_c(ctx: BuildContext) -> PassCResult:
     relations: list[RuleRelation] = []
     for group_id, doc_ref in sorted(bundle.rule_group_doc_refs.items()):
         for raw_rule in bundle.rules_by_group.get(group_id, []):
+            prepared_rule = _prepare_rule_for_pass_c(
+                _remap_refs(raw_rule, merge_map),
+                ctx.brand,
+            )
+            effect = prepared_rule.get("effect")
+            assignments = (
+                effect
+                if isinstance(effect, list)
+                else effect.get("assignments", [])
+                if isinstance(effect, dict)
+                else []
+            )
+            for assignment in assignments:
+                if (
+                    isinstance(assignment, dict)
+                    and assignment.get("token_id") in cat["assets"]
+                ):
+                    assignment["asset_id"] = assignment.pop("token_id")
+            unresolved = sorted(
+                ref_id
+                for ref_id in scan_ids(prepared_rule.get("effect"))
+                if ref_id.startswith(("tok_", "ast_"))
+                and ref_id not in catalog_ids
+            )
+            if unresolved:
+                warns.add(
+                    f"{raw_rule.get('id', 'rule')}: unresolved effect ids "
+                    f"{unresolved}; skipped"
+                )
+                continue
             rule = validate_rule(
-                _prepare_rule_for_pass_c(raw_rule, ctx.brand),
+                prepared_rule,
                 ctx.brand,
                 group_id,
                 doc_ref,
@@ -1640,6 +1845,7 @@ _STAGE_RUNNERS: dict[str, Callable[[BuildContext], Awaitable[None]]] = {
     "s4": _run_s4,
     "s5": _run_s5,
     "s6": _run_s6,
+    "s6b": _run_s6b,
     "s7": _run_s7,
     "s8": _run_s8,
     "s9": _run_s9,
@@ -1664,7 +1870,14 @@ def compute_kb_hash(kb_root: Path) -> str:
 def _queue_counts(triage: Sequence[TriageItem]) -> dict[str, dict[str, int]]:
     counts = {
         queue: {"open": 0, "waived": 0, "deferred": 0}
-        for queue in ("unclaimed_unit", "unverified_value", "over_claimed", "conflict")
+        for queue in (
+            "unclaimed_unit",
+            "unverified_value",
+            "over_claimed",
+            "conflict",
+            "orphan_token",
+            "needs_rule",
+        )
     }
     for item in triage:
         status = item.disposition.status
@@ -1678,8 +1891,23 @@ def _queue_counts(triage: Sequence[TriageItem]) -> dict[str, dict[str, int]]:
     return counts
 
 
+def _all_linker_subjects_triaged(
+    linker: LinkerResult,
+    triage: Sequence[TriageItem],
+) -> bool:
+    remaining = set(linker.metrics.get("remaining_orphan_ids") or [])
+    dispositioned = {
+        item.subject_id
+        for item in triage
+        if item.queue in {"needs_rule", "orphan_token"}
+        and item.disposition.status != "open"
+    }
+    return bool(remaining) and remaining <= dispositioned
+
+
 def _evaluate_acceptance(ctx: BuildContext) -> tuple[dict[str, str], bool]:
     gap: GapLoopResult | None = ctx.artifacts.get("gap_result")
+    linker: LinkerResult | None = ctx.artifacts.get("linker_result")
     critic: CriticResult | None = ctx.artifacts.get("critic_result")
     pairwise = ctx.artifacts.get("pairwise")
     smt = ctx.artifacts.get("smt")
@@ -1722,6 +1950,15 @@ def _evaluate_acceptance(ctx: BuildContext) -> tuple[dict[str, str], bool]:
         if finding.severity == "critical" and finding.resolution == "open"
     ]
     invariants["no_open_criticals"] = "pass" if not open_critical else "fail"
+    if linker is not None:
+        total = max(1, int(linker.metrics.get("tokens_total", 0)))
+        ratio = int(linker.metrics.get("orphans_after_transitive", 0)) / total
+        excess_triaged = _all_linker_subjects_triaged(linker, triage)
+        invariants["ref_closure"] = (
+            "pass" if ratio <= 0.10 or excess_triaged else "fail"
+        )
+    else:
+        invariants["ref_closure"] = "fail"
     invariants["determinism"] = str(ctx.artifacts.get("determinism_status", "fail"))
 
     passed = all(status == "pass" for status in invariants.values())
@@ -1733,6 +1970,7 @@ def _evaluate_acceptance(ctx: BuildContext) -> tuple[dict[str, str], bool]:
 
 def _metric_snapshot(ctx: BuildContext) -> dict[str, Any]:
     gap: GapLoopResult | None = ctx.artifacts.get("gap_result")
+    linker: LinkerResult | None = ctx.artifacts.get("linker_result")
     ensemble: EnsembleResult | None = ctx.artifacts.get("ensemble")
     critic: CriticResult | None = ctx.artifacts.get("critic_result")
     pairwise = ctx.artifacts.get("pairwise")
@@ -1821,6 +2059,21 @@ def _metric_snapshot(ctx: BuildContext) -> dict[str, Any]:
             "findings": len(critic.findings) if critic else 0,
             "applied": critic_counts.get("applied", 0),
             "deferred_human": critic_counts.get("deferred_human", 0),
+        },
+        "linker": {
+            "orphans_before": int(linker.metrics.get("orphans_before", 0)) if linker else 0,
+            "orphans_after_transitive": (
+                int(linker.metrics.get("orphans_after_transitive", 0)) if linker else 0
+            ),
+            "auto_bound": int(linker.metrics.get("orphans_auto_bound", 0)) if linker else 0,
+            "adjudicated_binds": (
+                int(linker.metrics.get("adjudicated_binds", 0)) if linker else 0
+            ),
+            "minted_edges": int(linker.metrics.get("minted_edges", 0)) if linker else 0,
+            "needs_rule": int(linker.metrics.get("orphans_needs_rule", 0)) if linker else 0,
+            "unresolved_rule_literals": (
+                int(linker.metrics.get("unresolved_rule_literals", 0)) if linker else 0
+            ),
         },
         "consistency": consistency,
         "cascade": {
@@ -2024,7 +2277,14 @@ async def _hydrate_artifacts_for_manifest(ctx: BuildContext) -> None:
         )
     triage_path = ctx.kb_root / settings.TRIAGE_FILE
     gap_result_path = ctx.work_dir / "gap_result.json"
+    feedback_path = ctx.work_dir / "linker" / "gap_feedback.json"
     gap: GapLoopResult | None = ctx.artifacts.get("gap_result")
+    if gap is None and feedback_path.is_file():
+        gap = GapLoopResult.model_validate(
+            json.loads(feedback_path.read_text(encoding="utf-8"))
+        )
+        ctx.artifacts["gap_result"] = gap
+        ctx.artifacts["coverage"] = gap.coverage
     if gap is None and gap_result_path.is_file():
         gap = GapLoopResult.model_validate(
             json.loads(gap_result_path.read_text(encoding="utf-8"))
@@ -2033,6 +2293,13 @@ async def _hydrate_artifacts_for_manifest(ctx: BuildContext) -> None:
         ctx.artifacts["coverage"] = gap.coverage
         if "triage" not in ctx.artifacts:
             ctx.artifacts["triage"] = gap.triage
+    linker_path = ctx.work_dir / "linker" / "linker_result.json"
+    linker: LinkerResult | None = ctx.artifacts.get("linker_result")
+    if linker is None and linker_path.is_file():
+        linker = LinkerResult.model_validate(
+            json.loads(linker_path.read_text(encoding="utf-8"))
+        )
+        ctx.artifacts["linker_result"] = linker
     if "pairwise" not in ctx.artifacts:
         conflicts_path = ctx.kb_root / "analysis" / "conflicts.json"
         if conflicts_path.is_file():
@@ -2067,8 +2334,14 @@ async def _hydrate_artifacts_for_manifest(ctx: BuildContext) -> None:
         if gap is not None
         else list(ctx.artifacts.get("triage") or [])
     )
+    linker_triage: list[TriageItem] = []
+    if linker is not None:
+        from indexing_v2.linker import compute_linker_triage
+
+        linker_triage = compute_linker_triage(linker)
     computed = [
         *s6_triage,
+        *linker_triage,
         *compute_s9_triage_items(
             ctx.artifacts.get("pairwise"),
             ctx.artifacts.get("smt"),
@@ -2236,6 +2509,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-ensemble", action="store_true")
     parser.add_argument("--no-critic", action="store_true")
     parser.add_argument("--no-gaps", action="store_true")
+    parser.add_argument("--no-linker", action="store_true")
     parser.add_argument("--strict", action="store_true")
     parser.add_argument("--ratchet", action="store_true")
     parser.add_argument("--accept-baseline", action="store_true")
@@ -2263,6 +2537,7 @@ async def main_async(argv: Sequence[str] | None = None) -> int:
             no_ensemble=args.no_ensemble,
             no_critic=args.no_critic,
             no_gaps=args.no_gaps,
+            no_linker=args.no_linker,
             strict=args.strict,
             ratchet=args.ratchet,
             accept_baseline=args.accept_baseline,

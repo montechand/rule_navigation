@@ -9,6 +9,7 @@ Hand-off surfaces for sibling workers:
 from __future__ import annotations
 
 import json
+import re
 import time
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -37,7 +38,12 @@ from ..contracts import (
     write_jsonl,
 )
 from .critic import CandidateSet, PatchApplicationError, triage_findings
-from .ensemble import build_token_catalog, semantic_match_key
+from .ensemble import (
+    SemanticResolutionError,
+    build_token_catalog,
+    semantic_match_key,
+)
+from .normalize import normalize_value
 from .prompts import load_prompt
 from .provenance import ProvenanceResult, verify_entities
 from .runner import (
@@ -422,6 +428,7 @@ class GapPatchPayload(BaseModel):
     assets: list[dict[str, Any]] = Field(default_factory=list)
     subtypes: list[dict[str, Any]] = Field(default_factory=list)
     templates: list[dict[str, Any]] = Field(default_factory=list)
+    missing_token_requests: list[dict[str, Any]] = Field(default_factory=list)
     relations: list[dict[str, Any]] = Field(default_factory=list)
 
     @model_validator(mode="after")
@@ -777,6 +784,58 @@ def _candidate_token_catalog(
     )
 
 
+def _ref_ids(value: Any) -> set[str]:
+    refs: set[str] = set()
+    if isinstance(value, Mapping):
+        ref = value.get("$ref")
+        if isinstance(ref, str) and ref:
+            refs.add(ref)
+        for child in value.values():
+            refs.update(_ref_ids(child))
+    elif isinstance(value, list):
+        for child in value:
+            refs.update(_ref_ids(child))
+    return refs
+
+
+def _semantic_element_path(entity: Mapping[str, Any]) -> str:
+    paths = entity.get("element_paths")
+    if isinstance(paths, list) and paths:
+        raw = sorted(str(path) for path in paths)[0]
+    else:
+        selector = entity.get("selector")
+        selector_path = (
+            selector.get("element_path")
+            if isinstance(selector, Mapping)
+            else None
+        )
+        raw = str(
+            entity.get("element_path")
+            or entity.get("key")
+            or selector_path
+            or ""
+        )
+    return normalize_value("string", raw).canon
+
+
+def _safe_semantic_match_key(
+    entity: Mapping[str, Any],
+    catalog: Mapping[str, dict[str, Any]],
+) -> tuple[tuple[str, str], str | None]:
+    try:
+        return semantic_match_key(entity, catalog), None
+    except SemanticResolutionError as exc:
+        ref_ids = sorted(_ref_ids(entity))
+        ref_id = ref_ids[0] if ref_ids else "unknown"
+        return (
+            (
+                _semantic_element_path(entity),
+                f"<unresolved:{ref_id}>",
+            ),
+            str(exc),
+        )
+
+
 def _unverified_semantic_entities(
     provenance: ProvenanceResult,
     candidates: CandidatesBundle,
@@ -834,13 +893,19 @@ def compute_triage_items(
             )
         )
     for entity_id, entity in _unverified_semantic_entities(provenance, candidates):
-        match_key = semantic_match_key(entity, token_catalog)
+        match_key, resolution_error = _safe_semantic_match_key(
+            entity,
+            token_catalog,
+        )
+        context = f"semantic token unverified: {match_key[0]}"
+        if resolution_error is not None:
+            context = f"{context}; semantic resolution error: {resolution_error}"
         items.append(
             TriageItem(
                 queue="unverified_value",
                 key=triage_key_unverified_value(match_key),
                 subject_id=entity_id,
-                context=f"semantic token unverified: {match_key[0]}",
+                context=context,
             )
         )
     for conflict in sorted(candidates.conflicts, key=lambda item: (item.kind, item.a_id, item.b_id)):
@@ -1440,6 +1505,54 @@ class CriticEntityPatcher:
         return result, provenance
 
 
+_GAP_VALUE_LITERAL_RE = re.compile(
+    r"#[0-9a-fA-F]{3,8}\b|(?<![\w.-])-?(?:\d+(?:\.\d+)?|\.\d+)px\b"
+)
+_GAP_BINDING_EXEMPT = frozenset(
+    {"cardinality", "ordering", "exclusivity", "verbatim_content"}
+)
+
+
+def validate_gap_rule_bindings(
+    payload: GapPatchPayload,
+    candidates: CandidatesBundle,
+) -> list[str]:
+    """Return value-bearing gap rules that lack a valid catalog token assignment."""
+    catalog_ids = {
+        str(token["id"])
+        for token in [*candidates.tokens_primitive, *candidates.tokens_semantic]
+        if isinstance(token.get("id"), str) and token["id"]
+    }
+    invalid: list[str] = []
+    for rule in payload.rules:
+        constraint_type = str(rule.get("constraint_type") or "")
+        if constraint_type in _GAP_BINDING_EXEMPT:
+            continue
+        rule_text = str(rule.get("rule_text") or "")
+        requires_binding = (
+            constraint_type == "binding"
+            or _GAP_VALUE_LITERAL_RE.search(rule_text) is not None
+        )
+        if not requires_binding:
+            continue
+        effect = rule.get("effect")
+        assignments = (
+            effect.get("assignments", [])
+            if isinstance(effect, dict)
+            else effect
+            if isinstance(effect, list)
+            else []
+        )
+        valid = any(
+            isinstance(assignment, Mapping)
+            and assignment.get("token_id") in catalog_ids
+            for assignment in assignments
+        )
+        if not valid:
+            invalid.append(str(rule.get("id") or rule.get("slug") or "?"))
+    return sorted(invalid)
+
+
 async def _gap_patch_blob(
     *,
     brand: str,
@@ -1485,7 +1598,40 @@ async def _gap_patch_blob(
         usage,
         gap_round=gap_round,
     )
-    return _parse_gap_payload(result)
+    payload = _parse_gap_payload(result)
+    invalid = validate_gap_rule_bindings(payload, candidates)
+    if invalid:
+        feedback = (
+            "\n\nREFERENCE CONTRACT VIOLATIONS (fix and re-emit the FULL JSON):\n"
+            f"  binding rules missing a valid catalog assignment: {', '.join(invalid)}\n"
+            "Use token_id values from CANDIDATE CATALOG exactly as printed. If the token is "
+            "absent, emit missing_token_requests instead of an unbound value-bearing rule."
+        )
+        retried = await complete_json_cached(
+            client,
+            ctx,
+            rendered.system,
+            rendered.user + feedback,
+            usage,
+            gap_round=gap_round,
+            extra={"binding_retry": 1, "doc_ref": doc_ref},
+        )
+        payload = _parse_gap_payload(retried)
+        invalid = validate_gap_rule_bindings(payload, candidates)
+        if invalid:
+            invalid_ids = set(invalid)
+            payload = payload.model_copy(
+                update={
+                    "rules": [
+                        rule
+                        for rule in payload.rules
+                        if str(rule.get("id") or rule.get("slug") or "?")
+                        not in invalid_ids
+                    ]
+                },
+                deep=True,
+            )
+    return payload
 
 
 async def _full_blob_reextract(

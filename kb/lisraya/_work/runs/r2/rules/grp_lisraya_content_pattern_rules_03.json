@@ -1,35 +1,140 @@
 {
   "doc_ref": "content_pattern_rules[3]",
   "group_id": "grp_lisraya_content_pattern_rules_03",
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "bold_forbidden_targets",
+      "key_proposal": "limit.bold_usage.max_percent_body_text",
+      "quotes": [
+        "more than ~15% of running body text in any section"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_3_0003"
+      ],
+      "value": "~15%"
+    }
+  ],
   "original_text": "### Bolding Rules **[GENERAL — calibrated to the guide's callout/chart patterns]**\n- Bold is for **hierarchy and key takeaways, not decoration**. Per email section, bold at most: the heading(s), one key phrase or claim per paragraph, and the statistical callout figure.\n- Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only).\n- Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section, prepositional filler, the generic name.\n- Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element.\n- No underlining except real hyperlinks. No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations.\n",
   "relations": [
     {
-      "dst_slug": "bold_hierarchy_and_thresholds",
-      "note": "Caps the number/combination of emphasis devices layered onto the bold usage already governed by the hierarchy rule.",
+      "dst_rule_id": "rule_lisraya_bold_purpose_and_scope_limit",
+      "dst_slug": "bold_purpose_and_scope_limit",
+      "note": "Specifies the concrete required-bold elements within the general hierarchy/limit rule.",
       "relation": "refines",
-      "src_slug": "emphasis_device_stacking_limit"
+      "src_rule_id": "rule_lisraya_bold_required_targets",
+      "src_slug": "bold_required_targets"
     },
     {
-      "dst_slug": "emphasis_device_stacking_limit",
-      "note": "Both rules jointly define the closed set of permitted emphasis devices (bold, caps, color, underline, italic) and their exclusivity conditions.",
+      "dst_rule_id": "rule_lisraya_bold_purpose_and_scope_limit",
+      "dst_slug": "bold_purpose_and_scope_limit",
+      "note": "Specifies concrete forbidden bold targets complementing the general per-section limit.",
+      "relation": "refines",
+      "src_rule_id": "rule_lisraya_bold_forbidden_targets",
+      "src_slug": "bold_forbidden_targets"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_bold_purpose_and_scope_limit",
+      "dst_slug": "bold_purpose_and_scope_limit",
+      "note": "Both govern bold usage discipline; exclusivity adds a cross-device combination constraint.",
       "relation": "co_applies",
-      "src_slug": "underline_italic_reserved_usage"
+      "src_rule_id": "rule_lisraya_emphasis_device_exclusivity",
+      "src_slug": "emphasis_device_exclusivity"
     }
   ],
   "rules": [
     {
       "applies_when": null,
       "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Bold is for **hierarchy and key takeaways, not decoration**. Per email section, bold at most: the heading(s), one key phrase or claim per paragraph, and the statistical callout figure."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_bold_purpose_and_scope_limit",
+      "intent": "Prevent overuse of bold that would dilute its signaling value for structure and key claims.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Bold exists to signal hierarchy and key takeaways, not for decoration. Per email section, bold at most: the heading(s), one key phrase or claim per paragraph, and the statistical callout figure.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.bold",
+        "section_types": null
+      },
+      "slug": "bold_purpose_and_scope_limit",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "first_mention",
+          "value": "brand_name_in_benefit_claim"
+        }
+      ],
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_bold_required_targets",
+      "intent": "Guarantee that structurally important content (callouts, key stats, brand emphasis) is consistently visually reinforced.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Always bold: callout text per the callout specs, statistical callout numbers, and the brand name within a benefit claim when it is the focal point of the sentence — but only the first instance per section.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.bold",
+        "section_types": [
+          "callout",
+          "chart"
+        ]
+      },
+      "slug": "bold_required_targets",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
       "constraint_type": "cardinality",
       "content_sub_type_ids": null,
-      "content_types": [
-        "email"
-      ],
+      "content_types": null,
       "effect": {
-        "max": "15%",
+        "max": 15,
         "min": null,
         "per": "section",
-        "target": "bold_text_coverage"
+        "target": "bold running text"
       },
       "effect_evidence": {
         "quotes": [
@@ -42,33 +147,30 @@
       "evaluation_scope": "section",
       "evidence": {
         "quotes": [
-          "Bold is for **hierarchy and key takeaways, not decoration**.",
-          "Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only).",
           "Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section, prepositional filler, the generic name."
         ],
         "unit_ids": [
-          "u_content_pattern_rules_3_0001",
-          "u_content_pattern_rules_3_0002",
           "u_content_pattern_rules_3_0003"
         ]
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Keep bold emphasis purposeful and legible rather than decorative or overused.",
-      "polarity": "must",
+      "id": "rule_lisraya_bold_forbidden_targets",
+      "intent": "Keep bold usage restrained so it retains emphasis value and does not obscure the generic name or overwhelm body copy.",
+      "polarity": "must_not",
       "precedence": 0,
-      "rule_class": "copy_editorial",
-      "rule_text": "Bold is reserved for hierarchy and key takeaways, not decoration. Per email section, bold at most: the heading(s), one key phrase/claim per paragraph, and the statistical callout figure. Always bold callout text per callout specs, statistical callout numbers, and the brand name within a benefit claim when it is the sentence's focal point (first instance per section only). Never bold entire paragraphs, footnotes/references, prepositional filler, the generic name, or more than ~15% of running body text in any section.",
+      "rule_class": "typography",
+      "rule_text": "Never bold entire paragraphs, footnotes/references, more than ~15% of running body text in any section, prepositional filler, or the generic (non-brand) product name.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.bold",
         "section_types": null
       },
-      "slug": "bold_hierarchy_and_thresholds",
+      "slug": "bold_forbidden_targets",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "typography"
+        "copy_editorial"
       ]
     },
     {
@@ -76,11 +178,9 @@
       "audience": null,
       "constraint_type": "exclusivity",
       "content_sub_type_ids": null,
-      "content_types": [
-        "email"
-      ],
+      "content_types": null,
       "effect": {
-        "reserved_for": "chart headlines and the campaign headline lockup",
+        "reserved_for": "chart headlines and the campaign headline lockup only",
         "subject": "bold + ALL CAPS + color emphasis combined on the same string"
       },
       "effect_evidence": {
@@ -94,8 +194,7 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup.",
-          "Pick at most two emphasis devices per element."
+          "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element."
         ],
         "unit_ids": [
           "u_content_pattern_rules_3_0004"
@@ -103,23 +202,24 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Prevent visual over-emphasis and preserve the chart-headline/campaign-lockup as the only sanctioned maximal-emphasis device.",
+      "id": "rule_lisraya_emphasis_device_exclusivity",
+      "intent": "Avoid visual over-emphasis that reduces legibility and dilutes hierarchy signaling.",
       "polarity": "must_not",
       "precedence": 0,
-      "rule_class": "copy_editorial",
-      "rule_text": "Never combine bold + ALL CAPS + color emphasis simultaneously on the same string, except in chart headlines and the campaign headline lockup, which are the sole devices permitted this triple-stack treatment. Elsewhere, pick at most two emphasis devices per element.",
+      "rule_class": "typography",
+      "rule_text": "Do not combine bold, ALL CAPS, and color emphasis on the same string, except in chart headlines and the campaign headline lockup. In general, pick at most two emphasis devices per element.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.emphasis",
         "section_types": [
           "chart"
         ]
       },
-      "slug": "emphasis_device_stacking_limit",
+      "slug": "emphasis_device_exclusivity",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "typography",
+        "copy_editorial",
         "color_application"
       ]
     },
@@ -128,16 +228,21 @@
       "audience": "dtp_patient",
       "constraint_type": "exclusivity",
       "content_sub_type_ids": null,
-      "content_types": [
-        "email"
+      "content_types": null,
+      "effect": [
+        {
+          "reserved_for": "real hyperlinks only",
+          "subject": "underline formatting"
+        },
+        {
+          "reserved_for": "study names, notes (e.g., \"Note:\"), and citations",
+          "subject": "italic formatting"
+        }
       ],
-      "effect": {
-        "reserved_for": "real hyperlinks",
-        "subject": "underline text decoration"
-      },
       "effect_evidence": {
         "quotes": [
-          "No underlining except real hyperlinks."
+          "No underlining except real hyperlinks.",
+          "reserve italics for study names, notes (\"Note:\"), and citations"
         ],
         "unit_ids": [
           "u_content_pattern_rules_3_0005"
@@ -146,8 +251,7 @@
       "evaluation_scope": "sentence",
       "evidence": {
         "quotes": [
-          "No underlining except real hyperlinks.",
-          "No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+          "No underlining except real hyperlinks. No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
         ],
         "unit_ids": [
           "u_content_pattern_rules_3_0005"
@@ -155,21 +259,23 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Keep underline and italic reserved for their functional/editorial roles so they remain unambiguous signals.",
+      "id": "rule_lisraya_underline_italic_reserved_usage",
+      "intent": "Preserve underline as a reliable link affordance and prevent italics from being misused for general emphasis in patient-facing copy.",
       "polarity": "must_not",
       "precedence": 0,
-      "rule_class": "copy_editorial",
-      "rule_text": "Underlining is reserved exclusively for real hyperlinks and must not be used elsewhere. Italics must not be used for emphasis in patient copy; reserve italics for study names, notes (e.g., \"Note:\"), and citations.",
+      "rule_class": "typography",
+      "rule_text": "No underlining except on real hyperlinks. No italic for emphasis in patient copy — italics are reserved for study names, notes (\"Note:\"), and citations.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.emphasis",
         "section_types": null
       },
       "slug": "underline_italic_reserved_usage",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "typography"
+        "copy_editorial",
+        "accessibility"
       ]
     }
   ],

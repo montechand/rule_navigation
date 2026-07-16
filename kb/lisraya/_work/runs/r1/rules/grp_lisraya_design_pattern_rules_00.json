@@ -1,19 +1,16 @@
 {
   "doc_ref": "design_pattern_rules[0]",
   "group_id": "grp_lisraya_design_pattern_rules_00",
+  "missing_token_requests": [],
   "original_text": "### Email Canvas & Grid **[GENERAL — not specified in guide; Solstice email baseline]**\n- Email body width: **600px** fixed, centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly.\n- Mobile breakpoint: **480px**; all multi-column layouts collapse to single column.\n- Internal section grid: 12-column mental model; practical layouts are 1-col, 2-col (50/50), or image/text split (≈40/60).\n- **Section side padding: 24px** left/right (consistent across ALL sections — this is what makes assembly seamless). Full-bleed imagery/gradient backgrounds may run to 600px, but text within them still respects 24px insets.\n- **Vertical rhythm: 8px base unit.** All padding/margins are multiples of 8.\n  - Section top/bottom internal padding: **32px** (each section owns its own top AND bottom padding; no external margins between sections — assembly is zero-gap stacking).\n  - Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px.\n- Buttons/CTA **[GENERAL, contrast-checked to palette]:** Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height** (brand accessibility rule: ≥48px clickable areas), corner radius 24px (fully rounded pill, echoing the rounded brand aesthetic). Secondary CTA: White background, 2px Brand Blue border, Brand Blue text, same metrics. One primary CTA per section maximum.",
   "relations": [
     {
-      "dst_slug": "cta_button_spec",
-      "note": "Cardinality constraint applies alongside the CTA button styling spec.",
+      "dst_rule_id": "rule_lisraya_cta_button_styling",
+      "dst_slug": "cta_button_styling",
+      "note": "Cardinality limit applies alongside the primary CTA styling.",
       "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_cta_one_primary_per_section",
       "src_slug": "cta_one_primary_per_section"
-    },
-    {
-      "dst_slug": "email_canvas_grid",
-      "note": "Section padding/rhythm operates within the 600px canvas and grid model.",
-      "relation": "co_applies",
-      "src_slug": "section_padding_vertical_rhythm"
     }
   ],
   "rules": [
@@ -27,41 +24,31 @@
       ],
       "effect": [
         {
-          "element_path": "email.body.width",
-          "token_id": "tok_lisraya_email_body_width"
+          "element_path": "email.canvas.width",
+          "token_id": "tok_lisraya_size_email_body_width"
         },
         {
-          "element_path": "breakpoint.mobile",
-          "token_id": "tok_lisraya_mobile_breakpoint"
-        },
-        {
-          "element_path": "section.grid.ratio",
-          "token_id": "tok_lisraya_section_grid_ratio"
-        },
-        {
-          "element_path": "ratio.grid.image_text_40_60",
-          "token_id": "tok_lisraya_ratio_image_text_split"
+          "element_path": "email.breakpoint.mobile",
+          "token_id": "tok_lisraya_breakpoint_mobile"
         }
       ],
       "effect_evidence": {
         "quotes": [
           "Email body width: **600px** fixed, centered",
-          "Mobile breakpoint: **480px**; all multi-column layouts collapse to single column.",
-          "practical layouts are 1-col, 2-col (50/50), or image/text split (≈40/60)"
+          "Mobile breakpoint: **480px**"
         ],
         "unit_ids": [
           "u_design_pattern_rules_0_0001",
-          "u_design_pattern_rules_0_0002",
-          "u_design_pattern_rules_0_0003"
+          "u_design_pattern_rules_0_0002"
         ]
       },
       "evaluation_scope": "email",
       "evidence": {
         "quotes": [
           "### Email Canvas & Grid **[GENERAL — not specified in guide; Solstice email baseline]**",
-          "Email body width: **600px** fixed, centered",
-          "Mobile breakpoint: **480px**",
-          "Internal section grid: 12-column mental model"
+          "Email body width: **600px** fixed, centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly.",
+          "Mobile breakpoint: **480px**; all multi-column layouts collapse to single column.",
+          "Internal section grid: 12-column mental model; practical layouts are 1-col, 2-col (50/50), or image/text split (≈40/60)."
         ],
         "unit_ids": [
           "u_design_pattern_rules_0_0000",
@@ -70,21 +57,19 @@
           "u_design_pattern_rules_0_0003"
         ]
       },
-      "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Ensure consistent canvas width and responsive collapse for seamless section assembly.",
+      "id": "rule_lisraya_email_canvas_width_grid",
+      "intent": "Ensure a consistent fixed email canvas and responsive collapse so sections assemble seamlessly.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "layout",
-      "rule_text": "Email body is 600px fixed and centered (email.body.width = 600px); sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly. At the mobile breakpoint (breakpoint.mobile = 480px) all multi-column layouts collapse to single column. Internal section grid uses a 12-column mental model; practical layouts are 1-col, 2-col (section.grid.ratio = 50/50), or image/text split (ratio.grid.image_text ≈ 40/60).",
+      "rule_text": "Email body width is 600px (size.canvas.email_body_width_600) fixed and centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly. Mobile breakpoint is 480px (breakpoint.mobile.480) at which all multi-column layouts collapse to single column. Internal section grid uses a 12-column mental model; practical layouts are 1-col, 2-col (50/50), or image/text split (≈40/60, ratio.grid.image_text_40_60).",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "email.canvas.width",
         "section_types": null
       },
-      "slug": "email_canvas_grid",
-      "snippets": null,
-      "snippets_evidence": null,
+      "slug": "email_canvas_width_grid",
       "tags": [
         "spacing"
       ]
@@ -103,29 +88,25 @@
           "token_id": "tok_lisraya_section_side_padding"
         },
         {
-          "element_path": "section.padding.vertical",
-          "token_id": "tok_lisraya_section_vertical_padding"
+          "element_path": "section.padding.top_bottom",
+          "token_id": "tok_lisraya_section_top_bottom_padding"
         },
         {
           "element_path": "spacing.base",
-          "token_id": "tok_lisraya_spacing_base"
+          "token_id": "tok_lisraya_spacing_base_unit"
         },
         {
-          "element_path": "spacing.heading_body",
-          "token_id": "tok_lisraya_heading_body_gap"
+          "element_path": "spacing.gap.heading_body",
+          "token_id": "tok_lisraya_spacing_heading_body_gap"
         },
         {
-          "element_path": "spacing.body_callout",
-          "token_id": "tok_lisraya_body_callout_gap"
-        },
-        {
-          "element_path": "spacing.image_caption",
-          "token_id": "tok_lisraya_image_caption_gap"
+          "element_path": "spacing.gap.body_callout",
+          "token_id": "tok_lisraya_spacing_body_callout_gap"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "**Section side padding: 24px** left/right (consistent across ALL sections",
+          "**Section side padding: 24px** left/right",
           "**Vertical rhythm: 8px base unit.** All padding/margins are multiples of 8.",
           "Section top/bottom internal padding: **32px**",
           "Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px."
@@ -140,10 +121,10 @@
       "evaluation_scope": "section",
       "evidence": {
         "quotes": [
-          "**Section side padding: 24px** left/right",
-          "**Vertical rhythm: 8px base unit.**",
-          "Section top/bottom internal padding: **32px**",
-          "Body → callout/CTA: 24px. Image → caption: 8px."
+          "**Section side padding: 24px** left/right (consistent across ALL sections — this is what makes assembly seamless). Full-bleed imagery/gradient backgrounds may run to 600px, but text within them still respects 24px insets.",
+          "**Vertical rhythm: 8px base unit.** All padding/margins are multiples of 8.",
+          "Section top/bottom internal padding: **32px** (each section owns its own top AND bottom padding; no external margins between sections — assembly is zero-gap stacking).",
+          "Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px."
         ],
         "unit_ids": [
           "u_design_pattern_rules_0_0004",
@@ -152,24 +133,21 @@
           "u_design_pattern_rules_0_0007"
         ]
       },
-      "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Enforce uniform padding and 8px vertical rhythm for zero-gap section stacking.",
+      "id": "rule_lisraya_section_padding_vertical_rhythm",
+      "intent": "Maintain consistent spacing and zero-gap section stacking so modular sections assemble seamlessly.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "spacing",
-      "rule_text": "Section side padding is 24px left/right (section.padding.sides = 24px), consistent across ALL sections to make assembly seamless; full-bleed imagery/gradient backgrounds may run to 600px, but text within them still respects the 24px insets. Vertical rhythm uses an 8px base unit (spacing.base = 8px) and all padding/margins are multiples of 8. Each section owns its own 32px top AND bottom internal padding (section.padding.vertical = 32px) with no external margins between sections — assembly is zero-gap stacking. Spacing gaps: heading → body 16px (spacing.heading_body), paragraph → paragraph 16px, body → callout/CTA 24px (spacing.body_callout), image → caption 8px (spacing.image_caption).",
+      "rule_text": "Section side padding is 24px (padding.section.side_24) left/right, consistent across ALL sections (this is what makes assembly seamless); full-bleed imagery/gradient backgrounds may run to 600px but text within them still respects the 24px insets. Vertical rhythm uses an 8px base unit (spacing.base.8) — all padding/margins are multiples of 8. Section top/bottom internal padding is 32px (padding.section.top_bottom_32); each section owns its own top AND bottom padding with no external margins between sections (assembly is zero-gap stacking). Standard gaps: heading→body 16px, paragraph→paragraph 16px (spacing.gap.heading_body_16), body→callout/CTA 24px (spacing.gap.body_callout_24), image→caption 8px.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "section.padding",
         "section_types": null
       },
       "slug": "section_padding_vertical_rhythm",
-      "snippets": null,
-      "snippets_evidence": null,
       "tags": [
-        "layout",
-        "assembly"
+        "layout"
       ]
     },
     {
@@ -191,11 +169,15 @@
         },
         {
           "element_path": "cta.button.font",
-          "token_id": "tok_lisraya_cta_button_font"
+          "token_id": "tok_lisraya_font_cta"
         },
         {
-          "element_path": "cta.button.label.size",
-          "token_id": "tok_lisraya_cta_button_label_size"
+          "element_path": "cta.button.font_weight",
+          "token_id": "tok_lisraya_weight_cta_bold"
+        },
+        {
+          "element_path": "cta.button.font_size",
+          "token_id": "tok_lisraya_type_scale_cta_16"
         },
         {
           "element_path": "cta.button.padding",
@@ -203,21 +185,20 @@
         },
         {
           "element_path": "cta.button.min_height",
-          "token_id": "tok_lisraya_cta_button_min_height"
+          "token_id": "tok_lisraya_size_touch_target_min"
         },
         {
           "element_path": "cta.button.radius",
           "token_id": "tok_lisraya_cta_button_radius"
         },
         {
-          "element_path": "cta.button.border",
+          "element_path": "cta.button.secondary.border",
           "token_id": "tok_lisraya_border_secondary_cta"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height**",
-          "corner radius 24px (fully rounded pill",
+          "Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height** (brand accessibility rule: ≥48px clickable areas), corner radius 24px (fully rounded pill",
           "Secondary CTA: White background, 2px Brand Blue border, Brand Blue text, same metrics."
         ],
         "unit_ids": [
@@ -227,21 +208,19 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px",
-          "**min touch target 48px height** (brand accessibility rule: ≥48px clickable areas)",
-          "corner radius 24px (fully rounded pill"
+          "Buttons/CTA **[GENERAL, contrast-checked to palette]:** Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height** (brand accessibility rule: ≥48px clickable areas), corner radius 24px (fully rounded pill, echoing the rounded brand aesthetic). Secondary CTA: White background, 2px Brand Blue border, Brand Blue text, same metrics."
         ],
         "unit_ids": [
           "u_design_pattern_rules_0_0008"
         ]
       },
-      "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Lock the approved, accessibility-compliant CTA button treatment.",
+      "id": "rule_lisraya_cta_button_styling",
+      "intent": "Preserve the approved, contrast-checked, accessible CTA button treatment.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "cta",
-      "rule_text": "Primary CTA buttons use Brand Blue background (cta.button.fill = #00529b), White text (cta.button.label.color = #ffffff), Nunito Sans Bold 16px (cta.button.label.size = 16px), padding 14px 32px, minimum 48px clickable touch-target height (cta.button.min_height = 48px, a brand accessibility rule), and a 24px fully-rounded pill radius (cta.button.radius = 24px). Secondary CTA uses White background, a 2px Brand Blue border (border.cta.secondary = 2px Brand Blue), Brand Blue text, and the same metrics.",
+      "rule_text": "Primary CTA buttons use Brand Blue #00529b background (cta.button.fill), White #ffffff text (cta.button.label.color), Nunito Sans Bold 16px, padding 14px 32px (padding.button.14_32), minimum touch target 48px height (size.touch_target.min_height — brand accessibility rule: ≥48px clickable areas), and corner radius 24px (radius.button.pill_24, fully rounded pill echoing the rounded brand aesthetic). Secondary CTA uses White background, 2px Brand Blue border (border.secondary_cta.brand_blue_2px), Brand Blue text, and the same metrics.",
       "scope": "org_baseline",
       "selector": {
         "element_path": "cta.button",
@@ -249,12 +228,11 @@
           "cta"
         ]
       },
-      "slug": "cta_button_spec",
-      "snippets": null,
-      "snippets_evidence": null,
+      "slug": "cta_button_styling",
       "tags": [
         "accessibility",
-        "color_application"
+        "color_application",
+        "typography"
       ]
     },
     {
@@ -288,23 +266,21 @@
           "u_design_pattern_rules_0_0008"
         ]
       },
-      "governance": null,
       "hardness": "hard_constraint",
-      "intent": "Prevent competing primary calls-to-action within a single section.",
+      "id": "rule_lisraya_cta_one_primary_per_section",
+      "intent": "Prevent competing calls to action within a single section.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "cta",
-      "rule_text": "One primary CTA per section maximum.",
+      "rule_text": "A maximum of one primary CTA is permitted per section.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "cta.button",
         "section_types": [
           "cta"
         ]
       },
       "slug": "cta_one_primary_per_section",
-      "snippets": null,
-      "snippets_evidence": null,
       "tags": [
         "layout"
       ]

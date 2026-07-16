@@ -40,11 +40,35 @@ Return JSON only:
     "id": "rule_{brand}_<name>",
     "rule_class": "<class>",
     "selector": {{"element_path": "<path>"}},
-    "effect": {{}},
+    "constraint_type": "binding|cardinality|ordering|pairing|exclusivity|verbatim_content",
+    "effect": [{{"element_path": "<dotted path>",
+                 "token_id": "<tok_ id copied verbatim from CANDIDATE CATALOG>"}}],
+    "rule_text": "<faithful self-contained rule>",
     "evidence": {{"unit_ids": ["<unit_id>"], "quotes": ["<verbatim substring>"]}}
+  }}],
+  "missing_token_requests": [{{
+    "key_proposal": "<type>.<group>.<name>",
+    "value": <concrete value>,
+    "unit_ids": ["<unit_id>"],
+    "quotes": ["<verbatim substring>"],
+    "for_rule_slug": "<rule name>"
   }}],
   "assets": [],
   "subtypes": [],
   "templates": [],
   "relations": []
 }}
+
+Binding example when the token exists:
+{{"id": "rule_{brand}_body_size",
+  "rule_class": "typography",
+  "constraint_type": "binding",
+  "selector": {{"element_path": "body.text.size"}},
+  "effect": [{{"element_path": "body.text.size",
+               "token_id": "tok_{brand}_size_body"}}],
+  "rule_text": "Body text uses the cataloged body-size token.",
+  "evidence": {{"unit_ids": ["u_example"], "quotes": ["Body text: 18px"]}}}}
+
+Every binding or value-bearing rule must contain at least one assignment whose token_id
+appears verbatim in CANDIDATE CATALOG. If no token exists, emit missing_token_requests
+instead of inventing an id or returning an unbound rule.

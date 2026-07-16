@@ -26,10 +26,51 @@
     }
   ],
   "evaluation_scope": "section",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "icon_callout.box.padding",
+        "token_id": "tok_lisraya_icon_callout_box_padding",
+        "linked_by": "linker-v1.0.0:auto"
+      },
+      {
+        "element_path": "icon_callout.section.padding",
+        "token_id": "tok_lisraya_icon_callout_section_padding",
+        "linked_by": "linker-v1.0.0:auto"
+      },
+      {
+        "element_path": "icon_callout.padding.box",
+        "token_id": "tok_lisraya_padding_icon_callout_box",
+        "linked_by": "linker-v1.0.0:auto"
+      },
+      {
+        "element_path": "icon_callout.padding.section",
+        "token_id": "tok_lisraya_padding_icon_callout_section",
+        "linked_by": "linker-v1.0.0:auto"
+      },
+      {
+        "element_path": "icon_callout.size.inner_icon",
+        "token_id": "tok_lisraya_size_icon_badge_inner_icon",
+        "linked_by": "linker-v1.0.0:auto"
+      },
+      {
+        "element_path": "icon_callout.size.inset",
+        "token_id": "tok_lisraya_size_icon_callout_inset",
+        "linked_by": "linker-v1.0.0:auto"
+      }
+    ]
+  },
   "polarity": "should",
   "hardness": "strong_default",
   "precedence": 0,
-  "token_ids": [],
+  "token_ids": [
+    "tok_lisraya_icon_callout_box_padding",
+    "tok_lisraya_icon_callout_section_padding",
+    "tok_lisraya_padding_icon_callout_box",
+    "tok_lisraya_padding_icon_callout_section",
+    "tok_lisraya_size_icon_badge_inner_icon",
+    "tok_lisraya_size_icon_callout_inset"
+  ],
   "asset_ids": [],
   "rule_text": "The 50/50 overhang relies on position:absolute, which Apple Mail / iOS / most web clients honor but Outlook (desktop, Word engine) ignores \u2014 there the badge drops to top-left in normal flow and the box won't be inset. For pixel-perfect fidelity across all clients, pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG placed via the same absolute positioning, or bake the entire badge-on-edge treatment into the box's background image while keeping the text live. When that's not feasible, ship the live version and accept the Outlook degrade (badge flush at the inner-left edge); every other rule (Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow) stays identical.",
   "intent": "Preserve fidelity of the badge overhang across email clients that break absolute positioning.",

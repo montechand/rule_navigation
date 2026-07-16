@@ -17,6 +17,7 @@ WORKSPACE_ROOT = RULE_NAV_ROOT.parent
 ENV_PATH = WORKSPACE_ROOT / "newest_email_pipeline" / ".env"
 BRAND_RULES_DIR = WORKSPACE_ROOT / "newest_email_pipeline" / "brand_rules"
 KB_ROOT = RULE_NAV_ROOT / "kb"
+SIMPLE_KB_ROOT = RULE_NAV_ROOT / "simple_kb"
 OUTPUTS_DIR = RULE_NAV_ROOT / "outputs"
 EXAMPLES_DIR = RULE_NAV_ROOT / "examples"
 
@@ -45,6 +46,10 @@ EMBED_MODEL = os.getenv("RULE_NAV_EMBED_MODEL", "text-embedding-3-large")
 
 def kb_dir(brand: str) -> Path:
     return KB_ROOT / brand
+
+
+def simple_kb_dir(brand: str) -> Path:
+    return SIMPLE_KB_ROOT / brand
 
 
 def require_keys() -> None:

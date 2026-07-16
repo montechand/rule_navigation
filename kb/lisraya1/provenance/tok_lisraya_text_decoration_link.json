@@ -1,0 +1,128 @@
+{
+  "entity_id": "tok_lisraya_text_decoration_link",
+  "extraction_meta": {
+    "champion_run": "r1",
+    "confidence": "medium",
+    "dissent_unit_ids": [],
+    "field_agreement": {
+      "key": 1.0,
+      "kind": 1.0,
+      "notes": 0.5,
+      "scope": 1.0,
+      "token_type": 1.0,
+      "value.default": 1.0,
+      "value.variants[f28b219706314192]": 0.5
+    },
+    "runs": 3,
+    "support": 2
+  },
+  "provenance": [
+    {
+      "entity_id": "tok_lisraya_text_decoration_link",
+      "field": "",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "color_scheme_rules[1]",
+          "end": 848,
+          "match": "exact",
+          "quote": "Brand Blue #00529b, underlined",
+          "start": 818,
+          "unit_ids": [
+            "u_color_scheme_rules_1_0007"
+          ]
+        },
+        {
+          "doc_ref": "color_scheme_rules[1]",
+          "end": 896,
+          "match": "exact",
+          "quote": "Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark",
+          "start": 818,
+          "unit_ids": [
+            "u_color_scheme_rules_1_0007"
+          ]
+        },
+        {
+          "doc_ref": "content_pattern_rules[3]",
+          "end": 841,
+          "match": "exact",
+          "quote": "No underlining except real hyperlinks",
+          "start": 804,
+          "unit_ids": [
+            "u_content_pattern_rules_3_0005"
+          ]
+        },
+        {
+          "doc_ref": "content_pattern_rules[3]",
+          "end": 842,
+          "match": "exact",
+          "quote": "No underlining except real hyperlinks.",
+          "start": 804,
+          "unit_ids": [
+            "u_content_pattern_rules_3_0005"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": null,
+        "status": "n/a"
+      },
+      "verification": "span_verified"
+    },
+    {
+      "entity_id": "tok_lisraya_text_decoration_link",
+      "field": "value.default",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "color_scheme_rules[1]",
+          "end": 848,
+          "match": "exact",
+          "quote": "Brand Blue #00529b, underlined",
+          "start": 818,
+          "unit_ids": [
+            "u_color_scheme_rules_1_0007"
+          ]
+        },
+        {
+          "doc_ref": "color_scheme_rules[1]",
+          "end": 870,
+          "match": "exact",
+          "quote": "Brand Blue #00529b, underlined, on light backgrounds",
+          "start": 818,
+          "unit_ids": [
+            "u_color_scheme_rules_1_0007"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": "matched 'underline'",
+        "status": "pass"
+      },
+      "verification": "value_verified"
+    },
+    {
+      "entity_id": "tok_lisraya_text_decoration_link",
+      "field": "value.variants[0].value",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "color_scheme_rules[1]",
+          "end": 898,
+          "match": "failed",
+          "quote": "White underlined on dark",
+          "start": 795,
+          "unit_ids": [
+            "u_color_scheme_rules_1_0007"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": "normalized 'white_underlined' not found in cited units or neighbors",
+        "status": "fail"
+      },
+      "verification": "unverified"
+    }
+  ],
+  "schema_version": "2.0"
+}

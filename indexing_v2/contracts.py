@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 from typing import Any, Literal, Optional, TypeVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from shared import config
 from shared.schemas import (
@@ -138,6 +138,25 @@ class RunVariant(BaseModel):
     replicate: int = 0
 
 
+class FrozenCatalog(BaseModel):
+    """Cross-run token catalog handed from the token phase to rule extraction."""
+
+    model_config = ConfigDict(extra="allow")
+
+    schema_version: str = SCHEMA_VERSION
+    tokens_primitive: list[dict[str, Any]] = Field(default_factory=list)
+    tokens_semantic: list[dict[str, Any]] = Field(default_factory=list)
+    hash: str = ""
+
+    @property
+    def primitive(self) -> list[dict[str, Any]]:
+        return self.tokens_primitive
+
+    @property
+    def semantic(self) -> list[dict[str, Any]]:
+        return self.tokens_semantic
+
+
 class ExtractionMeta(BaseModel):
     runs: int
     support: int
@@ -209,6 +228,7 @@ class CoverageReport(BaseModel):
     unclaimed_unit_ids: list[str]
     over_claimed_unit_ids: list[str]
     orphan_entity_ids: list[str]
+    unreferenced_token_ids: list[str] = Field(default_factory=list)
     rows: list[LedgerRow]
 
 
@@ -219,6 +239,8 @@ TriageQueue = Literal[
     "unverified_value",
     "over_claimed",
     "conflict",
+    "orphan_token",
+    "needs_rule",
 ]
 
 
@@ -245,6 +267,47 @@ class TriageItem(BaseModel):
     subject_id: str
     context: str
     disposition: Disposition = Field(default_factory=Disposition)
+
+
+# --- S6b: linker -------------------------------------------------------------
+
+class LinkSignals(BaseModel):
+    unit_overlap: list[str] = Field(default_factory=list)
+    key_hit: Optional[str] = None
+    alias_hit: Optional[str] = None
+    strong_values: list[str] = Field(default_factory=list)
+    weak_values: list[str] = Field(default_factory=list)
+    fragments: list[str] = Field(default_factory=list)
+    key_fragments: list[str] = Field(default_factory=list)
+
+
+class LinkAssignment(BaseModel):
+    token_id: str
+    element_path: Optional[str] = None
+    element_path_source: Literal[
+        "token.element_paths",
+        "heuristic_from_key",
+        "adjudicated",
+        "none",
+    ] = "none"
+    signals: LinkSignals
+
+
+class LinkPatch(BaseModel):
+    schema_version: str = SCHEMA_VERSION
+    rule_id: str
+    op: Literal["append_effect_assignments"] = "append_effect_assignments"
+    assignments: list[LinkAssignment]
+    linked_by: str
+
+
+class LinkerResult(BaseModel):
+    schema_version: str = SCHEMA_VERSION
+    metrics: dict[str, Any]
+    patches: list[LinkPatch]
+    adjudication_open: list[dict[str, Any]]
+    needs_rule_tokens: list[dict[str, Any]]
+    unresolved_rule_literals: list[dict[str, str]]
 
 
 # --- S9/S10: guards, specificity, contexts ----------------------------------

@@ -766,7 +766,8 @@ class ToolRepo:
               {"type": "object", "properties": {"token_id": {"type": "string"}}, "required": ["token_id"]},
               self._rules_for_token),
             S("neighbors", "Walk the KB graph from any node (rule/token/asset/section/subtype/"
-              "template/group). Edge types: applies_to_section, references_token, references_asset, "
+              "template/group/token_table; token-table ids reserve the ttab_ prefix). Edge types: "
+              "applies_to_section, references_token, references_asset, member_of_table, "
               "scoped_to_subtype, fills_section, hosts_section, instance_of, member_of, from_group, "
               "contains_token, requires_pairing_token, resolves_to, derived_from, refines, "
               "conflicts, cross_reference, cluster, co_applies, overrides, mutually_exclusive, "

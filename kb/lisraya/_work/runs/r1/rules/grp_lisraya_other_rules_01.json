@@ -1,11 +1,17 @@
 {
   "doc_ref": "other_rules[1]",
   "group_id": "grp_lisraya_other_rules_01",
+  "missing_token_requests": [],
   "original_text": "### Audience Segmentation\n- This guide governs **patient (DTC) materials**. Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials. Confirm audience in every brief before writing.\n- Patient brochure = master reference for visuals, messaging, and tone across **all** LISRAYA materials.",
   "relations": [],
   "rules": [
     {
-      "applies_when": null,
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "patient_dtc"
+        }
+      ],
       "audience": "dtp_patient",
       "constraint_type": "verbatim_content",
       "content_sub_type_ids": null,
@@ -52,11 +58,12 @@
         "verdict": "requires_qualifier"
       },
       "hardness": "hard_constraint",
-      "intent": "Enforce audience-appropriate, person-first language.",
+      "id": "rule_lisraya_audience_person_first_language",
+      "intent": "Enforce audience-appropriate, person-first language for patient (DTC) materials.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "copy_editorial",
-      "rule_text": "This guide governs patient (DTC) materials. Language rules differ by audience: use person-first phrasing \"someone/people with dermatomyositis\" for patient materials, while \"patients\" is acceptable in HCP materials. Confirm the audience in every brief before writing.",
+      "rule_text": "This guide governs patient (DTC) materials. Language differs by audience: use \"someone/people with dermatomyositis\" for patient materials, while \"patients\" is acceptable in HCP materials. Confirm the audience in every brief before writing.",
       "scope": "brand",
       "selector": {
         "element_path": null,
@@ -87,7 +94,8 @@
         ]
       },
       "hardness": "strong_default",
-      "intent": "Anchor all materials to a single canonical source of truth.",
+      "id": "rule_lisraya_patient_brochure_master_reference",
+      "intent": "Anchor all LISRAYA materials to a single authoritative reference for consistency.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "assembly",

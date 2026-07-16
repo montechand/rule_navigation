@@ -1,0 +1,42 @@
+{
+  "id": "rule_lisraya_parent_company_signoff_footer_only",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "assembly"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "end_matter"
+    ]
+  },
+  "evaluation_scope": "email",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "Priovant Therapeutics, Inc.",
+    "trigger": "parent company sign-off in locked footer only"
+  },
+  "polarity": "must_not",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "legal",
+    "verdict": "verbatim_only",
+    "preferred_form": "Priovant Therapeutics, Inc.",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "warn"
+  },
+  "rule_text": "Parent company is Priovant Therapeutics, Inc. The sign-off lives in the locked footer; do not add it in body sections.",
+  "intent": "Keep parent-company sign-off confined to the locked footer.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_lisraya_content_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Parent company Priovant Therapeutics, Inc. sign-off only in locked footer; never include in body sections."
+}

@@ -50,7 +50,7 @@ from .runner import (
     render_units,
 )
 
-STAGE_VERSION = "1.0.0"
+STAGE_VERSION = "1.2.0"
 
 PROMPT_CRITIC_CATALOG = "critic_catalog"
 PROMPT_CRITIC_RULES = "critic_rules"
@@ -791,7 +791,7 @@ def _entities_for_verification(
 ) -> EntitiesByKind:
     """Return only patch products that S5 consumes from provenance verification."""
     index = _entity_index(candidates)
-    scoped: EntitiesByKind = {}
+    scoped: dict[str, list[dict[str, Any]]] = {}
     for entity_id in entity_ids:
         indexed = index.get(entity_id)
         if indexed is None:
@@ -854,6 +854,76 @@ def _after_hash(
     return stable_hash({"ids": sorted(resulting_ids), "entities": products})
 
 
+def _ref_ids(value: Any) -> set[str]:
+    refs: set[str] = set()
+    if isinstance(value, Mapping):
+        for key in ("$ref", "token_id"):
+            ref = value.get(key)
+            if isinstance(ref, str) and ref:
+                refs.add(ref)
+        for child in value.values():
+            refs.update(_ref_ids(child))
+    elif isinstance(value, list):
+        for child in value:
+            refs.update(_ref_ids(child))
+    return refs
+
+
+def _validate_ref_chain(
+    ref_id: str,
+    index: Mapping[str, tuple[EntityKind, dict[str, Any], str | None]],
+    *,
+    patched_entity_id: str,
+    chain: tuple[str, ...],
+) -> None:
+    if ref_id not in index:
+        raise PatchApplicationError(
+            f"{patched_entity_id}: missing $ref target: {ref_id}"
+        )
+    if ref_id in chain:
+        cycle = " -> ".join((*chain, ref_id))
+        raise PatchApplicationError(
+            f"{patched_entity_id}: cyclic $ref chain: {cycle}"
+        )
+    entity = index[ref_id][1]
+    for nested_ref in sorted(_ref_ids(entity)):
+        _validate_ref_chain(
+            nested_ref,
+            index,
+            patched_entity_id=patched_entity_id,
+            chain=(*chain, ref_id),
+        )
+
+
+def _validate_patch_refs(candidates: CandidateSet, patch: Patch) -> None:
+    index = _entity_index(candidates)
+    if patch.op in {"add", "update"}:
+        for entity_id in sorted(_resulting_entity_ids(patch)):
+            entity = index[entity_id][1]
+            for ref_id in sorted(_ref_ids(entity)):
+                _validate_ref_chain(
+                    ref_id,
+                    index,
+                    patched_entity_id=entity_id,
+                    chain=(entity_id,),
+                )
+        return
+
+    if patch.op != "delete" or patch.entity_kind not in {
+        "token_primitive",
+        "token_semantic",
+    }:
+        return
+    deleted_ids = set(patch.target_entity_ids)
+    for entity_id in sorted(index):
+        referenced_deleted = sorted(_ref_ids(index[entity_id][1]) & deleted_ids)
+        if referenced_deleted:
+            raise PatchApplicationError(
+                f"cannot delete token {referenced_deleted[0]}: "
+                f"surviving entity {entity_id} still references it"
+            )
+
+
 def triage_findings(
     findings: Sequence[Finding],
     candidates: CandidateSet,
@@ -895,6 +965,7 @@ def triage_findings(
         before = _audit_before_hash(current, patch)
         try:
             trial = apply_patch_to_candidates(current, patch)
+            _validate_patch_refs(trial, patch)
             resulting_ids = _resulting_entity_ids(patch)
             attempted_after = _after_hash(trial, patch, resulting_ids)
             if patch.op == "delete":

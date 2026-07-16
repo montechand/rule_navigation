@@ -27,6 +27,7 @@ from shared.llm import Usage  # noqa: E402
 from shared.schemas import BrandRule, BrandToken  # noqa: E402
 from indexing_v2.extraction.classify_units import classify_units  # noqa: E402
 from indexing_v2.extraction.ledger import GapPatchPayload  # noqa: E402
+from indexing_v2.extraction.ledger import CandidatesBundle  # noqa: E402
 
 
 def _read_jsonl(path: Path) -> list[dict]:
@@ -124,6 +125,16 @@ def test_all_fourteen_plants_documented(plants: list[dict]) -> None:
         assert p["name"]
         assert p["description"]
         assert p["units"]
+
+
+def test_linker_fixture_is_a_valid_candidate_bundle() -> None:
+    path = Path(__file__).parent / "fixtures" / "linker" / "bundle.json"
+    bundle = CandidatesBundle.model_validate(
+        json.loads(path.read_text(encoding="utf-8"))
+    )
+    assert len(bundle.tokens_primitive) == 8
+    assert len(bundle.tokens_semantic) == 1
+    assert len(bundle.rules_by_group["grp_fixture"]) == 6
 
 
 def test_source_unit_invariants(units: list[SourceUnit], blobs: dict[str, str]) -> None:

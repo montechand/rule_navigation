@@ -73,6 +73,49 @@ class RepeatingFakeLLM(FakeLLM):
                 raise
             return ordered[(seq - 1) % len(ordered)]
 
+    async def complete_json(
+        self,
+        model: str,
+        system: str,
+        user: str,
+        max_tokens: int = 16_000,
+        usage: Usage | None = None,
+        *,
+        prompt_name: str,
+        cache_key: str | None = None,
+    ) -> Any:
+        if prompt_name not in {"rules_cluster", "gap_patch"}:
+            return await super().complete_json(
+                model,
+                system,
+                user,
+                max_tokens=max_tokens,
+                usage=usage,
+                prompt_name=prompt_name,
+                cache_key=cache_key,
+            )
+        self._record(
+            prompt_name=prompt_name,
+            cache_key=cache_key,
+            model=model,
+            system=system,
+            user=user,
+        )
+        self._account(usage, model)
+        if prompt_name == "rules_cluster":
+            fixture = (
+                "layout_constraints_001.json"
+                if "layout_constraints[0]" in user
+                else "brand_foundation_001.json"
+            )
+        else:
+            fixture = (
+                "002.json"
+                if "layout_constraints[0]" in user
+                else "001.json"
+            )
+        return self._load_fixture(self.fixture_root / prompt_name / fixture)
+
 
 @pytest.fixture
 def fake_client() -> RepeatingFakeLLM:
@@ -107,6 +150,7 @@ def _default_options(**overrides: Any) -> BuildOptions:
         "skip_summarize_embed": True,
         "no_critic": True,
         "no_gaps": True,
+        "no_linker": True,
     }
     base.update(overrides)
     return BuildOptions(**base)
@@ -228,6 +272,7 @@ def test_parse_stage_range_and_subset() -> None:
     assert parse_stage_selection(stages=["s4", "s6"], from_stage=None) == ["s4", "s6"]
     assert parse_stage_selection(stages=None, from_stage="s6") == [
         "s6",
+        "s6b",
         "s7",
         "s8",
         "s9",
@@ -256,6 +301,32 @@ async def test_no_ensemble_uses_single_run(
     run_dirs = list((minibible_env / MINIBIBLE_BRAND / "_work" / "runs").iterdir())
     assert len(run_dirs) == 1
     assert run_dirs[0].name == "r0"
+
+
+@pytest.mark.asyncio
+async def test_two_phase_freezes_one_catalog_across_runs(
+    minibible_env: Path,
+    fake_client: FakeLLM,
+    cache_root: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("RULE_NAV_TWO_PHASE", "1")
+    options = _default_options(stages=frozenset({"s0", "s1", "s2"}))
+    await _build(options, fake_client, cache_root)
+    work = minibible_env / MINIBIBLE_BRAND / "_work"
+    frozen = json.loads(
+        (work / "catalog_frozen.json").read_text(encoding="utf-8")
+    )
+    assert frozen["hash"]
+    primitive_runs = {
+        (run_dir / "tokens_primitive.json").read_bytes()
+        for run_dir in (work / "runs").iterdir()
+    }
+    semantic_runs = {
+        (run_dir / "tokens_semantic.json").read_bytes()
+        for run_dir in (work / "runs").iterdir()
+    }
+    assert len(primitive_runs) == len(semantic_runs) == 1
 
 
 @pytest.mark.asyncio
@@ -342,7 +413,9 @@ async def test_strict_zero_when_all_queues_dispositioned(
     cache_root: Path,
 ) -> None:
     # Isolate queue acceptance from S9's independently tested Class-A conflicts.
-    options = _default_options(stages=frozenset(f"s{i}" for i in range(9)))
+    options = _default_options(
+        stages=frozenset({"s0", "s1", "s2", "s3", "s4", "s5", "s6", "s6b", "s7", "s8"})
+    )
     await _build(options, fake_client, cache_root)
     triage_path = minibible_env / MINIBIBLE_BRAND / "review" / "triage.jsonl"
     _waive_current_triage(triage_path)
@@ -545,7 +618,11 @@ async def test_strict_zero_when_class_a_global_unsat_is_waived(
     cache_root: Path,
 ) -> None:
     await _build(
-        _default_options(stages=frozenset(f"s{i}" for i in range(9))),
+        _default_options(
+            stages=frozenset(
+                {"s0", "s1", "s2", "s3", "s4", "s5", "s6", "s6b", "s7", "s8"}
+            )
+        ),
         fake_client,
         cache_root,
     )
@@ -653,7 +730,11 @@ async def test_golden_write_kb_rule_fields_compatible(
     fake_client: FakeLLM,
     cache_root: Path,
 ) -> None:
-    options = _default_options(stages=frozenset({"s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"}))
+    options = _default_options(
+        stages=frozenset(
+            {"s0", "s1", "s2", "s3", "s4", "s5", "s6", "s6b", "s7", "s8"}
+        )
+    )
     await _build(options, fake_client, cache_root)
     golden_rule = json.loads(
         (FIXTURE_ROOT / "kb" / MINIBIBLE_BRAND / "rules" / "rule_minibible_sentence_case_headlines.json").read_text(

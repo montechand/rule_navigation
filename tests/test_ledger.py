@@ -32,7 +32,6 @@ from indexing_v2.extraction.critic import (
 )
 from indexing_v2.extraction.ensemble import (
     EnsembleResult,
-    SemanticResolutionError,
     build_token_catalog,
     build_verified_run,
     reconcile_ensemble,
@@ -60,6 +59,7 @@ from indexing_v2.extraction.ledger import (
     run_gap_loop,
     triage_key_global_unsat,
     triage_key_unclaimed,
+    validate_gap_rule_bindings,
     write_ledger,
     write_triage_snapshot,
 )
@@ -740,7 +740,7 @@ def test_semantic_triage_key_matches_public_helper_for_nested_refs(
 
 
 @pytest.mark.parametrize("cyclic", [False, True])
-def test_semantic_triage_preserves_typed_ref_errors(
+def test_semantic_triage_reports_ref_errors_without_raising(
     cyclic: bool,
     units: list[SourceUnit],
     units_by_id: dict[str, SourceUnit],
@@ -773,13 +773,20 @@ def test_semantic_triage_preserves_typed_ref_errors(
     )
     report, _ = build_ledger([], provenance, candidates)
     expected = "cyclic" if cyclic else "missing"
-    with pytest.raises(SemanticResolutionError, match=expected):
-        compute_triage_items(
-            report,
-            labels_by_id={},
-            candidates=candidates,
-            provenance=provenance,
-        )
+    items = compute_triage_items(
+        report,
+        labels_by_id={},
+        candidates=candidates,
+        provenance=provenance,
+    )
+    first_item = next(item for item in items if item.subject_id == first["id"])
+
+    assert first_item.queue == "unverified_value"
+    assert first_item.key == stable_hash(
+        ("body.text.a", "<unresolved:tok_ref_b>")
+    )
+    assert "semantic resolution error" in first_item.context
+    assert expected in first_item.context
 
 
 def test_unquotable_gap_products_do_not_mutate_candidates(
@@ -880,6 +887,51 @@ def test_gap_payload_validation_is_strict() -> None:
                 ]
             }
         )
+
+
+def test_gap_binding_rules_require_catalog_assignment(
+    units_by_id: dict[str, SourceUnit],
+) -> None:
+    candidates = _fixture_candidates(units_by_id)
+    invalid = GapPatchPayload(
+        rules=[
+            {
+                "id": "rule_missing_binding",
+                "constraint_type": "binding",
+                "effect": [],
+                "rule_text": "Use 18px body text.",
+            },
+            {
+                "id": "rule_cardinality",
+                "constraint_type": "cardinality",
+                "effect": {"max": 1},
+                "rule_text": "One CTA maximum.",
+            },
+        ]
+    )
+    assert validate_gap_rule_bindings(invalid, candidates) == [
+        "rule_missing_binding"
+    ]
+    token_id = candidates.tokens_primitive[0]["id"]
+    valid = invalid.model_copy(
+        update={
+            "rules": [
+                {
+                    "id": "rule_bound",
+                    "constraint_type": "binding",
+                    "effect": [
+                        {
+                            "element_path": "body.size",
+                            "token_id": token_id,
+                        }
+                    ],
+                    "rule_text": "Use 18px body text.",
+                }
+            ]
+        },
+        deep=True,
+    )
+    assert validate_gap_rule_bindings(valid, candidates) == []
 
 
 def test_full_blob_payload_assigns_rule_ids_and_maps_relations(

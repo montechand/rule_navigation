@@ -30,6 +30,7 @@ from indexing_v2.contracts import (
     SourceUnit,
     UnitLabel,
     atomic_write_json,
+    slugify,
     stable_hash,
 )
 from indexing_v2.extraction.align import is_concrete_value_field
@@ -37,7 +38,7 @@ from indexing_v2.extraction.normalize import normalize_value
 from indexing_v2.extraction.provenance import ProvenanceResult, verify_entities
 from indexing_v2.extraction.runner import RunOutput
 
-STAGE_VERSION = "1.2.0"
+STAGE_VERSION = "1.3.0"
 
 EntityKindBucket = Literal[
     "token_primitive",
@@ -216,12 +217,6 @@ def _named_match_key(entity: Mapping[str, Any], fallback: str) -> tuple[str, str
     return (kind, _normalized_name(entity))
 
 
-def _rule_identity(rule: Mapping[str, Any]) -> tuple[str, str]:
-    selector = rule.get("selector")
-    path = selector.get("element_path") if isinstance(selector, dict) else ""
-    return (str(rule.get("rule_class") or ""), normalize_value("string", str(path or "")).canon)
-
-
 def _claimed_unit_ids(entity: Mapping[str, Any]) -> set[str]:
     found: set[str] = set()
 
@@ -238,11 +233,6 @@ def _claimed_unit_ids(entity: Mapping[str, Any]) -> set[str]:
 
     collect(entity)
     return found
-
-
-def _jaccard(left: set[str], right: set[str]) -> float:
-    union = left | right
-    return 1.0 if not union else len(left & right) / len(union)
 
 
 def _output_entities(output: RunOutput) -> dict[EntityKindBucket, list[dict[str, Any]]]:
@@ -420,35 +410,58 @@ def _semantic_groups(
     return groups, conflicts
 
 
-def _rule_groups(occurrences: Sequence[_Occurrence]) -> list[_EntityGroup]:
-    by_identity: dict[tuple[str, str, str], list[_Occurrence]] = {}
-    for item in occurrences:
-        rule_class, path = _rule_identity(item.entity)
-        by_identity.setdefault((item.group_id or "", rule_class, path), []).append(item)
+def _rule_signature(rule: Mapping[str, Any]) -> str:
+    effect = rule.get("effect")
+    assignments = (
+        effect.get("assignments", [])
+        if isinstance(effect, dict)
+        else effect
+        if isinstance(effect, list)
+        else []
+    )
+    pairs = sorted(
+        (
+            str(assignment.get("element_path", "")),
+            str(assignment.get("token_id", "")),
+        )
+        for assignment in assignments
+        if isinstance(assignment, Mapping)
+    )
+    governance = rule.get("governance")
+    preferred_form = (
+        governance.get("preferred_form")
+        if isinstance(governance, Mapping)
+        else None
+    )
+    if pairs or preferred_form:
+        return stable_hash(
+            {
+                "p": pairs,
+                "c": rule.get("constraint_type"),
+                "g": preferred_form,
+            }
+        )
+    return "slug:" + slugify(str(rule.get("slug") or rule.get("id") or ""))
 
-    groups: list[_EntityGroup] = []
-    for identity in sorted(by_identity):
-        pending = list(_collapse_per_run(by_identity[identity]))
-        while pending:
-            seed = pending.pop(0)
-            seed_units = _claimed_unit_ids(seed.entity)
-            matched = [seed]
-            rest: list[_Occurrence] = []
-            for item in pending:
-                if _jaccard(seed_units, _claimed_unit_ids(item.entity)) >= 0.5:
-                    matched.append(item)
-                else:
-                    rest.append(item)
-            pending = rest
-            groups.append(
-                _EntityGroup(
-                    kind="rule",
-                    occurrences=tuple(sorted(matched, key=lambda item: item.run_id)),
-                    raw_occurrences=tuple(sorted(matched, key=lambda item: item.run_id)),
-                    group_id=identity[0],
-                )
-            )
-    return groups
+
+def _rule_groups(occurrences: Sequence[_Occurrence]) -> list[_EntityGroup]:
+    by_identity: dict[tuple[str, str], list[_Occurrence]] = {}
+    for item in occurrences:
+        by_identity.setdefault(
+            (item.group_id or "", _rule_signature(item.entity)),
+            [],
+        ).append(item)
+    return [
+        _EntityGroup(
+            kind="rule",
+            occurrences=_collapse_per_run(raw),
+            raw_occurrences=tuple(
+                sorted(raw, key=lambda item: (item.run_id, _occurrence_sort_key(item)))
+            ),
+            group_id=identity[0],
+        )
+        for identity, raw in sorted(by_identity.items())
+    ]
 
 
 def _active_entity_ids(run: VerifiedRunInput) -> set[str]:
@@ -993,6 +1006,31 @@ def reconcile_ensemble(
         merged[group.kind].append(entity)
         if group.kind == "rule":
             merged_rule_groups.setdefault(group.group_id or "unknown", []).append(entity)
+            slugs = sorted(
+                {
+                    str(item.entity.get("slug") or "")
+                    for item in group.occurrences
+                    if item.entity.get("slug")
+                }
+            )
+            if len(slugs) > 1:
+                payload = {
+                    "group_id": group.group_id,
+                    "slugs": slugs,
+                    "signature": _rule_signature(entity),
+                }
+                findings.append(
+                    Finding(
+                        finding_id=f"f_ensemble_{stable_hash(payload)[:12]}",
+                        round=0,
+                        finding_type="other",
+                        severity="info",
+                        target_entity_id=str(entity.get("id") or ""),
+                        unit_ids=sorted(_claimed_unit_ids(entity)),
+                        description=f"merged_by_signature (slugs: {', '.join(slugs)})",
+                        resolution="applied",
+                    )
+                )
 
     for group in consensus_groups:
         materialize(group)
@@ -1082,6 +1120,34 @@ def reconcile_ensemble(
     )
 
 
+def reconcile_tokens_only(
+    runs: Sequence[VerifiedRunInput],
+    units: Sequence[SourceUnit],
+    labels: Sequence[UnitLabel],
+    *,
+    fuzzy_min_ratio: float | None = None,
+) -> EnsembleResult:
+    """Reuse ensemble voting with every non-token bucket intentionally empty."""
+    token_runs = [
+        build_verified_run(
+            RunOutput(
+                variant=run.output.variant,
+                primitive_tokens=run.output.primitive_tokens,
+                semantic_tokens=run.output.semantic_tokens,
+            ),
+            units,
+            fuzzy_min_ratio=fuzzy_min_ratio,
+        )
+        for run in runs
+    ]
+    return reconcile_ensemble(
+        token_runs,
+        units,
+        labels,
+        fuzzy_min_ratio=fuzzy_min_ratio,
+    )
+
+
 def build_verified_run(
     output: RunOutput,
     units: Sequence[SourceUnit],
@@ -1094,7 +1160,10 @@ def build_verified_run(
     }
     ratio = settings.FUZZY_MATCH_MIN_RATIO if fuzzy_min_ratio is None else fuzzy_min_ratio
     provenance = verify_entities(entities, units, fuzzy_min_ratio=ratio)
-    return VerifiedRunInput(output=output, provenance=provenance)
+    # Tests and plugin reloads may replace runner.RunOutput while this module keeps
+    # its original class binding; normalize across that safe model boundary.
+    normalized_output = RunOutput.model_validate(output.model_dump(mode="python"))
+    return VerifiedRunInput(output=normalized_output, provenance=provenance)
 
 
 def write_candidates(result: EnsembleResult, work_dir: Path) -> None:

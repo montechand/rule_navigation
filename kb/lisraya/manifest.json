@@ -5,6 +5,7 @@
       "no_live_contradictions": "fail",
       "no_open_criticals": "pass",
       "no_silent_quarantine": "pass",
+      "ref_closure": "fail",
       "verbatim_integrity": "fail"
     },
     "passed": false,
@@ -12,6 +13,16 @@
       "conflict": {
         "deferred": 0,
         "open": 8,
+        "waived": 0
+      },
+      "needs_rule": {
+        "deferred": 0,
+        "open": 35,
+        "waived": 0
+      },
+      "orphan_token": {
+        "deferred": 0,
+        "open": 20,
         "waived": 0
       },
       "over_claimed": {
@@ -38,7 +49,7 @@
   "driver_version": "wp16-1.0.0",
   "inputs": {
     "bible_hash": "f1674fd7e5c526ba",
-    "prompts_hash": "5cf034edee1686a4",
+    "prompts_hash": "403260e341896d84",
     "registries_hash": "af53a5e835cace9d",
     "template_library_hash": ""
   },
@@ -70,6 +81,15 @@
       "medium": 62,
       "runs": 3
     },
+    "linker": {
+      "adjudicated_binds": 0,
+      "auto_bound": 22,
+      "minted_edges": 27,
+      "needs_rule": 35,
+      "orphans_after_transitive": 54,
+      "orphans_before": 77,
+      "unresolved_rule_literals": 2
+    },
     "required_units": 179,
     "units": 264,
     "verification": {
@@ -89,11 +109,11 @@
       "version": "1.0.0"
     },
     "s10": {
-      "out_hash": "e302602ca504edd6",
+      "out_hash": "2a832a3b03a334ec",
       "version": "cascade-compile"
     },
     "s11": {
-      "out_hash": "326f7f2d356c7d20",
+      "out_hash": "82188b4fe89b1e45",
       "version": "summarize-embed-v1"
     },
     "s2": {
@@ -116,16 +136,20 @@
       "out_hash": "f6f5e5a7036ee29a",
       "version": "ledger-v2.0.0"
     },
+    "s6b": {
+      "out_hash": "1c59bdd304bb2c98",
+      "version": "linker-v1.0.0"
+    },
     "s7": {
-      "out_hash": "78698c9addfef884",
+      "out_hash": "864cf28f5d2d862b",
       "version": "pass-c-v3"
     },
     "s8": {
-      "out_hash": "1803715ad36155f5",
+      "out_hash": "214638299428160f",
       "version": "write-kb-v1"
     },
     "s9": {
-      "out_hash": "6c81b5db6b7a1a81",
+      "out_hash": "c9b6167bb464e496",
       "version": "pairwise+smt"
     }
   }

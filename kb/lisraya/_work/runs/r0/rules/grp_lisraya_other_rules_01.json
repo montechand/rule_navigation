@@ -1,11 +1,26 @@
 {
   "doc_ref": "other_rules[1]",
   "group_id": "grp_lisraya_other_rules_01",
+  "missing_token_requests": [],
   "original_text": "### Audience Segmentation\n- This guide governs **patient (DTC) materials**. Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials. Confirm audience in every brief before writing.\n- Patient brochure = master reference for visuals, messaging, and tone across **all** LISRAYA materials.",
-  "relations": [],
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_audience_person_first_language",
+      "dst_slug": "audience_person_first_language",
+      "note": "The master patient brochure governs messaging/tone including audience language rules.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_patient_brochure_master_reference",
+      "src_slug": "patient_brochure_master_reference"
+    }
+  ],
   "rules": [
     {
-      "applies_when": null,
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "patient_dtc"
+        }
+      ],
       "audience": "dtp_patient",
       "constraint_type": "verbatim_content",
       "content_sub_type_ids": null,
@@ -51,7 +66,8 @@
         "verdict": "requires_qualifier"
       },
       "hardness": "hard_constraint",
-      "intent": "Match disease-state language to audience to maintain appropriate patient-first tone.",
+      "id": "rule_lisraya_audience_person_first_language",
+      "intent": "Enforce audience-appropriate, person-first language for patient DTC materials.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "copy_editorial",
@@ -61,8 +77,7 @@
         "element_path": null,
         "section_types": null
       },
-      "slug": "audience_language_patient_vs_hcp",
-      "snippets": null,
+      "slug": "audience_person_first_language",
       "tags": [
         "voice_tone"
       ]
@@ -84,7 +99,8 @@
         ]
       },
       "hardness": "strong_default",
-      "intent": "Anchor all LISRAYA materials to a single canonical source for consistency.",
+      "id": "rule_lisraya_patient_brochure_master_reference",
+      "intent": "Anchor all brand materials to the patient brochure for consistency.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "assembly",
@@ -95,11 +111,9 @@
         "section_types": null
       },
       "slug": "patient_brochure_master_reference",
-      "snippets": null,
       "tags": [
         "voice_tone",
-        "imagery",
-        "copy_editorial"
+        "imagery"
       ]
     }
   ],

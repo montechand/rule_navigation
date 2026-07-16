@@ -119,7 +119,82 @@ def _subhead_token() -> dict[str, Any]:
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION
+    assert STAGE_VERSION == "1.2.0"
+
+
+@pytest.mark.parametrize("op", ["add", "update"])
+def test_triage_rejects_patched_entity_with_missing_ref(
+    op: str,
+    units,
+) -> None:
+    candidates = _fixture_candidates()
+    source = copy.deepcopy(candidates.token_semantic[0])
+    if op == "add":
+        source["id"] = "tok_missing_ref_add"
+        source["value"]["default"] = {"$ref": "tok_missing_target"}
+        patch = Patch(
+            op="add",
+            entity_kind="token_semantic",
+            payload=source,
+        )
+    else:
+        patch = Patch(
+            op="update",
+            entity_kind="token_semantic",
+            target_entity_ids=[source["id"]],
+            payload={"value": {"default": {"$ref": "tok_missing_target"}}},
+        )
+
+    _, resolved, audit = triage_findings(
+        [
+            _finding(
+                finding_id=f"f_{op}_missing_ref",
+                finding_type="omission",
+                patch=patch,
+            )
+        ],
+        candidates,
+        units,
+        round_num=1,
+    )
+
+    assert resolved[0].resolution == "rejected_verification"
+    assert audit[0].status == "rejected_verification"
+    assert "missing $ref target: tok_missing_target" in (audit[0].detail or "")
+
+
+def test_triage_rejects_token_delete_with_surviving_ref(units) -> None:
+    candidates = _fixture_candidates()
+    target_id = str(candidates.token_primitive[0]["id"])
+    dependent = copy.deepcopy(candidates.token_semantic[0])
+    dependent["id"] = "tok_delete_dependent"
+    dependent["value"]["default"] = {"$ref": target_id}
+    candidates.token_semantic.append(dependent)
+    patch = Patch(
+        op="delete",
+        entity_kind="token_primitive",
+        target_entity_ids=[target_id],
+    )
+
+    _, resolved, audit = triage_findings(
+        [
+            _finding(
+                finding_id="f_delete_referenced",
+                finding_type="omission",
+                patch=patch,
+            )
+        ],
+        candidates,
+        units,
+        round_num=1,
+    )
+
+    assert resolved[0].resolution == "rejected_verification"
+    assert audit[0].status == "rejected_verification"
+    assert audit[0].detail == (
+        f"cannot delete token {target_id}: "
+        "surviving entity tok_delete_dependent still references it"
+    )
 
 
 def test_candidate_set_adapts_ensemble_without_guessing_doc_refs() -> None:

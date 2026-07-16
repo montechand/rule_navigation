@@ -12,6 +12,7 @@ Only ``SharedLLMClient`` in v2 may import ``shared.llm`` call helpers.
 from __future__ import annotations
 
 import asyncio
+import copy
 import hashlib
 import json
 import re
@@ -29,6 +30,7 @@ from shared.llm import complete_json as shared_complete_json
 from .. import settings
 from ..contracts import (
     SCHEMA_VERSION,
+    FrozenCatalog,
     RunVariant,
     SourceUnit,
     UnitLabel,
@@ -38,7 +40,7 @@ from ..contracts import (
 )
 from .prompts import PromptTemplate, load_prompt
 
-STAGE_VERSION = "extraction-v2.0.0"
+STAGE_VERSION = "extraction-v2.1.0"
 
 DEFAULT_CACHE_ROOT = Path(__file__).resolve().parent.parent / "_cache"
 
@@ -46,6 +48,7 @@ PROMPT_TOKENS_PRIMITIVE = "tokens_primitive"
 PROMPT_TOKENS_SEMANTIC = "tokens_semantic"
 PROMPT_CATALOG_REST = "catalog_rest"
 PROMPT_RULES_CLUSTER = "rules_cluster"
+PROMPT_LINKER_ADJUDICATE = "linker_adjudicate"
 
 @runtime_checkable
 class LLMClient(Protocol):
@@ -137,6 +140,12 @@ class RuleGroupOutput(BaseModel):
     original_text: str
     rules: list[dict[str, Any]] = Field(default_factory=list)
     relations: list[dict[str, Any]] = Field(default_factory=list)
+    missing_token_requests: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class RefViolation(BaseModel):
+    rule_slug: str
+    unknown_ids: list[str]
 
 
 class RunOutput(BaseModel):
@@ -548,9 +557,127 @@ def _token_lines(tokens: list[dict[str, Any]]) -> str:
     for token in tokens:
         value = token.get("value") or {}
         default = value.get("default") if isinstance(value, dict) else value
+        aliases = token.get("aliases") or []
         lines.append(
-            f"  {token.get('id')}  key={token.get('key')}  default={json.dumps(default, default=str)}"
+            f"  {token.get('id')}  key={token.get('key')}  "
+            f"default={json.dumps(default, default=str)}  "
+            f"aliases={json.dumps(aliases, ensure_ascii=False, default=str)}"
         )
+    return "\n".join(lines)
+
+
+def _scan_tok_refs(value: Any, refs: set[str]) -> None:
+    if isinstance(value, Mapping):
+        for child in value.values():
+            _scan_tok_refs(child, refs)
+    elif isinstance(value, list):
+        for child in value:
+            _scan_tok_refs(child, refs)
+    elif isinstance(value, str) and value.startswith("tok_"):
+        refs.add(value)
+
+
+def validate_rule_refs(
+    rules: list[dict[str, Any]],
+    catalog_ids: set[str],
+) -> list[RefViolation]:
+    out: list[RefViolation] = []
+    for rule in rules:
+        refs: set[str] = set()
+        _scan_tok_refs(rule.get("effect"), refs)
+        _scan_tok_refs(rule.get("applies_when"), refs)
+        unknown = sorted(refs - catalog_ids)
+        if unknown:
+            out.append(
+                RefViolation(
+                    rule_slug=str(rule.get("slug", "?")),
+                    unknown_ids=unknown,
+                )
+            )
+    return out
+
+
+def _strip_unknown_refs(value: Any, unknown: set[str]) -> Any:
+    if isinstance(value, dict):
+        direct = {
+            ref
+            for key in ("token_id", "$ref")
+            if isinstance((ref := value.get(key)), str)
+        }
+        if direct & unknown:
+            return None
+        return {
+            key: cleaned
+            for key, child in value.items()
+            if (cleaned := _strip_unknown_refs(child, unknown)) is not None
+        }
+    if isinstance(value, list):
+        return [
+            cleaned
+            for child in value
+            if (cleaned := _strip_unknown_refs(child, unknown)) is not None
+        ]
+    if isinstance(value, str) and value in unknown:
+        return None
+    return value
+
+
+def _terminal_ref_fallback(
+    rules: list[dict[str, Any]],
+    violations: list[RefViolation],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    by_slug = {violation.rule_slug: set(violation.unknown_ids) for violation in violations}
+    requests: list[dict[str, Any]] = []
+    cleaned_rules: list[dict[str, Any]] = []
+    for raw_rule in rules:
+        rule = dict(raw_rule)
+        slug = str(rule.get("slug", "?"))
+        unknown = by_slug.get(slug, set())
+        if unknown:
+            rule["effect"] = _strip_unknown_refs(rule.get("effect"), unknown)
+            rule["applies_when"] = _strip_unknown_refs(
+                rule.get("applies_when"),
+                unknown,
+            )
+            rule["unresolved_refs"] = sorted(unknown)
+            evidence = rule.get("evidence")
+            unit_ids = (
+                list(evidence.get("unit_ids") or [])
+                if isinstance(evidence, Mapping)
+                else []
+            )
+            quotes = (
+                list(evidence.get("quotes") or [])
+                if isinstance(evidence, Mapping)
+                else []
+            )
+            requests.extend(
+                {
+                    "key_proposal": ref.removeprefix("tok_").replace("_", "."),
+                    "value": None,
+                    "unit_ids": unit_ids,
+                    "quotes": quotes,
+                    "for_rule_slug": slug,
+                }
+                for ref in sorted(unknown)
+            )
+        cleaned_rules.append(rule)
+    return cleaned_rules, requests
+
+
+def _ref_feedback(violations: Sequence[RefViolation]) -> str:
+    lines = ["REFERENCE CONTRACT VIOLATIONS (fix and re-emit the FULL JSON):"]
+    lines.extend(
+        f"  rule '{violation.rule_slug}' references unknown ids: "
+        f"{', '.join(violation.unknown_ids)}"
+        for violation in violations
+    )
+    lines.extend(
+        [
+            "Use ONLY ids from CANDIDATE TOKEN CATALOG, exactly as printed. If a needed token is",
+            'genuinely absent, put it under "missing_token_requests" instead of inventing an id.',
+        ]
+    )
     return "\n".join(lines)
 
 
@@ -576,6 +703,322 @@ def _write_run_artifacts(work_dir: Path, output: RunOutput) -> None:
         )
 
 
+async def _extract_tokens_for_variant(
+    *,
+    brand: str,
+    variant: RunVariant,
+    units_text: str,
+    usage: Usage,
+    client: LLMClient,
+    prompts_dir: Path | None,
+    cache_root: Path,
+    force: bool,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    tpl_primitive = load_prompt(PROMPT_TOKENS_PRIMITIVE, prompts_dir)
+    ctx_primitive = CacheContext(
+        brand=brand,
+        variant=variant,
+        prompt_name=PROMPT_TOKENS_PRIMITIVE,
+        template=tpl_primitive,
+        content_hash="",
+        cache_root=cache_root,
+    )
+    rendered_a1a = tpl_primitive.render(brand=brand, units=units_text)
+    raw_primitives = await complete_json_cached(
+        client,
+        ctx_primitive,
+        rendered_a1a.system,
+        rendered_a1a.user,
+        usage,
+        force=force,
+    )
+    primitive_tokens = [
+        dict(token, kind="primitive")
+        for token in raw_primitives.get("tokens", [])
+        if isinstance(token, dict)
+    ]
+
+    tpl_semantic = load_prompt(PROMPT_TOKENS_SEMANTIC, prompts_dir)
+    ctx_semantic = CacheContext(
+        brand=brand,
+        variant=variant,
+        prompt_name=PROMPT_TOKENS_SEMANTIC,
+        template=tpl_semantic,
+        content_hash="",
+        cache_root=cache_root,
+    )
+    rendered_a1b = tpl_semantic.render(
+        brand=brand,
+        units=units_text,
+        primitives=_token_lines(primitive_tokens),
+    )
+    raw_semantics = await complete_json_cached(
+        client,
+        ctx_semantic,
+        rendered_a1b.system,
+        rendered_a1b.user,
+        usage,
+        force=force,
+    )
+    semantic_tokens = [
+        dict(token, kind="semantic")
+        for token in raw_semantics.get("tokens", [])
+        if isinstance(token, dict)
+    ]
+    return normalize_token_ids(brand, primitive_tokens, semantic_tokens)
+
+
+async def run_token_phase(
+    brand: str,
+    variants: Sequence[RunVariant],
+    units: list[SourceUnit],
+    labels: list[UnitLabel],
+    usage: Usage,
+    client: LLMClient,
+    *,
+    prompts_dir: Path | None = None,
+    cache_root: Path | None = None,
+    work_dir: Path | None = None,
+    force: bool = False,
+    exclude_unit_ids: set[str] | None = None,
+) -> FrozenCatalog:
+    """Extract and reconcile one token catalog shared by every rule run."""
+    from .ensemble import build_verified_run, reconcile_tokens_only
+
+    resolved_cache_root = cache_root or DEFAULT_CACHE_ROOT
+    if force:
+        clear_brand_cache(brand, resolved_cache_root)
+    units_text = render_units(
+        select_units(units, exclude_unit_ids=exclude_unit_ids)
+    )
+    verified = []
+    for variant in variants:
+        primitive, semantic = await _extract_tokens_for_variant(
+            brand=brand,
+            variant=variant,
+            units_text=units_text,
+            usage=usage,
+            client=client,
+            prompts_dir=prompts_dir,
+            cache_root=resolved_cache_root,
+            force=force,
+        )
+        verified.append(
+            build_verified_run(
+                RunOutput(
+                    variant=variant,
+                    primitive_tokens=primitive,
+                    semantic_tokens=semantic,
+                ),
+                units,
+            )
+        )
+    reconciled = reconcile_tokens_only(verified, units, labels)
+    payload = {
+        "tokens_primitive": reconciled.tokens_primitive,
+        "tokens_semantic": reconciled.tokens_semantic,
+    }
+    frozen = FrozenCatalog(
+        **payload,
+        hash=stable_hash(payload),
+    )
+    if work_dir is not None:
+        atomic_write_json(
+            work_dir / "catalog_frozen.json",
+            frozen.model_dump(mode="json"),
+        )
+    return frozen
+
+
+async def run_rules_phase(
+    brand: str,
+    variant: RunVariant,
+    units: list[SourceUnit],
+    labels: list[UnitLabel],
+    frozen: FrozenCatalog,
+    usage: Usage,
+    client: LLMClient,
+    **kwargs: Any,
+) -> RunOutput:
+    """Extract non-token catalog entities and rules against a frozen token id set."""
+    return await run_extraction(
+        brand,
+        variant,
+        units,
+        labels,
+        usage,
+        client,
+        frozen=frozen,
+        **kwargs,
+    )
+
+
+async def repair_missing_token_requests(
+    *,
+    brand: str,
+    outputs: Sequence[RunOutput],
+    frozen: FrozenCatalog,
+    units: list[SourceUnit],
+    labels: list[UnitLabel],
+    usage: Usage,
+    client: LLMClient,
+    prompts_dir: Path | None = None,
+    cache_root: Path | None = None,
+    work_dir: Path | None = None,
+    concurrency: int | None = None,
+) -> tuple[FrozenCatalog, list[RunOutput]]:
+    """Perform the single append-only missing-token repair round."""
+    from .provenance import verify_entities
+
+    request_rows: list[tuple[str, str, dict[str, Any]]] = []
+    for output in outputs:
+        for group in output.rule_groups:
+            for request in group.missing_token_requests:
+                request_rows.append((group.doc_ref, group.group_id, request))
+    if not request_rows:
+        return frozen, list(outputs)
+
+    deduped: dict[tuple[str, str, tuple[str, ...]], tuple[str, str, dict[str, Any]]] = {}
+    for doc_ref, group_id, request in request_rows:
+        unit_ids = tuple(sorted(str(item) for item in (request.get("unit_ids") or [])))
+        key = (
+            str(request.get("key_proposal") or ""),
+            stable_hash(request.get("value")),
+            unit_ids,
+        )
+        deduped.setdefault(key, (doc_ref, group_id, request))
+
+    by_doc: dict[str, list[tuple[str, dict[str, Any]]]] = {}
+    for doc_ref, group_id, request in deduped.values():
+        by_doc.setdefault(doc_ref, []).append((group_id, request))
+    resolved_cache = cache_root or DEFAULT_CACHE_ROOT
+    variant = outputs[0].variant
+    generated: list[dict[str, Any]] = []
+    template = load_prompt(PROMPT_TOKENS_PRIMITIVE, prompts_dir)
+    units_by_id = {unit.unit_id: unit for unit in units}
+    for doc_ref in sorted(by_doc):
+        target_ids = {
+            str(unit_id)
+            for _, request in by_doc[doc_ref]
+            for unit_id in (request.get("unit_ids") or [])
+            if str(unit_id) in units_by_id
+        }
+        target_units = [units_by_id[unit_id] for unit_id in sorted(target_ids)]
+        if not target_units:
+            continue
+        rendered = template.render(
+            brand=brand,
+            units=render_units(target_units),
+        )
+        ctx = CacheContext(
+            brand=brand,
+            variant=variant,
+            prompt_name=PROMPT_TOKENS_PRIMITIVE,
+            template=template,
+            content_hash="",
+            cache_root=resolved_cache,
+        )
+        raw = await complete_json_cached(
+            client,
+            ctx,
+            rendered.system,
+            rendered.user,
+            usage,
+            extra={
+                "missing_token_repair": 1,
+                "doc_ref": doc_ref,
+                "unit_ids": sorted(target_ids),
+            },
+        )
+        generated.extend(
+            dict(token, kind="primitive")
+            for token in (raw.get("tokens") or [])
+            if isinstance(token, dict)
+        )
+
+    generated_by_id: dict[str, dict[str, Any]] = {}
+    for token in sorted(generated, key=stable_hash):
+        token_id = str(token.get("id") or "")
+        if token_id:
+            generated_by_id.setdefault(token_id, token)
+    generated = [generated_by_id[token_id] for token_id in sorted(generated_by_id)]
+    if generated:
+        provenance = verify_entities({"token_primitive": generated}, units)
+        quarantined = {entry.entity_id for entry in provenance.quarantine}
+        existing_ids = {
+            str(token.get("id"))
+            for token in [*frozen.tokens_primitive, *frozen.tokens_semantic]
+        }
+        accepted = [
+            token
+            for token in generated
+            if str(token.get("id") or "") not in quarantined
+            and str(token.get("id") or "") not in existing_ids
+        ]
+    else:
+        accepted = []
+    primitive = sorted(
+        [*copy.deepcopy(frozen.tokens_primitive), *accepted],
+        key=lambda token: str(token.get("id") or ""),
+    )
+    payload = {
+        "tokens_primitive": primitive,
+        "tokens_semantic": copy.deepcopy(frozen.tokens_semantic),
+    }
+    repaired = FrozenCatalog(**payload, hash=stable_hash(payload))
+    if work_dir is not None:
+        atomic_write_json(
+            work_dir / "catalog_frozen.json",
+            repaired.model_dump(mode="json"),
+        )
+    if not accepted:
+        return repaired, list(outputs)
+
+    affected_groups = {
+        group_id
+        for rows in by_doc.values()
+        for group_id, _ in rows
+    }
+    rerendered_outputs: list[RunOutput] = []
+    for original in outputs:
+        refreshed = await run_rules_phase(
+            brand,
+            original.variant,
+            units,
+            labels,
+            repaired,
+            usage,
+            client,
+            prompts_dir=prompts_dir,
+            cache_root=resolved_cache,
+            force=False,
+            concurrency=concurrency,
+        )
+        refreshed_by_id = {group.group_id: group for group in refreshed.rule_groups}
+        groups = [
+            refreshed_by_id.get(group.group_id, group)
+            if group.group_id in affected_groups
+            else group
+            for group in original.rule_groups
+        ]
+        output = original.model_copy(
+            update={
+                "primitive_tokens": copy.deepcopy(repaired.tokens_primitive),
+                "semantic_tokens": copy.deepcopy(repaired.tokens_semantic),
+                "rule_groups": groups,
+                "rules_by_doc_ref": {
+                    group.doc_ref: group.rules
+                    for group in sorted(groups, key=lambda item: item.doc_ref)
+                },
+            },
+            deep=True,
+        )
+        if work_dir is not None:
+            _write_run_artifacts(work_dir, output)
+        rerendered_outputs.append(output)
+    return repaired, rerendered_outputs
+
+
 async def run_extraction(
     brand: str,
     variant: RunVariant,
@@ -590,6 +1033,7 @@ async def run_extraction(
     force: bool = False,
     concurrency: int | None = None,
     exclude_unit_ids: set[str] | None = None,
+    frozen: FrozenCatalog | None = None,
 ) -> RunOutput:
     """A1a → A1b (same run) → A2 globally, then rules per doc_ref blob (Pass B)."""
     del labels
@@ -607,65 +1051,29 @@ async def run_extraction(
     resolved_cache_root = cache_root or DEFAULT_CACHE_ROOT
     semaphore = asyncio.Semaphore(sem_limit)
 
-    tpl_primitive = load_prompt(PROMPT_TOKENS_PRIMITIVE, prompts_dir)
-    tpl_semantic = load_prompt(PROMPT_TOKENS_SEMANTIC, prompts_dir)
     tpl_catalog = load_prompt(PROMPT_CATALOG_REST, prompts_dir)
     tpl_rules = load_prompt(PROMPT_RULES_CLUSTER, prompts_dir)
-
-    ctx_primitive = CacheContext(
-        brand=brand,
-        variant=variant,
-        prompt_name=PROMPT_TOKENS_PRIMITIVE,
-        template=tpl_primitive,
-        content_hash="",
-        cache_root=resolved_cache_root,
-    )
-    rendered_a1a = tpl_primitive.render(brand=brand, units=all_units_text)
-    raw_primitives = await complete_json_cached(
-        client,
-        ctx_primitive,
-        rendered_a1a.system,
-        rendered_a1a.user,
-        usage,
-        force=force,
-    )
-    primitive_tokens = [
-        dict(token, kind="primitive")
-        for token in raw_primitives.get("tokens", [])
-        if isinstance(token, dict)
-    ]
-
-    ctx_semantic = CacheContext(
-        brand=brand,
-        variant=variant,
-        prompt_name=PROMPT_TOKENS_SEMANTIC,
-        template=tpl_semantic,
-        content_hash="",
-        cache_root=resolved_cache_root,
-    )
-    rendered_a1b = tpl_semantic.render(
-        brand=brand,
-        units=all_units_text,
-        primitives=_token_lines(primitive_tokens),
-    )
-    raw_semantics = await complete_json_cached(
-        client,
-        ctx_semantic,
-        rendered_a1b.system,
-        rendered_a1b.user,
-        usage,
-        force=force,
-    )
-    semantic_tokens = [
-        dict(token, kind="semantic")
-        for token in raw_semantics.get("tokens", [])
-        if isinstance(token, dict)
-    ]
-    primitive_tokens, semantic_tokens = normalize_token_ids(
-        brand, primitive_tokens, semantic_tokens
-    )
+    if frozen is None:
+        primitive_tokens, semantic_tokens = await _extract_tokens_for_variant(
+            brand=brand,
+            variant=variant,
+            units_text=all_units_text,
+            usage=usage,
+            client=client,
+            prompts_dir=prompts_dir,
+            cache_root=resolved_cache_root,
+            force=force,
+        )
+    else:
+        primitive_tokens = copy.deepcopy(frozen.tokens_primitive)
+        semantic_tokens = copy.deepcopy(frozen.tokens_semantic)
 
     all_tokens = primitive_tokens + semantic_tokens
+    catalog_ids = {
+        str(token["id"])
+        for token in all_tokens
+        if isinstance(token.get("id"), str) and token["id"]
+    }
     ctx_catalog = CacheContext(
         brand=brand,
         variant=variant,
@@ -714,31 +1122,65 @@ async def run_extraction(
                 content_hash="",
                 cache_root=resolved_cache_root,
             )
-            raw_rules = await complete_json_cached(
-                client,
-                ctx_rules,
-                rendered_rules.system,
-                rendered_rules.user,
-                usage,
-                force=force,
-                extra={"doc_ref": doc_ref, "group_id": group_id},
-            )
-            rules = [
-                rule
-                for rule in (raw_rules.get("rules") or [])
-                if isinstance(rule, dict)
-            ]
+            raw_rules: Any = {}
+            rules: list[dict[str, Any]] = []
+            violations: list[RefViolation] = []
+            user_prompt = rendered_rules.user
+            attempt = 0
+            while True:
+                raw_rules = await complete_json_cached(
+                    client,
+                    ctx_rules,
+                    rendered_rules.system,
+                    user_prompt,
+                    usage,
+                    force=force,
+                    extra={
+                        "doc_ref": doc_ref,
+                        "group_id": group_id,
+                        "ref_retry": attempt,
+                    },
+                )
+                if not isinstance(raw_rules, Mapping):
+                    raw_rules = {}
+                rules = [
+                    rule
+                    for rule in (raw_rules.get("rules") or [])
+                    if isinstance(rule, dict)
+                ]
+                violations = validate_rule_refs(rules, catalog_ids)
+                if not violations or attempt >= settings.REF_RETRIES:
+                    break
+                attempt += 1
+                user_prompt = (
+                    rendered_rules.user
+                    + "\n\n"
+                    + _ref_feedback(violations)
+                )
+            synthesized_requests: list[dict[str, Any]] = []
+            if violations:
+                rules, synthesized_requests = _terminal_ref_fallback(
+                    rules,
+                    violations,
+                )
             relations = [
                 relation
                 for relation in (raw_rules.get("relations") or [])
                 if isinstance(relation, dict)
             ]
+            missing_token_requests = [
+                request
+                for request in (raw_rules.get("missing_token_requests") or [])
+                if isinstance(request, dict)
+            ]
+            missing_token_requests.extend(synthesized_requests)
             return RuleGroupOutput(
                 group_id=group_id,
                 doc_ref=doc_ref,
                 original_text=original_text,
                 rules=rules,
                 relations=relations,
+                missing_token_requests=missing_token_requests,
             )
 
     rule_groups = normalize_rule_groups(

@@ -977,7 +977,7 @@ def test_alignment_result_typed() -> None:
 
 def test_stage_version_present() -> None:
     assert STAGE_VERSION == "2.1.1"
-    assert PROVENANCE_STAGE_VERSION == "1.1.2"
+    assert PROVENANCE_STAGE_VERSION == "1.1.4"
 
 
 def test_no_cross_doc_neighbor_join(units_by_id: dict[str, SourceUnit]) -> None:

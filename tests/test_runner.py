@@ -31,6 +31,7 @@ from indexing_v2.extraction.runner import (
     render_units,
     run_extraction,
     select_units,
+    validate_rule_refs,
 )
 from shared.llm import Usage
 from tests.fakes import FIXTURE_ROOT, FakeLLM, MINIBIBLE_BRAND
@@ -305,6 +306,176 @@ def test_normalize_token_ids_rewrites_key_derived_refs() -> None:
         sem_out[0]["value"]["variants"][0]["value"]["$ref"]
         == "tok_lisraya_size_icon_badge_margin_top"
     )
+
+
+def test_token_lines_include_aliases_and_ref_validation() -> None:
+    rendered = runner._token_lines(
+        [
+            {
+                "id": "tok_x_spacing_a",
+                "key": "spacing.a",
+                "value": {"default": "8px"},
+                "aliases": ["space small"],
+            }
+        ]
+    )
+    assert 'aliases=["space small"]' in rendered
+    violations = validate_rule_refs(
+        [
+            {
+                "slug": "bad",
+                "effect": [{"token_id": "tok_x_a_spacing"}],
+            }
+        ],
+        {"tok_x_spacing_a"},
+    )
+    assert violations[0].unknown_ids == ["tok_x_a_spacing"]
+
+
+@pytest.mark.asyncio
+async def test_reference_violation_retries_with_isolated_cache_key(
+    prompt_dir: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[tuple[str, str | None, str]] = []
+
+    class RefRetryLLM:
+        async def complete_json(
+            self,
+            model: str,
+            system: str,
+            user: str,
+            max_tokens: int = 16_000,
+            usage: Usage | None = None,
+            *,
+            prompt_name: str,
+            cache_key: str | None = None,
+        ) -> dict[str, Any]:
+            del model, system, max_tokens, usage
+            calls.append((prompt_name, cache_key, user))
+            if prompt_name == "tokens_primitive":
+                return {
+                    "tokens": [
+                        {
+                            "id": "tok_x_spacing_a",
+                            "key": "spacing.a",
+                            "value": {"default": "8px"},
+                        }
+                    ]
+                }
+            if prompt_name == "tokens_semantic":
+                return {"tokens": []}
+            if prompt_name == "catalog_rest":
+                return {"assets": [], "subtypes": [], "templates": []}
+            rule_calls = sum(name == "rules_cluster" for name, _, _ in calls)
+            token_id = "tok_x_a_spacing" if rule_calls == 1 else "tok_x_spacing_a"
+            return {
+                "rules": [
+                    {
+                        "slug": "spacing_rule",
+                        "effect": [{"element_path": "a", "token_id": token_id}],
+                    }
+                ],
+                "relations": [],
+                "missing_token_requests": [],
+            }
+
+        async def chat(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+            raise AssertionError("chat not expected")
+
+    monkeypatch.setattr(runner.settings, "REF_RETRIES", 2)
+    unit = SourceUnit(
+        unit_id="u_x",
+        brand_id="x",
+        doc_ref="doc[0]",
+        ordinal=0,
+        start=0,
+        end=9,
+        kind="sentence",
+        text="A is 8px.",
+    )
+    output = await run_extraction(
+        "x",
+        RunVariant(run_id="r0", model="fake"),
+        [unit],
+        [],
+        Usage(),
+        RefRetryLLM(),
+        prompts_dir=prompt_dir,
+        cache_root=tmp_path / "cache",
+    )
+    assert output.rule_groups[0].rules[0]["effect"][0]["token_id"] == "tok_x_spacing_a"
+    rule_calls = [call for call in calls if call[0] == "rules_cluster"]
+    assert len(rule_calls) == 2
+    assert rule_calls[0][1] != rule_calls[1][1]
+    assert "REFERENCE CONTRACT VIOLATIONS" in rule_calls[1][2]
+
+
+@pytest.mark.asyncio
+async def test_reference_terminal_fallback_moves_unknown_to_request(
+    prompt_dir: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class TerminalLLM:
+        async def complete_json(
+            self,
+            model: str,
+            system: str,
+            user: str,
+            max_tokens: int = 16_000,
+            usage: Usage | None = None,
+            *,
+            prompt_name: str,
+            cache_key: str | None = None,
+        ) -> dict[str, Any]:
+            del model, system, user, max_tokens, usage, cache_key
+            if prompt_name == "tokens_primitive":
+                return {"tokens": [{"id": "tok_x_good", "key": "x.good", "value": {"default": "8px"}}]}
+            if prompt_name == "tokens_semantic":
+                return {"tokens": []}
+            if prompt_name == "catalog_rest":
+                return {"assets": [], "subtypes": [], "templates": []}
+            return {
+                "rules": [
+                    {
+                        "slug": "bad",
+                        "effect": [{"element_path": "x", "token_id": "tok_x_invented"}],
+                        "evidence": {"unit_ids": ["u_x"], "quotes": ["8px"]},
+                    }
+                ],
+                "relations": [],
+            }
+
+        async def chat(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+            raise AssertionError("chat not expected")
+
+    monkeypatch.setattr(runner.settings, "REF_RETRIES", 0)
+    unit = SourceUnit(
+        unit_id="u_x",
+        brand_id="x",
+        doc_ref="doc[0]",
+        ordinal=0,
+        start=0,
+        end=3,
+        kind="sentence",
+        text="8px",
+    )
+    output = await run_extraction(
+        "x",
+        RunVariant(run_id="r0", model="fake"),
+        [unit],
+        [],
+        Usage(),
+        TerminalLLM(),
+        prompts_dir=prompt_dir,
+        cache_root=tmp_path / "cache",
+    )
+    group = output.rule_groups[0]
+    assert group.rules[0]["effect"] == []
+    assert group.rules[0]["unresolved_refs"] == ["tok_x_invented"]
+    assert group.missing_token_requests[0]["for_rule_slug"] == "bad"
 
 
 def test_load_prompt_frontmatter_and_separator(tmp_path: Path) -> None:

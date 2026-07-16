@@ -196,7 +196,7 @@ def test_kbsnapshot_load_lisraya_fixture() -> None:
     assert snap.rules
     assert snap.tokens
     assert "campaign" in snap.predicate_domains
-    assert "you_deserve_more" in snap.predicate_domains["campaign"]
+    assert "lisraya_you_deserve_more" in snap.predicate_domains["campaign"]
     assert "content_tag" in snap.predicate_domains
     assert snap.rules[next(iter(snap.rules))].brand_id == "lisraya"
 
@@ -243,7 +243,7 @@ def test_settings_defaults_and_override_order(monkeypatch: pytest.MonkeyPatch) -
 
     settings.reload_settings()
 
-    assert settings.CLASSIFY_MODEL == "gpt-4.1-mini"
+    assert settings.CLASSIFY_MODEL == "claude-sonnet-5"
     assert settings.EXTRACT_MODEL == config.EXTRACT_MODEL
     assert settings.CRITIC_MODEL == "claude-sonnet-5"
     assert settings.CRITIC_MODEL != settings.EXTRACT_MODEL
@@ -254,6 +254,11 @@ def test_settings_defaults_and_override_order(monkeypatch: pytest.MonkeyPatch) -
     assert settings.FUZZY_MATCH_MIN_RATIO == pytest.approx(0.92)
     assert settings.DTCG_NAMESPACE == "com.solstice.kb"
     assert settings.CONCURRENCY == 4
+    assert settings.TWO_PHASE is False
+    assert settings.REF_RETRIES == 2
+    assert settings.LINKER_MODEL == settings.CRITIC_MODEL
+    assert settings.LINKER_MAX_ADJUDICATIONS == 64
+    assert settings.LINKER_GAP_FEEDBACK is False
     assert [run.model_dump() for run in settings.ENSEMBLE_RUNS] == [
         {"run_id": "r0", "model": settings.EXTRACT_MODEL, "temperature": 0.0, "replicate": 0},
         {"run_id": "r1", "model": settings.EXTRACT_MODEL, "temperature": 0.4, "replicate": 1},

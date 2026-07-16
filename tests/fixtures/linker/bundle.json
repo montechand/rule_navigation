@@ -1,0 +1,144 @@
+{
+  "brand": "lisraya",
+  "tokens_primitive": [
+    {
+      "id": "tok_lisraya_padding_section_vertical",
+      "token_type": "padding",
+      "kind": "primitive",
+      "key": "padding.section.vertical_32",
+      "value": {"default": "32px"},
+      "aliases": ["section vertical padding"],
+      "evidence": {"unit_ids": ["u_modular"], "quotes": ["top/bottom 32px padding"]}
+    },
+    {
+      "id": "tok_lisraya_size_email_body_width",
+      "token_type": "size",
+      "kind": "primitive",
+      "key": "size.email.body_width_600",
+      "value": {"default": "600px"},
+      "aliases": ["email body width"],
+      "evidence": {"unit_ids": ["u_width"], "quotes": ["Email body width: 600px"]}
+    },
+    {
+      "id": "tok_lisraya_opacity_dropshadow_navy_18",
+      "token_type": "opacity",
+      "kind": "primitive",
+      "key": "opacity.shadow.dark_navy_18",
+      "value": {"default": 0.18},
+      "aliases": ["opacity.drop_shadow.navy_18"],
+      "evidence": {"unit_ids": ["u_shadow"], "quotes": ["rgba(1, 30, 69, 0.18)"]}
+    },
+    {
+      "id": "tok_lisraya_text_style_patient_quote",
+      "token_type": "text_style",
+      "kind": "primitive",
+      "key": "text_style.patient_quote.italic",
+      "value": {"default": "italic"},
+      "aliases": [],
+      "evidence": {"unit_ids": ["u_quote"], "quotes": ["italic or distinguished styling"]}
+    },
+    {
+      "id": "tok_lisraya_icon_style_rounded_bars",
+      "token_type": "icon_style",
+      "kind": "primitive",
+      "key": "icon_style.chart.rounded_bars",
+      "value": {"default": "rounded bar tops"},
+      "aliases": ["rounded bars"],
+      "evidence": {"unit_ids": ["u_chart"], "quotes": ["rounded bar tops"]}
+    },
+    {
+      "id": "tok_lisraya_size_icon_badge_inner_icon",
+      "token_type": "size",
+      "kind": "primitive",
+      "key": "size.icon_callout.inner_icon_48",
+      "value": {"default": "48px"},
+      "aliases": ["click/tap target min", "inner icon size"],
+      "evidence": {"unit_ids": ["u_forms"], "quotes": ["min touch target 48px height"]}
+    },
+    {
+      "id": "tok_lisraya_weight_agenda_bold",
+      "token_type": "weight",
+      "kind": "primitive",
+      "key": "weight.agenda.bold",
+      "value": {"default": "Bold"},
+      "aliases": [],
+      "evidence": {"unit_ids": ["u_agenda"], "quotes": ["Agenda Bold"]}
+    },
+    {
+      "id": "tok_lisraya_size_body_secondary",
+      "token_type": "size",
+      "kind": "primitive",
+      "key": "size.body.secondary_14",
+      "value": {"default": "14px"},
+      "aliases": [],
+      "evidence": {"unit_ids": ["u_secondary"], "quotes": ["Secondary body: 14px"]}
+    }
+  ],
+  "tokens_semantic": [
+    {
+      "id": "tok_lisraya_cta_button_fill",
+      "token_type": "color",
+      "kind": "semantic",
+      "key": "cta.button.fill",
+      "value": {"default": {"$ref": "tok_lisraya_color_primary_brand_blue"}},
+      "element_paths": ["cta.button.fill"],
+      "aliases": [],
+      "evidence": {"unit_ids": ["u_cta"], "quotes": ["primary CTA"]}
+    }
+  ],
+  "rules_by_group": {
+    "grp_fixture": [
+      {
+        "id": "rule_lisraya_modular_section_block_structure",
+        "constraint_type": "binding",
+        "effect": null,
+        "token_ids": [],
+        "rule_text": "Each section is a 600px block (size.email.body_width_600 = 600px) with padding.section.vertical_32 = 32px.",
+        "evidence": {"unit_ids": ["u_modular"], "quotes": ["600px block with 32px padding"]}
+      },
+      {
+        "id": "rule_lisraya_icon_callout_badge_dropshadow_mandatory",
+        "constraint_type": "binding",
+        "effect": null,
+        "token_ids": [],
+        "rule_text": "The badge requires a shadow using Dark Navy at low opacity.",
+        "evidence": {"unit_ids": ["u_shadow"], "quotes": ["Dark Navy at low opacity"]}
+      },
+      {
+        "id": "rule_lisraya_patient_quote_attribution_style",
+        "constraint_type": "verbatim_content",
+        "effect": null,
+        "token_ids": [],
+        "rule_text": "Patient quotes use italic styling.",
+        "evidence": {"unit_ids": ["u_quote"], "quotes": ["Patient quotes use italic styling"]}
+      },
+      {
+        "id": "rule_lisraya_chart_rounded_bar_shapes",
+        "constraint_type": "binding",
+        "effect": null,
+        "token_ids": [],
+        "rule_text": "Charts use rounded bars with rounded bar tops.",
+        "evidence": {"unit_ids": ["u_chart"], "quotes": ["rounded bars"]}
+      },
+      {
+        "id": "rule_lisraya_cta_one_primary_per_section",
+        "constraint_type": "cardinality",
+        "effect": {"target": "cta.button.primary", "max": 1, "per": "section"},
+        "token_ids": [],
+        "rule_text": "One primary CTA per section maximum.",
+        "evidence": {"unit_ids": ["u_cta"], "quotes": ["One primary CTA"]}
+      },
+      {
+        "id": "rule_lisraya_forms_labels_and_tap_targets",
+        "constraint_type": null,
+        "effect": null,
+        "token_ids": [],
+        "rule_text": "Click/tap targets must be at least 48px.",
+        "evidence": {"unit_ids": ["u_forms"], "quotes": ["tap targets 48px"]}
+      }
+    ]
+  },
+  "rule_group_doc_refs": {"grp_fixture": "fixture[0]"},
+  "relations_by_group": {},
+  "units_by_id": {}
+}

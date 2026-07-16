@@ -7,23 +7,24 @@
 
 - bible_hash: `f1674fd7e5c526ba`
 - template_library_hash: `(empty)`
-- prompts_hash: `5cf034edee1686a4`
+- prompts_hash: `403260e341896d84`
 - registries_hash: `af53a5e835cace9d`
 
 ## Stages
 
 - s0: version=`1.0.0` out_hash=`0070b845cf25f67a`
 - s1: version=`1.0.0` out_hash=`0b242e7595c69a2b`
-- s10: version=`cascade-compile` out_hash=`e302602ca504edd6`
-- s11: version=`summarize-embed-v1` out_hash=`326f7f2d356c7d20`
+- s10: version=`cascade-compile` out_hash=`2a832a3b03a334ec`
+- s11: version=`summarize-embed-v1` out_hash=`82188b4fe89b1e45`
 - s2: version=`extraction-v2.0.0` out_hash=`0ec5e8f8f892f538`
 - s3: version=`1.1.4` out_hash=`680d19379b5ea523`
 - s4: version=`1.4.0` out_hash=`2825cd8013d5c0c9`
 - s5: version=`1.2.0` out_hash=`897e80370c5ef8ed`
 - s6: version=`ledger-v2.0.0` out_hash=`f6f5e5a7036ee29a`
-- s7: version=`pass-c-v3` out_hash=`78698c9addfef884`
-- s8: version=`write-kb-v1` out_hash=`1803715ad36155f5`
-- s9: version=`pairwise+smt` out_hash=`6c81b5db6b7a1a81`
+- s6b: version=`linker-v1.0.0` out_hash=`1c59bdd304bb2c98`
+- s7: version=`pass-c-v3` out_hash=`864cf28f5d2d862b`
+- s8: version=`write-kb-v1` out_hash=`214638299428160f`
+- s9: version=`pairwise+smt` out_hash=`c9b6167bb464e496`
 
 ## Metrics
 
@@ -55,6 +56,16 @@
 - deferred_human: 8
 - findings: 305
 
+### linker
+
+- adjudicated_binds: 0
+- auto_bound: 22
+- minted_edges: 27
+- needs_rule: 35
+- orphans_after_transitive: 54
+- orphans_before: 77
+- unresolved_rule_literals: 2
+
 ### consistency
 
 - dead_rules: 0
@@ -75,6 +86,7 @@
 - no_live_contradictions: fail
 - no_open_criticals: pass
 - no_silent_quarantine: pass
+- ref_closure: fail
 - verbatim_integrity: fail
 
 ### queues
@@ -85,6 +97,8 @@
 | unverified_value | 34 | 0 | 0 |
 | over_claimed | 3 | 0 | 0 |
 | conflict | 8 | 0 | 0 |
+| orphan_token | 20 | 0 | 0 |
+| needs_rule | 35 | 0 | 0 |
 
 ### ratchet
 
