@@ -1,0 +1,284 @@
+{
+  "doc_ref": "other_rules[2]",
+  "group_id": "grp_lisraya_other_rules_02",
+  "original_text": "### Modular Assembly Conventions **[GENERAL — Solstice production rules]**\n- Each section is a self-contained `<table>`-based block at 600px with its own top/bottom 32px padding and declared background color; **no margins outside the section** — assembly is direct stacking.\n- Section metadata must declare: background color, whether the section establishes `dermatomyositis (DM)`, footnote symbols consumed (†, ‡ assigned at assembly to avoid collisions), and whether it contains a CTA.\n- Footnote symbols: superscript, assigned in order of appearance at **assembly time** — sections use placeholder tokens (e.g., `{{fn1}}`) rather than hard-coded daggers when more than one referenced claim exists.\n- Locked components (header, footer, ISI) are inserted by the core team; sections adjacent to them must not include decorative elements that visually depend on what's above/below (e.g., a wave that's meant to continue into the footer).\n- Dark-background sections must not be placed adjacent to other dark sections (assembler responsibility, enabled by declared backgrounds).\n- All colors in code as HEX; all sizing in px; inline CSS only (email client compatibility); `bgcolor` attributes duplicated for Outlook.",
+  "relations": [
+    {
+      "dst_slug": "no_adjacent_dark_sections",
+      "note": "Declared background metadata enables the assembler to enforce the no-adjacent-dark-sections rule.",
+      "relation": "depends_on",
+      "src_slug": "section_metadata_declaration"
+    },
+    {
+      "dst_slug": "footnote_symbol_assembly_tokens",
+      "note": "Declared consumed footnote symbols support assembly-time symbol assignment via placeholder tokens.",
+      "relation": "co_applies",
+      "src_slug": "section_metadata_declaration"
+    },
+    {
+      "dst_slug": "modular_section_block_structure",
+      "note": "Reinforces self-containment specifically at locked-component boundaries.",
+      "relation": "refines",
+      "src_slug": "locked_component_adjacency_no_dependent_decoration"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "email.body.width",
+          "token_id": "tok_lisraya_email_body_width"
+        },
+        {
+          "element_path": "section.padding.vertical",
+          "token_id": "tok_lisraya_section_vertical_padding"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Each section is a self-contained `<table>`-based block at 600px with its own top/bottom 32px padding and declared background color"
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Each section is a self-contained `<table>`-based block at 600px with its own top/bottom 32px padding and declared background color; **no margins outside the section** — assembly is direct stacking."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0001"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Enable modular direct-stacking assembly where every section is fully self-contained.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Each section is a self-contained `<table>`-based block at 600px (email.body.width = 600px) with its own top/bottom 32px padding (section.padding.vertical = 32px) and a declared background color; there are no margins outside the section — assembly is direct stacking.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "modular_section_block_structure",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout",
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Section metadata must declare: background color, whether the section establishes `dermatomyositis (DM)`, footnote symbols consumed (†, ‡ assigned at assembly to avoid collisions), and whether it contains a CTA."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0002"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Provide the assembler the metadata needed to compose and de-conflict sections.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Section metadata must declare: background color, whether the section establishes `dermatomyositis (DM)`, which footnote symbols (†, ‡) it consumes (assigned at assembly to avoid collisions), and whether it contains a CTA.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "section_metadata_declaration",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Footnote symbols: superscript, assigned in order of appearance at **assembly time** — sections use placeholder tokens (e.g., `{{fn1}}`) rather than hard-coded daggers when more than one referenced claim exists."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0003"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent footnote-symbol collisions across independently-authored stacked sections.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Footnote symbols are superscript and assigned in order of appearance at assembly time; sections must use placeholder tokens (e.g., `{{fn1}}`) rather than hard-coded daggers when more than one referenced claim exists.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "footnote_symbol_assembly_tokens",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "locked_component_header_footer_isi"
+        }
+      ],
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Locked components (header, footer, ISI) are inserted by the core team; sections adjacent to them must not include decorative elements that visually depend on what's above/below (e.g., a wave that's meant to continue into the footer)."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0004"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Keep sections self-contained so locked core components can be inserted without visual breakage.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Locked components (header, footer, ISI) are inserted by the core team; sections adjacent to them must not include decorative elements that visually depend on what is above or below (e.g., a wave meant to continue into the footer).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "top_matter",
+          "end_matter"
+        ]
+      },
+      "slug": "locked_component_adjacency_no_dependent_decoration",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "dark_background"
+        }
+      ],
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Dark-background sections must not be placed adjacent to other dark sections (assembler responsibility, enabled by declared backgrounds)."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0005"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Preserve visual rhythm and contrast between stacked sections.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Dark-background sections must not be placed adjacent to other dark sections; this is the assembler's responsibility, enabled by declared backgrounds.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "no_adjacent_dark_sections",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "All colors in code as HEX; all sizing in px; inline CSS only (email client compatibility); `bgcolor` attributes duplicated for Outlook."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0006"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Guarantee cross-client email rendering compatibility.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "All colors in code must be HEX; all sizing in px; inline CSS only for email client compatibility; and `bgcolor` attributes must be duplicated for Outlook.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "email_code_conventions",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility",
+        "color_application"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

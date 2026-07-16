@@ -1,0 +1,185 @@
+{
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_lisraya_design_pattern_rules_03",
+  "original_text": "### Brand Accent Shape (core container device)\n- A rectangle with **selectively enlarged opposite corner radii**; the other two corners keep a slight radius. Used to house callout text and photography. Reads modern and optimistic.\n- Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes).\n- **[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right).\n- **Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]",
+  "relations": [
+    {
+      "dst_slug": "accent_shape_core_device",
+      "note": "Email px conversion is a screen-specific refinement of the print-based accent shape radius pairs.",
+      "relation": "refines",
+      "src_slug": "accent_shape_email_conversion_consistency"
+    },
+    {
+      "dst_slug": "accent_shape_core_device",
+      "note": "Charts and tables replace the asymmetric accent-shape radius treatment with a uniform radius.",
+      "relation": "overrides",
+      "src_slug": "chart_table_radius_exception"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "accent_shape.shape",
+          "token_id": "tok_lisraya_image_treatment_accent_shape_crop"
+        },
+        {
+          "element_path": "accent_shape.radius.print",
+          "token_id": "tok_lisraya_accent_shape_radius_print"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "A rectangle with **selectively enlarged opposite corner radii**",
+          "Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0001",
+          "u_design_pattern_rules_3_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Brand Accent Shape (core container device)",
+          "Used to house callout text and photography. Reads modern and optimistic.",
+          "Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0000",
+          "u_design_pattern_rules_3_0001",
+          "u_design_pattern_rules_3_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the signature asymmetric-corner brand container device across print applications.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "The brand's core container device is a rectangle with selectively enlarged opposite-corner radii (the other two corners keep a slight radius) — an asymmetric rounded-corner crop (image.crop.shape) used to house callout text and photography for a modern, optimistic feel. Approved print radius pairs (accent_shape.radius.print, default 1.25in & 0.0625in) are locked: large containers/photos 1.25in & 0.0625in, banners 0.5in & 0.0625in, small callout boxes 0.4375in & 0.0625in.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "accent_shape.shape",
+        "section_types": null
+      },
+      "slug": "accent_shape_core_device",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "accent_shape.radius.email",
+          "token_id": "tok_lisraya_accent_shape_radius_email"
+        },
+        {
+          "element_path": "accent_shape.diagonal_orientation",
+          "token_id": "tok_lisraya_accent_shape_diagonal_orientation"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px",
+          "same diagonal orientation across all sections (default: large radius top-left & bottom-right)"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "**[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px.",
+          "Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure the accent-shape device renders correctly and consistently on screen across an entire email.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "For email at 96dpi, print accent-shape radius pairs convert to accent_shape.radius.email values (large 120px & 6px, banner 48px & 6px, callout 42px & 6px): apply the large radius to one diagonal corner pair (e.g., top-left + bottom-right) and the 6px radius to the other pair. The diagonal orientation (accent_shape.diagonal_orientation, default top-left & bottom-right) must stay consistent across all sections within a single email.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "accent_shape.radius.email",
+        "section_types": null
+      },
+      "slug": "accent_shape_email_conversion_consistency",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "chart and table containers",
+        "subject": "uniform rounded-corner radius (chart.table.radius = 12px)"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "charts and tables use uniform rounded corners on all four corners",
+          "[GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Keep data visualizations legible and neutral by avoiding the decorative asymmetric accent shape.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "layout",
+      "rule_text": "Charts and tables are exempt from the asymmetric brand accent shape; they must use uniform rounded corners on all four corners (chart.table.radius = 12px) instead of the enlarged-opposite-corner treatment.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "chart.table.radius",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_table_radius_exception",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

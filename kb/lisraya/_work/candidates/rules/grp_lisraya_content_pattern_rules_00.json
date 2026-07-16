@@ -1,0 +1,196 @@
+[
+  {
+    "applies_when": null,
+    "audience": "dtp_patient",
+    "constraint_type": "verbatim_content",
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "effect": {
+      "content": "(brepocitinib)",
+      "trigger": "generic name mention"
+    },
+    "effect_evidence": {
+      "quotes": [
+        "(brepocitinib)",
+        "Generic name format: lowercase, in parentheses: `(brepocitinib)`"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_0_0003"
+      ]
+    },
+    "evaluation_scope": "sentence",
+    "evidence": {
+      "quotes": [
+        "Generic name format: lowercase, in parentheses: `(brepocitinib)`."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_0_0003"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "medium",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 0.5,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 1.0,
+        "slug": 1.0,
+        "snippets": 0.5,
+        "tags": 0.5
+      },
+      "runs": 3,
+      "support": 2
+    },
+    "governance": {
+      "gov_type": "trademark",
+      "match": {
+        "method": "exact"
+      },
+      "preferred_form": "(brepocitinib)",
+      "preferred_form_evidence": {
+        "quotes": [
+          "(brepocitinib)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0003"
+        ]
+      },
+      "severity": "block",
+      "verdict": "verbatim_only"
+    },
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_generic_name_format",
+    "intent": "Standardize generic name presentation.",
+    "polarity": "must",
+    "precedence": 0,
+    "rule_class": "copy_editorial",
+    "rule_text": "Generic name format is lowercase, in parentheses: (brepocitinib).",
+    "scope": "brand",
+    "selector": {
+      "element_path": null,
+      "section_types": null
+    },
+    "slug": "generic_name_format",
+    "tags": [
+      "voice_tone"
+    ]
+  },
+  {
+    "additional_constraint": "do not repeat ® symbol on subsequent mentions",
+    "applies_when": [
+      {
+        "kind": "first_mention",
+        "value": true
+      },
+      {
+        "kind": "content_tag",
+        "value": "external_facing"
+      }
+    ],
+    "audience": null,
+    "constraint_type": "pairing",
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "doc_ref": "content_pattern_rules[0]",
+    "effect": {
+      "a": "brand_name.trademark_symbol",
+      "b": "generic_name.format",
+      "relation": "requires"
+    },
+    "effect_evidence": {
+      "quotes": [
+        "Include the **® registered trademark symbol only when the generic name is included**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    "evaluation_scope": "email",
+    "evidence": {
+      "quotes": [
+        "Apply on **first/most prominent mention only**, in **external-facing documents only**. Do not repeat ® on subsequent mentions.",
+        "Generic name format: lowercase, in parentheses: `(brepocitinib)`."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002",
+        "u_content_pattern_rules_0_0003"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "low",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 1.0,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 1.0,
+        "slug": 1.0,
+        "snippets": 1.0,
+        "tags": 1.0
+      },
+      "runs": 3,
+      "support": 1
+    },
+    "governance": {
+      "gov_type": "trademark",
+      "match": {
+        "method": "exact"
+      },
+      "preferred_form": "LISRAYA® (brepocitinib)",
+      "preferred_form_evidence": {
+        "quotes": [
+          "LISRAYA® (brepocitinib)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      },
+      "severity": "block",
+      "verdict": "requires_qualifier"
+    },
+    "group_id": "grp_lisraya_content_pattern_rules_00",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_trademark_symbol_generic_name_pairing",
+    "intent": "Ensure correct, legally required pairing and frequency of the trademark symbol with the generic drug name.",
+    "polarity": "must",
+    "precedence": 0,
+    "related_rule": "rule_lisraya_generic_name_format",
+    "relation": "depends_on",
+    "rule_class": "copy_editorial",
+    "rule_text": "The ® registered trademark symbol may only be used alongside the generic name — e.g., LISRAYA® (brepocitinib) — and only on the first/most prominent mention in external-facing documents; do not repeat ® on subsequent mentions.",
+    "scope": "external-facing documents only; first/most prominent mention only",
+    "selector": {
+      "element_path": "brand_name.trademark_symbol",
+      "section_types": null
+    },
+    "slug": "trademark_symbol_generic_name_pairing",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "typography"
+    ]
+  }
+]

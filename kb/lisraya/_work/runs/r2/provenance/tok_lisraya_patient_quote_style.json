@@ -1,0 +1,46 @@
+[
+  {
+    "entity_id": "tok_lisraya_patient_quote_style",
+    "field": "",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[9]",
+        "end": 282,
+        "match": "exact",
+        "quote": "Patient quotes: attributed as `- [Name], LISRAYA patient`, italic or distinguished styling, paired with warm lifestyle imagery.",
+        "start": 155,
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": null,
+      "status": "n/a"
+    },
+    "verification": "span_verified"
+  },
+  {
+    "entity_id": "tok_lisraya_patient_quote_style",
+    "field": "value.default",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[9]",
+        "end": 283,
+        "match": "failed",
+        "quote": "italic or distinguished styling",
+        "start": 153,
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": "normalized 'italic_or_distinguished' not found in cited units or neighbors",
+      "status": "fail"
+    },
+    "verification": "unverified"
+  }
+]

@@ -1,0 +1,300 @@
+[
+  {
+    "applies_when": [
+      {
+        "kind": "content_tag",
+        "value": "clinical_claim"
+      }
+    ],
+    "audience": null,
+    "constraint_type": "pairing",
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "doc_ref": "content_pattern_rules[9]",
+    "effect": {
+      "a": "clinical_claim",
+      "b": "footnote_marker_dagger",
+      "relation": "requires"
+    },
+    "effect_evidence": {
+      "quotes": [
+        "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    },
+    "evaluation_scope": "section",
+    "evidence": {
+      "quotes": [
+        "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller (§1.2)."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "medium",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 0.5,
+        "evaluation_scope": 1.0,
+        "governance": 0.5,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 0.5,
+        "slug": 1.0,
+        "snippets": 0.5,
+        "tags": 0.5
+      },
+      "runs": 3,
+      "support": 2
+    },
+    "governance": {
+      "citation": "§1.2",
+      "gov_type": "mlr_claim",
+      "match": {
+        "method": "semantic"
+      },
+      "preferred_form": null,
+      "preferred_form_evidence": null,
+      "requires_legal_review": true,
+      "severity": "block",
+      "verdict": "requires_qualifier"
+    },
+    "governance_citation": "§1.2",
+    "group_id": "grp_lisraya_content_pattern_rules_09",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_clinical_claim_footnote_markers",
+    "intent": "Ensure clinical claims are properly qualified with visible, referenced footnotes for MLR compliance.",
+    "note": "add citation/governance facet linking footnote marker requirement to policy §1.2",
+    "polarity": "must",
+    "precedence": 0,
+    "rule_class": "copy_editorial",
+    "rule_text": "Clinical claims require footnote markers (†), with the associated footnote text clearly separated from the claim and rendered noticeably smaller (per §1.2 footnote type scale, e.g. footnote.type_scale = 12px/18px).",
+    "scope": "brand",
+    "selector": {
+      "element_path": null,
+      "section_types": [
+        "efficacy",
+        "safety"
+      ]
+    },
+    "slug": "clinical_claim_footnote_markers",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "accessibility",
+      "typography"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "exclusivity",
+    "content_sub_type_ids": null,
+    "content_types": [
+      "email"
+    ],
+    "doc_ref": "content_pattern_rules[9]",
+    "effect": {
+      "reserved_for": "locked header/footer components",
+      "subject": "priovant_logo, copyright_line, registered_legal_line, job_code, indication, ISI"
+    },
+    "effect_evidence": {
+      "quotes": [
+        "all live in the **locked header/footer components — never reproduce in sections.**",
+        "locked header/footer components — never reproduce in sections"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    },
+    "evaluation_scope": "email",
+    "evidence": {
+      "quotes": [
+        "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the **locked header/footer components — never reproduce in sections.**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "high",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 0.6666666666666666,
+        "effect": 0.3333333333333333,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 0.6666666666666666,
+        "rule_class": 1.0,
+        "scope": 0.6666666666666666,
+        "selector": 1.0,
+        "slug": 0.3333333333333333,
+        "snippets": 0.6666666666666666,
+        "tags": 0.6666666666666666
+      },
+      "runs": 3,
+      "support": 3
+    },
+    "governance": {
+      "gov_type": "regulatory",
+      "match": {
+        "method": "semantic"
+      },
+      "owner": "legal/regulatory",
+      "preferred_form": null,
+      "preferred_form_evidence": null,
+      "regulatory_review_required": true,
+      "severity": "block",
+      "verdict": "forbidden"
+    },
+    "group_id": "grp_lisraya_content_pattern_rules_09",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_locked_header_footer_legal_elements",
+    "intent": "Prevent duplication or drift of mandated legal/regulatory elements outside their locked components.",
+    "note": "explicitly enumerate locked components covered by must_not-reproduce-in-sections constraint",
+    "polarity": "must_not",
+    "precedence": 0,
+    "rule_class": "assembly",
+    "rule_text": "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the locked header/footer components and must never be reproduced within content sections.",
+    "scope": "brand",
+    "scope_elements": [
+      "Priovant logo",
+      "copyright line",
+      "® legal line",
+      "job code [mm/yy]",
+      "Indication",
+      "ISI"
+    ],
+    "selector": {
+      "element_path": null,
+      "section_types": [
+        "top_matter",
+        "end_matter"
+      ]
+    },
+    "slug": "locked_header_footer_legal_elements",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "copy_editorial"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": "dtp_patient",
+    "constraint_type": "verbatim_content",
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "effect": {
+      "content": "- [Name], LISRAYA patient",
+      "trigger": null
+    },
+    "effect_evidence": {
+      "quotes": [
+        "attributed as `- [Name], LISRAYA patient`"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    "evaluation_scope": "section",
+    "evidence": {
+      "quotes": [
+        "Patient quotes: attributed as `- [Name], LISRAYA patient`, italic or distinguished styling, paired with warm lifestyle imagery."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "low",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 1.0,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 1.0,
+        "slug": 1.0,
+        "snippets": 1.0,
+        "tags": 1.0
+      },
+      "runs": 3,
+      "support": 1
+    },
+    "governance": {
+      "gov_type": "trademark",
+      "match": {
+        "method": "exact"
+      },
+      "preferred_form": "- [Name], LISRAYA patient",
+      "preferred_form_evidence": {
+        "quotes": [
+          "- [Name], LISRAYA patient"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      },
+      "severity": "warn",
+      "verdict": "verbatim_only"
+    },
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_patient_quote_attribution_style",
+    "intent": "Maintain consistent, authentic patient-quote presentation and attribution.",
+    "polarity": "must",
+    "precedence": 0,
+    "rule_class": "copy_editorial",
+    "rule_text": "Patient quotes must be attributed in the form `- [Name], LISRAYA patient`, set in italic or otherwise distinguished styling (patient_story.quote.style = italic), and paired with warm lifestyle imagery (image.treatment = warm_realistic_patient_lifestyle).",
+    "scope": "brand",
+    "selector": {
+      "element_path": "patient_story.quote",
+      "section_types": [
+        "patient_story"
+      ]
+    },
+    "slug": "patient_quote_attribution_style",
+    "snippets": "- [Name], LISRAYA patient",
+    "snippets_evidence": {
+      "quotes": [
+        "- [Name], LISRAYA patient"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    "tags": [
+      "imagery",
+      "typography"
+    ]
+  }
+]

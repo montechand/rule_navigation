@@ -1,0 +1,200 @@
+{
+  "doc_ref": "design_pattern_rules[6]",
+  "group_id": "grp_lisraya_design_pattern_rules_06",
+  "original_text": "### Layout Principles\n- Generous white space; clean, never cluttered. **Limit focal points per section** — use contrast to direct attention to the single most important element.\n- \"Show, don't tell\": break up text walls with imagery and icons.\n- Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge. **[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.**\n- Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**).",
+  "relations": [
+    {
+      "dst_slug": "layout_whitespace_focal_point",
+      "note": "Both articulate general layout principles for section composition.",
+      "relation": "co_applies",
+      "src_slug": "show_dont_tell_imagery"
+    },
+    {
+      "dst_slug": "section_background_alternation",
+      "note": "The canonical content block is assembled within sections that must also follow background alternation rules.",
+      "relation": "cross_reference",
+      "src_slug": "canonical_content_block_pattern"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Generous white space; clean, never cluttered. **Limit focal points per section** — use contrast to direct attention to the single most important element."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Preserve visual clarity and guide the reader's eye to the section's primary message.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Use generous white space and keep layouts clean, never cluttered. Limit the number of focal points per section, using contrast to direct viewer attention to a single most important element.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "layout_whitespace_focal_point",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "\"Show, don't tell\": break up text walls with imagery and icons."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "soft_guidance",
+      "intent": "Improve scannability and engagement by pairing copy with visual devices.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Follow a 'show, don't tell' approach: break up walls of text with imagery and icons rather than dense copy blocks.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "show_dont_tell_imagery",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "any_two_assembled_sections"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "section.background.alternation",
+          "token_id": "tok_lisraya_section_background_alternation"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge.",
+          "**[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure visually distinct, well-paced section blocks when sections are assembled programmatically.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Color blocks delineate topics: alternate section backgrounds among White, Light Blue, Golden Sand, and the approved gradient so that adjacent assembled sections never share the same background. Section designers must declare each section's background color in component metadata so assemblers can sequence sections without producing two identical adjacent backgrounds.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "section.background.alternation",
+        "section_types": null
+      },
+      "slug": "section_background_alternation",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout",
+        "assembly"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "headline",
+          "benefit_statements",
+          "patient_quote"
+        ],
+        "strict": true
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Standardize the brand's core storytelling structure across all patient-facing materials.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The canonical content block pattern is: bold headline, followed by simple benefit statements, followed by a patient quote. This sequence, drawn from the patient brochure, is the reference template for visuals, messaging, and overall tone across ALL LISRAYA materials.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "hero",
+          "patient_story"
+        ]
+      },
+      "slug": "canonical_content_block_pattern",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

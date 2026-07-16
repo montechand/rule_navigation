@@ -1,0 +1,195 @@
+{
+  "doc_ref": "color_scheme_rules[3]",
+  "group_id": "grp_lisraya_color_scheme_rules_03",
+  "original_text": "### Gradient Specifications (approved set — never invent gradients)\n| Gradient | Stops | Usage |\n|---|---|---|\n| Brand Blue → Dark Navy | `#00529b` → `#011E45` | Dark backgrounds, blue masthead/waves |\n| Sky Blue → Deep Blue | `#358CCB` → `#003D74` | Blue backgrounds, waves |\n| Sunshine → 75% Gold | `#faa31b` → Gold @75% | Warm backgrounds |\n| Golden Sand → White → Light Blue | `#FEF1C8` → `#ffffff` → `#E6F0F9` | Soft light backgrounds |\n| Golden Sand → 75% Gold → Sunshine | `#FEF1C8` → Gold @75% → `#faa31b` | Warm light-to-saturated backgrounds |\n| Sunshine → 0C,10M,78Y,0K (≈`#ffe05c` light gold) | `#faa31b` → light gold | **Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end** |\n- Gradients run horizontally in masthead/banner applications (dark/saturated → light, left → right as shown).\n- Used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark. Approved values only.",
+  "relations": [
+    {
+      "dst_slug": "approved_gradient_set_only",
+      "note": "Selects a specific approved gradient for the masthead/logo-mark use case.",
+      "relation": "refines",
+      "src_slug": "masthead_gradient_with_logo_mark"
+    },
+    {
+      "dst_slug": "masthead_gradient_with_logo_mark",
+      "note": "Direction rule governs orientation of the masthead gradient.",
+      "relation": "co_applies",
+      "src_slug": "gradient_horizontal_direction"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "gradient.background.brand_blue_dark_navy",
+          "token_id": "tok_lisraya_gradient_brand_blue_dark_navy"
+        },
+        {
+          "element_path": "gradient.background.sky_blue_deep_blue",
+          "token_id": "tok_lisraya_gradient_sky_blue_deep_blue"
+        },
+        {
+          "element_path": "gradient.background.sunshine_gold75",
+          "token_id": "tok_lisraya_gradient_sunshine_gold75"
+        },
+        {
+          "element_path": "gradient.background.golden_sand_white_light_blue",
+          "token_id": "tok_lisraya_gradient_golden_sand_white_light_blue"
+        },
+        {
+          "element_path": "gradient.background.golden_sand_gold75_sunshine",
+          "token_id": "tok_lisraya_gradient_golden_sand_gold75_sunshine"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Gradient Specifications (approved set — never invent gradients)",
+          "Brand Blue → Dark Navy | `#00529b` → `#011E45` | Dark backgrounds, blue masthead/waves",
+          "Sky Blue → Deep Blue | `#358CCB` → `#003D74` | Blue backgrounds, waves",
+          "Sunshine → 75% Gold | `#faa31b` → Gold @75% | Warm backgrounds",
+          "Golden Sand → White → Light Blue | `#FEF1C8` → `#ffffff` → `#E6F0F9` | Soft light backgrounds",
+          "Golden Sand → 75% Gold → Sunshine | `#FEF1C8` → Gold @75% → `#faa31b` | Warm light-to-saturated backgrounds"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0000",
+          "u_color_scheme_rules_3_0003",
+          "u_color_scheme_rules_3_0004",
+          "u_color_scheme_rules_3_0005",
+          "u_color_scheme_rules_3_0006",
+          "u_color_scheme_rules_3_0007"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Gradient Specifications (approved set — never invent gradients)",
+          "Used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark. Approved values only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0000",
+          "u_color_scheme_rules_3_0010"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Preserve brand consistency by restricting gradients to the sanctioned set.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Only the approved gradient set may be used — never invent gradients. The approved background gradients are: Brand Blue → Dark Navy (#00529b → #011E45) for dark backgrounds and blue masthead/waves; Sky Blue → Deep Blue (#358CCB → #003D74) for blue backgrounds and waves; Sunshine → 75% Gold (#faa31b → Gold @75%) for warm backgrounds; Golden Sand → White → Light Blue (#FEF1C8 → #ffffff → #E6F0F9) for soft light backgrounds; and Golden Sand → 75% Gold → Sunshine (#FEF1C8 → Gold @75% → #faa31b) for warm light-to-saturated backgrounds. Gradients are used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark; approved values only.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient.background",
+        "section_types": null
+      },
+      "slug": "approved_gradient_set_only",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "masthead.gradient",
+          "token_id": "tok_lisraya_masthead_gradient"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0008"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Sunshine → 0C,10M,78Y,0K (≈`#ffe05c` light gold) | `#faa31b` → light gold | **Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0008"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure the logo mark reads with sufficient contrast against the masthead gradient.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The masthead gradient Sunshine → light gold (#faa31b → ≈#ffe05c) is the gradient to use with the logo mark for contrast; the mark sits at the lightest end of the gradient.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "masthead.gradient",
+        "section_types": [
+          "top_matter"
+        ]
+      },
+      "slug": "masthead_gradient_with_logo_mark",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "masthead.gradient.angle",
+          "token_id": "tok_lisraya_masthead_gradient_angle"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Gradients run horizontally in masthead/banner applications (dark/saturated → light, left → right as shown)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0009"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Gradients run horizontally in masthead/banner applications (dark/saturated → light, left → right as shown)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0009"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Maintain consistent gradient orientation across masthead and banner uses.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "In masthead/banner applications, gradients run horizontally (left → right), transitioning from the dark/saturated end to the light end as shown.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "masthead.gradient.angle",
+        "section_types": [
+          "top_matter"
+        ]
+      },
+      "slug": "gradient_horizontal_direction",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

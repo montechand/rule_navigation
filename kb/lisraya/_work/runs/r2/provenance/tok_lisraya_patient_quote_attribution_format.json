@@ -1,0 +1,46 @@
+[
+  {
+    "entity_id": "tok_lisraya_patient_quote_attribution_format",
+    "field": "",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[9]",
+        "end": 212,
+        "match": "exact",
+        "quote": "Patient quotes: attributed as `- [Name], LISRAYA patient`",
+        "start": 155,
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": null,
+      "status": "n/a"
+    },
+    "verification": "span_verified"
+  },
+  {
+    "entity_id": "tok_lisraya_patient_quote_attribution_format",
+    "field": "value.default",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[9]",
+        "end": 283,
+        "match": "failed",
+        "quote": "attributed as `- [Name], LISRAYA patient`",
+        "start": 153,
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": "normalized '_[name],_lisraya_patient' not found in cited units or neighbors",
+      "status": "fail"
+    },
+    "verification": "unverified"
+  }
+]

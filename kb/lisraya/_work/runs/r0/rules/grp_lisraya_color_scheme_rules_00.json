@@ -1,0 +1,242 @@
+{
+  "doc_ref": "color_scheme_rules[0]",
+  "group_id": "grp_lisraya_color_scheme_rules_00",
+  "original_text": "### Complete Palette\n**PRIMARY (dominant tier):**\n| Name | HEX | RGB | CMYK | Pantone |\n|---|---|---|---|---|\n| Brand Blue | `#00529b` | 0, 82, 155 | 100, 76, 6, 1 | 2145 C |\n| Sunshine | `#faa31b` | 250, 163, 27 | 0, 42, 100, 0 | 137 C |\n| Gold | `#ffc60a` | 255, 198, 10 | 0, 23, 100, 0 | 7548 C |\n \n**SECONDARY:**\n| Name | HEX | RGB | CMYK |\n|---|---|---|---|\n| Sky Blue | `#358CCB` | 53, 140, 203 | 75, 35, 0, 0 |\n| Deep Blue | `#003D74` | 0, 61, 116 | 100, 83, 29, 14 |\n| Dark Navy | `#011E45` | 1, 30, 69 | 100, 89, 40, 49 |\n \n**TERTIARY:**\n| Name | HEX | RGB | CMYK |\n|---|---|---|---|\n| Coral | `#F26A38` | 242, 106, 56 | 0, 73, 87, 0 |\n| Light Blue | `#E6F0F9` | 230, 240, 249 | 8, 2, 0, 0 |\n| Golden Sand | `#FEF1C8` | 254, 241, 200 | 0, 3, 24, 0 |\n| Graphite | `#212121` | 33, 33, 33 | 0, 0, 0, 88 |\n| White | `#ffffff` | 255, 255, 255 | 0, 0, 0, 0 |",
+  "relations": [
+    {
+      "dst_slug": "palette_secondary_tier",
+      "note": "Tiers of the complete brand palette.",
+      "relation": "cluster",
+      "src_slug": "palette_primary_tier"
+    },
+    {
+      "dst_slug": "palette_tertiary_tier",
+      "note": "Tiers of the complete brand palette.",
+      "relation": "cluster",
+      "src_slug": "palette_secondary_tier"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "color.primary.brand_blue",
+          "token_id": "tok_lisraya_color_primary_brand_blue"
+        },
+        {
+          "element_path": "color.primary.sunshine",
+          "token_id": "tok_lisraya_color_primary_sunshine"
+        },
+        {
+          "element_path": "color.primary.gold",
+          "token_id": "tok_lisraya_color_primary_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**PRIMARY (dominant tier):**",
+          "| Brand Blue | `#00529b` |",
+          "| Sunshine | `#faa31b` |",
+          "| Gold | `#ffc60a` |"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_0_0001",
+          "u_color_scheme_rules_0_0004",
+          "u_color_scheme_rules_0_0005",
+          "u_color_scheme_rules_0_0006"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**PRIMARY (dominant tier):**",
+          "| Brand Blue | `#00529b` | 0, 82, 155 | 100, 76, 6, 1 | 2145 C |",
+          "| Sunshine | `#faa31b` | 250, 163, 27 | 0, 42, 100, 0 | 137 C |",
+          "| Gold | `#ffc60a` | 255, 198, 10 | 0, 23, 100, 0 | 7548 C |"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_0_0001",
+          "u_color_scheme_rules_0_0004",
+          "u_color_scheme_rules_0_0005",
+          "u_color_scheme_rules_0_0006"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Establish the dominant brand color tier.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The primary (dominant tier) palette comprises Brand Blue (color.primary.brand_blue = #00529b), Sunshine (color.primary.sunshine = #faa31b), and Gold (color.primary.gold = #ffc60a), each with its defined RGB, CMYK, and Pantone specifications.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "palette_primary_tier",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "color.secondary.sky_blue",
+          "token_id": "tok_lisraya_color_secondary_sky_blue"
+        },
+        {
+          "element_path": "color.secondary.deep_blue",
+          "token_id": "tok_lisraya_color_secondary_deep_blue"
+        },
+        {
+          "element_path": "color.secondary.dark_navy",
+          "token_id": "tok_lisraya_color_secondary_dark_navy"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**SECONDARY:**",
+          "| Sky Blue | `#358CCB` |",
+          "| Deep Blue | `#003D74` |",
+          "| Dark Navy | `#011E45` |"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_0_0008",
+          "u_color_scheme_rules_0_0011",
+          "u_color_scheme_rules_0_0012",
+          "u_color_scheme_rules_0_0013"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**SECONDARY:**",
+          "| Sky Blue | `#358CCB` | 53, 140, 203 | 75, 35, 0, 0 |",
+          "| Deep Blue | `#003D74` | 0, 61, 116 | 100, 83, 29, 14 |",
+          "| Dark Navy | `#011E45` | 1, 30, 69 | 100, 89, 40, 49 |"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_0_0008",
+          "u_color_scheme_rules_0_0011",
+          "u_color_scheme_rules_0_0012",
+          "u_color_scheme_rules_0_0013"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Establish the secondary brand color tier.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The secondary palette comprises Sky Blue (color.secondary.sky_blue = #358CCB), Deep Blue (color.secondary.deep_blue = #003D74), and Dark Navy (color.secondary.dark_navy = #011E45), each with its defined RGB and CMYK specifications.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "palette_secondary_tier",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "color.tertiary.coral",
+          "token_id": "tok_lisraya_color_tertiary_coral"
+        },
+        {
+          "element_path": "color.tertiary.light_blue",
+          "token_id": "tok_lisraya_color_tertiary_light_blue"
+        },
+        {
+          "element_path": "color.tertiary.golden_sand",
+          "token_id": "tok_lisraya_color_tertiary_golden_sand"
+        },
+        {
+          "element_path": "color.tertiary.graphite",
+          "token_id": "tok_lisraya_color_tertiary_graphite"
+        },
+        {
+          "element_path": "color.tertiary.white",
+          "token_id": "tok_lisraya_color_tertiary_white"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**TERTIARY:**",
+          "| Coral | `#F26A38` |",
+          "| Light Blue | `#E6F0F9` |",
+          "| Golden Sand | `#FEF1C8` |",
+          "| Graphite | `#212121` |",
+          "| White | `#ffffff` |"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_0_0015",
+          "u_color_scheme_rules_0_0018",
+          "u_color_scheme_rules_0_0019",
+          "u_color_scheme_rules_0_0020",
+          "u_color_scheme_rules_0_0021",
+          "u_color_scheme_rules_0_0022"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**TERTIARY:**",
+          "| Coral | `#F26A38` | 242, 106, 56 | 0, 73, 87, 0 |",
+          "| Light Blue | `#E6F0F9` | 230, 240, 249 | 8, 2, 0, 0 |",
+          "| Golden Sand | `#FEF1C8` | 254, 241, 200 | 0, 3, 24, 0 |",
+          "| Graphite | `#212121` | 33, 33, 33 | 0, 0, 0, 88 |",
+          "| White | `#ffffff` | 255, 255, 255 | 0, 0, 0, 0 |"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_0_0015",
+          "u_color_scheme_rules_0_0018",
+          "u_color_scheme_rules_0_0019",
+          "u_color_scheme_rules_0_0020",
+          "u_color_scheme_rules_0_0021",
+          "u_color_scheme_rules_0_0022"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Establish the tertiary/support brand color tier.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The tertiary palette comprises Coral (color.tertiary.coral = #F26A38), Light Blue (color.tertiary.light_blue = #E6F0F9), Golden Sand (color.tertiary.golden_sand = #FEF1C8), Graphite (color.tertiary.graphite = #212121), and White (color.tertiary.white = #ffffff), each with its defined RGB and CMYK specifications.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "palette_tertiary_tier",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

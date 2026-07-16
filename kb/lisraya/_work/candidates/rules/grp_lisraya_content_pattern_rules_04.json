@@ -1,0 +1,166 @@
+[
+  {
+    "add_facet": {
+      "example": "Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.",
+      "scope": "clinical data citations only"
+    },
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "doc_ref": "content_pattern_rules[4]",
+    "effect": null,
+    "effect_evidence": null,
+    "evaluation_scope": "sentence",
+    "evidence": {
+      "quotes": [
+        "Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.",
+        "avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying",
+        "avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying.",
+        "when citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_4_0005"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "high",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 0.6666666666666666,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 1.0,
+        "evaluation_scope": 0.6666666666666666,
+        "governance": 0.6666666666666666,
+        "hardness": 0.6666666666666666,
+        "polarity": 0.6666666666666666,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 0.6666666666666666,
+        "slug": 0.6666666666666666,
+        "snippets": 0.6666666666666666,
+        "tags": 0.3333333333333333
+      },
+      "runs": 3,
+      "support": 3
+    },
+    "group_id": "grp_lisraya_content_pattern_rules_04",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_clinical_data_tone",
+    "intent": "Present clinical data in a supportive, trust-building tone.",
+    "polarity": "should",
+    "precedence": 0,
+    "rule_class": "voice_tone",
+    "rule_text": "When citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying. Example pattern: \"Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.\"",
+    "scope": "brand",
+    "selector": {
+      "element_path": null,
+      "section_types": [
+        "efficacy"
+      ]
+    },
+    "slug": "clinical_data_tone",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "efficacy",
+      "copy_editorial"
+    ]
+  },
+  {
+    "add_facet": {
+      "exception": "unless assembly brief states abbreviation is established upstream",
+      "scope": "GENERAL - per standalone section"
+    },
+    "applies_when": [
+      {
+        "kind": "first_mention",
+        "value": "dermatomyositis"
+      }
+    ],
+    "audience": null,
+    "conditional_exception": "unless the assembly brief states the abbreviation is established upstream",
+    "constraint_type": "verbatim_content",
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "doc_ref": "content_pattern_rules[4]",
+    "effect": {
+      "content": "dermatomyositis (DM)",
+      "trigger": "first mention of dermatomyositis in running copy"
+    },
+    "effect_evidence": {
+      "quotes": [
+        "First-mention pattern: `dermatomyositis (DM)`.",
+        "every standalone section must establish `dermatomyositis (DM)` at its own first mention"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_4_0001",
+        "u_content_pattern_rules_4_0002"
+      ]
+    },
+    "evaluation_scope": "section",
+    "evidence": {
+      "quotes": [
+        "After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition.",
+        "every standalone section must establish `dermatomyositis (DM)` at its own first mention",
+        "**Do NOT use \"DM\" in headlines, headings, or subheads** — always the full word there",
+        "**Do NOT use \"DM\" in headlines, headings, or subheads** — always the full word there (clarity, accessibility, and SEO on web)."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_4_0001",
+        "u_content_pattern_rules_4_0002"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "medium",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 0.5,
+        "evaluation_scope": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 1.0,
+        "slug": 1.0,
+        "snippets": 0.5,
+        "tags": 1.0
+      },
+      "runs": 3,
+      "support": 2
+    },
+    "group_id": "grp_lisraya_content_pattern_rules_04",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_dm_abbreviation_first_mention",
+    "intent": "Consistent, accessible, SEO-friendly handling of the DM abbreviation across assembled sections.",
+    "polarity": "must",
+    "precedence": 0,
+    "rule_class": "copy_editorial",
+    "rule_text": "After first mention of \"dermatomyositis\", use \"DM\" in running copy to avoid repetition; first-mention pattern is `dermatomyositis (DM)`. Do NOT use \"DM\" in headlines, headings, or subheads — always the full word there (clarity, accessibility, and SEO on web). Because sections are assembled later, every standalone section must establish `dermatomyositis (DM)` at its own first mention unless the assembly brief states the abbreviation is established upstream.",
+    "scope": "brand",
+    "scope_tag": "GENERAL",
+    "selector": {
+      "element_path": null,
+      "section_types": null
+    },
+    "slug": "dm_abbreviation_first_mention",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "accessibility"
+    ]
+  }
+]
