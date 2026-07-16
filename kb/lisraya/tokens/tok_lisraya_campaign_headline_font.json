@@ -6,15 +6,23 @@
   "key": "campaign_headline.font",
   "value": {
     "default": {
-      "$ref": "tok_lisraya_font_agenda"
+      "$ref": "tok_lisraya_font_headline_print"
+    },
+    "default_evidence": {
+      "quotes": [
+        "Set in **Agenda** (digital may use Agenda as live text for this headline only"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001"
+      ]
     },
     "variants": [
       {
+        "value": {
+          "$ref": "tok_lisraya_font_body_print"
+        },
         "when": {
           "surface": "email"
-        },
-        "value": {
-          "$ref": "tok_lisraya_font_nunito_sans"
         }
       }
     ]
@@ -26,7 +34,7 @@
   "tier": "campaign",
   "scope": "campaign:you_deserve_more",
   "audience": "dtp_patient",
-  "notes": "YOU DESERVE MORE: Agenda live text digital only; email fallback Nunito Sans ExtraBold.",
+  "notes": "Campaign headline Agenda, email fallback Nunito Sans ExtraBold",
   "status": "active",
   "version": 1
 }

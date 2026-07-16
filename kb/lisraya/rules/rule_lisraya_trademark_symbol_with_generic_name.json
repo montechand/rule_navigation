@@ -1,0 +1,45 @@
+{
+  "id": "rule_lisraya_trademark_symbol_with_generic_name",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "voice_tone"
+  ],
+  "audience": "dtp_patient",
+  "scope": "brand",
+  "selector": {},
+  "applies_when": [
+    {
+      "kind": "first_mention",
+      "value": "external-facing documents only"
+    }
+  ],
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "LISRAYA\u00ae (brepocitinib)",
+    "trigger": "first/most prominent mention in external-facing documents where the generic name is included"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "trademark",
+    "verdict": "requires_qualifier",
+    "preferred_form": "LISRAYA\u00ae (brepocitinib)",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "Include the \u00ae registered trademark symbol only when the generic name is included \u2014 i.e., LISRAYA\u00ae (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat \u00ae on subsequent mentions.",
+  "intent": "Correct trademark attribution paired with generic name, once per document.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_lisraya_content_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Include \u00ae only with generic name in first/external prominent mention of LISRAYA\u00ae (brepocitinib); omit in later mentions."
+}

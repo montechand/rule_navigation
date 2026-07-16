@@ -1,0 +1,85 @@
+{
+  "conflicts": [
+    {
+      "a_id": "tok_lisraya_accent_shape_radius",
+      "b_id": "tok_lisraya_accent_shape_radius",
+      "detail": "intra_token tok_lisraya_accent_shape_radius: \"42px & 6px\" vs \"1.25\\\" & 0.0625\\\"\"; witness={\"surface\": \"print\", \"tag:callout\": \"present\"}",
+      "element_path": "accent_shape.radius",
+      "kind": "intra_token",
+      "overlap_guard": {
+        "surface": {
+          "op": "eq",
+          "values": [
+            "print"
+          ]
+        },
+        "tag:callout": {
+          "op": "eq",
+          "values": [
+            "present"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_administration_statement_verbatim",
+      "b_id": "rule_lisraya_brand_name_all_caps",
+      "detail": "verbatim clash at None: rule_lisraya_administration_statement_verbatim vs rule_lisraya_brand_name_all_caps; witness={\"audience\": \"dtp_patient\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_administration_statement_verbatim",
+      "b_id": "rule_lisraya_doctor_discussion_cta_verbatim",
+      "detail": "verbatim clash at None: rule_lisraya_administration_statement_verbatim vs rule_lisraya_doctor_discussion_cta_verbatim; witness={\"audience\": \"dtp_patient\", \"section\": \"cta\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "eq",
+          "values": [
+            "cta"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_brand_name_all_caps",
+      "b_id": "rule_lisraya_doctor_discussion_cta_verbatim",
+      "detail": "verbatim clash at None: rule_lisraya_brand_name_all_caps vs rule_lisraya_doctor_discussion_cta_verbatim; witness={\"audience\": \"dtp_patient\", \"section\": \"cta\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "eq",
+          "values": [
+            "cta"
+          ]
+        }
+      }
+    }
+  ],
+  "dead_entries": [],
+  "precedence_proposals": [],
+  "schema_version": "2.0"
+}

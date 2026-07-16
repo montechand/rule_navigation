@@ -1,0 +1,37 @@
+{
+  "id": "rule_lisraya_icon_callout_badge_geometry",
+  "brand_id": "lisraya",
+  "rule_class": "layout",
+  "tags": [
+    "spacing",
+    "iconography"
+  ],
+  "content_sub_type_ids": [
+    "sub_lisraya_icon_callout_box"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "icon_callout.badge.geometry"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "note": "Geometry section defining exact badge/box positioning"
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "Exact badge geometry: with badge width W = 80px (inner icon ~48px), inset the blue box from the left by W/2 = 40px and position the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper \u2014 distance from badge center to box edge must be 0), producing a 50/50 perpendicular-bisector split. Vertically center the badge via top:50% + margin-top:-40px (half the badge height). If the badge is a different size, keep the relationships: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the bisector stays exact.",
+  "intent": "Guarantee the precise half-on/half-off badge placement math.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[6]",
+  "group_id": "grp_lisraya_color_scheme_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "Badge width W=80px, icon ~48px; inset blue box left by W/2=40px; center badge on box left edge; vertically center with top 50% margin-top -H/2; padding-left=W/2(+24px if size varies)."
+}

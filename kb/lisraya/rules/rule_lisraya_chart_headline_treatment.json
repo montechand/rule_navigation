@@ -10,46 +10,41 @@
     "section_types": [
       "chart"
     ],
-    "element_path": "chart.header"
+    "element_path": "chart.headline"
   },
   "evaluation_scope": "section",
   "constraint_type": "binding",
   "effect": {
     "assignments": [
       {
-        "element_path": "chart.header.font",
-        "token_id": "tok_lisraya_chart_header_font"
+        "element_path": "chart.headline.color",
+        "token_id": "tok_lisraya_chart_headline_color"
       },
       {
-        "element_path": "chart.header.case",
-        "token_id": "tok_lisraya_chart_header_case"
+        "element_path": "chart.headline.rule_color",
+        "token_id": "tok_lisraya_chart_headline_rule_color"
       },
       {
-        "element_path": "chart.header.color",
-        "token_id": "tok_lisraya_chart_header_color"
-      },
-      {
-        "element_path": "chart.header.rule_color",
-        "token_id": "tok_lisraya_chart_header_rule_color"
+        "element_path": "case.campaign_headline",
+        "token_id": "tok_lisraya_case_campaign_headline"
       }
     ]
   },
   "polarity": "must",
-  "hardness": "hard_constraint",
+  "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [
-    "tok_lisraya_chart_header_case",
-    "tok_lisraya_chart_header_color",
-    "tok_lisraya_chart_header_font",
-    "tok_lisraya_chart_header_rule_color"
+    "tok_lisraya_case_campaign_headline",
+    "tok_lisraya_chart_headline_color",
+    "tok_lisraya_chart_headline_rule_color"
   ],
   "asset_ids": [],
-  "rule_text": "Chart headline uses Agenda (print) / Nunito Sans Bold+ (email) per chart.header.font, set ALL CAPS (chart.header.case), in Brand Blue (chart.header.color), with a thin Gold rule beneath (chart.header.rule_color).",
-  "intent": "Standardize chart headers so they read as branded, scannable labels.",
+  "rule_text": "Chart headlines set in Agenda (print) / Nunito Sans Bold+ (email), ALL CAPS, Brand Blue (chart.headline.color = #00529b), with a thin Gold (chart.headline.rule_color = #ffc60a) rule beneath.",
+  "intent": "Give chart headlines a consistent, recognizable brand treatment.",
   "source": "design_bible",
   "doc_ref": "design_pattern_rules[4]",
   "group_id": "grp_lisraya_design_pattern_rules_04",
   "status": "active",
   "version": 1,
-  "summary": "Chart headline uses Agenda (print)/Nunito Sans Bold+ (email), ALL CAPS, Brand Blue text, thin Gold rule beneath per chart.header settings."
+  "summary": "Chart headlines: Agenda (print)/Nunito Sans Bold+ (email), ALL CAPS, #00529b blue text, thin #ffc60a gold rule beneath."
 }

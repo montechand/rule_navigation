@@ -1,31 +1,33 @@
 {
   "id": "rule_lisraya_accent_shape_diagonal_consistency",
   "brand_id": "lisraya",
-  "rule_class": "imagery",
-  "tags": [
-    "assembly",
-    "layout"
-  ],
+  "rule_class": "layout",
   "content_types": [
     "email"
   ],
   "scope": "brand",
   "selector": {
-    "element_path": "accent_shape.radius"
+    "element_path": "icon_callout.accent_shape"
   },
   "evaluation_scope": "email",
-  "constraint_type": "binding",
+  "effect": {
+    "applies_to": [
+      "box",
+      "badge"
+    ],
+    "prohibition": "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal."
+  },
   "polarity": "must",
   "hardness": "strong_default",
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "rule_text": "Be consistent within an email: use the same diagonal orientation of the accent-shape corner radii across all sections. Default: large radius on top-left & bottom-right.",
-  "intent": "Keep accent-shape orientation uniform across an email for visual coherence.",
+  "rule_text": "Apply the large radius to one diagonal pair (e.g., top-left + bottom-right) and the 6px radius to the other pair. Be consistent within an email: use the same diagonal orientation across all sections (default: large radius top-left & bottom-right).",
+  "intent": "Keep accent-shape orientation consistent across an email for a coherent look.",
   "source": "design_bible",
   "doc_ref": "design_pattern_rules[3]",
   "group_id": "grp_lisraya_design_pattern_rules_03",
   "status": "active",
   "version": 1,
-  "summary": "Consistent diagonal accent-shape corner radii in emails; default large radius top-left & bottom-right across all sections."
+  "summary": "Apply large radius to one diagonal pair (default top-left & bottom-right) and 6px to the other; maintain consistent diagonal orientation across all email sections."
 }

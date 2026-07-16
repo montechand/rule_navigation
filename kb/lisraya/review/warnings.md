@@ -1,11 +1,25 @@
 # Build warnings
 
-- tok_lisraya_motion_transitions: duplicate token id (primitive/semantic collision); kept first
-- token dedupe: merged 11 exact duplicates
-- rule_lisraya_chart_container_structure: rule_class='chart' not in vocab; -> 'layout'
+- tok_lisraya_background_gradient_cta_fallback: token_types value 'background' unknown (not an other.* proposal); dropped
+- tok_lisraya_number_ten_plus_numerals: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_percent_sign_format: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_chart_bars_shape: token_types value 'other' unknown (not an other.* proposal); dropped
+- ast_lisraya_nunito_sans_webfont: asset_type='font' not in vocab; -> 'photo'
+- ast_lisraya_patient_lifestyle_photography: asset_type='photography' not in vocab; -> 'photo'
+- ast_lisraya_wave_forms: asset_type='graphic_element' not in vocab; -> 'photo'
+- rule_lisraya_callout_surface_tints: tags dropped invalid ['callout']
+- rule_lisraya_chart_color_application: tags dropped invalid ['chart']
+- rule_lisraya_campaign_headline_all_caps: scope="campaign headline 'YOU DESERVE MORE' only" not in vocab; -> 'brand'
+- rule_lisraya_no_all_caps_body_buttons_subheads: scope=['body copy', 'buttons', 'subheads'] not in vocab; -> 'brand'
+- rule_lisraya_callout_style_exclusivity: scope='per screen/section' not in vocab; -> 'brand'
+- rule_lisraya_callout_style_exclusivity: hardness='hard' not in vocab; -> 'strong_default'
+- rule_lisraya_cta_one_primary_per_section: polarity='must_not_exceed' not in vocab; -> 'must'
+- rule_lisraya_cta_one_primary_per_section: hardness='soft_constraint' not in vocab; -> 'strong_default'
+- rule_lisraya_accent_shape_diagonal_consistency: governance facet must be an object; dropped
+- rule_lisraya_accent_shape_diagonal_consistency: scope='email/general' not in vocab; -> 'brand'
 - rule_lisraya_chart_color_logic: tags dropped invalid ['chart']
-- rule_lisraya_chart_bars_style: rule_class='chart' not in vocab; -> 'layout'
+- rule_lisraya_chart_container_construction: tags dropped invalid ['chart']
 - rule_lisraya_chart_headline_treatment: tags dropped invalid ['chart']
-- rule_lisraya_chart_stat_callout_style: tags dropped invalid ['chart']
-- rule_lisraya_chart_footnote_treatment: tags dropped invalid ['chart']
-- rule_lisraya_parent_company_signoff_footer_only: tags dropped invalid ['disclosure']
+- rule_lisraya_chart_rounded_bar_shapes: tags dropped invalid ['chart']
+- rule_lisraya_chart_statistical_callout_hierarchy: tags dropped invalid ['chart']
+- rule_lisraya_brand_color_hierarchy: unresolved effect ids ['tok_lisraya_color_primary_sunshine']; skipped

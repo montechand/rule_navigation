@@ -1,0 +1,34 @@
+{
+  "id": "rule_lisraya_footnote_symbols_assigned_at_assembly",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "copy_editorial"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "email",
+  "constraint_type": "ordering",
+  "effect": {
+    "sequence": [
+      "footnote_symbol_by_appearance_order"
+    ],
+    "strict": true
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "rule_text": "Footnote symbols are superscript and assigned in order of appearance at assembly time; sections use placeholder tokens (e.g., `{{fn1}}`) rather than hard-coded daggers when more than one referenced claim exists.",
+  "intent": "Avoid footnote symbol collisions across independently authored sections.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[2]",
+  "group_id": "grp_lisraya_other_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Footnote symbols are superscript, assigned in order at assembly; sections use placeholder tokens (e.g., {{fn1}}) instead of hard-coded daggers if multiple claims referenced."
+}

@@ -6,52 +6,40 @@
   "key": "accent_shape.radius",
   "value": {
     "default": {
-      "$ref": "tok_lisraya_radius_accent_email_large"
+      "$ref": "tok_lisraya_radius_accent_large_email"
+    },
+    "default_evidence": {
+      "quotes": [
+        "large: 120px & 6px",
+        "default: large radius top-left & bottom-right"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
     },
     "variants": [
       {
-        "when": {
-          "surface": "print",
-          "content_tag": "large"
-        },
         "value": {
-          "$ref": "tok_lisraya_radius_accent_print_large"
-        }
-      },
-      {
-        "when": {
-          "surface": "print",
-          "content_tag": "banner"
+          "$ref": "tok_lisraya_radius_accent_callout_email"
         },
-        "value": {
-          "$ref": "tok_lisraya_radius_accent_print_banner"
-        }
-      },
-      {
         "when": {
-          "surface": "print",
           "content_tag": "callout"
-        },
-        "value": {
-          "$ref": "tok_lisraya_radius_accent_print_callout"
         }
       },
       {
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_large_print"
+        },
         "when": {
-          "surface": "email",
+          "surface": "print"
+        }
+      },
+      {
+        "value": {
+          "$ref": "tok_lisraya_radius_accent_banner_email"
+        },
+        "when": {
           "content_tag": "banner"
-        },
-        "value": {
-          "$ref": "tok_lisraya_radius_accent_email_banner"
-        }
-      },
-      {
-        "when": {
-          "surface": "email",
-          "content_tag": "callout"
-        },
-        "value": {
-          "$ref": "tok_lisraya_radius_accent_email_callout"
         }
       }
     ]
@@ -61,7 +49,7 @@
   ],
   "aliases": [],
   "scope": "global",
-  "notes": "Accent shape radius pairs vary by surface and container size; default large radius TL & BR.",
+  "notes": "Brand accent shape asymmetric radius, large TL+BR default",
   "status": "active",
   "version": 1
 }

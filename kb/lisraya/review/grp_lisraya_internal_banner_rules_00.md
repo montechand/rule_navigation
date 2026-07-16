@@ -27,19 +27,4 @@ use this shape and treatment for CTAs:
 <svg width="180" height="59" viewBox="0 0 180 59" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M0 25C0 11.1929 11.1929 0 25 0H177.5C178.605 0 179.5 0.895431 179.5 2V33.5C179.5 47.3071 168.307 58.5 154.5 58.5H2C0.895433 58.5 0 57.6046 0 56.5V25Z" fill="url(#paint0_linear_75_5202)"/> <defs> <linearGradient id="paint0_linear_75_5202" x1="0" y1="29.25" x2="179.5" y2="29.25" gradientUnits="userSpaceOnUse"> <stop stop-color="`#FFDF55`"/> <stop offset="1" stop-color="`#FAA21B`"/> </linearGradient> </defs> </svg>
 ````
 
-## Extracted rules (3)
-
-### rule_lisraya_brand_color_hierarchy
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: The three approved brand colors, in hierarchy order, are (1) #00529B Deep/Brand Blue (dominant), (2) #FAA31B Amber Orange/Sunshine (secondary accent), and (3) #FFC60A Golden Yellow/Gold (tertiary accent). Usage must follow this primary > secondary > tertiary weighting.
-- intent: Preserve the brand's color dominance hierarchy across materials.
-
-### rule_lisraya_typeface_roles
-- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Agenda is the primary headline font and must be used for all headlines and headers. Nunito Sans must be used for all body copy (in print).
-- intent: Keep the typographic system consistent by fixing headline vs. body typeface roles.
-
-### rule_lisraya_cta_svg_button_shape_treatment
-- class=cta scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
-- rule_text: Use the approved asymmetric rounded-path SVG shape and gradient treatment (#FFDF55 → #FAA21B) for internal banner CTAs, per the provided inline SVG (180×59, viewBox 0 0 180 59).
-- intent: Lock the CTA button to the approved signature shape and gradient.
+## Extracted rules (0)

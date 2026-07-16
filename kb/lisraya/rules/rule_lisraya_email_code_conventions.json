@@ -3,7 +3,8 @@
   "brand_id": "lisraya",
   "rule_class": "assembly",
   "tags": [
-    "accessibility"
+    "color_application",
+    "spacing"
   ],
   "content_types": [
     "email"
@@ -13,16 +14,16 @@
   "evaluation_scope": "email",
   "constraint_type": "binding",
   "polarity": "must",
-  "hardness": "strong_default",
+  "hardness": "hard_constraint",
   "precedence": 0,
   "token_ids": [],
   "asset_ids": [],
-  "rule_text": "All colors in code must be HEX; all sizing in px; CSS must be inline only for email client compatibility; bgcolor attributes must be duplicated for Outlook.",
-  "intent": "Ensure cross-client (especially Outlook) rendering fidelity.",
+  "rule_text": "All colors in code must be expressed as HEX; all sizing in px; use inline CSS only for email-client compatibility; and duplicate `bgcolor` attributes for Outlook.",
+  "intent": "Ensure cross-client email rendering compatibility.",
   "source": "design_bible",
   "doc_ref": "other_rules[2]",
   "group_id": "grp_lisraya_other_rules_02",
   "status": "active",
   "version": 1,
-  "summary": "Use HEX colors, px sizing; apply CSS inline only; duplicate bgcolor attributes for Outlook compatibility."
+  "summary": "Use HEX colors, px sizing, inline CSS for emails, and duplicate bgcolor attributes for Outlook compatibility."
 }

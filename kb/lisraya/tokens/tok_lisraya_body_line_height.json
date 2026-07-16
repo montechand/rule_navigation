@@ -6,15 +6,24 @@
   "key": "body.line_height",
   "value": {
     "default": {
-      "$ref": "tok_lisraya_line_height_min_body"
+      "$ref": "tok_lisraya_line_height_body_min"
+    },
+    "default_evidence": {
+      "quotes": [
+        "**Line height: minimum 150% for all body copy**",
+        "Line height: minimum 150% for all body copy"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
     },
     "variants": [
       {
+        "value": {
+          "$ref": "tok_lisraya_line_height_light_on_dark"
+        },
         "when": {
           "background_group": "dark"
-        },
-        "value": {
-          "$ref": "tok_lisraya_line_height_dark_bg"
         }
       }
     ]
@@ -24,7 +33,8 @@
   ],
   "aliases": [],
   "scope": "global",
-  "notes": "Line height \u2265150% for body; increase to 160% for light text on dark backgrounds.",
+  "audience": "dtp_patient",
+  "notes": "Body line height; increase to 160% for light-on-dark",
   "status": "active",
   "version": 1
 }

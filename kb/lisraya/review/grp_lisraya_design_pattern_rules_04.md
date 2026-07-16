@@ -14,34 +14,29 @@ doc_ref: `design_pattern_rules[4]`
 - Footnotes: noticeably smaller, clearly separated from primary data.
 ````
 
-## Extracted rules (6)
-
-### rule_lisraya_chart_container_structure
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=binding
-- rule_text: Charts and infographics must be clean, easy to scan, and consistent with the system. Container uses uniform rounded corners (chart.container.radius) with a Light Blue panel fill (chart.panel.fill) and a Brand Blue rounded header bar (chart.header.fill).
-- intent: Keep data visualizations visually consistent and legible within the brand system.
+## Extracted rules (5)
 
 ### rule_lisraya_chart_color_logic
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=exclusivity
-- rule_text: Chart color logic: Brand Blue and Sky Blue are dominant series colors (chart.series.dominant_color); Sunshine and Gold (chart.emphasis.color) are reserved for emphasis on key figures/data points only. Placebo/comparator series use neutral gray (chart.placebo.color).
-- intent: Direct viewer attention to key data using reserved emphasis colors while keeping dominant/comparator series neutral.
+- class=color_application scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=exclusivity
+- rule_text: Chart color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) dominant; Sunshine (#faa31b) and Gold (#ffc60a) reserved for emphasis on key figures/data points only. Placebo/comparator bars use neutral gray (chart.color.placebo = gray).
+- intent: Preserve a restrained, hierarchical chart palette that spotlights key data.
 
-### rule_lisraya_chart_bars_style
-- class=layout scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=binding
-- rule_text: Bars and chart icons must use rounded, approachable shapes (rounded bar tops), per chart.bars.style.
-- intent: Reinforce the warm, approachable brand tone in data visuals.
+### rule_lisraya_chart_container_construction
+- class=color_application scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=binding
+- rule_text: Chart containers are clean, easy to scan, and consistent with the system: a Light Blue (chart.container.fill = #E6F0F9) panel with uniform rounded corners (radius.chart.uniform = 12px) and a Brand Blue (chart.header.fill = #00529b) rounded header bar.
+- intent: Keep charts visually consistent with the brand system.
 
 ### rule_lisraya_chart_headline_treatment
-- class=typography scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=binding
-- rule_text: Chart headline uses Agenda (print) / Nunito Sans Bold+ (email) per chart.header.font, set ALL CAPS (chart.header.case), in Brand Blue (chart.header.color), with a thin Gold rule beneath (chart.header.rule_color).
-- intent: Standardize chart headers so they read as branded, scannable labels.
-
-### rule_lisraya_chart_stat_callout_style
 - class=typography scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=binding
-- rule_text: Statistical callouts are large and bold with the % figure as the hero; supporting copy sits beneath in a lighter weight (chart.stat_callout.style).
-- intent: Make key statistics the visual focal point of a chart.
+- rule_text: Chart headlines set in Agenda (print) / Nunito Sans Bold+ (email), ALL CAPS, Brand Blue (chart.headline.color = #00529b), with a thin Gold (chart.headline.rule_color = #ffc60a) rule beneath.
+- intent: Give chart headlines a consistent, recognizable brand treatment.
 
-### rule_lisraya_chart_footnote_treatment
-- class=typography scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=binding
-- rule_text: Chart footnotes are noticeably smaller (chart.footnote.size) and clearly separated from the primary data.
-- intent: Keep footnotes legible but visually subordinate and distinct from core data.
+### rule_lisraya_chart_rounded_bar_shapes
+- class=iconography scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=binding
+- rule_text: Bars and chart icons use rounded, approachable shapes with rounded bar tops (chart.bars.shape = rounded).
+- intent: Convey an approachable brand feel through rounded chart geometry.
+
+### rule_lisraya_chart_statistical_callout_hierarchy
+- class=typography scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=None
+- rule_text: Statistical callouts are large and bold — the % figure is the hero — with supporting copy in a lighter weight beneath. Footnotes are noticeably smaller and clearly separated from primary data.
+- intent: Establish clear visual hierarchy that spotlights the key statistic.
