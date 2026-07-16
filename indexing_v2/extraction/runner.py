@@ -40,7 +40,12 @@ from ..contracts import (
 )
 from .prompts import PromptTemplate, load_prompt
 
-STAGE_VERSION = "extraction-v2.1.0"
+STAGE_VERSION = "extraction-v2.1.1"
+# Cache keys deliberately do not track STAGE_VERSION: template_hash + content
+# hash already bust the cache whenever a prompt or its inputs change, so
+# code-only stage bumps can replay cached LLM responses instead of re-paying
+# the full extraction.
+CACHE_VERSION = "extraction-v2.1.0"
 
 DEFAULT_CACHE_ROOT = Path(__file__).resolve().parent.parent / "_cache"
 
@@ -216,7 +221,7 @@ def make_cache_key(
     content_hash: str,
 ) -> str:
     parts = [
-        STAGE_VERSION,
+        CACHE_VERSION,
         prompt_name,
         template_hash,
         variant.model,
@@ -597,6 +602,71 @@ def validate_rule_refs(
     return out
 
 
+def _token_ref_violations(
+    tokens: list[dict[str, Any]],
+    known_ids: set[str],
+) -> dict[str, list[str]]:
+    """Map token id -> unknown ``tok_`` ids referenced inside its value.
+
+    ponytail: scans every tok_-prefixed string in the value subtree (including
+    evidence quotes); brand documents never contain literal tok_ ids, so the
+    broad scan is safe and matches validate_rule_refs semantics.
+    """
+    out: dict[str, list[str]] = {}
+    for token in tokens:
+        refs: set[str] = set()
+        _scan_tok_refs(token.get("value"), refs)
+        unknown = sorted(refs - known_ids)
+        if unknown:
+            out[str(token.get("id", "?"))] = unknown
+    return out
+
+
+def _null_dangling_refs(value: Any, unknown: set[str]) -> Any:
+    """Replace any ``{"$ref": <unknown>}`` node with None, preserving the rest."""
+    if isinstance(value, dict):
+        ref = value.get("$ref")
+        if isinstance(ref, str) and ref in unknown:
+            return None
+        return {key: _null_dangling_refs(child, unknown) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_null_dangling_refs(child, unknown) for child in value]
+    return value
+
+
+def _apply_token_ref_fallback(
+    tokens: list[dict[str, Any]],
+    violations: dict[str, list[str]],
+) -> list[dict[str, Any]]:
+    """Terminal degrade: null dangling $refs and record them on the token."""
+    out: list[dict[str, Any]] = []
+    for raw_token in tokens:
+        unknown = set(violations.get(str(raw_token.get("id", "?")), ()))
+        if not unknown:
+            out.append(raw_token)
+            continue
+        token = dict(raw_token)
+        token["value"] = _null_dangling_refs(token.get("value"), unknown)
+        token["unresolved_refs"] = sorted(
+            set(token.get("unresolved_refs") or ()) | unknown
+        )
+        out.append(token)
+    return out
+
+
+def _token_ref_feedback(violations: Mapping[str, list[str]]) -> str:
+    lines = ["REFERENCE CONTRACT VIOLATIONS (fix and re-emit the FULL JSON):"]
+    lines.extend(
+        f"  token '{token_id}' references unknown ids: {', '.join(unknown)}"
+        for token_id, unknown in sorted(violations.items())
+    )
+    lines.append(
+        "Every $ref MUST target the exact id of a token you emitted (or a "
+        "PRIMITIVE TOKEN id printed above). Do not invent ids."
+    )
+    return "\n".join(lines)
+
+
 def _strip_unknown_refs(value: Any, unknown: set[str]) -> Any:
     if isinstance(value, dict):
         direct = {
@@ -752,20 +822,34 @@ async def _extract_tokens_for_variant(
         units=units_text,
         primitives=_token_lines(primitive_tokens),
     )
-    raw_semantics = await complete_json_cached(
-        client,
-        ctx_semantic,
-        rendered_a1b.system,
-        rendered_a1b.user,
-        usage,
-        force=force,
-    )
-    semantic_tokens = [
-        dict(token, kind="semantic")
-        for token in raw_semantics.get("tokens", [])
-        if isinstance(token, dict)
-    ]
-    return normalize_token_ids(brand, primitive_tokens, semantic_tokens)
+    feedback = ""
+    violations: dict[str, list[str]] = {}
+    normalized: tuple[list[dict[str, Any]], list[dict[str, Any]]] = ([], [])
+    for attempt in range(settings.REF_RETRIES + 1):
+        raw_semantics = await complete_json_cached(
+            client,
+            ctx_semantic,
+            rendered_a1b.system,
+            rendered_a1b.user + feedback,
+            usage,
+            force=force,
+            extra={"token_ref_retry": attempt} if attempt else None,
+        )
+        semantic_tokens = [
+            dict(token, kind="semantic")
+            for token in raw_semantics.get("tokens", [])
+            if isinstance(token, dict)
+        ]
+        normalized = normalize_token_ids(brand, primitive_tokens, semantic_tokens)
+        known_ids = {
+            str(token.get("id")) for bucket in normalized for token in bucket
+        }
+        violations = _token_ref_violations(normalized[1], known_ids)
+        if not violations:
+            return normalized
+        feedback = "\n\n" + _token_ref_feedback(violations)
+    norm_primitive, norm_semantic = normalized
+    return norm_primitive, _apply_token_ref_fallback(norm_semantic, violations)
 
 
 async def run_token_phase(
@@ -814,9 +898,23 @@ async def run_token_phase(
             )
         )
     reconciled = reconcile_tokens_only(verified, units, labels)
+    # Closure invariant: the frozen catalog must not contain a $ref whose
+    # target is absent (reconciliation can drop a referenced token even when
+    # every per-run output was closed). Dangling refs degrade deterministically
+    # via the same fallback the per-variant retry uses.
+    frozen_ids = {
+        str(token.get("id"))
+        for token in (*reconciled.tokens_primitive, *reconciled.tokens_semantic)
+    }
     payload = {
-        "tokens_primitive": reconciled.tokens_primitive,
-        "tokens_semantic": reconciled.tokens_semantic,
+        "tokens_primitive": _apply_token_ref_fallback(
+            reconciled.tokens_primitive,
+            _token_ref_violations(reconciled.tokens_primitive, frozen_ids),
+        ),
+        "tokens_semantic": _apply_token_ref_fallback(
+            reconciled.tokens_semantic,
+            _token_ref_violations(reconciled.tokens_semantic, frozen_ids),
+        ),
     }
     frozen = FrozenCatalog(
         **payload,

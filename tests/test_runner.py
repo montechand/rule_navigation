@@ -478,6 +478,143 @@ async def test_reference_terminal_fallback_moves_unknown_to_request(
     assert group.missing_token_requests[0]["for_rule_slug"] == "bad"
 
 
+class _TokenRefLLM:
+    """Primitive tok_x_spacing_a; semantic $ref dangles until `heal_at` calls."""
+
+    def __init__(self, heal_at: int | None) -> None:
+        self.heal_at = heal_at
+        self.calls: list[tuple[str, str | None, str]] = []
+
+    async def complete_json(
+        self,
+        model: str,
+        system: str,
+        user: str,
+        max_tokens: int = 16_000,
+        usage: Usage | None = None,
+        *,
+        prompt_name: str,
+        cache_key: str | None = None,
+    ) -> dict[str, Any]:
+        del model, system, max_tokens, usage
+        self.calls.append((prompt_name, cache_key, user))
+        if prompt_name == "tokens_primitive":
+            return {
+                "tokens": [
+                    {
+                        "id": "tok_x_spacing_a",
+                        "key": "spacing.a",
+                        "value": {
+                            "default": "8px",
+                            "default_evidence": {"unit_ids": ["u_x"], "quotes": ["8px"]},
+                        },
+                        "evidence": {"unit_ids": ["u_x"], "quotes": ["8px"]},
+                    }
+                ]
+            }
+        assert prompt_name == "tokens_semantic"
+        semantic_calls = sum(name == "tokens_semantic" for name, _, _ in self.calls)
+        healed = self.heal_at is not None and semantic_calls >= self.heal_at
+        ref = "tok_x_spacing_a" if healed else "tok_x_invented"
+        return {
+            "tokens": [
+                {
+                    "id": "tok_x_semantic_a",
+                    "key": "component.a",
+                    "token_type": "spacing",
+                    "value": {"default": {"$ref": ref}},
+                    "evidence": {"unit_ids": ["u_x"], "quotes": ["8px"]},
+                }
+            ]
+        }
+
+    async def chat(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+        raise AssertionError("chat not expected")
+
+
+_TOKEN_REF_UNIT = SourceUnit(
+    unit_id="u_x",
+    brand_id="x",
+    doc_ref="doc[0]",
+    ordinal=0,
+    start=0,
+    end=9,
+    kind="sentence",
+    text="A is 8px.",
+)
+
+
+@pytest.mark.asyncio
+async def test_token_ref_violation_retries_with_isolated_cache_key(
+    prompt_dir: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(runner.settings, "REF_RETRIES", 2)
+    llm = _TokenRefLLM(heal_at=2)
+    frozen = await runner.run_token_phase(
+        "x",
+        [
+            RunVariant(run_id="r0", model="fake"),
+            RunVariant(run_id="r1", model="fake", replicate=1),
+        ],
+        [_TOKEN_REF_UNIT],
+        [],
+        Usage(),
+        llm,
+        prompts_dir=prompt_dir,
+        cache_root=tmp_path / "cache",
+        work_dir=tmp_path / "work",
+    )
+    semantic_calls = [call for call in llm.calls if call[0] == "tokens_semantic"]
+    # r0: bad answer then healed retry; r1: healed first try.
+    assert len(semantic_calls) == 3
+    assert semantic_calls[0][1] != semantic_calls[1][1]
+    assert "REFERENCE CONTRACT VIOLATIONS" in semantic_calls[1][2]
+    (healed,) = frozen.tokens_semantic
+    assert healed["value"]["default"] == {"$ref": "tok_x_spacing_a"}
+    assert "unresolved_refs" not in healed
+
+
+@pytest.mark.asyncio
+async def test_token_ref_terminal_fallback_freezes_closed_catalog(
+    prompt_dir: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(runner.settings, "REF_RETRIES", 1)
+    llm = _TokenRefLLM(heal_at=None)
+    frozen = await runner.run_token_phase(
+        "x",
+        [
+            RunVariant(run_id="r0", model="fake"),
+            RunVariant(run_id="r1", model="fake", replicate=1),
+        ],
+        [_TOKEN_REF_UNIT],
+        [],
+        Usage(),
+        llm,
+        prompts_dir=prompt_dir,
+        cache_root=tmp_path / "cache",
+        work_dir=tmp_path / "work",
+    )
+    assert sum(name == "tokens_semantic" for name, _, _ in llm.calls) == 4
+    (degraded,) = frozen.tokens_semantic
+    assert degraded["value"]["default"] is None
+    assert degraded["unresolved_refs"] == ["tok_x_invented"]
+    # Closure invariant: nothing in the persisted catalog references a missing id.
+    frozen_ids = {
+        token["id"] for token in (*frozen.tokens_primitive, *frozen.tokens_semantic)
+    }
+    persisted = json.loads(
+        (tmp_path / "work" / "catalog_frozen.json").read_text(encoding="utf-8")
+    )
+    assert runner._token_ref_violations(
+        persisted["tokens_primitive"] + persisted["tokens_semantic"],
+        frozen_ids,
+    ) == {}
+
+
 def test_load_prompt_frontmatter_and_separator(tmp_path: Path) -> None:
     frontmatter = tmp_path / "with_meta.md"
     frontmatter.write_text(
