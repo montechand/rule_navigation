@@ -1,0 +1,100 @@
+{
+  "findings": [
+    {
+      "description": "Footnote assembly rules and placeholder usage (u_other_rules_2_0003) are grouped into section metadata or left dangling, but should be clustered cleanly into a dedicated footnote styling/assembly rule.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "split_rules": [
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_section_metadata_declaration",
+              "unit_ids": [
+                "u_other_rules_2_0002"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_footnote_token_assembly",
+              "unit_ids": [
+                "u_other_rules_2_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_section_metadata_declaration"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_section_metadata_declaration",
+      "unit_ids": [
+        "u_other_rules_2_0002",
+        "u_other_rules_2_0003"
+      ]
+    },
+    {
+      "description": "Missing governance facet rule for dark-background placement constraint (assembler responsibility to avoid adjacent dark sections).",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "assembly",
+          "description": "Dark-background sections must not be placed adjacent to other dark sections.",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_id": "rule_lisraya_dark_section_adjacency",
+          "unit_ids": [
+            "u_other_rules_2_0005"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_modular_section_layout",
+      "unit_ids": [
+        "u_other_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Missed rule for email client technical specifications (HEX colors, px sizing, inline CSS, and duplicated bgcolor for Outlook).",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "development",
+          "description": "All colors must be in HEX format, sizing in px, code must use inline CSS only, and bgcolor attributes must be duplicated for Outlook compatibility.",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_email_coding_specs",
+          "unit_ids": [
+            "u_other_rules_2_0006"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_2_0006"
+      ]
+    }
+  ]
+}

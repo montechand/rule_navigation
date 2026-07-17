@@ -1,0 +1,111 @@
+{
+  "assets": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "chart_and_table_corner_exception",
+      "key_proposal": "shape.chart.bar_top",
+      "quotes": [
+        "Bars and chart icons: rounded, approachable shapes (rounded bar tops)."
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_4_0003"
+      ],
+      "value": "rounded"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "infographic.container.background_color",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "infographic.container.border_radius",
+          "token_id": "tok_lisraya_radius_chart_panel"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Clean, easy to scan, consistent with the system. Container: uniform rounded corners, Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "id": "rule_lisraya_chart_and_table_corner_exception",
+      "rule_class": "layout",
+      "rule_text": "Charts and Infographics must scan cleanly and maintain system consistency. The container utilizes uniform rounded corners, styled as a Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar.",
+      "selector": {
+        "element_path": "infographic.container"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "infographic.chart.primary_color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "infographic.chart.secondary_color",
+          "token_id": "tok_lisraya_color_sky_blue"
+        },
+        {
+          "element_path": "infographic.chart.accent_color_primary",
+          "token_id": "tok_lisraya_color_sunshine"
+        },
+        {
+          "element_path": "infographic.chart.accent_color_secondary",
+          "token_id": "tok_lisraya_color_gold"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) dominant; Sunshine (#faa31b) and Gold (#ffc60a) reserved for emphasis on key figures/data points only. Placebo/comparator: neutral gray."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0002"
+        ]
+      },
+      "id": "rule_lisraya_chart_statistical_callouts",
+      "rule_class": "color_application",
+      "rule_text": "Color logic for infographics dictates that Brand Blue (#00529b) and Sky Blue (#358CCB) are dominant; Sunshine (#faa31b) and Gold (#ffc60a) are reserved strictly for emphasis on key figures and data points. Placebos or comparators are rendered in neutral gray.",
+      "selector": {
+        "element_path": "infographic.chart"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "Container: uniform rounded corners"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "id": "tok_lisraya_radius_chart_panel",
+      "key": "radius.infographic.panel",
+      "token_type": "radius",
+      "value": {
+        "default": "12px",
+        "default_evidence": {
+          "quotes": [
+            "Container: uniform rounded corners"
+          ],
+          "unit_ids": [
+            "u_design_pattern_rules_4_0001"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

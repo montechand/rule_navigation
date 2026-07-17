@@ -600,6 +600,9 @@ def validate_rule(raw: dict[str, Any], brand: str, group_id: str, doc_ref: str,
                   used_ids: set[str], catalog_ids: set[str], warns: Warnings,
                   section_vocab: list[str]) -> Optional[BrandRule]:
     slug = slugify(str(raw.get("slug") or raw.get("rule_text", "rule")[:40]))
+    # Backstop against rule_{brand}_rule_{brand}_* ids when an upstream id or
+    # id-derived rule_text leaks the prefix into slug derivation.
+    slug = slug.removeprefix(f"rule_{brand}_")
     rule_id = f"rule_{brand}_{slug}"
     n = 2
     while rule_id in used_ids:
@@ -1210,7 +1213,8 @@ def dedupe_tokens(tokens: dict[str, BrandToken], warns: Warnings) -> tuple[dict[
 # ---------------------------------------------------------------------------
 
 def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
-                relations: list[RuleRelation], section_vocab: list[str]) -> dict[str, Any]:
+                relations: list[RuleRelation], section_vocab: list[str],
+                tables: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     nodes: list[dict[str, Any]] = []
     edges: list[dict[str, Any]] = []
 
@@ -1277,6 +1281,19 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
     for ag in cat["asset_groups"].values():
         nodes.append({"id": ag.id, "kind": "asset_group", "label": ag.name})
 
+    for table in (tables or {}).values():
+        nodes.append({"id": table.id, "kind": "token_table", "label": table.name,
+                      "table_type": table.table_type, "scope": table.scope})
+        seen_tokens: set[str] = set()
+        for row in table.rows:
+            for token_id in row.token_ids:
+                if token_id in seen_tokens:
+                    continue
+                seen_tokens.add(token_id)
+                edges.append({"src": table.id, "dst": token_id, "type": "member_of_table"})
+        if table.umbrella_rule_id and table.umbrella_rule_id in rules:
+            edges.append({"src": table.id, "dst": table.umbrella_rule_id, "type": "bound_by"})
+
     for rel in relations:
         edges.append({"src": rel.src_rule_id, "dst": rel.dst_rule_id,
                       "type": rel.relation, "note": rel.note})
@@ -1291,7 +1308,8 @@ def build_graph(rules: dict[str, BrandRule], cat: dict[str, Any],
 def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
              groups: dict[str, RuleGroup], relations: list[RuleRelation],
              warns: Warnings, near_dupes: Optional[list[str]] = None,
-             rule_merge_notes: Optional[list[str]] = None) -> None:
+             rule_merge_notes: Optional[list[str]] = None,
+             tables: Optional[dict[str, Any]] = None) -> None:
     template_bodies: dict[str, str] = cat.get("template_bodies", {})
     section_vocab = get_registries().section_types(brand)
     root = config.kb_dir(brand)
@@ -1316,7 +1334,8 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
               "assets": len(cat["assets"]),
               "subtypes": len(cat["subtypes"]),
               "templates": len(cat["templates"]), "template_groups": len(cat["template_groups"]),
-              "rule_groups": len(groups), "asset_groups": len(cat["asset_groups"])}
+              "rule_groups": len(groups), "asset_groups": len(cat["asset_groups"]),
+              "token_tables": len(tables or {})}
     (schema_dir / "overview.md").write_text(schema_docs.overview_doc(brand, counts))
 
     # rules
@@ -1394,11 +1413,26 @@ def write_kb(brand: str, rules: dict[str, BrandRule], cat: dict[str, Any],
                             "file": tpl.file})
         (tpl_dir / "_index.json").write_text(json.dumps(tpl_idx, indent=2))
 
+    # token tables (E2): whole tables stored first-class under tables/
+    if tables:
+        tables_dir = root / "tables"
+        tables_dir.mkdir(exist_ok=True)
+        table_idx = []
+        for table in tables.values():
+            (tables_dir / f"{table.id}.json").write_text(
+                json.dumps(table.model_dump(exclude_none=True), indent=2))
+            table_idx.append({"id": table.id, "table_type": table.table_type,
+                              "name": table.name, "scope": table.scope,
+                              "rows": len(table.rows),
+                              "umbrella_rule_id": table.umbrella_rule_id,
+                              "doc_ref": table.doc_ref})
+        (tables_dir / "_index.json").write_text(json.dumps(table_idx, indent=2))
+
     # graph
     graph_dir = root / "graph"
     graph_dir.mkdir(exist_ok=True)
     (graph_dir / "graph.json").write_text(
-        json.dumps(build_graph(rules, cat, relations, section_vocab), indent=2))
+        json.dumps(build_graph(rules, cat, relations, section_vocab, tables=tables), indent=2))
 
     # review files
     review_dir = root / "review"

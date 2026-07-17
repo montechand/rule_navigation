@@ -1,0 +1,152 @@
+{
+  "findings": [
+    {
+      "description": "The three distinct callout style specifications (main, secondary/data, text-heavy) each carry substantive, independently governed formatting rules (colors, tints, padding px values, icon usage, layout collapse behavior) but are entirely unrepresented by any candidate rule. Only the exclusivity constraint from the heading was extracted; the actual style definitions were dropped, not merely under-clustered.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rules": [
+            {
+              "class": "layout",
+              "hardness": "hard",
+              "name": "main_callout_formatting",
+              "polarity": "must",
+              "source_units": [
+                "u_content_pattern_rules_6_0001"
+              ]
+            },
+            {
+              "class": "layout",
+              "hardness": "hard",
+              "name": "secondary_data_callout_formatting",
+              "polarity": "must",
+              "source_units": [
+                "u_content_pattern_rules_6_0002"
+              ]
+            },
+            {
+              "class": "layout",
+              "hardness": "hard",
+              "name": "text_heavy_callout_formatting",
+              "polarity": "must",
+              "source_units": [
+                "u_content_pattern_rules_6_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Missing relation: the exclusivity rule ('never two of the same style competing on one screen/section') inherently governs the set of three callout style rules, but since those rules were never created, no sibling/scope relation exists. Once split, the exclusivity rule should reference all three style rules as its governed set.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "relations": [
+            "main_callout_formatting",
+            "secondary_data_callout_formatting",
+            "text_heavy_callout_formatting"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_callout_style_exclusivity",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000",
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Cross-reference relation missed: secondary/data callout's corner radius explicitly defers to 'accent-shape rules §2.5', an external rule dependency. This relation is not captured because the rule itself was never extracted.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "note": "secondary_data_callout_formatting rule should carry a cross-reference relation to accent-shape rules §2.5 for corner radius."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "The exclusivity rule lacks governance facets present in source: scope is 'one screen/section' and the heading qualifies usage as discretionary ('use judiciously') alongside the hard exclusivity constraint. Neither the scope granularity nor the judiciousness caveat (which may indicate a softer companion guidance) is captured in the rule's payload.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "companion_guidance": "use judiciously (soft, should-level guidance) distinct from the hard must_not exclusivity constraint",
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "scope": "per screen/section"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_callout_style_exclusivity",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000"
+      ]
+    },
+    {
+      "description": "Each callout style unit contains [GENERAL] tagged technical specifications (rule weight, padding px, corner radius reference, column collapse behavior) which represent distinct governance-level measurement standards that should be tagged/attached as facets on the respective new rules rather than left implicit in free text.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "facets": {
+            "measurement_specs": "attach [GENERAL] padding/rule-weight/corner-radius/collapse specs as structured facets per style rule"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_06"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    }
+  ]
+}

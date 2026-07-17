@@ -1,0 +1,140 @@
+{
+  "findings": [
+    {
+      "description": "Rule is classed color_application only but the source unit bundles distinct layout specs (2px rule weight, 60-100% rule width, 16px padding) with the color/typography directive. These are separable governance facets (color vs. spacing/layout) that get lost under a single color_application class.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rule_class": "layout",
+          "note": "extract rule-weight/width/padding spec into a layout-class rule linked to rule_lisraya_main_callout_style"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_main_callout_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_main_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "Secondary callout rule bundles box-tint/color directive (must) with a general internal padding spec and a cross-referenced corner-radius rule, both layout concerns, under color_application class only.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rule_class": "layout",
+          "note": "extract 20px padding + corner-radius reference into separate layout rule"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_secondary_data_callout_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_secondary_data_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "'corner radius per accent-shape rules §2.5' is an explicit cross-document governance reference that is not captured as a relation to any accent-shape rule group; the dependency is silently dropped.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "related_rule_ref": "accent-shape rules §2.5",
+          "relation": "depends_on"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_secondary_data_callout_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_secondary_data_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "Source says icon inclusion is optional ('may include one line icon') but the rule is flagged with blanket polarity=must, conflating the mandatory color/box spec with an optional icon element.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "note": "add optional/may sub-facet for icon usage distinct from must polarity on box/text color"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_secondary_data_callout_style"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_secondary_data_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "Text-heavy callout rule mixes multiple mandatory color/typography directives (headline, subhead, body colors) plus a responsive layout rule (two-column collapsing to single column on mobile) under one color_application rule, obscuring the distinct scope (desktop vs mobile) of the layout clause.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rule_class": "layout",
+          "note": "extract responsive column-layout clause with explicit mobile/desktop scope"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_text_heavy_callout_style"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_text_heavy_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Rule is classed as layout, but the source clause ('never two of the same style competing on one screen/section') is a usage/governance constraint on style selection frequency, not a spatial/layout spec; class mismatch may misroute this rule in layout-specific validation.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "usage_governance",
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_callout_style_exclusivity",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000"
+      ]
+    }
+  ]
+}

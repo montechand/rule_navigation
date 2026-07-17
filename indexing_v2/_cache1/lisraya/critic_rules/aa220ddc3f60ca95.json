@@ -1,0 +1,54 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules for this design pattern blob have not been registered yet, leaving the source units completely unmapped. The entire iconography specification should be ingested as brand rules.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "brand": "lisraya",
+          "doc_ref": "design_pattern_rules[5]",
+          "rules": [
+            {
+              "content": "New and existing icons must use a minimal line illustration style, characterized by consistent stroke weights, rounded line caps, and single-color line work.",
+              "governance": "compliance",
+              "rule_id": "r_lisraya_icon_style",
+              "severity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_5_0001"
+              ]
+            },
+            {
+              "content": "Icon colors and backgrounds must only be adjusted within the permitted brand palette.",
+              "governance": "compliance",
+              "rule_id": "r_lisraya_icon_color",
+              "severity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_5_0002"
+              ]
+            },
+            {
+              "content": "Icons must maintain high contrast for low-vision audiences, with a minimum render size of 32x32px in email clients, defaulting to Brand Blue strokes on light backgrounds.",
+              "governance": "compliance",
+              "rule_id": "r_lisraya_icon_accessibility",
+              "severity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_5_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001",
+        "u_design_pattern_rules_5_0002",
+        "u_design_pattern_rules_5_0003"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "add_governance": {
+      "approved_verification_method": "WebAIM contrast checker or equivalent",
+      "standard": "WCAG AA",
+      "thresholds": {
+        "body_text": "4.5:1",
+        "large_text": "3:1",
+        "large_text_definition": ">=24px, or >=19px bold"
+      },
+      "verification_required": true,
+      "verification_scope": "every text/background pair"
+    },
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "doc_ref": "color_scheme_rules[4]",
+    "effect": null,
+    "effect_evidence": null,
+    "evaluation_scope": "element",
+    "evidence": {
+      "quotes": [
+        "**Avoid:** Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only.",
+        "Known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy.",
+        "Known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy. **Avoid:** Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "medium",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 1.0,
+        "effect": 1.0,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 0.5,
+        "scope": 1.0,
+        "selector": 0.5,
+        "slug": 1.0,
+        "snippets": 1.0,
+        "tags": 0.5
+      },
+      "runs": 3,
+      "support": 2
+    },
+    "governance": null,
+    "group_id": "grp_lisraya_color_scheme_rules_04",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_approved_and_prohibited_text_color_pairs",
+    "intent": "Preserve approved readable color pairings and prevent known contrast failures.",
+    "polarity": "must_not",
+    "precedence": 0,
+    "rule_class": "color_application",
+    "rule_text": "Use known-safe text/background pairs: Brand Blue (#00529b), Deep Blue (#003d74), Dark Navy (#011e45), or Graphite (#212121) on White (#ffffff), Light Blue (#e6f0f9), or Golden Sand (#fef1c8); and White (#ffffff) on Brand Blue (#00529b), Deep Blue (#003d74), or Dark Navy (#011e45). Do not use Gold (#ffc60a) or Sunshine (#faa31b) text on White (#ffffff), because these fail contrast; these gold tones are reserved for surfaces, rules, and large display emphasis only.",
+    "scope": "org_baseline",
+    "selector": {
+      "element_path": "text.background_pair",
+      "section_types": null
+    },
+    "slug": "approved_and_prohibited_text_color_pairs",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "accessibility"
+    ]
+  }
+]

@@ -1,0 +1,232 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "gradient_palette_locked",
+      "key_proposal": "gradient.background.brand_blue_dark_navy",
+      "quotes": [
+        "`#00529b` → `#011E45`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0003"
+      ],
+      "value": "#00529b → #011E45"
+    },
+    {
+      "for_rule_slug": "gradient_palette_locked",
+      "key_proposal": "gradient.background.sky_blue_deep_blue",
+      "quotes": [
+        "`#358CCB` → `#003D74`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0004"
+      ],
+      "value": "#358CCB → #003D74"
+    },
+    {
+      "for_rule_slug": "gradient_palette_locked",
+      "key_proposal": "gradient.background.sunshine_gold75",
+      "quotes": [
+        "`#faa31b` → Gold @75%"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0005"
+      ],
+      "value": "#faa31b → Gold @75%"
+    },
+    {
+      "for_rule_slug": "gradient_palette_locked",
+      "key_proposal": "gradient.background.golden_sand_white_lightblue",
+      "quotes": [
+        "`#FEF1C8` → `#ffffff` → `#E6F0F9`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0006"
+      ],
+      "value": "#FEF1C8 → #ffffff → #E6F0F9"
+    },
+    {
+      "for_rule_slug": "gradient_palette_locked",
+      "key_proposal": "gradient.background.golden_sand_gold75_sunshine",
+      "quotes": [
+        "`#FEF1C8` → Gold @75% → `#faa31b`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0007"
+      ],
+      "value": "#FEF1C8 → Gold @75% → #faa31b"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "gradient_palette_locked",
+      "note": "Direction rule applies within the closed gradient set defined by the palette lock.",
+      "relation": "refines",
+      "src_slug": "gradient_orientation_direction"
+    },
+    {
+      "dst_slug": "gradient_palette_locked",
+      "note": "Adds a logo-contrast requirement specific to the masthead gradient within the approved set.",
+      "relation": "refines",
+      "src_slug": "masthead_gradient_logo_placement"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "the approved gradient set defined in the Gradient Specifications table (Brand Blue → Dark Navy, Sky Blue → Deep Blue, Sunshine → 75% Gold, Golden Sand → White → Light Blue, Golden Sand → 75% Gold → Sunshine, Sunshine → light gold masthead gradient)",
+        "subject": "background/section gradient fills"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "never invent gradients",
+          "Approved values only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0000",
+          "u_color_scheme_rules_3_0010"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "never invent gradients",
+          "Dark backgrounds, blue masthead/waves",
+          "Blue backgrounds, waves",
+          "Warm backgrounds",
+          "Soft light backgrounds",
+          "Warm light-to-saturated backgrounds",
+          "Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end",
+          "Approved values only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0000",
+          "u_color_scheme_rules_3_0003",
+          "u_color_scheme_rules_3_0004",
+          "u_color_scheme_rules_3_0005",
+          "u_color_scheme_rules_3_0006",
+          "u_color_scheme_rules_3_0007",
+          "u_color_scheme_rules_3_0008",
+          "u_color_scheme_rules_3_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve brand consistency by restricting gradient usage to a closed, pre-approved palette.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Only the approved gradient set (e.g., Brand Blue → Dark Navy #00529b → #011E45 for dark backgrounds/blue masthead/waves, Sky Blue → Deep Blue #358CCB → #003D74 for blue backgrounds/waves, Sunshine → 75% Gold #faa31b → Gold@75% for warm backgrounds, Golden Sand → White → Light Blue #FEF1C8 → #ffffff → #E6F0F9 for soft light backgrounds, Golden Sand → 75% Gold → Sunshine #FEF1C8 → Gold@75% → #faa31b for warm light-to-saturated backgrounds, and the Sunshine → light gold #faa31b → #ffe05c masthead gradient) may be used as backgrounds, combined with the wave graphic, and with the LISRAYA logo mark. New gradients or unlisted color combinations must never be invented.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "gradient_palette_locked",
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "dark/saturated stop (left)",
+          "light stop (right)"
+        ],
+        "strict": true
+      },
+      "effect_evidence": {
+        "quotes": [
+          "dark/saturated → light, left → right as shown"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0009"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Gradients run horizontally in masthead/banner applications (dark/saturated → light, left → right as shown)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0009"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Ensure consistent visual direction of gradients across masthead and banner treatments.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "In masthead/banner applications, approved gradients run horizontally, progressing from the dark/saturated stop on the left to the light stop on the right, matching the direction shown in the approved gradient table.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient.direction",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "gradient_orientation_direction",
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "masthead.gradient",
+          "token_id": "tok_lisraya_masthead_gradient"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0008"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Guarantee sufficient contrast and legibility for the logo mark against its gradient background.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "color_application",
+      "rule_text": "The masthead gradient (Sunshine → light gold, #faa31b → #ffe05c) is the required gradient for use behind the LISRAYA logo mark, providing contrast; the logo mark must sit at the lightest end of the gradient.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "masthead.gradient",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "masthead_gradient_logo_placement",
+      "tags": [
+        "imagery"
+      ]
+    }
+  ]
+}

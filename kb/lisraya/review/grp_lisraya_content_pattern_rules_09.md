@@ -11,19 +11,14 @@ doc_ref: `content_pattern_rules[9]`
 - Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the **locked header/footer components — never reproduce in sections.**
 ````
 
-## Extracted rules (3)
+## Extracted rules (2)
 
-### rule_lisraya_clinical_claims_footnotes
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=pairing governance=regulatory/requires_qualifier
-- rule_text: Clinical claims must be paired with footnote markers (†) and their corresponding footnote text, which must be clearly separated and noticeably smaller.
-- intent: Maintain medical accuracy and clear distinction between clinical claims and supporting footnotes.
+### rule_lisraya_clinical_claim_footnotes
+- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=None governance=mlr_claim/requires_qualifier
+- rule_text: Clinical claims require a footnote marker (†); the corresponding footnote text must be clearly separated and noticeably smaller than the claim text.
+- intent: Ensure clinical claims carry their required supporting footnote treatment.
 
-### rule_lisraya_locked_header_footer_isolation
-- class=assembly scope=org_baseline hardness=hard_constraint polarity=must_not sections=['top_matter', 'end_matter'] constraint=exclusivity governance=legal/forbidden
-- rule_text: Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI must only live in the locked header/footer components and must never be reproduced in content sections.
-- intent: Protect regulatory boilerplate and corporate branding structures from fragmentation or repetition in the body.
-
-### rule_lisraya_patient_quotes_pairing
-- class=copy_editorial scope=brand hardness=strong_default polarity=must sections=['patient_story'] constraint=pairing
-- rule_text: Patient quotes must be formatted as `- [Name], LISRAYA patient` (in italic or otherwise distinguished styling) and paired alongside warm lifestyle imagery.
-- intent: Ensure consistent attribution format and layout pairing for real-world patient testimonials.
+### rule_lisraya_legal_content_reserved_for_locked_header_footer
+- class=assembly scope=brand hardness=hard_constraint polarity=must_not sections=['top_matter', 'end_matter'] constraint=exclusivity governance=legal/forbidden
+- rule_text: The Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI are reserved for locked header/footer components and must never be reproduced in sections.
+- intent: Protect locked legal and product-information content from unauthorized sectional duplication.

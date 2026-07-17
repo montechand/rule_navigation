@@ -1,0 +1,293 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "gradient_callout_cta_layout",
+      "key_proposal": "size.cta.gradient_button_248x64",
+      "quotes": [
+        "Size 248 × 64px."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ],
+      "value": "248 × 64px"
+    },
+    {
+      "for_rule_slug": "gradient_callout_background_asset_locked",
+      "key_proposal": "asset.imagery.gradient_callout_png",
+      "quotes": [
+        "asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ],
+      "value": "https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "gradient_callout_cta_layout",
+      "note": "Skip procedure preserves the core layout/color styling defined in the base layout rule.",
+      "relation": "refines",
+      "src_slug": "gradient_callout_background_skip_procedure"
+    },
+    {
+      "dst_slug": "gradient_callout_cta_layout",
+      "note": "Signature radius is always applied to the CTA button in the layout, persisting even when background is skipped.",
+      "relation": "co_applies",
+      "src_slug": "gradient_callout_button_signature_radius"
+    },
+    {
+      "dst_slug": "gradient_callout_cta_layout",
+      "note": "Locks the specific background asset used by the layout and defines skip conditions.",
+      "relation": "refines",
+      "src_slug": "gradient_callout_background_asset_locked"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta.section.padding",
+          "token_id": "tok_lisraya_padding_cta_section"
+        },
+        {
+          "element_path": "cta.section.background_fallback",
+          "token_id": "tok_lisraya_color_primary_sunshine"
+        },
+        {
+          "element_path": "cta.headline.color",
+          "token_id": "tok_lisraya_color_primary_brand_blue"
+        },
+        {
+          "element_path": "cta.headline.font",
+          "token_id": "tok_lisraya_font_body"
+        },
+        {
+          "element_path": "cta.headline.weight",
+          "token_id": "tok_lisraya_weight_nunito_extrabold"
+        },
+        {
+          "element_path": "cta.headline.padding",
+          "token_id": "tok_lisraya_padding_gradient_cta_headline"
+        },
+        {
+          "element_path": "cta.button.fill",
+          "token_id": "tok_lisraya_color_secondary_deep_blue"
+        },
+        {
+          "element_path": "cta.button.label.color",
+          "token_id": "tok_lisraya_cta_button_label_color"
+        },
+        {
+          "element_path": "cta.button.arrow.color",
+          "token_id": "tok_lisraya_color_button_gold_arrow"
+        },
+        {
+          "element_path": "cta.button.arrow.size",
+          "token_id": "tok_lisraya_size_cta_arrow"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Always set a solid `background-color` of Sunshine `#faa31b` as fallback",
+          "**Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "A full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.",
+          "the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback",
+          "**Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "**Button** → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0002",
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Preserve the locked composition and color treatment of the branded gradient CTA banner.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "cta",
+      "rule_text": "The Gradient Callout CTA is a full-width banner with a headline and a single button, both horizontally centered and stacked over the branded orange/yellow gradient image. The gradient PNG is the section background, sized cover, no-repeat, centered, spanning full content width (600px); a solid Sunshine (#faa31b) background-color is always set as fallback since clients like Outlook drop background images. Section padding is 48px 25px 56px 25px. The headline is Brand Blue (#00529b), centered in the top third, Nunito Sans weight 800 (ExtraBold), ~28px, one line, with headline padding 0 0 32px 0. The button is centered in the lower-middle below the headline: fill Deep Blue (#003D74), white label (Nunito Sans 800, 18px), with a Gold (#FFC20E) arrow '›' (24px) after two non-breaking spaces; button size 248 × 64px.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.section.gradient_callout",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_cta_layout",
+      "snippets": "<mj-section\n    background-url=\"https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png\"\n    background-size=\"cover\"\n    background-repeat=\"no-repeat\"\n    background-position=\"center center\"\n    background-color=\"#faa31b\"\n    padding=\"48px 25px 56px 25px\">",
+      "snippets_evidence": {
+        "quotes": [
+          "background-color=\"#faa31b\"\n    padding=\"48px 25px 56px 25px\">"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "layout",
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "do not re-host or recolor. The background may be skipped **only in very, very rare cases** (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, the section still renders on a solid Sunshine `#faa31b` fill and every other rule stays identical."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent re-hosting/recoloring of the approved gradient asset and preserve fallback behavior.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "The gradient callout background asset is the specific Gradient_callout.png hosted at the Solstice design_library URL — do not re-host or recolor it. The background image may be skipped only in very, very rare cases (plain-text/AMP fallback, a client that strips all images, a hard size budget); when skipped, the section still renders on a solid Sunshine (#faa31b) fill and every other rule stays identical.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.section.background_url",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_background_asset_locked",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "assembly",
+        "cta"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta.button.radius",
+          "token_id": "tok_lisraya_radius_cta_signature"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "`border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**Button radius (mandatory, never change):** `border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped.",
+          "Never simplify it to a single value, swap the corners, or round the decimals."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0011"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Protect the signature asymmetric CTA button shape as an unbreakable brand mark.",
+      "polarity": "must",
+      "precedence": 10,
+      "rule_class": "cta",
+      "rule_text": "The button radius is the signature four-value asymmetric shape border-radius: 49.52px 1.76px 40px 1.76px (radius.cta.signature_asymmetric) and is mandatory and never changed — always required on every instance, even when the background is skipped. Never simplify it to a single value, swap the corners, or round the decimals.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button.radius",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_button_signature_radius",
+      "snippets": "border-radius:49.52px 1.76px 40px 1.76px;",
+      "snippets_evidence": {
+        "quotes": [
+          "border-radius:49.52px 1.76px 40px 1.76px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure image-skip fallbacks preserve the fallback fill and all core styling.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "If the background must be skipped, remove only background-url, background-size, background-repeat, and background-position — keep background-color=\"#faa31b\" (Sunshine) and the headline color, button color, and button radius exactly as specified.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.section.background",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_background_skip_procedure",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "cta",
+        "color_application"
+      ]
+    }
+  ]
+}

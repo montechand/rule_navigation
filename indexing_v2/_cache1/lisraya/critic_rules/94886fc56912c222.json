@@ -1,0 +1,133 @@
+{
+  "findings": [
+    {
+      "description": "u0001 defines a distinct, non-trivial rule (headline/heading title-case capitalization with detailed part-of-speech guidance and example) that has no corresponding rule in the candidate set. It is silently dropped from clustering, leaving a governance gap for the most common headline style.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "doc_ref": "content_pattern_rules[2]",
+          "example": "LISRAYA Targets the Root Cause of Dermatomyositis",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "hardness": "strong_default",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_headline_title_case",
+          "statement": "Headlines/headings use initial caps (title case): capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_2_0001"
+      ]
+    },
+    {
+      "description": "u0003 (chart/infographic headlines: ALL CAPS, specific typefaces per channel) is a separate rule scope (chart/infographic only, not general headlines or the named campaign) but is not represented by any candidate rule. It risks being conflated with rule_lisraya_campaign_headline_all_caps or lost entirely.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_chart_infographic_headline_all_caps",
+          "scope": "chart/infographic headlines only",
+          "statement": "Chart/infographic headlines are set in ALL CAPS, using Agenda (print) or Nunito Sans Bold+ (email fallback)."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003"
+      ]
+    },
+    {
+      "description": "u0005's phrase 'other than the cases above' establishes an explicit exception relation to the campaign-headline ALL CAPS rule and the chart/infographic ALL CAPS rule. This relation is not captured; the general prohibition rule should reference/except these two rules to avoid appearing self-contradictory.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "relations": [
+            {
+              "target": "rule_lisraya_campaign_headline_all_caps",
+              "type": "exception_to"
+            },
+            {
+              "target": "rule_lisraya_chart_infographic_headline_all_caps",
+              "type": "exception_to"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_all_caps_body_buttons_subheads"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_no_all_caps_body_buttons_subheads",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003",
+        "u_content_pattern_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Rule lacks a scope facet restricting it to the single named campaign headline 'YOU DESERVE MORE' and omits the cross-reference to section 1.6 present in the source, making the rule read as broader than intended.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "reference": "section 1.6",
+          "scope": "campaign headline 'YOU DESERVE MORE' only"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_all_caps"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_campaign_headline_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "Body copy sentence-case is stated plainly in u0004 but is reinforced as an absolute prohibition (must_not use ALL CAPS for body copy) in u0005 [GENERAL]. Given the paired hard_constraint/must_not rule enforces this without exception, classifying the positive rule as only 'strong_default' understates its actual hardness; should likely be hard_constraint/must to match the paired negative rule.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "hardness": "hard_constraint"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_copy_sentence_case"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_body_copy_sentence_case",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0004",
+        "u_content_pattern_rules_2_0005"
+      ]
+    }
+  ]
+}

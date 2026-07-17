@@ -268,7 +268,9 @@ def value_patterns(token_type: str, canon: str) -> list[re.Pattern[str]]:
         return [re.compile(re.escape(canon))]
     if key in _GRADIENT_TYPES:
         return [re.compile(re.escape(canon))]
-    if key in _ENUM_STRING_TYPES:
+    # "other"/"other.*" values are enum-normalized (spaces -> underscores) by
+    # normalize_value, so their patterns must accept the original separators too.
+    if key in _ENUM_STRING_TYPES or key == "other" or key.startswith("other."):
         words = [re.escape(word) for word in canon.split("_") if word]
         joined = r"[\s_-]+".join(words)
         return [re.compile(rf"(?<!\w){joined}(?!\w)", re.IGNORECASE)]

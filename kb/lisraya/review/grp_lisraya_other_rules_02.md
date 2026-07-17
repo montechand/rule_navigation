@@ -14,24 +14,14 @@ doc_ref: `other_rules[2]`
 - All colors in code as HEX; all sizing in px; inline CSS only (email client compatibility); `bgcolor` attributes duplicated for Outlook.
 ````
 
-## Extracted rules (4)
+## Extracted rules (2)
 
-### rule_lisraya_email_compatibility_coding_standards
+### rule_lisraya_email_code_compatibility_conventions
 - class=assembly scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=None
-- rule_text: All CSS styling must be inline. All background colors must use the 'bgcolor' attribute duplicated directly on table elements for Outlook support. All colors must be written in HEX code and all sizing/dimensions defined in px.
-- intent: Guarantee robust, pixel-perfect rendering across legacy and modern email clients.
+- rule_text: For email-client compatibility, code all colors as HEX and all sizing in px, use inline CSS only, and duplicate background colors in `bgcolor` attributes for Outlook.
+- intent: Maintain consistent rendering across email clients, including Outlook.
 
-### rule_lisraya_locked_components_isolation
-- class=assembly scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=exclusivity
-- rule_text: Sections adjacent to locked components (header, footer, ISI) must not include decorative or graphic elements that rely on continuous flow or visually depend on the adjacent locked component's design.
-- intent: Maintain modularity and visual safety across arbitrary modular arrangements.
-
-### rule_lisraya_modular_section_layout
-- class=layout scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Each section is a self-contained layout block fixed at 600px (dimension.canvas.width = "600px") with its own top/bottom 32px padding (padding.section.vertical = "32px"). No margins are permitted outside the section block to ensure clean, direct stacking.
-- intent: Maintain robust structure and consistent vertical rhythm across standard stacked email sections.
-
-### rule_lisraya_section_metadata_declaration
+### rule_lisraya_modular_section_assembly_and_metadata
 - class=assembly scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=None
-- rule_text: Section metadata must declare: background color, whether the section establishes 'dermatomyositis (DM)', footnote symbols consumed, and whether it contains a CTA. Standardized placeholder tokens (e.g., '{{fn1}}') must be used rather than hard-coded symbols to avoid collisions upon assembly.
-- intent: Enable dynamic, conflict-free dynamic footnote mapping and correct layout validation.
+- rule_text: Email sections are self-contained table-based blocks using the email canvas width (size.canvas.email_width = 600px) and section vertical padding (padding.section.vertical = 32px). Sections have no external margins and are assembled by direct stacking. Section metadata must declare its background color, whether it establishes dermatomyositis (DM), consumed footnote symbols, and CTA presence. Footnotes are superscripted and assigned in order of appearance at assembly time; sections use placeholder tokens rather than hard-coded daggers when multiple referenced claims occur. Core-team locked header, footer, and ISI components are inserted separately, so adjacent sections must not contain decorative elements visually dependent on those locked components. Assemblers must not place dark-background sections next to other dark-background sections.
+- intent: Enable safe modular email assembly, collision-free footnotes, and reliable component adjacency.

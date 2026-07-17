@@ -1,0 +1,86 @@
+{
+  "findings": [
+    {
+      "description": "This rule conflates two distinct requirements from the same bullet: (1) the textual attribution format/styling for patient quotes ('- [Name], LISRAYA patient', italic/distinguished styling) which is copy_editorial, and (2) a pairing requirement with 'warm lifestyle imagery', which is a visual/assembly-level constraint about accompanying imagery, not copy editorial styling. Bundling them under one copy_editorial rule obscures the imagery-pairing obligation and risks it being dropped or mis-governed under editorial review only.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_patient_quote_attribution_style",
+              "polarity": "must",
+              "statement": "Patient quotes must be attributed as '- [Name], LISRAYA patient' with italic or otherwise visually distinguished styling."
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_patient_quote_imagery_pairing",
+              "polarity": "must",
+              "statement": "Patient quotes must be paired with warm lifestyle imagery."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_quote_attribution_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_patient_quote_attribution_style",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    {
+      "description": "The source unit cites a specific governance reference (§1.2) tying the footnote-marker requirement to a numbered policy/regulatory clause. The clustered rule does not appear to carry this citation/governance facet, so downstream consumers lose traceability to the source policy section that justifies the hard_constraint hardness.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "citation": "§1.2",
+          "doc_ref": "content_pattern_rules[9]",
+          "governance_note": "Add explicit citation field referencing §1.2 as the sourcing clause for footnote marker requirement.",
+          "group_id": "grp_lisraya_content_pattern_rules_09"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claim_footnote_markers"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claim_footnote_markers",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    },
+    {
+      "description": "The unit specifies two sub-requirements: (a) clinical claims require footnote markers (†), and (b) the footnote text itself must be 'clearly separated and noticeably smaller' — a typographic/layout constraint distinct from the marker-insertion requirement. Currently folded into one copy_editorial rule, the typographic sizing/separation requirement risks being scoped only to 'editorial' review rather than also flagged for layout/design QA, understating its cross-functional scope.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "scope_note": "Extend scope to include layout/design QA in addition to copy_editorial, since footnote text separation and smaller sizing is a typographic/layout requirement, not purely editorial."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claim_footnote_markers"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claim_footnote_markers",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    }
+  ]
+}

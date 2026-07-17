@@ -1,0 +1,126 @@
+{
+  "findings": [
+    {
+      "description": "u_0004 (parent company sign-off lives in locked footer; do not add in sections) has no corresponding candidate rule at all — an entire compliance/governance statement about footer placement and prohibition on duplicating sign-off in body sections is missing from the cluster.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_parent_company_footer_placement",
+          "polarity": "must_not",
+          "scope": "all written materials",
+          "text": "Do not add the parent company (Priovant Therapeutics, Inc.) sign-off within document sections; it must only appear in the locked footer."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_0_0004"
+      ]
+    },
+    {
+      "description": "Rule captures the ALL CAPS requirement but omits governance facets: (1) explicit scope restriction to 'patient marketing' materials, and (2) the supersedes relation to the Feb 2026 general guide's title-case rule, which is a key precedence/override fact.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "relation_type": "overrides",
+          "scope": "patient marketing materials",
+          "supersedes": "feb_2026_general_guide_title_case_rule"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_name_all_caps"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_name_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001"
+      ]
+    },
+    {
+      "description": "This single rule conflates four distinct governance facets from one source unit: (a) conditional inclusion of ® only when generic name present, (b) placement restriction to first/most prominent mention only, (c) scope restriction to external-facing documents only, and (d) an explicit must_not constraint against repeating ® on subsequent mentions. The negative constraint (do not repeat) has opposite polarity to the rest and is being silently absorbed into a single 'must' rule, obscuring a distinct compliance obligation.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "new_rules": [
+            {
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_trademark_symbol_first_mention",
+              "polarity": "must",
+              "scope": "external-facing documents only, first/most prominent mention only",
+              "text": "Include ® only when generic name is included, on first/most prominent mention, in external-facing documents only."
+            },
+            {
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_trademark_symbol_no_repeat",
+              "polarity": "must_not",
+              "scope": "external-facing documents only",
+              "text": "Do not repeat ® on subsequent mentions after the first/most prominent mention."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_trademark_symbol_generic_name_pairing"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_trademark_symbol_generic_name_pairing",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    {
+      "description": "Missed relation: the generic name format rule (lowercase, parenthetical) is directly referenced and required by the trademark symbol pairing rule (® applies only when generic name is included, e.g., LISRAYA® (brepocitinib)). These two rules are dependent/co-occurring but no relation is recorded between them.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "related_rule": "rule_lisraya_trademark_symbol_generic_name_pairing",
+          "relation_type": "co_dependent"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_generic_name_format",
+          "rule_lisraya_trademark_symbol_generic_name_pairing"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_generic_name_format",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0003",
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    {
+      "description": "No scope facet recorded (e.g., whether this format applies to all materials or only external-facing ones like the adjacent trademark rule); ambiguous scope could cause inconsistent enforcement.",
+      "finding_id": "f_lisraya_0005",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_generic_name_format",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0003"
+      ]
+    }
+  ]
+}

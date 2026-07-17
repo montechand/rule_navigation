@@ -1,0 +1,79 @@
+{
+  "findings": [
+    {
+      "description": "Unit 0002 (images must be housed in the Accent shape — asymmetric rounded-corner crops, not plain rectangles or circles) is not represented by any candidate rule in this group. This is a distinct hard scope/shape constraint referencing §2.5 and is missing entirely from the cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_name": "rule_lisraya_image_accent_shape_crop",
+          "source_units": [
+            "u_design_pattern_rules_2_0002"
+          ],
+          "statement": "Images must be housed in the Accent shape (asymmetric rounded-corner crops); plain rectangles or circles are prohibited."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "Alt text rule is flagged as a 'brand accessibility rule' but lacks governance facets (e.g., compliance standard reference such as WCAG, enforcement owner, or review cadence) expected for accessibility/compliance-class rules.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_governance": {
+            "compliance_basis": "accessibility",
+            "enforcement": "required_review",
+            "standard_ref": "WCAG (implied by brand accessibility rule)"
+          },
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_image_alt_text_required"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_image_alt_text_required",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Hardness set to strong_default but source text uses definitive descriptive language ('warm, realistic patient lifestyle imagery' as the defining style, not merely a fallback default) with no alternative offered elsewhere in the unit, suggesting this may warrant hard_constraint rather than strong_default; verify against broader imagery guidelines.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_photography_warm_lifestyle_treatment",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    },
+    {
+      "description": "This rule is thematically tied to the Accent shape/photography housing rules (all under 'Image Treatment' heading) but is clustered independently while a related shape rule (u_0002) is omitted — suggests the group's image-treatment rules should be reviewed together for completeness rather than partial extraction.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_waves_gradients_overlay_photography",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0003"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "findings": [
+    {
+      "description": "The requirement to test contrast levels using webaim.com or equivalent to meet WCAG AA standards (4.5:1 for body, 3:1 for large text) is completely missing from the candidate rules list.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "governance_facets": [
+            "WCAG AA Compliance"
+          ],
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "scope": "digital_accessibility",
+          "text": "Test all text and background pairs using webaim.com or equivalent to ensure compliance with WCAG AA minimum standards (4.5:1 for body text, 3:1 for large text >=24px or 19px bold)."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ]
+    },
+    {
+      "description": "Specific color combination restrictions, specifically the prohibition of Gold or Sunshine text on White (due to contrast failure) and their restriction to surfaces, rules, and large display emphasis, are missing.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "governance_facets": [
+            "Brand Identity Guidelines"
+          ],
+          "hardness": "mandatory",
+          "polarity": "negative",
+          "scope": "visual_design",
+          "text": "Do not use Gold or Sunshine text on White backgrounds as they fail contrast requirements. Limit Gold and Sunshine to surfaces, rules, and large display emphasis only."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    },
+    {
+      "description": "The accessibility requirement prohibiting reliance on color alone to convey meaning is missing from the candidate rules list.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "governance_facets": [
+            "WCAG AA Compliance"
+          ],
+          "hardness": "mandatory",
+          "polarity": "negative",
+          "scope": "digital_accessibility",
+          "text": "Do not rely on color alone to convey meaning; always pair color cues with icons, depth, clear copy, or visual feedback."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0003"
+      ]
+    }
+  ]
+}

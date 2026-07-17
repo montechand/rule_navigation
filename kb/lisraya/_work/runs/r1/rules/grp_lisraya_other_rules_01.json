@@ -3,12 +3,21 @@
   "group_id": "grp_lisraya_other_rules_01",
   "missing_token_requests": [],
   "original_text": "### Audience Segmentation\n- This guide governs **patient (DTC) materials**. Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials. Confirm audience in every brief before writing.\n- Patient brochure = master reference for visuals, messaging, and tone across **all** LISRAYA materials.",
-  "relations": [],
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_audience_specific_patient_terminology",
+      "dst_slug": "audience_specific_patient_terminology",
+      "note": "The patient brochure is the master messaging and tone reference, while audience-specific terminology governs copy selection.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_patient_brochure_master_reference",
+      "src_slug": "patient_brochure_master_reference"
+    }
+  ],
   "rules": [
     {
       "applies_when": null,
-      "audience": "dtp_patient",
-      "constraint_type": "verbatim_content",
+      "audience": null,
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -16,47 +25,29 @@
       "evaluation_scope": "sentence",
       "evidence": {
         "quotes": [
-          "This guide governs **patient (DTC) materials**. Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials."
+          "Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials. Confirm audience in every brief before writing."
         ],
         "unit_ids": [
           "u_other_rules_1_0001"
         ]
       },
-      "governance": {
-        "gov_type": "regulatory",
-        "match": {
-          "method": "semantic"
-        },
-        "preferred_form": "someone with dermatomyositis",
-        "preferred_form_evidence": {
-          "quotes": [
-            "someone/people with dermatomyositis"
-          ],
-          "unit_ids": [
-            "u_other_rules_1_0001"
-          ]
-        },
-        "severity": "block",
-        "verdict": "verbatim_only"
-      },
-      "hardness": "hard_constraint",
-      "id": "rule_lisraya_audience_terminology_dtc",
-      "intent": "Maintain patient-first language guidelines on patient materials.",
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_audience_specific_patient_terminology",
+      "intent": "Use audience-appropriate, person-centered disease terminology.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "copy_editorial",
-      "rule_text": "In patient (DTC) materials, use patient-first phrasing such as 'someone with dermatomyositis' or 'people with dermatomyositis'. Do not use the shorthand term 'patients', which is restricted to HCP-facing communications.",
+      "rule_text": "Confirm the audience in every brief before writing. In patient/DTC materials, refer to “someone/people with dermatomyositis”; “patients” is acceptable in HCP materials.",
       "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "copy.audience_terminology",
         "section_types": null
       },
-      "slug": "audience_terminology_dtc",
+      "slug": "audience_specific_patient_terminology",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "voice_tone"
-      ]
+      "tags": null
     },
     {
       "applies_when": null,
@@ -78,19 +69,23 @@
       "governance": null,
       "hardness": "strong_default",
       "id": "rule_lisraya_patient_brochure_master_reference",
-      "intent": "Establish the patient brochure as the absolute source of truth across channels.",
+      "intent": "Maintain consistent brand expression across materials.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "assembly",
-      "rule_text": "The patient brochure must serve as the master reference for all visual styles, messaging vectors, and tone of voice decisions across all LISRAYA communications.",
+      "rule_text": "Use the patient brochure as the master reference for visuals, messaging, and tone across all LISRAYA materials.",
       "scope": "brand",
-      "selector": null,
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
       "slug": "patient_brochure_master_reference",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "voice_tone",
-        "layout"
+        "imagery",
+        "copy_editorial",
+        "voice_tone"
       ]
     }
   ],

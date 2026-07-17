@@ -1,0 +1,101 @@
+{
+  "findings": [
+    {
+      "description": "Four distinct tint/transparency specifications (headline 40% tint, Light Blue callout 70% tint, Golden Sand callout 30% tint, Wave layers 70% transparency) are not represented as their own rules; only the umbrella 'no other ad-hoc tints' constraint (from u_0005) was extracted. These are separate, specific value constraints per element type and should be split into distinct rules rather than collapsed or omitted.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_headline_tint_40pct",
+              "polarity": "must",
+              "scope": "campaign headline D and M",
+              "value": "~40% tint of headline color (Gold or Brand Blue)"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_light_blue_callout_tint_70pct",
+              "polarity": "must",
+              "scope": "Light Blue callout box",
+              "value": "70% tint"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_golden_sand_callout_tint_30pct",
+              "polarity": "must",
+              "scope": "Golden Sand callout box",
+              "value": "30% tint"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_wave_layer_transparency_70pct",
+              "polarity": "must",
+              "scope": "Wave top layers",
+              "value": "70% transparency"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004"
+      ]
+    },
+    {
+      "description": "The rule 'specified_tints_only' is a governance/compliance statement ('No other ad-hoc tints — use palette values or these specified tints only') but lacks explicit facets tying it to the enumerated tint values it references (u_0001-u_0004) and lacks scope defining what counts as an ad-hoc vs specified tint. Without linking to the specific tint rules, its enforcement scope is ambiguous.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "governs": [
+            "rule_lisraya_headline_tint_40pct",
+            "rule_lisraya_light_blue_callout_tint_70pct",
+            "rule_lisraya_golden_sand_callout_tint_30pct",
+            "rule_lisraya_wave_layer_transparency_70pct"
+          ],
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "scope": "all tint/transparency usage across brand materials"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Heading 'Tint Rules' establishes the section scope but no rule/cluster references it as a grouping anchor; the single extracted rule does not reflect that this is a section-level constraint set covering multiple element types, leading to loss of the section-level relation context.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0000"
+      ]
+    }
+  ]
+}

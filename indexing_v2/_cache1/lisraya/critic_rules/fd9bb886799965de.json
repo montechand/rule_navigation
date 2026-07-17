@@ -1,0 +1,67 @@
+{
+  "findings": [
+    {
+      "description": "u_0002 states that all images must be housed in the Accent shape (asymmetric rounded-corner crops, not rectangles or circles) — a distinct, testable imagery rule referencing §2.5. No candidate rule captures this requirement; it is missing entirely from the cluster.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_images_use_accent_shape_crop",
+          "source_unit_ids": [
+            "u_design_pattern_rules_2_0002"
+          ],
+          "text": "Images must be housed in the Accent shape (asymmetric rounded-corner crops, per §2.5) — not plain rectangles or circles."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "The alt-text rule is flagged as a 'brand accessibility rule' (implying an external/governing policy) but the extracted rule carries no governance facet (e.g., policy reference, owner, or enforcement mechanism) despite being classed as a hard_constraint compliance item.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "governance": {
+            "enforcement": "unspecified",
+            "source_policy": "brand accessibility rule"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_image_descriptive_alt_text_required"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_image_descriptive_alt_text_required",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Source describes photography treatment as a definitive stylistic identity statement ('warm, realistic patient lifestyle imagery... real moments') with no modal softening language, yet it is tagged strong_default/should rather than reflecting its role as a core, consistently-applied brand imagery standard; hardness/polarity may be understated relative to source emphasis.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_photography_warm_lifestyle_treatment",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    }
+  ]
+}

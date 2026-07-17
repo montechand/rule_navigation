@@ -1,0 +1,78 @@
+{
+  "findings": [
+    {
+      "description": "The candidate ruleset merges geometry (W/2 formulas, alignment offsets) with very distinct aesthetic rules: the strict 5:1 corner radius constraints (40px 8px / 20px 4px) and the mandatory drop shadow requirement.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "rules": [
+            {
+              "class": "layout",
+              "description": "Ensure the icon callout box is inset from the left by W/2 (40px) and the white badge is horizontally centered on the left edge (distance = 0) with a vertical center margin-top of -H/2 (-40px).",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_icon_callout_box_geometry",
+              "polarity": "must"
+            },
+            {
+              "class": "aesthetic",
+              "description": "Apply a strict 5:1 corner radius ratio to the light-blue box (40px 8px 40px 8px) and the white badge (20px 4px 20px 4px). Do not simplify or swap corners.",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_icon_callout_box_radii",
+              "polarity": "must"
+            },
+            {
+              "class": "aesthetic",
+              "description": "The white icon badge must carry a drop shadow (e.g. 0 4px 10px rgba(1, 30, 69, 0.18)) on every instance to lift it off the blue box.",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_icon_callout_box_shadow",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_callout_box_geometry"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_box_geometry",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0020",
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023"
+      ]
+    },
+    {
+      "description": "Missed fallback guideline rule regarding desktop Outlook clients. The absolute positioning fails in Outlook, requiring a pre-composited transparent PNG fallback or background baking to maintain visual fidelity.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "development",
+          "description": "For high-fidelity rendering on desktop Outlook, pre-composite the white badge as a transparent PNG or accept the default layout degrade where the badge sits flush on the inner-left edge.",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "guideline",
+          "id": "rule_lisraya_icon_callout_outlook_fallback",
+          "polarity": "should"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0040",
+        "u_color_scheme_rules_6_0041",
+        "u_color_scheme_rules_6_0042"
+      ]
+    }
+  ]
+}

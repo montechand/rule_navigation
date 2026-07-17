@@ -1,0 +1,81 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules cluster completely misses the brand typography rules for 'Agenda' and 'Nunito Sans', as well as the geometric CTA shape configuration containing specific gradient stops. These cannot be cleanly combined into a color hierarchy rule and need distinct rule nodes.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "split_entities": [
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_brand_color_hierarchy",
+              "unit_ids": [
+                "u_internal_banner_rules_0_0001"
+              ]
+            },
+            {
+              "class": "typography",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_typography_agenda",
+              "unit_ids": [
+                "u_internal_banner_rules_0_0003",
+                "u_internal_banner_rules_0_0006"
+              ]
+            },
+            {
+              "class": "typography",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_typography_nunito_sans",
+              "unit_ids": [
+                "u_internal_banner_rules_0_0004",
+                "u_internal_banner_rules_0_0008"
+              ]
+            },
+            {
+              "class": "layout_treatment",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_cta_design",
+              "unit_ids": [
+                "u_internal_banner_rules_0_0010",
+                "u_internal_banner_rules_0_0012"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004",
+        "u_internal_banner_rules_0_0008",
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "Scope mismatch for Nunito Sans font rule: it is explicitly limited to 'print' applications rather than all media.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0004"
+      ]
+    }
+  ]
+}

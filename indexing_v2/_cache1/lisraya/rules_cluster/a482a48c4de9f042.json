@@ -1,0 +1,237 @@
+{
+  "relations": [
+    {
+      "dst_slug": "accessibility_contrast_never_color_alone",
+      "note": "Both are WCAG-driven brand-mandated accessibility obligations.",
+      "relation": "cluster",
+      "src_slug": "accessibility_media_alt_text_and_transcripts"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "size.body.minimum",
+          "token_id": "tok_lisraya_size_body_min"
+        },
+        {
+          "element_path": "body.line_height",
+          "token_id": "tok_lisraya_body_line_height"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Body copy **≥16px**; bigger is better.",
+          "Line height **≥150%**; more for light-on-dark text."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0001",
+          "u_other_rules_0_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Body copy **≥16px**; bigger is better.",
+          "Line height **≥150%**; more for light-on-dark text.",
+          "Use a type scale for visual hierarchy."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0001",
+          "u_other_rules_0_0002",
+          "u_other_rules_0_0003"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure legible, accessible body text.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Body copy must be ≥16px (size.body.minimum_16 = 16px; bigger is better), line height must be ≥150% (body.line_height minimum, more for light-on-dark text), and a type scale must be used for visual hierarchy.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "accessibility_body_size_line_height_type_scale",
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Test contrast; never rely on color alone; proof all text for legibility.",
+          "Reference standard: WCAG (wcag.com)."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0004",
+          "u_other_rules_0_0008"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Meet WCAG accessibility for contrast and legibility.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Test contrast; never rely on color alone to convey meaning; proof all text for legibility. Reference standard is WCAG (wcag.com).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "accessibility_contrast_never_color_alone",
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "size.button.min_touch",
+          "token_id": "tok_lisraya_size_button_min_touch"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "click/tap targets **≥48px**"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "labels always visible (no placeholder-as-label, no disappearing labels); click/tap targets **≥48px**"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0005"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure usable, accessible form fields and controls.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Form labels must always be visible (no placeholder-as-label, no disappearing labels); click/tap targets must be ≥48px (size.button.min_touch_48 = 48px).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "accessibility_forms_labels_and_touch_targets",
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "motion.email.max_autoplay",
+          "token_id": "tok_lisraya_motion_gif_duration"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "no autoplaying motion longer than ~5s without a static fallback"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0006"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "quick transitions that don't interrupt flow; avoid excessive motion; provide a way to \"pause\" effects; design for phone, tablet, and desktop",
+          "animated GIFs must carry the key message in frame 1 (Outlook shows only the first frame); no autoplaying motion longer than ~5s without a static fallback"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0006"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Prevent motion from harming comprehension or accessibility across clients.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Use quick transitions that don't interrupt flow; avoid excessive motion; provide a way to pause effects; design responsively for phone, tablet, and desktop. In email, animated GIFs must carry the key message in frame 1 (Outlook shows only the first frame), and no autoplaying motion may run longer than ~5s (motion.email.max_autoplay_5s) without a static fallback.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "accessibility_motion_and_gif_fallback",
+      "tags": [
+        "imagery",
+        "assembly"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "descriptive **alt text** on all images; transcripts available for any video or audio"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0007"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "warn",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Provide accessible media for assistive technology and non-visual consumption.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "All images must carry descriptive alt text; transcripts must be available for any video or audio.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "accessibility_media_alt_text_and_transcripts",
+      "tags": [
+        "imagery"
+      ]
+    }
+  ]
+}

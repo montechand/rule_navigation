@@ -1,0 +1,73 @@
+{
+  "findings": [
+    {
+      "description": "The DM abbreviation rules actually contain two distinct requirements that should be split to ensure clean automated testing: a copy-writing formatting rule (how to format first-mention vs subsequent mentions) and a sectional architectural rule (how to treat sections as standalone units). Combining them makes rule coverage too broad.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_editorial_abbreviation_dm"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_editorial_abbreviation_dm",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0001",
+        "u_content_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "The current rule 'rule_lisraya_patient_inclusive_language' misses a critical governance facet: the rule has conditional logic based on target audience (HCP vs patient materials). Under patient-facing contexts, 'patients' is prohibited, but under HCP-facing contexts, it is acceptable. Without this scope constraint, checking for compliance will trigger false positives in HCP materials.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[4]",
+          "exception": "acceptable in HCP materials",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "scope": "patient_materials_only"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_inclusive_language"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_patient_inclusive_language",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Missed rule extraction. The source document dictates a specific 'Data tone' for clinical trials (must be empathetic, supportive, trust-building, non-fear-based), but no corresponding candidate rule was created for this instruction.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "voice_tone",
+          "description": "When citing clinical data, write with an empathetic, supportive, trust-building tone without oversimplifying; do not use fear-based or negative language.",
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "hardness": "soft_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_editorial_clinical_data_tone"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0005"
+      ]
+    }
+  ]
+}

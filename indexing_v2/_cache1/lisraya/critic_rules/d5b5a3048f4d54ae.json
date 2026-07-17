@@ -1,0 +1,97 @@
+{
+  "findings": [
+    {
+      "description": "The photography style requirement (warm, realistic patient lifestyle imagery depicting everyday activities) has no corresponding rule in the candidate set. This is a distinct imagery directive that should be extracted as its own rule, not omitted.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "description": "Photography must depict warm, realistic patient lifestyle imagery showing everyday activities (e.g., walking the dog, beach, BBQ), conveying return to normal life.",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    },
+    {
+      "description": "The requirement that images be housed in the Accent shape (asymmetric rounded-corner crops, not plain rectangles or circles) is a distinct hard constraint referencing §2.5 that is missing from the candidate rules entirely.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "description": "Images must be housed in the Accent shape (asymmetric rounded-corner crops per §2.5); plain rectangles or circles are prohibited.",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "The alt text rule is flagged as a 'brand accessibility rule' but no governance facet (e.g., referenced standard like WCAG, owning team, or enforcement mechanism) is captured, leaving the compliance basis unclear.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "governance_note": "Sourced from brand accessibility rule; no specific standard (e.g., WCAG) or owning body cited in source — should be flagged for governance clarification.",
+          "group_id": "grp_lisraya_design_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_image_descriptive_alt_text_required"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_image_descriptive_alt_text_required",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Hardness (soft_guidance) and polarity (may) correctly reflect the permissive source language 'Waves and gradients may overlay photography' — no error, included for completeness of review.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_waves_gradients_may_overlay_photography",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0003"
+      ]
+    },
+    {
+      "description": "The candidate group only covers 2 of 4 content-bearing units under 'Image Treatment', indicating under-extraction; the group should be expanded to include all four distinct rules (photography style, accent-shape housing, wave/gradient overlay, alt text) for complete coverage of the heading's scope.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "bad_cluster",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001",
+        "u_design_pattern_rules_2_0002",
+        "u_design_pattern_rules_2_0003",
+        "u_design_pattern_rules_2_0004"
+      ]
+    }
+  ]
+}

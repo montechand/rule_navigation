@@ -1,0 +1,115 @@
+{
+  "findings": [
+    {
+      "description": "Unit 0002 contains two distinct directives with opposite polarity: a positive/allowed list of known-safe color pairs (should/must use) and a prohibition on gold/sunshine text on white (must_not). Collapsing both into a single rule with polarity=must_not erases the affirmative safe-pairs guidance and misrepresents its polarity/scope.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "guideline",
+              "id": "rule_lisraya_known_safe_pairs",
+              "polarity": "should",
+              "unit_ids": [
+                "u_color_scheme_rules_4_0002"
+              ]
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_gold_sunshine_text_ban",
+              "polarity": "must_not",
+              "unit_ids": [
+                "u_color_scheme_rules_4_0002"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_known_safe_pairs_and_gold_text_ban"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_known_safe_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Unit 0003 ('Don't rely on color alone to convey meaning') is a distinct accessibility directive with no representative candidate rule at all; it has been dropped from extraction entirely.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility",
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_no_color_only_meaning",
+          "polarity": "must_not",
+          "unit_ids": [
+            "u_color_scheme_rules_4_0003"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Unit 0001 explicitly labels the WCAG thresholds as 'GENERAL minimums', signaling this is baseline/fallback guidance rather than a lisraya-specific override; the rule's scope should be annotated as generic/baseline rather than implicitly brand-specific hard constraint.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "scope_note": "general/baseline WCAG AA minimums, not brand-exclusive"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_contrast_minimums_and_testing"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_contrast_minimums_and_testing",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ]
+    },
+    {
+      "description": "The gold/sunshine ban has an explicit rationale/exception carve-out ('golds are for surfaces, rules, and large display emphasis only') that is not captured as a governance facet (permitted-use exception) on the rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "exception_note": "gold/sunshine permitted for surfaces, rules, and large display emphasis only",
+          "group_id": "grp_lisraya_color_scheme_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_known_safe_pairs_and_gold_text_ban"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_known_safe_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    }
+  ]
+}

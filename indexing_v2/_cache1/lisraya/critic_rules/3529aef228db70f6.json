@@ -1,0 +1,185 @@
+{
+  "findings": [
+    {
+      "description": "The entire Typography Hierarchy table (font family per level/channel: Agenda/Nunito Sans/Aptos, weight availability lists) has no corresponding rule in the candidate set. This is a large, distinctly governed content block (font assignment by level and channel, with an explicit digital exception for Agenda-as-live-text) that is missing entirely rather than being under- or over-clustered.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Font family assignment per hierarchy level and channel (Agenda/Nunito Sans/Aptos), including digital exception allowing Agenda as live text for campaign headline only, and per-font weight availability.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0000",
+        "u_content_pattern_rules_1_0001",
+        "u_content_pattern_rules_1_0002",
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0006",
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "The [GENERAL]-tagged email font stack/fallback rule (CSS stack, @font-face loading requirement, Outlook fallback rationale) is not represented by any candidate rule and its cross-brand [GENERAL] governance tag is not captured anywhere in the group.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Email font-family fallback stack requirement with webfont loading and Outlook fallback guarantee.",
+          "doc_ref": "content_pattern_rules[1]",
+          "governance": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010"
+      ]
+    },
+    {
+      "description": "Unit u0019 contains two distinct governance-tagged obligations bundled into one rule: a brand-specific accessibility minimum (150% line-height, no GENERAL tag) and a [GENERAL] conditional escalation (160% for light-on-dark). Merging them obscures the differing governance scope (brand-specific vs cross-brand GENERAL) and the conditional trigger.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "rules": [
+            {
+              "class": "accessibility",
+              "description": "Minimum 150% line-height for all body copy (brand accessibility rule).",
+              "hardness": "hard_constraint",
+              "polarity": "must"
+            },
+            {
+              "class": "accessibility",
+              "condition": "light text on dark background",
+              "description": "Increase line-height to 160% (e.g., 16px/26px) for light text on dark backgrounds.",
+              "governance": "GENERAL",
+              "hardness": "hard_constraint",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_line_height_minimum"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_body_line_height_minimum",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "The email type scale unit is explicitly tagged [GENERAL], indicating cross-brand applicability, but this governance facet is not carried onto the clustered rule. Additionally u0018 explicitly carves out ISI sizing as owned by a locked component (an exclusion/scope facet) that is missing from the rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "exclusions": [
+            "ISI sizing owned by locked component"
+          ],
+          "governance": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_type_scale",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017",
+        "u_content_pattern_rules_1_0018"
+      ]
+    },
+    {
+      "description": "The cluster is uniformly tagged polarity=must, but it embeds explicit prohibitions: secondary/supporting body text 'never for primary content' (u0016) and 'never set running text below 12px' (u0018). These are must_not sub-constraints that are flattened into a single must polarity, losing the negative-scope information.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "sub_constraints": [
+            {
+              "description": "Secondary/supporting body text (14px) must never be used for primary content.",
+              "polarity": "must_not"
+            },
+            {
+              "description": "Running text must never be set below 12px.",
+              "polarity": "must_not"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0018"
+      ]
+    },
+    {
+      "description": "The visual hierarchy usage rule (use a clear type scale so reading order is evident; never use two adjacent text blocks of same size+weight to signal different hierarchy levels) is not represented by any candidate rule and is distinct from the numeric email type-scale specification.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels; maintain a clear type scale/visual hierarchy.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0020"
+      ]
+    }
+  ]
+}

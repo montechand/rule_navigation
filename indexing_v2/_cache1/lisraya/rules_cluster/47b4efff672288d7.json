@@ -1,0 +1,161 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "gradient_callout_section_layout",
+      "note": "The signature button resides inside the gradient callout layout.",
+      "relation": "co_applies",
+      "src_slug": "gradient_callout_signature_cta"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "section.background.image",
+          "token_id": "tok_lisraya_image_treatment_background"
+        },
+        {
+          "element_path": "section.background.color",
+          "token_id": "tok_lisraya_color_sunshine"
+        },
+        {
+          "element_path": "section.headline.text.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Background → the gradient PNG, applied as the section background, sized cover, no-repeat, centered, spanning the full content width (600px). Always set a solid background-color of Sunshine #faa31b as fallback",
+          "Headline → Brand Blue #00529b, centered, sitting in the top third, Nunito Sans weight 800, ~28px, one line."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0007"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Background → the gradient PNG, applied as the section background, sized cover, no-repeat, centered, spanning the full content width (600px). Always set a solid background-color of Sunshine #faa31b as fallback",
+          "Headline → Brand Blue #00529b, centered, sitting in the top third, Nunito Sans weight 800, ~28px, one line.",
+          "solid Sunshine #faa31b fill"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain brand styling and client fallback rendering for the gradient CTA section.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Gradient Callout CTA section utilizes the branded orange/yellow gradient image (image_treatment.background.callout_gradient = https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png) as cover, with a solid Sunshine background fallback (color.primary.sunshine = #faa31b) and a centered Brand Blue headline (color.primary.brand_blue = #00529b).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "gradient_callout_section_layout",
+      "snippets": "<mj-section\n    background-url=\"https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png\"\n    background-size=\"cover\"\n    background-repeat=\"no-repeat\"\n    background-position=\"center center\"\n    background-color=\"#faa31b\"\n    padding=\"48px 25px 56px 25px\">",
+      "snippets_evidence": {
+        "quotes": [
+          "background-url=\"https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "color_application",
+        "cta"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta.button.fill",
+          "token_id": "tok_lisraya_color_deep_blue"
+        },
+        {
+          "element_path": "cta.button.radius",
+          "token_id": "tok_lisraya_radius_signature_button"
+        },
+        {
+          "element_path": "cta.button.arrow_color",
+          "token_id": "tok_lisraya_color_gold_accent"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Fill Deep Blue #003D74, white label (Nunito Sans 800, 18px), with a Gold #FFC20E arrow",
+          "Button radius (mandatory, never change): border-radius: 49.52px 1.76px 40px 1.76px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0010"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Fill Deep Blue #003D74, white label (Nunito Sans 800, 18px), with a Gold #FFC20E arrow › (24px) after two non-breaking spaces. Size 248 × 64px.",
+          "Button radius (mandatory, never change): border-radius: 49.52px 1.76px 40px 1.76px;",
+          "Never simplify it to a single value, swap the corners, or round the decimals."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0011"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain structural brand integrity and signature aesthetic shape rules for key conversion buttons.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "cta",
+      "rule_text": "The signature CTA button uses a Deep Blue fill (color.secondary.deep_blue = #003D74) with a white label, a Gold arrow (color.cta.gold_accent = #FFC20E), and must strictly maintain the asymmetric border radius (radius.cta.signature_button = 49.52px 1.76px 40px 1.76px). Do not simplify or swap corners.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "gradient_callout_signature_cta",
+      "snippets": "style=\"display:inline-block;width:248px;height:64px;background-color:#003D74;color:#ffffff;font-family:'Nunito Sans',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;line-height:64px;text-align:center;text-decoration:none;border-radius:49.52px 1.76px 40px 1.76px;\"\n>\n  Visit LISRAYA.com&nbsp;&nbsp;<span style=\"color:#FFC20E;font-size:24px;\">&#10095;</span>\n</a>",
+      "snippets_evidence": {
+        "quotes": [
+          "border-radius:49.52px 1.76px 40px 1.76px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "color_application",
+        "typography"
+      ]
+    }
+  ]
+}

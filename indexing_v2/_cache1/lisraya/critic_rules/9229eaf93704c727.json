@@ -1,0 +1,103 @@
+{
+  "findings": [
+    {
+      "description": "The CTA shape/treatment instruction (units 0010, 0012) describing the exact SVG button shape and gradient fill is not represented by any candidate rule. This is a distinct, fully-specified visual rule (shape + color treatment for CTAs) that has been dropped entirely from the cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "cta_treatment",
+          "description": "CTAs must use the specified rounded-shape SVG treatment with gradient fill (#FFDF55 to #FAA21B) as defined in the reference asset.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "Two distinct font-role statements (Agenda for headlines/headers vs Nunito Sans for body copy in print) are merged into a single rule, losing the distinct scope (headline vs body, digital vs print) of each font assignment. These should be split into two rules or the scope facets preserved separately.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "rules": [
+            {
+              "class": "typography",
+              "font": "Agenda",
+              "hardness": "soft_constraint",
+              "polarity": "should",
+              "scope": "headlines_headers"
+            },
+            {
+              "class": "typography",
+              "font": "Nunito Sans",
+              "hardness": "soft_constraint",
+              "polarity": "should",
+              "scope": "body_copy_print"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_font_roles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004"
+      ]
+    },
+    {
+      "description": "The font rule omits the governance/source facet: units 0006 and 0008 provide the canonical font resource (Google Fonts stylesheet link for Nunito Sans) which should be attached as an approved-source reference for compliance/enforcement purposes.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facet": {
+            "approved_source_url": "https://fonts.googleapis.com/css2?family=Nunito+Sans"
+          },
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_font_roles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The CTA SVG asset (unit 0012) uses gradient stop color #FAA21B, which conflicts with the approved secondary accent color #FAA31B defined in unit 0001. This discrepancy is not flagged anywhere, and the color_hierarchy rule's hard_constraint/must polarity is not cross-validated against the CTA asset that appears to violate it.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_internal_banner_rules_0_0012"
+      ]
+    }
+  ]
+}

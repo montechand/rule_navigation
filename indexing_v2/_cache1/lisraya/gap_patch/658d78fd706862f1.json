@@ -1,0 +1,59 @@
+{
+  "assets": [],
+  "relations": [],
+  "rules": [
+    {
+      "effect": {
+        "exceptions": [
+          "chart headlines",
+          "campaign headline lockup"
+        ],
+        "max_devices_per_element": 2,
+        "prohibition": "Never use bold + ALL CAPS + color emphasis simultaneously on the same string"
+      },
+      "evidence": {
+        "quotes": [
+          "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
+      "id": "rule_lisraya_emphasis_device_stacking_limit",
+      "rule_class": "copy_editorial",
+      "selector": {
+        "element_path": "text.emphasis"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
+      "id": "tok_lisraya_emphasis_max_devices",
+      "key": "emphasis.limit.max_devices_per_element",
+      "token_type": "emphasis",
+      "value": {
+        "default": 2,
+        "default_evidence": {
+          "quotes": [
+            "Pick at most two emphasis devices per element."
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_3_0004"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

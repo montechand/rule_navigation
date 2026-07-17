@@ -1,0 +1,41 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule merges the primary, secondary, and tertiary palettes into a single rule. To ensure correct usage scopes, they should be split into distinct rules as they possess different hierarchical constraints (dominant tier vs secondary/tertiary auxiliary tiers).",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_palette_definitions"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_palette_definitions",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006",
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0015",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    }
+  ]
+}

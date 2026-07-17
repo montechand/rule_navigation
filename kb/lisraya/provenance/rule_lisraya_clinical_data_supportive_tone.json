@@ -1,0 +1,98 @@
+{
+  "entity_id": "rule_lisraya_clinical_data_supportive_tone",
+  "extraction_meta": {
+    "champion_run": "r1",
+    "confidence": "medium",
+    "dissent_unit_ids": [],
+    "field_agreement": {
+      "applies_when": 0.5,
+      "audience": 1.0,
+      "constraint_type": 1.0,
+      "content_sub_type_ids": 1.0,
+      "content_types": 1.0,
+      "effect": 1.0,
+      "evaluation_scope": 1.0,
+      "governance": 1.0,
+      "hardness": 1.0,
+      "polarity": 0.5,
+      "precedence": 1.0,
+      "rule_class": 1.0,
+      "scope": 1.0,
+      "selector": 0.5,
+      "slug": 1.0,
+      "snippets": 1.0,
+      "tags": 1.0
+    },
+    "runs": 3,
+    "support": 2
+  },
+  "provenance": [
+    {
+      "entity_id": "rule_lisraya_clinical_data_supportive_tone",
+      "field": "",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "content_pattern_rules[4]",
+          "end": 1122,
+          "match": "exact",
+          "quote": "when citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying.",
+          "start": 981,
+          "unit_ids": [
+            "u_content_pattern_rules_4_0005"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": null,
+        "status": "n/a"
+      },
+      "verification": "span_verified"
+    },
+    {
+      "entity_id": "rule_lisraya_clinical_data_supportive_tone",
+      "field": "governance.preferred_form",
+      "schema_version": "2.0",
+      "spans": [],
+      "value_check": {
+        "detail": "governance.preferred_form is absent; no concrete literal to verify",
+        "status": "n/a"
+      },
+      "verification": "unverified"
+    },
+    {
+      "entity_id": "rule_lisraya_clinical_data_supportive_tone",
+      "field": "effect",
+      "schema_version": "2.0",
+      "spans": [],
+      "value_check": {
+        "detail": "missing evidence for effect",
+        "status": "fail"
+      },
+      "verification": "unverified"
+    },
+    {
+      "entity_id": "rule_lisraya_clinical_data_supportive_tone",
+      "field": "snippets",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "content_pattern_rules[4]",
+          "end": 1277,
+          "match": "exact",
+          "quote": "\"Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.\"",
+          "start": 1140,
+          "unit_ids": [
+            "u_content_pattern_rules_4_0005"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": null,
+        "status": "n/a"
+      },
+      "verification": "span_verified"
+    }
+  ],
+  "schema_version": "2.0"
+}

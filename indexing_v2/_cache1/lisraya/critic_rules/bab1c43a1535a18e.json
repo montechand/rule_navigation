@@ -1,0 +1,100 @@
+{
+  "findings": [
+    {
+      "description": "The source unit bundles two distinct directives: (1) person-first/audience-specific terminology rules and (2) a procedural requirement to 'confirm audience in every brief before writing.' The candidate rule only captures the terminology guidance and drops the brief-confirmation obligation, which is a separate actionable governance step and should be split into its own rule.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "new_rule": {
+            "class": "process_governance",
+            "hardness": "hard_constraint",
+            "polarity": "must",
+            "statement": "Confirm audience (patient/DTC vs HCP) in every brief before writing.",
+            "unit_ids": [
+              "u_other_rules_1_0001"
+            ]
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_person_first_language"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_audience_person_first_language",
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "The rule states a compliance-relevant terminology distinction (patient vs HCP language) but omits the governance facet of who/when verifies audience alignment (the 'confirm audience in every brief' step), leaving the rule's enforcement mechanism unspecified.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "governance_facet": "audience must be confirmed in brief prior to copy drafting",
+          "group_id": "grp_lisraya_other_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_person_first_language"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_audience_person_first_language",
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Hardness is set to strong_default, but the source language ('master reference ... across all LISRAYA materials') asserts an absolute, universally scoped governance role for the patient brochure with no exception language, suggesting hard_constraint is more accurate.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "hardness": "hard_constraint"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_brochure_master_reference"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_patient_brochure_master_reference",
+      "unit_ids": [
+        "u_other_rules_1_0002"
+      ]
+    },
+    {
+      "description": "Class 'assembly' mischaracterizes this rule; the source describes a content-governance/master-reference authority relationship rather than a structural assembly instruction. A class like 'governance' or 'content_sourcing' would better reflect the rule's intent.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "governance",
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_brochure_master_reference"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_patient_brochure_master_reference",
+      "unit_ids": [
+        "u_other_rules_1_0002"
+      ]
+    }
+  ]
+}

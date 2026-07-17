@@ -1,0 +1,82 @@
+{
+  "assets": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "icon_callout_box_geometry",
+      "key_proposal": "dimension.callout.badge_default_width",
+      "quotes": [
+        "Defaults: badge size `W = 80px`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0046"
+      ],
+      "value": "80px"
+    },
+    {
+      "for_rule_slug": "icon_callout_box_geometry",
+      "key_proposal": "dimension.callout.inner_icon_default_size",
+      "quotes": [
+        "inner icon `48px`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0046"
+      ],
+      "value": "48px"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "callout.icon_box.fill",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "callout.icon_box.badge.fill",
+          "token_id": "tok_lisraya_color_white"
+        },
+        {
+          "element_path": "callout.icon_box.badge.radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        },
+        {
+          "element_path": "callout.icon_box.ratio",
+          "token_id": "tok_lisraya_ratio_callout_radius"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "the callout sits on the page/section background (usually White `#ffffff`). The blue box itself is **inset from the left by half the badge width** so the badge's outer half has room  this is the \"box gets a little smaller on the left\" step.",
+          "Light Blue `#E6F0F9` fill, single accent shape. Vertically sized to its text with generous padding; the **left padding must clear the overhanging badge half plus a gap** (? `W/2 + 24px`).",
+          "Icon badge ? a **White `#ffffff` rounded square** holding the line icon (Brand Blue stroke), **vertically centered** on the box and **horizontally centered on the box's left edge**",
+          "Geometry (the part that makes it exact):",
+          "The white badge **mirrors the same accent shape at smaller scale**, `border-radius: 20px 4px 20px 4px;` (also 5:1, large TL+BR).",
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+          "Defaults: badge size `W = 80px`, inner icon `48px`.",
+          "If your real badge is a different size, keep the relationships  **inset = `W/2`**, **box left-padding = `W/2 + 24px`**, **badge `margin-top` = `?H/2`**  and the bisector stays exact."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0012",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0020",
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "id": "rule_lisraya_icon_callout_box_geometry",
+      "rule_class": "layout",
+      "rule_text": "The icon callout box sits on a white page background. The box itself is inset from the left by half the badge width W/2. The box has a Light Blue fill. The left padding must clear the overhanging badge half plus a gap (W/2 + 24px). The white badge is a rounded square vertically centered on the box and horizontally centered on the box's left edge (50% over the blue, 50% over the page background). The white badge mirrors the same accent shape as the box at a smaller scale (radius: 20px 4px 20px 4px, representing a 5:1 ratio). Never simplify either radius to a uniform radius, swap corners, or flip the diagonal. Default badge size is W = 80px and inner icon is 48px, maintaining the geometric relationships (inset = W/2, box left-padding = W/2 + 24px, and badge margin-top = -H/2) if a different size is used.",
+      "selector": {
+        "element_path": "callout.icon_box"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

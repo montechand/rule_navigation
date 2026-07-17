@@ -1,0 +1,139 @@
+{
+  "findings": [
+    {
+      "description": "Three distinct sub-topics (colorway/variant spec, layered construction method, and usage/approved-color guidance) are collapsed into one 'imagery' rule with a single hardness/polarity. Each unit expresses different obligation strength and should be modeled as separate rules or at least differentiated facets.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "new_rules": [
+            {
+              "class": "imagery",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_wave_colorway_spec",
+              "polarity": "must",
+              "source_units": [
+                "u_design_pattern_rules_1_0001"
+              ]
+            },
+            {
+              "class": "imagery",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_wave_layer_construction",
+              "polarity": "must",
+              "source_units": [
+                "u_design_pattern_rules_1_0002"
+              ]
+            },
+            {
+              "class": "imagery",
+              "hardness": "soft_guideline",
+              "id": "rule_lisraya_wave_usage_guidance",
+              "polarity": "should",
+              "source_units": [
+                "u_design_pattern_rules_1_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_wave_graphic_construction"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Source unit uses 'always preserve the layered, translucent quality' — an unconditional mandate, but the clustered rule is tagged soft_guideline/should, understating the required strength.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_wave_graphic_construction"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0002"
+      ]
+    },
+    {
+      "description": "'Approved color values only' is a restrictive, non-optional constraint bundled inside a soft_guideline rule, causing a polarity/hardness mismatch for that sub-clause.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Rule is a hard_constraint/must compliance statement ('is the approved device') but carries no governance facets (approval authority, exception process, owner) despite designating a singular approved device for masthead copy.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "governance": {
+            "approval_required": true,
+            "exception_process": "unspecified_needs_review",
+            "owner_role": "brand_team"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_gradient_copy_device"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_masthead_gradient_copy_device",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Rule is classed purely as color_application, but the source unit also specifies logo mark placement (layout/composition), which is a distinct scope not captured by the class label.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "color_application+layout",
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "note": "covers both gradient color spec and logo mark placement scope"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_gradient_copy_device"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_masthead_gradient_copy_device",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "icon_callout_box_visual_hierarchy",
+      "note": "The geometric alignment of the icon badge assumes the layout styles established in the hierarchy rule.",
+      "relation": "co_applies",
+      "src_slug": "icon_callout_box_geometry_alignment"
+    },
+    {
+      "dst_slug": "icon_callout_box_visual_hierarchy",
+      "note": "Corner radius specifications refine the shape definitions of both the outer box container and nested badge elements.",
+      "relation": "refines",
+      "src_slug": "icon_callout_box_corner_radii"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": [
+        {
+          "element_path": "callout.icon_box.fill",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "callout.icon_box.text_color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "callout.icon_box.font_family",
+          "token_id": "tok_lisraya_font_family_nunito_sans"
+        },
+        {
+          "element_path": "callout.icon_box.font_weight",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        },
+        {
+          "element_path": "callout.icon_box.badge_fill",
+          "token_id": "tok_lisraya_color_white"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue `#E6F0F9` fill",
+          "Brand Blue `#00529b`, Nunito Sans weight 800, ~21px / 28px line-height",
+          "White `#ffffff` rounded square"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Light Blue `#E6F0F9` fill, single accent shape.",
+          "Text ? Brand Blue `#00529b`, Nunito Sans weight 800, ~21px / 28px line-height, left-aligned, vertically centered to the box.",
+          "Icon badge ? a White `#ffffff` rounded square holding the line icon"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain consistent visual hierarchy, color palette, and typographical weight for callout proof points.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Icon callout boxes must use Light Blue (#E6F0F9) fill, Brand Blue (#00529b) headline text in Nunito Sans weight 800 (vertically centered), and a White (#ffffff) badge holding the icon.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.icon_box",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_visual_hierarchy",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "The blue box itself is inset from the left by half the badge width so the badge's outer half has room",
+          "left padding must clear the overhanging badge half plus a gap (? `W/2 + 24px`).",
+          "horizontally centered on the box's left edge (the edge is the badge's perpendicular bisector ? 50% over the blue, 50% over the page background).",
+          "Let `W` = badge width (use 80px, icon ?48px inside).",
+          "Inset the blue box from the left by `W/2` = 40px, and place the badge so its center lands exactly on the box's left edge",
+          "Vertical center via `top:50%` + `margin-top:?40px` (half the badge height).",
+          "Defaults: badge size W = 80px, inner icon 48px.",
+          "keep the relationships  inset = W/2, box left-padding = W/2 + 24px, badge margin-top = ?H/2"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0016",
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Enforce the exact 50/50 bisecting alignment of the icon badge on the edge of the callout box across all screen widths.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The icon badge (width W = 80px) must be horizontally centered on the callout box's left edge (50% overhanging the page background and 50% over the blue box). The blue box must be inset from the left by exactly W/2 = 40px, and its internal left-padding must clear the badge overhang with a gap equal to W/2 + 24px (64px padding-left). For any other badge width, scale the inset to W/2, margin-top to -H/2, and internal left-padding to W/2 + 24px.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.icon_box",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_geometry_alignment",
+      "snippets": "<div style=\"position:relative; padding-left:40px;\">\n\n        <!-- Light Blue accent-shape box (large TL+BR, point TR+BL = 5:1) -->\n        <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n          <tr>\n            <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">\n              <span style=\"font-family:'Nunito Sans',Arial,Helvetica,sans-serif; font-size:21px; line-height:28px; font-weight:800; color:#00529b;\">\n                These improvements occurred as early as four weeks after starting treatment, and they continued getting better through the end of the 52-week study.\n              </span>\n            </td>\n          </tr>\n        </table>\n\n        <!-- White icon badge: mirrors accent radii (20/4/20/4), drop shadow, centered on the edge -->\n        <div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; background-color:#ffffff; border-radius:20px 4px 20px 4px; box-shadow:0 4px 10px rgba(1,30,69,0.18); text-align:center; line-height:80px;\">\n          <img src=\"ICON_URL\" alt=\"\" width=\"48\" height=\"48\" style=\"vertical-align:middle; border:0;\" />\n        </div>\n\n      </div>",
+      "snippets_evidence": {
+        "quotes": [
+          "<div style=\"position:relative; padding-left:40px;\">",
+          "<td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
+          "<div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; background-color:#ffffff; border-radius:20px 4px 20px 4px; box-shadow:0 4px 10px rgba(1,30,69,0.18); text-align:center; line-height:80px;\">"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": [
+        {
+          "element_path": "callout.icon_box.radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        },
+        {
+          "element_path": "callout.icon_box.badge_radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
+          "white badge mirrors the same accent shape at smaller scale, `border-radius: 20px 4px 20px 4px;`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order  large on top-left + bottom-right, near-point on top-right + bottom-left, a 5:1 ratio.",
+          "The white badge mirrors the same accent shape at smaller scale, `border-radius: 20px 4px 20px 4px;` (also 5:1, large TL+BR).",
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0020"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the proprietary 5:1 accent shape identity across nested container elements.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The outer callout box and the inner white badge must use asymmetric diagonal corner radii maintaining a 5:1 ratio (large TL/BR, near-point TR/BL). The container must use radii (40px 8px 40px 8px) and the white badge must use scaled radii (20px 4px 20px 4px). Never simplify to a single uniform radius, swap the corners, or flip the diagonal.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.icon_box",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_corner_radii",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": [
+        {
+          "element_path": "callout.icon_box.badge.shadow",
+          "token_id": "tok_lisraya_shadow_icon_badge"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "`box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);` (Dark Navy at low opacity)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "the white icon badge must carry a subtle drop shadow so it lifts off the blue box  e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);`",
+          "This shadow is required on every instance; without it the badge looks flat and pasted-on."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure the overlapping layout maintains visual depth and separation from the background.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The white icon badge must carry a subtle drop shadow (using Dark Navy at low opacity) to lift it off the blue background.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.icon_box.badge",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_badge_shadow",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    }
+  ]
+}

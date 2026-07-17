@@ -1,0 +1,97 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "brand_voice_pillars",
+      "note": "Tone-flex rule clarifies that contextual variation is allowed only around the fixed voice pillars.",
+      "relation": "refines",
+      "src_slug": "brand_voice_tone_flex_core_fixed"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Confident, not boastful",
+          "first-of-its-kind significance stated clearly and directly, never overstated or sensationalized",
+          "Warm, not overly emotional",
+          "genuine empathy about DM's daily impact; patients at the center",
+          "Clear, not complicated",
+          "plain, respectful language; easy to understand without losing accuracy"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_8_0001",
+          "u_content_pattern_rules_8_0002",
+          "u_content_pattern_rules_8_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Ensure all copy maintains a consistent, balanced brand voice across confidence, warmth, and clarity dimensions.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "voice_tone",
+      "rule_text": "Brand voice is built on three pillars: confident but not boastful (state first-of-its-kind significance clearly and directly, never overstated or sensationalized), warm but not overly emotional (genuine empathy for the daily impact of the condition, keeping patients at the center), and clear but not complicated (plain, respectful language that stays accurate without becoming complex).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "brand_voice_pillars",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "context_variation"
+        }
+      ],
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Tone may flex slightly by context; core voice never changes."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_8_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Allow contextual tonal adaptation while locking the underlying brand voice identity as immutable.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "voice_tone",
+      "rule_text": "Tone may flex slightly depending on context (e.g., audience or channel), but the core brand voice (the confident/warm/clear pillars) must never change.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "brand_voice_tone_flex_core_fixed",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    }
+  ]
+}

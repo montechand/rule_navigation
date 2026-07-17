@@ -1,0 +1,32 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule 'rule_lisraya_icon_callout_box_geometry' is overloaded. The source document defines distinct critical constraints: geometric mathematical scaling formulas, non-standard mandatory border-radius/corner-radius proportions (5:1 ratio, 40px/8px and 20px/4px), drop shadow specifications, and email rendering fallback alternatives (pre-composited PNG vs Outlook degrading). These should be split into discrete rules to prevent loss of visual design validation fidelity.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_callout_box_geometry"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_box_geometry",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0020",
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023",
+        "u_color_scheme_rules_6_0040",
+        "u_color_scheme_rules_6_0041",
+        "u_color_scheme_rules_6_0042"
+      ]
+    }
+  ]
+}

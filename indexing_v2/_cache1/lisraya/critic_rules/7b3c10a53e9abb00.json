@@ -1,0 +1,110 @@
+{
+  "findings": [
+    {
+      "description": "No brand_rule rows were extracted for this entire 'Accessibility (brand-mandated)' block despite it containing multiple distinct, clearly hard-mandated rules (type size, line height, contrast, forms, animation, media alt text, reference standard). This is a total clustering miss.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "group_id": "g_lisraya_accessibility",
+          "hardness": "hard",
+          "scope": "brand-wide",
+          "text": "Accessibility requirements: body copy ≥16px, line height ≥150%, use type scale, test contrast, form labels always visible with ≥48px tap targets, controlled animation with pause option, descriptive alt text and transcripts, WCAG as reference standard."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0000",
+        "u_other_rules_0_0001",
+        "u_other_rules_0_0002",
+        "u_other_rules_0_0003",
+        "u_other_rules_0_0004",
+        "u_other_rules_0_0005",
+        "u_other_rules_0_0006",
+        "u_other_rules_0_0007",
+        "u_other_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The explicit governance/reference standard statement ('Reference standard: WCAG (wcag.com)') is not captured anywhere; since no rules exist, this citation-of-authority facet is entirely missing, leaving all accessibility rules without their compliance basis documented.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "governance": {
+            "reference_standard": "WCAG",
+            "source_url": "wcag.com"
+          },
+          "group_id": "g_lisraya_accessibility",
+          "hardness": "hard"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0008"
+      ]
+    },
+    {
+      "description": "Unit 0006 mixes a brand-wide animation guideline (quick transitions, avoid excessive motion, pause option, responsive design) with a channel-scoped sub-rule explicitly marked '[GENERAL email]' (GIF frame-1 messaging, no autoplay >5s without static fallback). If clustered as a single rule, the email-specific scope would be incorrectly applied brand-wide (or vice versa) — these must be split into two rules with different scope facets.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "group_id": "g_lisraya_accessibility",
+          "rule_a": {
+            "hardness": "soft",
+            "scope": "brand-wide",
+            "text": "Animations: quick transitions that don't interrupt flow; avoid excessive motion; provide a pause mechanism; design responsively for phone/tablet/desktop."
+          },
+          "rule_b": {
+            "hardness": "hard",
+            "scope": "channel:email_general",
+            "text": "Animated GIFs must carry key message in frame 1; no autoplaying motion longer than ~5s without a static fallback."
+          }
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0006"
+      ]
+    },
+    {
+      "description": "These units contain both a hard numeric minimum (≥16px, ≥150%) and a soft qualitative extension ('bigger is better', 'more for light-on-dark text'). A single merged rule risks losing the hard/soft polarity distinction — the minimum should be tagged hard while the extension guidance should be tagged soft/preferred.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0001",
+        "u_other_rules_0_0002"
+      ]
+    },
+    {
+      "description": "Unit 0004 bundles three distinct actionable directives (test contrast; never rely on color alone; proof all text for legibility) that could be split into separate rules for clarity of hardness/scope, though they may reasonably remain merged as one contrast-related rule — flagged for review.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0004"
+      ]
+    }
+  ]
+}

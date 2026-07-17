@@ -1,0 +1,51 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules completely miss the strict layout and legal requirement in unit u_content_pattern_rules_9_0003, which prohibits reproducing legal lines, job codes, Indication, and ISI outside of locked header/footer components.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "visual_layout",
+          "description": "Never reproduce the Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI within sections, as they must only live in the locked header/footer components.",
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_id": "rule_lisraya_locked_components_restriction"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    },
+    {
+      "description": "The candidate rule for clinical claims footnotes misses the governance reference tag (§1.2) mentioned in the source unit.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "description": "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller (§1.2).",
+          "doc_ref": "content_pattern_rules[9]",
+          "governance_reference": "§1.2",
+          "group_id": "grp_lisraya_content_pattern_rules_09"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claims_footnotes"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claims_footnotes",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    }
+  ]
+}

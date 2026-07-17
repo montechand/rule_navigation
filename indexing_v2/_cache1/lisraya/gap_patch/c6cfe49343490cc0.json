@@ -1,0 +1,89 @@
+{
+  "assets": [],
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "color.tertiary.white",
+          "token_id": "tok_lisraya_color_white"
+        },
+        {
+          "element_path": "color.tertiary.light_blue",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "color.tertiary.golden_sand",
+          "token_id": "tok_lisraya_color_golden_sand"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Generous white space; clean, never cluttered. **Limit focal points per section**",
+          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001",
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "id": "rule_lisraya_modular_section_layout",
+      "rule_class": "layout",
+      "rule_text": "Alternate White, Light Blue, Golden Sand, or gradient section backgrounds to prevent adjacent assembled sections from visually merging, while maintaining generous white space and limiting focal points.",
+      "selector": {
+        "element_path": "layout.section"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "color.background",
+          "token_id": "tok_lisraya_color_white"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "**[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "id": "rule_lisraya_section_metadata_declaration",
+      "rule_class": "assembly",
+      "rule_text": "Section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.",
+      "selector": {
+        "element_path": "layout.section.metadata"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "layout.template",
+          "token_id": "tok_lisraya_size_canvas_width"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**)"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "id": "rule_lisraya_patient_brochure_master_reference",
+      "rule_class": "assembly",
+      "rule_text": "The patient brochure is the reference template for visuals, messaging, and overall tone of ALL LISRAYA materials, featuring the canonical content block pattern (bold headline + simple benefit statements + patient quote).",
+      "selector": {
+        "element_path": "template.master"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

@@ -1,0 +1,88 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials."
+        ],
+        "unit_ids": [
+          "u_other_rules_1_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": "someone/people with dermatomyositis",
+        "preferred_form_evidence": {
+          "quotes": [
+            "someone/people with dermatomyositis"
+          ],
+          "unit_ids": [
+            "u_other_rules_1_0001"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain patient-first language guidelines in consumer-facing communications.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "In patient (DTC) materials, use patient-first language such as 'someone/people with dermatomyositis' instead of referring to them directly as 'patients', which is acceptable only in HCP materials.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "audience_terminology_segmentation",
+      "tags": [
+        "voice_tone"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Patient brochure = master reference for visuals, messaging, and tone across **all** LISRAYA materials."
+        ],
+        "unit_ids": [
+          "u_other_rules_1_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Ensure design and copy consistency across touchpoints by aligning with the patient brochure.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The patient brochure serves as the master reference for visuals, messaging, and tone across all LISRAYA materials.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "patient_brochure_master_reference",
+      "tags": null
+    }
+  ]
+}

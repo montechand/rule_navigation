@@ -1,0 +1,73 @@
+{
+  "findings": [
+    {
+      "description": "The abbreviation DM has two distinct, strict constraints: (1) do not use DM in headlines/headings/subheads, and (2) always establish 'dermatomyositis (DM)' at the first mention of each standalone section. Splitting these allows clearer mapping of constraints to layout levels.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_editorial_abbreviation_dm"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_editorial_abbreviation_dm",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0001",
+        "u_content_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "The rule for inclusive language has different constraints based on audience (patient vs. HCP). Currently, it is a hard must_not ('patients'), but this restriction does not apply to HCP materials. The target audience scope needs to be explicitly governed.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "audience_scope": "patient_facing",
+          "doc_ref": "content_pattern_rules[4]",
+          "exception_scope": "hcp_facing",
+          "group_id": "grp_lisraya_content_pattern_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_inclusive_language"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_patient_inclusive_language",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Missed rule for 'Data tone' (using empathetic, supportive, trust-building language, and avoiding fear-based phrasing when citing clinical trial data). This is a distinct copy and tone constraint.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "voice_tone",
+          "description": "Use an empathetic, supportive, trust-building tone when citing clinical data, avoiding negative or fear-based language.",
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "hardness": "soft_constraint",
+          "id": "rule_lisraya_editorial_data_tone",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0005"
+      ]
+    }
+  ]
+}

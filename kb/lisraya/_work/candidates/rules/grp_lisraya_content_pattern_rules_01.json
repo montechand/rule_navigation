@@ -1,265 +1,358 @@
 [
   {
-    "applies_when": null,
-    "audience": null,
+    "compiled_by": "tables-v1",
     "constraint_type": "binding",
-    "content_sub_type_ids": null,
-    "content_types": [
-      "email"
-    ],
-    "effect": [
-      {
-        "element_path": "type_scale.h1",
-        "token_id": "tok_lisraya_type_scale_h1"
-      },
-      {
-        "element_path": "type_scale.h2",
-        "token_id": "tok_lisraya_type_scale_h2"
-      },
-      {
-        "element_path": "type_scale.h3",
-        "token_id": "tok_lisraya_type_scale_h3"
-      },
-      {
-        "element_path": "type_scale.body",
-        "token_id": "tok_lisraya_type_scale_body"
-      },
-      {
-        "element_path": "type_scale.secondary_body",
-        "token_id": "tok_lisraya_type_scale_secondary_body"
-      },
-      {
-        "element_path": "type_scale.footnote",
-        "token_id": "tok_lisraya_type_scale_footnote"
-      }
-    ],
-    "effect_evidence": {
-      "quotes": [
-        "Body: 16px / 24px (150%)",
-        "Footnote/reference text within a section: 12px / 18px (150%)",
-        "H1 (section hero headline): 28px / 36px (≈130%)",
-        "H2 (section heading): 22px / 30px (≈136%)",
-        "H3 (subhead): 18px / 26px (≈144%)",
-        "Secondary/supporting body: 14px / 21px (150%)"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_1_0012",
-        "u_content_pattern_rules_1_0013",
-        "u_content_pattern_rules_1_0014",
-        "u_content_pattern_rules_1_0015",
-        "u_content_pattern_rules_1_0016",
-        "u_content_pattern_rules_1_0017"
+    "effect": {
+      "assignments": [
+        {
+          "element_path": "type.headlines_headers.print_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_headlines_headers_print_font"
+        },
+        {
+          "element_path": "type.headlines_headers.digital_email_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_headlines_headers_digital_email_font"
+        },
+        {
+          "element_path": "type.headlines_headers.word_ppt_excel_fallback_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+        },
+        {
+          "element_path": "type.body_copy.print_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_copy_print_font"
+        },
+        {
+          "element_path": "type.body_copy.digital_email_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_copy_digital_email_font"
+        },
+        {
+          "element_path": "type.body_copy.word_ppt_excel_fallback_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font"
+        },
+        {
+          "element_path": "type.footers_fine_print.print_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_footers_fine_print_print_font"
+        },
+        {
+          "element_path": "type.footers_fine_print.digital_email_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_footers_fine_print_digital_email_font"
+        },
+        {
+          "element_path": "type.footers_fine_print.word_ppt_excel_fallback_font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font"
+        }
       ]
     },
-    "evaluation_scope": "element",
     "evidence": {
       "quotes": [
-        "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels.",
-        "16px is the brand-mandated minimum for body copy",
-        "16px is the brand-mandated minimum for body copy (\"bigger is better\")",
-        "Email type scale (px / line-height)",
-        "Never set running text below 12px. (ISI sizing is owned by the locked component.)",
-        "[GENERAL] Email type scale (px / line-height):"
+        "| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |",
+        "| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |",
+        "| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |"
       ],
       "unit_ids": [
-        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "high",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "compiled_by": 1.0,
+        "constraint_type": 1.0,
+        "effect": 1.0,
+        "hardness": 1.0,
+        "rule_class": 1.0,
+        "selector": 1.0,
+        "slug": 1.0,
+        "token_ids": 1.0
+      },
+      "runs": 3,
+      "support": 3
+    },
+    "hardness": "strong_default",
+    "id": "rule_lisraya_typography_hierarchy_fonts_weights_cases_table_binding",
+    "intent": "Bind the Typography Hierarchy (fonts, weights, cases) table values verbatim.",
+    "rule_class": "assembly",
+    "rule_text": "The Typography Hierarchy (fonts, weights, cases) table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| Level | Print | Digital / Email | Word / PPT / Excel fallback |\n|---|---|---|---|\n| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |\n| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |\n| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |",
+    "selector": {
+      "element_path": null
+    },
+    "slug": "typography_hierarchy_fonts_weights_cases_table_binding",
+    "token_ids": [
+      "tok_lisraya_type_body_copy_digital_email_font",
+      "tok_lisraya_type_body_copy_print_font",
+      "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font",
+      "tok_lisraya_type_footers_fine_print_digital_email_font",
+      "tok_lisraya_type_footers_fine_print_print_font",
+      "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font",
+      "tok_lisraya_type_headlines_headers_digital_email_font",
+      "tok_lisraya_type_headlines_headers_print_font",
+      "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+    ]
+  },
+  {
+    "compiled_by": "tables-v1",
+    "constraint_type": "binding",
+    "effect": {
+      "assignments": [
+        {
+          "element_path": "type.h1_section_hero_headline.size",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h1_section_hero_headline_size_2"
+        },
+        {
+          "element_path": "type.h1_section_hero_headline.line_height",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h1_section_hero_headline_line_height_2"
+        },
+        {
+          "element_path": "type.h1_section_hero_headline.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h1_section_hero_headline_pct_2"
+        },
+        {
+          "element_path": "type.h1_section_hero_headline.weight",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h1_section_hero_headline_weight_2"
+        },
+        {
+          "element_path": "type.h1_section_hero_headline.font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h1_section_hero_headline_font_2"
+        },
+        {
+          "element_path": "type.h2_section_heading.size",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h2_section_heading_size_2"
+        },
+        {
+          "element_path": "type.h2_section_heading.line_height",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h2_section_heading_line_height_2"
+        },
+        {
+          "element_path": "type.h2_section_heading.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h2_section_heading_pct_2"
+        },
+        {
+          "element_path": "type.h2_section_heading.weight",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h2_section_heading_weight_2"
+        },
+        {
+          "element_path": "type.h2_section_heading.font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h2_section_heading_font_2"
+        },
+        {
+          "element_path": "type.h3_subhead.size",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h3_subhead_size_2"
+        },
+        {
+          "element_path": "type.h3_subhead.line_height",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h3_subhead_line_height_2"
+        },
+        {
+          "element_path": "type.h3_subhead.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h3_subhead_pct_2"
+        },
+        {
+          "element_path": "type.h3_subhead.weight",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h3_subhead_weight_2"
+        },
+        {
+          "element_path": "type.h3_subhead.font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_h3_subhead_font_2"
+        },
+        {
+          "element_path": "type.body.dim_1",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_dim_1_2"
+        },
+        {
+          "element_path": "type.body.dim_2",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_dim_2_2"
+        },
+        {
+          "element_path": "type.body.dim_3",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_dim_3_2"
+        },
+        {
+          "element_path": "type.body.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_pct_2"
+        },
+        {
+          "element_path": "type.body.weight",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_weight_2"
+        },
+        {
+          "element_path": "type.body.font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_body_font_2"
+        },
+        {
+          "element_path": "type.secondary_supporting_body.size",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_secondary_supporting_body_size_2"
+        },
+        {
+          "element_path": "type.secondary_supporting_body.line_height",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_secondary_supporting_body_line_height_2"
+        },
+        {
+          "element_path": "type.secondary_supporting_body.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_secondary_supporting_body_pct_2"
+        },
+        {
+          "element_path": "type.secondary_supporting_body.weight",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_secondary_supporting_body_weight_2"
+        },
+        {
+          "element_path": "type.secondary_supporting_body.font",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_secondary_supporting_body_font_2"
+        },
+        {
+          "element_path": "type.footnote_reference_text_within_a_section.size",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_footnote_reference_text_within_a_section_size_2"
+        },
+        {
+          "element_path": "type.footnote_reference_text_within_a_section.line_height",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_footnote_reference_text_within_a_section_line_height_2"
+        },
+        {
+          "element_path": "type.footnote_reference_text_within_a_section.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_footnote_reference_text_within_a_section_pct_2"
+        },
+        {
+          "element_path": "type.line_height.size",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_line_height_size_2"
+        },
+        {
+          "element_path": "type.line_height.line_height",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_line_height_line_height_2"
+        },
+        {
+          "element_path": "type.line_height.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_line_height_pct_2"
+        },
+        {
+          "element_path": "type.line_height.pct_2",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_type_line_height_pct_2_2"
+        }
+      ]
+    },
+    "evidence": {
+      "quotes": [
+        "  - Body: 16px / 24px (150%), Nunito Sans Regular — **16px is the brand-mandated minimum for body copy (\"bigger is better\")**",
+        "  - Footnote/reference text within a section: 12px / 18px (150%) — must be \"noticeably smaller\" than primary data and clearly separated from it",
+        "  - H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold",
+        "  - H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold",
+        "  - H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold",
+        "  - Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular — use sparingly, never for primary content",
+        "- **Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px)."
+      ],
+      "unit_ids": [
         "u_content_pattern_rules_1_0012",
         "u_content_pattern_rules_1_0013",
         "u_content_pattern_rules_1_0014",
         "u_content_pattern_rules_1_0015",
         "u_content_pattern_rules_1_0016",
         "u_content_pattern_rules_1_0017",
-        "u_content_pattern_rules_1_0020",
-        "u_content_pattern_rules_1_0018"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 0.5,
-        "governance": 1.0,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 1.0,
-        "scope": 1.0,
-        "selector": 0.5,
-        "slug": 1.0,
-        "snippets": 1.0,
-        "tags": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_email_type_scale_hierarchy",
-    "intent": "Maintain layout accessibility and clean readability through an ordered, non-ambiguous visual type scale.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "typography",
-    "rule_text": "Layouts must strictly follow the established email type scale and visual hierarchy: H1 hero headlines at 28px (type_scale.h1), H2 headings at 22px (type_scale.h2), H3 subheads at 18px (type_scale.h3), and standard body copy at a brand-mandated minimum of 16px (type_scale.body). Secondary supporting copy may be 14px (type_scale.secondary_body), and footnote/reference copy must be 12px (type_scale.footnote) and visually distinct. Running body copy must never fall below the absolute minimum of 12px. Distinct, adjacent text blocks must not share identical sizing and weights if they perform different roles in the visual hierarchy.",
-    "scope": "org_baseline",
-    "selector": {
-      "element_path": "type_scale",
-      "section_types": null
-    },
-    "slug": "email_type_scale_hierarchy",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": [
-      "accessibility"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "description": "Line height must be minimum 150% for all body copy. For light text on dark backgrounds, line height must be increased further to 160% (e.g., 16px/26px).",
-    "doc_ref": "content_pattern_rules[1]",
-    "effect": [
-      {
-        "element_path": "body.line_height",
-        "token_id": "tok_lisraya_line_height_body_min"
-      }
-    ],
-    "effect_evidence": {
-      "quotes": [
-        "Line height: minimum 150% for all body copy",
-        "Line height: minimum 150% for all body copy (brand accessibility rule)."
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_1_0019"
-      ]
-    },
-    "evaluation_scope": "element",
-    "evidence": {
-      "quotes": [
-        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px).",
-        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — use 160% (e.g., 16px/26px)."
-      ],
-      "unit_ids": [
         "u_content_pattern_rules_1_0019"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r0",
+      "champion_run": "r1",
       "confidence": "high",
       "dissent_unit_ids": [],
       "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
+        "compiled_by": 1.0,
         "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 0.6666666666666666,
         "effect": 1.0,
-        "evaluation_scope": 1.0,
-        "governance": 1.0,
         "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
         "rule_class": 1.0,
-        "scope": 1.0,
         "selector": 1.0,
-        "slug": 0.3333333333333333,
-        "snippets": 1.0,
-        "tags": 1.0
+        "slug": 1.0,
+        "token_ids": 1.0
       },
       "runs": 3,
       "support": 3
     },
-    "governance": null,
-    "group_id": "grp_lisraya_content_pattern_rules_01",
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_line_height_accessibility",
-    "intent": "Enhance text readability and reach brand compliance accessibility standards across both light and dark layouts.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "accessibility",
-    "rule_text": "To guarantee accessibility, body copy must use a minimum line height of 150% (line_height.accessibility.body_min = 150%). For light colored text on dark backgrounds, line height must be increased further to a minimum of 160% (e.g., 16px text / 26px line height).",
-    "scope": "org_baseline",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_typography_hierarchy_fonts_weights_cases_table_binding_2",
+    "intent": "Bind the Typography Hierarchy (fonts, weights, cases) table values verbatim.",
+    "rule_class": "assembly",
+    "rule_text": "The Typography Hierarchy (fonts, weights, cases) table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| H1 (section hero headline) | 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold |\n| H2 (section heading) | 22px / 30px (≈136%), Nunito Sans Bold |\n| H3 (subhead) | 18px / 26px (≈144%), Nunito Sans Bold or SemiBold |\n| Body | 16px / 24px (150%), Nunito Sans Regular — **16px is the brand-mandated minimum for body copy (\"bigger is better\")** |\n| Secondary/supporting body | 14px / 21px (150%), Nunito Sans Regular — use sparingly, never for primary content |\n| Footnote/reference text within a section | 12px / 18px (150%) — must be \"noticeably smaller\" than primary data and clearly separated from it |\n| Line height | minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px). |",
     "selector": {
-      "element_path": "body.line_height",
-      "section_types": null
+      "element_path": null
     },
-    "slug": "line_height_accessibility",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": [
-      "typography"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "effect": null,
-    "effect_evidence": null,
-    "evaluation_scope": "element",
-    "evidence": {
-      "quotes": [
-        "Never set running text below 12px. (ISI sizing is owned by the locked component.)"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_1_0018"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
-        "constraint_type": 0.5,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 1.0,
-        "governance": 0.5,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 0.5,
-        "scope": 0.5,
-        "selector": 1.0,
-        "slug": 1.0,
-        "snippets": 1.0,
-        "tags": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_minimum_running_text_size",
-    "intent": "Enforce minimum size limits for standard layout content to guarantee legibility.",
-    "polarity": "must_not",
-    "precedence": 0,
-    "rule_class": "accessibility",
-    "rule_text": "Never set running text size below 12px. (Note: Sizing for Important Safety Information (ISI) is governed strictly by its own locked component).",
-    "scope": "brand",
-    "selector": {
-      "element_path": null,
-      "section_types": null
-    },
-    "slug": "minimum_running_text_size",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": [
-      "typography"
+    "slug": "typography_hierarchy_fonts_weights_cases_table_binding",
+    "token_ids": [
+      "tok_lisraya_type_body_dim_1_2",
+      "tok_lisraya_type_body_dim_2_2",
+      "tok_lisraya_type_body_dim_3_2",
+      "tok_lisraya_type_body_font_2",
+      "tok_lisraya_type_body_pct_2",
+      "tok_lisraya_type_body_weight_2",
+      "tok_lisraya_type_footnote_reference_text_within_a_section_line_height_2",
+      "tok_lisraya_type_footnote_reference_text_within_a_section_pct_2",
+      "tok_lisraya_type_footnote_reference_text_within_a_section_size_2",
+      "tok_lisraya_type_h1_section_hero_headline_font_2",
+      "tok_lisraya_type_h1_section_hero_headline_line_height_2",
+      "tok_lisraya_type_h1_section_hero_headline_pct_2",
+      "tok_lisraya_type_h1_section_hero_headline_size_2",
+      "tok_lisraya_type_h1_section_hero_headline_weight_2",
+      "tok_lisraya_type_h2_section_heading_font_2",
+      "tok_lisraya_type_h2_section_heading_line_height_2",
+      "tok_lisraya_type_h2_section_heading_pct_2",
+      "tok_lisraya_type_h2_section_heading_size_2",
+      "tok_lisraya_type_h2_section_heading_weight_2",
+      "tok_lisraya_type_h3_subhead_font_2",
+      "tok_lisraya_type_h3_subhead_line_height_2",
+      "tok_lisraya_type_h3_subhead_pct_2",
+      "tok_lisraya_type_h3_subhead_size_2",
+      "tok_lisraya_type_h3_subhead_weight_2",
+      "tok_lisraya_type_line_height_line_height_2",
+      "tok_lisraya_type_line_height_pct_2",
+      "tok_lisraya_type_line_height_pct_2_2",
+      "tok_lisraya_type_line_height_size_2",
+      "tok_lisraya_type_secondary_supporting_body_font_2",
+      "tok_lisraya_type_secondary_supporting_body_line_height_2",
+      "tok_lisraya_type_secondary_supporting_body_pct_2",
+      "tok_lisraya_type_secondary_supporting_body_size_2",
+      "tok_lisraya_type_secondary_supporting_body_weight_2"
     ]
   }
 ]

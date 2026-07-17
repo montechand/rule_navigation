@@ -1,0 +1,128 @@
+{
+  "findings": [
+    {
+      "description": "The source unit bundles three distinct requirements: (1) attribution format '- [Name], LISRAYA patient', (2) italic/distinguished text styling, and (3) mandatory pairing with warm lifestyle imagery. The imagery-pairing requirement is a visual/assembly concern, not copy_editorial attribution styling, and should be split into its own rule so hardness/polarity/class can be independently governed.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_patient_quote_attribution_style",
+              "polarity": "must",
+              "scope": "patient quote attribution and text styling"
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_patient_quote_imagery_pairing",
+              "polarity": "must",
+              "scope": "patient quotes must be paired with warm lifestyle imagery"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_quote_attribution_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_patient_quote_attribution_style",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    {
+      "description": "Source unit cites a specific governance reference (§1.2) tying the footnote-marker requirement to a regulatory/legal source document. The rule lacks any governance facet (citation, source_ref, or compliance owner) capturing this traceability.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "governance": {
+            "citation": "§1.2",
+            "requires_legal_review": true
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_09"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claim_footnote_markers"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claim_footnote_markers",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    },
+    {
+      "description": "The rule is encoded only as polarity=must_not ('never reproduce in sections') but the source unit also asserts a positive placement requirement ('all live in the locked header/footer components'). This dual must/must_not structure is collapsed into a single must_not rule, losing the positive constraint that these elements are mandatorily required in the header/footer.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "new_rules": [
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_locked_header_footer_legal_elements_required",
+              "polarity": "must",
+              "scope": "logo, copyright, ® legal line, job code, Indication, ISI must live in locked header/footer components"
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_locked_header_footer_legal_elements_prohibited_in_sections",
+              "polarity": "must_not",
+              "scope": "these elements must never be reproduced within body sections"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_locked_header_footer_legal_elements"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_locked_header_footer_legal_elements",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    },
+    {
+      "description": "The elements listed (® legal line, job code, Indication, ISI) are core regulatory/legal compliance components, yet the rule carries no governance facet (e.g., regulatory_review_required, legal_owner) despite being a hard compliance boundary distinct from general layout rules.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "governance": {
+            "owner": "legal/regulatory",
+            "regulatory_review_required": true
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_09"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_locked_header_footer_legal_elements"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_locked_header_footer_legal_elements",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    }
+  ]
+}

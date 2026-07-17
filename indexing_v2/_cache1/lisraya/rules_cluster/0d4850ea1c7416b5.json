@@ -1,0 +1,154 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "icon_callout_box_geometry",
+      "note": "Both geometry patterns must be resolved concurrently to maintain the custom 5:1 badge overhang design.",
+      "relation": "co_applies",
+      "src_slug": "icon_callout_layout_alignment"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "icon_callout.box.radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        },
+        {
+          "element_path": "icon_callout.badge.radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        },
+        {
+          "element_path": "icon_callout.badge.shadow",
+          "token_id": "tok_lisraya_shadow_icon_badge"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "box border-radius: 40px 8px 40px 8px;",
+          "border-radius: 20px 4px 20px 4px;",
+          "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0022"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
+          "The white badge mirrors the same accent shape at smaller scale, `border-radius: 20px 4px 20px 4px;` (also 5:1, large TL+BR)",
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+          "the white icon badge must carry a subtle drop shadow so it lifts off the blue box  e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0020",
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the distinct asymmetrical brand shape relationship across container and badge.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Icon Callout Box must use the asymmetric 5:1 corner radius ratio (top-left/bottom-right large, top-right/bottom-left small). The Light Blue container box must be bound to 40px 8px 40px 8px (icon_callout.box.radius), and the White icon badge must mirror this shape at a smaller scale bound to 20px 4px 20px 4px (icon_callout.badge.radius). The icon badge must carry a subtle drop shadow bound to 0 4px 10px rgba(1, 30, 69, 0.18) (icon_callout.badge.shadow). Do not swap or simplify these radii.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_geometry",
+      "snippets": "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n          <tr>\n            <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
+      "snippets_evidence": {
+        "quotes": [
+          "<td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "tags": [
+        "color_application",
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "The blue box itself is inset from the left by half the badge width so the badge's outer half has room",
+          "the left padding must clear the overhanging badge half plus a gap (? `W/2 + 24px`)",
+          "horizontally centered on the box's left edge",
+          "Let `W` = badge width (use 80px, icon ?48px inside).",
+          "Inset the blue box from the left by `W/2` = 40px, and place the badge so its center lands exactly on the box's left edge",
+          "vertically centered to the box. Never let copy slide under the badge.",
+          "inset = `W/2`, box left-padding = `W/2 + 24px`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain exact structural alignment for the 50/50 badge overhang without overlapping live text.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Icon Callout Box layout must position the white icon badge (default width W = 80px) to bisect the left edge of the blue container box (badge center lands exactly on the box's left edge). The blue container must be inset from the left by exactly W/2 = 40px. The box's left padding must clear the overhanging badge half plus a gap (padding-left = W/2 + 24px = 64px). Text copy within the box must be vertically centered, and must not slide under the badge.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_layout_alignment",
+      "snippets": "<div style=\"position:relative; padding-left:40px;\">\n        <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n          <tr>\n            <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
+      "snippets_evidence": {
+        "quotes": [
+          "<div style=\"position:relative; padding-left:40px;\">",
+          "padding:26px 34px 26px 64px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "tags": [
+        "spacing",
+        "typography"
+      ]
+    }
+  ]
+}

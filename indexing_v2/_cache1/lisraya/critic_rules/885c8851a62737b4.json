@@ -1,0 +1,124 @@
+{
+  "findings": [
+    {
+      "description": "Rule conflates two distinct governance concerns: ALL CAPS casing requirement and typeface/medium specification (Agenda for print vs Nunito Sans Bold+ for email fallback). These should be split into a casing rule and a typography/font rule with medium-specific scope, or the font requirement should be captured as a separate scoped facet.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "new_rules": [
+            {
+              "class": "typography",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_chart_headline_all_caps_casing",
+              "polarity": "must",
+              "scope": "chart/infographic headlines"
+            },
+            {
+              "class": "typography",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_chart_headline_typeface",
+              "polarity": "must",
+              "scope": "print: Agenda; email fallback: Nunito Sans Bold+"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_chart_headline_all_caps"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_chart_headline_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003"
+      ]
+    },
+    {
+      "description": "Source explicitly cross-references '(see 1.6)' indicating this rule is governed by or duplicated from another section. This governance/provenance link is not captured on the rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "cross_reference": "section 1.6",
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_all_caps"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_campaign_headline_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "Source item is explicitly tagged [GENERAL] and phrased as 'other than the cases above,' signaling it is an exception-governed general rule dependent on the campaign headline and chart headline ALL CAPS rules. No relation/exception facet or governance tag is captured linking this rule to those exceptions.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "exceptions": [
+            "rule_lisraya_campaign_headline_all_caps",
+            "rule_lisraya_chart_headline_all_caps"
+          ],
+          "governance_tag": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_all_caps_body_buttons_subheads"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_no_all_caps_body_buttons_subheads",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Source text ('Body copy: sentence case.') is a plain declarative statement with no modal/emphasis markers (no bold, no 'must', no 'always'), unlike the ALL CAPS rules which use explicit emphasis. Hardness of hard_constraint appears overstated versus the sibling strong_default headline rule; should likely be strong_default.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "hardness": "strong_default"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_copy_sentence_case"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_body_copy_sentence_case",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Missing explicit relation modeling: the [GENERAL] no-ALL-CAPS rule is the default and the campaign/chart headline rules are its carve-out exceptions; this hierarchical relation is not represented anywhere in the rule set, risking future rules being added without honoring the exception scope.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003",
+        "u_content_pattern_rules_2_0005"
+      ]
+    }
+  ]
+}

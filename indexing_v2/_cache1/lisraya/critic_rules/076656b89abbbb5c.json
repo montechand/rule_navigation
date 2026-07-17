@@ -1,0 +1,91 @@
+{
+  "findings": [
+    {
+      "description": "Three distinct voice-trait pairs (confident/not boastful, warm/not overly emotional, clear/not complicated) are merged into a single rule, losing per-trait polarity and scope distinctions each source bullet establishes independently.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "new_rules": [
+            {
+              "class": "voice_tone",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_voice_confident_not_boastful",
+              "polarity": "must",
+              "source_unit": "u_content_pattern_rules_8_0001"
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_voice_warm_not_overly_emotional",
+              "polarity": "must",
+              "source_unit": "u_content_pattern_rules_8_0002"
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_voice_clear_not_complicated",
+              "polarity": "must",
+              "source_unit": "u_content_pattern_rules_8_0003"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    },
+    {
+      "description": "The governing statement 'Tone may flex slightly by context; core voice never changes' is not represented as a rule or facet at all, omitting the explicit exception/scope condition that qualifies how strictly the voice traits apply across contexts.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "voice_tone",
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "hardness": "conditional",
+          "id": "rule_lisraya_voice_context_flex_core_constant",
+          "polarity": "must",
+          "scope": "tone (context-flexible) vs core voice (invariant)",
+          "source_unit": "u_content_pattern_rules_8_0004"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0004"
+      ]
+    },
+    {
+      "description": "Uniform hardness=strong_default and polarity=must applied across the merged rule fails to capture that core voice is absolute (hard/must) while surface tone is explicitly conditional/flexible per u_0004, creating a hardness/polarity mismatch relative to source nuance.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003",
+        "u_content_pattern_rules_8_0004"
+      ]
+    }
+  ]
+}

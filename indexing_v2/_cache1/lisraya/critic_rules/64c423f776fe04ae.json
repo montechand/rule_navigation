@@ -1,0 +1,51 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule aggregates three highly distinct callout styles (Main, Secondary, and Text-heavy) with highly specific parameters (such as color codes, padding values, border/line widths, and layout rules) into a single monolithic rule. This should be split to ensure precise governance and easy compliance testing of each layout style.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "split_rules": [
+            {
+              "class": "layout",
+              "description": "Main callout key points must use centered bold Brand Blue (#00529b) text with Gold (#ffc60a) 2px horizontal rules (width 60–100% of text block) above and below, with 16px padding between rule and text. Do not feature two competing callouts of this same style on a single screen/section.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_callout_main"
+            },
+            {
+              "class": "layout",
+              "description": "Secondary/data callouts must use a Light Blue (#E6F0F9) box at 70% tint with Bold Brand Blue text and optional line icon. Must adhere to 20px internal padding and corner radius per accent-shape rules §2.5.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_callout_secondary"
+            },
+            {
+              "class": "layout",
+              "description": "Text-heavy callouts must use a Golden Sand (#FEF1C8) box at 30% tint, with Bold Brand Blue headline, line icons, Bold Sky Blue (#358CCB) subheads, and Regular Graphite (#212121) body text. Must feature 24px internal padding and a two-column icon+text layout that collapses to a single column on mobile screens.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_callout_text_heavy"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_formatting_styles"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_callout_formatting_styles",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000",
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    }
+  ]
+}

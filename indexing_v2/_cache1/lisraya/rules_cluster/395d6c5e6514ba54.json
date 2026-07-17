@@ -1,0 +1,178 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "tok_lisraya_color_primary_brand_blue",
+          "tok_lisraya_color_primary_sunshine",
+          "tok_lisraya_color_primary_gold"
+        ],
+        "strict": true
+      },
+      "effect_evidence": {
+        "quotes": [
+          "(1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent)"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "The three approved brand colors in hierarchy order are:"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the approved brand-color hierarchy and dominance order.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The three approved brand colors in hierarchy order are: (1) Deep Blue (color.primary.brand_blue = #00529B) as dominant, (2) Amber Orange (color.primary.sunshine = #FAA31B) as secondary accent, (3) Golden Yellow (color.primary.gold = #FFC60A) as tertiary accent.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "brand_color_hierarchy",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.font",
+          "token_id": "tok_lisraya_headline_font"
+        },
+        {
+          "element_path": "body.font",
+          "token_id": "tok_lisraya_body_font"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Agenda, is the primary headline font\nand should be used for all headlines and headers.",
+          "Nunito Sans should be used for\nall body copy in print."
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0003",
+          "u_internal_banner_rules_0_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Agenda, is the primary headline font",
+          "Nunito Sans should be used for\nall body copy in print."
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0003",
+          "u_internal_banner_rules_0_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Enforce the approved typeface roles for headlines vs. body copy.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Agenda (headline.font = Agenda) is the primary headline font and must be used for all headlines and headers; Nunito Sans (body.font = Nunito Sans) must be used for all body copy in print.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "font_roles_headline_body",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "banner"
+      ],
+      "effect": [
+        {
+          "element_path": "cta.button.shape",
+          "token_id": "tok_lisraya_radius_gradient_cta_button"
+        },
+        {
+          "element_path": "cta.button.gradient.light",
+          "token_id": "tok_lisraya_color_cta_svg_gradient_light"
+        },
+        {
+          "element_path": "cta.button.gradient.dark",
+          "token_id": "tok_lisraya_color_cta_svg_gradient_dark"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "use this shape and treatment for CTAs:",
+          "<stop stop-color=\"`#FFDF55`\"/> <stop offset=\"1\" stop-color=\"`#FAA21B`\"/>"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0010",
+          "u_internal_banner_rules_0_0012"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "use this shape and treatment for CTAs:"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0010",
+          "u_internal_banner_rules_0_0012"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Lock the approved CTA button shape and gradient treatment.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "cta",
+      "rule_text": "Internal banner CTAs must use the signature asymmetric shape (radius.gradient_cta.button_signature = 49.52px 1.76px 40px 1.76px) filled with the CTA gradient from light gold (color.cta.svg_gradient_light_gold = #FFDF55) to dark orange (color.cta.svg_gradient_dark_orange = #FAA21B).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button.fill",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "cta_gradient_shape_treatment",
+      "snippets": "<svg width=\"180\" height=\"59\" viewBox=\"0 0 180 59\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"M0 25C0 11.1929 11.1929 0 25 0H177.5C178.605 0 179.5 0.895431 179.5 2V33.5C179.5 47.3071 168.307 58.5 154.5 58.5H2C0.895433 58.5 0 57.6046 0 56.5V25Z\" fill=\"url(#paint0_linear_75_5202)\"/> <defs> <linearGradient id=\"paint0_linear_75_5202\" x1=\"0\" y1=\"29.25\" x2=\"179.5\" y2=\"29.25\" gradientUnits=\"userSpaceOnUse\"> <stop stop-color=\"`#FFDF55`\"/> <stop offset=\"1\" stop-color=\"`#FAA21B`\"/> </linearGradient> </defs> </svg>",
+      "snippets_evidence": {
+        "quotes": [
+          "<svg width=\"180\" height=\"59\" viewBox=\"0 0 180 59\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0012"
+        ]
+      },
+      "tags": [
+        "color_application"
+      ]
+    }
+  ]
+}

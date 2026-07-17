@@ -1,80 +1,76 @@
 [
   {
-    "applies_when": null,
-    "audience": null,
+    "compiled_by": "tables-v1",
     "constraint_type": "binding",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "effect": [
-      {
-        "element_path": "headline.character.tint",
-        "token_id": "tok_lisraya_opacity_tint_headline_char"
-      }
-    ],
-    "effect_evidence": {
-      "quotes": [
-        "Campaign headline \"D\" and \"M\": **≈40% tint**",
-        "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_2_0001"
+    "effect": {
+      "assignments": [
+        {
+          "element_path": "comp.campaign_headline_d_and_m.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_comp_campaign_headline_d_and_m_pct"
+        },
+        {
+          "element_path": "comp.light_blue_callout_box.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_comp_light_blue_callout_box_pct"
+        },
+        {
+          "element_path": "comp.golden_sand_callout_box.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_comp_golden_sand_callout_box_pct"
+        },
+        {
+          "element_path": "comp.wave_top_layers.pct",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_comp_wave_top_layers_pct"
+        }
       ]
     },
-    "evaluation_scope": "element",
     "evidence": {
       "quotes": [
-        "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway)."
+        "- Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).",
+        "- Golden Sand callout box: **30% tint**.",
+        "- Light Blue callout box: **70% tint**.",
+        "- Wave top layers: **70% transparency**."
       ],
       "unit_ids": [
-        "u_color_scheme_rules_2_0001"
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
+      "champion_run": "r1",
+      "confidence": "high",
       "dissent_unit_ids": [],
       "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
+        "compiled_by": 1.0,
         "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
         "effect": 1.0,
-        "evaluation_scope": 1.0,
-        "governance": 1.0,
-        "hardness": 0.5,
-        "polarity": 1.0,
-        "precedence": 1.0,
+        "hardness": 1.0,
         "rule_class": 1.0,
-        "scope": 1.0,
-        "selector": 0.5,
+        "selector": 1.0,
         "slug": 1.0,
-        "snippets": 1.0,
-        "tags": 1.0
+        "token_ids": 1.0
       },
       "runs": 3,
-      "support": 2
+      "support": 3
     },
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_campaign_headline_character_tint",
-    "intent": "Maintain the specific campaign typographic branding for key headline characters.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "typography",
-    "rule_text": "In campaign headlines, specific characters (\"D\" and \"M\") must be styled with an approximate 40% tint (opacity.campaign.headline_char_tint = 0.4) of the main headline color.",
-    "scope": "campaign",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_tint_rules_table_binding",
+    "intent": "Bind the Tint Rules table values verbatim.",
+    "rule_class": "assembly",
+    "rule_text": "The Tint Rules table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| Campaign headline \"D\" and \"M\" | **≈40% tint** of the headline color (Gold or Brand Blue colorway). |\n| Light Blue callout box | **70% tint**. |\n| Golden Sand callout box | **30% tint**. |\n| Wave top layers | **70% transparency**. |",
     "selector": {
-      "element_path": "headline.character.tint",
-      "section_types": [
-        "hero"
-      ]
+      "element_path": null
     },
-    "slug": "campaign_headline_character_tint",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": [
-      "color_application"
+    "slug": "tint_rules_table_binding",
+    "token_ids": [
+      "tok_lisraya_comp_campaign_headline_d_and_m_pct",
+      "tok_lisraya_comp_golden_sand_callout_box_pct",
+      "tok_lisraya_comp_light_blue_callout_box_pct",
+      "tok_lisraya_comp_wave_top_layers_pct"
     ]
   }
 ]

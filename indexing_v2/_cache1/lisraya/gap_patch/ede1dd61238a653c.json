@@ -1,0 +1,137 @@
+{
+  "assets": [],
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "callout.icon_box.badge.shadow",
+          "token_id": "tok_lisraya_shadow_icon_badge"
+        },
+        {
+          "element_path": "callout.icon_box.container.radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        },
+        {
+          "element_path": "callout.icon_box.badge.radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "the edge is the badge's perpendicular bisector",
+          "Let `W` = badge width (use **80px**, icon ?48px inside).",
+          "Inset the blue box from the left by **`W/2` = 40px**",
+          "place the badge so its **center lands exactly on the box's left edge**",
+          "e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);` (Dark Navy at low opacity).",
+          "This shadow is required on every instance",
+          "`40px 8px 40px 8px` radius",
+          "inset = `W/2`, box left-padding = `W/2 + 24px`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0012",
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023",
+          "u_color_scheme_rules_6_0042",
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "id": "rule_lisraya_icon_callout_box_geometry",
+      "rule_class": "layout",
+      "rule_text": "The icon callout box geometry requires a W=80px badge inset from the left by half its width (40px) so its center sits on the box's left edge, with the box radius bound to '40px 8px 40px 8px' and the white icon badge bound to a subtle drop shadow (0 4px 10px rgba(1, 30, 69, 0.18)) on every instance.",
+      "selector": {
+        "element_path": "callout.icon_box"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "every other rule (Light Blue fill, `40px 8px 40px 8px` radius"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0042"
+        ]
+      },
+      "id": "tok_lisraya_icon_callout_badge_radius",
+      "key": "icon_callout.badge.radius",
+      "token_type": "radius",
+      "value": {
+        "default": "20px 4px 20px 4px",
+        "default_evidence": {
+          "quotes": [
+            "every other rule (Light Blue fill, `40px 8px 40px 8px` radius, blue 800 text, drop shadow) stays identical."
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0042"
+          ]
+        },
+        "variants": null
+      }
+    },
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "every other rule (Light Blue fill, `40px 8px 40px 8px` radius"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0042"
+        ]
+      },
+      "id": "tok_lisraya_icon_callout_box_radius",
+      "key": "icon_callout.box.radius",
+      "token_type": "radius",
+      "value": {
+        "default": "40px 8px 40px 8px",
+        "default_evidence": {
+          "quotes": [
+            "every other rule (Light Blue fill, `40px 8px 40px 8px` radius, blue 800 text, drop shadow) stays identical."
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0042"
+          ]
+        },
+        "variants": null
+      }
+    },
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);`",
+          "This shadow is required on every instance"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "id": "tok_lisraya_icon_callout_badge_shadow",
+      "key": "icon_callout.badge.shadow",
+      "token_type": "shadow",
+      "value": {
+        "default": "0 4px 10px rgba(1, 30, 69, 0.18)",
+        "default_evidence": {
+          "quotes": [
+            "e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);` (Dark Navy at low opacity)."
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0022"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

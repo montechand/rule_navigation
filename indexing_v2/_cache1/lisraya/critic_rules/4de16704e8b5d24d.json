@@ -1,0 +1,68 @@
+{
+  "findings": [
+    {
+      "description": "Icon style requirement ('minimal line illustration', consistent stroke weight/rounded caps/single-color, must match stylistic approach') is a distinct hard constraint but has no corresponding rule in the group; only the color rule was extracted.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "description": "New icons must use minimal line illustration style with consistent stroke weight, rounded line caps, and single-color line work.",
+          "doc_ref": "design_pattern_rules[5]",
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001"
+      ]
+    },
+    {
+      "description": "Scale/contrast guidance for low-vision audiences, including embedded GENERAL default values (32x32px minimum render size in email, default Brand Blue strokes on light backgrounds), is entirely missing from the candidate rule set.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "description": "Consider scale and contrast for low-vision audiences.",
+          "doc_ref": "design_pattern_rules[5]",
+          "governance": {
+            "facets": {
+              "default_stroke_color": "Brand Blue on light backgrounds",
+              "minimum_render_size_email": "32x32px"
+            },
+            "scope": "GENERAL"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "soft_constraint",
+          "polarity": "should"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "The bracketed [GENERAL: ...] clause is a governance facet specifying concrete default values and channel scope (email) that must be preserved on any rule derived from this unit; currently no rule captures it at all, risking silent loss of these operational defaults.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    }
+  ]
+}

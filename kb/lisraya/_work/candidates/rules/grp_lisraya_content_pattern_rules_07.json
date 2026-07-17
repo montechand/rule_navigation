@@ -1,391 +1,54 @@
 [
   {
+    "alternatives": [
+      {
+        "label": "primary",
+        "unit_id": "u_content_pattern_rules_7_0003"
+      },
+      {
+        "label": "alt",
+        "unit_id": "u_content_pattern_rules_7_0004"
+      }
+    ],
     "applies_when": null,
     "audience": "dtp_patient",
-    "constraint_type": "verbatim_content",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "effect": {
-      "content": "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.",
-      "trigger": null
-    },
-    "effect_evidence": {
-      "quotes": [
-        "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.",
-        "\"LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.\""
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0005"
-      ]
-    },
-    "evaluation_scope": "sentence",
-    "evidence": {
-      "quotes": [
-        "\"LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.\"",
-        "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required."
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0005"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "high",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 1.0,
-        "governance": 1.0,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 1.0,
-        "scope": 0.6666666666666666,
-        "selector": 0.3333333333333333,
-        "slug": 0.3333333333333333,
-        "snippets": 0.6666666666666666,
-        "tags": 0.6666666666666666
-      },
-      "runs": 3,
-      "support": 3
-    },
-    "governance": {
-      "gov_type": "mlr_claim",
-      "match": {
-        "method": "exact"
-      },
-      "preferred_form": "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.",
-      "preferred_form_evidence": {
-        "quotes": [
-          "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required."
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_7_0005"
-        ]
-      },
-      "severity": "block",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_administration_and_convenience_messaging",
-    "intent": "Maintain accurate compliance guidelines concerning pill delivery claims compared to injections.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "copy_editorial",
-    "rule_text": "Administration convenience statements must use verbatim wording: \"LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.\"",
-    "scope": "campaign",
-    "selector": {
-      "element_path": null,
-      "section_types": [
-        "efficacy",
-        "intro"
-      ]
-    },
-    "slug": "administration_and_convenience_messaging",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": null
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "class": "copy_editorial",
-    "constraint_type": "verbatim_content",
+    "constraint": "If MOA copy is used, use exactly one approved MOA variant verbatim.",
+    "constraint_type": null,
     "content_sub_type_ids": null,
     "content_types": null,
     "doc_ref": "content_pattern_rules[7]",
-    "effect": {
-      "content": "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.",
-      "trigger": null
-    },
-    "effect_evidence": {
-      "quotes": [
-        "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.",
-        "Headline: YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis."
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0001"
-      ]
-    },
-    "evaluation_scope": "sentence",
-    "evidence": {
-      "quotes": [
-        "Headline: YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.",
-        "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis."
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0001"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "high",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 0.6666666666666666,
-        "governance": 0.6666666666666666,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 0.6666666666666666,
-        "rule_class": 1.0,
-        "scope": 1.0,
-        "selector": 0.3333333333333333,
-        "slug": 0.3333333333333333,
-        "snippets": 0.6666666666666666,
-        "tags": 0.6666666666666666
-      },
-      "runs": 3,
-      "support": 3
-    },
-    "governance": "Requires verbatim execution without alterations to maintain alignment with approved medical claims.",
-    "governance_approval_required": true,
-    "governance_owner": "Medical, Legal, and Regulatory (MLR) Board",
-    "group_id": "grp_lisraya_content_pattern_rules_07",
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_campaign_approved_headlines_verbatim",
-    "intent": "Maintain strict medical-legal alignment for primary patient-facing campaign headlines.",
-    "polarity": "must",
-    "precedence": 1,
-    "rule_class": "copy_editorial",
-    "rule_id": "rule_lisraya_campaign_approved_headlines_verbatim",
-    "rule_text": "The campaign headline must match the approved verbatim text: \"YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.\"",
-    "scope": "campaign",
-    "selector": {
-      "element_path": null,
-      "section_types": [
-        "hero",
-        "intro"
-      ]
-    },
-    "slug": "campaign_approved_headlines_verbatim",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": null
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "constraint_type": "verbatim_content",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "effect": {
-      "content": "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
-      "trigger": null
-    },
-    "effect_evidence": {
-      "quotes": [
-        "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
-        "\"Talk to your doctor about LISRAYA, the DM treatment you may be looking for.\""
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0006"
-      ]
-    },
-    "evaluation_scope": "element",
-    "evidence": {
-      "quotes": [
-        "Doctor-discussion CTA pattern: \"Talk to your doctor about LISRAYA, the DM treatment you may be looking for.\""
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0006"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "high",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 0.6666666666666666,
-        "governance": 0.6666666666666666,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 1.0,
-        "scope": 0.6666666666666666,
-        "selector": 0.6666666666666666,
-        "slug": 0.6666666666666666,
-        "snippets": 0.6666666666666666,
-        "tags": 1.0
-      },
-      "runs": 3,
-      "support": 3
-    },
-    "governance": {
-      "gov_type": "mlr_claim",
-      "match": {
-        "method": "exact"
-      },
-      "preferred_form": "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
-      "preferred_form_evidence": {
-        "quotes": [
-          "Talk to your doctor about LISRAYA, the DM treatment you may be looking for."
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_7_0006"
-        ]
-      },
-      "severity": "block",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_doctor_discussion_cta_pattern",
-    "intent": "Ensure medical discussion CTAs leverage approved regulatory wording.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "cta",
-    "rule_text": "The doctor-discussion call to action must display the exact text: \"Talk to your doctor about LISRAYA, the DM treatment you may be looking for.\"",
-    "scope": "campaign",
-    "selector": {
-      "element_path": "cta.text",
-      "section_types": [
-        "cta"
-      ]
-    },
-    "slug": "doctor_discussion_cta_pattern",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": [
-      "copy_editorial"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "constraint_type": "verbatim_content",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "effect": {
-      "content": "My Compass Support",
-      "trigger": null
-    },
-    "effect_evidence": {
-      "quotes": [
-        "My Compass Support"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0007"
-      ]
-    },
-    "evaluation_scope": "element",
-    "evidence": {
-      "quotes": [
-        "Support program name: **My Compass Support** (patient support",
-        "Support program name: **My Compass Support** (patient support: Personalized Communication via PAL — text, phone, email, in person; Authorization Support)."
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0007"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "high",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 0.6666666666666666,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 0.3333333333333333,
-        "governance": 1.0,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 1.0,
-        "scope": 1.0,
-        "selector": 0.3333333333333333,
-        "slug": 0.6666666666666666,
-        "snippets": 0.6666666666666666,
-        "tags": 0.6666666666666666
-      },
-      "runs": 3,
-      "support": 3
-    },
-    "governance": {
-      "gov_type": "trademark",
-      "match": {
-        "method": "exact"
-      },
-      "preferred_form": "My Compass Support",
-      "preferred_form_evidence": {
-        "quotes": [
-          "My Compass Support"
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_7_0007"
-        ]
-      },
-      "severity": "block",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_patient_support_program_naming",
-    "intent": "Maintain accurate and consistent brand name usage for the patient support program.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "copy_editorial",
-    "rule_text": "The patient support program must always be referred to as \"My Compass Support\" verbatim.",
-    "scope": "brand",
-    "selector": {
-      "element_path": null,
-      "section_types": [
-        "patient_story",
-        "affordability"
-      ]
-    },
-    "slug": "patient_support_program_naming",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": null
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "constraint_type": "verbatim_content",
-    "content_sub_type_ids": null,
-    "content_types": null,
-    "effect": {
-      "content": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:",
-      "trigger": null
-    },
-    "effect_evidence": {
-      "quotes": [
-        "\"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\""
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_7_0002"
-      ]
-    },
+    "effect": null,
+    "effect_evidence": null,
     "evaluation_scope": "section",
     "evidence": {
       "quotes": [
-        "\"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" → bullets: *Increase your muscle strength* / *Improve your skin symptoms* / *Rely less on steroids* / *Do more of the activities you love*."
+        "...LISRAYA works by turning off the specific inflammatory switches that are stuck in the 'on' position.",
+        "Approved Campaign Messaging (verbatim framework)",
+        "Do more of the activities you love",
+        "Improve your skin symptoms",
+        "Increase your muscle strength",
+        "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:",
+        "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required.",
+        "Rely less on steroids",
+        "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
+        "Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease.",
+        "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.",
+        "My Compass Support (patient support: Personalized Communication via PAL — text, phone, email, in person; Authorization Support)."
       ],
       "unit_ids": [
-        "u_content_pattern_rules_7_0002"
+        "u_content_pattern_rules_7_0000",
+        "u_content_pattern_rules_7_0001",
+        "u_content_pattern_rules_7_0002",
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004",
+        "u_content_pattern_rules_7_0005",
+        "u_content_pattern_rules_7_0006",
+        "u_content_pattern_rules_7_0007"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
+      "champion_run": "r1",
+      "confidence": "medium",
       "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
@@ -394,7 +57,7 @@
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
-        "evaluation_scope": 1.0,
+        "evaluation_scope": 0.5,
         "governance": 1.0,
         "hardness": 1.0,
         "polarity": 1.0,
@@ -407,43 +70,62 @@
         "tags": 1.0
       },
       "runs": 3,
-      "support": 1
+      "support": 2
     },
     "governance": {
+      "applicability": "when using the applicable campaign-message module; not a requirement to include every module",
+      "approval_status": "approved_campaign_messaging",
+      "claim_expansion_allowed": false,
+      "copy_treatment": "verbatim",
       "gov_type": "mlr_claim",
       "match": {
         "method": "exact"
       },
-      "preferred_form": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:",
-      "preferred_form_evidence": {
-        "quotes": [
-          "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:"
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_7_0002"
-        ]
-      },
+      "paraphrase_allowed": false,
+      "preferred_form": null,
+      "preferred_form_evidence": null,
+      "regulated_claims_require_approved_copy": true,
       "severity": "block",
+      "use_requirement": "verbatim_framework",
+      "variant_relation": {
+        "members": [
+          "MOA (primary)",
+          "MOA (alt)"
+        ],
+        "selection": "choose one",
+        "type": "alternative"
+      },
       "verdict": "verbatim_only"
     },
+    "group_id": "grp_lisraya_content_pattern_rules_07",
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_product_benefits_messaging",
-    "intent": "Fulfill MLR requirements regarding the approved indication and benefit framing.",
+    "id": "rule_lisraya_approved_campaign_messaging_framework",
+    "intent": "Keep patient-facing campaign claims, CTA language, and support-program naming within the approved messaging framework.",
     "polarity": "must",
     "precedence": 0,
     "rule_class": "copy_editorial",
-    "rule_text": "Product benefits must be introduced by the exact phrasing: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by approved benefit bullet points.",
-    "scope": "campaign",
+    "rule_text": "Use the approved campaign messaging verbatim: headline “YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.”; the stated product-benefit introduction and its four bullets; either approved MOA message; the administration message; the doctor-discussion CTA “Talk to your doctor about LISRAYA, the DM treatment you may be looking for.”; and the support-program name “My Compass Support” with its described patient-support services.",
+    "scope": "MOA messaging only",
     "selector": {
       "element_path": null,
-      "section_types": [
-        "efficacy",
-        "intro"
-      ]
+      "section_types": null
     },
-    "slug": "product_benefits_messaging",
+    "slug": "approved_campaign_messaging_framework",
     "snippets": null,
     "snippets_evidence": null,
-    "tags": null
+    "source_unit_ids": [
+      "u_content_pattern_rules_7_0000",
+      "u_content_pattern_rules_7_0001",
+      "u_content_pattern_rules_7_0002",
+      "u_content_pattern_rules_7_0003",
+      "u_content_pattern_rules_7_0004",
+      "u_content_pattern_rules_7_0005",
+      "u_content_pattern_rules_7_0006",
+      "u_content_pattern_rules_7_0007"
+    ],
+    "tags": [
+      "voice_tone",
+      "cta"
+    ]
   }
 ]

@@ -1,0 +1,90 @@
+{
+  "findings": [
+    {
+      "description": "An internal banner source claims `#00529B` is 'Deep Blue' and dominant, whereas the primary brand color tables and the rest of the rules consistently designate `#00529b` as 'Brand Blue'. Meanwhile, `#003D74` is the official 'Deep Blue'.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "value_distortion",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_color_brand_blue",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_color_scheme_rules_0_0004"
+      ]
+    },
+    {
+      "description": "Missing editorial token rules for the brand name capitalization (LISRAYA in ALL CAPS), the registered trademark rule with the parenthesized generic name (brepocitinib), and the parent company Priovant Therapeutics, Inc. sign-off pattern.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "default": "LISRAYA® (brepocitinib)",
+          "key": "brand.name.usage_pattern"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001",
+        "u_content_pattern_rules_0_0002",
+        "u_content_pattern_rules_0_0003"
+      ]
+    },
+    {
+      "description": "tok_lisraya_opacity_gold_75 is keyed as an opacity float (0.75) instead of a color stop definition with a percentage/tint representing 'Gold @75%' inside gradient descriptions.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "default": "Gold @75%",
+          "key": "color.gradient.stop.gold_75"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_opacity_gold_75"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_opacity_gold_75",
+      "unit_ids": [
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0007"
+      ]
+    },
+    {
+      "description": "Semantic tokens for the icon callout badge and box border-radius values are set to null even though explicit constants are declared in the layout rules.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "tok_lisraya_icon_callout_badge_radius": {
+            "$ref": "tok_lisraya_radius_callout_badge"
+          },
+          "tok_lisraya_icon_callout_badge_shadow": {
+            "$ref": "tok_lisraya_shadow_icon_badge"
+          },
+          "tok_lisraya_icon_callout_box_radius": {
+            "$ref": "tok_lisraya_radius_callout_box"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_icon_callout_box_radius",
+          "tok_lisraya_icon_callout_badge_radius",
+          "tok_lisraya_icon_callout_badge_shadow"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_icon_callout_box_radius",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019"
+      ]
+    }
+  ]
+}

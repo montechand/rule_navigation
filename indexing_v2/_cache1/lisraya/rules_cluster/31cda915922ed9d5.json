@@ -1,0 +1,135 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "mlr_claim",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "†",
+        "preferred_form_evidence": {
+          "quotes": [
+            "†"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_9_0001"
+          ]
+        },
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain rigorous legal/regulatory substantiation for clinical data.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "efficacy",
+          "safety",
+          "chart"
+        ]
+      },
+      "slug": "clinical_claims_footnotes",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Patient quotes: attributed as `- [Name], LISRAYA patient`, italic or distinguished styling, paired with warm lifestyle imagery."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Ensure patient quotes are clearly contextualized and authentic.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Patient quotes must be attributed as '- [Name], LISRAYA patient' using italic or distinguished styling, and paired with warm lifestyle imagery.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "patient_story"
+        ]
+      },
+      "slug": "patient_quotes_attribution_pairing",
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the **locked header/footer components — never reproduce in sections.**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "forbidden"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain strict containment of global regulatory and branding metadata to prevent duplicate or non-compliant content.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI must live exclusively in the locked header/footer components; never reproduce these elements in other body sections.",
+      "scope": "brand",
+      "selector": null,
+      "slug": "locked_header_footer_isolation",
+      "tags": [
+        "copy_editorial",
+        "accessibility"
+      ]
+    }
+  ]
+}

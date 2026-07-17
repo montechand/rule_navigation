@@ -1,0 +1,115 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules were extracted for this blob at all, despite five distinct tint/transparency specifications under the 'Tint Rules' heading. All source units are unclustered, resulting in total loss of brand_rule coverage for this section.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "g_lisraya_tint_rules",
+          "rules": [
+            {
+              "hardness": "soft",
+              "id": "r_lisraya_tint_headline",
+              "scope": "campaign_headline",
+              "text": "Campaign headline 'D' and 'M': ≈40% tint of the headline color (Gold or Brand Blue colorway)"
+            },
+            {
+              "hardness": "hard",
+              "id": "r_lisraya_tint_lightblue_callout",
+              "scope": "callout_box",
+              "text": "Light Blue callout box: 70% tint"
+            },
+            {
+              "hardness": "hard",
+              "id": "r_lisraya_tint_goldensand_callout",
+              "scope": "callout_box",
+              "text": "Golden Sand callout box: 30% tint"
+            },
+            {
+              "hardness": "hard",
+              "id": "r_lisraya_transparency_wave",
+              "scope": "wave_layers",
+              "text": "Wave top layers: 70% transparency"
+            },
+            {
+              "hardness": "hard",
+              "id": "r_lisraya_no_adhoc_tints",
+              "polarity": "negative",
+              "scope": "global_tint_governance",
+              "text": "No other ad-hoc tints — use palette values or these specified tints only"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "u_color_scheme_rules_2_0005 is a governance/compliance statement ('No other ad-hoc tints — use palette values or these specified tints only') establishing a closed-set constraint over all preceding tint rules, but no rule captures its governance facets (hardness=hard, polarity=negative/prohibitive, scope=global override).",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "applies_to": [
+            "r_lisraya_tint_headline",
+            "r_lisraya_tint_lightblue_callout",
+            "r_lisraya_tint_goldensand_callout",
+            "r_lisraya_transparency_wave"
+          ],
+          "doc_ref": "color_scheme_rules[2]",
+          "governance": "closed_set_only",
+          "group_id": "g_lisraya_tint_rules",
+          "hardness": "hard",
+          "id": "r_lisraya_no_adhoc_tints",
+          "polarity": "negative"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Missed relation: u_0005 acts as a governing/restrictive rule over the four preceding specific tint values (u_0001-u_0004), forming a 'defines exceptions/closed set' relation. This hierarchical relation was not captured because no rules exist at all.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "u_0001 specifies an approximate value ('≈40% tint') applying conditionally to two specific headline labels ('D' and 'M') with colorway scoping (Gold or Brand Blue) — this should be flagged as soft/approximate hardness and scoped narrowly to campaign headlines, distinct from the exact percentage callout/wave rules which are hard-valued.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001"
+      ]
+    }
+  ]
+}

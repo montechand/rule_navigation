@@ -1,0 +1,107 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules were produced for this blob at all despite five distinct tint/transparency specifications and a closed-enumeration compliance statement present in the source. This is a total extraction miss requiring the whole cluster to be built from scratch.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "g_lisraya_tint_rules",
+          "rules": [
+            {
+              "scope": "campaign headline D/M (Gold or Brand Blue colorway)",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0001"
+              ],
+              "value": "≈40% tint of headline color"
+            },
+            {
+              "scope": "Light Blue callout box",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0002"
+              ],
+              "value": "70% tint"
+            },
+            {
+              "scope": "Golden Sand callout box",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0003"
+              ],
+              "value": "30% tint"
+            },
+            {
+              "scope": "Wave top layers",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0004"
+              ],
+              "value": "70% transparency"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "u_0005 is a normative closed-enumeration compliance statement ('No other ad-hoc tints — use palette values or these specified tints only') that establishes hard governance (prohibition + required-fallback) over all tint rules in this cluster. It must be extracted as its own governed rule with hardness=hard, polarity=prohibition, and an explicit relation binding it to the specific tint rules (u_0001–u_0004) it governs; currently no such rule or relation exists.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "governs_unit_ids": [
+            "u_color_scheme_rules_2_0001",
+            "u_color_scheme_rules_2_0002",
+            "u_color_scheme_rules_2_0003",
+            "u_color_scheme_rules_2_0004"
+          ],
+          "group_id": "g_lisraya_tint_rules",
+          "hardness": "hard",
+          "polarity": "prohibition",
+          "statement": "No ad-hoc tints permitted; only palette values or the specified tint/transparency values may be used."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "u_0004 specifies 'transparency' not 'tint' — a distinct visual property from the tint percentages in u_0001-u_0003. If merged under a single generic 'tint rule' entity, the transparency vs tint distinction (scope/attribute type) would be lost; should be tagged with attribute=transparency rather than tint to avoid scope conflation.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0004"
+      ]
+    },
+    {
+      "description": "u_0001 rule scope is compound (applies only to campaign headlines 'D' and 'M', restricted to Gold or Brand Blue colorway) and uses an approximate qualifier ('≈40%'). Any extracted rule must preserve both the restrictive scope and the approximate/soft-value polarity rather than treating it as an exact hard numeric equal to the other 70%/30% exact tint rules.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001"
+      ]
+    }
+  ]
+}

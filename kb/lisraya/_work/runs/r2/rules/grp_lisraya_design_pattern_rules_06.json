@@ -3,7 +3,24 @@
   "group_id": "grp_lisraya_design_pattern_rules_06",
   "missing_token_requests": [],
   "original_text": "### Layout Principles\n- Generous white space; clean, never cluttered. **Limit focal points per section** — use contrast to direct attention to the single most important element.\n- \"Show, don't tell\": break up text walls with imagery and icons.\n- Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge. **[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.**\n- Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**).",
-  "relations": [],
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_break_up_text_with_visuals",
+      "dst_slug": "break_up_text_with_visuals",
+      "note": "Visuals and icons should support scanability without creating more than one focal point in a section.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_single_focal_point_per_section",
+      "src_slug": "single_focal_point_per_section"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_canonical_patient_brochure_content_block",
+      "dst_slug": "canonical_patient_brochure_content_block",
+      "note": "The patient brochure is the visual reference template while section-background metadata supports assembled section sequencing.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_alternating_section_backgrounds_and_metadata",
+      "src_slug": "alternating_section_backgrounds_and_metadata"
+    }
+  ],
   "rules": [
     {
       "applies_when": null,
@@ -15,7 +32,7 @@
         "max": 1,
         "min": null,
         "per": "section",
-        "target": "focal_point"
+        "target": "section.focal_point"
       },
       "effect_evidence": {
         "quotes": [
@@ -36,18 +53,18 @@
       },
       "governance": null,
       "hardness": "strong_default",
-      "id": "rule_lisraya_layout_focal_points_and_density",
-      "intent": "Ensure visual hierarchy and avoid cluttered layouts by concentrating focus.",
+      "id": "rule_lisraya_single_focal_point_per_section",
+      "intent": "Maintain clear visual hierarchy and prevent clutter.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "layout",
-      "rule_text": "To maintain generous white space and direct the user's attention, section layout must limit focal points to a single primary element per section.",
+      "rule_text": "Keep sections generous, clean, and uncluttered: limit each section to a single focal point, using contrast to direct attention to its most important element.",
       "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "section.focal_point",
         "section_types": null
       },
-      "slug": "layout_focal_points_and_density",
+      "slug": "single_focal_point_per_section",
       "snippets": null,
       "snippets_evidence": null,
       "tags": null
@@ -55,26 +72,54 @@
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "pairing",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
-      "effect": {
-        "a": "adjacent_section_background",
-        "b": "identical_section_background",
-        "relation": "forbids"
-      },
-      "effect_evidence": {
-        "quotes": [
-          "alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge"
-        ],
-        "unit_ids": [
-          "u_design_pattern_rules_6_0003"
-        ]
-      },
-      "evaluation_scope": "email",
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
       "evidence": {
         "quotes": [
-          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge. **[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.**"
+          "\"Show, don't tell\": break up text walls with imagery and icons."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "soft_guidance",
+      "id": "rule_lisraya_break_up_text_with_visuals",
+      "intent": "Make content easier to scan and more engaging than text-only layouts.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Follow the “Show, don't tell” principle by breaking up text walls with imagery and icons.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "section.content",
+        "section_types": null
+      },
+      "slug": "break_up_text_with_visuals",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "iconography",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge.",
+          "**[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds."
         ],
         "unit_ids": [
           "u_design_pattern_rules_6_0003"
@@ -82,22 +127,63 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_adjacent_section_background_contrast",
-      "intent": "Visually separate narrative topics and sections during email and page assembly.",
-      "polarity": "must_not",
+      "id": "rule_lisraya_alternating_section_backgrounds_and_metadata",
+      "intent": "Preserve topic separation and enable reliable assembly sequencing.",
+      "polarity": "must",
       "precedence": 0,
       "rule_class": "assembly",
-      "rule_text": "Section designers must declare their section's background color in component metadata, and assemblers must sequence sections to ensure adjacent sections do not use identical background colors (White, Light Blue, Golden Sand, or gradients) to prevent them from merging visually.",
+      "rule_text": "Use color blocks to delineate topics, alternating White (#ffffff), Light Blue (#e6f0f9), Golden Sand (#fef1c8), and gradient section backgrounds so adjacent assembled sections do not visually merge. Section designers must declare their section background color in component metadata so assemblers can avoid sequencing two identical adjacent backgrounds.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "section.background",
         "section_types": null
       },
-      "slug": "adjacent_section_background_contrast",
+      "slug": "alternating_section_backgrounds_and_metadata",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "color_application"
+        "color_application",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern",
+          "patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_canonical_patient_brochure_content_block",
+      "intent": "Maintain a consistent patient-centered messaging and visual system across materials.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Use the patient-brochure canonical content block: a bold headline, simple benefit statements, and a patient quote. Treat the patient brochure as the reference template for the visuals, messaging, and overall tone of all LISRAYA materials.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "section.content_block",
+        "section_types": null
+      },
+      "slug": "canonical_patient_brochure_content_block",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial",
+        "voice_tone",
+        "typography"
       ]
     }
   ],

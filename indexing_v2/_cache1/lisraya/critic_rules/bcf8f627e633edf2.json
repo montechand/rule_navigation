@@ -1,0 +1,49 @@
+{
+  "findings": [
+    {
+      "description": "The rule rule_lisraya_brand_name_and_trademark_usage groups capitalisation style, trademark symbol logic, and generic naming formats into a single entity. These are distinct copy and design rules with different conditions (e.g., first mention limit, external-facing only) and should be split.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_name_and_trademark_usage"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001",
+        "u_content_pattern_rules_0_0002",
+        "u_content_pattern_rules_0_0003"
+      ]
+    },
+    {
+      "description": "Missing governance override context for the ALL CAPS rule. The text explicitly mentions it 'supersedes the Feb 2026 general guide's title-case rule' and is a 'patient marketing rule'.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "governance_override": "Supersedes Feb 2026 general guide title-case rule for patient marketing materials.",
+          "group_id": "grp_lisraya_content_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_name_and_trademark_usage"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001"
+      ]
+    }
+  ]
+}

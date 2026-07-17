@@ -1,0 +1,417 @@
+{
+  "findings": [
+    {
+      "description": "The entire 'Tint Rules' governance section (40% tint on campaign headline D/M, 70% Light Blue callout tint, 30% Golden Sand callout tint, 70% wave transparency, and the explicit 'no other ad-hoc tints' constraint) has no corresponding tokens. Only the resulting radii/paddings for those components exist, not the tint percentage values themselves, despite this being an explicit closed-set rule.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "40%",
+              "key": "tint.campaign_headline.40"
+            },
+            {
+              "default": "70%",
+              "key": "tint.callout.light_blue_70"
+            },
+            {
+              "default": "30%",
+              "key": "tint.callout.golden_sand_30"
+            },
+            {
+              "default": "70%",
+              "key": "transparency.wave_top_70"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0000",
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "The approved Gradient Specifications table (5 named gradients: Brand Blue→Dark Navy, Sky Blue→Deep Blue, Sunshine→75% Gold, Golden Sand→White→Light Blue, Golden Sand→75% Gold→Sunshine, plus masthead gradient) is not represented as any asset/semantic token set, only individual stop colors exist piecemeal. The guide explicitly states 'never invent gradients,' making the approved list itself a critical catalog entity.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "note": "Add gradient definition tokens/assets for each approved gradient with named stops and usage context."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0001",
+        "u_color_scheme_rules_3_0002",
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007",
+        "u_color_scheme_rules_3_0008"
+      ]
+    },
+    {
+      "description": "Pantone values (2145 C, 137 C, 7548 C) from the PRIMARY palette table are omitted entirely, despite Pantone 7548 C being referenced again in the logo transparency rule.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "Add pantone.brand_blue.2145c, pantone.sunshine.137c, pantone.gold.7548c tokens."
+        },
+        "target_entity_ids": [
+          "tok_lisraya_color_primary_brand_blue",
+          "tok_lisraya_color_primary_gold",
+          "tok_lisraya_background_gradient_cta_fallback"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "CMYK values from the full palette tables are not captured anywhere in the catalog, losing print-reproduction fidelity data.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "omission",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0018"
+      ]
+    },
+    {
+      "description": "No asset entity exists for the Wave graphic device despite detailed rules covering two colorways (Sunshine/Gold, Sky Blue/Deep Blue), long/short variants, and 70% transparency layering construction. This is a core recurring graphic element with no catalog representation.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "asset",
+        "op": "add",
+        "payload": {
+          "name": "ast_lisraya_wave_graphic",
+          "variants": [
+            "sunshine_gold_long",
+            "sunshine_gold_short",
+            "sky_deep_blue_long",
+            "sky_deep_blue_short"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0000",
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Aptos (Word/PPT/Excel fallback font) and its weights (Regular, Bold) are entirely absent from the token catalog, despite being an explicitly named fallback font for headlines, body, and footers.",
+      "finding_id": "f_lisraya_006",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "Aptos",
+              "key": "font.fallback.aptos"
+            },
+            {
+              "default": "Regular",
+              "key": "weight.aptos.regular"
+            },
+            {
+              "default": "Bold",
+              "key": "weight.aptos.bold"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "The typography table specifies Nunito Sans as the Digital/Email headline font (distinct from print Agenda), but only 'font.headline.print' (Agenda) exists in the catalog; there is no 'font.headline.digital' token capturing Nunito Sans for headlines in digital contexts.",
+      "finding_id": "f_lisraya_007",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "Nunito Sans",
+          "key": "font.headline.digital"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_font_headline_print"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_font_headline_print",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "The explicit Email Type Scale (H1 28/36, H2 22/30, H3 18/26, Body 16/24, Secondary 14/21, Footnote 12/18) is almost entirely uncaptured; only a general 12px minimum and a 16px CTA label size exist. This detailed, tabulated hierarchy is a core catalog omission.",
+      "finding_id": "f_lisraya_008",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "28px/36px",
+              "key": "size.h1.28_36"
+            },
+            {
+              "default": "22px/30px",
+              "key": "size.h2.22_30"
+            },
+            {
+              "default": "18px/26px",
+              "key": "size.h3.18_26"
+            },
+            {
+              "default": "16px/24px",
+              "key": "size.body.16_24"
+            },
+            {
+              "default": "14px/21px",
+              "key": "size.secondary.14_21"
+            },
+            {
+              "default": "12px/18px",
+              "key": "size.footnote.12_18"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017"
+      ]
+    },
+    {
+      "description": "Available Nunito Sans weights (Light, Regular, SemiBold, Bold, ExtraBold) are only partly captured — only the specific numeric '800' weight exists, unlike the Agenda font family which has all 5 weights as discrete primitives. This is an asymmetric/incomplete capture of the declared weight scale.",
+      "finding_id": "f_lisraya_009",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "Light",
+              "key": "weight.nunito_sans.light"
+            },
+            {
+              "default": "Regular",
+              "key": "weight.nunito_sans.regular"
+            },
+            {
+              "default": "SemiBold",
+              "key": "weight.nunito_sans.semibold"
+            },
+            {
+              "default": "Bold",
+              "key": "weight.nunito_sans.bold"
+            },
+            {
+              "default": "ExtraBold",
+              "key": "weight.nunito_sans.extrabold"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "tok_lisraya_weight_nunito_800"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_weight_nunito_800",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0008"
+      ]
+    },
+    {
+      "description": "The brand-mandated line-height rules (minimum 150% for body copy, 160% for light text on dark backgrounds) have no corresponding tokens, despite being called out as an accessibility rule in two separate units.",
+      "finding_id": "f_lisraya_010",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "150%",
+              "key": "line_height.body.min_150"
+            },
+            {
+              "default": "160%",
+              "key": "line_height.dark_bg.160"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019",
+        "u_other_rules_0_0002"
+      ]
+    },
+    {
+      "description": "tok_lisraya_color_gold_cta_variant is keyed as 'color.primary.gold_ffc20e', implying it is part of the PRIMARY palette tier. However #FFC20E is a one-off arrow accent color used only in the Gradient Callout CTA button, distinct from the true primary Gold (#ffc60a). Namespacing it under 'primary' misrepresents its scope and risks confusion with the actual primary Gold token.",
+      "finding_id": "f_lisraya_011",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "key": "color.cta.arrow_gold_ffc20e"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_color_gold_cta_variant"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_color_gold_cta_variant",
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    {
+      "description": "Semantic tokens exist for 'Main callout' (tok_lisraya_main_callout_*) and 'Text-heavy callout' (tok_lisraya_text_heavy_callout_*) styles, but no corresponding subtype entities were created for these two of the three approved callout formats — only 'Icon Callout Box' (matching the secondary/data callout w/ icon) has a subtype.",
+      "finding_id": "f_lisraya_012",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "subtype",
+        "op": "add",
+        "payload": {
+          "subtypes": [
+            {
+              "name": "Main Callout"
+            },
+            {
+              "name": "Text-Heavy Callout"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000",
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Chart/infographic headlines are explicitly required to be ALL CAPS, but no semantic/primitive token exists to capture this case rule (unlike campaign_headline.case which is captured).",
+      "finding_id": "f_lisraya_013",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "default": "all_caps",
+          "key": "chart.headline.case"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_chart_headline_color"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003",
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "Source specifies image/text split as '≈40/60' (approximate), but the catalog default drops the approximation qualifier and states it as an exact '40/60' ratio.",
+      "finding_id": "f_lisraya_014",
+      "finding_type": "value_distortion",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "default": "≈40/60"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_ratio_image_text_split"
+        ]
+      },
+      "severity": "info",
+      "target_entity_id": "tok_lisraya_ratio_image_text_split",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0003"
+      ]
+    },
+    {
+      "description": "The logo icon's mandatory 70% transparency applied to Pantone 7548 C / #ffc60a is a distinct governance rule (separate from the general 70% wave transparency) with no corresponding token.",
+      "finding_id": "f_lisraya_015",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "70%",
+          "key": "transparency.logo_icon.gold_70"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008"
+      ]
+    }
+  ]
+}

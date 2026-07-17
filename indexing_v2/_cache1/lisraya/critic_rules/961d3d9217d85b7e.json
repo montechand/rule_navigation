@@ -1,0 +1,69 @@
+{
+  "findings": [
+    {
+      "description": "Rule combines wave construction (colors, variants, opacity math) and usage layout guidelines into a single broad rule. Splitting usage guidelines from the physical construction rules would improve governance and targeting.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "split_rules": [
+            {
+              "class": "imagery",
+              "description": "Wave assets must be constructed using fluid wave forms in either Sunshine/Gold or Sky Blue/Deep Blue colorways (long and short variants only) with the top wave layer set at exactly 70% transparency over the base wave to preserve the translucent layered style.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_wave_construction_specifications"
+            },
+            {
+              "class": "layout",
+              "description": "Waves may be used alone or overlaid on photography or gradient backgrounds to support layout flow, frame content, or add depth, utilizing only approved color values.",
+              "hardness": "guideline",
+              "polarity": "may",
+              "rule_id": "rule_lisraya_wave_usage_and_placement"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_wave_graphic_construction_and_styling"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction_and_styling",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "The masthead gradient rule misses exact compliance requirements regarding logo mark placement at the lightest end of the gradient device, which is a key brand identifier constraint.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "layout",
+          "description": "The approved device for holding copy in masthead positions must be the masthead gradient (Sunshine to CMYK: 0C, 10M, 78Y, 0K) with the brand logo mark strictly placed at the lightest end of the gradient.",
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_masthead_device_construction"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_device_construction"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_masthead_device_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ]
+    }
+  ]
+}

@@ -12,9 +12,14 @@ doc_ref: `design_pattern_rules[2]`
 - Every image requires **descriptive alt text** (brand accessibility rule).
 ````
 
-## Extracted rules (1)
+## Extracted rules (2)
 
-### rule_lisraya_image_treatment_and_shape_masking
-- class=imagery scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding governance=regulatory/allowed_with_disclosure
-- rule_text: All patient and brand photography must convey warm, realistic patient lifestyle moments and be housed within the asymmetric rounded-corner Accent Shape mask (gradient_banner.button.radius = 49.52px 1.76px 40px 1.76px). Waves and gradients may overlay photography, and every image must contain descriptive alt text for accessibility.
-- intent: Maintain brand visual distinction through the asymmetric mask and enforce regulatory compliance via mandatory alt text.
+### rule_lisraya_descriptive_image_alt_text
+- class=accessibility scope=brand hardness=hard_constraint polarity=must sections=None constraint=cardinality governance=regulatory/requires_qualifier
+- rule_text: Every image requires descriptive alt text.
+- intent: Ensure image content is accessible to people using assistive technology.
+
+### rule_lisraya_photography_wave_gradient_overlays
+- class=imagery scope=brand hardness=soft_guidance polarity=may sections=None constraint=None
+- rule_text: Waves and gradients may overlay photography.
+- intent: Allow brand graphic depth over photographic imagery.

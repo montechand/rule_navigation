@@ -1,0 +1,114 @@
+{
+  "findings": [
+    {
+      "description": "Three distinct voice attributes (confident-not-boastful, warm-not-overly-emotional, clear-not-complicated) each with their own qualifying clause and rationale are merged into a single rule. These are independently statable brand-voice traits and should be split into three atomic rules to preserve individual nuance and allow independent hardness/polarity tracking.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "new_rules": [
+            {
+              "class": "voice_tone",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_voice_confident_not_boastful",
+              "polarity": "must",
+              "unit_ids": [
+                "u_content_pattern_rules_8_0001"
+              ]
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_voice_warm_not_emotional",
+              "polarity": "must",
+              "unit_ids": [
+                "u_content_pattern_rules_8_0002"
+              ]
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_voice_clear_not_complicated",
+              "polarity": "must",
+              "unit_ids": [
+                "u_content_pattern_rules_8_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    },
+    {
+      "description": "u_content_pattern_rules_8_0004 states an important scope/exception clause ('Tone may flex slightly by context; core voice never changes') that governs how the three voice rules apply across contexts. This unit is entirely uncaptured — no rule represents the permitted contextual flexibility or the invariant core-voice constraint, and no relation links it to the voice_tone rules it modifies.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "voice_tone",
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "hardness": "hard_rule",
+          "id": "rule_lisraya_voice_context_flex_core_invariant",
+          "polarity": "must_not",
+          "relations": [
+            "modifies:rule_lisraya_voice_confident_not_boastful",
+            "modifies:rule_lisraya_voice_warm_not_emotional",
+            "modifies:rule_lisraya_voice_clear_not_complicated"
+          ],
+          "statement": "Tone may flex slightly by context but the core brand voice must never change."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_8_0004"
+      ]
+    },
+    {
+      "description": "The compliance-style voice statements (each phrased as a normative constraint, e.g. 'never overstated or sensationalized') lack governance facets such as scope (which channels/materials this applies to), owner/approver, or exception handling — needed given these are treated as strong_default/must rules.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[8]",
+          "governance": {
+            "exceptions": "context-based tone flexing per u_content_pattern_rules_8_0004",
+            "owner": "brand voice guideline",
+            "scope": "all brand communications"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_08"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0000",
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    }
+  ]
+}

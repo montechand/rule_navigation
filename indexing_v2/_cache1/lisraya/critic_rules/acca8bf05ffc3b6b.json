@@ -1,0 +1,72 @@
+{
+  "findings": [
+    {
+      "description": "The candidate ruleset only covers the campaign headline character tint rule, failing to capture the specific tint/transparency rules for Callout boxes (Light Blue and Golden Sand) and Wave top layers, as well as the global negative constraint prohibiting other ad-hoc tints.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "split_rules": [
+            {
+              "class": "typography",
+              "description": "Campaign headline 'D' and 'M' characters must use an approximately 40% tint of the primary headline color (Gold or Brand Blue colorway).",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_character_tint",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0001"
+              ]
+            },
+            {
+              "class": "color_palette",
+              "description": "Callout boxes must use specific tints: Light Blue must be 70% tint, and Golden Sand must be 30% tint.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_callout_box_tints",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0002",
+                "u_color_scheme_rules_2_0003"
+              ]
+            },
+            {
+              "class": "imagery",
+              "description": "Wave top layers must be set to 70% transparency.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_wave_layer_transparency",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0004"
+              ]
+            },
+            {
+              "class": "color_palette",
+              "description": "Do not use other ad-hoc tints; you must only use official palette values or the specified tints listed in the tint rules.",
+              "hardness": "hard_constraint",
+              "polarity": "must_not",
+              "rule_id": "rule_lisraya_prohibited_adhoc_tints",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0005"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_character_tint"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_campaign_headline_character_tint",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "findings": [
+    {
+      "description": "No rule rows exist at all for this blob despite an explicit [IMPORTANT] heading describing a fully-specified CTA section (background gradient/fallback color, headline styling, button styling). This entire compliance unit was never clustered into a brand_rule.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_cta_layout",
+          "hardness": "hard",
+          "polarity": "positive",
+          "scope": "gradient_callout_cta_section",
+          "statement": "Gradient Callout CTA section layout: full-width banner with orange/yellow gradient background (fallback #faa31b), headline in Brand Blue #00529b Nunito Sans 800 ~28px top third, button 248x64px Deep Blue #003D74 fill, white Nunito Sans 800 18px label, Gold #FFC20E arrow after two nbsp."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0000",
+        "u_color_scheme_rules_5_0002",
+        "u_color_scheme_rules_5_0004",
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_5_0007",
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    {
+      "description": "The mandatory, never-change button border-radius rule (four-value asymmetric radius, required on every instance even when background skipped) is a hard, non-negotiable governance rule with explicit prohibitions (never simplify, swap corners, round decimals) — this must be its own rule row with hardness=hard and explicit prohibition facets, not omitted.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_cta_button_radius",
+          "hardness": "hard",
+          "polarity": "negative_prohibition_plus_positive_mandate",
+          "scope": "gradient_callout_cta_button",
+          "statement": "Button border-radius must always be exactly `49.52px 1.76px 40px 1.76px` on every instance (even if background is skipped); never simplify to a single value, swap corners, or round decimals."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0010",
+        "u_color_scheme_rules_5_0011"
+      ]
+    },
+    {
+      "description": "The background-skip fallback condition (rare cases: plain-text/AMP, image-stripping client, size budget) with exact required MJML attribute removals (background-url, background-size, background-repeat, background-position; keep background-color, headline color, button color/radius) is a distinct conditional governance rule that must be captured separately from the main layout rule, including its scope trigger and exception conditions.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_cta_background_fallback",
+          "hardness": "conditional_hard",
+          "polarity": "positive",
+          "scope": "gradient_callout_cta_section_fallback",
+          "statement": "Background image may only be skipped in very rare cases (plain-text/AMP fallback, image-stripping client, hard size budget); when skipped, remove only background-url/background-size/background-repeat/background-position, keep background-color #faa31b and headline/button color/radius identical."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008",
+        "u_color_scheme_rules_5_0017"
+      ]
+    },
+    {
+      "description": "The asset-provenance clause ('do not re-host or recolor' the specific S3-hosted PNG) is a distinct brand-asset governance constraint (asset integrity/non-derivative use) that risks being merged into general layout text rather than tracked as its own hard prohibition with the asset URL as scope.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_cta_asset_integrity",
+          "hardness": "hard",
+          "polarity": "negative_prohibition",
+          "scope": "gradient_callout_background_asset",
+          "statement": "Do not re-host or recolor the Gradient_callout.png background asset; use only the canonical S3 URL as-is."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    {
+      "description": "The MJML code block is a concrete reference implementation of the layout/button/radius rules and should be linked via relation (implements/example_of) to the corresponding rule rows rather than left unassociated, since no rules currently exist to relate it to.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0013",
+        "u_color_scheme_rules_5_0015"
+      ]
+    }
+  ]
+}

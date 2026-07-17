@@ -1,0 +1,381 @@
+{
+  "findings": [
+    {
+      "description": "Source palette tables include CMYK values for every color (all tiers) and Pantone codes for the primary tier (2145 C, 137 C, 7548 C). None of these are captured anywhere in the catalog — only HEX primitives exist. Print production data is entirely omitted.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            "color.primary.brand_blue.pantone=2145C",
+            "color.primary.brand_blue.cmyk=100,76,6,1",
+            "color.primary.sunshine.pantone=137C",
+            "...cmyk for all 11 colors"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "Source contains two complete, ready-to-use MJML code templates (Gradient Callout CTA Section, Icon Callout Box). The catalog declares 'templates (0)' — neither is represented as a template entity, only as subtypes with no linked template artifact captured.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "template",
+        "op": "add",
+        "payload": {
+          "template_source": "verbatim mjml code_block from units"
+        },
+        "target_entity_ids": [
+          "sub_lisraya_gradient_callout_cta_section",
+          "sub_lisraya_icon_callout_box"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015",
+        "u_color_scheme_rules_6_0036"
+      ]
+    },
+    {
+      "description": "Three approved callout formatting styles (Main callout, Secondary/data callout, Text-heavy callout) are described with full color/padding/radius specs and given semantic tokens, but no subtype entities exist for them — only the Gradient Callout CTA Section and Icon Callout Box subtypes were created, leaving these three component patterns structurally unrepresented.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "subtype",
+        "op": "add",
+        "payload": {
+          "subtypes": [
+            "Main Callout",
+            "Secondary Data Callout",
+            "Text-Heavy Callout"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Aptos is a full documented fallback font (Word/PPT/Excel) with two named weights (Regular, Bold), but no 'font.fallback.aptos' primitive or any Aptos weight tokens exist anywhere in the catalog.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            "font.fallback.aptos=Aptos",
+            "weight.aptos.regular=Regular",
+            "weight.aptos.bold=Bold"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "Source lists five available Nunito Sans weights (Light, Regular, SemiBold, Bold, ExtraBold), matching the full weight set captured for Agenda (5 tokens). Only a single Nunito weight (800) is tokenized, leaving Light/Regular/SemiBold/Bold/ExtraBold named weights uncaptured.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            "weight.nunito_sans.light",
+            "weight.nunito_sans.regular",
+            "weight.nunito_sans.semibold",
+            "weight.nunito_sans.bold",
+            "weight.nunito_sans.extrabold"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_weight_nunito_800",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0008"
+      ]
+    },
+    {
+      "description": "The GENERAL email type scale defines explicit sizes/line-heights for H1 (28/36), H2 (22/30), H3 (18/26), Body (16/24), and Secondary body (14/21). Only fragments (144% line-height, 12px min running text) are captured; the actual point sizes for H1, H2, H3, Body, and Secondary body are missing as tokens.",
+      "finding_id": "f_lisraya_006",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            "size.email.h1_28",
+            "size.email.h2_22",
+            "size.email.h3_18",
+            "size.email.body_16",
+            "size.email.secondary_14"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016"
+      ]
+    },
+    {
+      "description": "70% is used for three distinct brand rules: logo icon transparency (Pantone 7548C @70%), wave top-layer transparency, and Light Blue callout tint. Only the callout-tint use is tokenized (opacity.callout.light_blue_70); logo-icon and wave-layer 70% transparency have no dedicated tokens.",
+      "finding_id": "f_lisraya_007",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            "opacity.logo.icon_70",
+            "opacity.wave.top_layer_70"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_opacity_light_blue_callout_70",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_design_pattern_rules_1_0002",
+        "u_color_scheme_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Text-heavy callout is specified with '24px internal padding' (GENERAL), but no padding primitive matches this value — only main callout (16px) and data callout (20px) paddings are tokenized.",
+      "finding_id": "f_lisraya_008",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "token": "padding.callout.text_heavy_24=24px"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Chart/infographic headlines are separately mandated as ALL CAPS, distinct from the campaign headline and brand-name ALL CAPS rules. No dedicated 'case.chart_headline' semantic/primitive token exists to represent this independently.",
+      "finding_id": "f_lisraya_009",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "token": "chart.headline.case -> case.chart_headline.all_caps"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_case_campaign_headline",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003",
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "The approved Gradient Specifications table lists five named gradients (Brand Blue→Dark Navy, Sky Blue→Deep Blue, Sunshine→75%Gold, Golden Sand→White→Light Blue, Golden Sand→75%Gold→Sunshine) plus the masthead gradient. Only scattered fragments supporting the masthead gradient (opacity_gold75, color_masthead_light_gold) exist; the other four full gradient definitions are not captured as distinct tokens/assets despite the explicit 'never invent gradients' constraint implying they must be exactly preserved.",
+      "finding_id": "f_lisraya_010",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            "gradient.brand_blue_to_dark_navy",
+            "gradient.sky_blue_to_deep_blue",
+            "gradient.golden_sand_to_white_to_light_blue",
+            "gradient.golden_sand_to_gold75_to_sunshine"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0001",
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007",
+        "u_color_scheme_rules_3_0008"
+      ]
+    },
+    {
+      "description": "Semantic token chart.bars.shape hardcodes literal 'rounded' instead of referencing the existing primitive tok_lisraya_icon_style_rounded_bars (\"rounded bar tops\"), breaking the $ref pattern used by all other semantic tokens and producing an inconsistent duplicate value.",
+      "finding_id": "f_lisraya_011",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_icon_style_rounded_bars"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_chart_bars_shape"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_chart_bars_shape",
+      "unit_ids": [
+        "u_design_pattern_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Semantic token chart.color.placebo hardcodes literal 'gray' instead of referencing the existing primitive tok_lisraya_color_chart_placebo_gray (\"neutral gray\"), an inconsistent duplicate that breaks the semantic->primitive $ref convention.",
+      "finding_id": "f_lisraya_012",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_color_chart_placebo_gray"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_chart_color_placebo"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_chart_color_placebo",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0004",
+        "u_design_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "No source unit provides a concrete logo asset (URL, file, or code) — only textual references to 'the logo icon' / 'logo mark'. Unlike ast_lisraya_gradient_callout_bg (has an S3 URL) and ast_lisraya_cta_svg_shape (has literal SVG code), this asset entity has no backing artifact in the units, making it unverifiable/fabricated as a concrete asset.",
+      "finding_id": "f_lisraya_013",
+      "finding_type": "fabrication",
+      "proposed_patch": {
+        "entity_kind": "asset",
+        "op": "delete",
+        "payload": {
+          "note": "convert to a documentation note referencing logo usage rules rather than an asset entity, unless an actual logo file reference exists"
+        },
+        "target_entity_ids": [
+          "ast_lisraya_logo_mark"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "ast_lisraya_logo_mark",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Iconography rules describe a style (minimal line illustration, stroke weight, rounded caps) but no concrete icon-set file/URL is given anywhere in the source units. As an 'asset' entity this lacks the same level of concrete backing that the other two URL/code-based assets have.",
+      "finding_id": "f_lisraya_014",
+      "finding_type": "fabrication",
+      "proposed_patch": {
+        "entity_kind": "asset",
+        "op": "update",
+        "payload": {
+          "note": "reclassify as a style/token guideline rather than a concrete asset absent a real file reference"
+        },
+        "target_entity_ids": [
+          "ast_lisraya_line_icon_set"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "ast_lisraya_line_icon_set",
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001",
+        "u_design_pattern_rules_5_0002",
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "The key 'color.primary.gold_ffc20e' places this one-off CTA-arrow color (#FFC20E, used only in the Gradient Callout CTA section) under the 'primary' namespace, but the official Primary tier palette only defines Gold as #ffc60a. This distinct override value is miscategorized as if it were a primary-tier palette color rather than a component-scoped exception.",
+      "finding_id": "f_lisraya_015",
+      "finding_type": "wrong_condition",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "key": "color.component.gradient_cta_arrow_gold"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_color_gold_cta_variant"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_color_gold_cta_variant",
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    {
+      "description": "Entity ID 'background_gradient_cta_fallback' implies a narrowly-scoped, single-use token, yet its key 'color.primary.sunshine' is the canonical brand Sunshine primary color used broadly across tint rules, gradients, and campaign colorways. The narrow ID name risks assemblers treating this as CTA-only rather than the general Sunshine primitive.",
+      "finding_id": "f_lisraya_016",
+      "finding_type": "value_distortion",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "entity_id": "tok_lisraya_color_primary_sunshine"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_background_gradient_cta_fallback"
+        ]
+      },
+      "severity": "info",
+      "target_entity_id": "tok_lisraya_background_gradient_cta_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_0_0005"
+      ]
+    }
+  ]
+}

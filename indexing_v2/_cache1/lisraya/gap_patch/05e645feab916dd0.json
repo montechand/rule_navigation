@@ -1,0 +1,74 @@
+{
+  "assets": [],
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "body.footnote.symbol",
+          "token_id": "tok_lisraya_type_scale_footnote"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Footnote symbols: superscript, assigned in order of appearance at **assembly time** — sections use placeholder tokens (e.g., `{{fn1}}`) rather than hard-coded daggers when more than one referenced claim exists."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0003"
+        ]
+      },
+      "id": "rule_lisraya_footnote_assembly_symbols",
+      "rule_class": "typography",
+      "rule_text": "Footnote symbols must be superscript and assigned in order of appearance at assembly time. Sections must use placeholder tokens (such as {{fn1}}) rather than hard-coded daggers when more than one referenced claim exists.",
+      "selector": {
+        "element_path": "body.footnote.symbol"
+      }
+    },
+    {
+      "constraint_type": "exclusivity",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Dark-background sections must not be placed adjacent to other dark sections (assembler responsibility, enabled by declared backgrounds)."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0005"
+        ]
+      },
+      "id": "rule_lisraya_dark_section_placement",
+      "rule_class": "layout",
+      "rule_text": "Dark-background sections must not be placed adjacent to other dark-background sections. This assembler responsibility is enabled by declared section backgrounds.",
+      "selector": {
+        "element_path": "layout.section.background"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "layout.code.font_stack",
+          "token_id": "tok_lisraya_font_stack_email"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "All colors in code as HEX; all sizing in px; inline CSS only (email client compatibility); `bgcolor` attributes duplicated for Outlook."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0006"
+        ]
+      },
+      "id": "rule_lisraya_email_compatibility_markup",
+      "rule_class": "layout",
+      "rule_text": "All colors in code must be HEX, all sizing in px, and styling must use inline CSS only to ensure email client compatibility. Furthermore, bgcolor attributes must be duplicated for Outlook.",
+      "selector": {
+        "element_path": "layout.code.styling"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

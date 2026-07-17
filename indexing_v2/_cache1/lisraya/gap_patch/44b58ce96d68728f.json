@@ -1,0 +1,68 @@
+{
+  "assets": [
+    {
+      "asset_type": "photography",
+      "description": "Warm, realistic patient lifestyle imagery — real moments of simple, everyday activity (walking the dog, beach, BBQ), conveying returning to everyday life.",
+      "entity_kind": "asset",
+      "evidence": {
+        "quotes": [
+          "Photography: **warm, realistic patient lifestyle imagery** — real moments of simple, everyday activity (walking the dog, beach, BBQ). Conveys returning to everyday life and \"getting back to themselves.\""
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001"
+        ]
+      },
+      "id": "ast_lisraya_patient_lifestyle_photography",
+      "name": "Patient Lifestyle Photography"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "effect": {
+        "content": "real moments of simple, everyday activity (walking the dog, beach, BBQ)",
+        "intent": "conveys returning to everyday life and getting back to themselves",
+        "style": "warm, realistic patient lifestyle imagery"
+      },
+      "evidence": {
+        "quotes": [
+          "Photography: **warm, realistic patient lifestyle imagery** — real moments of simple, everyday activity (walking the dog, beach, BBQ). Conveys returning to everyday life and \"getting back to themselves.\""
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001"
+        ]
+      },
+      "id": "rule_lisraya_photography_warm_patient_lifestyle",
+      "rule_class": "imagery",
+      "selector": {
+        "element_path": "image.photography"
+      }
+    },
+    {
+      "effect": {
+        "detail": "asymmetric rounded-corner crops",
+        "prohibited": [
+          "plain rectangles",
+          "circles"
+        ],
+        "shape": "Accent shape (§2.5)"
+      },
+      "evidence": {
+        "quotes": [
+          "Images are housed in the **Accent shape** (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "id": "rule_lisraya_images_housed_in_accent_shape",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "image.crop"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

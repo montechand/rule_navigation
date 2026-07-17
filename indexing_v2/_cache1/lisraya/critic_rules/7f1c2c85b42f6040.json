@@ -1,0 +1,127 @@
+{
+  "findings": [
+    {
+      "description": "Eight of nine source units (email canvas width, mobile breakpoint, internal grid model, section padding, vertical rhythm/spacing scale, section top/bottom padding, element gap spacing) have no corresponding rule in the candidate set. Only the CTA-related unit (u_0008) is represented, leaving the majority of this blob's normative content unclustered/unextracted.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "note": "add rules for canvas width (600px), mobile breakpoint (480px), internal grid model, 24px section side padding, 8px vertical rhythm base unit, 32px section top/bottom padding, and heading/paragraph/CTA/caption gap spacing"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0000",
+        "u_design_pattern_rules_0_0001",
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003",
+        "u_design_pattern_rules_0_0004",
+        "u_design_pattern_rules_0_0005",
+        "u_design_pattern_rules_0_0006",
+        "u_design_pattern_rules_0_0007"
+      ]
+    },
+    {
+      "description": "rule_lisraya_cta_button_spec appears to bundle multiple distinct facts from u_0008 (background/text color, font, padding, min 48px touch target accessibility rule, corner radius, and a full secondary-CTA variant spec) into a single rule. The accessibility touch-target minimum and the secondary CTA styling are distinct governance/spec concerns and should be split into their own rules for correct hardness/governance tracking.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "new_rules": [
+            "rule_lisraya_cta_primary_style",
+            "rule_lisraya_cta_secondary_style",
+            "rule_lisraya_cta_touch_target_accessibility"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_button_spec"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_cta_button_spec",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The unit explicitly labels the min 48px touch target as 'brand accessibility rule', a compliance/governance statement, but this is folded silently into a general cta_button_spec rule with no governance facet (e.g., accessibility standard reference, compliance category) attached.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "governance": {
+            "basis": "brand accessibility rule: >=48px clickable areas",
+            "category": "accessibility"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_button_spec"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_cta_button_spec",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "Unit heading tags this CTA block as '[GENERAL, contrast-checked to palette]', signaling some facets (e.g., color choice) are general/derived guidance rather than strict brand mandates, yet the rule is uniformly marked hardness=hard_constraint/polarity=must. Hardness should be differentiated: color/font as general-derived guidance vs. touch-target/padding as hard constraints.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "hardness": "mixed",
+          "note": "color/contrast facets are general guidance; touch target and structural padding are hard constraints"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_button_spec"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_button_spec",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "Rule polarity is 'must' but the source phrase 'One primary CTA per section maximum' expresses an upper-bound/limit constraint (must not exceed one), not a positive obligation to include a CTA. Polarity should reflect a cap/limit rather than a plain 'must'.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "polarity": "must_not_exceed"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    }
+  ]
+}

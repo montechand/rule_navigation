@@ -1,0 +1,155 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": 1,
+        "min": null,
+        "per": "section",
+        "target": "focal_point"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Limit focal points per section"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Generous white space; clean, never cluttered.",
+          "use contrast to direct attention to the single most important element",
+          "\"Show, don't tell\": break up text walls with imagery and icons."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001",
+          "u_design_pattern_rules_6_0002"
+        ]
+      },
+      "hardness": "soft_guidance",
+      "intent": "Keep sections uncluttered and focused on one primary element.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Maintain generous white space; layouts stay clean, never cluttered. Limit focal points per section and use contrast to direct attention to the single most important element. Follow \"Show, don't tell\": break up text walls with imagery and icons.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "layout_white_space_single_focus",
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "same_background"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "no two identical adjacent backgrounds",
+        "subject": "section_background_color"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "so assemblers can sequence without two identical adjacent backgrounds"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge.",
+          "section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent adjacent sections merging by alternating declared background colors.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge. [GENERAL] Section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "alternating_section_backgrounds",
+      "tags": [
+        "color_application",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "bold_headline",
+          "simple_benefit_statements",
+          "patient_quote"
+        ],
+        "strict": false
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern",
+          "reference template for visuals, messaging, and overall tone of ALL LISRAYA materials"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Anchor content blocks to the reference patient-brochure pattern.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Bold headline + simple benefit statements + patient quote is the canonical content block pattern, per the patient brochure, which is the reference template for visuals, messaging, and overall tone of ALL LISRAYA materials.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "patient_story"
+        ]
+      },
+      "slug": "canonical_content_block_pattern",
+      "tags": [
+        "copy_editorial",
+        "patient_story"
+      ]
+    }
+  ]
+}

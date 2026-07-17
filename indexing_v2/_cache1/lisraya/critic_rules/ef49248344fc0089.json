@@ -1,0 +1,135 @@
+{
+  "findings": [
+    {
+      "description": "Rule merges two distinct typographic assertions with different scope: Agenda is mandated for all headlines/headers (no medium restriction), while Nunito Sans is scoped only to 'body copy in print'. These have separate identity anchors (u_0006 'Agenda:' and u_0008 'Nunito Sans:' with distinct font-source links) and different applicability scope, so they should be split into two rules rather than one combined font_roles rule.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "new_rules": [
+            {
+              "asset": "Agenda",
+              "class": "typography",
+              "scope": "headlines_and_headers",
+              "source_units": [
+                "u_internal_banner_rules_0_0003",
+                "u_internal_banner_rules_0_0006"
+              ]
+            },
+            {
+              "asset": "Nunito Sans",
+              "class": "typography",
+              "scope": "body_copy_print_only",
+              "source_units": [
+                "u_internal_banner_rules_0_0004",
+                "u_internal_banner_rules_0_0008"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_font_roles"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004",
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0008"
+      ]
+    },
+    {
+      "description": "No rule captures the CTA shape/treatment instruction and its accompanying SVG gradient specification (u_0010, u_0012). This is a distinct governed design asset (CTA button shape + gradient) entirely missing from the candidate rule set for this group.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "component_treatment",
+          "description": "Use specified rounded-pill SVG shape with linear gradient (#FFDF55 to #FAA21B) for all CTAs.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "cta_buttons",
+          "source_units": [
+            "u_internal_banner_rules_0_0010",
+            "u_internal_banner_rules_0_0012"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "Source language uses soft recommendation phrasing ('should be used') for both font assertions, not imperative/mandatory language. Candidate rule polarity=must and hardness=hard_constraint overstate the source's strength; likely should be soft_constraint/should.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "soft_constraint",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_font_roles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004"
+      ]
+    },
+    {
+      "description": "The CTA gradient swatch uses hex #FAA21B, which differs from the approved secondary accent #FAA31B declared in the color hierarchy rule. This inconsistency (likely a typo or unlogged variant) is not flagged or cross-referenced by the color hierarchy rule, risking silent color drift in derived assets.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "note": "Flag discrepancy between approved #FAA31B and CTA gradient stop #FAA21B for reconciliation."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "Rule is marked hard_constraint/must with no attached governance facets (owner/approver, exception process, effective date, or enforcement mechanism), despite being treated as an absolute brand mandate. No such governance metadata appears in source, so hardness classification should be reviewed or governance facets should be explicitly marked absent/unspecified rather than implied.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001"
+      ]
+    }
+  ]
+}

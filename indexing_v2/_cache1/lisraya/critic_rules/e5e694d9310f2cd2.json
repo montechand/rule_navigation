@@ -1,0 +1,71 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules were generated for the Image Treatment design patterns, resulting in a complete failure to capture critical guidelines (photography tone, accent shapes, overlays, and mandatory accessibility alt-text).",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "rules": [
+            {
+              "hardness": "should",
+              "id": "r_lisraya_img_tone",
+              "polarity": "positive",
+              "scope": "creative",
+              "text": "Photography must feature warm, realistic patient lifestyle imagery showing real moments of simple, everyday activities (e.g., walking the dog, beach, BBQ) to convey returning to everyday life.",
+              "title": "Photography Tone and Subject Matter",
+              "unit_ids": [
+                "u_design_pattern_rules_2_0001"
+              ]
+            },
+            {
+              "hardness": "must",
+              "id": "r_lisraya_img_shape",
+              "polarity": "positive",
+              "scope": "creative",
+              "text": "Images must be housed inside asymmetric rounded-corner crop Accent shapes, rather than plain rectangles or circles.",
+              "title": "Accent Shape Image Housing",
+              "unit_ids": [
+                "u_design_pattern_rules_2_0002"
+              ]
+            },
+            {
+              "hardness": "may",
+              "id": "r_lisraya_img_overlays",
+              "polarity": "positive",
+              "scope": "creative",
+              "text": "Waves and gradients may be overlaid on photography.",
+              "title": "Wave and Gradient Overlays",
+              "unit_ids": [
+                "u_design_pattern_rules_2_0003"
+              ]
+            },
+            {
+              "hardness": "must",
+              "id": "r_lisraya_img_accessibility",
+              "polarity": "positive",
+              "scope": "governance",
+              "text": "Every image requires descriptive alt text to ensure compliance with brand accessibility rules.",
+              "title": "Mandatory Descriptive Alt Text",
+              "unit_ids": [
+                "u_design_pattern_rules_2_0004"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001",
+        "u_design_pattern_rules_2_0002",
+        "u_design_pattern_rules_2_0003",
+        "u_design_pattern_rules_2_0004"
+      ]
+    }
+  ]
+}

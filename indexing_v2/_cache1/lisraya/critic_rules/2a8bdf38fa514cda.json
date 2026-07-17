@@ -1,0 +1,90 @@
+{
+  "findings": [
+    {
+      "description": "This single rule bundles three distinct requirements from u_0002: (1) exact attribution format `- [Name], LISRAYA patient`, (2) italic/distinguished styling, and (3) pairing with warm lifestyle imagery. The imagery-pairing requirement is a layout/assembly concern, not copy_editorial, and is being absorbed into an editorial-style rule, obscuring its distinct scope and class.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "name": "patient_quote_attribution_format_and_style",
+              "polarity": "must"
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "patient_quote_paired_with_lifestyle_imagery",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_quote_attribution_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_patient_quote_attribution_style",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    {
+      "description": "Source unit cites a specific governance reference (§1.2) tying the footnote-marker requirement to an external compliance section, but the clustered rule carries no citation/governance facet capturing this traceable source reference.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "governance": {
+            "citation": "§1.2",
+            "citation_type": "regulatory_reference"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_09"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claim_footnote_markers"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claim_footnote_markers",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    },
+    {
+      "description": "Rule correctly captures the must_not/hard_constraint prohibition on reproducing locked elements in sections, but does not capture the positive companion requirement implicit in u_0003 that these elements must live in the locked header/footer — a distinct 'must' placement rule is missing, leaving only the negative half of the relation modeled.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "assembly",
+          "description": "Priovant logo, copyright line, ® legal line, job code, Indication, and ISI must reside within locked header/footer components.",
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "hardness": "hard_constraint",
+          "name": "locked_header_footer_elements_required_placement",
+          "polarity": "must"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_locked_header_footer_elements_never_in_sections"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_locked_header_footer_elements_never_in_sections",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    }
+  ]
+}

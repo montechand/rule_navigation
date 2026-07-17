@@ -1,0 +1,153 @@
+{
+  "findings": [
+    {
+      "description": "A single rule (email_code_conventions) is used to cover six distinct source units describing at least four separable concerns: (1) section stacking/sizing (600px table, no margins), (2) section metadata declarations (background, DM flag, footnotes, CTA), (3) footnote symbol assignment-at-assembly logic, (4) locked-component adjacency restriction, (5) dark-section adjacency restriction, and (6) code formatting conventions (HEX/px/inline CSS/Outlook bgcolor). These are not one rule; they should be split into distinct rules grouped by topic (layout/stacking, metadata declaration, footnote assignment, adjacency constraints, code conventions).",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "new_rules": [
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_section_stacking",
+              "polarity": "must",
+              "unit_ids": [
+                "u_other_rules_2_0001"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_section_metadata_declaration",
+              "polarity": "must",
+              "unit_ids": [
+                "u_other_rules_2_0002"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_footnote_assignment",
+              "polarity": "must",
+              "unit_ids": [
+                "u_other_rules_2_0003"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_locked_component_adjacency",
+              "polarity": "must_not",
+              "unit_ids": [
+                "u_other_rules_2_0004"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_dark_section_adjacency",
+              "polarity": "must_not",
+              "unit_ids": [
+                "u_other_rules_2_0005"
+              ]
+            },
+            {
+              "class": "coding_standard",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_code_formatting_conventions",
+              "polarity": "must",
+              "unit_ids": [
+                "u_other_rules_2_0006"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_code_conventions"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0001",
+        "u_other_rules_2_0002",
+        "u_other_rules_2_0003",
+        "u_other_rules_2_0004",
+        "u_other_rules_2_0005",
+        "u_other_rules_2_0006"
+      ]
+    },
+    {
+      "description": "Units 0004 and 0005 express prohibitions ('must not include decorative elements...', 'must not be placed adjacent to other dark sections') — polarity should be must_not, but the candidate rule is tagged polarity=must uniformly, misrepresenting these constraints as positive obligations.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "polarity": "mixed_must_and_must_not"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_code_conventions"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0004",
+        "u_other_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Unit 0006 (HEX colors, px sizing, inline CSS, Outlook bgcolor duplication) is a coding/markup standard, not an 'assembly' concern like the stacking/adjacency rules in the rest of the cluster. Tagging class=assembly for this unit misrepresents its scope — it applies to code authoring, not section assembly/ordering logic.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "coding_standard (for unit 0006 only, split out)",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_code_conventions"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0006"
+      ]
+    },
+    {
+      "description": "Unit 0002 requires section metadata to declare whether a section 'establishes DM' (dermatomyositis) — a compliance/regulatory-flavored declaration — but no governance facet (owner, review/approval step, or responsible team) is captured for this declaration requirement in the clustered rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0002"
+      ]
+    },
+    {
+      "description": "The heading unit 0000 designates this as GENERAL Solstice production rules (cross-brand), but the candidate rule is scoped only under brand lisraya with no indication that scope may extend beyond the brand or is inherited from a shared production standard — scope provenance is lost in clustering.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0000"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "icon_callout_box_rule",
+      "key_proposal": "font.size.callout_headline",
+      "quotes": [
+        "~21px / 28px line-height",
+        "font-size:21px;"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009",
+        "u_color_scheme_rules_6_0036"
+      ],
+      "value": "21px"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "icon_callout_box_rule",
+      "note": "The geometry proportions govern how the callout box components mapped in the main rule are sized and positioned.",
+      "relation": "depends_on",
+      "src_slug": "icon_callout_layout_geometry"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": [
+        {
+          "element_path": "icon_callout.box.fill",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "icon_callout.box.radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        },
+        {
+          "element_path": "icon_callout.badge.radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        },
+        {
+          "element_path": "icon_callout.badge.shadow",
+          "token_id": "tok_lisraya_shadow_icon_badge"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "box border-radius: 40px 8px 40px 8px;",
+          "border-radius: 20px 4px 20px 4px;",
+          "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
+          "Light Blue `#E6F0F9` Box fill"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0030"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "A light-blue accent-shape box containing a short blue headline, with a white icon badge that straddles the box's left edge",
+          "Light Blue `#E6F0F9` fill, single accent shape.",
+          "Icon badge ? a White `#ffffff` rounded square holding the line icon (Brand Blue stroke), vertically centered on the box and horizontally centered on the box's left edge",
+          "box border-radius: 40px 8px 40px 8px; in TL TR BR BL order  large on top-left + bottom-right, near-point on top-right + bottom-left, a 5:1 ratio.",
+          "The white badge mirrors the same accent shape at smaller scale, border-radius: 20px 4px 20px 4px; (also 5:1, large TL+BR).",
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+          "the white icon badge must carry a subtle drop shadow so it lifts off the blue box  e.g. box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
+          "This shadow is required on every instance; without it the badge looks flat and pasted-on."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0002",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0020",
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023",
+          "u_color_scheme_rules_6_0030"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the distinct geometric framing, styling, and drop shadow of the iconic brand callout container.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Icon Callout Box uses a Light Blue fill (color.tertiary.light_blue = #E6F0F9) with an asymmetric 5:1 corner radius (radius.callout.icon_box_container = 40px 8px 40px 8px). It features a White icon badge centered on its left edge that mirrors the 5:1 radius shape at a smaller scale (radius.callout.icon_badge_container = 20px 4px 20px 4px) and carries a mandatory subtle drop shadow (shadow.callout.badge = 0 4px 10px rgba(1, 30, 69, 0.18)) to lift it off the box.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_rule",
+      "snippets": "<div style=\"position:relative; padding-left:40px;\">\n  <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n    <tr>\n      <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">\n        <span style=\"font-family:'Nunito Sans',Arial,Helvetica,sans-serif; font-size:21px; line-height:28px; font-weight:800; color:#00529b;\">\n          These improvements occurred as early as four weeks after starting treatment, and they continued getting better through the end of the 52-week study.\n        </span>\n      </td>\n    </tr>\n  </table>\n  <div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; background-color:#ffffff; border-radius:20px 4px 20px 4px; box-shadow:0 4px 10px rgba(1,30,69,0.18); text-align:center; line-height:80px;\">\n    <img src=\"ICON_URL\" alt=\"\" width=\"48\" height=\"48\" style=\"vertical-align:middle; border:0;\" />\n  </div>\n</div>",
+      "snippets_evidence": {
+        "quotes": [
+          "<div style=\"position:relative; padding-left:40px;\">",
+          "<td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
+          "<div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; background-color:#ffffff; border-radius:20px 4px 20px 4px; box-shadow:0 4px 10px rgba(1,30,69,0.18); text-align:center; line-height:80px;\">"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "tags": [
+        "color_application",
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "The blue box itself is inset from the left by half the badge width so the badge's outer half has room",
+          "left padding must clear the overhanging badge half plus a gap (? W/2 + 24px).",
+          "Never let copy slide under the badge.",
+          "Let W = badge width (use 80px, icon ?48px inside).",
+          "Inset the blue box from the left by W/2 = 40px, and place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper ? badge center 40px = box edge). Distance from badge center to box edge must be 0.",
+          "Defaults: badge size W = 80px, inner icon 48px.",
+          "If your real badge is a different size, keep the relationships  inset = W/2, box left-padding = W/2 + 24px, badge margin-top = ?H/2  and the bisector stays exact."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain pixel-perfect horizontal and vertical alignment ratios of the overlapping layout.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The icon callout box layout requires precise geometrical proportional relationships based on the badge width 'W' (default 80px). The blue box must be inset from the left by exactly W/2 (40px) to give the badge's outer half room, and the badge center must align exactly on the box's left edge (distance to edge = 0). The box's internal left-padding must clear the badge with a gap calculated as W/2 + 24px (64px for W=80px) to prevent copy from sliding under the badge.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_layout_geometry",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    }
+  ]
+}

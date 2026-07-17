@@ -474,6 +474,23 @@ def _required_entity_id(entity: Mapping[str, Any], *, context: str) -> str:
     return entity_id
 
 
+def _assert_unique_token_keys(candidates: CandidateSet) -> None:
+    """Reject patches that would leave two tokens sharing a DTCG key."""
+    seen: dict[str, str] = {}
+    for kind in ("token_primitive", "token_semantic"):
+        for entity in getattr(candidates, kind):
+            key = entity.get("key")
+            entity_id = str(entity.get("id") or "")
+            if not isinstance(key, str) or not key or not entity_id:
+                continue
+            prior = seen.get(key)
+            if prior is not None and prior != entity_id:
+                raise PatchApplicationError(
+                    f"duplicate token key {key!r}: held by {prior} and {entity_id}"
+                )
+            seen[key] = entity_id
+
+
 def apply_patch_to_candidates(candidates: CandidateSet, patch: Patch) -> CandidateSet:
     """Pure candidate-dict patch ops (add/update/delete/split/merge)."""
     updated = candidates.model_copy(deep=True)
@@ -529,6 +546,8 @@ def apply_patch_to_candidates(candidates: CandidateSet, patch: Patch) -> Candida
                 sorted(bucket, key=lambda item: str(item.get("id", ""))),
             )
         _entity_index(updated)
+        if kind in {"token_primitive", "token_semantic"}:
+            _assert_unique_token_keys(updated)
         return updated
 
     if op == "delete":
@@ -571,6 +590,8 @@ def apply_patch_to_candidates(candidates: CandidateSet, patch: Patch) -> Candida
                 [merged if str(item.get("id")) == entity_id else item for item in bucket],
             )
         _entity_index(updated)
+        if kind_found in {"token_primitive", "token_semantic"}:
+            _assert_unique_token_keys(updated)
         return updated
 
     if op == "split":
@@ -614,6 +635,8 @@ def apply_patch_to_candidates(candidates: CandidateSet, patch: Patch) -> Candida
                 sorted(without + replacements, key=lambda item: str(item.get("id", ""))),
             )
         _entity_index(updated)
+        if kind_found in {"token_primitive", "token_semantic"}:
+            _assert_unique_token_keys(updated)
         return updated
 
     if op == "merge":
@@ -684,6 +707,8 @@ def apply_patch_to_candidates(candidates: CandidateSet, patch: Patch) -> Candida
                 ),
             )
         _entity_index(updated)
+        if kind in {"token_primitive", "token_semantic"}:
+            _assert_unique_token_keys(updated)
         return updated
 
     raise PatchApplicationError(f"unsupported patch op: {op!r}")

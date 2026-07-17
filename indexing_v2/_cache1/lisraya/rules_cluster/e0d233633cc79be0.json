@@ -1,0 +1,198 @@
+{
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "clinical_claim"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "a": "clinical_claim",
+        "b": "footnote_marker (†)",
+        "relation": "requires"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Clinical claims require footnote markers (†)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0001"
+        ]
+      },
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller (§1.2)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "mlr_claim",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "†",
+        "preferred_form_evidence": {
+          "quotes": [
+            "(†)"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_9_0001"
+          ]
+        },
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure clinical substantiation is traceable and distinguishable per regulatory footnote conventions.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Every clinical claim must carry a footnote marker (†) linking to footnote text; the footnote text must be visually and spatially separated from body copy and set noticeably smaller than surrounding text (e.g., footnote scale = 12px/18px vs. 16px/24px body).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "footnote.marker",
+        "section_types": [
+          "efficacy",
+          "safety",
+          "chart"
+        ]
+      },
+      "slug": "clinical_claim_footnote_marker",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography",
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "patient_story.quote.attribution_format",
+          "token_id": "tok_lisraya_patient_quote_attribution_format"
+        },
+        {
+          "element_path": "patient_story.quote.style",
+          "token_id": "tok_lisraya_patient_quote_style"
+        },
+        {
+          "element_path": "patient_story.quote.image_pairing",
+          "token_id": "tok_lisraya_patient_quote_image_pairing"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "- [Name], LISRAYA patient",
+          "italic or distinguished styling, paired with warm lifestyle imagery"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Patient quotes: attributed as `- [Name], LISRAYA patient`, italic or distinguished styling, paired with warm lifestyle imagery."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Give patient testimonials a consistent, authentic, and legally traceable presentation.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Patient quotes must be attributed in the fixed format \"- [Name], LISRAYA patient\", rendered in italic or otherwise visually distinguished styling, and always paired with warm, realistic lifestyle photography.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "patient_story.quote",
+        "section_types": [
+          "patient_story"
+        ]
+      },
+      "slug": "patient_quote_treatment",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "reserved_for": "locked header/footer (top_matter/end_matter) components",
+        "subject": "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "locked header/footer components — never reproduce in sections"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0003"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the **locked header/footer components — never reproduce in sections.**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "forbidden"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Preserve regulatory and legal integrity by keeping mandated legal/compliance content confined to its single locked location.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "assembly",
+      "rule_text": "The Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication statement, and ISI must live exclusively within the locked header/footer (Top Matter/End Matter) components and must never be reproduced elsewhere in body sections.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "top_matter",
+          "end_matter"
+        ]
+      },
+      "slug": "locked_legal_elements_reservation",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    }
+  ]
+}

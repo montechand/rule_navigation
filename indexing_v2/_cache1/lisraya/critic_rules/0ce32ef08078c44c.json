@@ -1,0 +1,68 @@
+{
+  "findings": [
+    {
+      "description": "The accessibility mandates are completely missing from the candidate rules list. These distinct requirements (typography size, line height, form label behavior, animations, animated GIF fallbacks, media alt text, and WCAG compliance) must be extracted and grouped properly under a designated accessibility category.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "group_id": "accessibility_standards",
+          "rules": [
+            {
+              "description": "Body copy must be 16px or larger with a line height of at least 150% (greater for light-on-dark text). Utilize a standard type scale for visual hierarchy and verify text legibility, ensuring color alone is not used to convey contrast information.",
+              "hardness": "mandatory",
+              "title": "Typography Accessibility Guidelines",
+              "unit_ids": [
+                "u_other_rules_0_0001",
+                "u_other_rules_0_0002",
+                "u_other_rules_0_0003",
+                "u_other_rules_0_0004"
+              ]
+            },
+            {
+              "description": "Form labels must always remain visible, prohibiting the use of placeholders as labels or disappearing labels. Interactive click and tap targets must measure at least 48px.",
+              "hardness": "mandatory",
+              "title": "Accessible Form Design",
+              "unit_ids": [
+                "u_other_rules_0_0005"
+              ]
+            },
+            {
+              "description": "Animations must use quick transitions that do not interrupt workflow or display excessive motion, with accessible controls to pause effects. For email campaigns, animated GIFs must deliver their core message in the first frame to support legacy clients like Outlook, and any motion longer than 5 seconds requires a static fallback.",
+              "hardness": "mandatory",
+              "title": "Motion, Transition, and Animated GIF Standards",
+              "unit_ids": [
+                "u_other_rules_0_0006"
+              ]
+            },
+            {
+              "description": "All images must include descriptive alt text, and audio or video media must be accompanied by transcripts, in alignment with standard WCAG criteria.",
+              "hardness": "mandatory",
+              "title": "Media Accessibility and WCAG Standards Compliance",
+              "unit_ids": [
+                "u_other_rules_0_0007",
+                "u_other_rules_0_0008"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0001",
+        "u_other_rules_0_0002",
+        "u_other_rules_0_0003",
+        "u_other_rules_0_0004",
+        "u_other_rules_0_0005",
+        "u_other_rules_0_0006",
+        "u_other_rules_0_0007",
+        "u_other_rules_0_0008"
+      ]
+    }
+  ]
+}

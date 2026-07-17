@@ -1,0 +1,243 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "campaign_headline_lockup_casing",
+      "note": "Exceptions where ALL CAPS is permitted/required.",
+      "relation": "refines",
+      "src_slug": "all_caps_prohibition"
+    },
+    {
+      "dst_slug": "chart_infographic_headline_styling",
+      "note": "Exceptions where ALL CAPS is permitted/required.",
+      "relation": "refines",
+      "src_slug": "all_caps_prohibition"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.case",
+          "token_id": "tok_lisraya_case_headline"
+        },
+        {
+          "element_path": "body.case",
+          "token_id": "tok_lisraya_case_body"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Initial caps (title case) — capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions",
+          "Body copy: sentence case"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0001",
+          "u_content_pattern_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Headlines/headings: Initial caps (title case)",
+          "Body copy: sentence case."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0001",
+          "u_content_pattern_rules_2_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain structured and readable typographic hierarchy.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Headlines and headings use initial caps (case.general.headline = 'title_case') while body copy must use sentence case (case.general.body = 'sentence_case').",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "casing_headlines_and_body",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "YOU DESERVE MORE",
+        "trigger": null
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"YOU DESERVE MORE\": ALL CAPS, always"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Campaign headline \"YOU DESERVE MORE\": ALL CAPS, always"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0002"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "YOU DESERVE MORE",
+        "preferred_form_evidence": {
+          "quotes": [
+            "YOU DESERVE MORE"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_2_0002"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Enforce strict branding lockup for campaign assets.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "copy_editorial",
+      "rule_text": "The campaign headline 'YOU DESERVE MORE' must always be displayed in ALL CAPS (campaign.headline.case = 'all_caps').",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "campaign.headline.case",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_lockup_casing",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.case",
+          "token_id": "tok_lisraya_case_campaign_headline"
+        },
+        {
+          "element_path": "font.family",
+          "token_id": "tok_lisraya_font_nunito_sans"
+        },
+        {
+          "element_path": "font.weight",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "ALL CAPS, set in Agenda (print) / Nunito Sans Bold+ (email fallback)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0003"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Chart/infographic headlines: ALL CAPS, set in Agenda (print) / Nunito Sans Bold+ (email fallback)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Differentiate infographic and chart content from general editorial sections.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "typography",
+      "rule_text": "Chart/infographic headlines must be set in ALL CAPS (case.campaign.headline = 'all_caps') using Agenda for print or Nunito Sans ExtraBold (weight.nunito_sans.800 = 800) for email fallback.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "headline.case",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_infographic_headline_styling",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "headlines",
+        "subject": "all_caps"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Do not use ALL CAPS for body copy, buttons, or subheads"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0005"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "[GENERAL] Do not use ALL CAPS for body copy, buttons, or subheads other than the cases above."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain overall reading accessibility and prevent visual fatigue from excessive uppercase text.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Do not use ALL CAPS for body copy, buttons, or subheads other than the specific campaign and chart headline exceptions.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "all_caps_prohibition",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    }
+  ]
+}

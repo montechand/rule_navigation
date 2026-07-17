@@ -1,0 +1,129 @@
+{
+  "findings": [
+    {
+      "description": "No rules were extracted at all for this blob despite an entire approved-gradient-set table (6 distinct gradients with stop values and usage) plus two governing list items. This is a complete clustering miss; at minimum one rule per gradient (or one rule for the approved set + one for masthead-specific usage + one for directionality) should exist.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "positive",
+          "rule_text": "Approved gradient set: Brand Blue→Dark Navy (#00529b→#011E45), Sky Blue→Deep Blue (#358CCB→#003D74), Sunshine→75% Gold (#faa31b→Gold@75%), Golden Sand→White→Light Blue (#FEF1C8→#ffffff→#E6F0F9), Golden Sand→75% Gold→Sunshine (#FEF1C8→Gold@75%→#faa31b), Sunshine→light gold masthead gradient (#faa31b→#ffe05c).",
+          "scope": "gradients"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0001",
+        "u_color_scheme_rules_3_0002",
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007",
+        "u_color_scheme_rules_3_0008",
+        "u_color_scheme_rules_3_0009",
+        "u_color_scheme_rules_3_0010"
+      ]
+    },
+    {
+      "description": "Heading explicitly states 'approved set — never invent gradients', a strong prohibitive governance constraint (hard/negative polarity, forbidding creation of new gradients outside the approved list). No rule captures this closed-list/no-invention governance facet.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "negative",
+          "rule_text": "Only the approved gradients listed may be used; never invent new gradients.",
+          "scope": "gradients"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000"
+      ]
+    },
+    {
+      "description": "'Approved values only' is a distinct hard-constraint statement about usage (backgrounds, wave graphic, logo mark combos) that needs its own governance facet (hard, positive/prescriptive scope-limiting) rather than being folded away or omitted.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "positive",
+          "rule_text": "Gradients are used as backgrounds, in combination with the wave graphic, and with the LISRAYA logo mark; approved values only.",
+          "scope": "gradient_usage"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0010"
+      ]
+    },
+    {
+      "description": "The masthead gradient row contains a specific compositional constraint (mark sits at the lightest end for contrast) that is a distinct relational/placement rule tied to logo usage, separate from the general gradient definition — this relation to logo placement rules is missing.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "positive",
+          "rule_text": "In the masthead gradient (#faa31b → light gold), the logo mark must sit at the lightest end of the gradient for contrast.",
+          "scope": "masthead_logo_placement"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0008"
+      ]
+    },
+    {
+      "description": "Directionality rule (dark/saturated → light, left → right, horizontal only in masthead/banner) is a separate orientation constraint that should be its own rule rather than merged into gradient color definitions.",
+      "finding_id": "f_lisraya_0005",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "medium",
+          "polarity": "positive",
+          "rule_text": "In masthead/banner applications, gradients run horizontally from dark/saturated to light, left to right.",
+          "scope": "masthead_banner_orientation"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0009"
+      ]
+    }
+  ]
+}

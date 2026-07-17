@@ -1,0 +1,159 @@
+{
+  "findings": [
+    {
+      "description": "Group grp_lisraya_color_scheme_rules_01 spans 9 distinct units (hierarchy ratio, headline/body color, chart color, callout tints, coral restriction, links, logo transparency) but only one rule (link color) was extracted. The cluster is massively under-split; at least 6-7 additional rules are missing entirely.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "new_rules": [
+            {
+              "source_unit": "u_color_scheme_rules_1_0001",
+              "topic": "palette_hierarchy_ratio"
+            },
+            {
+              "source_units": [
+                "u_color_scheme_rules_1_0002",
+                "u_color_scheme_rules_1_0003"
+              ],
+              "topic": "headline_body_text_color"
+            },
+            {
+              "source_unit": "u_color_scheme_rules_1_0004",
+              "topic": "chart_color_usage"
+            },
+            {
+              "source_unit": "u_color_scheme_rules_1_0005",
+              "topic": "callout_surface_tint"
+            },
+            {
+              "source_unit": "u_color_scheme_rules_1_0006",
+              "topic": "coral_restriction"
+            },
+            {
+              "source_unit": "u_color_scheme_rules_1_0008",
+              "topic": "logo_transparency_invariant"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0001",
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003",
+        "u_color_scheme_rules_1_0004",
+        "u_color_scheme_rules_1_0005",
+        "u_color_scheme_rules_1_0006",
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    {
+      "description": "Source unit explicitly tags the link color statement as [GENERAL], a governance/scope marker distinguishing it from brand-locked rules. The extracted rule carries no scope or governance facet capturing this designation.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "scope": "general"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_link_color_by_background",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "hardness=strong_default/polarity=must is applied to the link color rule, but the source language for links is descriptive ('Brand Blue ... on light backgrounds') with no imperative verb, while the truly absolute/invariant statement in the blob ('must be maintained in all instances') belongs to the logo transparency unit, which has no rule at all. Hardness appears misassigned relative to source strength.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "default",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_link_color_by_background",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007",
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    {
+      "description": "Unit 0006 contains two governance-distinct statements bundled together: an absolute prohibition ('never for primary CTAs, headlines, or data') and a separate [GENERAL]-tagged softer recommendation ('avoid Coral in email sections unless the brief calls for it'). These require separate rules with different hardness/polarity (must-not vs should-not/general), but neither is represented in the candidate set.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "rules": [
+            {
+              "hardness": "hard",
+              "polarity": "must_not",
+              "source_unit": "u_color_scheme_rules_1_0006",
+              "topic": "coral_absolute_restriction"
+            },
+            {
+              "hardness": "default",
+              "polarity": "should_not",
+              "scope": "general",
+              "source_unit": "u_color_scheme_rules_1_0006",
+              "topic": "coral_general_email_guidance"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    },
+    {
+      "description": "The heading and hierarchy statement (0000-0001) establish a governing ratio/priority ('primary > secondary > tertiary') that should relate to and constrain all subsequent application rules (headline, body, chart, callout, coral, link, logo), e.g. tertiary accent restriction applies to coral and gold. No parent/child or constraint relation is captured between these units since only one downstream rule exists.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0000",
+        "u_color_scheme_rules_1_0001",
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003",
+        "u_color_scheme_rules_1_0004",
+        "u_color_scheme_rules_1_0005",
+        "u_color_scheme_rules_1_0006",
+        "u_color_scheme_rules_1_0007",
+        "u_color_scheme_rules_1_0008"
+      ]
+    }
+  ]
+}

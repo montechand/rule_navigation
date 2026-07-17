@@ -1,0 +1,60 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule aggregates multiple highly specific, disparate visual and layout directives (typography fallback, color tinting percentages, alignment, and full lockup copy) under a single typography rule. This cluster must be split into distinct rules to preserve clarity and granular tracking.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "grp_lisraya_content_pattern_rules_05",
+          "split_rules": [
+            {
+              "class": "typography",
+              "description": "Set the 'YOU DESERVE MORE' headline in Agenda (digital live text) with Nunito Sans ExtraBold as the email fallback, always in ALL CAPS.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_font"
+            },
+            {
+              "class": "visual_styling",
+              "description": "Set the letters 'D' (in DESERVE) and 'M' (in MORE) at approximately 40% tint of the headline color (Gold/Sunshine or Brand Blue).",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_tinting"
+            },
+            {
+              "class": "layout",
+              "description": "Stack the headline as three lines (YOU / DESERVE / MORE) in hero placements, left-aligned.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_layout"
+            },
+            {
+              "class": "editorial",
+              "description": "Use the full lockup copy: 'YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.'",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_lockup_text"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_lockup"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_campaign_headline_lockup",
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001",
+        "u_content_pattern_rules_5_0002",
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004",
+        "u_content_pattern_rules_5_0005",
+        "u_content_pattern_rules_5_0006"
+      ]
+    }
+  ]
+}

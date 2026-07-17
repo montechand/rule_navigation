@@ -140,6 +140,144 @@ async def test_run_linker_auto_needs_rule_idempotent_and_deterministic(
     ).read_bytes()
 
 
+class _BindAllClient:
+    """Fake LLM client that binds every adjudicated pair."""
+
+    async def complete_json(self, model: str, system: str, user: str, **kwargs: Any) -> Any:
+        import re
+
+        token_ids = sorted(set(re.findall(r'"token_id":\s*"([^"]+)"', user)))
+        return {
+            "decisions": [
+                {
+                    "token_id": token_id,
+                    "decision": "bind",
+                    "element_path": "fixture.path",
+                    "reason": "test",
+                }
+                for token_id in token_ids
+            ]
+        }
+
+    async def chat(self, *args: Any, **kwargs: Any) -> Any:
+        raise AssertionError("linker adjudication must use complete_json")
+
+
+@pytest.mark.asyncio
+async def test_default_budget_adjudicates_instead_of_exhausting(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from indexing_v2 import settings
+
+    monkeypatch.delenv("RULE_NAV_LINKER_MAX_ADJUDICATIONS", raising=False)
+    settings.reload_settings()
+    assert settings.LINKER_MAX_ADJUDICATIONS > 0
+    result, _ = await run_linker_stage(
+        bundle=_bundle(),
+        provenance=None,
+        units=[],
+        client=_BindAllClient(),
+        usage=Usage(),
+        work_dir=tmp_path,
+        cache_root=tmp_path / "cache",
+    )
+    assert result.metrics["adjudicated_binds"] > 0
+    assert not [
+        row
+        for row in result.adjudication_open
+        if row["decision"] == "budget_exhausted"
+    ]
+
+
+@pytest.mark.asyncio
+async def test_zero_budget_warns_instead_of_silently_skipping(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from indexing_v2 import settings
+
+    monkeypatch.setenv("RULE_NAV_LINKER_MAX_ADJUDICATIONS", "0")
+    settings.reload_settings()
+    printed: list[str] = []
+
+    class _Console:
+        def print(self, *args: Any, **kwargs: Any) -> None:
+            printed.append(" ".join(str(a) for a in args))
+
+    try:
+        result, _ = await run_linker_stage(
+            bundle=_bundle(),
+            provenance=None,
+            units=[],
+            client=_BindAllClient(),
+            usage=Usage(),
+            work_dir=tmp_path,
+            cache_root=tmp_path / "cache",
+            console=_Console(),
+        )
+    finally:
+        monkeypatch.delenv("RULE_NAV_LINKER_MAX_ADJUDICATIONS", raising=False)
+        settings.reload_settings()
+    assert result.metrics["adjudicated_binds"] == 0
+    assert any("LINKER_MAX_ADJUDICATIONS=0" in line for line in printed)
+    assert all(
+        row["decision"] == "budget_exhausted" for row in result.adjudication_open
+    )
+
+
+def test_preflight_flags_degenerate_env_overrides(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from indexing_v2 import settings
+    from indexing_v2.preflight import check_degenerate_env
+
+    monkeypatch.setenv("RULE_NAV_LINKER_MAX_ADJUDICATIONS", "0")
+    settings.reload_settings()
+    try:
+        warnings = check_degenerate_env(echo=lambda _msg: None)
+    finally:
+        monkeypatch.delenv("RULE_NAV_LINKER_MAX_ADJUDICATIONS", raising=False)
+        settings.reload_settings()
+    assert any("LINKER_MAX_ADJUDICATIONS" in warning for warning in warnings)
+    settings.reload_settings()
+    assert check_degenerate_env(echo=lambda _msg: None) == []
+
+
+def test_gap_minted_rule_id_never_double_prefixes() -> None:
+    # F2 regression: gap rules arriving with a pre-set id and empty rule_text
+    # used to yield rule_{brand}_rule_{brand}_* after Pass C + v1 validation.
+    from indexing_v2.build_kb import _prepare_rule_for_pass_c
+
+    raw = {
+        "id": "rule_x_foo",
+        "rule_text": "",
+        "constraint_type": "binding",
+        "effect": None,
+    }
+    prepared = _prepare_rule_for_pass_c(raw, "x")
+    assert prepared["rule_text"] == "foo"
+    assert prepared["slug"] == "foo"
+    warns = Warnings()
+    rule = validate_rule(prepared, "x", "grp_x", "doc[0]", set(), set(), warns, [])
+    assert rule is not None
+    assert rule.id == "rule_x_foo"
+
+
+def test_validate_rule_strips_leaked_brand_prefix_from_slug() -> None:
+    warns = Warnings()
+    rule = validate_rule(
+        {"slug": "rule_x_bar", "rule_text": "Bar must hold."},
+        "x",
+        "grp_x",
+        "doc[0]",
+        set(),
+        set(),
+        warns,
+        [],
+    )
+    assert rule is not None
+    assert rule.id == "rule_x_bar"
+
+
 @pytest.mark.parametrize("effect", [None, [], {"assignments": []}])
 def test_patch_application_normalizes_effect_and_deduplicates(effect: Any) -> None:
     rule = {"id": "rule_x", "effect": effect, "token_ids": []}

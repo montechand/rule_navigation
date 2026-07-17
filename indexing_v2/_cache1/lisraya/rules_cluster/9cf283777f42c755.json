@@ -1,0 +1,388 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "icon_callout_visual_composition",
+      "key_proposal": "size.icon_callout.text_21_28",
+      "quotes": [
+        "~21px / 28px line-height"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009"
+      ],
+      "value": "~21px / 28px line-height"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "icon_callout_visual_composition",
+      "note": "Scaling note refines the default geometry values set in the visual composition rule.",
+      "relation": "refines",
+      "src_slug": "icon_callout_scaling_proportions"
+    },
+    {
+      "dst_slug": "icon_callout_visual_composition",
+      "note": "Fallback guidance addresses client limitations for the absolute-positioned badge defined in the composition rule.",
+      "relation": "refines",
+      "src_slug": "icon_callout_email_fallback"
+    },
+    {
+      "dst_slug": "icon_callout_visual_composition",
+      "note": "Radius lock and shadow rule are both mandatory, never-change specs layered onto the same composition.",
+      "relation": "co_applies",
+      "src_slug": "icon_callout_corner_radius_lock"
+    },
+    {
+      "dst_slug": "icon_callout_visual_composition",
+      "note": "Shadow requirement co-applies with the base composition.",
+      "relation": "co_applies",
+      "src_slug": "icon_callout_badge_shadow_required"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "icon_callout.box.fill",
+          "token_id": "tok_lisraya_icon_callout_box_fill"
+        },
+        {
+          "element_path": "icon_callout.box.padding",
+          "token_id": "tok_lisraya_icon_callout_box_padding"
+        },
+        {
+          "element_path": "icon_callout.box.inset_left",
+          "token_id": "tok_lisraya_icon_callout_badge_inset"
+        },
+        {
+          "element_path": "icon_callout.text.color",
+          "token_id": "tok_lisraya_icon_callout_text_color"
+        },
+        {
+          "element_path": "icon_callout.text.alignment",
+          "token_id": "tok_lisraya_icon_callout_text_alignment"
+        },
+        {
+          "element_path": "icon_callout.text.weight",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        },
+        {
+          "element_path": "icon_callout.badge.fill",
+          "token_id": "tok_lisraya_icon_callout_badge_fill"
+        },
+        {
+          "element_path": "icon_callout.badge.size",
+          "token_id": "tok_lisraya_size_icon_badge"
+        },
+        {
+          "element_path": "icon_callout.badge.inner_icon_size",
+          "token_id": "tok_lisraya_size_icon_badge_inner_icon"
+        },
+        {
+          "element_path": "icon_callout.badge.margin_top",
+          "token_id": "tok_lisraya_icon_callout_badge_margin_top"
+        },
+        {
+          "element_path": "icon.stroke_color",
+          "token_id": "tok_lisraya_icon_stroke_color"
+        },
+        {
+          "element_path": "icon_callout.section.padding",
+          "token_id": "tok_lisraya_icon_callout_section_padding"
+        },
+        {
+          "element_path": "icon_callout.box.inset_gap",
+          "token_id": "tok_lisraya_spacing_icon_callout_inset"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue `#E6F0F9` fill, single accent shape.",
+          "the **left padding must clear the overhanging badge half plus a gap** (? `W/2 + 24px`)",
+          "Brand Blue `#00529b`, Nunito Sans weight 800, ~21px / 28px line-height, left-aligned, **vertically centered** to the box",
+          "a **White `#ffffff` rounded square** holding the line icon (Brand Blue stroke)",
+          "Let `W` = badge width (use **80px**, icon ?48px inside).",
+          "Inset the blue box from the left by **`W/2` = 40px**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "A **light-blue accent-shape box** containing a short blue headline, with a **white icon badge that straddles the box's left edge**",
+          "Used for supporting \"proof point\" statements (dosing convenience, time-to-effect, etc.).",
+          "Never let copy slide under the badge."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0002",
+          "u_color_scheme_rules_6_0003",
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Lock the exact half-on/half-off badge composition and fills so the icon callout renders identically across instances.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Icon Callout Box is a Light Blue accent-shape box (icon_callout.box.fill = #E6F0F9) sitting on the page/section background, holding left-aligned, vertically-centered Brand Blue (#00529b) ExtraBold text (~21px/28px line-height, never sliding under the badge). Its left padding must clear the overhanging badge half plus a 24px gap. A White (#ffffff) rounded-square icon badge (80px, 48px inner icon, Brand Blue stroke) straddles the box's left edge, inset by half the badge width (W/2 = 40px) so its center lands exactly on the box's left edge (0px offset), vertically centered via a -40px margin-top. Used for supporting proof-point statements such as dosing convenience or time-to-effect.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout.composition",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_visual_composition",
+      "snippets": "<div style=\"position:relative; padding-left:40px;\"> ... <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\"> ... <div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; background-color:#ffffff; border-radius:20px 4px 20px 4px; box-shadow:0 4px 10px rgba(1,30,69,0.18);\">",
+      "snippets_evidence": {
+        "quotes": [
+          "<div style=\"position:relative; padding-left:40px;\">",
+          "background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "tags": [
+        "color_application",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "icon_callout.box.radius",
+          "token_id": "tok_lisraya_icon_callout_box_radius"
+        },
+        {
+          "element_path": "icon_callout.badge.radius",
+          "token_id": "tok_lisraya_icon_callout_badge_radius"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "box `border-radius: 40px 8px 40px 8px;`",
+          "`border-radius: 20px 4px 20px 4px;`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Corner radius (mandatory, never change): box `border-radius: 40px 8px 40px 8px;`",
+          "The white badge **mirrors the same accent shape at smaller scale**, `border-radius: 20px 4px 20px 4px;`",
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0020"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the signature asymmetric accent-shape geometry as a locked, never-varying brand device.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "layout",
+      "rule_text": "The box radius is fixed at 40px 8px 40px 8px (TL TR BR BL, 5:1 ratio, large on top-left/bottom-right, near-point on top-right/bottom-left) and the badge mirrors the same accent shape at smaller scale, fixed at 20px 4px 20px 4px (also 5:1). Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout.radius",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_corner_radius_lock",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "icon_callout.badge.shadow",
+          "token_id": "tok_lisraya_icon_callout_badge_shadow"
+        },
+        {
+          "element_path": "icon_callout.badge.shadow.opacity",
+          "token_id": "tok_lisraya_icon_callout_badge_shadow_opacity"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "`box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "the white icon badge **must carry a subtle drop shadow** so it lifts off the blue box",
+          "This shadow is required on every instance; without it the badge looks flat and pasted-on."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure the badge reads as a layered, floating element rather than a flat cutout.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The white icon badge must always carry a subtle drop shadow (Dark Navy at 18% opacity, e.g. 0 4px 10px rgba(1,30,69,0.18)) on every instance so it visually lifts off the blue box; omitting it makes the badge look flat and pasted-on.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout.badge.shadow",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_badge_shadow_required",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Outlook (desktop, Word engine) ignores",
+          "pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG",
+          "ship the live version above and accept the Outlook degrade"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0040",
+          "u_color_scheme_rules_6_0041",
+          "u_color_scheme_rules_6_0042"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Manage known Outlook rendering limitations without compromising fidelity on capable clients.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The 50/50 badge overhang relies on position:absolute, which Outlook desktop (Word engine) ignores, dropping the badge to the top-left in normal flow with no box inset. For pixel-perfect fidelity across all clients, pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG placed via the same absolute positioning, or bake the badge-on-edge treatment into the box's background image while keeping text live. When that isn't feasible, ship the live MJML version and accept the Outlook degrade (badge flush at the inner-left edge); every other spec (Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow) stays identical.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout.badge.rendering_fallback",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_email_fallback",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "icon_callout.box.inset_left",
+          "token_id": "tok_lisraya_spacing_icon_callout_inset"
+        },
+        {
+          "element_path": "icon_callout.box.padding",
+          "token_id": "tok_lisraya_padding_icon_callout_box"
+        },
+        {
+          "element_path": "icon_callout.badge.margin_top",
+          "token_id": "tok_lisraya_icon_callout_badge_margin_top"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Defaults: badge size `W = 80px`, inner icon `48px`.",
+          "**inset = `W/2`**, **box left-padding = `W/2 + 24px`**, **badge `margin-top` = `?H/2`**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Defaults: badge size `W = 80px`, inner icon `48px`.",
+          "If your real badge is a different size, keep the relationships"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0046",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Guarantee the badge-on-edge geometry remains mathematically exact at any badge scale.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Default badge width is 80px with a 48px inner icon. If a real badge uses a different size, the proportional relationships must be preserved: inset = W/2, box left-padding = W/2 + 24px, badge margin-top = -H/2, so the perpendicular-bisector edge split stays exact.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon_callout.badge.scaling",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_scaling_proportions",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "findings": [
+    {
+      "description": "u_0004 (parent company Priovant Therapeutics sign-off, locked-footer-only placement) has no corresponding candidate rule at all — an entire compliance/governance fact about where corporate sign-off may appear is missing from the group.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "description": "Do not add parent company (Priovant Therapeutics, Inc.) sign-off within body sections; it must only appear in the locked footer.",
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_id": "rule_lisraya_parent_company_signoff_footer",
+          "unit_ids": [
+            "u_content_pattern_rules_0_0004"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_0_0004"
+      ]
+    },
+    {
+      "description": "The unit explicitly states this rule 'supersedes the Feb 2026 general guide's title-case rule' — a versioning/precedence relation to a prior governing document that is not captured anywhere in the rule's fields (no supersedes/relation facet, no scope facet limiting to patient marketing materials).",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_fields": {
+            "scope": "patient_marketing_materials",
+            "supersedes": "feb_2026_general_guide_title_case_rule"
+          },
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_name_all_caps"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_name_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001"
+      ]
+    },
+    {
+      "description": "The single rule conflates a positive 'must include ® on first mention when generic name present, external-facing only' directive with a distinct negative 'do not repeat ® on subsequent mentions' directive. These have opposite polarity (must vs must_not) and should be split into two related rules rather than merged under one polarity=must.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "new_rules": [
+            {
+              "condition": "generic_name_present",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_trademark_symbol_first_mention",
+              "scope": "external_facing_documents_first_mention_only"
+            },
+            {
+              "description": "Do not repeat ® symbol on subsequent mentions after first/most prominent use.",
+              "polarity": "must_not",
+              "rule_id": "rule_lisraya_trademark_symbol_no_repeat"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_trademark_symbol_generic_name_pairing"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_trademark_symbol_generic_name_pairing",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    {
+      "description": "Scope restriction 'external-facing documents only' and 'first/most prominent mention only' are compliance-critical conditional facets not represented as explicit scope/condition fields on the rule, risking silent over-application to internal or repeated mentions.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_fields": {
+            "condition": "first_or_most_prominent_mention_only",
+            "scope": "external_facing_documents"
+          },
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_trademark_symbol_generic_name_pairing"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_trademark_symbol_generic_name_pairing",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    {
+      "description": "Generic name format rule (lowercase, parenthetical) is standalone but functionally coupled to the trademark pairing rule (u_0002 references the same generic name usage). No explicit relation link between the two rules is recorded, though they co-depend for correct LISRAYA® (brepocitinib) rendering.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_generic_name_format",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0003"
+      ]
+    }
+  ]
+}

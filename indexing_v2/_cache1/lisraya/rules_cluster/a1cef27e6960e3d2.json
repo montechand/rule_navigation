@@ -1,0 +1,167 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "wave_colorway_construction",
+      "note": "Usage guidance for waves applies on top of the mandatory colorway/opacity construction rule.",
+      "relation": "co_applies",
+      "src_slug": "wave_usage_context"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "a": "tok_lisraya_color_primary_gold",
+          "b": "tok_lisraya_color_primary_sunshine",
+          "relation": "requires"
+        },
+        {
+          "a": "tok_lisraya_color_secondary_sky_blue",
+          "b": "tok_lisraya_color_secondary_deep_blue",
+          "relation": "requires"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Gold over Sunshine; Sky Blue over Deep Blue"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Fluid wave forms in **two colorways**: **Sunshine/Gold** and **Sky Blue/Deep Blue**; each in **long and short** variants.",
+          "top wave layer at **70% transparency** over the base wave",
+          "always preserve the layered, translucent quality"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0001",
+          "u_design_pattern_rules_1_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the brand's signature two-tone translucent wave motif and prevent unauthorized color mixing.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Fluid wave graphic devices come in two required colorway pairings, each available in long and short variants: Gold (#ffc60a) layered over Sunshine (#faa31b), or Sky Blue (#358CCB) layered over Deep Blue (#003D74). Construction is always a top wave layer at 70% transparency (wave.top_layer.opacity = 70%) over the base wave color, and this layered, translucent quality must always be preserved.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "wave.top_layer.opacity",
+        "section_types": null
+      },
+      "slug": "wave_colorway_construction",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "approved brand color values only",
+        "subject": "wave graphic device colors"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Approved color values only."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0003"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Usage: alone, or overlaid on photography or gradient backgrounds; to support layout flow, frame content, or add depth. Approved color values only."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "soft_guidance",
+      "intent": "Guide flexible but on-brand placement of the wave motif across layouts.",
+      "polarity": "may",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Wave devices may be used alone or overlaid on photography or gradient backgrounds to support layout flow, frame content, or add depth; only approved brand color values may be used for waves in any usage context.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "wave_usage_context",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "masthead.gradient",
+          "token_id": "tok_lisraya_masthead_gradient"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Masthead gradient with logo mark"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Masthead gradient with logo mark** (Sunshine → 0C,10M,78Y,0K, logo mark placed at the lightest end) is the approved device for holding copy in masthead positions."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Lock the approved masthead treatment for consistent brand presentation and legibility of logo placement.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "The masthead gradient (Sunshine → light gold, masthead.gradient), with the logo mark placed at the lightest end of the gradient, is the only approved device for holding copy in masthead positions.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "masthead.gradient",
+        "section_types": [
+          "top_matter"
+        ]
+      },
+      "slug": "masthead_gradient_device",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout",
+        "color_application"
+      ]
+    }
+  ]
+}

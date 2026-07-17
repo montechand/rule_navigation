@@ -1,0 +1,130 @@
+{
+  "assets": [],
+  "relations": [],
+  "rules": [
+    {
+      "effect": {
+        "box_inset_left": "half the badge width",
+        "container_background": "White #ffffff",
+        "content_width": "full except left inset",
+        "description": "The blue box is inset from the left by half the badge width so the badge's outer half has room; everything else stays full content width."
+      },
+      "evidence": {
+        "quotes": [
+          "the callout sits on the page/section background (usually White `#ffffff`)",
+          "The blue box itself is **inset from the left by half the badge width** so the badge's outer half has room",
+          "Everything else stays full content width."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007"
+        ]
+      },
+      "id": "rule_lisraya_icon_callout_container_inset_left",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "icon_callout.box.container"
+      }
+    },
+    {
+      "effect": {
+        "applies_to": [
+          "box",
+          "badge"
+        ],
+        "prohibition": "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal."
+      },
+      "evidence": {
+        "quotes": [
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0020"
+        ]
+      },
+      "id": "rule_lisraya_accent_shape_diagonal_consistency",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "icon_callout.accent_shape"
+      }
+    },
+    {
+      "effect": {
+        "requirement": "The white icon badge must carry a subtle drop shadow on every instance so it lifts off the blue box; without it the badge looks flat and pasted-on.",
+        "shadow": {
+          "$ref": "tok_lisraya_shadow_icon_badge"
+        }
+      },
+      "evidence": {
+        "quotes": [
+          "the white icon badge **must carry a subtle drop shadow** so it lifts off the blue box",
+          "This shadow is required on every instance; without it the badge looks flat and pasted-on."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "id": "rule_lisraya_icon_badge_drop_shadow_mandatory",
+      "rule_class": "layout",
+      "selector": {
+        "element_path": "icon_callout.badge"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "the **left padding must clear the overhanging badge half plus a gap** (? `W/2 + 24px`)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0008"
+        ]
+      },
+      "id": "tok_lisraya_padding_icon_callout_left_formula",
+      "key": "padding.icon_callout.left_formula",
+      "token_type": "padding",
+      "value": {
+        "default": "W/2 + 24px",
+        "default_evidence": {
+          "quotes": [
+            "the **left padding must clear the overhanging badge half plus a gap** (? `W/2 + 24px`)"
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0008"
+          ]
+        },
+        "variants": null
+      }
+    },
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "the white icon badge **must carry a subtle drop shadow** so it lifts off the blue box"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022"
+        ]
+      },
+      "id": "tok_lisraya_shadow_icon_badge",
+      "key": "shadow.icon_badge.default",
+      "token_type": "shadow",
+      "value": {
+        "default": "0 4px 10px rgba(1, 30, 69, 0.18)",
+        "default_evidence": {
+          "quotes": [
+            "`box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);` (Dark Navy at low opacity)"
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0022"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,352 @@
+{
+  "findings": [
+    {
+      "description": "The entire 'Tint Rules' section mandates specific, exclusive tint percentages (40% for campaign headline D/M, 70% for Light Blue callout & wave layers, 30% for Golden Sand callout, plus 75% Gold in two gradient stops), stating 'No other ad-hoc tints — use palette values or these specified tints only.' None of these percentage values exist as primitive tokens anywhere in the catalog.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "40%",
+              "key": "tint.headline_letter.40"
+            },
+            {
+              "default": "70%",
+              "key": "tint.light_blue_callout.70"
+            },
+            {
+              "default": "30%",
+              "key": "tint.golden_sand_callout.30"
+            },
+            {
+              "default": "75%",
+              "key": "tint.gold_gradient.75"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0007"
+      ]
+    },
+    {
+      "description": "The GENERAL email type scale (H1 28/36, H2 22/30, H3 18/26, Body 16/24, Secondary 14/21, Footnote 12/18) is fully spelled out in the source but only the 'never below 12px' minimum is captured (tok_lisraya_size_min_running_text). All other size/line-height pairs are missing from the catalog.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "key": "font.size.h1.28_36"
+            },
+            {
+              "key": "font.size.h2.22_30"
+            },
+            {
+              "key": "font.size.h3.18_26"
+            },
+            {
+              "key": "font.size.body.16_24"
+            },
+            {
+              "key": "font.size.secondary.14_21"
+            },
+            {
+              "key": "font.size.footnote.12_18"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "tok_lisraya_size_min_running_text"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017"
+      ]
+    },
+    {
+      "description": "Source lists five available Nunito Sans weights (Light, Regular, SemiBold, Bold, ExtraBold), parallel to the five Agenda weight primitives that ARE captured (tok_lisraya_weight_agenda_light/regular/medium/semibold/bold). Only a single numeric '800' weight token exists for Nunito Sans; the other four named weights are omitted.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "key": "weight.nunito_sans.light"
+            },
+            {
+              "key": "weight.nunito_sans.regular"
+            },
+            {
+              "key": "weight.nunito_sans.semibold"
+            },
+            {
+              "key": "weight.nunito_sans.bold"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_weight_nunito_800",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0008"
+      ]
+    },
+    {
+      "description": "Both the CTA button spec and the brand-mandated accessibility rules require minimum clickable/touch target of 48px height, described as a 'brand accessibility rule.' No token captures this mandated minimum size anywhere in the catalog.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "48px",
+          "key": "size.touch_target.min_48"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008",
+        "u_other_rules_0_0005"
+      ]
+    },
+    {
+      "description": "The logo icon's mandatory 70% transparency of Pantone 7548 C / #ffc60a ('must be maintained in all instances') is a distinct, brand-critical constant not represented by any token (the shadow opacity token 0.18 is unrelated).",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "70%",
+          "key": "opacity.logo_icon.70"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    {
+      "description": "Text-heavy callout internal padding (24px, GENERAL) is specified in source parallel to main callout (16px, captured) and data callout (20px, captured), but no corresponding padding primitive exists for the text-heavy callout style.",
+      "finding_id": "f_lisraya_006",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "24px",
+          "key": "padding.callout.text_heavy_24"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_padding_main_callout",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Sunshine (#faa31b) is a PRIMARY tier color used broadly (gradients, chart figure emphasis, campaign headline colorway, CTA fallback), but the only token holding this hex is narrowly IDed 'background_gradient_cta_fallback' though keyed as 'color.primary.sunshine'. No generic reusable Sunshine primitive exists, unlike Brand Blue and Gold which each have proper generic primary tokens.",
+      "finding_id": "f_lisraya_007",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "#faa31b",
+          "key": "color.primary.sunshine",
+          "note": "generic primary Sunshine primitive; existing fallback token should reference this"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_background_gradient_cta_fallback"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_background_gradient_cta_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0005",
+        "u_design_pattern_rules_4_0002",
+        "u_color_scheme_rules_5_0006"
+      ]
+    },
+    {
+      "description": "Chart/infographic headlines are explicitly required to be ALL CAPS, distinct from the generic title-case headline rule captured in tok_lisraya_case_headline. No case token exists for chart headlines specifically.",
+      "finding_id": "f_lisraya_008",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_case_campaign_headline"
+          },
+          "key": "chart.headline.case"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_chart_headline_color",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003",
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "GENERAL main callout spec gives rule weight (2px) and rule width (~60-100% of text block) alongside the 16px padding, but only padding was captured; rule weight/width values are omitted.",
+      "finding_id": "f_lisraya_009",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "key": "border.main_callout.rule_weight_2"
+            },
+            {
+              "key": "ratio.main_callout.rule_width_60_100"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_main_callout_padding",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "The Wave graphic element is a dedicated, repeatedly-referenced brand asset with two colorways (Sunshine/Gold, Sky Blue/Deep Blue), long/short variants, and a 70% transparency layering construction rule, yet no wave asset or subtype exists in the catalog (only cta_svg_shape, gradient_callout_bg, line_icon_set, logo_mark are present).",
+      "finding_id": "f_lisraya_010",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "asset",
+        "op": "add",
+        "payload": {
+          "name": "Wave Graphic",
+          "variants": [
+            "sunshine_gold_long",
+            "sunshine_gold_short",
+            "sky_deep_blue_long",
+            "sky_deep_blue_short"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0000",
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Source states the image/text split ratio as approximate ('≈40/60'), but the token default '40/60' drops the approximation qualifier, presenting it as an exact fixed ratio.",
+      "finding_id": "f_lisraya_011",
+      "finding_type": "value_distortion",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "default": "≈40/60"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_ratio_image_text_split"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_ratio_image_text_split",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0003"
+      ]
+    },
+    {
+      "description": "The full palette table provides RGB, CMYK, and Pantone values (e.g., Pantone 2145 C, 137 C, 7548 C) for print production alongside HEX, but only HEX values were captured as primitives; all CMYK/Pantone/RGB data is omitted, losing print-spec fidelity referenced elsewhere (e.g., logo Pantone 7548 C rule).",
+      "finding_id": "f_lisraya_012",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "add cmyk/pantone/rgb companion fields to existing color primitives"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021"
+      ]
+    },
+    {
+      "description": "Source specifies distinct vertical-rhythm gaps: heading→body 16px (captured), paragraph→paragraph 16px, body→callout/CTA 24px (captured), and image→caption 8px. The paragraph-to-paragraph and image-to-caption gap values are not represented as separate tokens.",
+      "finding_id": "f_lisraya_013",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "tokens": [
+            {
+              "default": "16px",
+              "key": "spacing.gap.paragraph_16"
+            },
+            {
+              "default": "8px",
+              "key": "spacing.gap.image_caption_8"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_spacing_heading_body_gap",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0007"
+      ]
+    }
+  ]
+}

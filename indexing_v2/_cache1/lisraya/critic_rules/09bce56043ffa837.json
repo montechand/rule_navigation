@@ -1,0 +1,55 @@
+{
+  "findings": [
+    {
+      "description": "The SOURCE UNITS describe a core set of design pattern rules for the Email Canvas & Grid (width, margins, padding, vertical rhythm), but no candidate rules exist yet to represent these constraints.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Email body width must be 600px fixed, centered, with edge-to-edge section rendering. Mobile breakpoint set to 480px with multi-column layouts collapsing. Section side padding must be exactly 24px left/right. Vertical rhythm must align to an 8px base unit with 32px top/bottom internal section padding, 16px gap for heading-to-body/paragraph-to-paragraph, 24px for body-to-CTA, and 8px image-to-caption.",
+          "doc_ref": "design_pattern_rules[0]",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Email Canvas and Vertical Rhythm Requirements",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0001",
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0004",
+        "u_design_pattern_rules_0_0005",
+        "u_design_pattern_rules_0_0006",
+        "u_design_pattern_rules_0_0007"
+      ]
+    },
+    {
+      "description": "Accessibility touch target size and styling constraints for brand buttons/CTAs are missing representation.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Primary CTA must have Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, corner radius 24px, and minimum 48px touch target height. Limit of one primary CTA per section maximum.",
+          "doc_ref": "design_pattern_rules[0]",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Call to Action (CTA) Buttons styling and accessibility constraints",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    }
+  ]
+}

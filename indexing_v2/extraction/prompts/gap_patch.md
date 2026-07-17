@@ -37,13 +37,13 @@ Return JSON only:
     "evidence": {{"unit_ids": ["<unit_id>"], "quotes": ["<verbatim substring>"]}}
   }}],
   "rules": [{{
-    "id": "rule_{brand}_<name>",
+    "slug": "<snake_case_name>",
     "rule_class": "<class>",
     "selector": {{"element_path": "<path>"}},
     "constraint_type": "binding|cardinality|ordering|pairing|exclusivity|verbatim_content",
     "effect": [{{"element_path": "<dotted path>",
                  "token_id": "<tok_ id copied verbatim from CANDIDATE CATALOG>"}}],
-    "rule_text": "<faithful self-contained rule>",
+    "rule_text": "<faithful self-contained rule — REQUIRED, never empty>",
     "evidence": {{"unit_ids": ["<unit_id>"], "quotes": ["<verbatim substring>"]}}
   }}],
   "missing_token_requests": [{{
@@ -60,7 +60,7 @@ Return JSON only:
 }}
 
 Binding example when the token exists:
-{{"id": "rule_{brand}_body_size",
+{{"slug": "body_size",
   "rule_class": "typography",
   "constraint_type": "binding",
   "selector": {{"element_path": "body.text.size"}},

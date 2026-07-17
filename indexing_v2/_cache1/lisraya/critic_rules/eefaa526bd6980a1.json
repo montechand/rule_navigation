@@ -1,0 +1,59 @@
+{
+  "findings": [
+    {
+      "description": "The candidate ruleset only covers the campaign headline tint from unit 0001, missing the specific tints for Light Blue and Golden Sand callout boxes, Wave top layers, and the blanket prohibition against ad-hoc tints.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "split_rules": [
+            {
+              "class": "typography",
+              "description": "Campaign headline characters 'D' and 'M' must use an approximate 40% tint of the headline color (Gold or Brand Blue colorway).",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_character_tint"
+            },
+            {
+              "class": "color_palette",
+              "description": "Callout boxes must use specific tints: 70% tint for Light Blue callout boxes and 30% tint for Golden Sand callout boxes.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_callout_box_tints"
+            },
+            {
+              "class": "color_palette",
+              "description": "Wave top layers must be set to exactly 70% transparency.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_wave_layer_transparency"
+            },
+            {
+              "class": "color_palette",
+              "description": "Do not use any ad-hoc tints outside of the defined palette values or these specified tint rules.",
+              "hardness": "hard_constraint",
+              "polarity": "must_not",
+              "rule_id": "rule_lisraya_ad_hoc_tints_prohibition"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_character_tint"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_campaign_headline_character_tint",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    }
+  ]
+}

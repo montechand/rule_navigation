@@ -1,0 +1,156 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule set only covers the PRIMARY tier table; the SECONDARY and TERTIARY color tier tables (units 0008-0022) are entirely uncovered by any rule, leaving a large portion of the palette definition unclustered.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "id": "rule_lisraya_palette_secondary_tier",
+              "unit_ids": [
+                "u_color_scheme_rules_0_0008",
+                "u_color_scheme_rules_0_0009",
+                "u_color_scheme_rules_0_0010",
+                "u_color_scheme_rules_0_0011",
+                "u_color_scheme_rules_0_0012",
+                "u_color_scheme_rules_0_0013"
+              ]
+            },
+            {
+              "class": "color_application",
+              "id": "rule_lisraya_palette_tertiary_tier",
+              "unit_ids": [
+                "u_color_scheme_rules_0_0015",
+                "u_color_scheme_rules_0_0016",
+                "u_color_scheme_rules_0_0017",
+                "u_color_scheme_rules_0_0018",
+                "u_color_scheme_rules_0_0019",
+                "u_color_scheme_rules_0_0020",
+                "u_color_scheme_rules_0_0021",
+                "u_color_scheme_rules_0_0022"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_palette_primary_tier"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_palette_primary_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0010",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0015",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0017",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "Source units are a plain reference table of color values with no imperative or normative language (no 'must', 'shall', 'required'). Classifying this as hardness=hard_constraint / polarity=must is not supported by the text; it should likely be a softer 'reference/definition' hardness or at least 'guideline' with declarative polarity.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "hardness": "guideline",
+          "polarity": "declarative"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_palette_primary_tier"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_palette_primary_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "Rule lacks governance facets such as scope of applicability (e.g., which tier — primary/dominant usage — applies to which brand assets) and does not reference the tier hierarchy (primary vs secondary vs tertiary) established by the surrounding headings, so downstream consumers cannot resolve precedence between tiers.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "governance": {
+            "precedence": "highest",
+            "tier": "primary"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "scope": "dominant tier usage across brand color applications"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_palette_primary_tier"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_palette_primary_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "Missed relation: no relation is captured between the primary, secondary, and tertiary tier rules despite the source explicitly organizing the palette as a tiered hierarchy (PRIMARY/SECONDARY/TERTIARY). Once secondary/tertiary rules are added, a tier-hierarchy relation should link them to the primary rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "order": [
+            "primary",
+            "secondary",
+            "tertiary"
+          ],
+          "relation_type": "tier_hierarchy"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_palette_primary_tier",
+          "rule_lisraya_palette_secondary_tier",
+          "rule_lisraya_palette_tertiary_tier"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0015"
+      ]
+    }
+  ]
+}

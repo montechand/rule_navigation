@@ -1,0 +1,172 @@
+{
+  "relations": [
+    {
+      "dst_slug": "imagery_photography_and_crop_treatment",
+      "note": "Overlay permission applies on top of the base photography/crop treatment rule.",
+      "relation": "refines",
+      "src_slug": "imagery_wave_gradient_overlay_permission"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "image.photography.style",
+          "token_id": "tok_lisraya_image_photography_style"
+        },
+        {
+          "element_path": "image.crop.shape",
+          "token_id": "tok_lisraya_image_crop_shape"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "warm, realistic patient lifestyle imagery",
+          "Images are housed in the **Accent shape** (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001",
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "warm, realistic patient lifestyle imagery",
+          "asymmetric rounded-corner crops, not plain rectangles or circles"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001",
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Reinforce the brand's warm, real-life patient narrative and consistent image framing device.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Photography must use warm, realistic patient lifestyle imagery (image.photography.style) depicting everyday moments of returning to normal life. All images must be housed in the Accent shape crop (image.crop.shape = asymmetric rounded-corner crop) — never plain rectangles or circles.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image.treatment",
+        "section_types": null
+      },
+      "slug": "imagery_photography_and_crop_treatment",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "a": "wave.colorway",
+        "b": "image.photography.style",
+        "relation": "requires"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Waves and gradients may overlay photography."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Waves and gradients may overlay photography."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "soft_guidance",
+      "intent": "Permit brand decorative devices to combine with imagery without over-constraining composition.",
+      "polarity": "may",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Wave edges and approved gradients may be layered over photography as a decorative overlay device.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image.overlay",
+        "section_types": null
+      },
+      "slug": "imagery_wave_gradient_overlay_permission",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "image.alt_text.requirement",
+          "token_id": "tok_lisraya_image_alt_text_requirement"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Every image requires **descriptive alt text**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Every image requires **descriptive alt text** (brand accessibility rule)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "warn",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure accessibility compliance for all imagery across the brand's materials.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Every image must include descriptive alt text, per the brand accessibility requirement (image.alt_text.requirement = true).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "image.alt_text",
+        "section_types": null
+      },
+      "slug": "image_alt_text_requirement",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    }
+  ]
+}

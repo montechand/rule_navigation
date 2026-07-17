@@ -1,0 +1,246 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "email_type_scale_hierarchy",
+      "note": "Refines the standard body copy line height rule for specific high-contrast color cases.",
+      "relation": "refines",
+      "src_slug": "body_copy_line_height_accessibility"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "font.family.headlines",
+          "token_id": "tok_lisraya_font_nunito_sans"
+        },
+        {
+          "element_path": "font.family.body",
+          "token_id": "tok_lisraya_font_nunito_sans"
+        },
+        {
+          "element_path": "font.stack.email",
+          "token_id": "tok_lisraya_font_stack_email"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Nunito Sans (Google font), bolder weights, Title Case",
+          "'Nunito Sans', Verdana, Helvetica, Arial, sans-serif"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003",
+          "u_content_pattern_rules_1_0010"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Nunito Sans (Google font)",
+          "Body copy | Nunito Sans",
+          "'Nunito Sans', Verdana, Helvetica, Arial, sans-serif"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003",
+          "u_content_pattern_rules_1_0004",
+          "u_content_pattern_rules_1_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain typographic consistency across email clients with appropriate fallbacks.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "In digital and email environments, headlines and body copy must use the Nunito Sans Google font, configured with a fallback stack of 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif (font.stack.email) to ensure graceful rendering in email clients that strip webfonts.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "typography_hierarchy_fonts",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "type_scale.h1",
+          "token_id": "tok_lisraya_type_scale_h1"
+        },
+        {
+          "element_path": "type_scale.h2",
+          "token_id": "tok_lisraya_type_scale_h2"
+        },
+        {
+          "element_path": "type_scale.h3",
+          "token_id": "tok_lisraya_type_scale_h3"
+        },
+        {
+          "element_path": "type_scale.body",
+          "token_id": "tok_lisraya_type_scale_body"
+        },
+        {
+          "element_path": "type_scale.secondary_body",
+          "token_id": "tok_lisraya_type_scale_secondary_body"
+        },
+        {
+          "element_path": "type_scale.footnote",
+          "token_id": "tok_lisraya_type_scale_footnote"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "H1 (section hero headline): 28px / 36px (≈130%)",
+          "H2 (section heading): 22px / 30px (≈136%)",
+          "H3 (subhead): 18px / 26px (≈144%)",
+          "Body: 16px / 24px (150%)",
+          "Secondary/supporting body: 14px / 21px (150%)",
+          "Footnote/reference text within a section: 12px / 18px (150%)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0012",
+          "u_content_pattern_rules_1_0013",
+          "u_content_pattern_rules_1_0014",
+          "u_content_pattern_rules_1_0015",
+          "u_content_pattern_rules_1_0016",
+          "u_content_pattern_rules_1_0017"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "[GENERAL] Email type scale (px / line-height):",
+          "16px is the brand-mandated minimum for body copy",
+          "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0011",
+          "u_content_pattern_rules_1_0012",
+          "u_content_pattern_rules_1_0013",
+          "u_content_pattern_rules_1_0014",
+          "u_content_pattern_rules_1_0015",
+          "u_content_pattern_rules_1_0016",
+          "u_content_pattern_rules_1_0017",
+          "u_content_pattern_rules_1_0020"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain a clear visual hierarchy and layout readability across sections.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Apply the standardized type scale for email: H1 at 28px/36px (type_scale.h1), H2 at 22px/30px (type_scale.h2), H3 at 18px/26px (type_scale.h3), Body copy at 16px/24px (type_scale.body) which is the mandated minimum for primary body copy, secondary body at 14px/21px (type_scale.secondary_body), and footnotes at 12px/18px (type_scale.footnote). Never use two adjacent text blocks of the same size and weight for different layout hierarchy roles.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "email_type_scale_hierarchy",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "body.line_height",
+          "token_id": "tok_lisraya_line_height_body_min"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Line height: minimum 150% for all body copy"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0019"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0019"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Enhance text readability and accessibility compliance, especially under high-contrast or inverted color conditions.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Body copy must maintain a minimum line height of 150% (line_height.accessibility.body_min = 150%). For light text on dark backgrounds, line height should be increased further to a standard 160% (16px size / 26px line height).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "body.line_height",
+        "section_types": null
+      },
+      "slug": "body_copy_line_height_accessibility",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Never set running text below 12px. (ISI sizing is owned by the locked component.)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0018"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Enforce minimum size limits for standard layout content to guarantee legibility.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Never set running text size below 12px. (Note: Sizing for Important Safety Information (ISI) is governed strictly by its own locked component).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "minimum_running_text_size",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    }
+  ]
+}

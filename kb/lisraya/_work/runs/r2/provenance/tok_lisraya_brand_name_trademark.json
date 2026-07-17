@@ -1,0 +1,78 @@
+[
+  {
+    "entity_id": "tok_lisraya_brand_name_trademark",
+    "field": "",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[0]",
+        "end": 266,
+        "match": "exact",
+        "quote": "Include the **® registered trademark symbol only when the generic name is included**",
+        "start": 182,
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      },
+      {
+        "doc_ref": "content_pattern_rules[0]",
+        "end": 426,
+        "match": "exact",
+        "quote": "Do not repeat ® on subsequent mentions.",
+        "start": 387,
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": null,
+      "status": "n/a"
+    },
+    "verification": "span_verified"
+  },
+  {
+    "entity_id": "tok_lisraya_brand_name_trademark",
+    "field": "value.default",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[0]",
+        "end": 427,
+        "match": "failed",
+        "quote": "Do not repeat ® on subsequent mentions",
+        "start": 180,
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": "normalized 'none' not found in cited units or neighbors",
+      "status": "fail"
+    },
+    "verification": "unverified"
+  },
+  {
+    "entity_id": "tok_lisraya_brand_name_trademark",
+    "field": "value.variants[0].value",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[0]",
+        "end": 427,
+        "match": "failed",
+        "quote": "LISRAYA® (brepocitinib). Apply on **first/most prominent mention only**",
+        "start": 180,
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": "normalized 'lisraya®_(brepocitinib)' not found in cited units or neighbors",
+      "status": "fail"
+    },
+    "verification": "unverified"
+  }
+]

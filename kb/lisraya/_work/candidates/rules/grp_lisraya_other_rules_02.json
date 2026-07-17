@@ -1,185 +1,32 @@
 [
   {
-    "applies_when": [
-      {
-        "kind": "adjacent_section_state",
-        "value": "locked_components_adjacent"
-      }
-    ],
-    "audience": null,
-    "constraint_type": "exclusivity",
-    "content_sub_type_ids": null,
-    "content_types": [
-      "email"
-    ],
-    "effect": null,
-    "evaluation_scope": "section",
-    "evidence": {
-      "quotes": [
-        "Locked components (header, footer, ISI) are inserted by the core team; sections adjacent to them must not include decorative elements that visually depend on what's above/below (e.g., a wave that's meant to continue into the footer)."
-      ],
-      "unit_ids": [
-        "u_other_rules_2_0004"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "applies_when": 0.5,
-        "audience": 1.0,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 1.0,
-        "governance": 1.0,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 0.5,
-        "scope": 1.0,
-        "selector": 0.5,
-        "slug": 1.0,
-        "snippets": 0.5,
-        "tags": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_locked_components_isolation",
-    "intent": "Prevent layout breakage, misalignment, or jarring visual seams when generic modules stack against locked, brand-mandated templates.",
-    "polarity": "must_not",
-    "precedence": 0,
-    "rule_class": "assembly",
-    "rule_text": "Sections adjacent to locked components (such as the header, footer, or ISI) must not include decorative elements that visually rely on continuity with the adjacent component (e.g., a wave effect intended to carry over into the footer).",
-    "scope": "org_baseline",
-    "selector": {
-      "element_path": null,
-      "section_types": null
-    },
-    "slug": "locked_components_isolation",
-    "tags": [
-      "layout"
-    ]
-  },
-  {
     "applies_when": null,
     "audience": null,
-    "constraint_type": "binding",
+    "constraint_type": null,
     "content_sub_type_ids": null,
     "content_types": [
       "email"
     ],
-    "effect": [
-      {
-        "element_path": "dimension.canvas.width",
-        "token_id": "tok_lisraya_size_canvas_width"
-      },
-      {
-        "element_path": "padding.section.vertical",
-        "token_id": "tok_lisraya_padding_section_vertical"
-      }
-    ],
-    "effect_evidence": {
-      "quotes": [
-        "Each section is a self-contained `<table>`-based block at 600px with its own top/bottom 32px padding and declared background color; **no margins outside the section**",
-        "self-contained `<table>`-based block at 600px with its own top/bottom 32px padding"
-      ],
-      "unit_ids": [
-        "u_other_rules_2_0001"
-      ]
-    },
-    "evaluation_scope": "section",
-    "evidence": {
-      "quotes": [
-        "Each section is a self-contained `<table>`-based block at 600px with its own top/bottom 32px padding and declared background color; **no margins outside the section** — assembly is direct stacking.",
-        "Each section is a self-contained `<table>`-based block at 600px with its own top/bottom 32px padding and declared background color; no margins outside the section — assembly is direct stacking.",
-        "Modular Assembly Conventions **[GENERAL — Solstice production rules]**"
-      ],
-      "unit_ids": [
-        "u_other_rules_2_0001",
-        "u_other_rules_2_0000"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [
-        "u_other_rules_2_0000"
-      ],
-      "field_agreement": {
-        "applies_when": 1.0,
-        "audience": 1.0,
-        "constraint_type": 1.0,
-        "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 1.0,
-        "evaluation_scope": 0.5,
-        "governance": 1.0,
-        "hardness": 1.0,
-        "polarity": 1.0,
-        "precedence": 1.0,
-        "rule_class": 0.5,
-        "scope": 1.0,
-        "selector": 1.0,
-        "slug": 0.5,
-        "snippets": 1.0,
-        "tags": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_modular_section_layout",
-    "intent": "Maintain email client compatibility and consistent vertical rhythm in stacked modular templates.",
-    "polarity": "must",
-    "precedence": 0,
-    "rule_class": "layout",
-    "rule_text": "Each section is a self-contained 600px block (dimension.canvas.width = 600px) with its own top/bottom 32px padding (padding.section.vertical = 32px) and no margins outside the section to enable direct stack assembly.",
-    "scope": "org_baseline",
-    "selector": {
-      "element_path": null,
-      "section_types": null
-    },
-    "slug": "modular_section_layout",
-    "snippets": null,
-    "snippets_evidence": null,
-    "tags": [
-      "spacing"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "cardinality",
-    "content_sub_type_ids": null,
-    "content_types": [
-      "email"
-    ],
+    "doc_ref": "other_rules[2]",
     "effect": null,
     "effect_evidence": null,
-    "evaluation_scope": "section",
+    "evaluation_scope": "email",
     "evidence": {
       "quotes": [
-        "Section metadata must declare: background color, whether the section establishes `dermatomyositis (DM)`, footnote symbols consumed (†, ‡ assigned at assembly to avoid collisions), and whether it contains a CTA."
+        "All colors in code as HEX; all sizing in px; inline CSS only (email client compatibility); `bgcolor` attributes duplicated for Outlook."
       ],
       "unit_ids": [
-        "u_other_rules_2_0002"
+        "u_other_rules_2_0006"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
+      "champion_run": "r1",
+      "confidence": "high",
       "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
         "audience": 1.0,
-        "constraint_type": 0.5,
+        "constraint_type": 1.0,
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
@@ -193,29 +40,77 @@
         "selector": 1.0,
         "slug": 1.0,
         "snippets": 1.0,
-        "tags": 0.5
+        "tags": 0.6666666666666666
       },
       "runs": 3,
-      "support": 2
+      "support": 3
     },
-    "governance": null,
+    "governance": {
+      "dark_background_adjacency": {
+        "actor": "assembler",
+        "enforcement_basis": "declared section backgrounds"
+      },
+      "footnote_assignment": {
+        "actor": "assembler",
+        "method": "assign superscript symbols in order of appearance",
+        "timing": "assembly time"
+      },
+      "locked_components": {
+        "actor": "core team",
+        "components": [
+          "header",
+          "footer",
+          "ISI"
+        ]
+      },
+      "metadata_owner": "section author or producer",
+      "metadata_required_for_assembly": [
+        "background_color",
+        "establishes_DM",
+        "consumed_footnote_symbols",
+        "contains_CTA"
+      ]
+    },
+    "governance_note": "Apply section metadata before assembly; the assembler assigns footnote symbols and validates dark-background adjacency; the core team inserts locked header, footer, and ISI components.",
+    "group_id": "grp_lisraya_other_rules_02",
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_section_metadata_declaration",
-    "intent": "Ensure automated programmatic assemblers have the metadata keys needed to prevent collision and formatting errors.",
+    "id": "rule_lisraya_email_code_compatibility_conventions",
+    "intent": "Preserve rendering compatibility across email clients, including Outlook.",
+    "note": "Retain must polarity only for the positive email-code compatibility rule from u_other_rules_2_0006; represent the source prohibitions as separate hard must_not rules.",
     "polarity": "must",
     "precedence": 0,
+    "relations": [
+      {
+        "from": "section_metadata",
+        "relation": "enables",
+        "to": "footnote_assignment"
+      },
+      {
+        "from": "section_metadata",
+        "relation": "enables",
+        "to": "dark_background_adjacency_validation"
+      },
+      {
+        "from": "core_team_locked_component_insertion",
+        "relation": "governs",
+        "to": "adjacent_section_decoration_constraint"
+      }
+    ],
     "rule_class": "assembly",
-    "rule_text": "Section metadata must declare: background color, whether the section establishes dermatomyositis (DM), footnote symbols consumed, and whether it contains a CTA.",
+    "rule_text": "For email-client compatibility, express colors in code as HEX, express sizing in px, use inline CSS only, and duplicate `bgcolor` attributes for Outlook.",
     "scope": "org_baseline",
     "selector": {
-      "element_path": null,
+      "element_path": "email.code",
       "section_types": null
     },
-    "slug": "section_metadata_declaration",
+    "slug": "email_code_compatibility_conventions",
     "snippets": null,
     "snippets_evidence": null,
+    "source_unit_ids": [
+      "u_other_rules_2_0006"
+    ],
     "tags": [
-      "copy_editorial"
+      "accessibility"
     ]
   }
 ]

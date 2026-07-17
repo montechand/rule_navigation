@@ -1,0 +1,158 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "bold_hierarchy_budget",
+      "note": "Bolding budget and emphasis-device stacking limit both govern bold usage.",
+      "relation": "co_applies",
+      "src_slug": "emphasis_device_stacking_limit"
+    },
+    {
+      "dst_slug": "emphasis_device_stacking_limit",
+      "note": "Both restrict which emphasis devices may be used and where.",
+      "relation": "co_applies",
+      "src_slug": "underline_italic_reservation"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": null,
+        "min": null,
+        "per": "section",
+        "target": "bold_emphasis"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Per email section, bold at most: the heading(s), one key phrase or claim per paragraph, and the statistical callout figure.",
+          "more than ~15% of running body text in any section"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0001",
+          "u_content_pattern_rules_3_0003"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Bold is for **hierarchy and key takeaways, not decoration**.",
+          "Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only).",
+          "Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section, prepositional filler, the generic name."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0001",
+          "u_content_pattern_rules_3_0002",
+          "u_content_pattern_rules_3_0003"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Keep bold meaningful by budgeting it to hierarchy and key takeaways.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Bold is reserved for hierarchy and key takeaways, not decoration. Per email section, bold at most the heading(s), one key phrase or claim per paragraph, and the statistical callout figure. Always bold callout text per the callout specs (§1.7), statistical callout numbers, and the brand name within a benefit claim when it is the focal point of the sentence (first instance per section only). Never bold entire paragraphs, footnotes/references, prepositional filler, the generic name, or more than ~15% of running body text in any section.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "bold_hierarchy_budget",
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": 2,
+        "min": null,
+        "per": "element",
+        "target": "emphasis_device"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent over-stacked emphasis so type stays legible and hierarchical.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Never use bold + ALL CAPS + color emphasis simultaneously on the same string, except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "emphasis_device_stacking_limit",
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "real hyperlinks (underline); study names, notes, citations (italic)",
+        "subject": "underline_and_italic"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No underlining except real hyperlinks. No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "No underlining except real hyperlinks. No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent underline/italic from being read as emphasis or false links.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "No underlining except on real hyperlinks. No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "underline_italic_reservation",
+      "tags": [
+        "typography"
+      ]
+    }
+  ]
+}

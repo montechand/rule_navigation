@@ -1,0 +1,72 @@
+{
+  "findings": [
+    {
+      "description": "Candidate rules completely omit rules for chart container styling, color application logic, rounded bar shapes, and chart headlines, leaving critical design specifications uncaptured.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "grp_lisraya_design_pattern_rules_04",
+          "rules": [
+            {
+              "class": "visual_identity",
+              "description": "Charts must use uniform rounded corners and a Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar. Bars and chart icons must feature rounded, approachable shapes like rounded bar tops.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_chart_container_and_bars"
+            },
+            {
+              "class": "visual_identity",
+              "description": "Chart color logic must feature Brand Blue (#00529b) and Sky Blue (#358CCB) as dominant colors, while Sunshine (#faa31b) and Gold (#ffc60a) are reserved strictly for emphasis on key figures/data points, with neutral gray for comparator elements.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_chart_color_palette"
+            },
+            {
+              "class": "typography",
+              "description": "Chart headlines must use ALL CAPS in Agenda for print or Nunito Sans Bold+ for email, styled in Brand Blue with a thin Gold rule beneath.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_chart_headline_typography"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0001",
+        "u_design_pattern_rules_4_0002",
+        "u_design_pattern_rules_4_0003",
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "The rule for statistical callouts has 'must' polarity but has 'strong_default' hardness without defining the conditional governance or scope for when deviations from the hero percentage rule are permitted.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "description": "Statistical callouts must be large and bold with the percentage figure serving as the hero element, and supporting copy styled in a lighter weight directly beneath.",
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "grp_lisraya_design_pattern_rules_04",
+          "hardness": "hard_constraint"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_chart_statistical_callouts"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_chart_statistical_callouts",
+      "unit_ids": [
+        "u_design_pattern_rules_4_0005"
+      ]
+    }
+  ]
+}

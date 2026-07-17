@@ -1,0 +1,207 @@
+{
+  "relations": [
+    {
+      "dst_slug": "dm_abbreviation_first_mention",
+      "note": "Data-tone example copy uses the DM abbreviation, which follows the first-mention rule.",
+      "relation": "co_applies",
+      "src_slug": "clinical_data_tone"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": [
+        {
+          "kind": "first_mention",
+          "value": "dermatomyositis"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "dermatomyositis (DM)",
+        "trigger": "first mention of dermatomyositis in running copy"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "First-mention pattern: `dermatomyositis (DM)`."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition.",
+          "**Do NOT use \"DM\" in headlines, headings, or subheads** — always the full word there",
+          "every standalone section must establish `dermatomyositis (DM)` at its own first mention"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0001",
+          "u_content_pattern_rules_4_0002"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Consistent, accessible, SEO-friendly handling of the DM abbreviation across assembled sections.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "After first mention of \"dermatomyositis\", use \"DM\" in running copy to avoid repetition; first-mention pattern is `dermatomyositis (DM)`. Do NOT use \"DM\" in headlines, headings, or subheads — always the full word there (clarity, accessibility, and SEO on web). Because sections are assembled later, every standalone section must establish `dermatomyositis (DM)` at its own first mention unless the assembly brief states the abbreviation is established upstream.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "dm_abbreviation_first_mention",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — **not \"patients.\"**",
+          "Use **\"care team\"** (not \"staff\")"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0003"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Use inclusive, person-first language in patient-facing copy.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "voice_tone",
+      "rule_text": "In patient materials say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — not \"patients\" (\"Patients\" is acceptable only in HCP materials). Use \"care team\" (not \"staff\") for the network of patients, HCPs, and support systems.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "inclusive_patient_language",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "spell out zero–nine; numerals for 10+.",
+          "**Exceptions — always numerals: percentages, ages, ratios.** Percentages use the % sign (e.g., 74%)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0004"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Consistent number formatting.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Spell out zero–nine; use numerals for 10+. Exceptions — always use numerals for percentages, ages, and ratios. Percentages use the % sign (e.g., 74%).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "number_formatting",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Oxford/serial comma always in series of 3+."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0006"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Consistent punctuation in series.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Use the Oxford/serial comma always in series of 3 or more.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "oxford_comma",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying.",
+          "Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0005"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Present clinical data in a supportive, trust-building tone.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "voice_tone",
+      "rule_text": "When citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying. Example pattern: \"Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.\"",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "efficacy"
+        ]
+      },
+      "slug": "clinical_data_tone",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "efficacy",
+        "copy_editorial"
+      ]
+    }
+  ]
+}

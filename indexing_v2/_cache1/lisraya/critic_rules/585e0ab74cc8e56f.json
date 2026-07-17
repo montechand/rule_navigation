@@ -1,0 +1,84 @@
+{
+  "findings": [
+    {
+      "description": "u_other_rules_1_0001 bundles three distinct directives: (1) scope statement that the guide governs patient/DTC materials, (2) the patient-vs-HCP terminology rule, and (3) a process obligation to confirm audience in every brief before writing. Only the terminology piece is represented; the scope-of-guide statement and the brief-confirmation workflow requirement are dropped, resulting in an under-split cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "topic": "patient_vs_hcp_terminology"
+            },
+            {
+              "class": "process",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "topic": "confirm_audience_in_brief"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_language_patient_vs_hcp"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_audience_language_patient_vs_hcp",
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "The requirement to 'Confirm audience in every brief before writing' is a governance/process obligation (workflow gate before content creation) that is not captured by any candidate rule. It has no facet reflecting when/where the check must occur (at brief stage), leaving a compliance gap.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "process",
+          "description": "Confirm target audience (patient/DTC vs HCP) in every creative brief before writing begins.",
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Rule is classed as 'assembly' but the source content ('Patient brochure = master reference for visuals, messaging, and tone across all LISRAYA materials') describes a document hierarchy/precedence rule, not a physical or layout assembly instruction. Class likely mis-tagged.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "governance",
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_brochure_master_reference"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_patient_brochure_master_reference",
+      "unit_ids": [
+        "u_other_rules_1_0002"
+      ]
+    }
+  ]
+}

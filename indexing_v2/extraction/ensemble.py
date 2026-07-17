@@ -38,7 +38,7 @@ from indexing_v2.extraction.normalize import normalize_value
 from indexing_v2.extraction.provenance import ProvenanceResult, verify_entities
 from indexing_v2.extraction.runner import RunOutput
 
-STAGE_VERSION = "1.3.0"
+STAGE_VERSION = "1.4.1"
 
 EntityKindBucket = Literal[
     "token_primitive",
@@ -46,6 +46,7 @@ EntityKindBucket = Literal[
     "asset",
     "subtype",
     "template",
+    "token_table",
     "rule",
 ]
 
@@ -76,6 +77,7 @@ class EnsembleResult(BaseModel):
     assets: list[dict[str, Any]] = Field(default_factory=list)
     subtypes: list[dict[str, Any]] = Field(default_factory=list)
     templates: list[dict[str, Any]] = Field(default_factory=list)
+    tables: list[dict[str, Any]] = Field(default_factory=list)
     rule_groups: dict[str, list[dict[str, Any]]] = Field(default_factory=dict)
     rule_group_doc_refs: dict[str, str] = Field(default_factory=dict)
     relations_by_group: dict[str, list[dict[str, Any]]] = Field(default_factory=dict)
@@ -212,6 +214,11 @@ def semantic_match_key(
 
 
 def _primitive_match_key(entity: Mapping[str, Any]) -> tuple[str, str, str]:
+    # Table-compiled atoms often share literal values (many ``600px`` rows). Matching
+    # on (type, value) would mush distinct row tokens into one; id is sound because
+    # the compiler is deterministic across runs.
+    if entity.get("compiled_by"):
+        return ("compiled", str(entity.get("id") or ""), _scope(entity))
     token_type = str(entity.get("token_type") or "unknown")
     return (token_type, _match_canon(token_type, _default_raw(entity)), _scope(entity))
 
@@ -271,6 +278,11 @@ def _output_entities(output: RunOutput) -> dict[EntityKindBucket, list[dict[str,
             for item in output.catalog_rest.get("templates", [])
             if isinstance(item, dict)
         ],
+        "token_table": [
+            copy.deepcopy(item)
+            for item in output.catalog_rest.get("token_tables", [])
+            if isinstance(item, dict)
+        ],
         "rule": [
             copy.deepcopy(rule)
             for group in output.rule_groups
@@ -291,6 +303,7 @@ def _collect_occurrences(
         "asset": [],
         "subtype": [],
         "template": [],
+        "token_table": [],
         "rule": [],
     }
     for run in runs:
@@ -298,7 +311,14 @@ def _collect_occurrences(
         catalog = build_token_catalog(run.output)
         quarantined = {entry.entity_id for entry in run.provenance.quarantine}
         entities = _output_entities(run.output)
-        for kind in ("token_primitive", "token_semantic", "asset", "subtype", "template"):
+        for kind in (
+            "token_primitive",
+            "token_semantic",
+            "asset",
+            "subtype",
+            "template",
+            "token_table",
+        ):
             for entity in entities[kind]:
                 if active_only and str(entity.get("id", "")) in quarantined:
                     continue
@@ -355,6 +375,10 @@ def _generic_groups(
             key = _named_match_key(item.entity, "unknown")
         elif kind == "template":
             key = _named_match_key(item.entity, "template")
+        elif kind == "token_table":
+            # Deterministic compiler output: identical id + payload in every
+            # run, so id alone is a sound match key.
+            key = ("token_table", str(item.entity.get("id", "")))
         else:
             raise ValueError(f"unsupported generic group kind: {kind}")
         keyed.setdefault(key, []).append(item)
@@ -1010,6 +1034,21 @@ def _collapse_duplicate_ids(
     return list(by_id.values())
 
 
+def _remap_entity_refs(value: Any, mapping: Mapping[str, str]) -> Any:
+    """Rewrite ``$ref``/``token_id`` targets after group merges collapse ids."""
+    if isinstance(value, dict):
+        out = {}
+        for key, child in value.items():
+            if key in {"$ref", "token_id", "derived_from"} and isinstance(child, str):
+                out[key] = mapping.get(child, child)
+            else:
+                out[key] = _remap_entity_refs(child, mapping)
+        return out
+    if isinstance(value, list):
+        return [_remap_entity_refs(child, mapping) for child in value]
+    return value
+
+
 def reconcile_ensemble(
     runs: Sequence[VerifiedRunInput],
     units: Sequence[SourceUnit],
@@ -1031,7 +1070,7 @@ def reconcile_ensemble(
 
     groups: list[_EntityGroup] = []
     conflicts: list[Conflict] = []
-    for kind in ("token_primitive", "asset", "subtype", "template"):
+    for kind in ("token_primitive", "asset", "subtype", "template", "token_table"):
         groups.extend(_generic_groups(active[kind], kind))
     semantic_groups, semantic_conflicts = _semantic_groups(
         active["token_semantic"],
@@ -1054,6 +1093,7 @@ def reconcile_ensemble(
         "asset": [],
         "subtype": [],
         "template": [],
+        "token_table": [],
         "rule": [],
     }
     merged_rule_groups: dict[str, list[dict[str, Any]]] = {}
@@ -1066,11 +1106,21 @@ def reconcile_ensemble(
         for group in consensus_groups
         for unit_id in _group_verified_unit_ids(group, runs_by_id)
     }
+    # Two frozen-catalog tokens can share a value (e.g. two 600px widths); the
+    # value match key then collapses them into one group and the losing ids
+    # vanish while semantic $refs / rule effects still point at them.
+    merged_away_ids: dict[str, str] = {}
 
     def materialize(group: _EntityGroup) -> None:
         entity, entity_conflicts = _merge_group(group, champion_run, runs_count)
         conflicts.extend(entity_conflicts)
         merged[group.kind].append(entity)
+        if group.kind in {"token_primitive", "token_semantic"}:
+            base_id = str(entity.get("id") or "")
+            for item in group.raw_occurrences:
+                occurrence_id = str(item.entity.get("id") or "")
+                if occurrence_id and base_id and occurrence_id != base_id:
+                    merged_away_ids.setdefault(occurrence_id, base_id)
         if group.kind == "rule":
             merged_rule_groups.setdefault(group.group_id or "unknown", []).append(entity)
             slugs = sorted(
@@ -1150,6 +1200,27 @@ def reconcile_ensemble(
             merged_rule_groups[group_id], None
         )
 
+    surviving_token_ids = {
+        str(entity.get("id") or "")
+        for kind in ("token_primitive", "token_semantic")
+        for entity in merged[kind]
+    }
+    ref_remap = {
+        old_id: new_id
+        for old_id, new_id in merged_away_ids.items()
+        if old_id not in surviving_token_ids and new_id in surviving_token_ids
+    }
+    if ref_remap:
+        for kind in ("token_semantic", "rule"):
+            merged[kind] = [
+                _remap_entity_refs(entity, ref_remap) for entity in merged[kind]
+            ]
+        for group_id in merged_rule_groups:
+            merged_rule_groups[group_id] = [
+                _remap_entity_refs(rule, ref_remap)
+                for rule in merged_rule_groups[group_id]
+            ]
+
     entities_for_verify: dict[str, list[dict[str, Any]]] = {
         kind: entities for kind, entities in merged.items()
     }
@@ -1182,6 +1253,7 @@ def reconcile_ensemble(
         assets=merged["asset"],
         subtypes=merged["subtype"],
         templates=merged["template"],
+        tables=merged["token_table"],
         rule_groups=dict(sorted(merged_rule_groups.items())),
         rule_group_doc_refs=rule_group_doc_refs,
         relations_by_group=relations_by_group,
@@ -1272,6 +1344,11 @@ def write_candidates(result: EnsembleResult, work_dir: Path) -> None:
         "templates": [
             entity
             for entity in sorted(result.templates, key=lambda item: str(item.get("id", "")))
+            if str(entity.get("id", "")) not in quarantined
+        ],
+        "tables": [
+            entity
+            for entity in sorted(result.tables, key=lambda item: str(item.get("id", "")))
             if str(entity.get("id", "")) not in quarantined
         ],
     }

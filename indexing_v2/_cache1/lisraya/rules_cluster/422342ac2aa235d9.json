@@ -1,0 +1,168 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "brand_name_capitalization",
+      "note": "First-mention trademark display depends on capitalization logic.",
+      "relation": "depends_on",
+      "src_slug": "trademark_and_generic_format"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Always write **LISRAYA** in ALL CAPS in all written materials (patient marketing rule; supersedes the Feb 2026 general guide's title-case rule)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "LISRAYA",
+        "preferred_form_evidence": {
+          "quotes": [
+            "Always write **LISRAYA** in ALL CAPS"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0001"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure consistent and legally compliant rendering of the brand name in patient communications.",
+      "polarity": "must",
+      "precedence": 10,
+      "rule_class": "copy_editorial",
+      "rule_text": "Always write LISRAYA in ALL CAPS in all written materials for patient marketing (supersedes title-case rules).",
+      "scope": "brand",
+      "selector": null,
+      "slug": "brand_name_capitalization",
+      "tags": [
+        "governance"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "first_mention",
+          "value": "most_prominent_or_first_mention"
+        }
+      ],
+      "audience": "dtp_patient",
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Include the **® registered trademark symbol only when the generic name is included** — i.e., LISRAYA® (brepocitinib). Apply on **first/most prominent mention only**, in **external-facing documents only**. Do not repeat ® on subsequent mentions.",
+          "Generic name format: lowercase, in parentheses: `(brepocitinib)`."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002",
+          "u_content_pattern_rules_0_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "LISRAYA® (brepocitinib)",
+        "preferred_form_evidence": {
+          "quotes": [
+            "LISRAYA® (brepocitinib)",
+            "Generic name format: lowercase, in parentheses: `(brepocitinib)`"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0002",
+            "u_content_pattern_rules_0_0003"
+          ]
+        },
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Fulfill regulatory and legal trademark requirements for first mention branding.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Include the ® registered trademark symbol only when the generic name is included in lowercase parentheses—i.e., LISRAYA® (brepocitinib)—on the first or most prominent mention only in external-facing materials. Do not repeat ® on subsequent mentions.",
+      "scope": "brand",
+      "selector": null,
+      "slug": "trademark_and_generic_format",
+      "tags": [
+        "governance"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "legal",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "Priovant Therapeutics, Inc.",
+        "preferred_form_evidence": {
+          "quotes": [
+            "Priovant Therapeutics, Inc."
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0004"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent duplicate or non-standard corporate branding placement.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Parent company sign-off ('Priovant Therapeutics, Inc.') lives exclusively in the locked footer/end matter; do not add it in other sections.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "end_matter"
+        ]
+      },
+      "slug": "parent_company_footer_placement",
+      "tags": [
+        "governance"
+      ]
+    }
+  ]
+}

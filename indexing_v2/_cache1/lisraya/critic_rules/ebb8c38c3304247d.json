@@ -1,0 +1,130 @@
+{
+  "findings": [
+    {
+      "description": "Rule is scoped only to the single campaign headline 'YOU DESERVE MORE' but carries no scope/campaign facet distinguishing it from general headline rules, and drops the explicit cross-reference '(see 1.6)' which points to governing detail elsewhere in the bible. Without a scope facet this rule risks being applied to all headlines instead of just this campaign asset.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "cross_reference": "section_1.6",
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "scope": "campaign:YOU_DESERVE_MORE"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_all_caps"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_campaign_headline_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "Unit conflates two distinct facets: casing (ALL CAPS) and typeface/channel-conditional font requirement (Agenda for print, Nunito Sans Bold+ for email fallback). Clustering both under a single typography casing rule loses the channel-conditional font requirement, which should be split into its own font/typeface rule or added as an explicit facet.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "new_rule": {
+            "class": "font",
+            "detail": "Agenda (print) / Nunito Sans Bold+ (email fallback)",
+            "hardness": "hard_constraint",
+            "polarity": "must",
+            "scope": "chart_infographic_headlines"
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_chart_headline_all_caps"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_chart_headline_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003"
+      ]
+    },
+    {
+      "description": "Source unit is explicitly tagged [GENERAL], signaling a governance-level marker (baseline/global applicability) that is not captured as a facet on the rule. Without this tag, downstream systems cannot distinguish this as the overriding general prohibition versus a peer-level rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "governance_tag": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "scope": "body_copy,buttons,subheads"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_all_caps_outside_approved_cases"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_no_all_caps_outside_approved_cases",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0005"
+      ]
+    },
+    {
+      "description": "The general prohibition rule explicitly references 'the cases above' (campaign headline ALL CAPS and chart headline ALL CAPS) as approved exceptions, but no exception/override relation is recorded between this rule and rule_lisraya_campaign_headline_all_caps / rule_lisraya_chart_headline_all_caps. This missing relation could cause the must_not rule to be misapplied against the legitimate ALL CAPS exceptions.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "exception_relations": [
+            "rule_lisraya_campaign_headline_all_caps",
+            "rule_lisraya_chart_headline_all_caps"
+          ],
+          "group_id": "grp_lisraya_content_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_all_caps_outside_approved_cases"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_no_all_caps_outside_approved_cases",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003",
+        "u_content_pattern_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Rule hardness is set to strong_default without capturing that it is itself overridden by two hard_constraint exceptions (campaign headline, chart headline). The relation of 'default unless exception applies' is implicit but not encoded, risking ambiguous precedence resolution.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "overridden_by": [
+            "rule_lisraya_campaign_headline_all_caps",
+            "rule_lisraya_chart_headline_all_caps"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_headline_title_case"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_headline_title_case",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0001"
+      ]
+    }
+  ]
+}

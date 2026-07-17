@@ -1,0 +1,56 @@
+{
+  "assets": [],
+  "relations": [],
+  "rules": [
+    {
+      "effect": {
+        "parent_company": "Priovant Therapeutics, Inc.",
+        "prohibition": "do not add parent company sign-off in sections",
+        "signoff_location": "locked footer"
+      },
+      "evidence": {
+        "quotes": [
+          "Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0004"
+        ]
+      },
+      "id": "rule_lisraya_parent_company_signoff_footer_only",
+      "rule_class": "copy_editorial",
+      "selector": {
+        "element_path": "brand.parent_company.signoff"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0004"
+        ]
+      },
+      "id": "tok_lisraya_metadata_parent_company",
+      "key": "metadata.brand.parent_company",
+      "token_type": "metadata",
+      "value": {
+        "default": "Priovant Therapeutics, Inc.",
+        "default_evidence": {
+          "quotes": [
+            "Parent company: Priovant Therapeutics, Inc."
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0004"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

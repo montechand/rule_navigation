@@ -1,0 +1,85 @@
+{
+  "assets": [],
+  "relations": [],
+  "rules": [
+    {
+      "effect": {
+        "care_team": {
+          "preferred": "care team",
+          "prohibited": "staff",
+          "scope": "network of patients, HCPs, and support systems"
+        },
+        "patients_allowed_in": "HCP materials",
+        "person_first": true,
+        "preferred": [
+          "someone with dermatomyositis",
+          "people with dermatomyositis"
+        ],
+        "prohibited_in_patient_materials": [
+          "patients"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — **not \"patients.\"** (\"Patients\" is acceptable only in HCP materials.) Use **\"care team\"** (not \"staff\") for the network of patients, HCPs, and support systems."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0003"
+        ]
+      },
+      "id": "rule_lisraya_inclusive_language_person_first",
+      "rule_class": "copy_editorial",
+      "selector": {
+        "element_path": "content.patient_materials.language"
+      }
+    },
+    {
+      "effect": {
+        "always_numerals": [
+          "percentages",
+          "ages",
+          "ratios"
+        ],
+        "numerals": "10+",
+        "percent_example": "74%",
+        "percent_format": "% sign",
+        "spell_out": "zero–nine"
+      },
+      "evidence": {
+        "quotes": [
+          "spell out zero–nine; numerals for 10+. **Exceptions — always numerals: percentages, ages, ratios.** Percentages use the % sign (e.g., 74%)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0004"
+        ]
+      },
+      "id": "rule_lisraya_number_formatting",
+      "rule_class": "copy_editorial",
+      "selector": {
+        "element_path": "content.numbers"
+      }
+    },
+    {
+      "effect": {
+        "condition": "series of 3+",
+        "oxford_serial_comma": "always"
+      },
+      "evidence": {
+        "quotes": [
+          "Oxford/serial comma always in series of 3+."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0006"
+        ]
+      },
+      "id": "rule_lisraya_oxford_comma",
+      "rule_class": "copy_editorial",
+      "selector": {
+        "element_path": "content.punctuation"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

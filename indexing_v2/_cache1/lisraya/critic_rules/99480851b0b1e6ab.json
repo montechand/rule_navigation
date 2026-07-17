@@ -1,0 +1,123 @@
+{
+  "findings": [
+    {
+      "description": "Three distinct brand-voice dimensions (confident/not boastful, warm/not overly emotional, clear/not complicated) are collapsed into a single rule, losing the discrete polarity pairs and their individual rationale (significance framing, empathy, plain language). Each is a separable voice_tone rule.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "new_rules": [
+            {
+              "class": "voice_tone",
+              "hardness": "soft_guidance",
+              "id": "rule_lisraya_voice_confident_not_boastful",
+              "polarity": "must",
+              "unit_ids": [
+                "u_content_pattern_rules_8_0001"
+              ]
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "soft_guidance",
+              "id": "rule_lisraya_voice_warm_not_overly_emotional",
+              "polarity": "must",
+              "unit_ids": [
+                "u_content_pattern_rules_8_0002"
+              ]
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "soft_guidance",
+              "id": "rule_lisraya_voice_clear_not_complicated",
+              "polarity": "must",
+              "unit_ids": [
+                "u_content_pattern_rules_8_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    },
+    {
+      "description": "u_content_pattern_rules_8_0004 ('Tone may flex slightly by context; core voice never changes') is an entirely separate governance statement about contextual flexibility and an invariant core, but it is not represented by any candidate rule — it appears to have been silently dropped rather than merged or split out.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "voice_tone",
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_voice_core_invariant_context_flex",
+          "notes": "Core voice is invariant (hard constraint); tone may flex slightly by context (soft scope allowance) — two facets in one unit.",
+          "polarity": "must_not_change",
+          "unit_ids": [
+            "u_content_pattern_rules_8_0004"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_8_0004"
+      ]
+    },
+    {
+      "description": "Hardness is uniformly tagged soft_guidance across the merged rule, but source unit 0004 uses absolute/never language ('core voice never changes'), indicating a hard_constraint segment was flattened into soft_guidance, mismatching hardness vs source wording.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003",
+        "u_content_pattern_rules_8_0004"
+      ]
+    },
+    {
+      "description": "The rule cluster carries no scope facet tying it to the 'Brand Voice' heading context, nor any exception/allowance facet reflecting the contextual flex noted in u0004, despite that unit qualifying the whole voice section.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_exception_ref": "u_content_pattern_rules_8_0004",
+          "add_scope": "brand_voice_section",
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0000",
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    }
+  ]
+}

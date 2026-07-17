@@ -1,0 +1,147 @@
+{
+  "findings": [
+    {
+      "description": "No rule was extracted for the PRIMARY color tier despite explicit dominant-tier designation and three fully specified colors (Brand Blue, Sunshine, Gold) with HEX/RGB/CMYK/Pantone values. This is a complete clustering omission.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "colors": [
+            "Brand Blue #00529b",
+            "Sunshine #faa31b",
+            "Gold #ffc60a"
+          ],
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "g_lisraya_color_primary",
+          "hardness": "must",
+          "polarity": "positive",
+          "scope": "brand_wide",
+          "tier": "primary"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "No rule was extracted for the SECONDARY color tier (Sky Blue, Deep Blue, Dark Navy). Entire secondary palette table is unclustered.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "colors": [
+            "Sky Blue #358CCB",
+            "Deep Blue #003D74",
+            "Dark Navy #011E45"
+          ],
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "g_lisraya_color_secondary",
+          "hardness": "should",
+          "polarity": "positive",
+          "scope": "brand_wide",
+          "tier": "secondary"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0010",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013"
+      ]
+    },
+    {
+      "description": "No rule was extracted for the TERTIARY color tier (Coral, Light Blue, Golden Sand, Graphite, White). Entire tertiary palette table is unclustered.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "colors": [
+            "Coral #F26A38",
+            "Light Blue #E6F0F9",
+            "Golden Sand #FEF1C8",
+            "Graphite #212121",
+            "White #ffffff"
+          ],
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "g_lisraya_color_tertiary",
+          "hardness": "may",
+          "polarity": "positive",
+          "scope": "brand_wide",
+          "tier": "tertiary"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0015",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0017",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "The palette is structured as a governance hierarchy (dominant/primary vs secondary vs tertiary) implying differing mandate levels (e.g., primary as required dominant use vs tertiary as optional accents), but no rules exist to carry hardness/scope facets reflecting this tiering.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0000",
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0015"
+      ]
+    },
+    {
+      "description": "Missing relation: primary, secondary, and tertiary color tier rules should be linked as siblings under a single 'Complete Palette' rule group per the heading, to preserve intended tier relationship and precedence (primary dominant > secondary > tertiary).",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0015"
+      ]
+    },
+    {
+      "description": "Primary tier rows include Pantone values not present in secondary/tertiary tables; if rules are later added, Pantone attribute should only be asserted for primary tier and not defaulted for other tiers.",
+      "finding_id": "f_lisraya_6",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    }
+  ]
+}

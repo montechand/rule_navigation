@@ -1,0 +1,56 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules totally missed extracting the core design pattern: the brand accent shape itself (rectangle with selectively enlarged opposite corner radii), its approved print dimensions, and email conversion px ratios. Only the chart/table exception was extracted.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "description": "Brand accent shapes must use rectangles with selectively enlarged opposite corner radii. For print, approved diagonal pairs are 1.25\" & 0.0625\" (large), 0.5\" & 0.0625\" (banners), or 0.4375\" & 0.0625\" (callouts). For email, these translate respectively at 96dpi to 120px & 6px, 48px & 6px, and 42px & 6px, keeping diagonal orientation consistent within a single asset.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_brand_accent_shape_geometry"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0001",
+        "u_design_pattern_rules_3_0002",
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "The chart and table corner exception candidate rule misses the specific numerical parameter (12px uniform radius for charts and tables) defined in the source unit.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "layout",
+          "description": "Charts and tables must use a uniform 12px rounded corner radius on all four corners, rather than the asymmetric brand accent shape.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_chart_and_table_corner_exception"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_chart_and_table_corner_exception"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_chart_and_table_corner_exception",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0004"
+      ]
+    }
+  ]
+}

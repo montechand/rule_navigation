@@ -1,0 +1,145 @@
+{
+  "findings": [
+    {
+      "description": "Single candidate rule only reflects u0002 (safe pairs / gold-on-white ban) but two other distinct source units (u0001 contrast-testing requirement with WCAG thresholds, u0003 'don't rely on color alone' accessibility rule) have no corresponding rule at all. Three separate obligations are being collapsed into one rule id, losing the testing-process and non-color-reliance requirements entirely.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "new_rules": [
+            {
+              "class": "accessibility_process",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_contrast_testing_requirement",
+              "polarity": "must",
+              "unit_ids": [
+                "u_color_scheme_rules_4_0001"
+              ]
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_safe_color_pairs_and_gold_text_ban",
+              "polarity": "mixed",
+              "unit_ids": [
+                "u_color_scheme_rules_4_0002"
+              ]
+            },
+            {
+              "class": "accessibility_process",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_color_not_sole_meaning_carrier",
+              "polarity": "must_not",
+              "unit_ids": [
+                "u_color_scheme_rules_4_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_safe_color_pairs_and_gold_text_ban"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_safe_color_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001",
+        "u_color_scheme_rules_4_0002",
+        "u_color_scheme_rules_4_0003"
+      ]
+    },
+    {
+      "description": "u0001 specifies concrete measurable governance facets (WCAG AA thresholds: 4.5:1 body text, 3:1 large text ≥24px/19px bold, verification via webaim.com or equivalent tool) that are not captured by any rule in this cluster. The compliance-testing obligation and its numeric acceptance criteria are missing entirely from the extraction.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility_process",
+          "doc_ref": "color_scheme_rules[4]",
+          "governance": {
+            "standard": "WCAG AA",
+            "thresholds": {
+              "body_text": "4.5:1",
+              "large_text": "3:1 (>=24px or 19px bold)"
+            },
+            "verification_tool": "webaim.com or equivalent"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_contrast_testing_requirement",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ]
+    },
+    {
+      "description": "Polarity 'must_not' only fits the gold/sunshine-on-white prohibition half of u0002; the 'known-safe pairs' list is an affirmative/allow-list statement (must/should use these pairs). Tagging the whole rule as must_not misrepresents the affirmative guidance and conflates two polarities in one rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "guideline",
+              "id": "rule_lisraya_known_safe_color_pairs",
+              "polarity": "must"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_gold_text_on_white_ban",
+              "polarity": "must_not"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_safe_color_pairs_and_gold_text_ban"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_safe_color_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    },
+    {
+      "description": "u0003 ('don't rely on color alone, pair with icons/depth/copy/feedback') is a distinct semantic/accessibility scope, separate from color-pair contrast application, and is entirely unrepresented in the candidate rule set — a scope gap rather than a class mismatch on an existing rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility_process",
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_color_not_sole_meaning_carrier",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0003"
+      ]
+    }
+  ]
+}

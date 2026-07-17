@@ -1,0 +1,154 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "approved_gradients_library",
+      "note": "Refines the broader gradient palette to specify the exact gradient and positioning rule for mastheads.",
+      "relation": "refines",
+      "src_slug": "masthead_gradient_logo_placement"
+    },
+    {
+      "dst_slug": "masthead_gradient_logo_placement",
+      "note": "Horizontal flow and light-end positioning together define the rendering of the masthead background gradient.",
+      "relation": "co_applies",
+      "src_slug": "gradient_direction_masthead"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "approved set — never invent gradients",
+          "Brand Blue → Dark Navy",
+          "Sky Blue → Deep Blue",
+          "Sunshine → 75% Gold",
+          "Golden Sand → White → Light Blue",
+          "Golden Sand → 75% Gold → Sunshine",
+          "Sunshine → 0C,10M,78Y,0K (≈`#ffe05c` light gold)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0000",
+          "u_color_scheme_rules_3_0001",
+          "u_color_scheme_rules_3_0003",
+          "u_color_scheme_rules_3_0004",
+          "u_color_scheme_rules_3_0005",
+          "u_color_scheme_rules_3_0006",
+          "u_color_scheme_rules_3_0007",
+          "u_color_scheme_rules_3_0008",
+          "u_color_scheme_rules_3_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain color consistency across backgrounds, waves, and masthead lockups.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Only use approved gradients from the designated set: Brand Blue to Dark Navy (#00529b to #011E45), Sky Blue to Deep Blue (#358CCB to #003D74), Sunshine to 75% Gold (#faa31b to Gold @75%), Golden Sand to White to Light Blue (#FEF1C8 to #ffffff to #E6F0F9), Golden Sand to 75% Gold to Sunshine (#FEF1C8 to Gold @75% to #faa31b), or Sunshine to Light Gold (#faa31b to #ffe05c). Never invent custom gradients.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "background.color",
+        "section_types": [
+          "hero",
+          "top_matter",
+          "callout"
+        ]
+      },
+      "slug": "approved_gradients_library",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure optimal legibility and contrast for the brand logo mark in the masthead block.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The Sunshine to Light Gold gradient (Sunshine = #faa31b; Light Gold = #ffe05c) is mandated as the masthead gradient paired with the logo mark; the logo mark must sit at the lightest end of the gradient to maximize visual contrast.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "top_matter.masthead",
+        "section_types": [
+          "top_matter"
+        ]
+      },
+      "slug": "masthead_gradient_logo_placement",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "top_matter",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Gradients run horizontally in masthead/banner applications (dark/saturated → light, left → right as shown)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0009"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Standardize gradient flow for consistent visual hierarchy across banners and mastheads.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Gradients in masthead and banner applications must run horizontally, oriented from left to right transitioning from dark/saturated to light.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "background.color",
+        "section_types": [
+          "top_matter",
+          "hero"
+        ]
+      },
+      "slug": "gradient_direction_masthead",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout",
+        "color_application"
+      ]
+    }
+  ]
+}

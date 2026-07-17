@@ -236,7 +236,7 @@ def _record(
 
 
 def test_stage_version_present() -> None:
-    assert STAGE_VERSION == "1.3.0"
+    assert STAGE_VERSION == "1.4.1"
 
 
 def test_minibible_three_run_reconcile(
@@ -539,6 +539,48 @@ def test_scalar_union_counts_missing_and_adds_dissent_only_field(
     merged = result.tokens_primitive[0]
     assert merged["dissent_note"] == "present"
     assert merged["extraction_meta"]["field_agreement"]["dissent_note"] == pytest.approx(2 / 3)
+
+
+def test_value_merged_primitive_ids_are_remapped_in_semantic_refs(
+    units: list[SourceUnit],
+) -> None:
+    """Two same-value primitives collapse into one group; $refs to the losing
+    id must be rewritten to the surviving id (was: dangling ref crashing s8)."""
+    source = _unit(units, "u_brand_foundation_0_0004")
+
+    def run_tokens(run_id: str) -> dict[str, Any]:
+        # Both tokens appear in every run with the same value: same match key.
+        return {
+            "primitive": [
+                _token("tok_green_a", "color.green.a", "#01A47E", source),
+                _token("tok_green_b", "color.green.b", "#01A47E", source),
+            ],
+            "semantic": [
+                _semantic(
+                    "sem_body",
+                    "body.color",
+                    {"$ref": "tok_green_b"},
+                    source,
+                    token_type="color",
+                    quote="Primary Green",
+                ),
+            ],
+        }
+
+    result = reconcile_ensemble(
+        [
+            _verified("r0", units, **run_tokens("r0")),
+            _verified("r1", units, **run_tokens("r1")),
+            _verified("r2", units, **run_tokens("r2")),
+        ],
+        units,
+        [],
+    )
+    surviving = {token["id"] for token in result.tokens_primitive}
+    assert len(surviving) == 1
+    winner = next(iter(surviving))
+    sem = next(token for token in result.tokens_semantic if token["id"] == "sem_body")
+    assert sem["value"]["default"] == {"$ref": winner}
 
 
 def test_rule_prose_is_champion_verbatim(units: list[SourceUnit]) -> None:

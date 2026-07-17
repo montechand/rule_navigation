@@ -16,6 +16,7 @@ from shared.schemas import (
     PREDICATE_REGISTRY,
     BrandRule,
     BrandToken,
+    BrandTokenTable,
     ContentSubType,
     DesignAsset,
     DesignTemplate,
@@ -70,6 +71,7 @@ EntityKind = Literal[
     "asset",
     "subtype",
     "template",
+    "token_table",
 ]
 
 
@@ -127,6 +129,9 @@ EVIDENCE_PATHS: dict[EntityKind, list[str]] = {
     "asset": [""],
     "subtype": [""],
     "template": ["", "body"],
+    # Row-level value evidence lives on the row tokens (verified per-atom);
+    # the table entity itself only needs span verification.
+    "token_table": [""],
 }
 
 # --- S2: run variants / S4: ensemble ----------------------------------------
@@ -308,6 +313,9 @@ class LinkerResult(BaseModel):
     adjudication_open: list[dict[str, Any]]
     needs_rule_tokens: list[dict[str, Any]]
     unresolved_rule_literals: list[dict[str, str]]
+    # Residual table-row orphans: carried by their table's umbrella rule, so
+    # never routed to needs_rule (E2).
+    member_of_table_tokens: list[dict[str, Any]] = Field(default_factory=list)
 
 
 # --- S9/S10: guards, specificity, contexts ----------------------------------
@@ -560,6 +568,7 @@ class KBSnapshot(BaseModel):
     assets: dict[str, DesignAsset]
     subtypes: dict[str, ContentSubType]
     templates: dict[str, DesignTemplate]
+    tables: dict[str, BrandTokenTable] = Field(default_factory=dict)
     predicate_domains: dict[str, list[str]]
 
     @classmethod
@@ -578,6 +587,10 @@ class KBSnapshot(BaseModel):
             k: DesignTemplate.model_validate(v)
             for k, v in _load_entity_dir(root / "templates" / "_meta").items()
         }
+        tables = {
+            k: BrandTokenTable.model_validate(v)
+            for k, v in _load_entity_dir(root / "tables").items()
+        }
         predicate_domains = _collect_predicate_domains(rules, tokens, subtypes, templates)
 
         return cls(
@@ -587,5 +600,6 @@ class KBSnapshot(BaseModel):
             assets=assets,
             subtypes=subtypes,
             templates=templates,
+            tables=tables,
             predicate_domains=predicate_domains,
         )

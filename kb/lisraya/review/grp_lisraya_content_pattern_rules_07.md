@@ -15,29 +15,9 @@ doc_ref: `content_pattern_rules[7]`
 - Support program name: **My Compass Support** (patient support: Personalized Communication via PAL — text, phone, email, in person; Authorization Support).
 ````
 
-## Extracted rules (5)
+## Extracted rules (1)
 
-### rule_lisraya_administration_and_convenience_messaging
-- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=['efficacy', 'intro'] constraint=verbatim_content governance=mlr_claim/verbatim_only
-- rule_text: Administration convenience statements must use verbatim wording: "LISRAYA is a once-daily pill—you can take it at home or anywhere you like, with no shots or infusions required."
-- intent: Maintain accurate compliance guidelines concerning pill delivery claims compared to injections.
-
-### rule_lisraya_campaign_approved_headlines_verbatim
-- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=['hero', 'intro'] constraint=verbatim_content
-- rule_text: The full campaign lockup copy must read exactly: "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis."
-- intent: Maintain strict medical-legal alignment for primary patient-facing campaign headlines.
-
-### rule_lisraya_doctor_discussion_cta_pattern
-- class=cta scope=campaign hardness=hard_constraint polarity=must sections=['cta'] constraint=binding governance=mlr_claim/verbatim_only
-- rule_text: CTAs utilize a specific signature shape and treatment.
-- intent: Ensure medical discussion CTAs leverage approved regulatory wording.
-
-### rule_lisraya_patient_support_program_naming
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=['patient_story', 'affordability'] constraint=verbatim_content governance=trademark/verbatim_only
-- rule_text: The patient support program must always be referred to as "My Compass Support" verbatim.
-- intent: Maintain accurate and consistent brand name usage for the patient support program.
-
-### rule_lisraya_product_benefits_messaging
-- class=copy_editorial scope=campaign hardness=hard_constraint polarity=must sections=['efficacy', 'intro'] constraint=verbatim_content governance=mlr_claim/verbatim_only
-- rule_text: Product benefits must be introduced by the exact phrasing: "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:" followed by approved benefit bullet points.
-- intent: Fulfill MLR requirements regarding the approved indication and benefit framing.
+### rule_lisraya_approved_campaign_messaging_framework
+- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=None governance=mlr_claim/verbatim_only
+- rule_text: Use the approved campaign messaging verbatim: headline “YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.”; the stated product-benefit introduction and its four bullets; either approved MOA message; the administration message; the doctor-discussion CTA “Talk to your doctor about LISRAYA, the DM treatment you may be looking for.”; and the support-program name “My Compass Support” with its described patient-support services.
+- intent: Keep patient-facing campaign claims, CTA language, and support-program naming within the approved messaging framework.

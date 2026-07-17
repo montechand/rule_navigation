@@ -1,0 +1,126 @@
+{
+  "findings": [
+    {
+      "description": "Four distinct tint/transparency specifications with different scopes (campaign headline D/M, Light Blue callout box, Golden Sand callout box, Wave top layers) are collapsed into a single generic rule. Each has a different target element and a different specific value (40%, 70%, 30%, 70% transparency) and should be represented as separately scoped rules or facets, not one undifferentiated rule.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "new_rules": [
+            {
+              "scope": "campaign headline D and M",
+              "value": "≈40% tint of headline color (Gold or Brand Blue)"
+            },
+            {
+              "scope": "Light Blue callout box",
+              "value": "70% tint"
+            },
+            {
+              "scope": "Golden Sand callout box",
+              "value": "30% tint"
+            },
+            {
+              "scope": "Wave top layers",
+              "value": "70% transparency"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004"
+      ]
+    },
+    {
+      "description": "u0005 ('No other ad-hoc tints — use palette values or these specified tints only') is a closure/prohibition statement distinct in kind from the preceding value-specific tint rules. It sets a boundary condition (must_not use unlisted tints) rather than defining an approved value, and should be modeled as its own rule rather than folded into rule_lisraya_approved_tint_levels.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "new_rule": {
+            "class": "color_application",
+            "hardness": "hard_constraint",
+            "id": "rule_lisraya_no_adhoc_tints",
+            "polarity": "must_not",
+            "scope": "all tint/transparency applications not explicitly listed"
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "The single rule carries hardness=hard_constraint and polarity=must for the whole cluster, but the source contains a mix of declarative value specs (headline/callout/wave tints) and an explicit prohibition (no ad-hoc tints). Governance facets (scope target, exact value, applicable element) are not captured per-unit, making it impossible to verify compliance against any individual specification.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facets": [
+            "scope_target_element",
+            "tint_value",
+            "transparency_value"
+          ],
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Wave top layers specify '70% transparency', a distinct attribute from 'tint' used in the other three units. Clustering it under a rule named/classed for 'tint_levels' misrepresents scope; transparency should either be a separate class or explicitly noted as a related-but-distinct attribute.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "clarify_class": "color_application_transparency_vs_tint",
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0004"
+      ]
+    }
+  ]
+}

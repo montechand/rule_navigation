@@ -1,0 +1,96 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": 1,
+        "min": null,
+        "per": "section",
+        "target": "focal_point"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Limit focal points per section — use contrast to direct attention to the single most important element."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Generous white space; clean, never cluttered. **Limit focal points per section** — use contrast to direct attention to the single most important element."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain generous white space and prevent cluttered layouts by restricting visual noise.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "To keep layouts clean and direct attention effectively, limit focal points per section to a maximum of one, using contrast to point to the single most important element.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "layout_principles_focal_points",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "same_background"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge.",
+          "[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Delineate different topics clearly and prevent adjacent assembled sections from visually merging.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Adjacent assembled sections must not share the same background color. Section designers must declare background color metadata to allow assemblers to alternate White, Light Blue, Golden Sand, or gradient section backgrounds.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "background",
+        "section_types": null
+      },
+      "slug": "section_background_alternation",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    }
+  ]
+}

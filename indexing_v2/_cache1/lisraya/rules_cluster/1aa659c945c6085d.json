@@ -1,0 +1,66 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "icon.stroke.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "icon.dimension.minimum",
+          "token_id": "tok_lisraya_size_icon_min_render"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "minimum render size 32×32px in email",
+          "default Brand Blue strokes on light backgrounds"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work).",
+          "Icon colors and backgrounds adjustable **only within the brand palette**.",
+          "Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001",
+          "u_design_pattern_rules_5_0002",
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain visual consistency of brand icons while securing minimum accessibility scales for low-vision readers.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "iconography",
+      "rule_text": "Icons must employ a minimal line illustration style with consistent stroke weight, rounded line caps, and single-color line work. Icon colors and backgrounds must stay strictly within the brand palette. To maintain accessibility for low-vision audiences, icons in emails must be rendered at a minimum size of 32x32px (dimension.accessibility.icon_render_min = 32px), with default Brand Blue (color.primary.brand_blue = #00529b) strokes on light backgrounds.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon",
+        "section_types": null
+      },
+      "slug": "iconography_style_and_accessibility",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility",
+        "color_application"
+      ]
+    }
+  ]
+}

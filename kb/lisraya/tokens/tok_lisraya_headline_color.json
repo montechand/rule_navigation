@@ -6,11 +6,12 @@
   "key": "headline.color",
   "value": {
     "default": {
-      "$ref": "tok_lisraya_color_brand_blue"
+      "$ref": "tok_lisraya_color_primary_brand_blue"
     },
     "default_evidence": {
       "quotes": [
-        "Headlines/headings: Brand Blue"
+        "**Headlines/headings:** Brand Blue",
+        "Headlines/headings:** Brand Blue"
       ],
       "unit_ids": [
         "u_color_scheme_rules_1_0002"
@@ -19,7 +20,15 @@
     "variants": [
       {
         "value": {
-          "$ref": "tok_lisraya_color_white"
+          "$ref": "tok_lisraya_color_tertiary_white"
+        },
+        "when": {
+          "background_group": "gradient"
+        }
+      },
+      {
+        "value": {
+          "$ref": "tok_lisraya_color_tertiary_white"
         },
         "when": {
           "background_group": "dark"
@@ -29,10 +38,12 @@
   },
   "element_paths": [
     "headline.color",
-    "headings.color"
+    "heading.color"
   ],
   "aliases": [],
+  "tier": "primary",
   "scope": "global",
+  "notes": "Headline and heading contrast treatment.",
   "status": "active",
   "version": 1
 }

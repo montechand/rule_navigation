@@ -1,0 +1,134 @@
+{
+  "findings": [
+    {
+      "description": "The blob contains three distinct palette tiers (PRIMARY, SECONDARY, TERTIARY) each with its own color table, but only one rule (primary tier) was extracted. SECONDARY (Sky Blue, Deep Blue, Dark Navy) and TERTIARY (Coral, Light Blue, Golden Sand, Graphite, White) tiers have no corresponding rules, losing significant palette governance content.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "hardness": "guideline",
+          "notes": "Add rules for secondary tier (Sky Blue, Deep Blue, Dark Navy) and tertiary tier (Coral, Light Blue, Golden Sand, Graphite, White) mirroring the primary tier rule structure.",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_secondary_palette_tier",
+          "rule_lisraya_tertiary_palette_tier"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0010",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0015",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0017",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "The rule lacks governance facets specifying which exact colors constitute the primary tier (Brand Blue #00529b, Sunshine #faa31b, Gold #ffc60a) and their color codes (HEX/RGB/CMYK/Pantone). Without enumerating the specific values, the rule cannot be validated or applied consistently.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "colors": [
+            {
+              "cmyk": "100, 76, 6, 1",
+              "hex": "#00529b",
+              "name": "Brand Blue",
+              "pantone": "2145 C",
+              "rgb": "0, 82, 155"
+            },
+            {
+              "cmyk": "0, 42, 100, 0",
+              "hex": "#faa31b",
+              "name": "Sunshine",
+              "pantone": "137 C",
+              "rgb": "250, 163, 27"
+            },
+            {
+              "cmyk": "0, 23, 100, 0",
+              "hex": "#ffc60a",
+              "name": "Gold",
+              "pantone": "7548 C",
+              "rgb": "255, 198, 10"
+            }
+          ],
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_primary_palette_tier"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "Source units are purely definitional (a palette table under a heading), with no normative language (e.g., 'must', 'should', 'always'). Assigning hardness=guideline and polarity=should is an unsupported inference; this should likely be hardness=reference/definitional or polarity=neutral unless usage constraints are stated elsewhere.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "hardness": "definitional",
+          "polarity": "neutral"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_primary_palette_tier"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0000",
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "Missed relation: the three tier rules (primary/secondary/tertiary) are structurally parallel and part of a single 'Complete Palette' hierarchy (u_0000). No relation (e.g., sibling_of or part_of) is captured linking them under the overarching palette scheme.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0015"
+      ]
+    }
+  ]
+}

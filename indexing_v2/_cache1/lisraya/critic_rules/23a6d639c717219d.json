@@ -1,0 +1,139 @@
+{
+  "findings": [
+    {
+      "description": "Entire Email Canvas & Grid section (fixed 600px width, 480px mobile breakpoint, 12-col grid, 24px side padding, 8px vertical rhythm, 32px section padding, element gaps) has no corresponding rule at all in the candidate set. Only a CTA rule exists; all layout/grid/spacing governance is unclustered and dropped.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout_grid",
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "note": "Add rules for canvas width=600px, mobile breakpoint=480px, side padding=24px, vertical rhythm base=8px, section padding=32px, and internal spacing gaps (16px/24px/8px).",
+          "polarity": "must_equal"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0001",
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003",
+        "u_design_pattern_rules_0_0004",
+        "u_design_pattern_rules_0_0005",
+        "u_design_pattern_rules_0_0006",
+        "u_design_pattern_rules_0_0007"
+      ]
+    },
+    {
+      "description": "The single CTA rule only captures the 'one primary CTA per section maximum' clause and drops the remainder of unit_0008: primary CTA color/text/font/padding, 48px min touch target accessibility rule, 24px pill radius, and secondary CTA styling (white bg, 2px blue border, blue text). These are distinct governed facts bundled in one unit but entirely unclustered.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "new_rules": [
+            {
+              "aspect": "primary_style",
+              "class": "cta",
+              "hardness": "hard_constraint",
+              "polarity": "must_equal"
+            },
+            {
+              "aspect": "touch_target_min_height",
+              "class": "cta",
+              "hardness": "hard_constraint",
+              "polarity": "must_be_at_least"
+            },
+            {
+              "aspect": "secondary_style",
+              "class": "cta",
+              "hardness": "hard_constraint",
+              "polarity": "must_equal"
+            },
+            {
+              "aspect": "one_primary_per_section",
+              "class": "cta",
+              "hardness": "hard_constraint",
+              "polarity": "must_not_exceed"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The '≥48px clickable areas' constraint is explicitly labeled in-source as a 'brand accessibility rule' — a distinct governance source/rationale — but no rule in the candidate set captures this facet or its governance provenance (accessibility mandate vs general design guidance).",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility",
+          "doc_ref": "design_pattern_rules[0]",
+          "governance_source": "brand accessibility rule",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must_be_at_least",
+          "value": "48px min touch target height"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "Section heading tags this whole CTA block as '[GENERAL — not specified in guide; Solstice email baseline]', i.e. inferred/fallback guidance rather than an official brand-specified hard rule. Marking 'one primary CTA per section maximum' as hardness=hard_constraint overstates its governance status; should likely be a softer constraint (e.g., guideline/soft_constraint) unless corroborated elsewhere.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "governance_note": "Source explicitly flagged as GENERAL/inferred baseline, not a confirmed brand guide rule.",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "hardness": "soft_constraint"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0000",
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "Missed relation: 'one primary CTA per section maximum' is directly tied to the section-based layout grid (12-col / 1-col/2-col/split section model in u_0003) and zero-gap section stacking (u_0006) — the CTA cap is scoped per rendered section, but no relation to the layout/grid rules is recorded, risking scope ambiguity if grid rules are added later.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    }
+  ]
+}

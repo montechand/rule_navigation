@@ -39,8 +39,8 @@ TEMPLATE_LIBRARIES = {
 
 # Models (names match what Backend-Server uses in production today).
 AGENT_MODEL = os.getenv("RULE_NAV_AGENT_MODEL", "claude-sonnet-5")
-# EXTRACT_MODEL = os.getenv("RULE_NAV_EXTRACT_MODEL", "gpt-5.6-sol")
-EXTRACT_MODEL = os.getenv("RULE_NAV_EXTRACT_MODEL", "gemini-3.5-flash")
+EXTRACT_MODEL = os.getenv("RULE_NAV_EXTRACT_MODEL", "gpt-5.6-terra")
+# EXTRACT_MODEL = os.getenv("RULE_NAV_EXTRACT_MODEL", "gemini-3.5-flash")
 SUMMARY_MODEL = os.getenv("RULE_NAV_SUMMARY_MODEL", "gpt-4.1-mini")
 EMBED_MODEL = os.getenv("RULE_NAV_EMBED_MODEL", "text-embedding-3-large")
 

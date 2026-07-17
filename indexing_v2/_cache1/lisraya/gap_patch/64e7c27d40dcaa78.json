@@ -1,0 +1,152 @@
+{
+  "assets": [],
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "callout.icon_box.badge_radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        },
+        {
+          "element_path": "callout.icon_box.box_radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        },
+        {
+          "element_path": "callout.icon_box.shadow",
+          "token_id": "tok_lisraya_shadow_icon_badge"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "the callout sits on the page/section background (usually White `#ffffff`). The blue box itself is inset from the left by half the badge width",
+          "vertically centered on the box and horizontally centered on the box's left edge",
+          "Let W = badge width (use 80px, icon ?48px inside).",
+          "Inset the blue box from the left by W/2 = 40px",
+          "This shadow is required on every instance; without it the badge looks flat and pasted-on.",
+          "Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow stays identical",
+          "inset = W/2, box left-padding = W/2 + 24px, badge margin-top = ?H/2"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0023",
+          "u_color_scheme_rules_6_0042",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "id": "rule_lisraya_icon_callout_box_geometry",
+      "rule_class": "layout",
+      "rule_text": "The icon callout box must follow strict geometric and structural rules: the white icon badge sits 50% overhanging the box edge (inset from left by half the badge width W/2 = 40px), vertically centered. Every instance of the badge must feature a subtle drop shadow (0 4px 10px rgba(1, 30, 69, 0.18)) to avoid appearing flat. The box container features a 40px 8px 40px 8px radius.",
+      "selector": {
+        "element_path": "callout.icon_box"
+      }
+    },
+    {
+      "constraint_type": "pairing",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG",
+          "When that's not feasible, ship the live version above and accept the Outlook degrade (badge flush at the inner-left edge)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0041",
+          "u_color_scheme_rules_6_0042"
+        ]
+      },
+      "id": "rule_lisraya_outlook_degrade_behavior",
+      "rule_class": "layout",
+      "rule_text": "To guarantee perfect layout fidelity on platforms that ignore absolute positioning (such as Outlook desktop), pre-composite the white badge with its shadow and radii as a transparent PNG, or bake it directly into the box's background image. If live layout is implemented instead, accept the degraded layout in Outlook (badge flush at the inner-left edge) where the Light Blue fill, 40px 8px 40px 8px radius, and blue text styling remain identical.",
+      "selector": {
+        "element_path": "callout.icon_box"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "every other rule (Light Blue fill, `40px 8px 40px 8px` radius, blue 800 text, drop shadow) stays identical"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0042"
+        ]
+      },
+      "id": "tok_lisraya_icon_callout_badge_radius",
+      "key": "icon_callout.badge.radius",
+      "token_type": "radius",
+      "value": {
+        "default": "20px 4px 20px 4px",
+        "default_evidence": {
+          "quotes": [
+            "40px 8px 40px 8px"
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0042"
+          ]
+        },
+        "variants": null
+      }
+    },
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "every other rule (Light Blue fill, `40px 8px 40px 8px` radius, blue 800 text, drop shadow) stays identical"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0042"
+        ]
+      },
+      "id": "tok_lisraya_icon_callout_box_radius",
+      "key": "icon_callout.box.radius",
+      "token_type": "radius",
+      "value": {
+        "default": "40px 8px 40px 8px",
+        "default_evidence": {
+          "quotes": [
+            "40px 8px 40px 8px"
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0042"
+          ]
+        },
+        "variants": null
+      }
+    },
+    {
+      "entity_kind": "token_semantic",
+      "evidence": {
+        "quotes": [
+          "This shadow is required on every instance; without it the badge looks flat and pasted-on."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "id": "tok_lisraya_icon_callout_badge_shadow",
+      "key": "icon_callout.badge.shadow",
+      "token_type": "shadow",
+      "value": {
+        "default": "0 4px 10px rgba(1, 30, 69, 0.18)",
+        "default_evidence": {
+          "quotes": [
+            "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);"
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_6_0022"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

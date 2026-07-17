@@ -1,0 +1,115 @@
+{
+  "findings": [
+    {
+      "description": "No brand_rule rows were produced for this blob at all. The five units describe at least two distinct governed concepts (wave graphic construction/usage/colorways, and the masthead gradient+logo device) that must be split into separate rule clusters rather than left unclustered.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "g_lisraya_waves",
+          "rules": [
+            {
+              "group_id": "g_lisraya_waves",
+              "summary": "Wave graphic element: colorways, construction (70% transparency layering), and usage",
+              "unit_ids": [
+                "u_design_pattern_rules_1_0000",
+                "u_design_pattern_rules_1_0001",
+                "u_design_pattern_rules_1_0002",
+                "u_design_pattern_rules_1_0003"
+              ]
+            },
+            {
+              "group_id": "g_lisraya_masthead_gradient",
+              "summary": "Masthead gradient with logo mark as approved device for masthead copy",
+              "unit_ids": [
+                "u_design_pattern_rules_1_0004"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0000",
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "The construction rule states 'always preserve the layered, translucent quality' — a mandatory (hard) directive with an explicit specification (70% transparency, specific color pairing order). No rule captures this hardness=required governance facet; without it the constraint could be misread as a suggestion.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "g_lisraya_waves",
+          "hardness": "required",
+          "polarity": "positive",
+          "scope": "wave graphic construction",
+          "statement": "Top wave layer must be rendered at 70% transparency over the base wave (Gold over Sunshine; Sky Blue over Deep Blue); layered translucent quality must always be preserved."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0002"
+      ]
+    },
+    {
+      "description": "'Approved color values only' is a restrictive compliance clause (scope=color values, polarity=negative/restrictive) that is not captured as a discrete governance facet alongside the general usage guidance.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "g_lisraya_waves",
+          "hardness": "required",
+          "polarity": "restrictive",
+          "scope": "wave color values",
+          "statement": "Only approved color values may be used for wave graphic elements, whether used alone or overlaid on photography/gradient backgrounds."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Masthead gradient rule specifies an exact CMYK value (0C,10M,78Y,0K) and mandatory placement of the logo mark at the lightest end — these are hard, specific governance requirements not represented as a rule with hardness/scope facets.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "g_lisraya_masthead_gradient",
+          "hardness": "required",
+          "polarity": "positive",
+          "scope": "masthead copy positions",
+          "statement": "Masthead gradient (Sunshine → 0C,10M,78Y,0K) with logo mark placed at the lightest end is the only approved device for holding copy in masthead positions."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "findings": [
+    {
+      "description": "Source unit explicitly labels this as a 'CTA pattern' (implying a templated/paraphrasable structure), not a fixed verbatim string. Encoding it as hard_constraint/must with a 'verbatim' name overstates rigidity vs. the source's pattern framing; hardness/polarity should reflect that variation on the pattern is permitted (e.g., should_constraint or a distinct 'pattern' class) rather than an absolute verbatim mandate.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "hardness": "should_constraint",
+          "note": "reflect 'pattern' language from source, allow structural reuse rather than strict verbatim lock"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_doctor_discussion_cta_verbatim"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_doctor_discussion_cta_verbatim",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0006"
+      ]
+    },
+    {
+      "description": "Headline makes an FDA-approval and disease-first-treatment claim; as a hard_constraint/must copy_editorial rule it lacks any governance facet (e.g., MLR/regulatory review owner, approval reference) despite being a compliance-sensitive verbatim claim.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "governance": {
+            "approval_required": true,
+            "review_owner": "MLR/Regulatory"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_verbatim"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_campaign_headline_verbatim",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0001"
+      ]
+    },
+    {
+      "description": "MOA statements make clinical mechanism-of-action claims (targets root cause / turns off inflammatory switches) that are typically subject to medical/regulatory sign-off; the merged rule has no governance facet capturing required medical review or claim substantiation reference.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "governance": {
+            "claim_substantiation_required": true,
+            "review_owner": "Medical/Regulatory"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_moa_messaging_approved_variants"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_moa_messaging_approved_variants",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004"
+      ]
+    },
+    {
+      "description": "Product benefit bullets are efficacy/safety-adjacent claims (muscle strength, skin symptoms, steroid reliance) requiring compliance approval; rule lacks governance metadata (approval owner, review cadence) despite hard_constraint/must classification.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "governance": {
+            "review_owner": "MLR/Regulatory"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_product_benefits_bullets_verbatim"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_product_benefits_bullets_verbatim",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0002"
+      ]
+    },
+    {
+      "description": "Single rule bundles two distinct facts: (1) the verbatim program name 'My Compass Support' and (2) the description of support services/scope (PAL communication channels, authorization support). These have different governance sensitivity (naming/branding vs. patient-support/compliance operations like authorization support) and should be split so each can carry appropriate hardness/governance facets.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "new_rules": [
+            "rule_lisraya_support_program_name_verbatim",
+            "rule_lisraya_support_program_services_scope"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_support_program_name_and_scope"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_support_program_name_and_scope",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0007"
+      ]
+    },
+    {
+      "description": "Administration statement is a hard_constraint/must copy_editorial rule about dosing/administration claims, which typically requires medical/regulatory governance sign-off; no governance facet present.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "governance": {
+            "review_owner": "Medical/Regulatory"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_administration_statement_verbatim"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_administration_statement_verbatim",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0005"
+      ]
+    }
+  ]
+}

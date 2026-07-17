@@ -1,32 +1,82 @@
 [
   {
     "element_paths": [
-      "body.color"
+      "headline.color",
+      "heading.color"
     ],
     "evidence": {
       "quotes": [
-        "Body text: Graphite #212121 on light backgrounds; White on dark backgrounds",
-        "Graphite #212121 on light backgrounds; White on dark backgrounds"
+        "Headlines/headings:** Brand Blue (or White on dark/gradient backgrounds)."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002"
+      ]
+    },
+    "id": "tok_lisraya_headline_color",
+    "key": "headline.color",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "color",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Headlines/headings:** Brand Blue"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0002"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "White on dark/gradient backgrounds"
+            ],
+            "unit_ids": [
+              "u_color_scheme_rules_1_0002"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_color_tertiary_white"
+          },
+          "when": {
+            "background_group": "dark"
+          }
+        },
+        {
+          "evidence": {
+            "quotes": [
+              "White on dark/gradient backgrounds"
+            ],
+            "unit_ids": [
+              "u_color_scheme_rules_1_0002"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_color_tertiary_white"
+          },
+          "when": {
+            "background_group": "gradient"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "element_paths": [
+      "body.color",
+      "body_copy.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "Body text:** Graphite #212121 on light backgrounds; White on dark backgrounds"
       ],
       "unit_ids": [
         "u_color_scheme_rules_1_0003"
       ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 2
     },
     "id": "tok_lisraya_body_color",
     "key": "body.color",
@@ -35,11 +85,11 @@
     "token_type": "color",
     "value": {
       "default": {
-        "$ref": "tok_lisraya_color_graphite"
+        "$ref": "tok_lisraya_color_tertiary_graphite"
       },
       "default_evidence": {
         "quotes": [
-          "Graphite #212121 on light backgrounds"
+          "Body text:** Graphite #212121 on light backgrounds"
         ],
         "unit_ids": [
           "u_color_scheme_rules_1_0003"
@@ -56,7 +106,7 @@
             ]
           },
           "value": {
-            "$ref": "tok_lisraya_color_white"
+            "$ref": "tok_lisraya_color_tertiary_white"
           },
           "when": {
             "background_group": "dark"
@@ -67,32 +117,16 @@
   },
   {
     "element_paths": [
-      "body.line_height"
+      "body.line_height",
+      "body_copy.line_height"
     ],
     "evidence": {
       "quotes": [
-        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160%",
-        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px)."
+        "Line height: minimum 150% for all body copy"
       ],
       "unit_ids": [
         "u_content_pattern_rules_1_0019"
       ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 2
     },
     "id": "tok_lisraya_body_line_height",
     "key": "body.line_height",
@@ -100,7 +134,9 @@
     "scope": "global",
     "token_type": "line_height",
     "value": {
-      "default": "150%",
+      "default": {
+        "$ref": "tok_lisraya_line_height_body_minimum"
+      },
       "default_evidence": {
         "quotes": [
           "Line height: minimum 150% for all body copy"
@@ -119,378 +155,14 @@
               "u_content_pattern_rules_1_0019"
             ]
           },
-          "value": "160%",
-          "when": {
-            "background_group": "dark"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "element_paths": [
-      "callout.main.rule_color"
-    ],
-    "evidence": {
-      "quotes": [
-        "Gold (#ffc60a) horizontal rules above and below.",
-        "with Gold (#ffc60a) horizontal rules above and below"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_6_0001"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_callout_main_rule_color",
-    "key": "callout.main.rule_color",
-    "kind": "semantic",
-    "scope": "global",
-    "token_type": "color",
-    "value": {
-      "default": {
-        "$ref": "tok_lisraya_color_gold"
-      },
-      "default_evidence": {
-        "quotes": [
-          "Gold (#ffc60a) horizontal rules",
-          "Gold (#ffc60a) horizontal rules above and below"
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_6_0001"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "campaign.headline.case"
-    ],
-    "evidence": {
-      "quotes": [
-        "ALL CAPS, always.",
-        "Campaign headline \"YOU DESERVE MORE\": ALL CAPS, always"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_5_0002",
-        "u_content_pattern_rules_2_0002"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_campaign_headline_case",
-    "key": "campaign.headline.case",
-    "kind": "semantic",
-    "scope": "campaign:you_deserve_more",
-    "token_type": "case",
-    "value": {
-      "default": "all_caps",
-      "default_evidence": {
-        "quotes": [
-          "ALL CAPS, always",
-          "ALL CAPS, always."
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_5_0002",
-          "u_content_pattern_rules_2_0002"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "gradient_banner.button.radius"
-    ],
-    "evidence": {
-      "quotes": [
-        "Never simplify it to a single value",
-        "this four-value asymmetric radius is the signature shape"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_5_0010",
-        "u_color_scheme_rules_5_0011"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0
-      },
-      "runs": 3,
-      "support": 1
-    },
-    "id": "tok_lisraya_gradient_banner_button_radius",
-    "key": "gradient_banner.button.radius",
-    "kind": "semantic",
-    "notes": "Signature asymmetric four-value corner radius required on all signature button instances",
-    "scope": "global",
-    "token_type": "radius",
-    "value": {
-      "default": "49.52px 1.76px 40px 1.76px",
-      "default_evidence": {
-        "quotes": [
-          "border-radius: 49.52px 1.76px 40px 1.76px;"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_5_0010"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "headline.color",
-      "headings.color"
-    ],
-    "evidence": {
-      "quotes": [
-        "Headlines/headings: Brand Blue (or White on dark/gradient backgrounds).",
-        "Headlines/headings: Brand Blue (or White on dark/gradient backgrounds)"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_1_0002"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "high",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 0.6666666666666666,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 3
-    },
-    "id": "tok_lisraya_headline_color",
-    "key": "headline.color",
-    "kind": "semantic",
-    "scope": "global",
-    "token_type": "color",
-    "value": {
-      "default": {
-        "$ref": "tok_lisraya_color_brand_blue"
-      },
-      "default_evidence": {
-        "quotes": [
-          "Headlines/headings: Brand Blue"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_1_0002"
-        ]
-      },
-      "variants": [
-        {
-          "evidence": {
-            "quotes": [
-              "White on dark/gradient backgrounds"
-            ],
-            "unit_ids": [
-              "u_color_scheme_rules_1_0002"
-            ]
-          },
           "value": {
-            "$ref": "tok_lisraya_color_white"
+            "$ref": "tok_lisraya_line_height_dark_text"
           },
           "when": {
             "background_group": "dark"
           }
         }
       ]
-    }
-  },
-  {
-    "element_paths": [
-      "icon_callout.badge.radius"
-    ],
-    "evidence": {
-      "quotes": [
-        "The white badge mirrors the same accent shape at smaller scale, border-radius: 20px 4px 20px 4px;",
-        "border-radius: 20px 4px 20px 4px;"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0019"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 0.5,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_icon_callout_badge_radius",
-    "key": "icon_callout.badge.radius",
-    "kind": "semantic",
-    "notes": "Mirrors the box shape at a smaller scale",
-    "scope": "global",
-    "token_type": "radius",
-    "unresolved_refs": [
-      "tok_lisraya_radius_badge_accent"
-    ],
-    "value": {
-      "default": null,
-      "default_evidence": {
-        "quotes": [
-          "border-radius: 20px 4px 20px 4px;"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_6_0019"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "icon_callout.badge.shadow"
-    ],
-    "evidence": {
-      "quotes": [
-        "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
-        "the white icon badge must carry a subtle drop shadow so it lifts off the blue box — e.g. box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0022"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_icon_callout_badge_shadow",
-    "key": "icon_callout.badge.shadow",
-    "kind": "semantic",
-    "scope": "global",
-    "token_type": "shadow",
-    "unresolved_refs": [
-      "tok_lisraya_shadow_badge"
-    ],
-    "value": {
-      "default": null,
-      "default_evidence": {
-        "quotes": [
-          "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_6_0022"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "icon_callout.box.radius"
-    ],
-    "evidence": {
-      "quotes": [
-        "Corner radius (mandatory, never change): box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
-        "Corner radius (mandatory, never change): box border-radius: 40px 8px 40px 8px;"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0018"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 0.5,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_icon_callout_box_radius",
-    "key": "icon_callout.box.radius",
-    "kind": "semantic",
-    "notes": "Asymmetric 5:1 ratio border-radius",
-    "scope": "global",
-    "token_type": "radius",
-    "unresolved_refs": [
-      "tok_lisraya_radius_accent_callout"
-    ],
-    "value": {
-      "default": null,
-      "default_evidence": {
-        "quotes": [
-          "box border-radius: 40px 8px 40px 8px;"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_6_0018"
-        ]
-      },
-      "variants": null
     }
   },
   {
@@ -499,28 +171,11 @@
     ],
     "evidence": {
       "quotes": [
-        "Links [GENERAL]: Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark",
-        "Links [GENERAL]: Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark."
+        "Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark."
       ],
       "unit_ids": [
         "u_color_scheme_rules_1_0007"
       ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 2
     },
     "id": "tok_lisraya_link_color",
     "key": "body.link.color",
@@ -529,11 +184,11 @@
     "token_type": "color",
     "value": {
       "default": {
-        "$ref": "tok_lisraya_color_brand_blue"
+        "$ref": "tok_lisraya_color_primary_brand_blue"
       },
       "default_evidence": {
         "quotes": [
-          "Brand Blue #00529b, underlined, on light backgrounds"
+          "Links [GENERAL]:** Brand Blue #00529b, underlined, on light backgrounds"
         ],
         "unit_ids": [
           "u_color_scheme_rules_1_0007"
@@ -550,7 +205,7 @@
             ]
           },
           "value": {
-            "$ref": "tok_lisraya_color_white"
+            "$ref": "tok_lisraya_color_tertiary_white"
           },
           "when": {
             "background_group": "dark"
@@ -565,31 +220,11 @@
     ],
     "evidence": {
       "quotes": [
-        "Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark.",
-        "No underlining except real hyperlinks.",
-        "underlined"
+        "White underlined on dark."
       ],
       "unit_ids": [
-        "u_color_scheme_rules_1_0007",
-        "u_content_pattern_rules_3_0005"
+        "u_color_scheme_rules_1_0007"
       ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [
-        "u_content_pattern_rules_3_0005"
-      ],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0
-      },
-      "runs": 3,
-      "support": 2
     },
     "id": "tok_lisraya_link_text_decoration",
     "key": "body.link.text_decoration",
@@ -597,19 +232,280 @@
     "scope": "global",
     "token_type": "text_decoration",
     "value": {
-      "default": "underline",
+      "default": {
+        "$ref": "tok_lisraya_text_decoration_link_underline"
+      },
       "default_evidence": {
         "quotes": [
-          "No underlining except real hyperlinks",
-          "underlined",
-          "underlined, on light backgrounds"
+          "Links [GENERAL]:** Brand Blue #00529b, underlined"
         ],
         "unit_ids": [
-          "u_color_scheme_rules_1_0007",
-          "u_content_pattern_rules_3_0005"
+          "u_color_scheme_rules_1_0007"
         ]
       },
-      "variants": null
+      "variants": []
     }
+  },
+  {
+    "element_paths": [
+      "logo.mark.opacity",
+      "logo.pattern_mark.opacity"
+    ],
+    "evidence": {
+      "quotes": [
+        "logo, and when the mark is used as a pattern/graphic"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    "id": "tok_lisraya_logo_mark_opacity",
+    "key": "logo.mark.opacity",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "opacity",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_opacity_gold_logo_70"
+      },
+      "default_evidence": {
+        "quotes": [
+          "70% transparency of Pantone 7548 C / #ffc60a must be maintained in all instances"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0008"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "derived_from": {
+      "amount": 0.7,
+      "base_token_id": "tok_lisraya_color_tertiary_light_blue",
+      "op": "opacity"
+    },
+    "element_paths": [
+      "callout.secondary.fill",
+      "callout.data.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Light Blue at 70% tint (data callouts)",
+        "Light Blue (#E6F0F9) box at 70% tint"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005",
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    "id": "tok_lisraya_data_callout_fill",
+    "key": "callout.secondary.fill",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "color",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_light_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Callout surfaces:** Light Blue at 70% tint (data callouts)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0005"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "derived_from": {
+      "amount": 0.3,
+      "base_token_id": "tok_lisraya_color_tertiary_golden_sand",
+      "op": "opacity"
+    },
+    "element_paths": [
+      "callout.text_heavy.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Golden Sand at 30% tint (text-heavy callouts)",
+        "Golden Sand (#FEF1C8) box at 30% tint"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "id": "tok_lisraya_text_heavy_callout_fill",
+    "key": "callout.text_heavy.fill",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "color",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_golden_sand"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Golden Sand at 30% tint (text-heavy callouts)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0005"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "element_paths": [
+      "callout.main.text.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "Main callout (key point):** Bold **Brand Blue (#00529b)** text"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "id": "tok_lisraya_main_callout_text_color",
+    "key": "callout.main.text.color",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "color",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Bold **Brand Blue (#00529b)** text"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "element_paths": [
+      "callout.main.text.weight"
+    ],
+    "evidence": {
+      "quotes": [
+        "Main callout (key point):** Bold"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "id": "tok_lisraya_main_callout_text_weight",
+    "key": "callout.main.text.weight",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "weight",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_weight_bold"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Bold **Brand Blue (#00529b)** text"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "element_paths": [
+      "callout.main.text.alignment"
+    ],
+    "evidence": {
+      "quotes": [
+        "Centered text."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "id": "tok_lisraya_main_callout_alignment",
+    "key": "callout.main.text.alignment",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "alignment",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_alignment_center"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Centered text"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "element_paths": [
+      "callout.main.rule.top",
+      "callout.main.rule.bottom"
+    ],
+    "evidence": {
+      "quotes": [
+        "rule weight 2px"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "id": "tok_lisraya_main_callout_rule",
+    "key": "callout.main.rule",
+    "kind": "semantic",
+    "scope": "global",
+    "token_type": "border",
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_border_main_callout_rule"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Gold (#ffc60a) horizontal rules above and below"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": []
+    }
+  },
+  {
+    "default_evidence": {
+      "quotes": [
+        "16px padding between rule and text"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "element_paths": [
+      "callout.main.rule_text.padding"
+    ],
+    "id": "tok_lisraya_main_callout_rule_text_spacing",
+    "key": "callout.main.rule_text.padding",
+    "kind": "semantic",
+    "token_type": "padding",
+    "value": {
+      "default": "16px"
+    },
+    "variants": []
   }
 ]

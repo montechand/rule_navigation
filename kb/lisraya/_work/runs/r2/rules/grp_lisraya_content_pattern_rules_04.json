@@ -3,74 +3,137 @@
   "group_id": "grp_lisraya_content_pattern_rules_04",
   "missing_token_requests": [],
   "original_text": "### Editorial / Style Rules\n- **Abbreviation \"DM\":** After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition. **Do NOT use \"DM\" in headlines, headings, or subheads** — always the full word there (clarity, accessibility, and SEO on web). First-mention pattern: `dermatomyositis (DM)`.\n  - Because sections are assembled later: **[GENERAL] every standalone section must establish `dermatomyositis (DM)` at its own first mention** unless the assembly brief states the abbreviation is established upstream.\n- **Inclusive language (patient materials):** say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — **not \"patients.\"** (\"Patients\" is acceptable only in HCP materials.) Use **\"care team\"** (not \"staff\") for the network of patients, HCPs, and support systems.\n- **Numbers:** spell out zero–nine; numerals for 10+. **Exceptions — always numerals: percentages, ages, ratios.** Percentages use the % sign (e.g., 74%).\n- **Data tone:** when citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying. Example pattern: \"Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.\"\n- **Punctuation:** Oxford/serial comma always in series of 3+.",
-  "relations": [],
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_dermatomyositis_dm_abbreviation_usage",
+      "dst_slug": "dermatomyositis_dm_abbreviation_usage",
+      "note": "Adds the standalone-section assembly requirement to the general first-mention abbreviation pattern.",
+      "relation": "refines",
+      "src_rule_id": "rule_lisraya_standalone_section_dm_first_mention",
+      "src_slug": "standalone_section_dm_first_mention"
+    }
+  ],
   "rules": [
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "exclusivity",
+      "constraint_type": "verbatim_content",
       "content_sub_type_ids": null,
       "content_types": null,
-      "effect": null,
-      "effect_evidence": null,
-      "evaluation_scope": "section",
-      "evidence": {
+      "effect": {
+        "content": "dermatomyositis (DM)",
+        "trigger": "first mention of dermatomyositis"
+      },
+      "effect_evidence": {
         "quotes": [
-          "After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition. Do NOT use \"DM\" in headlines, headings, or subheads — always the full word there",
-          "First-mention pattern: `dermatomyositis (DM)`.",
-          "every standalone section must establish `dermatomyositis (DM)` at its own first mention"
+          "First-mention pattern: `dermatomyositis (DM)`."
         ],
         "unit_ids": [
-          "u_content_pattern_rules_4_0001",
-          "u_content_pattern_rules_4_0002"
+          "u_content_pattern_rules_4_0001"
         ]
       },
-      "governance": {
-        "gov_type": "mlr_claim",
-        "match": {
-          "method": "exact"
-        },
-        "preferred_form": "dermatomyositis (DM)",
-        "preferred_form_evidence": {
-          "quotes": [
-            "dermatomyositis (DM)"
-          ],
-          "unit_ids": [
-            "u_content_pattern_rules_4_0001"
-          ]
-        },
-        "severity": "block",
-        "verdict": "requires_qualifier"
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "After first mention of \"dermatomyositis,\" use \"DM\" in running copy to avoid repetition.",
+          "Do NOT use \"DM\" in headlines, headings, or subheads** — always the full word there",
+          "First-mention pattern: `dermatomyositis (DM)`."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0001"
+        ]
       },
+      "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_dermatomyositis_abbreviation_rule",
-      "intent": "Ensure clarity, SEO compliance, and readability across independently assembled sections.",
-      "polarity": "must_not",
+      "id": "rule_lisraya_dermatomyositis_dm_abbreviation_usage",
+      "intent": "Establish a clear, accessible abbreviation while preserving full-term clarity in display copy.",
+      "polarity": "must",
       "precedence": 0,
       "rule_class": "copy_editorial",
-      "rule_text": "After first mention of 'dermatomyositis' as 'dermatomyositis (DM)' within a section, use the abbreviation 'DM' in running copy. Never use 'DM' in headlines, headings, or subheads—always write the full word 'dermatomyositis' there. Every standalone section must establish 'dermatomyositis (DM)' at its own first mention unless otherwise specified.",
-      "scope": "org_baseline",
+      "rule_text": "At first mention, write “dermatomyositis (DM)”; use “DM” in running copy after that first mention to avoid repetition. Do not use “DM” in headlines, headings, or subheads; use the full word there for clarity, accessibility, and web SEO.",
+      "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "copy.term.dermatomyositis",
         "section_types": null
       },
-      "slug": "dermatomyositis_abbreviation_rule",
-      "snippets": null,
-      "snippets_evidence": null,
+      "slug": "dermatomyositis_dm_abbreviation_usage",
+      "snippets": "`dermatomyositis (DM)`",
+      "snippets_evidence": {
+        "quotes": [
+          "`dermatomyositis (DM)`"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0001"
+        ]
+      },
       "tags": [
-        "accessibility",
-        "assembly"
+        "accessibility"
       ]
     },
     {
       "applies_when": [
         {
-          "kind": "content_tag",
-          "value": "patient_facing"
+          "kind": "first_mention",
+          "value": "dermatomyositis"
         }
       ],
-      "audience": "dtp_patient",
-      "constraint_type": "exclusivity",
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "dermatomyositis (DM)",
+        "trigger": "standalone section first mention, unless the assembly brief states the abbreviation is established upstream"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "every standalone section must establish `dermatomyositis (DM)` at its own first mention unless the assembly brief states the abbreviation is established upstream."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0002"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Because sections are assembled later: **[GENERAL] every standalone section must establish `dermatomyositis (DM)` at its own first mention** unless the assembly brief states the abbreviation is established upstream."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_standalone_section_dm_first_mention",
+      "intent": "Ensure modular sections remain understandable when assembled independently.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "Every standalone section must establish “dermatomyositis (DM)” at its own first mention, unless the assembly brief states that the abbreviation was established upstream.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "copy.term.dermatomyositis",
+        "section_types": null
+      },
+      "slug": "standalone_section_dm_first_mention",
+      "snippets": "`dermatomyositis (DM)`",
+      "snippets_evidence": {
+        "quotes": [
+          "`dermatomyositis (DM)`"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0002"
+        ]
+      },
+      "tags": [
+        "copy_editorial",
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -78,53 +141,39 @@
       "evaluation_scope": "sentence",
       "evidence": {
         "quotes": [
-          "say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — not \"patients.\" (\"Patients\" is acceptable only in HCP materials.)",
-          "Use \"care team\" (not \"staff\") for the network of patients, HCPs, and support systems."
+          "say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — **not \"patients.\"**",
+          "(\"Patients\" is acceptable only in HCP materials.)",
+          "Use **\"care team\"** (not \"staff\")"
         ],
         "unit_ids": [
           "u_content_pattern_rules_4_0003"
         ]
       },
-      "governance": {
-        "gov_type": "regulatory",
-        "match": {
-          "method": "semantic"
-        },
-        "preferred_form": "people with dermatomyositis",
-        "preferred_form_evidence": {
-          "quotes": [
-            "people with dermatomyositis"
-          ],
-          "unit_ids": [
-            "u_content_pattern_rules_4_0003"
-          ]
-        },
-        "severity": "warn",
-        "verdict": "forbidden"
-      },
+      "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_patient_inclusive_language",
-      "intent": "Maintain an empathetic, supportive, and inclusive tone in consumer-facing communications.",
-      "polarity": "must_not",
+      "id": "rule_lisraya_inclusive_patient_materials_terminology",
+      "intent": "Use inclusive, person-first language appropriate to the intended audience.",
+      "polarity": "must",
       "precedence": 0,
-      "rule_class": "voice_tone",
-      "rule_text": "In patient materials, use people-first language such as 'someone with dermatomyositis' or 'people with dermatomyositis' instead of referring to them as 'patients'. Always use 'care team' instead of 'staff' to describe the support network of patients and HCPs.",
+      "rule_class": "copy_editorial",
+      "rule_text": "In patient materials, refer to “someone with dermatomyositis” or “people with dermatomyositis,” not “patients.” “Patients” is acceptable only in HCP materials. Refer to the network of patients, HCPs, and support systems as the “care team,” not “staff.”",
       "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "copy.person_reference",
         "section_types": null
       },
-      "slug": "patient_inclusive_language",
+      "slug": "inclusive_patient_materials_terminology",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "copy_editorial"
+        "voice_tone",
+        "accessibility"
       ]
     },
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "pairing",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -133,26 +182,27 @@
       "evidence": {
         "quotes": [
           "spell out zero–nine; numerals for 10+.",
-          "Exceptions — always numerals: percentages, ages, ratios. Percentages use the % sign (e.g., 74%)."
+          "Exceptions — always numerals: percentages, ages, ratios.",
+          "Percentages use the % sign (e.g., 74%)."
         ],
         "unit_ids": [
           "u_content_pattern_rules_4_0004"
         ]
       },
       "governance": null,
-      "hardness": "strong_default",
-      "id": "rule_lisraya_editorial_numbers_formatting",
-      "intent": "Enforce consistent editorial presentation of quantities and statistical data.",
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_number_and_percentage_style",
+      "intent": "Maintain consistent, readable numeric editorial style.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "copy_editorial",
-      "rule_text": "Spell out whole numbers from zero through nine in copy; use figures for numbers 10 and above. Always use numerals (rather than words) for percentages, ages, and ratios. Percentages must be formatted with the '%' symbol.",
+      "rule_text": "Spell out zero through nine and use numerals for 10 and above. Always use numerals for percentages, ages, and ratios; express percentages with the % sign, such as 74%.",
       "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "copy.number",
         "section_types": null
       },
-      "slug": "editorial_numbers_formatting",
+      "slug": "number_and_percentage_style",
       "snippets": null,
       "snippets_evidence": null,
       "tags": null
@@ -174,31 +224,22 @@
           "u_content_pattern_rules_4_0005"
         ]
       },
-      "governance": {
-        "gov_type": "mlr_claim",
-        "match": null,
-        "preferred_form": null,
-        "preferred_form_evidence": null,
-        "severity": "warn",
-        "verdict": "requires_qualifier"
-      },
-      "hardness": "soft_guidance",
-      "id": "rule_lisraya_data_tone_empathy",
-      "intent": "Establish professional authority while supporting clinical patient trust.",
-      "polarity": "should_not",
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_empathetic_clinical_data_tone",
+      "intent": "Communicate clinical information supportively while retaining appropriate nuance.",
+      "polarity": "must_not",
       "precedence": 0,
       "rule_class": "voice_tone",
-      "rule_text": "When presenting clinical or study results, avoid fear-based or negative language. Adopt an empathetic, trust-building, and supportive tone that remains medically precise without oversimplifying the facts.",
+      "rule_text": "When citing clinical data, avoid negative or fear-based language. Use an empathetic, supportive, trust-building tone without oversimplifying.",
       "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "copy.clinical_data",
         "section_types": [
-          "efficacy",
-          "safety",
-          "chart"
+          "efficacy"
         ]
       },
-      "slug": "data_tone_empathy",
+      "slug": "empathetic_clinical_data_tone",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
@@ -208,7 +249,7 @@
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "ordering",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -224,21 +265,70 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_editorial_oxford_comma",
-      "intent": "Maintain grammatical consistency and eliminate logical ambiguities in lists.",
+      "id": "rule_lisraya_oxford_serial_comma",
+      "intent": "Maintain consistent punctuation and improve list clarity.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "copy_editorial",
-      "rule_text": "Always use the Oxford (serial) comma when listing three or more items in a sequence.",
-      "scope": "org_baseline",
+      "rule_text": "Always use the Oxford/serial comma in a series of three or more items.",
+      "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "copy.punctuation",
         "section_types": null
       },
-      "slug": "editorial_oxford_comma",
+      "slug": "oxford_serial_comma",
       "snippets": null,
       "snippets_evidence": null,
       "tags": null
+    },
+    {
+      "compiled_by": "tables-v1",
+      "constraint_type": "binding",
+      "effect": {
+        "assignments": [
+          {
+            "element_path": "comp.numbers.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_numbers_pct"
+          },
+          {
+            "element_path": "comp.data_tone.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_data_tone_pct"
+          },
+          {
+            "element_path": "comp.punctuation.value",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_punctuation_value"
+          }
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "- **Numbers:** spell out zero–nine; numerals for 10+. **Exceptions — always numerals: percentages, ages, ratios.** Percentages use the % sign (e.g., 74%).",
+          "- **Data tone:** when citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying. Example pattern: \"Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.\"",
+          "- **Punctuation:** Oxford/serial comma always in series of 3+."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_4_0004",
+          "u_content_pattern_rules_4_0005",
+          "u_content_pattern_rules_4_0006"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_lisraya_editorial_style_rules_table_binding",
+      "intent": "Bind the Editorial / Style Rules table values verbatim.",
+      "rule_class": "assembly",
+      "rule_text": "The Editorial / Style Rules table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| Numbers | ** spell out zero–nine; numerals for 10+. **Exceptions — always numerals: percentages, ages, ratios.** Percentages use the % sign (e.g., 74%). |\n| Data tone | ** when citing clinical data, avoid negative or fear-based language; use an empathetic, supportive, trust-building tone without oversimplifying. Example pattern: \"Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.\" |\n| Punctuation | ** Oxford/serial comma always in series of 3+. |",
+      "selector": {
+        "element_path": null
+      },
+      "slug": "editorial_style_rules_table_binding",
+      "token_ids": [
+        "tok_lisraya_comp_data_tone_pct",
+        "tok_lisraya_comp_numbers_pct",
+        "tok_lisraya_comp_punctuation_value"
+      ]
     }
   ],
   "schema_version": "2.0"

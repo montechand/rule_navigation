@@ -1,0 +1,115 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "image.radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Photography: warm, realistic patient lifestyle imagery — real moments of simple, everyday activity (walking the dog, beach, BBQ)",
+          "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles.",
+          "Waves and gradients may overlay photography."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001",
+          "u_design_pattern_rules_2_0002",
+          "u_design_pattern_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain brand visual distinction by carrying the signature asymmetric shape into photo framing.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Patient photography must use warm, realistic lifestyle imagery depicting everyday activities. Images must not be framed as plain rectangles or circles; instead, they must be housed in the asymmetric rounded-corner Accent shape (radius.container.callout_box = 40px 8px 40px 8px). Waves and gradients may optionally overlay photography.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image",
+        "section_types": [
+          "patient_story"
+        ]
+      },
+      "slug": "photography_style_and_cropping",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": null,
+        "min": 1,
+        "per": "element",
+        "target": "image.alt"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Every image requires descriptive alt text"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Every image requires descriptive alt text (brand accessibility rule)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed_with_disclosure"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure accessibility compliance for visually impaired patients across all brand imagery.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Every image must include descriptive alt text to comply with brand accessibility standards.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "image.alt",
+        "section_types": null
+      },
+      "slug": "image_alt_text_mandate",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    }
+  ]
+}

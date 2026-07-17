@@ -528,6 +528,7 @@ def tokens_to_dtcg(
     tokens: TokenCollection,
     *,
     namespace: str = DTCG_NAMESPACE,
+    tables_by_token: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Return deterministic in-memory ``base``, ``modes``, and ``map`` objects."""
     normalized = _normalize_tokens(tokens)
@@ -538,18 +539,19 @@ def tokens_to_dtcg(
 
     for token_id, token in normalized.items():
         path = ids_to_paths[token_id]
-        _nest(
-            base,
-            path,
-            _leaf(
-                token,
-                _default_value(token),
-                ids_to_paths,
-                types_by_id,
-                namespace,
-                include_extension=True,
-            ),
+        leaf = _leaf(
+            token,
+            _default_value(token),
+            ids_to_paths,
+            types_by_id,
+            namespace,
+            include_extension=True,
         )
+        table_id = (tables_by_token or {}).get(token_id)
+        if table_id is not None:
+            # E2: keep table membership visible in Style Dictionary output.
+            leaf.setdefault("$extensions", {}).setdefault(namespace, {})["table"] = table_id
+        _nest(base, path, leaf)
         for variant in _variants(token):
             when = variant.get("when")
             if not isinstance(when, dict) or len(when) != 1:
@@ -584,9 +586,10 @@ def export_tokens(
     output_dir: str | Path,
     *,
     namespace: str = DTCG_NAMESPACE,
+    tables_by_token: dict[str, str] | None = None,
 ) -> dict[str, str]:
     """Atomically write the §5.8 JSON bundle below ``output_dir``."""
-    bundle = tokens_to_dtcg(tokens, namespace=namespace)
+    bundle = tokens_to_dtcg(tokens, namespace=namespace, tables_by_token=tables_by_token)
     root = Path(output_dir)
     modes_dir = root / "modes"
     root.mkdir(parents=True, exist_ok=True)

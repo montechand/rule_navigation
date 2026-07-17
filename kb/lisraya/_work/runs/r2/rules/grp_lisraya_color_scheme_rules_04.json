@@ -1,23 +1,65 @@
 {
   "doc_ref": "color_scheme_rules[4]",
   "group_id": "grp_lisraya_color_scheme_rules_04",
-  "missing_token_requests": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "wcag_aa_text_background_contrast_testing",
+      "key_proposal": "ratio.accessibility.wcag_aa_body_text_minimum",
+      "quotes": [
+        "4.5:1 body text"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ],
+      "value": "4.5:1"
+    },
+    {
+      "for_rule_slug": "wcag_aa_text_background_contrast_testing",
+      "key_proposal": "ratio.accessibility.wcag_aa_large_text_minimum",
+      "quotes": [
+        "3:1 large text"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ],
+      "value": "3:1"
+    },
+    {
+      "for_rule_slug": "wcag_aa_text_background_contrast_testing",
+      "key_proposal": "size.accessibility.large_text_threshold",
+      "quotes": [
+        "≥24px or 19px bold"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ],
+      "value": "≥24px or 19px bold"
+    }
+  ],
   "original_text": "### Contrast\n- **Test contrast levels** (webaim.com or equivalent) for every text/background pair. [GENERAL minimums: WCAG AA — 4.5:1 body text, 3:1 large text ≥24px or 19px bold.]\n- Known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy. **Avoid:** Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only.\n- **Don't rely on color alone** to convey meaning — pair with icons, depth, clear copy, or visual feedback.",
   "relations": [
     {
-      "dst_rule_id": "rule_lisraya_approved_color_combinations",
-      "dst_slug": "approved_color_combinations",
-      "note": "Refines the specific restriction on using gold/sunshine text.",
+      "dst_rule_id": "rule_lisraya_wcag_aa_text_background_contrast_testing",
+      "dst_slug": "wcag_aa_text_background_contrast_testing",
+      "note": "The approved and prohibited color pair guidance operationalizes the required contrast testing.",
       "relation": "refines",
-      "src_rule_id": "rule_lisraya_gold_sunshine_text_restriction",
-      "src_slug": "gold_sunshine_text_restriction"
+      "src_rule_id": "rule_lisraya_approved_and_prohibited_text_color_pairs",
+      "src_slug": "approved_and_prohibited_text_color_pairs"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_wcag_aa_text_background_contrast_testing",
+      "dst_slug": "wcag_aa_text_background_contrast_testing",
+      "note": "Both accessibility requirements apply to meaningful text and color treatments.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_do_not_convey_meaning_with_color_alone",
+      "src_slug": "do_not_convey_meaning_with_color_alone"
     }
   ],
   "rules": [
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "binding",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -25,34 +67,26 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Test contrast levels",
-          "GENERAL minimums: WCAG AA — 4.5:1 body text, 3:1 large text ≥24px or 19px bold."
+          "**Test contrast levels** (webaim.com or equivalent) for every text/background pair. [GENERAL minimums: WCAG AA — 4.5:1 body text, 3:1 large text ≥24px or 19px bold.]"
         ],
         "unit_ids": [
           "u_color_scheme_rules_4_0001"
         ]
       },
-      "governance": {
-        "gov_type": "regulatory",
-        "match": null,
-        "preferred_form": null,
-        "preferred_form_evidence": null,
-        "severity": "block",
-        "verdict": "allowed_with_disclosure"
-      },
+      "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_color_contrast_compliance",
-      "intent": "Maintain regulatory accessibility standards across all brand emails.",
+      "id": "rule_lisraya_wcag_aa_text_background_contrast_testing",
+      "intent": "Ensure text remains legible and meets the stated accessibility threshold.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "All text and background pairs must meet WCAG AA contrast standards, requiring a minimum ratio of 4.5:1 for body text and 3:1 for large text (24px or larger, or 19px bold). Ensure compliance using tools like webaim.com.",
+      "rule_text": "Test every text/background pair using webaim.com or an equivalent tool. Meet WCAG AA minimums: 4.5:1 for body text and 3:1 for large text (at least 24px, or 19px bold).",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.foreground_background_pair",
         "section_types": null
       },
-      "slug": "color_contrast_compliance",
+      "slug": "wcag_aa_text_background_contrast_testing",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
@@ -62,7 +96,7 @@
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "pairing",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -71,7 +105,7 @@
       "evidence": {
         "quotes": [
           "Known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy.",
-          "Avoid: Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only."
+          "**Avoid:** Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only."
         ],
         "unit_ids": [
           "u_color_scheme_rules_4_0002"
@@ -79,65 +113,28 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_approved_color_combinations",
-      "intent": "Ensure text legibility and contrast compliance by enforcing approved background/foreground pairs.",
-      "polarity": "must",
-      "precedence": 0,
-      "rule_class": "color_application",
-      "rule_text": "Use only known-safe contrast color pairs. Approved combinations include Brand Blue (#00529b), Deep Blue (#003D74), Dark Navy (#011E45), or Graphite (#212121) text on White (#ffffff), Light Blue (#E6F0F9), or Golden Sand (#FEF1C8) backgrounds. White (#ffffff) text is approved on Brand Blue (#00529b), Deep Blue (#003D74), and Dark Navy (#011E45) backgrounds. Never use Gold (#ffc60a) or Sunshine (#faa31b) text on White (#ffffff).",
-      "scope": "brand",
-      "selector": {
-        "element_path": null,
-        "section_types": null
-      },
-      "slug": "approved_color_combinations",
-      "snippets": null,
-      "snippets_evidence": null,
-      "tags": [
-        "accessibility"
-      ]
-    },
-    {
-      "applies_when": null,
-      "audience": null,
-      "constraint_type": "exclusivity",
-      "content_sub_type_ids": null,
-      "content_types": null,
-      "effect": null,
-      "effect_evidence": null,
-      "evaluation_scope": "element",
-      "evidence": {
-        "quotes": [
-          "Avoid: Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only."
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_4_0002"
-        ]
-      },
-      "governance": null,
-      "hardness": "hard_constraint",
-      "id": "rule_lisraya_gold_sunshine_text_restriction",
-      "intent": "Prevent unreadable text treatments and preserve the role of yellow accents.",
+      "id": "rule_lisraya_approved_and_prohibited_text_color_pairs",
+      "intent": "Prevent contrast failures while reserving gold tones for their approved emphasis roles.",
       "polarity": "must_not",
       "precedence": 0,
-      "rule_class": "color_application",
-      "rule_text": "Do not use Gold (#ffc60a) or Sunshine (#faa31b) for regular body or paragraph text. These colors are reserved strictly for surfaces, horizontal rules, and large display emphasis.",
-      "scope": "brand",
+      "rule_class": "accessibility",
+      "rule_text": "Use the known-safe text/background combinations: Brand Blue (#00529b), Deep Blue (#003d74), Dark Navy (#011e45), or Graphite (#212121) on White (#ffffff), Light Blue (#e6f0f9), or Golden Sand (#fef1c8); and White (#ffffff) on Brand Blue (#00529b), Deep Blue (#003d74), or Dark Navy (#011e45). Do not use Gold (#ffc60a) or Sunshine (#faa31b) text on White (#ffffff); golds are reserved for surfaces, rules, and large display emphasis only.",
+      "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.foreground_background_pair",
         "section_types": null
       },
-      "slug": "gold_sunshine_text_restriction",
+      "slug": "approved_and_prohibited_text_color_pairs",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "accessibility"
+        "color_application"
       ]
     },
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "pairing",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
@@ -145,7 +142,7 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Don't rely on color alone to convey meaning — pair with icons, depth, clear copy, or visual feedback."
+          "**Don't rely on color alone** to convey meaning — pair with icons, depth, clear copy, or visual feedback."
         ],
         "unit_ids": [
           "u_color_scheme_rules_4_0003"
@@ -153,18 +150,18 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_redundant_meaning_channels",
-      "intent": "Support color-blind and visually impaired users by eliminating single-channel communication.",
+      "id": "rule_lisraya_do_not_convey_meaning_with_color_alone",
+      "intent": "Make meaning available to people who cannot distinguish the color cue.",
       "polarity": "must_not",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "Do not rely on color alone to convey meaning or hierarchy. Information delivered via color cues must be paired with secondary channels, such as icons, visual depth, explicit copy, or interactive visual feedback.",
+      "rule_text": "Do not rely on color alone to convey meaning; pair color cues with icons, depth, clear copy, or visual feedback.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "meaningful_color_cue",
         "section_types": null
       },
-      "slug": "redundant_meaning_channels",
+      "slug": "do_not_convey_meaning_with_color_alone",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [

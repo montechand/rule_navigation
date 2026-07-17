@@ -46,6 +46,7 @@ from indexing_v2.extraction.ledger import (
     GapPayloadError,
     LedgerDocument,
     _normalize_full_blob_payload,
+    _normalize_gap_patch_payload,
     _parse_gap_payload,
     _to_critic_candidates,
     append_triage_items,
@@ -971,6 +972,45 @@ def test_full_blob_payload_assigns_rule_ids_and_maps_relations(
     assert payload.relations[0]["dst_rule_id"] == payload.rules[0]["id"]
 
 
+def test_gap_patch_slug_only_rules_mint_ids_before_validation(
+    units_by_id: dict[str, SourceUnit],
+) -> None:
+    """F2: gap_patch emits slug; S6 must mint id before GapPatchPayload checks."""
+    candidates = _fixture_candidates(units_by_id)
+    normalized = _normalize_gap_patch_payload(
+        {
+            "tokens": [],
+            "rules": [
+                {
+                    "slug": "palette_contrast_floor",
+                    "rule_class": "color",
+                    "rule_text": "Palette contrast must meet the floor.",
+                    "constraint_type": "binding",
+                    "selector": {"element_path": "palette.contrast"},
+                    "effect": [
+                        {
+                            "element_path": "palette.contrast",
+                            "token_id": "tok_minibible_color_primary",
+                        }
+                    ],
+                    "evidence": {
+                        "unit_ids": ["u_brand_foundation_0_0001"],
+                        "quotes": ["contrast floor"],
+                    },
+                }
+            ],
+            "relations": [],
+        },
+        brand=MINIBIBLE_BRAND,
+        candidates=candidates,
+    )
+
+    payload = _parse_gap_payload(normalized)
+
+    assert payload.rules[0]["id"] == "rule_minibible_palette_contrast_floor"
+    assert payload.rules[0]["slug"] == "palette_contrast_floor"
+
+
 def test_gap_token_kind_is_explicit_for_new_semantics(
     units: list[SourceUnit],
     units_by_id: dict[str, SourceUnit],
@@ -982,6 +1022,7 @@ def test_gap_token_kind_is_explicit_for_new_semantics(
         ][0]
     )
     semantic["id"] = "tok_minibible_binding_cta"
+    semantic["key"] = "cta.button.fill.binding"
     semantic["entity_kind"] = "token_semantic"
     patched, _ = CriticEntityPatcher().apply_gap_payload(
         GapPatchPayload(tokens=[semantic]),

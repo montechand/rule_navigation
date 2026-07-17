@@ -1,0 +1,188 @@
+{
+  "findings": [
+    {
+      "description": "A single 'assembly' class rule is mapped to the whole blob, but its content/name ('email_code_conventions') only matches u0006 (HEX/px/inline CSS/bgcolor). The five other distinct governance topics — section stacking/padding (u0001), section metadata declarations (u0002), footnote symbol assignment timing (u0003), locked-component adjacency (u0004), and dark-section adjacency (u0005) — have no corresponding rules at all. This is a severe under-extraction disguised as a single cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "new_rules": [
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_section_stacking",
+              "polarity": "must_not",
+              "source_units": [
+                "u_other_rules_2_0001"
+              ]
+            },
+            {
+              "class": "governance",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_section_metadata_declaration",
+              "polarity": "must",
+              "source_units": [
+                "u_other_rules_2_0002"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_footnote_symbol_assignment",
+              "polarity": "must",
+              "source_units": [
+                "u_other_rules_2_0003"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_locked_component_adjacency",
+              "polarity": "must_not",
+              "source_units": [
+                "u_other_rules_2_0004"
+              ]
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_dark_section_adjacency",
+              "polarity": "must_not",
+              "source_units": [
+                "u_other_rules_2_0005"
+              ]
+            },
+            {
+              "class": "code_style",
+              "hardness": "hard_constraint",
+              "name": "rule_lisraya_email_code_conventions",
+              "polarity": "must",
+              "source_units": [
+                "u_other_rules_2_0006"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_code_conventions"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0001",
+        "u_other_rules_2_0002",
+        "u_other_rules_2_0003",
+        "u_other_rules_2_0004",
+        "u_other_rules_2_0005",
+        "u_other_rules_2_0006"
+      ]
+    },
+    {
+      "description": "Rule is classed 'assembly' but its actual source content (u0006: HEX colors, px sizing, inline CSS, duplicated bgcolor for Outlook) is a code/markup styling convention, not an assembly/stacking rule. Class mismatch vs scope.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "code_style",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_code_conventions"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_code_conventions",
+      "unit_ids": [
+        "u_other_rules_2_0006"
+      ]
+    },
+    {
+      "description": "u0005 explicitly assigns responsibility ('assembler responsibility, enabled by declared backgrounds') for dark-section adjacency avoidance — this governance/ownership facet is missing since no rule captures this unit at all.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "assembly",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "hardness": "hard_constraint",
+          "name": "rule_lisraya_dark_section_adjacency",
+          "owner": "assembler",
+          "polarity": "must_not",
+          "source_units": [
+            "u_other_rules_2_0005"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_2_0005"
+      ]
+    },
+    {
+      "description": "u0002 requires each section to declare multiple metadata facets (background color, DM establishment, footnote symbols consumed, CTA presence) — a governance/documentation obligation with no corresponding rule captured, and no owner/actor (e.g., section author vs core team) specified in the candidate set.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "governance",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "hardness": "hard_constraint",
+          "name": "rule_lisraya_section_metadata_declaration",
+          "polarity": "must",
+          "source_units": [
+            "u_other_rules_2_0002"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_2_0002"
+      ]
+    },
+    {
+      "description": "u0004 assigns insertion responsibility to the 'core team' for locked components (header/footer/ISI) and imposes a constraint on adjacent sections; this actor/scope distinction (core team vs section assembler) is not represented anywhere in the candidate rule set.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "assembly",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "hardness": "hard_constraint",
+          "name": "rule_lisraya_locked_component_adjacency",
+          "owner": "core_team",
+          "polarity": "must_not",
+          "source_units": [
+            "u_other_rules_2_0004"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_2_0004"
+      ]
+    }
+  ]
+}

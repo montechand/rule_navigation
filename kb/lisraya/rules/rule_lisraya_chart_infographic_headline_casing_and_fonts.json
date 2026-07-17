@@ -1,0 +1,59 @@
+{
+  "id": "rule_lisraya_chart_infographic_headline_casing_and_fonts",
+  "brand_id": "lisraya",
+  "rule_class": "typography",
+  "tags": [
+    "color_application"
+  ],
+  "content_types": [
+    "email",
+    "print"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "chart"
+    ],
+    "element_path": "chart.headline"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "chart.headline.case",
+        "token_id": "tok_lisraya_chart_headline_case"
+      },
+      {
+        "element_path": "chart.headline.font.print",
+        "token_id": "tok_lisraya_font_agenda"
+      },
+      {
+        "element_path": "chart.headline.font.email",
+        "token_id": "tok_lisraya_font_nunito_sans"
+      },
+      {
+        "element_path": "chart.headline.weight.email",
+        "token_id": "tok_lisraya_weight_bold"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [
+    "tok_lisraya_chart_headline_case",
+    "tok_lisraya_font_agenda",
+    "tok_lisraya_font_nunito_sans",
+    "tok_lisraya_weight_bold"
+  ],
+  "asset_ids": [],
+  "rule_text": "Chart and infographic headlines are ALL CAPS (chart.headline.case = all_caps), set in Agenda for print (font.headline.agenda = Agenda) and Nunito Sans Bold or heavier for email fallback (font.body.nunito_sans = Nunito Sans; weight.bold = Bold).",
+  "intent": "Keep chart and infographic headline treatment consistent across print and email.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[2]",
+  "group_id": "grp_lisraya_content_pattern_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Chart and infographic headlines use ALL CAPS, Agenda font for print, Nunito Sans Bold or heavier for email fallback."
+}

@@ -14,12 +14,12 @@ doc_ref: `design_pattern_rules[1]`
 
 ## Extracted rules (2)
 
-### rule_lisraya_masthead_device_construction
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['top_matter'] constraint=binding
-- rule_text: The masthead gradient runs horizontally (dark/saturated to light, left to right) and uses Sunshine to light gold, designed for high contrast with the logo mark sitting at the lightest end.
-- intent: Ensure consistent rendering and placement of the masthead background device and brand logo mark in header positions.
+### rule_lisraya_layered_wave_colorways_and_usage
+- class=assembly scope=brand hardness=hard_constraint polarity=must sections=['wave'] constraint=binding
+- rule_text: Wave graphics must preserve their layered, translucent construction: the top layer is 70% transparent over its base layer. Use only the Sunshine/Gold or Sky Blue/Deep Blue colorways, in their approved long or short wave variants; waves may stand alone or overlay photography or gradient backgrounds to support flow, frame content, or add depth.
+- intent: Maintain the approved wave device, color pairing, and dimensional layered appearance.
 
-### rule_lisraya_wave_graphic_construction_and_styling
-- class=imagery scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Approved gradients for brand backgrounds, waves, and masthead structures must strictly adhere to the approved set. Specifically, Brand Blue (#00529b) to Dark Navy (#011E45) is for dark backgrounds, blue masthead/waves; Sky Blue (#358CCB) to Deep Blue (#003D74) for blue backgrounds and waves; Golden Sand (#FEF1C8) to White (#ffffff) to Light Blue (#E6F0F9) for soft light backgrounds; and Golden Sand (#FEF1C8) to 75% Gold to Sunshine (#faa31b) for warm light-to-saturated backgrounds.
-- intent: Maintain visual consistency, brand recognition, and translucent depth of the signature wave elements.
+### rule_lisraya_masthead_gradient_logo_copy_device
+- class=assembly scope=brand hardness=strong_default polarity=must sections=['top_matter'] constraint=None
+- rule_text: For masthead copy, use the approved masthead gradient with logo mark device: Sunshine to 0C,10M,78Y,0K, with the logo mark placed at the lightest end.
+- intent: Ensure masthead copy uses the approved branded holding device and logo placement.

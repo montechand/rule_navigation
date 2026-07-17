@@ -226,6 +226,8 @@ def test_evidence_convention_markers_per_entity_kind(entity_kind: str) -> None:
         "template": "catalog_rest",
         "rule": "rules_cluster",
     }
+    if entity_kind == "token_table":
+        pytest.skip("token_table entities are compiled deterministically, never prompted")
     kind = cast(EntityKind, entity_kind)
     template_name = prompt_by_kind[kind]
     text = _combined_text(template_name)

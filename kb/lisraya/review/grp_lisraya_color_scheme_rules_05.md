@@ -55,4 +55,9 @@ A full-width banner where a **headline** and a **single button** are overlaid on
 If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color="#faa31b"` and the headline color, button color, and button radius exactly as above.
 ````
 
-## Extracted rules (0)
+## Extracted rules (1)
+
+### rule_lisraya_gradient_callout_cta_section
+- class=assembly scope=brand hardness=hard_constraint polarity=must sections=['cta'] constraint=binding
+- rule_text: The Gradient Callout CTA is a full-width 600px banner with one centered, stacked headline and one centered button over the approved Gradient_callout.png background asset. Apply the image as a centered, non-repeating cover background and retain Sunshine fallback #faa31b for image-dropping clients. The headline uses Brand Blue #00529b, Nunito Sans 800 at approximately 28px, occupies one line in the top third, and the button sits below it in the lower-middle with Deep Blue #003D74 fill, white Nunito Sans 800 18px label, and Gold #FFC20E › arrow after two non-breaking spaces. The button is 248 × 64px and must always retain the signature asymmetric radius 49.52px 1.76px 40px 1.76px; never simplify it, reorder corners, or round its decimals. The background image must not be re-hosted or recolored and may be omitted only for plain-text/AMP fallback, a client that strips all images, or a hard size budget; in that exception remove only the image URL, size, repeat, and position settings, while retaining the Sunshine fallback, headline color, button color, button radius, and every other treatment.
+- intent: Preserve the distinctive approved gradient CTA device and its resilient Outlook/image-fallback rendering.

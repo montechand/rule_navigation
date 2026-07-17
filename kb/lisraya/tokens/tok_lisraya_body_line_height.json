@@ -5,7 +5,9 @@
   "kind": "semantic",
   "key": "body.line_height",
   "value": {
-    "default": "150%",
+    "default": {
+      "$ref": "tok_lisraya_line_height_body_min_150"
+    },
     "default_evidence": {
       "quotes": [
         "Line height: minimum 150% for all body copy"
@@ -16,7 +18,9 @@
     },
     "variants": [
       {
-        "value": "160%",
+        "value": {
+          "$ref": "tok_lisraya_line_height_dark_text_160"
+        },
         "when": {
           "background_group": "dark"
         }
@@ -24,10 +28,12 @@
     ]
   },
   "element_paths": [
-    "body.line_height"
+    "body.line_height",
+    "body_copy.line_height"
   ],
   "aliases": [],
   "scope": "global",
+  "notes": "Accessibility line-height requirement.",
   "status": "active",
   "version": 1
 }

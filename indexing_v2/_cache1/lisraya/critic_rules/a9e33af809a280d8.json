@@ -1,0 +1,144 @@
+{
+  "findings": [
+    {
+      "description": "Only one rule (canonical_content_block_pattern) was extracted for this blob, covering u_0004 alone. Units u_0001 (focal point limiting), u_0002 (show-don't-tell imagery rule), and u_0003 (color-block background alternation + governance clause) contain distinct, independently testable design rules that were dropped entirely rather than clustered or split into their own rules.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[6]",
+          "group_id": "grp_lisraya_design_pattern_rules_06",
+          "note": "Extract separate rules for focal-point limiting, show-don't-tell imagery, and section background color-block alternation, in addition to the retained canonical_content_block_pattern rule."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_canonical_content_block_pattern"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0001",
+        "u_design_pattern_rules_6_0002",
+        "u_design_pattern_rules_6_0003",
+        "u_design_pattern_rules_6_0004"
+      ]
+    },
+    {
+      "description": "The explicit [GENERAL] governance clause requiring section designers to declare background color in component metadata (to prevent adjacent duplicate backgrounds) has no corresponding rule at all. This is a compliance/process statement with a named actor (section designers) and a concrete requirement, and needs its own governance-tagged rule.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "actor": "section designers",
+          "class": "governance",
+          "doc_ref": "design_pattern_rules[6]",
+          "group_id": "grp_lisraya_design_pattern_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must",
+          "statement": "Section designers must declare their section's background color in component metadata so assemblers can sequence sections without two identical adjacent backgrounds."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "The bolded directive 'Limit focal points per section — use contrast to direct attention to the single most important element' is a distinct hard layout rule that was not extracted as its own rule; it is currently unrepresented.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "doc_ref": "design_pattern_rules[6]",
+          "group_id": "grp_lisraya_design_pattern_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must",
+          "statement": "Limit focal points per section; use contrast to direct attention to the single most important element."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "The 'Show, don't tell' guidance to break up text walls with imagery and icons is a discrete layout/content rule that has no corresponding extracted rule.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "doc_ref": "design_pattern_rules[6]",
+          "group_id": "grp_lisraya_design_pattern_rules_06",
+          "hardness": "soft_preferred",
+          "polarity": "should",
+          "statement": "Break up text walls with imagery and icons ('show, don't tell')."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "The core layout rule about alternating White/Light Blue/Golden Sand/gradient section backgrounds so adjacent sections don't visually merge is separate from the governance metadata clause and is missing as its own layout rule.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "doc_ref": "design_pattern_rules[6]",
+          "group_id": "grp_lisraya_design_pattern_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must_not",
+          "statement": "Alternate White / Light Blue / Golden Sand / gradient section backgrounds to delineate topics so adjacent assembled sections don't share the same background color."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Source states the patient brochure content block pattern is the 'reference template for visuals, messaging, and overall tone of ALL LISRAYA materials' — broader than a pure 'layout' class scope; the rule's class may need to also flag messaging/tone scope or a cross-reference relation rather than being purely layout-scoped.",
+      "finding_id": "f_lisraya_6",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[6]",
+          "group_id": "grp_lisraya_design_pattern_rules_06",
+          "scope_note": "Applies as reference template for visuals, messaging, and tone across ALL Lisraya materials, not layout alone."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_canonical_content_block_pattern"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_canonical_content_block_pattern",
+      "unit_ids": [
+        "u_design_pattern_rules_6_0004"
+      ]
+    }
+  ]
+}

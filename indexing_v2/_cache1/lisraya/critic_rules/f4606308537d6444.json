@@ -1,0 +1,138 @@
+{
+  "findings": [
+    {
+      "description": "Only one rule (chart_headline_style) was extracted for this blob, but the source contains five additional distinct, extractable design directives (container/panel styling, color logic, bar/icon shape, statistical callout styling, footnote styling). These are under-clustered/missing entirely, causing massive loss of governance content.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "grp_lisraya_design_pattern_rules_04",
+          "new_rules": [
+            {
+              "class": "layout",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_chart_container_style",
+              "polarity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0001"
+              ]
+            },
+            {
+              "class": "color",
+              "hardness": "must",
+              "id": "rule_lisraya_chart_color_logic",
+              "polarity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0002"
+              ]
+            },
+            {
+              "class": "iconography",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_chart_shape_style",
+              "polarity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0003"
+              ]
+            },
+            {
+              "class": "typography",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_chart_callout_style",
+              "polarity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0005"
+              ]
+            },
+            {
+              "class": "typography",
+              "hardness": "soft_default",
+              "id": "rule_lisraya_chart_footnote_style",
+              "polarity": "should",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0006"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0001",
+        "u_design_pattern_rules_4_0002",
+        "u_design_pattern_rules_4_0003",
+        "u_design_pattern_rules_4_0005",
+        "u_design_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "Color logic statement is bolded in source, indicating stronger emphasis than a generic 'strong_default' rule; likely warrants hardness=must and polarity=must, and it is entirely uncaptured by the single existing rule which only covers headline typography.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Headline rule conflates two channel-specific typefaces (Agenda for print, Nunito Sans Bold+ for email) without a scope/platform facet distinguishing print vs email contexts; should record channel scope explicitly rather than merging silently.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_scope_facets": [
+            {
+              "channel": "print",
+              "typeface": "Agenda"
+            },
+            {
+              "channel": "email",
+              "typeface": "Nunito Sans Bold+"
+            }
+          ],
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "grp_lisraya_design_pattern_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_chart_headline_style"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_chart_headline_style",
+      "unit_ids": [
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "The heading 'Charts & Infographics' establishes a shared context/scope for all six list items, but no rule or group-level scope facet ties this heading to the extracted rule(s), risking loss of section-level applicability (charts/infographics only) if rules are reused elsewhere.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0000"
+      ]
+    },
+    {
+      "description": "Rule is stated as strong_default/must but no governance facet (owner, exception process, escalation) is attached; if this is meant to be enforced as brand compliance, governance metadata should be added.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_chart_headline_style",
+      "unit_ids": [
+        "u_design_pattern_rules_4_0004"
+      ]
+    }
+  ]
+}

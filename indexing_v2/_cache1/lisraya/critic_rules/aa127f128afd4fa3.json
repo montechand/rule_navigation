@@ -1,0 +1,73 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule 'rule_lisraya_headline_and_body_color_binding' combines two separate typographic hierarchies (Headlines and Body text) with distinct background and line-height constraints into a single rule.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_headline_and_body_color_binding"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_headline_and_body_color_binding",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Missed rule extraction for Chart/Data visualization color usage. Unit 0004 specifies brand blue/sky blue dominance, reservation of Sunshine/Gold for key figures, and gray for placebo, which is currently unrepresented.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Charts must use Brand Blue and Sky Blue as dominant colors, reserve Sunshine/Gold strictly for emphasizing key figures, and use gray for placebo elements.",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_chart_color_application"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0004"
+      ]
+    },
+    {
+      "description": "The rule for Coral has a specific [GENERAL] exception scope ('avoid Coral in email sections unless the brief calls for it') which is missing from its hardness/scope classification.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "description": "Sparing tertiary accent only; never use for primary CTAs, headlines, or data. Avoid Coral in email sections unless explicitly briefed.",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "scope": "general_with_channel_exception"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_coral_accent_restriction"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_coral_accent_restriction",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    }
+  ]
+}

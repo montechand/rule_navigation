@@ -1,0 +1,65 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "iconography.size.minimum",
+          "token_id": "tok_lisraya_size_icon_min_render"
+        },
+        {
+          "element_path": "iconography.stroke.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "minimum render size 32×32px in email",
+          "default Brand Blue strokes on light backgrounds"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work).",
+          "Icon colors and backgrounds adjustable **only within the brand palette**.",
+          "Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001",
+          "u_design_pattern_rules_5_0002",
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain visual consistency of brand iconography while meeting minimum visibility thresholds for low-vision users.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "iconography",
+      "rule_text": "Icons must follow a minimal line illustration style with consistent stroke weight, rounded line caps, and single-color line work. New icons are permitted but must match this approach. Under baseline email rules, icons must be at least 32×32px (dimension.accessibility.icon_render_min = 32px) and use default Brand Blue strokes (color.primary.brand_blue = #00529b) on light backgrounds to ensure sufficient contrast and scale for low-vision audiences.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "iconography",
+        "section_types": null
+      },
+      "slug": "iconography_style_and_accessibility",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    }
+  ]
+}

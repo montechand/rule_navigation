@@ -1,0 +1,93 @@
+{
+  "findings": [
+    {
+      "description": "Single rule conflates two distinct directives with opposite polarity: (a) a recommended/allowed list of known-safe color pairings (must/should-style guidance) and (b) an explicit ban on gold/sunshine text on white (must_not). Merging them under one hardness/polarity (hard_constraint/must_not) misrepresents the permissive first half as a prohibition and loses the nuance that golds are still permitted for surfaces, rules, and large display emphasis.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "guideline",
+              "id": "rule_lisraya_safe_color_pairs",
+              "polarity": "should",
+              "text": "Use known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy."
+            },
+            {
+              "class": "color_application",
+              "exception_scope": "surfaces, rules, large display emphasis",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_gold_text_on_white_ban",
+              "polarity": "must_not",
+              "text": "Do not use Gold or Sunshine text on White (fails contrast); golds are reserved for surfaces, rules, and large display emphasis only."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_safe_color_pairs_and_gold_text_ban"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_safe_color_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Source unit 'Don't rely on color alone to convey meaning' is not represented by any candidate rule — a full directive is missing from the cluster, leaving accessibility guidance uncovered.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility",
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_no_color_only_meaning",
+          "polarity": "must_not",
+          "text": "Don't rely on color alone to convey meaning — pair with icons, depth, clear copy, or visual feedback."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Rule captures the WCAG AA numeric thresholds but omits the governance facet naming the verification method/tool (webaim.com or equivalent) and the required scope ('every text/background pair'), which are needed to make the constraint auditable/enforceable.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "scope": "every text/background pair",
+          "thresholds": {
+            "body_text": "4.5:1",
+            "large_text_24px_or_19px_bold": "3:1"
+          },
+          "verification_method": "webaim.com or equivalent contrast checker"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_contrast_minimums"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_contrast_minimums",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ]
+    }
+  ]
+}

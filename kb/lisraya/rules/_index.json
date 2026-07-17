@@ -2,74 +2,88 @@
   {
     "applies_when": null,
     "audience": null,
-    "confidence": "medium",
+    "confidence": "high",
     "constraint_type": "binding",
     "element_path": null,
-    "evaluation_scope": "email",
+    "evaluation_scope": "section",
     "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_brand_palette_definitions",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_complete_palette_table_binding",
     "polarity": "must",
-    "rule_class": "color_application",
+    "rule_class": "assembly",
     "scope": "brand",
     "sections": null,
-    "summary": "lisraya design system must strictly use brand palette: Primary (#00529b, #faa31b, #ffc60a), Secondary (#358CCB, #003D74, #011E45), Tertiary (#F26A38, #E6F0F9, #FEF1C8, #212121, #ffffff).",
+    "summary": "Complete Palette table is fixed; no row values (Name, HEX, RGB, CMYK, Pantone) may be added or altered from the brand-approved set.",
     "tags": []
   },
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": "exclusivity",
-    "element_path": "color.tints",
-    "evaluation_scope": "element",
+    "confidence": "high",
+    "constraint_type": "binding",
+    "element_path": null,
+    "evaluation_scope": "section",
     "governance": null,
     "hardness": "strong_default",
-    "id": "rule_lisraya_rule_lisraya_callout_surface_tints",
+    "id": "rule_lisraya_complete_palette_table_binding_3",
     "polarity": "must",
-    "rule_class": "color_application",
+    "rule_class": "assembly",
     "scope": "brand",
-    "sections": [
-      "callout"
-    ],
-    "summary": "Use only standard brand palette or specified design system tints; no ad-hoc color tints allowed.",
-    "tags": [
-      "layout"
-    ]
+    "sections": null,
+    "summary": "Complete Palette table rows are fixed brand-approved colors: Coral #F26A38, Light Blue #E6F0F9, Golden Sand #FEF1C8, Graphite #212121, White #ffffff with exact values.",
+    "tags": []
   },
   {
     "applies_when": null,
     "audience": null,
+    "confidence": "medium",
     "constraint_type": "exclusivity",
-    "element_path": "infographic.panel",
+    "element_path": "chart.data_palette",
     "evaluation_scope": "section",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_chart_statistical_callouts",
+    "id": "rule_lisraya_chart_palette_and_key_figure_emphasis",
     "polarity": "must",
     "rule_class": "color_application",
     "scope": "brand",
     "sections": [
       "chart"
     ],
-    "summary": "Use Brand Blue and Sky Blue for charts, Sunshine/Gold (#faa31b) only for key figure emphasis, and gray for placebo representation.",
-    "tags": [
-      "imagery"
-    ]
+    "summary": "Use Brand Blue (#00529b) and Sky Blue (#358ccb) in charts; reserve Sunshine (#faa31b) and Gold (#ffc60a) for key figure emphasis; gray for placebo.",
+    "tags": []
   },
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": null,
+    "confidence": "high",
+    "constraint_type": "binding",
     "element_path": null,
-    "evaluation_scope": "email",
+    "evaluation_scope": "section",
     "governance": null,
     "hardness": "strong_default",
-    "id": "rule_lisraya_rule_lisraya_color_hierarchy_ratio",
+    "id": "rule_lisraya_hierarchy_application_table_binding",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Hierarchy & Application table rows are fixed; Body text: Graphite #212121 on light, White on dark with higher line height (\u00a71.2); Callouts: Light Blue 70% tint (data), Golden Sand 30% (text-heavy); Links general: Brand Blue #00529b underline on light, White underline on dark.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": null,
+    "element_path": null,
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_palette_hierarchy_application",
     "polarity": "must",
     "rule_class": "color_application",
     "scope": "brand",
     "sections": null,
-    "summary": "Apply color palette with primary > secondary > tertiary ratio; prioritize blues and golds; reserve tertiary colors for accents and surfaces.",
+    "summary": "Apply palette in primary > secondary > tertiary ratio with blues and golds dominating; tertiary colors used as accents and surfaces.",
     "tags": []
   },
   {
@@ -77,107 +91,48 @@
     "audience": null,
     "constraint_type": "exclusivity",
     "element_path": null,
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_no_ad_hoc_tints",
+    "polarity": "must_not",
+    "rule_class": "color_application",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Use only palette colors or specified tint treatments; no ad-hoc tints allowed.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "high",
+    "constraint_type": "binding",
+    "element_path": null,
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_tint_rules_table_binding",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Tint Rules table rows are exact and brand-approved; Campaign headline D/M \u224840% tint of headline color (Gold or Blue), Light Blue callout 70% tint, Golden Sand callout 30%, Wave top 70% transparency.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "background.gradient",
     "evaluation_scope": "section",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_coral_accent_restriction",
-    "polarity": "must_not",
-    "rule_class": "color_application",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Use Coral (#F26A38) sparingly as tertiary accent; never for primary CTAs, headlines, clinical data; avoid in emails unless design brief specifies.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "element_path": null,
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_headline_and_body_color_binding",
+    "id": "rule_lisraya_gradient_specifications_approved_set_never_inven",
     "polarity": "must",
-    "rule_class": "color_application",
+    "rule_class": "assembly",
     "scope": "brand",
     "sections": null,
-    "summary": "Headlines use #00529b on light backgrounds or #ffffff on dark/gradient; body text uses #212121 on light or #ffffff on dark backgrounds.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "element_path": "body.link",
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_link_color_binding",
-    "polarity": "must",
-    "rule_class": "color_application",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Hyperlinks underlined; Brand Blue (#00529b) on light backgrounds, White (#ffffff) on dark backgrounds.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "element_path": "logo",
-    "evaluation_scope": "element",
-    "governance": {
-      "gov_type": "trademark",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_logo_transparency_preservation",
-    "polarity": "must",
-    "rule_class": "color_application",
-    "scope": "brand",
-    "sections": [
-      "top_matter"
-    ],
-    "summary": "Logo icon uses 70% transparency on gold (Pantone 7548 C / #ffc60a) in all uses, including standard logos and decorative patterns.",
-    "tags": [
-      "iconography"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "headline.character.tint",
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_campaign_headline_character_tint",
-    "polarity": "must",
-    "rule_class": "typography",
-    "scope": "campaign",
-    "sections": [
-      "hero"
-    ],
-    "summary": "In campaign headlines, characters \"D\" and \"M\" use ~40% tint opacity of main headline color for styling.",
-    "tags": [
-      "color_application"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "element_path": null,
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_color_contrast_accessibility_requirements",
-    "polarity": "must",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Ensure WCAG AA contrast ratios (4.5:1 body, 3:1 large \u226524px/19px bold) for text/background; use specified brand colors and avoid Gold or Sunshine text on White.",
+    "summary": "Use only approved gradients per background type with specified colors and horizontal left-to-right direction; include Brand Blue\u2192Dark Navy for dark, Sky Blue\u2192Deep Blue for blue, Sunshine\u219275% Gold warm, Golden Sand\u2192White\u2192Light Blue soft light, Golden Sand\u219275% Gold\u2192Sunshine warm light-to-saturated, and Sunshine\u2192light gold for logo-mark masthead with mark at light end.",
     "tags": [
       "color_application"
     ]
@@ -186,177 +141,140 @@
     "applies_when": null,
     "audience": null,
     "constraint_type": null,
-    "element_path": null,
+    "element_path": "semantic_status_or_meaning",
     "evaluation_scope": "element",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_non_color_visual_signifiers",
+    "id": "rule_lisraya_non_color_meaning_cues",
     "polarity": "must_not",
     "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Avoid using color alone for meaning; pair color with icons, depth, text, or other visual cues for accessibility.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "callout.box",
-    "evaluation_scope": "section",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_icon_callout_box_geometry",
-    "polarity": "must",
-    "rule_class": "layout",
     "scope": "brand",
-    "sections": [
-      "callout"
-    ],
-    "summary": "Icon callout box: badge width 80px, inset blue box by 40px so badge center aligns with box left edge; badge left 0 inside padding-left 40px wrapper; vertical center top 50% margin-top -40px.",
+    "sections": null,
+    "summary": "Use icons, depth, clear copy, or visual feedback with color to convey meaning; avoid color-only reliance for accessibility.",
     "tags": [
-      "color_application",
-      "spacing"
+      "iconography",
+      "copy_editorial"
     ]
   },
   {
     "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "medium",
-    "constraint_type": "verbatim_content",
-    "element_path": null,
-    "evaluation_scope": "sentence",
-    "governance": {
-      "gov_type": "trademark",
-      "verdict": "verbatim_only"
-    },
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "text.color_on_background",
+    "evaluation_scope": "element",
+    "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_brand_name_and_trademark_usage",
+    "id": "rule_lisraya_wcag_text_background_contrast",
     "polarity": "must",
-    "rule_class": "copy_editorial",
-    "scope": "brand",
+    "rule_class": "accessibility",
+    "scope": "org_baseline",
     "sections": null,
-    "summary": "Write LISRAYA in ALL CAPS for patient marketing; apply \u00ae only on first/prominent mention with lowercase generic in parentheses (LISRAYA\u00ae (brepocitinib)); omit \u00ae thereafter.",
+    "summary": "Ensure all text/background pairs meet WCAG AA contrast: 4.5:1 body text, 3:1 large text (\u226524px/19px bold); prefer specified safe color combos, avoid gold/sunshine on white.",
     "tags": [
-      "copy_editorial",
-      "accessibility"
+      "color_application"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": "gradient_callout_cta.section",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_gradient_callout_cta_section",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": [
+      "cta"
+    ],
+    "summary": "Gradient Callout CTA: full-width 600px banner, centered stacked headline (#00529b Nunito Sans 800 ~28px top third), button 248x64px Deep Blue #003D74 white Nunito Sans 800 18px Gold #FFC20E arrow, asymmetric radius 49.52px 1.76px 40px 1.76px, Gradient_callout.png cover center background with #faa31b fallback, omit image only for plain-text/AMP/hard budget preserving all styles.",
+    "tags": [
+      "color_application",
+      "cta",
+      "layout",
+      "typography"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
     "confidence": "high",
-    "constraint_type": "exclusivity",
-    "element_path": null,
-    "evaluation_scope": "email",
-    "governance": {
-      "gov_type": "legal",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_parent_company_footer_lock",
-    "polarity": "must_not",
+    "constraint_type": null,
+    "element_path": "callout.icon",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_icon_callout_outlook_fallback",
+    "polarity": "should",
     "rule_class": "assembly",
     "scope": "brand",
     "sections": [
-      "end_matter"
+      "callout"
     ],
-    "summary": "Priovant Therapeutics, Inc. sign-off locked to footer; prohibited in normal email content sections.",
+    "summary": "For Outlook desktop, use a pre-composited transparent PNG badge with shadow and icon or bake badge into background; else accept badge flush left, Light Blue #E6F0F9 fill, 40px 8px radii, blue 800 text, badge shadow.",
     "tags": [
-      "copy_editorial"
+      "layout",
+      "iconography"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
+    "confidence": "high",
     "constraint_type": "binding",
-    "element_path": "type_scale",
-    "evaluation_scope": "element",
+    "element_path": null,
+    "evaluation_scope": "section",
     "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_email_type_scale_hierarchy",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_palette_reference_table_binding",
     "polarity": "must",
-    "rule_class": "typography",
-    "scope": "org_baseline",
+    "rule_class": "assembly",
+    "scope": "brand",
     "sections": null,
-    "summary": "Email typography uses 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif with hierarchy: H1 28px/36px, H2 22px/30px, H3 18px/26px, Body 16px/24px, Secondary 14px/21px, Footnote 12px/18px; avoid adjacent same size/weight blocks.",
-    "tags": [
-      "typography"
-    ]
+    "summary": "Palette table is fixed: Brand Blue (#00529b) for headlines/icons, Light Blue (#E6F0F9) for box fills, White (#ffffff) for icon badges, Dark Navy (#011E45) as shadow color.",
+    "tags": []
   },
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": "binding",
-    "element_path": "body.line_height",
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_line_height_accessibility",
-    "polarity": "must",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Set body text line height \u2265150%; increase to 160% for light text on dark backgrounds (e.g., 16px font / 26px line height) for readability.",
-    "tags": [
-      "typography"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "cardinality",
-    "element_path": "type_scale.footnote.size",
-    "evaluation_scope": "element",
+    "confidence": "high",
+    "constraint_type": "verbatim_content",
+    "element_path": "brand.name.trademark_mention",
+    "evaluation_scope": "sentence",
     "governance": {
-      "gov_type": "regulatory",
-      "verdict": "allowed_with_disclosure"
+      "gov_type": "trademark",
+      "verdict": "verbatim_only"
     },
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_minimum_running_text_size",
-    "polarity": "must_not",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
+    "id": "rule_lisraya_external_trademark_and_generic_first_mention",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
+    "scope": "brand",
     "sections": null,
-    "summary": "Body copy and footnote text must never be below 12px; ISI copy sizing managed separately by locked components.",
+    "summary": "Use \"LISRAYA\u00ae (brepocitinib)\" only on first/prominent external mention; format generic name lowercase in parentheses; omit \u00ae on later mentions or without generic name.",
     "tags": [
-      "typography"
+      "accessibility"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
     "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "general.text",
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "strong_default",
-    "id": "rule_lisraya_casing_headlines_and_body",
-    "polarity": "must",
-    "rule_class": "typography",
-    "scope": "brand",
-    "sections": null,
-    "summary": "No ALL CAPS in body copy, buttons, subheads except specified exceptions; body copy remains in sentence case.",
-    "tags": [
-      "typography"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "cardinality",
-    "element_path": null,
+    "constraint_type": "exclusivity",
+    "element_path": "footer.parent_company_signoff",
     "evaluation_scope": "section",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_bolding_and_emphasis_hierarchy",
-    "polarity": "must",
-    "rule_class": "typography",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Bold used only for hierarchy/key takeaways: headings, one key phrase/claim per paragraph, statistical callout; max 15% bold body text per section; no bold footnotes, filler, full paragraphs.",
+    "id": "rule_lisraya_parent_company_signoff_locked_footer",
+    "polarity": "must_not",
+    "rule_class": "layout",
+    "scope": "brand",
+    "sections": [
+      "end_matter"
+    ],
+    "summary": "Parent-company sign-off \u201cPriovant Therapeutics, Inc.\u201d allowed only in locked footer, prohibited within sections.",
     "tags": [
       "copy_editorial"
     ]
@@ -364,17 +282,152 @@
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": "pairing",
+    "constraint_type": "binding",
+    "element_path": null,
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_cross_surface_typeface_hierarchy",
+    "polarity": "must",
+    "rule_class": "typography",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Use Agenda for print headlines/headers; Nunito Sans for digital/email headlines (bolder, Title Case), print/digital body/footer; Aptos for Word/PPT/Excel text.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "exclusivity",
+    "element_path": "other.campaign_headline.text",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_digital_agenda_campaign_headline_exception",
+    "polarity": "may",
+    "rule_class": "typography",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Agenda font allowed only for digital campaign headlines, prohibited for other digital live-text uses.",
+    "tags": []
+  },
+  {
+    "applies_when": [
+      {
+        "kind": "adjacent_section_state",
+        "value": "adjacent_text_blocks"
+      }
+    ],
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "text_block",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_distinct_text_hierarchy_levels",
+    "polarity": "must_not",
+    "rule_class": "typography",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Use clear type scale and hierarchy; never place adjacent text blocks with the same size and weight for different hierarchy levels.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
     "element_path": null,
     "evaluation_scope": "element",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_bolding_mandatory_triggers",
+    "id": "rule_lisraya_email_type_scale_and_legibility",
     "polarity": "must",
     "rule_class": "typography",
     "scope": "org_baseline",
     "sections": null,
-    "summary": "Always bold callout text (\u00a71.7), statistical callout numbers, and the first occurrence of the brand name within benefit claims per section.",
+    "summary": "Use Nunito Sans, Verdana, Helvetica, Arial, sans-serif; load Nunito Sans via @font-face/Google Fonts; body \u226516px, line height \u2265150% (160% light on dark); 14px secondary sparingly; 12px footnotes smaller and distinct.",
+    "tags": [
+      "accessibility"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": "chart.headline",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_chart_infographic_headline_casing_and_fonts",
+    "polarity": "must",
+    "rule_class": "typography",
+    "scope": "brand",
+    "sections": [
+      "chart"
+    ],
+    "summary": "Chart and infographic headlines use ALL CAPS, Agenda font for print, Nunito Sans Bold or heavier for email fallback.",
+    "tags": [
+      "color_application"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": null,
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_general_casing_hierarchy",
+    "polarity": "must",
+    "rule_class": "typography",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "Headlines use title case; body copy uses sentence case; no ALL CAPS for body, buttons, or subheads unless in approved campaigns or chart headlines.",
+    "tags": [
+      "copy_editorial"
+    ]
+  },
+  {
+    "applies_when": [
+      {
+        "kind": "campaign",
+        "value": "YOU DESERVE MORE"
+      }
+    ],
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": "binding",
+    "element_path": "campaign.headline.case",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_you_deserve_more_campaign_all_caps",
+    "polarity": "must",
+    "rule_class": "typography",
+    "scope": "campaign",
+    "sections": [
+      "hero"
+    ],
+    "summary": "campaign.headline.case = all_caps for \"YOU DESERVE MORE\" campaign headlines",
+    "tags": [
+      "copy_editorial"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "rich_text.emphasis.bold",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_bold_hierarchy_and_takeaway_limits",
+    "polarity": "must",
+    "rule_class": "typography",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "Use Bold for hierarchy/key takeaways only: headings, one key phrase/claim per paragraph, specified callout texts/numbers, first focal brand name in benefit claims; max 15% body text.",
     "tags": [
       "copy_editorial"
     ]
@@ -383,16 +436,16 @@
     "applies_when": null,
     "audience": null,
     "constraint_type": "exclusivity",
-    "element_path": null,
+    "element_path": "rich_text.emphasis",
     "evaluation_scope": "element",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_emphasis_device_combinations",
+    "id": "rule_lisraya_limit_combined_text_emphasis_devices",
     "polarity": "must_not",
     "rule_class": "typography",
     "scope": "org_baseline",
     "sections": null,
-    "summary": "Avoid using bold, ALL CAPS, and color emphasis together on the same string except in chart and campaign headlines; use max two emphasis devices per element.",
+    "summary": "Avoid combining Bold, ALL CAPS, and color emphasis on one string except in chart/campaign headlines; use max two emphasis devices per element.",
     "tags": [
       "color_application"
     ]
@@ -400,20 +453,134 @@
   {
     "applies_when": null,
     "audience": "dtp_patient",
-    "constraint_type": "pairing",
-    "element_path": null,
+    "constraint_type": null,
+    "element_path": "rich_text.emphasis.italic",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_patient_copy_italic_reservations",
+    "polarity": "must_not",
+    "rule_class": "copy_editorial",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "Avoid italics for emphasis in patient copy; use italics only for study names, \"Note:\" sections, and citations.",
+    "tags": [
+      "typography"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": "body.link.text_decoration",
     "evaluation_scope": "element",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_underline_and_italic_restrictions",
-    "polarity": "must_not",
+    "id": "rule_lisraya_underline_only_real_hyperlinks",
+    "polarity": "must",
     "rule_class": "typography",
     "scope": "org_baseline",
     "sections": null,
-    "summary": "Only underline real hyperlinks; use italics exclusively for study names, notes like 'Note:', and citations; avoid italics for emphasis in patient copy.",
+    "summary": "Use underline decoration exclusively for real hyperlinks; body.link.text_decoration = underline.",
+    "tags": [
+      "accessibility"
+    ]
+  },
+  {
+    "applies_when": [
+      {
+        "kind": "content_tag",
+        "value": "clinical_data"
+      }
+    ],
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": null,
+    "element_path": "copy.clinical_data",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_clinical_data_supportive_tone",
+    "polarity": "should",
+    "rule_class": "voice_tone",
+    "scope": "brand",
+    "sections": [
+      "efficacy"
+    ],
+    "summary": "Use empathetic, supportive, non-fearful tone with clinical data; avoid negative language, maintain trust, don\u2019t oversimplify.",
     "tags": [
       "copy_editorial"
     ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "copy.body_and_headings",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_dm_abbreviation_running_copy",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Use \u201cdermatomyositis (DM)\u201d at first mention, then \u201cDM\u201d in running copy; never use \u201cDM\u201d in headlines, headings, or subheads\u2014use full term.",
+    "tags": [
+      "accessibility"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": "dtp_patient",
+    "constraint_type": null,
+    "element_path": "copy.body",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_inclusive_patient_language_and_care_team",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
+    "scope": "brand",
+    "sections": null,
+    "summary": "In patient materials, use \"someone/people with dermatomyositis,\" \"care team\" not \"staff\"; \"patients\" allowed only in HCP materials.",
+    "tags": [
+      "voice_tone"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "high",
+    "constraint_type": null,
+    "element_path": "copy.body",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_number_and_percentage_style",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Spell out 0-9, use numerals 10+, always numerals for percentages (%) ages and ratios.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": "binding",
+    "element_path": "copy.punctuation.series",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_oxford_serial_comma",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Use the Oxford/serial comma in lists of three or more items.",
+    "tags": []
   },
   {
     "applies_when": [
@@ -423,254 +590,84 @@
       }
     ],
     "audience": null,
+    "confidence": "high",
     "constraint_type": "verbatim_content",
-    "element_path": null,
+    "element_path": "copy.body",
     "evaluation_scope": "section",
-    "governance": {
-      "gov_type": "mlr_claim",
-      "verdict": "verbatim_only"
-    },
+    "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_editorial_abbreviation_dm",
+    "id": "rule_lisraya_standalone_section_dm_first_mention",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "Standalone sections must introduce \u201cdermatomyositis (DM)\u201d at first mention unless abbreviation is established upstream per assembly brief.",
+    "tags": [
+      "copy_editorial"
+    ]
+  },
+  {
+    "applies_when": [
+      {
+        "kind": "content_tag",
+        "value": "campaign_headline_you_deserve_more"
+      }
+    ],
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": "verbatim_content",
+    "element_path": "campaign_headline.lockup_copy",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_campaign_headline_full_lockup_copy",
     "polarity": "must",
     "rule_class": "copy_editorial",
-    "scope": "brand",
+    "scope": "campaign",
     "sections": null,
-    "summary": "Spell out 'dermatomyositis (DM)' on first mention in sections, use 'DM' thereafter in copy; never use 'DM' in headlines, headings, or subheads.",
+    "summary": "Use exact full campaign lockup copy: \"YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis.",
     "tags": [
-      "accessibility",
-      "assembly"
+      "voice_tone"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": "ordering",
+    "constraint_type": "binding",
     "element_path": null,
-    "evaluation_scope": "sentence",
+    "evaluation_scope": "section",
     "governance": null,
     "hardness": "strong_default",
-    "id": "rule_lisraya_rule_lisraya_editorial_numbers_formatting",
+    "id": "rule_lisraya_callout_formatting_three_approved_styles_use_jud",
     "polarity": "must",
-    "rule_class": "copy_editorial",
+    "rule_class": "assembly",
     "scope": "brand",
     "sections": null,
-    "summary": "Spell out numbers zero through nine; use numerals for 10+, always use numerals with % sign, ages, and ratios.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "ordering",
-    "element_path": null,
-    "evaluation_scope": "sentence",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_editorial_oxford_comma",
-    "polarity": "must",
-    "rule_class": "copy_editorial",
-    "scope": "brand",
-    "sections": null,
-    "summary": "Use Oxford (serial) comma in lists with three or more items.",
+    "summary": "Use only three styles of Callout Formatting: Main callout with bold Brand Blue (#00529b) text, Gold (#ffc60a) 2px horizontal rules (60\u2013100% width, 16px padding); Secondary callout light Blue (#E6F0F9) 70% tint box, bold Brand Blue text, 20px padding, corner radius; Text-heavy callout Golden Sand (#FEF1C8) 30% tint box, bold Brand Blue headline, bold Sky Blue (#358CCB) subheads, graphite body, 24px padding, two-column layout collapses on mobile.",
     "tags": []
   },
   {
     "applies_when": null,
     "audience": "dtp_patient",
-    "constraint_type": "exclusivity",
-    "element_path": null,
-    "evaluation_scope": "sentence",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "forbidden"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_rule_lisraya_patient_inclusive_language",
-    "polarity": "must_not",
-    "rule_class": "voice_tone",
-    "scope": "brand",
-    "sections": null,
-    "summary": "Use inclusive language like 'someone with dermatomyositis' instead of 'patients' and refer to support as 'care team' not 'staff' in patient materials.",
-    "tags": [
-      "copy_editorial"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
+    "confidence": "medium",
     "constraint_type": null,
     "element_path": null,
     "evaluation_scope": "section",
-    "governance": null,
-    "hardness": "soft_guidance",
-    "id": "rule_lisraya_rule_lisraya_voice_and_tone_principles",
-    "polarity": "should",
-    "rule_class": "voice_tone",
+    "governance": {
+      "gov_type": "mlr_claim",
+      "verdict": "verbatim_only"
+    },
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_approved_campaign_messaging_framework",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
     "scope": "brand",
     "sections": null,
-    "summary": "Cite clinical data empathetically with clarity and trust; avoid negative, fear-based language and oversimplification.",
-    "tags": [
-      "copy_editorial"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "hero.headline",
-    "evaluation_scope": "section",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_campaign_headline_lockup",
-    "polarity": "must",
-    "rule_class": "typography",
-    "scope": "campaign",
-    "sections": [
-      "hero"
-    ],
-    "summary": "Campaign headline 'YOU DESERVE MORE' in Agenda font (fallbacks Nunito Sans, Verdana, Helvetica, Arial), ALL CAPS, left-aligned, stacked 3 lines, letters 'D' and 'M' tinted 40% in Brand Blue #00529b or Gold #ffc60a.",
+    "summary": "Use exact approved campaign messaging including headline, product-benefit intro with bullets, MOA message, administration message, doctor CTA, and My Compass Support with services.",
     "tags": [
       "voice_tone",
-      "copy_editorial"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "exclusivity",
-    "element_path": null,
-    "evaluation_scope": "section",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_callout_formatting_styles",
-    "polarity": "must",
-    "rule_class": "layout",
-    "scope": "brand",
-    "sections": [
-      "callout"
-    ],
-    "summary": "Use three approved callout styles; never have two callouts of the same style competing in one screen or section.",
-    "tags": [
-      "color_application",
-      "spacing",
-      "iconography",
-      "typography"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "high",
-    "constraint_type": "verbatim_content",
-    "element_path": null,
-    "evaluation_scope": "sentence",
-    "governance": {
-      "gov_type": "mlr_claim",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_administration_and_convenience_messaging",
-    "polarity": "must",
-    "rule_class": "copy_editorial",
-    "scope": "campaign",
-    "sections": [
-      "efficacy",
-      "intro"
-    ],
-    "summary": "Administration convenience statements must exactly read: \"LISRAYA is a once-daily pill\u2014you can take it at home or anywhere you like, with no shots or infusions required.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "high",
-    "constraint_type": "verbatim_content",
-    "element_path": "campaign.headline_lockup.text",
-    "evaluation_scope": "sentence",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_campaign_approved_headlines_verbatim",
-    "polarity": "must",
-    "rule_class": "copy_editorial",
-    "scope": "campaign",
-    "sections": [
-      "hero",
-      "intro"
-    ],
-    "summary": "copy_editorial requires full campaign lockup copy to read exactly: \"YOU DESERVE MORE. So there's LISRAYA\u2014the first targeted treatment for dermatomyositis.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "high",
-    "constraint_type": "binding",
-    "element_path": "cta.button",
-    "evaluation_scope": "element",
-    "governance": {
-      "gov_type": "mlr_claim",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_doctor_discussion_cta_pattern",
-    "polarity": "must",
-    "rule_class": "cta",
-    "scope": "campaign",
-    "sections": [
       "cta"
-    ],
-    "summary": "CTAs use a unique signature shape and treatment for consistent brand recognition.",
-    "tags": [
-      "copy_editorial"
     ]
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "high",
-    "constraint_type": "verbatim_content",
-    "element_path": null,
-    "evaluation_scope": "element",
-    "governance": {
-      "gov_type": "trademark",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_patient_support_program_naming",
-    "polarity": "must",
-    "rule_class": "copy_editorial",
-    "scope": "brand",
-    "sections": [
-      "patient_story",
-      "affordability"
-    ],
-    "summary": "Always refer to patient support program as \"My Compass Support\" verbatim.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "low",
-    "constraint_type": "verbatim_content",
-    "element_path": null,
-    "evaluation_scope": "section",
-    "governance": {
-      "gov_type": "mlr_claim",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_product_benefits_messaging",
-    "polarity": "must",
-    "rule_class": "copy_editorial",
-    "scope": "campaign",
-    "sections": [
-      "efficacy",
-      "intro"
-    ],
-    "summary": "Use exact intro phrase: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" before benefit bullets.",
-    "tags": []
   },
   {
     "applies_when": null,
@@ -678,16 +675,18 @@
     "confidence": "medium",
     "constraint_type": null,
     "element_path": null,
-    "evaluation_scope": "email",
+    "evaluation_scope": "sentence",
     "governance": null,
-    "hardness": "soft_guidance",
-    "id": "rule_lisraya_voice_and_tone_principles",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_brand_voice_core_principles",
     "polarity": "must",
     "rule_class": "voice_tone",
     "scope": "brand",
     "sections": null,
-    "summary": "Lisraya voice: confident (first-of-its-kind, not boastful), warm (genuine empathy, not overly emotional), clear (plain language), tone flexes slightly but core voice constant.",
-    "tags": []
+    "summary": "Maintain a confident, warm, clear voice: state unique significance directly, show genuine empathy for DMs and patients, use plain, respectful, accurate language; tone can flex but core remains.",
+    "tags": [
+      "copy_editorial"
+    ]
   },
   {
     "applies_when": [
@@ -697,67 +696,348 @@
       }
     ],
     "audience": null,
-    "confidence": "low",
-    "constraint_type": "pairing",
-    "element_path": "footnote",
+    "confidence": "medium",
+    "constraint_type": null,
+    "element_path": "claim.footnote",
     "evaluation_scope": "sentence",
     "governance": {
-      "gov_type": "regulatory",
+      "gov_type": "mlr_claim",
       "verdict": "requires_qualifier"
     },
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_clinical_claims_footnotes",
+    "id": "rule_lisraya_clinical_claim_footnotes",
     "polarity": "must",
     "rule_class": "copy_editorial",
     "scope": "brand",
     "sections": null,
-    "summary": "Clinical claims require footnote markers (\u2020) paired with clearly separated, noticeably smaller corresponding footnote text.",
+    "summary": "Clinical claims require a \u2020 footnote marker; footnote text must be clearly separated and noticeably smaller than claim text.",
     "tags": [
+      "accessibility",
       "typography"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
+    "confidence": "medium",
     "constraint_type": "exclusivity",
     "element_path": null,
-    "evaluation_scope": "email",
+    "evaluation_scope": "section",
     "governance": {
       "gov_type": "legal",
       "verdict": "forbidden"
     },
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_locked_header_footer_isolation",
+    "id": "rule_lisraya_legal_content_reserved_for_locked_header_footer",
     "polarity": "must_not",
     "rule_class": "assembly",
-    "scope": "org_baseline",
+    "scope": "brand",
     "sections": [
       "top_matter",
       "end_matter"
     ],
-    "summary": "Priovant logo, copyright, \u00ae legal, job code [mm/yy], Indication, ISI only in locked header/footer, never in content sections.",
+    "summary": "Priovant logo, copyright, \u00ae, job code [mm/yy], Indication, ISI reserved for locked header/footer; never reproduce in sections.",
+    "tags": [
+      "copy_editorial",
+      "accessibility"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "high",
+    "constraint_type": "binding",
+    "element_path": null,
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_email_canvas_grid_table_binding",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Email body fixed 600px centered; 480px breakpoint collapsing columns; 12-col grid with 1/2/40-60%; 24px side padding; 8px vertical rhythm; 32px vertical padding per section; spacing: heading-body 16px, para-para 16px, body-CTA 24px, img-caption 8px; Brand Blue #00529b primary CTA pill 16px Nunito Sans Bold with 14x32px padding, min 48px height; secondary reversed style; max 1 primary CTA per section; no row alteration.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": "cardinality",
+    "element_path": "cta.primary",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_one_primary_cta_per_section",
+    "polarity": "must",
+    "rule_class": "cta",
+    "scope": "org_baseline",
+    "sections": [
+      "cta"
+    ],
+    "summary": "Use max one primary CTA per section.",
+    "tags": [
+      "layout",
+      "assembly"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": "wave.top_layer.opacity",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_layered_wave_colorways_and_usage",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": [
+      "wave"
+    ],
+    "summary": "Wave graphics require layered, translucent design with top layer 70% transparent over base, only Sunshine/Gold or Sky Blue/Deep Blue colorways, long/short variants, standalone or over photo/gradient backgrounds.",
+    "tags": [
+      "imagery",
+      "layout",
+      "color_application"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "masthead.copy_container",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_masthead_gradient_logo_copy_device",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": [
+      "top_matter"
+    ],
+    "summary": "Masthead copy uses approved Sunshine to 0C,10M,78Y,0K gradient with logo mark placed at the lightest end.",
+    "tags": [
+      "layout",
+      "imagery"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "high",
+    "constraint_type": "cardinality",
+    "element_path": "image.alt_text",
+    "evaluation_scope": "element",
+    "governance": {
+      "gov_type": "regulatory",
+      "verdict": "requires_qualifier"
+    },
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_descriptive_image_alt_text",
+    "polarity": "must",
+    "rule_class": "accessibility",
+    "scope": "brand",
+    "sections": null,
+    "summary": "All images must include descriptive alt text for accessibility compliance.",
+    "tags": [
+      "imagery"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": null,
+    "element_path": "image.overlay",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "soft_guidance",
+    "id": "rule_lisraya_photography_wave_gradient_overlays",
+    "polarity": "may",
+    "rule_class": "imagery",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Imagery rule: Waves and gradients can overlay photography.",
+    "tags": [
+      "color_application"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": null,
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_brand_accent_shape_core_container_device_table_b",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Brand Accent Shape radius pairs (print) fixed: 1.25\"/0.0625\" large, 0.5\"/0.0625\" banners, 0.4375\"/0.0625\" callouts; email px: large=120/6, banner=48/6, callout=42/6 with consistent diagonal orientation; charts/tables uniform 12px radius.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": "exclusivity",
+    "element_path": "chart.data_encoding.color",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_chart_color_emphasis_logic",
+    "polarity": "must",
+    "rule_class": "color_application",
+    "scope": "brand",
+    "sections": [
+      "chart"
+    ],
+    "summary": "Use Brand Blue (#00529b) and Sky Blue (#358CCB) dominantly in charts; Sunshine (#faa31b) and Gold (#ffc60a) emphasize key data; comparator data in neutral gray.",
+    "tags": []
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": "binding",
+    "element_path": "chart.container",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_chart_container_and_bar_geometry",
+    "polarity": "must",
+    "rule_class": "layout",
+    "scope": "brand",
+    "sections": [
+      "chart"
+    ],
+    "summary": "Charts and infographics have Light Blue (#E6F0F9) rounded panel, rounded Brand Blue (#00529b) header bar, and rounded bars/icons including rounded bar tops.",
+    "tags": [
+      "color_application"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": null,
+    "element_path": "chart.data_hierarchy",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_chart_data_and_footnote_hierarchy",
+    "polarity": "should",
+    "rule_class": "typography",
+    "scope": "brand",
+    "sections": [
+      "chart"
+    ],
+    "summary": "In chart callouts, show large bold percentage as hero, lighter weight supporting text beneath, and smaller, separated footnotes.",
     "tags": [
       "copy_editorial"
     ]
   },
   {
     "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "high",
-    "constraint_type": "pairing",
-    "element_path": "patient_story.quote",
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "icon",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_icon_line_style_and_palette",
+    "polarity": "must",
+    "rule_class": "iconography",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Icons use minimal line illustration with consistent stroke weight, rounded caps, single-color lines; colors/backgrounds adjustable only within brand palette.",
+    "tags": [
+      "color_application"
+    ]
+  },
+  {
+    "applies_when": [
+      {
+        "kind": "background_group",
+        "value": "light"
+      }
+    ],
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": "icon",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_icon_low_vision_size_and_light_background_stroke",
+    "polarity": "must",
+    "rule_class": "accessibility",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "For low-vision email icons, minimum 32\u00d732px; on light backgrounds, use Brand Blue #00529b stroke.",
+    "tags": [
+      "iconography"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "confidence": "medium",
+    "constraint_type": null,
+    "element_path": "section.background",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_alternate_section_backgrounds_and_declare_metada",
+    "polarity": "must",
+    "rule_class": "assembly",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "Use alternating White, Light Blue, Golden Sand, gradient backgrounds per section; declare background in metadata to prevent adjacent identical colors.",
+    "tags": [
+      "color_application",
+      "layout"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "section.content",
     "evaluation_scope": "section",
     "governance": null,
     "hardness": "strong_default",
-    "id": "rule_lisraya_patient_quotes_pairing",
-    "polarity": "must",
-    "rule_class": "copy_editorial",
+    "id": "rule_lisraya_break_up_text_walls_with_visuals",
+    "polarity": "should",
+    "rule_class": "imagery",
     "scope": "brand",
-    "sections": [
-      "patient_story"
-    ],
-    "summary": "Patient quotes formatted as `- [Name], LISRAYA patient` in italic/distinguished style and paired with warm lifestyle imagery.",
+    "sections": null,
+    "summary": "Imagery rule: Use images and icons to break up text, following the \u201cShow, don't tell\u201d principle.",
     "tags": [
+      "iconography",
+      "layout"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "section.content_block",
+    "evaluation_scope": "section",
+    "governance": null,
+    "hardness": "strong_default",
+    "id": "rule_lisraya_canonical_patient_brochure_content_block",
+    "polarity": "should",
+    "rule_class": "assembly",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Use bold headline, simple benefit statements, patient quote; follow patient brochure for visuals, messaging, tone in all LISRAYA materials.",
+    "tags": [
+      "copy_editorial",
       "imagery",
       "voice_tone"
     ]
@@ -765,41 +1045,19 @@
   {
     "applies_when": null,
     "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "masthead.gradient",
+    "constraint_type": "cardinality",
+    "element_path": "section.focal_point",
     "evaluation_scope": "section",
     "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_masthead_device_construction",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_single_focal_point_with_generous_whitespace",
     "polarity": "must",
     "rule_class": "layout",
     "scope": "brand",
-    "sections": [
-      "top_matter"
-    ],
-    "summary": "Masthead gradient runs horizontally from dark Sunshine to light gold, high contrast with logo at lightest end.",
-    "tags": [
-      "color_application",
-      "imagery"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "background.gradient",
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_wave_graphic_construction_and_styling",
-    "polarity": "must",
-    "rule_class": "imagery",
-    "scope": "brand",
     "sections": null,
-    "summary": "Use approved gradients only: Brand Blue (#00529b) to Dark Navy (#011E45) for dark backgrounds/waves; Sky Blue (#358CCB) to Deep Blue (#003D74) for blue backgrounds; Golden Sand (#FEF1C8) to White (#ffffff) to Light Blue (#E6F0F9) for soft light backgrounds; Golden Sand (#FEF1C8) to 75% Gold to Sunshine (#faa31b) for warm light-to-saturated backgrounds.",
+    "summary": "Sections have generous white space, remain clean with a single focal point, and use contrast to highlight the most important element.",
     "tags": [
+      "spacing",
       "color_application"
     ]
   },
@@ -807,293 +1065,137 @@
     "applies_when": null,
     "audience": null,
     "constraint_type": "binding",
-    "element_path": "image",
-    "evaluation_scope": "element",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "allowed_with_disclosure"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_image_treatment_and_shape_masking",
-    "polarity": "must",
-    "rule_class": "imagery",
-    "scope": "brand",
-    "sections": null,
-    "summary": "Patient and brand photos show warm, realistic lifestyles, in asymmetric rounded Accent Shape mask (49.52px 1.76px 40px 1.76px radius), with wave/gradient overlays and alt text.",
-    "tags": [
-      "accessibility",
-      "layout"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": "infographic.container",
+    "element_path": "body.text",
     "evaluation_scope": "element",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_chart_and_table_corner_exception",
+    "id": "rule_lisraya_accessible_body_type_and_hierarchy",
     "polarity": "must",
-    "rule_class": "layout",
-    "scope": "org_baseline",
-    "sections": [
-      "chart"
-    ],
-    "summary": "Charts and Infographics use uniform rounded corners, Light Blue (#E6F0F9) container panels with Brand Blue rounded header bars for scan clarity and system consistency.",
-    "tags": []
+    "rule_class": "typography",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Body copy minimum 16px font, line height \u2265150% (higher for light-on-dark); apply type scale for visual hierarchy.",
+    "tags": [
+      "accessibility"
+    ]
   },
   {
     "applies_when": null,
     "audience": null,
     "constraint_type": null,
-    "element_path": null,
+    "element_path": "content.text_and_meaning_cues",
     "evaluation_scope": "section",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_chart_and_infographic_styling_and_hierarchy",
-    "polarity": "must",
-    "rule_class": "layout",
+    "id": "rule_lisraya_contrast_legibility_and_noncolor_cues",
+    "polarity": "must_not",
+    "rule_class": "accessibility",
     "scope": "brand",
-    "sections": [
-      "chart"
-    ],
-    "summary": "Charts/infographics in Light Blue (#E6F0F9) panel, Brand Blue (#00529b) rounded header; ALL CAPS Agenda/Nunito Sans Bold headlines, Gold (#ffc60a) underline; rounded shapes bars/icons; large bold hero % with lighter copy below; small separated footnotes.",
-    "tags": [
-      "typography",
-      "color_application"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "exclusivity",
-    "element_path": null,
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_chart_color_application_logic",
-    "polarity": "must",
-    "rule_class": "color_application",
-    "scope": "brand",
-    "sections": [
-      "chart"
-    ],
-    "summary": "Use Brand Blue (#00529b) and Sky Blue (#358CCB) dominantly in charts; neutral gray for placebo/comparator; Sunshine (#faa31b) and Gold (#ffc60a) emphasize key data points.",
-    "tags": [
-      "color_application"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "element_path": "iconography",
-    "evaluation_scope": "element",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_iconography_style_and_accessibility",
-    "polarity": "must",
-    "rule_class": "iconography",
-    "scope": "org_baseline",
     "sections": null,
-    "summary": "Icons require minimal line style with consistent stroke weight, rounded caps, single-color lines, 32x32px minimum size, Brand Blue (#00529b) strokes on light backgrounds.",
-    "tags": [
-      "accessibility",
-      "color_application"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "exclusivity",
-    "element_path": "section.background",
-    "evaluation_scope": "email",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_adjacent_section_background_alternation",
-    "polarity": "must",
-    "rule_class": "assembly",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Adjacent assembled sections must have distinct backgrounds (White, Light Blue, Golden Sand, gradients); declare section background color in metadata to alternate and avoid merging.",
+    "summary": "Ensure text legibility via contrast testing; never use color alone to convey meaning for accessibility compliance.",
     "tags": [
       "color_application",
-      "layout"
+      "typography"
     ]
   },
   {
     "applies_when": null,
-    "audience": "dtp_patient",
-    "constraint_type": "ordering",
-    "element_path": null,
-    "evaluation_scope": "section",
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "media.image_video_audio",
+    "evaluation_scope": "element",
     "governance": null,
-    "hardness": "strong_default",
-    "id": "rule_lisraya_canonical_content_block_pattern",
-    "polarity": "should",
-    "rule_class": "assembly",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_descriptive_media_alternatives",
+    "polarity": "must",
+    "rule_class": "accessibility",
     "scope": "brand",
-    "sections": [
-      "patient_story"
-    ],
-    "summary": "Use canonical content block: bold headline, simple benefit statements, patient quote per reference patient brochure for visuals, messaging, tone.",
+    "sections": null,
+    "summary": "All images require descriptive alt text; all video and audio must have transcripts available for accessibility compliance.",
     "tags": [
-      "typography",
+      "imagery",
       "copy_editorial"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": "cardinality",
-    "element_path": null,
+    "constraint_type": "binding",
+    "element_path": "media.animated_gif",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_email_gif_first_frame_and_fallback",
+    "polarity": "must",
+    "rule_class": "accessibility",
+    "scope": "org_baseline",
+    "sections": null,
+    "summary": "General email animated GIFs must convey key message in frame 1 for Outlook, autoplay \u22645 seconds, and include a static fallback.",
+    "tags": [
+      "imagery",
+      "assembly"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "motion_and_responsive_layout",
     "evaluation_scope": "section",
     "governance": null,
     "hardness": "strong_default",
-    "id": "rule_lisraya_layout_principles_and_clutter_prevention",
-    "polarity": "must",
-    "rule_class": "layout",
+    "id": "rule_lisraya_motion_pause_and_responsive_design",
+    "polarity": "should",
+    "rule_class": "accessibility",
     "scope": "brand",
     "sections": null,
-    "summary": "Use generous white space; limit to one primary focal point per section via contrast; break text with supporting images and icons for clean layout.",
+    "summary": "Use quick transitions without interrupting flow, avoid excessive motion, enable pause for effects, and ensure design works on phone, tablet, desktop.",
     "tags": [
-      "spacing",
-      "typography",
-      "imagery",
-      "iconography"
+      "layout",
+      "imagery"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "element_path": "form.field_and_control",
+    "evaluation_scope": "element",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_visible_form_labels_and_touch_targets",
+    "polarity": "must",
+    "rule_class": "accessibility",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Forms must always show labels (no placeholders as labels), and click/tap targets must be at least 48px.",
+    "tags": [
+      "layout",
+      "cta"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": null,
+    "element_path": "copy.body",
+    "evaluation_scope": "sentence",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_audience_specific_patient_language",
+    "polarity": "must",
+    "rule_class": "copy_editorial",
+    "scope": "brand",
+    "sections": null,
+    "summary": "Confirm audience in briefs; use \u201csomeone/people with dermatomyositis\u201d for patient (DTC) materials, \u201cpatients\u201d for HCP materials.",
+    "tags": [
+      "voice_tone"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
     "confidence": "high",
-    "constraint_type": "binding",
-    "element_path": "background",
-    "evaluation_scope": "email",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_brand_color_hierarchy",
-    "polarity": "must",
-    "rule_class": "color_application",
-    "scope": "brand",
-    "sections": null,
-    "summary": "Remove background-url, size, repeat, position if skipping background; keep background-color #faa31b, headline color, button color, and button radius unchanged.",
-    "tags": []
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": null,
-    "element_path": null,
-    "evaluation_scope": "element",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "allowed_with_disclosure"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_accessibility_alternative_text_and_media",
-    "polarity": "must",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Non-decorative media requires descriptive alt text for images and accessible text transcripts for video/audio across brand properties.",
-    "tags": [
-      "imagery"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": null,
-    "element_path": null,
-    "evaluation_scope": "section",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "allowed_with_disclosure"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_accessibility_animation_motion",
-    "polarity": "must",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Use quick, non-disruptive animation transitions with pause options; email GIFs must show key message in frame 1, autoplay \u22645s, with static fallback.",
-    "tags": [
-      "imagery"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": null,
-    "element_path": null,
-    "evaluation_scope": "email",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "allowed_with_disclosure"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_accessibility_core_standards",
-    "polarity": "must",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Materials must meet WCAG; body copy \u226516px with \u2265150% line height, higher for light-on-dark; avoid color-only meaning; ensure contrast and legibility.",
-    "tags": [
-      "typography",
-      "layout"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "constraint_type": "binding",
-    "element_path": null,
-    "evaluation_scope": "element",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "allowed_with_disclosure"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_accessibility_interactive_and_forms",
-    "polarity": "must",
-    "rule_class": "accessibility",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Interactive components/forms require always-visible labels (no placeholder-only), and all click/tap targets must be at least 48px minimum size.",
-    "tags": [
-      "cta",
-      "layout"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": "dtp_patient",
-    "confidence": "low",
-    "constraint_type": "verbatim_content",
-    "element_path": null,
-    "evaluation_scope": "sentence",
-    "governance": {
-      "gov_type": "regulatory",
-      "verdict": "verbatim_only"
-    },
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_audience_terminology_dtc",
-    "polarity": "must",
-    "rule_class": "voice_tone",
-    "scope": "brand",
-    "sections": null,
-    "summary": "In DTC patient materials, use person-first language like 'someone with dermatomyositis'; reserve 'patients' term for HCP materials only.",
-    "tags": [
-      "copy_editorial"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
     "constraint_type": null,
     "element_path": null,
     "evaluation_scope": "email",
@@ -1104,92 +1206,52 @@
     "rule_class": "assembly",
     "scope": "brand",
     "sections": null,
-    "summary": "Patient brochure is the master reference for visuals, messaging, and tone in all LISRAYA materials.",
+    "summary": "Use patient brochure as master reference for visuals, messaging, and tone across all LISRAYA materials.",
     "tags": [
-      "voice_tone",
-      "imagery"
+      "imagery",
+      "copy_editorial",
+      "voice_tone"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
+    "confidence": "high",
     "constraint_type": null,
-    "element_path": null,
+    "element_path": "email.code",
     "evaluation_scope": "email",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_email_compatibility_coding_standards",
+    "id": "rule_lisraya_email_code_compatibility_conventions",
     "polarity": "must",
     "rule_class": "assembly",
     "scope": "org_baseline",
     "sections": null,
-    "summary": "Use inline CSS for all styles; duplicate background colors as HEX-coded 'bgcolor' attributes on table elements; specify all sizes/dimensions in px.",
+    "summary": "Use HEX colors, px sizing, inline CSS only, and duplicate background colors in bgcolor attributes for Outlook email-client compatibility.",
     "tags": [
-      "color_application"
-    ]
-  },
-  {
-    "applies_when": [
-      {
-        "kind": "adjacent_section_state",
-        "value": "locked_component"
-      }
-    ],
-    "audience": null,
-    "confidence": "medium",
-    "constraint_type": "exclusivity",
-    "element_path": null,
-    "evaluation_scope": "section",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_locked_components_isolation",
-    "polarity": "must_not",
-    "rule_class": "assembly",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Sections adjacent to locked components (header, footer, ISI) must avoid decorative/graphic elements relying on continuous flow or visual dependence on those components.",
-    "tags": [
-      "imagery",
-      "layout"
+      "color_application",
+      "spacing",
+      "accessibility"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
-    "confidence": "medium",
-    "constraint_type": "binding",
-    "element_path": null,
-    "evaluation_scope": "section",
-    "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_modular_section_layout",
-    "polarity": "must",
-    "rule_class": "layout",
-    "scope": "org_baseline",
-    "sections": null,
-    "summary": "Each section is a 600px-wide layout block with 32px top/bottom padding, no outside margins for clean stacking.",
-    "tags": [
-      "assembly",
-      "spacing"
-    ]
-  },
-  {
-    "applies_when": null,
-    "audience": null,
-    "confidence": "medium",
     "constraint_type": null,
-    "element_path": null,
-    "evaluation_scope": "section",
+    "element_path": "email.section",
+    "evaluation_scope": "email",
     "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_section_metadata_declaration",
+    "id": "rule_lisraya_modular_section_assembly_and_metadata",
     "polarity": "must",
     "rule_class": "assembly",
     "scope": "org_baseline",
     "sections": null,
-    "summary": "Section metadata must declare background color, DM status, footnote symbols used with standardized tokens (e.g., '{{fn1}}'), and CTA presence to prevent symbol collisions.",
+    "summary": "Email sections are self-contained 600px wide tables with 32px vertical padding, no external margins, stack directly, declare bg color, DM status, footnote symbols, CTA presence, use placeholder footnote tokens, avoid dark-bg adjacency, and exclude visuals reliant on locked core header/footer/ISI.",
     "tags": [
-      "copy_editorial"
+      "layout",
+      "spacing",
+      "accessibility"
     ]
   }
 ]

@@ -106,7 +106,14 @@ Decision policy (false negatives first):
 
 
 def schema_primer(kb: KB) -> str:
+    from .tool_repo import get_brand_sheets
+
     parts = ["## Knowledge base"]
+    # E2: global token tables (typography scale, palette, spacing, gradients)
+    # are always injected email-wide, ahead of the schema docs.
+    brand_sheets = get_brand_sheets(kb.brand)
+    if brand_sheets:
+        parts.append(brand_sheets)
     overview = kb.schema_doc("overview")
     if overview:
         parts.append(overview)

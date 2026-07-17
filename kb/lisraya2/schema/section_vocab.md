@@ -1,0 +1,29 @@
+# Section vocabulary (selector.section_types)
+
+This vocabulary is DYNAMIC: a curated core plus brand-discovered section
+devices (extraction proposes `other.<name>`; novel entries are registered
+permanently in shared/registries.json).
+
+## Core
+hero — lead visual + headline block opening the email body
+intro — opening copy establishing context/empathy
+efficacy — clinical results, data claims, charts of outcomes
+safety — safety info, side effects (content sections; full ISI lives in end_matter)
+patient_story — testimonial/lifestyle narrative modules
+affordability — pricing/copay/support-program content
+cta — call-to-action section (button, optional right-side image)
+callout — highlighted panel/box devices inside content
+chart — data visualization blocks
+top_matter — locked header component (logo, safety links)
+end_matter — locked footer component (ISI, legal, unsubscribe)
+
+A blueprint's free-form `section_id` values (e.g. "what_it_means") must be
+mapped to the closest vocabulary entries by the querying agent; a section may
+match several (e.g. a benefits panel = intro + callout).
+
+Component classes (content_sub_type) and concrete templates (design_template)
+attach to roles via `fills_section_types` (IS that role; feeds rule surfacing)
+and classes additionally via `hosts_section_types` (CAN CARRY those roles;
+affordance only) — graph edges fills_section / hosts_section. E.g. a
+header-with-hero template fills [top_matter, hero], bundling locked-header
+obligations with hero design rules.

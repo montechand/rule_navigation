@@ -1,0 +1,105 @@
+{
+  "findings": [
+    {
+      "description": "The ALL CAPS brand-name requirement (with an explicit supersession of a Feb 2026 general-guide rule) has no corresponding rule in the candidate set at all — it is entirely dropped from clustering.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_all_caps_brand_name",
+          "scope": "patient marketing materials",
+          "statement": "Always write LISRAYA in ALL CAPS in all written materials; this patient-marketing rule supersedes the Feb 2026 general guide's title-case rule.",
+          "supersedes": "Feb 2026 general guide title-case rule"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001"
+      ]
+    },
+    {
+      "description": "The parent-company sign-off/footer placement rule (Priovant Therapeutics, Inc., locked footer only, do not duplicate in body sections) is missing from the candidate rule set entirely.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "governance_attribution",
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_id": "rule_lisraya_parent_company_footer_placement",
+          "scope": "document sections (excludes locked footer)",
+          "statement": "Parent company attribution (Priovant Therapeutics, Inc.) lives only in the locked footer; do not add it within document sections."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_0_0004"
+      ]
+    },
+    {
+      "description": "The trademark symbol rule as clustered does not appear to carry the governance facets stated in the source: applies only on first/most prominent mention, only in external-facing documents, and must not be repeated on subsequent mentions. Without these scope/placement facets the rule reads as unconditional, which misrepresents the source constraint.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "additional_constraint": "do not repeat ® symbol on subsequent mentions",
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "scope": "external-facing documents only; first/most prominent mention only"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_trademark_symbol_generic_name_pairing"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_trademark_symbol_generic_name_pairing",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    {
+      "description": "The ® rule and the generic-name-format rule are tightly coupled in source (the ® rule's example explicitly relies on the generic-name parenthetical format), but no relation/dependency between the two rules is captured, risking inconsistent application if one is edited independently.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00",
+          "related_rule_ids": [
+            "rule_lisraya_generic_name_format",
+            "rule_lisraya_trademark_symbol_generic_name_pairing"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_trademark_symbol_generic_name_pairing",
+          "rule_lisraya_generic_name_format"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_trademark_symbol_generic_name_pairing",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002",
+        "u_content_pattern_rules_0_0003"
+      ]
+    }
+  ]
+}

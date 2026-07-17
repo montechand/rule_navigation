@@ -1,0 +1,269 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.container.background",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "chart.container.radius",
+          "token_id": "tok_lisraya_radius_chart_panel"
+        },
+        {
+          "element_path": "chart.container.header.background",
+          "token_id": "tok_lisraya_color_brand_blue"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Container: uniform rounded corners, Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Container: uniform rounded corners, Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure visual continuity and structure across clinical data visualization elements.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Chart and infographic containers must use the Light Blue (#E6F0F9) background panel with uniform rounded corners (radius = 12px) and a Brand Blue (#00529b) rounded header bar.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.container",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_panel_container_styling",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "Sunshine (#faa31b) or Gold (#ffc60a)",
+        "subject": "emphasis_data_points"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) dominant; Sunshine (#faa31b) and Gold (#ffc60a) reserved for emphasis on key figures/data points only."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0002"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) dominant; Sunshine (#faa31b) and Gold (#ffc60a) reserved for emphasis on key figures/data points only.",
+          "Placebo/comparator: neutral gray."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain accurate and consistent color coding to aid fast data interpretation.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Chart graphics must use Brand Blue (#00529b) and Sky Blue (#358CCB) as the dominant palette. Sunshine (#faa31b) and Gold (#ffc60a) are strictly reserved for highlighting or emphasizing key figures/data points. Placebos or comparators must be rendered in neutral gray.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.graphics",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_color_hierarchy",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Bars and chart icons: rounded, approachable shapes (rounded bar tops)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Align medical data graphics with the friendly, approachable brand identity.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Bars and chart icons must feature rounded, approachable shapes (specifically using rounded tops for bars).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.graphics.bars",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_bar_styling",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.header.text.font_family",
+          "token_id": "tok_lisraya_font_nunito_sans"
+        },
+        {
+          "element_path": "chart.header.text.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "chart.header.text.casing",
+          "token_id": "tok_lisraya_case_campaign_headline"
+        },
+        {
+          "element_path": "chart.header.border.color",
+          "token_id": "tok_lisraya_color_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Headline: Agenda (print) / Nunito Sans Bold+ (email), ALL CAPS, Brand Blue, with a thin Gold rule beneath."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Headline: Agenda (print) / Nunito Sans Bold+ (email), ALL CAPS, Brand Blue, with a thin Gold rule beneath."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Establish structural and visual hierarchy for chart headings.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Chart headlines must be styled in Nunito Sans Bold (or Agenda Bold for print layouts), rendered in ALL CAPS (case.campaign.all_caps = all_caps), using Brand Blue (#00529b), with a thin Gold (#ffc60a) rule running beneath.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.header.text",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_headline_typography_and_border",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "chart.callout.hero_percentage",
+          "chart.callout.supporting_copy",
+          "chart.footnote"
+        ],
+        "strict": true
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Statistical callouts: large and bold (the % figure is the hero), supporting copy in a lighter weight beneath.",
+          "Footnotes: noticeably smaller, clearly separated from primary data."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0005",
+          "u_design_pattern_rules_4_0006"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Statistical callouts: large and bold (the % figure is the hero), supporting copy in a lighter weight beneath.",
+          "Footnotes: noticeably smaller, clearly separated from primary data."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0005",
+          "u_design_pattern_rules_4_0006"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain immediate readability of primary efficacy or safety data in scientific displays.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "In clinical chart callouts, the statistical percentage value must be the visual hero (large and bold), with its supporting descriptive copy positioned directly beneath it in a lighter weight. Footnotes must be styled noticeably smaller and remain clearly separated from primary statistical data blocks.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.callout",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_statistical_callouts_and_footnotes",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    }
+  ]
+}

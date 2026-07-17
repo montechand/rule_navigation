@@ -1,0 +1,55 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule set is completely empty, missing crucial design guidelines from the source document (u_design_pattern_rules_5_0001 through u_design_pattern_rules_5_0003) for iconography styling, color palette constraint, and minimum email dimensions.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "brand": "lisraya",
+          "category": "iconography",
+          "doc_ref": "design_pattern_rules[5]",
+          "rules": [
+            {
+              "description": "Icons must use a minimal line illustration style with consistent stroke weight, rounded line caps, and single-color line work.",
+              "hardness": "mandatory",
+              "rule_id": "r_lisraya_icon_style",
+              "scope": "all",
+              "unit_ids": [
+                "u_design_pattern_rules_5_0001"
+              ]
+            },
+            {
+              "description": "Icon colors and backgrounds must only be adjusted within the brand palette.",
+              "hardness": "mandatory",
+              "rule_id": "r_lisraya_icon_color",
+              "scope": "all",
+              "unit_ids": [
+                "u_design_pattern_rules_5_0002"
+              ]
+            },
+            {
+              "description": "Icons must have a minimum render size of 32x32px in email and default to Brand Blue strokes on light backgrounds to ensure contrast and scale for low-vision audiences.",
+              "hardness": "mandatory",
+              "rule_id": "r_lisraya_icon_accessibility",
+              "scope": "email",
+              "unit_ids": [
+                "u_design_pattern_rules_5_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001",
+        "u_design_pattern_rules_5_0002",
+        "u_design_pattern_rules_5_0003"
+      ]
+    }
+  ]
+}

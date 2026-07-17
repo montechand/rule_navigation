@@ -1,0 +1,294 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "secondary_data_callout_style",
+      "key_proposal": "padding.callout.secondary_internal",
+      "quotes": [
+        "20px internal padding"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ],
+      "value": "20px"
+    },
+    {
+      "for_rule_slug": "text_heavy_callout_style",
+      "key_proposal": "padding.callout.text_heavy_internal",
+      "quotes": [
+        "24px internal padding"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ],
+      "value": "24px"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": 1,
+        "min": null,
+        "per": "section",
+        "target": "section.callout"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "never two of the same style competing on one screen/section"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0000"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "three approved styles — use judiciously; never two of the same style competing on one screen/section"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0000"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Prevent visual competition and clutter from duplicate callout treatments in the same viewport.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Callout boxes are limited to three approved styles and should be used judiciously; never place two callouts of the same style competing on one screen or section.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "callout_style_cardinality",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "exclusivity"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.main.text.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "callout.main.text.font_weight",
+          "token_id": "tok_lisraya_weight_agenda_bold"
+        },
+        {
+          "element_path": "callout.main.border.color",
+          "token_id": "tok_lisraya_color_gold"
+        },
+        {
+          "element_path": "callout.main.border.weight",
+          "token_id": "tok_lisraya_border_main_callout_rule_weight"
+        },
+        {
+          "element_path": "callout.main.padding.vertical",
+          "token_id": "tok_lisraya_padding_main_callout_rule"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Bold Brand Blue (#00529b) text with Gold (#ffc60a) horizontal rules above and below. Centered text.",
+          "rule weight 2px, rule width ≈ 60–100% of text block, 16px padding between rule and text."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "1. **Main callout (key point):** Bold **Brand Blue (#00529b)** text with **Gold (#ffc60a)** horizontal rules above and below. Centered text. [GENERAL: rule weight 2px, rule width ≈ 60–100% of text block, 16px padding between rule and text.]"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the distinct visual treatment of primary key-point callouts.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The main key-point callout style must use bold Brand Blue (color.primary.brand_blue = #00529b) centered text with Gold (color.primary.gold = #ffc60a) horizontal rules above and below (rule weight = 2px, rule width ≈ 60-100% of text block), separated from the text block by 16px vertical padding (padding.callout.main_rule_text = 16px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "callout.main",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "main_callout_style",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "spacing",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.secondary.background.color",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "callout.secondary.background.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        },
+        {
+          "element_path": "callout.secondary.text.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "callout.secondary.text.font_weight",
+          "token_id": "tok_lisraya_weight_agenda_bold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue (#E6F0F9) box at 70% tint with Bold Brand Blue text",
+          "20px internal padding, corner radius per accent-shape rules §2.5."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "2. **Secondary/data callout:** **Light Blue (#E6F0F9) box at 70% tint** with **Bold Brand Blue** text; may include one line icon (e.g., 1x pill icon). [GENERAL: 20px internal padding, corner radius per accent-shape rules §2.5.]"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Standardize the background tint and typography for data-focused callout containers.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The secondary or data callout style uses a Light Blue (color.tertiary.light_blue = #E6F0F9) background box at a 70% tint (opacity.logo.gold = 0.7) paired with bold Brand Blue (color.primary.brand_blue = #00529b) text. It includes 20px of internal padding and an accent corner radius. It may also include a single line icon.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "callout.secondary",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "secondary_data_callout_style",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "spacing",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.text_heavy.background.color",
+          "token_id": "tok_lisraya_color_golden_sand"
+        },
+        {
+          "element_path": "callout.text_heavy.background.opacity",
+          "token_id": "tok_lisraya_opacity_tint_golden_sand_box"
+        },
+        {
+          "element_path": "callout.text_heavy.headline.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "callout.text_heavy.headline.font_weight",
+          "token_id": "tok_lisraya_weight_agenda_bold"
+        },
+        {
+          "element_path": "callout.text_heavy.subhead.color",
+          "token_id": "tok_lisraya_color_sky_blue"
+        },
+        {
+          "element_path": "callout.text_heavy.subhead.font_weight",
+          "token_id": "tok_lisraya_weight_agenda_bold"
+        },
+        {
+          "element_path": "callout.text_heavy.body.color",
+          "token_id": "tok_lisraya_color_graphite"
+        },
+        {
+          "element_path": "callout.text_heavy.body.font_weight",
+          "token_id": "tok_lisraya_weight_agenda_regular"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Golden Sand (#FEF1C8) box at 30% tint, Bold Brand Blue headline, line icons, Bold Sky Blue (#358CCB) subheads, Regular Graphite (#212121) body text",
+          "24px internal padding; two-column icon+text layout collapses to single column on mobile."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "3. **Text-heavy callout (lists/descriptions):** **Golden Sand (#FEF1C8) box at 30% tint**, **Bold Brand Blue headline**, line icons, **Bold Sky Blue (#358CCB) subheads**, **Regular Graphite (#212121) body text**. [GENERAL: 24px internal padding; two-column icon+text layout collapses to single column on mobile.]"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain rigorous visual hierarchy, readability, and mobile responsiveness in text-dense callout containers.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Text-heavy callouts must use a Golden Sand (color.tertiary.golden_sand = #FEF1C8) box at a 30% tint (opacity.callout.golden_sand_box = 0.3) containing a bold Brand Blue (color.primary.brand_blue = #00529b) headline, bold Sky Blue (color.secondary.sky_blue = #358CCB) subheads, and regular Graphite (color.tertiary.graphite = #212121) body text. Layout requires 24px internal padding, and its two-column icon+text pattern must collapse to a single column on mobile breakpoints.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "callout.text_heavy",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "text_heavy_callout_style",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "spacing",
+        "typography"
+      ]
+    }
+  ]
+}

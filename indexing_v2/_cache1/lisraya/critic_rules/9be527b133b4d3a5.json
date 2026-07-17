@@ -1,0 +1,200 @@
+{
+  "findings": [
+    {
+      "description": "The entire explicit layout/geometry spec (container inset, box padding, text alignment, badge placement, W/2 math) has no corresponding rule in the candidate set — only the email-fallback rule exists for this whole blob. This is a severe under-clustering; a distinct 'icon callout layout & geometry' rule (hard_constraint/must) is missing entirely.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "description": "Box inset by W/2, badge center exactly on box left edge, text never slides under badge, vertical centering formulas.",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_constraint",
+          "name": "icon_callout_layout_geometry",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0002",
+        "u_color_scheme_rules_6_0007",
+        "u_color_scheme_rules_6_0008",
+        "u_color_scheme_rules_6_0009",
+        "u_color_scheme_rules_6_0010",
+        "u_color_scheme_rules_6_0014",
+        "u_color_scheme_rules_6_0015",
+        "u_color_scheme_rules_6_0016"
+      ]
+    },
+    {
+      "description": "Corner-radius spec is explicitly 'mandatory, never change' with an explicit forbid list (never simplify to uniform radius, never swap corners, never flip diagonal). No rule captures this hard forbid constraint; it is missing from the candidate group entirely.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "shape",
+          "description": "5:1 asymmetric radii (40/8/40/8 box, 20/4/20/4 badge); never uniform-radius, never swap corners, never flip diagonal.",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_constraint",
+          "name": "corner_radius_mandatory",
+          "polarity": "forbid"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0020"
+      ]
+    },
+    {
+      "description": "The drop shadow requirement ('mandatory... required on every instance; without it the badge looks flat and pasted-on') is a distinct hard must-have rule not represented anywhere in the candidate group.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "effect",
+          "description": "White icon badge must carry drop shadow e.g. 0 4px 10px rgba(1,30,69,0.18) on every instance.",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_constraint",
+          "name": "icon_badge_drop_shadow",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023"
+      ]
+    },
+    {
+      "description": "Palette reference table mapping tokens (Brand Blue, Light Blue, White, Dark Navy) to specific hex/usage in this callout is not represented as a rule; color-token governance is entirely absent from the group.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color",
+          "description": "Brand Blue #00529b text/stroke, Light Blue #E6F0F9 box fill, White #ffffff badge fill, Dark Navy #011E45 shadow color.",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_constraint",
+          "name": "icon_callout_palette",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0027",
+        "u_color_scheme_rules_6_0028",
+        "u_color_scheme_rules_6_0029",
+        "u_color_scheme_rules_6_0030",
+        "u_color_scheme_rules_6_0031",
+        "u_color_scheme_rules_6_0032"
+      ]
+    },
+    {
+      "description": "The scaling note defines a proportional relationship rule (inset = W/2, box left-padding = W/2+24px, badge margin-top = -H/2) that must hold if badge size changes — a distinct maintainable rule, currently unrepresented.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "description": "If badge size changes from default 80px, preserve inset=W/2, padding=W/2+24px, margin-top=-H/2 relationships.",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "strong_default",
+          "name": "icon_callout_scaling_relationships",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0046",
+        "u_color_scheme_rules_6_0047"
+      ]
+    },
+    {
+      "description": "The email fallback rule lacks governance facets present in source: client scope (Outlook desktop/Word engine as the failing target vs Apple Mail/iOS/web as honoring clients), a preferred remediation (pre-composite PNG / baked background image) versus an acceptable degrade condition ('when not feasible'). Without these facets the rule cannot express conditional precedence between the strong recommended fix and the fallback acceptance.",
+      "finding_id": "f_lisraya_006",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "conditions": {
+            "fallback_action": "ship live absolute-position version and accept Outlook degrade",
+            "fallback_trigger": "pre-compositing not feasible",
+            "preferred_action": "pre-composite badge as transparent PNG or bake into background image"
+          },
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "scope": {
+            "clients_affected": [
+              "Outlook desktop (Word engine)"
+            ],
+            "clients_unaffected": [
+              "Apple Mail",
+              "iOS Mail",
+              "most web clients"
+            ]
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_callout_email_fallback"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0040",
+        "u_color_scheme_rules_6_0041",
+        "u_color_scheme_rules_6_0042"
+      ]
+    },
+    {
+      "description": "The MJML code block is the canonical implementation reference for the layout/geometry/shadow rules, not specifically for the email-fallback rule alone. As currently the sole rule in this group, the fallback rule risks being (mis)linked as if it governs the whole snippet; relation to a layout/geometry rule (once added) should be established instead.",
+      "finding_id": "f_lisraya_007",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0036"
+      ]
+    },
+    {
+      "description": "Source text frames the pre-composite/bake option as the 'brand-safe' path for pixel-perfect fidelity, implying a stronger polarity (should/must-attempt) than the degrade-acceptance clause; collapsing both into one rule with a single hardness='strong_default'/polarity='should' loses the distinction between the recommended remediation and the tolerated exception.",
+      "finding_id": "f_lisraya_008",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0041"
+      ]
+    }
+  ]
+}

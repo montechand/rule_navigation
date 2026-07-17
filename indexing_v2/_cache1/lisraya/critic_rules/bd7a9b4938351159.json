@@ -1,0 +1,84 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule list has missed several critical rules defined in the layout principles source units, including focal point limits and text-wall reduction principles.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[6]",
+          "governance": {
+            "role": "Designer"
+          },
+          "hardness": "strict_rule",
+          "polarity": "positive",
+          "rule_name": "Layout White Space and Focal Points",
+          "rule_text": "Maintain generous white space to avoid clutter, and limit focal points per section by using contrast to direct attention to the single most important element.",
+          "scope": "design_system"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0001",
+        "u_design_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "The requirement for designers to declare their section background color in component metadata to prevent adjacent background collision is missing from candidate rules.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[6]",
+          "governance": {
+            "phase": "Component Metadata Declaration",
+            "role": "Section Designer"
+          },
+          "hardness": "strict_rule",
+          "polarity": "positive",
+          "rule_name": "Section Background Color Declaration",
+          "rule_text": "Section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds.",
+          "scope": "component_development"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Missing reference template rule. The patient brochure is defined as the canonical reference template for all Lisraya materials.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[6]",
+          "governance": {
+            "role": "Content Creator"
+          },
+          "hardness": "strict_rule",
+          "polarity": "positive",
+          "rule_name": "Lisraya Materials Reference Template",
+          "rule_text": "Use the patient brochure (bold headline + simple benefit statements + patient quote) as the canonical content block reference template for visuals, messaging, and overall tone of all Lisraya materials.",
+          "scope": "brand_identity"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0004"
+      ]
+    }
+  ]
+}

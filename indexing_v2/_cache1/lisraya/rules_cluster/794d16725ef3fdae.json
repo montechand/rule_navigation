@@ -1,0 +1,200 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "canvas.width",
+          "token_id": "tok_lisraya_size_canvas_width"
+        },
+        {
+          "element_path": "breakpoint.mobile",
+          "token_id": "tok_lisraya_breakpoint_mobile"
+        },
+        {
+          "element_path": "section.padding.side",
+          "token_id": "tok_lisraya_padding_section_side"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Email body width: **600px** fixed",
+          "Mobile breakpoint: **480px**",
+          "**Section side padding: 24px** left/right"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0001",
+          "u_design_pattern_rules_0_0002",
+          "u_design_pattern_rules_0_0004"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Email body width: **600px** fixed, centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly.",
+          "Mobile breakpoint: **480px**; all multi-column layouts collapse to single column.",
+          "**Section side padding: 24px** left/right (consistent across ALL sections — this is what makes assembly seamless). Full-bleed imagery/gradient backgrounds may run to 600px, but text within them still respects 24px insets."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0001",
+          "u_design_pattern_rules_0_0002",
+          "u_design_pattern_rules_0_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain email horizontal alignment and responsive behavior across assembled sections.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The email canvas width must be fixed at 600px centered (dimension.canvas.width = 600px), using a mobile breakpoint of 480px (breakpoint.grid.mobile = 480px) to collapse columns. All sections must respect a 24px left/right side padding (padding.section.side = 24px) for aligned text layouts.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "canvas_and_grid_baseline",
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "spacing.grid.base",
+          "token_id": "tok_lisraya_spacing_rhythm_step"
+        },
+        {
+          "element_path": "section.padding.vertical",
+          "token_id": "tok_lisraya_padding_section_vertical"
+        },
+        {
+          "element_path": "flow.heading_to_body",
+          "token_id": "tok_lisraya_margin_heading_body"
+        },
+        {
+          "element_path": "flow.body_to_cta",
+          "token_id": "tok_lisraya_margin_content_cta_gap"
+        },
+        {
+          "element_path": "flow.image_to_caption",
+          "token_id": "tok_lisraya_margin_image_caption_gap"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Vertical rhythm: 8px base unit.",
+          "Section top/bottom internal padding: **32px**",
+          "Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0005",
+          "u_design_pattern_rules_0_0006",
+          "u_design_pattern_rules_0_0007"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Vertical rhythm: 8px base unit.** All padding/margins are multiples of 8.",
+          "Section top/bottom internal padding: **32px** (each section owns its own top AND bottom padding; no external margins between sections — assembly is zero-gap stacking).",
+          "Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0005",
+          "u_design_pattern_rules_0_0006",
+          "u_design_pattern_rules_0_0007"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain vertical typographic alignment and clean stacking behavior during email assembly.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "spacing",
+      "rule_text": "Email layout elements must follow an 8px base spacing unit (spacing.grid.base_unit = 8px). Each stacked section owns its own 32px top and bottom internal padding (padding.section.vertical = 32px) with zero external margins between sections. Set exact inner element gaps: 16px heading-to-body (margin.flow.heading_to_body = 16px), 16px paragraph-to-paragraph, 24px body-to-CTA/callout (margin.flow.body_to_cta = 24px), and 8px image-to-caption (margin.flow.image_to_caption = 8px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "vertical_rhythm_spacing",
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "max": 1,
+        "min": null,
+        "per": "section",
+        "target": "cta.button.primary"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "One primary CTA per section maximum."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Buttons/CTA **[GENERAL, contrast-checked to palette]:** Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height** (brand accessibility rule: ≥48px clickable areas), corner radius 24px (fully rounded pill, echoing the rounded brand aesthetic). Secondary CTA: White background, 2px Brand Blue border, Brand Blue text, same metrics. One primary CTA per section maximum."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "warn",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain high contrast and accessible sizing for primary and secondary actions across all sections.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "cta",
+      "rule_text": "Primary CTAs must use Brand Blue (#00529b) background with White (#ffffff) text, Nunito Sans Bold 16px, padding of 14px 32px, and a 24px corner radius. Secondary CTAs must use a white background with a 2px Brand Blue border (border.cta.secondary = 2px) and Brand Blue text. All buttons must have a minimum touch target height of 48px (dimension.accessibility.touch_target_min = 48px). At most one primary CTA is allowed per section.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "cta_design_and_cardinality",
+      "tags": [
+        "typography",
+        "accessibility"
+      ]
+    }
+  ]
+}

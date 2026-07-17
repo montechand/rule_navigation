@@ -1,0 +1,203 @@
+{
+  "findings": [
+    {
+      "description": "u_0008 contains a dense CTA specification (background/text color, font, padding, min touch target, corner radius, secondary CTA variant) but only the trailing 'one primary CTA per section' clause was extracted as a rule. All the color, typography, sizing, and secondary-CTA specs are dropped entirely — this is severe under-clustering/under-extraction from a single unit.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "new_rules": [
+            {
+              "class": "cta",
+              "field": "colors",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "Brand Blue #00529b bg / White #ffffff text; secondary: white bg, 2px Brand Blue border, Brand Blue text"
+            },
+            {
+              "class": "cta",
+              "field": "typography",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "Nunito Sans Bold 16px"
+            },
+            {
+              "class": "cta",
+              "field": "sizing",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "padding 14px 32px, corner radius 24px (pill)"
+            },
+            {
+              "class": "accessibility",
+              "field": "touch_target",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "min 48px height clickable area"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The entire 'Email Canvas & Grid' section (fixed 600px width, 480px mobile breakpoint, 12-col grid model, 24px side padding, 8px vertical rhythm base unit, 32px section padding, spacing gaps) has zero candidate rules extracted despite being flagged as brand baseline constraints. Only a single CTA-related rule exists for the whole blob.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "new_rules": [
+            {
+              "class": "layout",
+              "field": "email_width",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "600px fixed, centered"
+            },
+            {
+              "class": "layout",
+              "field": "mobile_breakpoint",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "480px, collapse to single column"
+            },
+            {
+              "class": "layout",
+              "field": "grid_model",
+              "hardness": "guideline",
+              "polarity": "should",
+              "value": "12-col mental model; 1-col/2-col-50-50/40-60 split"
+            },
+            {
+              "class": "spacing",
+              "field": "section_side_padding",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "24px left/right, consistent across all sections"
+            },
+            {
+              "class": "spacing",
+              "field": "vertical_rhythm_base_unit",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "8px, all margins/padding multiples of 8"
+            },
+            {
+              "class": "spacing",
+              "field": "section_top_bottom_padding",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "value": "32px, zero-gap stacking between sections"
+            },
+            {
+              "class": "spacing",
+              "field": "internal_gaps",
+              "hardness": "guideline",
+              "polarity": "should",
+              "value": "heading→body 16px, para→para 16px, body→CTA 24px, image→caption 8px"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0000",
+        "u_design_pattern_rules_0_0001",
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003",
+        "u_design_pattern_rules_0_0004",
+        "u_design_pattern_rules_0_0005",
+        "u_design_pattern_rules_0_0006",
+        "u_design_pattern_rules_0_0007"
+      ]
+    },
+    {
+      "description": "The 48px min touch target is explicitly labeled in source as a 'brand accessibility rule' — a distinct governance facet (accessibility compliance) that is not represented anywhere in the current single candidate rule, nor tagged with any accessibility governance metadata.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility",
+          "doc_ref": "design_pattern_rules[0]",
+          "field": "min_touch_target",
+          "governance": "brand_accessibility_rule",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "value": "48px height clickable area"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "Source explicitly flags the CTA block (and canvas section) as '[GENERAL — not specified in guide]' / '[GENERAL, contrast-checked to palette]', i.e. inferred/derived rather than sourced directly from an official guide. This provenance/governance distinction is not captured in the candidate rule's metadata.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "governance_note": "GENERAL/inferred — not specified in official brand guide; contrast-checked to palette",
+          "group_id": "grp_lisraya_design_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008",
+        "u_design_pattern_rules_0_0000"
+      ]
+    },
+    {
+      "description": "Polarity 'must' paired with hardness 'hard_constraint' is imprecise for a cap/maximum rule ('One primary CTA per section maximum'); this is more accurately a prohibition on exceeding the cap (must_not have more than one primary CTA) than a positive obligation to always include one.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "polarity": "must_not_exceed",
+          "value": "max 1 primary CTA per section"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    }
+  ]
+}

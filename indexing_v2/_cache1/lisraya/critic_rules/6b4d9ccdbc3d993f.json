@@ -1,0 +1,102 @@
+{
+  "findings": [
+    {
+      "description": "Three distinct voice attributes (confident-not-boastful, warm-not-overly-emotional, clear-not-complicated), each with its own positive/negative pairing and rationale, are collapsed into a single rule. This loses the individual contrast pairs and the specific guidance for each trait (e.g. 'never overstated or sensationalized' vs 'plain, respectful language').",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "new_rules": [
+            {
+              "class": "voice_tone",
+              "hardness": "soft_guidance",
+              "id": "rule_lisraya_brand_voice_confident_not_boastful",
+              "polarity": "must",
+              "source_unit": "u_content_pattern_rules_8_0001"
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "soft_guidance",
+              "id": "rule_lisraya_brand_voice_warm_not_overly_emotional",
+              "polarity": "must",
+              "source_unit": "u_content_pattern_rules_8_0002"
+            },
+            {
+              "class": "voice_tone",
+              "hardness": "soft_guidance",
+              "id": "rule_lisraya_brand_voice_clear_not_complicated",
+              "polarity": "must",
+              "source_unit": "u_content_pattern_rules_8_0003"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_voice_confident_warm_clear"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    },
+    {
+      "description": "The unit stating 'Tone may flex slightly by context; core voice never changes' is not represented by any rule. This is a distinct governance statement about permissible flexibility (soft/contextual) alongside an invariant core (hard/must-not-change), and its omission means the group misses a key scope-defining rule that qualifies all three voice traits.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "voice_tone",
+          "description": "Core brand voice must never change even though tone may flex slightly by context.",
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "hardness": "hard_rule",
+          "id": "rule_lisraya_brand_voice_core_invariant_context_flex",
+          "polarity": "must_not",
+          "source_unit": "u_content_pattern_rules_8_0004"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_8_0004"
+      ]
+    },
+    {
+      "description": "Hardness is labeled soft_guidance for all three merged traits, but the source uses direct prescriptive contrasts ('never overstated or sensationalized') suggesting at least the negative constraints (never/not) carry harder, near-mandatory polarity rather than uniform soft guidance.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    },
+    {
+      "description": "Rule lacks explicit scope/applicability facets (e.g. which content types/channels the Brand Voice section governs) and no owner/exception governance is captured, despite this being a heading-scoped compliance section.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_voice_confident_warm_clear",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0000",
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    }
+  ]
+}

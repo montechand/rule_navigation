@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule list is empty. Multiple critical brand rules present in this source document—such as the asymmetric CTA border-radius formula, specific hex color constraints for CTA layers, and the strict fallback background color policy—have not been extracted.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "The CTA button must strictly use the four-value asymmetric border-radius: 49.52px 1.76px 40px 1.76px. Under no circumstances may this be simplified to a single value, have its corners swapped, or have its decimals rounded.",
+          "doc_ref": "color_scheme_rules[5]",
+          "enforcement_governance": "This shape is a signature brand asset element and is required on all instances, even if the background image fallback is triggered.",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Asymmetric Button Border Radius",
+          "scope": "asset_component"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_5_0007",
+        "u_color_scheme_rules_5_0008",
+        "u_color_scheme_rules_5_0010"
+      ]
+    }
+  ]
+}

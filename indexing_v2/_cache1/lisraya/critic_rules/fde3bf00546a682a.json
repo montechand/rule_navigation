@@ -1,0 +1,111 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules were extracted for this blob at all, despite it containing at least five distinct governable design rules (container/panel styling, color usage logic, shape language, headline typography, callout/footnote hierarchy). This is a total extraction miss, not just a clustering issue.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_infographics",
+          "note": "Create rule cluster for Charts & Infographics section covering container styling, color logic, shape language, headline typography, and data callout/footnote hierarchy."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0000",
+        "u_design_pattern_rules_4_0001",
+        "u_design_pattern_rules_4_0002",
+        "u_design_pattern_rules_4_0003",
+        "u_design_pattern_rules_4_0004",
+        "u_design_pattern_rules_4_0005",
+        "u_design_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "The color logic statement uses strong governing language ('dominant', 'reserved for ... only') indicating a hard constraint with restrictive polarity and specific scope (data figures/emphasis only vs. neutral placebo/comparator color). No rule exists capturing this hardness/polarity/scope, so this is unrepresented governance.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_infographics",
+          "hardness": "hard",
+          "polarity": "restrictive",
+          "scope": "charts_infographics.color_usage",
+          "statement": "Brand Blue and Sky Blue must dominate chart color usage; Sunshine and Gold restricted to emphasis on key figures/data points only; placebo/comparator uses neutral gray."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Headline rule specifies conditional/channel-scoped typography (Agenda for print vs Nunito Sans Bold+ for email) plus ALL CAPS, color, and rule-line treatment. This is a multi-facet rule with channel-based scope that must not be merged into a generic typography rule without preserving the print/email conditional split.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "conditional_scope": {
+            "email": "Nunito Sans Bold+",
+            "print": "Agenda"
+          },
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_infographics",
+          "scope": "charts_infographics.headline_typography",
+          "statement": "Headline set in Agenda (print) or Nunito Sans Bold+ (email), ALL CAPS, Brand Blue, thin Gold rule beneath."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "Statistical callout emphasis (large/bold hero figure) and footnote de-emphasis (smaller, separated) are two sides of the same visual hierarchy relation and should be linked/merged as a single 'data hierarchy' rule rather than left as isolated, unlinked statements once extracted.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "merge",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_infographics",
+          "statement": "Establish visual hierarchy between hero statistical callouts (large, bold, primary) and footnotes (smaller, clearly separated) within charts."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0005",
+        "u_design_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "Container styling (rounded corners, Light Blue panel, Brand Blue header bar) and rounded bar/icon shapes both express the same 'rounded/approachable' shape language principle; missing relation linking these as reinforcing the same design token (corner radius / approachability) once rules are created.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0001",
+        "u_design_pattern_rules_4_0003"
+      ]
+    }
+  ]
+}

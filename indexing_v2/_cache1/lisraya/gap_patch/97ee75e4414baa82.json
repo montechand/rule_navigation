@@ -1,0 +1,64 @@
+{
+  "assets": [],
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "pairing",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Footnote symbols: superscript, assigned in order of appearance at **assembly time** — sections use placeholder tokens (e.g., `{{fn1}}`) rather than hard-coded daggers when more than one referenced claim exists."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0003"
+        ]
+      },
+      "id": "rule_lisraya_footnote_placeholder_assembly",
+      "rule_class": "assembly",
+      "rule_text": "Footnote symbols must be superscript and assigned in order of appearance at assembly time. Sections use placeholder tokens (e.g., {{fn1}}) instead of hard-coded daggers when more than one referenced claim exists.",
+      "selector": {
+        "element_path": "document.footnotes"
+      }
+    },
+    {
+      "constraint_type": "exclusivity",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Dark-background sections must not be placed adjacent to other dark sections (assembler responsibility, enabled by declared backgrounds)."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0005"
+        ]
+      },
+      "id": "rule_lisraya_dark_background_adjacency",
+      "rule_class": "assembly",
+      "rule_text": "Dark-background sections must not be placed adjacent to other dark sections to ensure visual variety.",
+      "selector": {
+        "element_path": "document.sections"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "All colors in code as HEX; all sizing in px; inline CSS only (email client compatibility); `bgcolor` attributes duplicated for Outlook."
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0006"
+        ]
+      },
+      "id": "rule_lisraya_email_compatibility_markup",
+      "rule_class": "assembly",
+      "rule_text": "All colors must be written as HEX codes, all sizing must use pixel values, and styling must rely solely on inline CSS for email client compatibility. The bgcolor attributes must be duplicated specifically for Outlook compatibility.",
+      "selector": {
+        "element_path": "markup"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

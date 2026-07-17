@@ -1,0 +1,179 @@
+{
+  "findings": [
+    {
+      "description": "The entire Typography Hierarchy table (font per level/channel: Agenda for print headlines, Nunito Sans for digital/email, Aptos fallback, plus available weights and the campaign-headline exception for live Agenda text) is not represented by either candidate rule. This is a major, distinct governance area (font family selection by channel/level) that must be its own rule(s), not omitted.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Use Agenda for print headlines, Nunito Sans (bolder weights, Title Case) for digital/email headlines with live-text exception limited to campaign headline, Nunito Sans for body/footers, Aptos as Word/PPT/Excel fallback; restrict weights to documented available weight sets per font.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "font_family_by_channel_and_level"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0000",
+        "u_content_pattern_rules_1_0001",
+        "u_content_pattern_rules_1_0002",
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0006",
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "The [GENERAL] email font-stack (CSS fallback) rule (u0010) is a distinct governance fact about CSS font-family stacking and webfont loading behavior, separate from the pixel/line-height type scale. It appears to have been dropped or improperly folded into rule_lisraya_email_type_scale; it should be split into its own rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "class": "typography",
+          "description": "Email CSS font stack must be 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif, loaded via @font-face/Google Fonts where supported, to guarantee fallback in Outlook and webfont-stripping clients.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "email_css_font_stack"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_type_scale",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010"
+      ]
+    },
+    {
+      "description": "The general visual-hierarchy principle ('use a clear type scale so reader knows what to read first/next/last; never use two adjacent text blocks at same size+weight to signal different hierarchy levels') is a distinct, brand-wide typography/hierarchy constraint not tied specifically to email pixel scale, but it has no corresponding rule in the candidate set.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Never use two adjacent text blocks at the same size and weight to signal different hierarchy levels; hierarchy must be visually distinguishable via type scale.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "scope": "visual_hierarchy_differentiation"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0020"
+      ]
+    },
+    {
+      "description": "Unit u0018 ('Never set running text below 12px') carries an explicit governance exception: 'ISI sizing is owned by the locked component.' This scope carve-out (exemption for locked-component-owned content) is not reflected as a facet/exception on rule_lisraya_email_type_scale, risking incorrect universal application.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "exception": "ISI sizing is owned by the locked component and is exempt from the 12px minimum running-text rule.",
+          "group_id": "grp_lisraya_content_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_type_scale",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0018"
+      ]
+    },
+    {
+      "description": "This rule merges two distinct thresholds: a universal minimum of 150% line-height for all body copy, and a stricter [GENERAL] conditional minimum of 160% specifically for light text on dark backgrounds. The conditional (scope-dependent) sub-constraint is not distinguished, so a consumer cannot tell that dark-background contexts require a higher threshold than the base rule.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "class": "accessibility",
+          "description": "For light text on dark backgrounds, line-height must be increased to at least 160% (e.g., 16px/26px), exceeding the general 150% minimum.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "light_text_on_dark_background"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_line_height_minimum"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_body_line_height_minimum",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "Unit u0016 imposes a usage-scope restriction on secondary/supporting body text (14px/21px): 'use sparingly, never for primary content.' This qualitative usage governance (frequency/priority restriction) is not captured as a distinct facet on the clustered rule, which currently only encodes numeric sizing.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "usage_restriction": "Secondary/supporting body text (14px/21px) must be used sparingly and never for primary content."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0016"
+      ]
+    },
+    {
+      "description": "The 16px body-copy minimum is described in the source as a brand-wide mandate ('brand-mandated minimum for body copy') rather than an email-only constraint, yet it is clustered solely under rule_lisraya_email_type_scale (scoped to email type scale). Scope should be broadened or a cross-reference added so the constraint is not misread as email-exclusive.",
+      "finding_id": "f_lisraya_07",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "scope_note": "16px minimum for body copy is a brand-wide mandate, not limited to email context; email type scale table is one application of it."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0015"
+      ]
+    }
+  ]
+}

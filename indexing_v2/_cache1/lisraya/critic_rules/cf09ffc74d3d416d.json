@@ -1,0 +1,100 @@
+{
+  "findings": [
+    {
+      "description": "Typography rules (Agenda for headlines/headers, Nunito Sans for body copy in print, plus their font-source declarations) are present in the source but have no corresponding rule in the candidate set. These should be extracted as separate typography_application rules.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography_application",
+          "description": "Agenda must be used for all headlines/headers; Nunito Sans must be used for all body copy in print.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004",
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The CTA shape/treatment instruction (SVG pill shape with gradient fill) is a distinct governance rule (CTA styling) with no candidate rule capturing it. Missing cluster entirely.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "cta_treatment",
+          "description": "CTAs must use the specified pill-shaped SVG treatment with defined gradient fill.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "The CTA gradient in u_0012 uses colors #FFDF55 and #FAA21B, neither of which matches the three approved brand colors in u_0001 (#00529B, #FAA31B, #FFC60A). #FAA21B is a near-duplicate/hex-mismatch of the approved #FAA31B (Amber Orange), suggesting either a transcription error in source or an undocumented exception to the hard color hierarchy constraint. This conflict is not captured by the current rule cluster.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "The color hierarchy rule is marked hard_constraint/must but the source text is purely declarative ('The three approved brand colors in hierarchy order are...') with no explicit governance language (no mention of scope, exceptions, or enforcement). No facet capturing scope (e.g., applies to all banner/brand materials) or exception handling (e.g., CTA gradient discrepancy) is present.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "notes": "No explicit exception governance found for CTA-specific gradient colors; verify against u_0012.",
+          "scope": "all brand banner materials"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001"
+      ]
+    },
+    {
+      "description": "Hardness/polarity of 'hard_constraint'/'must' may overstate the source, which only lists an ordered hierarchy without explicit mandatory/prohibitive language. Consider verifying whether this should be a softer 'guideline' unless corroborated elsewhere in the bible.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001"
+      ]
+    }
+  ]
+}

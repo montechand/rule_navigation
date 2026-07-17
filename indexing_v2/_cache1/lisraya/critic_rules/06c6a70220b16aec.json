@@ -1,0 +1,127 @@
+{
+  "findings": [
+    {
+      "description": "The core shape definition (rectangle with selectively enlarged opposite corner radii, used for containers/photos, modern/optimistic tone) has no corresponding rule at all. Only the email conversion-consistency sub-detail was extracted, leaving the foundational geometry/usage rule unclustered.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "description": "Brand accent shape must be a rectangle with selectively enlarged opposite corner radii, other two corners keeping slight radius; used for callout text/photography containers.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0001"
+      ]
+    },
+    {
+      "description": "Approved print radius pairs (1.25\"&0.0625\", 0.5\"&0.0625\", 0.4375\"&0.0625\") are distinct governed values for the print channel and are entirely missing from the candidate rule set, which only covers email px conversions.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "channel_scope": "print",
+          "class": "layout",
+          "description": "Print radius pairs must be 1.25\"&0.0625\" (large), 0.5\"&0.0625\" (banners), 0.4375\"&0.0625\" (small callouts).",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "The explicit exception for charts/tables (uniform 12px rounded corners on all four corners instead of the asymmetric accent shape) is unclustered. This is a distinct exception/override rule with its own governance tag [GENERAL: 12px] and should not be folded silently into the accent-shape rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "description": "Charts and tables must use uniform rounded corners on all four corners (12px uniform radius, GENERAL), not the asymmetric accent shape.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "relation": "exception_to:accent_shape_base_rule"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Rule lacks explicit governance facets: it omits the [GENERAL] channel tag, the exact px values per container size (120/6, 48/6, 42/6), and the default orientation clause (default: large radius top-left & bottom-right). As named it only captures the 'consistency' requirement, dropping the concrete conversion values that are the bulk of the source unit.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "channel_scope": "email",
+          "default_orientation": "large radius top-left & bottom-right",
+          "doc_ref": "design_pattern_rules[3]",
+          "governance_tag": "GENERAL",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "values": {
+            "banner": "48px & 6px",
+            "callout": "42px & 6px",
+            "large": "120px & 6px"
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_email_conversion_consistency"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_accent_shape_email_conversion_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "Source phrases the orientation as a 'default' (default: large radius top-left & bottom-right), implying it is a fallback rather than an absolute value, while the rule's overall hardness=hard_constraint/must does not distinguish between the strict consistency requirement (must be same orientation across sections) and the softer default starting orientation.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_accent_shape_email_conversion_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "Missed relation: the chart/table exception (u_0004) directly overrides the base accent-shape geometry rule (u_0001); no relation is modeled between these since the base rule itself is missing from the candidate set.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0001",
+        "u_design_pattern_rules_3_0004"
+      ]
+    }
+  ]
+}

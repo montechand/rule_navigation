@@ -1,0 +1,139 @@
+{
+  "assets": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "accessibility_type_hierarchy",
+      "key_proposal": "accessibility.visual_hierarchy.type_scale",
+      "quotes": [
+        "Use a type scale for visual hierarchy."
+      ],
+      "unit_ids": [
+        "u_other_rules_0_0003"
+      ],
+      "value": true
+    },
+    {
+      "for_rule_slug": "accessibility_motion_rules",
+      "key_proposal": "accessibility.motion.gif_first_frame",
+      "quotes": [
+        "animated GIFs must carry the key message in frame 1 (Outlook shows only the first frame)"
+      ],
+      "unit_ids": [
+        "u_other_rules_0_0006"
+      ],
+      "value": "required"
+    },
+    {
+      "for_rule_slug": "accessibility_motion_rules",
+      "key_proposal": "accessibility.motion.autoplay_duration_max",
+      "quotes": [
+        "no autoplaying motion longer than ~5s without a static fallback"
+      ],
+      "unit_ids": [
+        "u_other_rules_0_0006"
+      ],
+      "value": "5s"
+    },
+    {
+      "for_rule_slug": "accessibility_media_standards",
+      "key_proposal": "accessibility.media.alt_text",
+      "quotes": [
+        "descriptive **alt text** on all images"
+      ],
+      "unit_ids": [
+        "u_other_rules_0_0007"
+      ],
+      "value": "required"
+    },
+    {
+      "for_rule_slug": "accessibility_compliance_standard",
+      "key_proposal": "accessibility.compliance.standard",
+      "quotes": [
+        "Reference standard: WCAG (wcag.com)"
+      ],
+      "unit_ids": [
+        "u_other_rules_0_0008"
+      ],
+      "value": "WCAG"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "body.line_height",
+          "token_id": "tok_lisraya_line_height_body_min"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Line height **≥150%**; more for light-on-dark text."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0002"
+        ]
+      },
+      "id": "rule_lisraya_line_height_accessibility",
+      "rule_class": "accessibility",
+      "rule_text": "Body copy must maintain a line height of at least 150% (more for light-on-dark text) to ensure visual accessibility.",
+      "selector": {
+        "element_path": "body.line_height"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [
+        {
+          "element_path": "body.font_size",
+          "token_id": "tok_lisraya_type_scale_body"
+        }
+      ],
+      "evidence": {
+        "quotes": [
+          "Body copy **≥16px**; bigger is better."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0001"
+        ]
+      },
+      "id": "rule_lisraya_minimum_running_text_size",
+      "rule_class": "accessibility",
+      "rule_text": "Body copy must be 16px or larger to ensure readability.",
+      "selector": {
+        "element_path": "body.font_size"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "Line height **≥150%**"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0002"
+        ]
+      },
+      "id": "tok_lisraya_line_height_body_min",
+      "key": "line_height.accessibility.body_min",
+      "token_type": "line_height",
+      "value": {
+        "default": "150%",
+        "default_evidence": {
+          "quotes": [
+            "Line height **≥150%**"
+          ],
+          "unit_ids": [
+            "u_other_rules_0_0002"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

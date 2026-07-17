@@ -1,0 +1,146 @@
+{
+  "findings": [
+    {
+      "description": "Single rule merges two distinct font-role statements: Agenda for headlines/headers and Nunito Sans for body copy, the latter explicitly scoped to 'in print'. Merging loses the differing scope (all headlines vs. print-only body copy) and risks the rule being misapplied to digital body copy.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "rules": [
+            {
+              "class": "typography",
+              "font": "Agenda",
+              "hardness": "strong_default",
+              "polarity": "should",
+              "scope": "headlines_headers"
+            },
+            {
+              "class": "typography",
+              "font": "Nunito Sans",
+              "hardness": "strong_default",
+              "polarity": "should",
+              "scope": "body_copy_print"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_font_roles"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004"
+      ]
+    },
+    {
+      "description": "No rule captures the CTA shape/treatment instruction and its accompanying SVG asset definition, despite being a distinct, prescriptive brand rule ('use this shape and treatment for CTAs'). This entire cluster is missing from the candidate rules.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "asset_ref": "svg CTA shape (u_internal_banner_rules_0_0012)",
+          "class": "cta_treatment",
+          "description": "Use specified rounded-shape SVG with gradient fill for CTA buttons",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "Font-role rule omits governance facet linking to the canonical asset/resource references (Agenda font label, Nunito Sans Google Fonts stylesheet URL) that specify exact font sourcing, needed for compliant implementation.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "asset_refs": [
+            {
+              "font": "Agenda",
+              "unit": "u_internal_banner_rules_0_0006"
+            },
+            {
+              "font": "Nunito Sans",
+              "unit": "u_internal_banner_rules_0_0008",
+              "url": "https://fonts.googleapis.com/css2?family=Nunito+Sans..."
+            }
+          ],
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_font_roles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The CTA SVG gradient uses hex colors #FFDF55 and #FAA21B, neither of which exactly matches the three approved brand colors (#00529B, #FAA31B, #FFC60A) declared as a hard_constraint. This is either an undocumented exception or a hardness violation not reflected in the rule's scope/exceptions.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "note": "Flag CTA gradient colors (#FFDF55, #FAA21B) as inconsistent with approved hierarchy; requires exception scope or correction."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "Source language uses 'should be used' for both font statements, indicating a recommendation rather than an absolute mandate. Candidate rule sets polarity=must, overstating the strength implied by 'should'; hardness=strong_default is reasonable but polarity should be 'should' not 'must'.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_font_roles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004"
+      ]
+    }
+  ]
+}

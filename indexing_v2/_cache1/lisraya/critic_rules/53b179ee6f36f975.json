@@ -1,0 +1,68 @@
+{
+  "findings": [
+    {
+      "description": "The brand bible source contains critical design rules regarding image treatment, accent shapes, overlays, and accessibility, but no candidate rules have been extracted for this blob.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "brand": "lisraya",
+          "doc_ref": "design_pattern_rules[2]",
+          "rules": [
+            {
+              "hardness": "should",
+              "polarity": "positive",
+              "rule_id": "r_lisraya_img_photography",
+              "scope": "design_system",
+              "source_units": [
+                "u_design_pattern_rules_2_0001"
+              ],
+              "text": "Photography must feature warm, realistic patient lifestyle imagery depicting everyday activities (e.g., walking the dog, beach, BBQ) to convey returning to everyday life."
+            },
+            {
+              "hardness": "must",
+              "polarity": "negative_exception",
+              "rule_id": "r_lisraya_img_crop",
+              "scope": "design_system",
+              "source_units": [
+                "u_design_pattern_rules_2_0002"
+              ],
+              "text": "Images must be housed in asymmetric rounded-corner crop Accent shapes, and must not use plain rectangles or circles."
+            },
+            {
+              "hardness": "may",
+              "polarity": "positive",
+              "rule_id": "r_lisraya_img_overlay",
+              "scope": "design_system",
+              "source_units": [
+                "u_design_pattern_rules_2_0003"
+              ],
+              "text": "Waves and gradients may overlay photography."
+            },
+            {
+              "hardness": "must",
+              "polarity": "positive",
+              "rule_id": "r_lisraya_img_accessibility",
+              "scope": "accessibility",
+              "source_units": [
+                "u_design_pattern_rules_2_0004"
+              ],
+              "text": "Every image requires descriptive alt text to ensure brand accessibility."
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001",
+        "u_design_pattern_rules_2_0002",
+        "u_design_pattern_rules_2_0003",
+        "u_design_pattern_rules_2_0004"
+      ]
+    }
+  ]
+}

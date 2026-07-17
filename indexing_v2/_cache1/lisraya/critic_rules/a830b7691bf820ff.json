@@ -1,0 +1,75 @@
+{
+  "findings": [
+    {
+      "description": "u_0002 ('Images housed in the Accent shape — asymmetric rounded-corner crops, not plain rectangles or circles') is a distinct, testable design rule (image framing/cropping shape) but has no corresponding candidate rule. It is currently unextracted, leaving a gap in the Image Treatment cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "source_units": [
+            "u_design_pattern_rules_2_0002"
+          ],
+          "statement": "Images must be housed in the Accent shape (asymmetric rounded-corner crop); plain rectangles or circles are prohibited."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "Rule is flagged as a hard_constraint compliance requirement ('brand accessibility rule') but no governance facet (owning standard, enforcement body, or review authority, e.g., WCAG reference) is captured, despite the source explicitly calling it out as a governance-tied rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "governance_note": "Tag with accessibility governance facet (e.g., WCAG alt-text compliance, brand accessibility standard owner) per source annotation '(brand accessibility rule)'.",
+          "group_id": "grp_lisraya_design_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_image_alt_text_required"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_image_alt_text_required",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Source text is descriptive/aspirational ('Conveys returning to everyday life...') without an explicit imperative, yet rule is tagged polarity=must with hardness=strong_default. This overstates the strength/polarity of the source language; consider softening polarity or confirming strong_default is warranted vs. soft_guidance.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "strong_default",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_photography_warm_lifestyle_treatment"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_photography_warm_lifestyle_treatment",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    }
+  ]
+}

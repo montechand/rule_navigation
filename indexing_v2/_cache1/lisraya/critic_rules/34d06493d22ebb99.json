@@ -1,0 +1,151 @@
+{
+  "findings": [
+    {
+      "description": "The single rule only captures the closing 'no ad-hoc tints' statement (u0005) and drops the four distinct, specific tint specifications (headline 40% tint, Light Blue callout 70% tint, Golden Sand callout 30% tint, Wave top layers 70% transparency). These are separate, independently applicable value+scope rules that are currently unrepresented, causing massive under-extraction/over-merge into one vague rule.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_headline_dm_tint",
+              "polarity": "must",
+              "scope": "Campaign headline 'D' and 'M'",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0001"
+              ],
+              "value": "≈40% tint of headline color (Gold or Brand Blue colorway)"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_light_blue_callout_tint",
+              "polarity": "must",
+              "scope": "Light Blue callout box",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0002"
+              ],
+              "value": "70% tint"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_golden_sand_callout_tint",
+              "polarity": "must",
+              "scope": "Golden Sand callout box",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0003"
+              ],
+              "value": "30% tint"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_wave_top_layer_transparency",
+              "polarity": "must",
+              "scope": "Wave top layers",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0004"
+              ],
+              "value": "70% transparency"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_specified_tints_only",
+              "polarity": "must_not",
+              "scope": "all tint applications",
+              "unit_ids": [
+                "u_color_scheme_rules_2_0005"
+              ],
+              "value": "no ad-hoc tints; use palette values or specified tints only"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Rule lacks scope/governance facets specifying which elements (headline text, callout boxes, wave layers) and which tint values it references as the 'specified tints', making it an unanchored closure rule with no linkage to the concrete tint definitions it depends on.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "references": [
+            "rule_lisraya_headline_dm_tint",
+            "rule_lisraya_light_blue_callout_tint",
+            "rule_lisraya_golden_sand_callout_tint",
+            "rule_lisraya_wave_top_layer_transparency"
+          ],
+          "scope": "all campaign tint/transparency usage"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Polarity 'must' is imprecise for a prohibition statement ('No other ad-hoc tints'); the source is a negative/exclusion constraint and should be polarity 'must_not' (prohibiting ad-hoc tints) rather than an affirmative 'must'.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "wrong hardness, polarity, or scope vs source",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "No relation captured between the exhaustive-list closure rule (u0005) and the four specific tint definitions it depends on ('these specified tints'); without those sibling rules existing, the closure rule is meaningless and unverifiable.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "missed relation",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    }
+  ]
+}

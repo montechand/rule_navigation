@@ -16,24 +16,34 @@ doc_ref: `other_rules[0]`
 - Reference standard: WCAG (wcag.com).
 ````
 
-## Extracted rules (4)
+## Extracted rules (6)
 
-### rule_lisraya_accessibility_alternative_text_and_media
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=None governance=regulatory/allowed_with_disclosure
-- rule_text: All non-decorative media assets must be fully accessible. This requires complete, descriptive alternative (alt) text on all image components, and easily accessible text transcripts for any video or audio components deployed across brand properties.
-- intent: Comply with regulatory guidelines and serve visually or hearing impaired audiences.
+### rule_lisraya_accessible_body_type_and_hierarchy
+- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Body copy must be at least 16px and line height must be at least 150%; use more line height for light-on-dark text. Use a type scale to establish visual hierarchy.
+- intent: Maintain readable body copy and a clear accessible text hierarchy.
 
-### rule_lisraya_accessibility_animation_motion
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=None governance=regulatory/allowed_with_disclosure
-- rule_text: Animations must use quick transitions that do not interrupt flow, avoiding excessive motion, and provide a mechanism to pause effects. When designing email animated GIFs, the key medical or core promotional message must be fully legible in frame 1 to support Outlook clients, and autoplaying motion must not exceed 5 seconds without a static fallback option.
-- intent: Ensure readability in email environments that block animation frames, and protect motion-sensitive users.
+### rule_lisraya_contrast_legibility_and_noncolor_cues
+- class=accessibility scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=None
+- rule_text: Test contrast, proof all text for legibility, and never rely on color alone to convey meaning.
+- intent: Ensure text remains legible and information is available beyond color perception.
 
-### rule_lisraya_accessibility_core_standards
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=None governance=regulatory/allowed_with_disclosure
-- rule_text: All materials must conform to WCAG standards (wcag.com). Body copy must be at least 16px (type_scale.body size = 16px) with a line height of at least 150% (line_height.accessibility.body_min = 150%), increasing for light-on-dark layout conditions. Do not rely on color alone to convey meaning, test contrast, and verify text legibility.
-- intent: Ensure basic compliance with baseline medical-marketing accessibility rules.
+### rule_lisraya_descriptive_media_alternatives
+- class=accessibility scope=brand hardness=hard_constraint polarity=must sections=None constraint=None
+- rule_text: All images must have descriptive alt text, and transcripts must be available for any video or audio.
+- intent: Provide equivalent access to visual and time-based media content.
 
-### rule_lisraya_accessibility_interactive_and_forms
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding governance=regulatory/allowed_with_disclosure
-- rule_text: Interactive components and forms must maintain labels that are always visible; placeholder-as-label or disappearing labels are strictly forbidden. All click and tap targets must have a minimum dimension of 48px (size.touch_target.minimum = 48px).
-- intent: Maintain usable inputs and actionable buttons for motor-impaired and aging populations.
+### rule_lisraya_email_gif_first_frame_and_fallback
+- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: For general email, animated GIFs must carry the key message in frame 1 because Outlook shows only the first frame. Do not autoplay motion longer than about 5 seconds without a static fallback.
+- intent: Ensure essential email messaging remains available in clients and contexts with limited motion support.
+
+### rule_lisraya_motion_pause_and_responsive_design
+- class=accessibility scope=brand hardness=strong_default polarity=should sections=None constraint=None
+- rule_text: Use quick transitions that do not interrupt flow, avoid excessive motion, provide a way to pause effects, and design for phone, tablet, and desktop.
+- intent: Reduce motion barriers while preserving usable responsive experiences.
+
+### rule_lisraya_visible_form_labels_and_touch_targets
+- class=accessibility scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Forms must keep labels always visible: do not use placeholder text as the label and do not allow labels to disappear. Click and tap targets must be at least 48px.
+- intent: Make form controls understandable and operable for all users.

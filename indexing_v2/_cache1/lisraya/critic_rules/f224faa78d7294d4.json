@@ -1,0 +1,55 @@
+{
+  "findings": [
+    {
+      "description": "The MOA (Mechanism of Action) messaging rules (primary and alt) from units 7_0003 and 7_0004 are completely omitted from the candidate rules, causing a gaps in copy-editorial enforcement.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "description": "Use the approved primary or alternative MOA wording: 'Unlike other treatments for dermatomyositis (DM), which suppress the immune system generally, LISRAYA targets the root cause of the disease.' or '...LISRAYA works by turning off the specific inflammatory switches that are stuck in the \"on\" position.'",
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_moa_messaging"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004"
+      ]
+    },
+    {
+      "description": "The approved campaign headline rule contains a verbatim framework claim ('first targeted treatment for dermatomyositis') which requires medical/legal/regulatory (MLR) validation, but is missing governance context constraints.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[7]",
+          "governance": "Requires verbatim execution without alterations to maintain alignment with approved medical claims.",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_campaign_approved_headlines_verbatim"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_approved_headlines_verbatim"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_campaign_approved_headlines_verbatim",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0001"
+      ]
+    }
+  ]
+}

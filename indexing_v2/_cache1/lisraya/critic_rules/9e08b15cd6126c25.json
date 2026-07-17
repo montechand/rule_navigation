@@ -1,0 +1,164 @@
+{
+  "findings": [
+    {
+      "description": "The entire typography hierarchy table (font assignments per level/channel) and the available-weights lists are not represented by any candidate rule. This is a large, distinct governance area (font-per-channel mandates, weight constraints) that has been dropped entirely rather than clustered.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Font assignments per channel (Agenda/Nunito Sans/Aptos) and allowed weight sets per font, including the campaign-headline exception for live Agenda text in digital.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0000",
+        "u_content_pattern_rules_1_0001",
+        "u_content_pattern_rules_1_0002",
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "This single rule id appears to conflate at least three distinct governance items: (1) the email CSS font-stack/fallback requirement (u_0010), (2) the concrete px/line-height type scale table for email (u_0011-u_0018, including the sub-rules on minimum 12px and footnote distinctiveness), and (3) a general (non-email-specific) hierarchy principle about not using two adjacent same-size/weight blocks (u_0020). These have different scope (email-only vs general) and different hardness/specificity and should be split into separate rules.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "new_rules": [
+            {
+              "class": "typography",
+              "description": "Email font-stack fallback: Nunito Sans, Verdana, Helvetica, Arial, sans-serif, loaded via @font-face/Google Fonts where supported.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "scope": "email"
+            },
+            {
+              "class": "typography",
+              "description": "Email type scale table (H1-H3, body, secondary body, footnote) with px/line-height values and minimum 12px floor.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "scope": "email"
+            },
+            {
+              "class": "typography",
+              "description": "Never use two adjacent text blocks at same size+weight to signal different hierarchy levels.",
+              "hardness": "hard_constraint",
+              "polarity": "must_not",
+              "scope": "general"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale_hierarchy"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010",
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017",
+        "u_content_pattern_rules_1_0018",
+        "u_content_pattern_rules_1_0020"
+      ]
+    },
+    {
+      "description": "Source units are explicitly tagged [GENERAL], signaling these facets apply beyond email-only context, but the candidate rule is scoped/named as email-specific ('email_type_scale_hierarchy') with no governance facet capturing the cross-channel [GENERAL] applicability tag.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "governance_tag": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "scope": "cross-channel"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale_hierarchy"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010",
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "The conditional escalation rule (line-height must increase to 160% for light text on dark backgrounds) is a distinct conditional/contextual constraint merged silently into the flat 'minimum 150%' rule, losing its own condition scope.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "new_rule": {
+            "class": "accessibility",
+            "condition": "light text on dark background",
+            "description": "Increase body line-height to 160% (e.g., 16px/26px) for light text on dark backgrounds.",
+            "hardness": "hard_constraint",
+            "polarity": "must"
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_line_height_minimum"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_body_line_height_minimum",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "The explicit hard floor 'Never set running text below 12px' is a standalone must_not constraint not clearly represented as its own rule with correct polarity (prohibition) distinct from the type-scale table.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Never set running text below 12px (ISI sizing excluded, owned by locked component).",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0018"
+      ]
+    }
+  ]
+}

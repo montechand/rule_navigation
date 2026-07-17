@@ -1,0 +1,321 @@
+{
+  "findings": [
+    {
+      "description": "The entire 'Graphic Elements — Waves' pattern (two colorways: Sunshine/Gold and Sky Blue/Deep Blue; long/short variants; 70% transparency layering; masthead gradient device) has no corresponding subtype, asset, or semantic tokens in the catalog, unlike Gradient Callout CTA and Icon Callout Box which each got a dedicated subtype.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "subtype",
+        "op": "add",
+        "payload": {
+          "lengths": [
+            "long",
+            "short"
+          ],
+          "name": "Wave Graphic",
+          "opacity": 0.7,
+          "variants": [
+            "sunshine_gold",
+            "sky_blue_deep_blue"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0000",
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Tint Rules lists four specified tints (headline D/M 40%, Light Blue box 70%, Golden Sand box 30%, wave top layer 70%), but only three are tokenized. The wave top-layer 70% transparency value has no dedicated primitive/semantic token.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": 0.7,
+          "key": "opacity.wave.top_layer_70"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Pantone codes for the Primary tier (2145 C, 137 C, 7548 C) are entirely absent from the catalog, despite a brand-mandated rule requiring '70% transparency of Pantone 7548 C / #ffc60a' be maintained in all logo instances.",
+      "finding_id": "f_lisraya_003",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "keys": [
+            "pantone.brand_blue.2145c",
+            "pantone.sunshine.137c",
+            "pantone.gold.7548c"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006",
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    {
+      "description": "The only primitive token carrying Sunshine (#faa31b) is scoped/named as a CTA-fallback-specific entity (background_gradient_cta_fallback) though its key (color.primary.sunshine) implies general primary-color status. Sunshine is used broadly (chart emphasis, wave colorway, campaign headline colorway, masthead gradient stop) — no generic Sunshine primary token exists, causing an ID/key mismatch and functional omission.",
+      "finding_id": "f_lisraya_004",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "#faa31b",
+          "key": "color.primary.sunshine",
+          "note": "rename/generalize; retain cta-fallback usage as a reference"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_background_gradient_cta_fallback"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_background_gradient_cta_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_5_0006",
+        "u_design_pattern_rules_4_0002",
+        "u_design_pattern_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Aptos (Word/PPT/Excel fallback font, weights Regular/Bold) is fully absent from the primitive token catalog even though it's an explicit typography-hierarchy row applied to headlines, body, and footers.",
+      "finding_id": "f_lisraya_005",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "keys": [
+            "font.fallback.aptos",
+            "weight.aptos.regular",
+            "weight.aptos.bold"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "Only Nunito Sans 800 (ExtraBold) weight is tokenized; Light, Regular, SemiBold, Bold are all listed as 'Available Nunito Sans weights' but missing from the catalog, unlike Agenda which has all 5 weights captured.",
+      "finding_id": "f_lisraya_006",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "keys": [
+            "weight.nunito_sans.light",
+            "weight.nunito_sans.regular",
+            "weight.nunito_sans.semibold",
+            "weight.nunito_sans.bold"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_weight_nunito_800",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0008"
+      ]
+    },
+    {
+      "description": "Email Type Scale defines explicit sizes/line-heights for H1 (28px/36px, ≈130%) and H2 (22px/30px, ≈136%), but only H3's ≈144% got a token; H1/H2 percentages and pixel sizes are missing entirely, leaving the hierarchy incompletely tokenized.",
+      "finding_id": "f_lisraya_007",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "keys": [
+            "line_height.percent.130",
+            "line_height.percent.136",
+            "size.h1.28",
+            "size.h2.22"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_line_height_percent_144",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014"
+      ]
+    },
+    {
+      "description": "The three approved Callout Formatting styles (Main callout, Secondary/data callout, Text-heavy callout) have associated semantic tokens but no corresponding subtype entities, unlike Gradient Callout CTA Section and Icon Callout Box which each got a dedicated subtype — inconsistent modeling of named components.",
+      "finding_id": "f_lisraya_008",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "subtype",
+        "op": "add",
+        "payload": {
+          "names": [
+            "Main Callout",
+            "Secondary Data Callout",
+            "Text-Heavy Callout"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000",
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "The Campaign Headline ('YOU DESERVE MORE') is a distinctly specified named component with multiple dedicated tokens (case, alignment, opacity, font) but has no grouping subtype entity, unlike other named components in the catalog.",
+      "finding_id": "f_lisraya_009",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "subtype",
+        "op": "add",
+        "payload": {
+          "name": "Campaign Headline Lockup"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0000",
+        "u_content_pattern_rules_5_0001",
+        "u_content_pattern_rules_5_0002",
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004",
+        "u_content_pattern_rules_5_0005"
+      ]
+    },
+    {
+      "description": "Headline, body text, and link colors are only captured for light backgrounds (Brand Blue / Graphite / Brand Blue); the explicit 'White on dark backgrounds' alternates for headlines, body copy, and links are omitted as tokens.",
+      "finding_id": "f_lisraya_010",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "keys": [
+            "headline.color.on_dark",
+            "body.color.on_dark",
+            "body.link.color.on_dark"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_headline_color",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003",
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "Only two 'left'-alignment tokens exist (campaign headline, icon callout text); the explicit 'centered' alignment specs for the Gradient Callout CTA headline/button and the Main Callout text are not captured as tokens.",
+      "finding_id": "f_lisraya_011",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "keys": [
+            "alignment.gradient_cta.center",
+            "alignment.main_callout.center"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0007",
+        "u_color_scheme_rules_5_0008",
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "Semantic tokens tok_lisraya_chart_bars_shape ('rounded') and tok_lisraya_chart_color_placebo ('gray') hard-code literal values instead of following the catalog's consistent $ref-to-primitive pattern used by all other semantic tokens; additionally 'gray' does not match the primitive's 'neutral gray' default value, creating a value inconsistency.",
+      "finding_id": "f_lisraya_012",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "chart_bars_shape": {
+            "$ref": "tok_lisraya_icon_style_rounded_bars"
+          },
+          "chart_color_placebo": {
+            "$ref": "tok_lisraya_color_chart_placebo_gray"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_chart_bars_shape",
+          "tok_lisraya_chart_color_placebo"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_chart_bars_shape",
+      "unit_ids": [
+        "u_design_pattern_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Chart/infographic headlines are explicitly specified as ALL CAPS, but no case token exists for chart headlines (only color and rule_color tokens are present), leaving this required casing rule untokenized.",
+      "finding_id": "f_lisraya_013",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_case_campaign_headline"
+          },
+          "key": "chart.headline.case"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_chart_headline_color",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003",
+        "u_design_pattern_rules_4_0004"
+      ]
+    }
+  ]
+}

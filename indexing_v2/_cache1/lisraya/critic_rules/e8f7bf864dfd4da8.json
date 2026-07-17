@@ -1,0 +1,152 @@
+{
+  "findings": [
+    {
+      "description": "The foundational shape definition (rectangle with selectively enlarged opposite corner radii, used for callouts/photography) has no corresponding rule at all. Only the diagonal-consistency sub-rule from u0003 was extracted; the core brand_accent_shape definition itself is missing from the cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "description": "Core container device: rectangle with selectively enlarged opposite corner radii, other two corners slight radius.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0001"
+      ]
+    },
+    {
+      "description": "Approved print radius pairs (1.25\"/0.0625\", 0.5\"/0.0625\", 0.4375\"/0.0625\") are a distinct, measurable, channel-specific (print) rule that is not represented anywhere in the candidate cluster.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "exact_value",
+          "polarity": "must",
+          "scope": "print",
+          "values": [
+            "1.25in/0.0625in",
+            "0.5in/0.0625in",
+            "0.4375in/0.0625in"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "u0003 contains two separable facts: (a) email px radius conversions (120/6, 48/6, 42/6 at 96dpi) and (b) the diagonal-orientation-consistency requirement. The candidate rule only captures the consistency requirement; the concrete px conversion values are missing as their own rule/value set.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "new_rule": {
+            "class": "layout",
+            "governance": "GENERAL",
+            "hardness": "exact_value",
+            "polarity": "must",
+            "scope": "email",
+            "values": [
+              "120px/6px large",
+              "48px/6px banner",
+              "42px/6px callout"
+            ]
+          }
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_diagonal_consistency"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_accent_shape_diagonal_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "Source unit is explicitly tagged [GENERAL] (governance facet indicating broad/general applicability at 96dpi email context), but the rule carries no governance metadata (e.g., channel=email, dpi=96, tier=GENERAL).",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "channel": "email",
+          "doc_ref": "design_pattern_rules[3]",
+          "dpi": 96,
+          "governance": "GENERAL",
+          "group_id": "grp_lisraya_design_pattern_rules_03"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_diagonal_consistency"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_accent_shape_diagonal_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "u0004 defines an explicit exception (charts/tables use uniform rounded corners on all four corners, 12px uniform radius, [GENERAL]) that directly contradicts/overrides the asymmetric accent shape default. This exception is entirely absent from the rule cluster, and no relation to the main shape rule is captured.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout",
+          "doc_ref": "design_pattern_rules[3]",
+          "governance": "GENERAL",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "strong_default",
+          "polarity": "must",
+          "relation": {
+            "target": "rule_lisraya_accent_shape_definition",
+            "type": "exception_to"
+          },
+          "scope": "charts_and_tables",
+          "value": "12px uniform radius, all four corners"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "The unit specifies a 'default' orientation (large radius top-left & bottom-right) rather than a strictly mandated one, suggesting hardness should reflect a default/override-able value rather than being conflated purely as strong_default must without capturing the default-value semantics; current rule loses the distinction between the mandatory 'consistency' requirement and the overridable 'default orientation' value.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_accent_shape_diagonal_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    }
+  ]
+}

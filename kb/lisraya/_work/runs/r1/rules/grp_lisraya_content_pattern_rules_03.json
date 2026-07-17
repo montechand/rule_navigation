@@ -8,9 +8,11 @@
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "cardinality",
+      "constraint_type": null,
       "content_sub_type_ids": null,
-      "content_types": null,
+      "content_types": [
+        "email"
+      ],
       "effect": null,
       "effect_evidence": null,
       "evaluation_scope": "section",
@@ -18,87 +20,56 @@
         "quotes": [
           "Bold is for **hierarchy and key takeaways, not decoration**.",
           "Per email section, bold at most: the heading(s), one key phrase or claim per paragraph, and the statistical callout figure.",
-          "Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section"
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_3_0001",
-          "u_content_pattern_rules_3_0003"
-        ]
-      },
-      "governance": null,
-      "hardness": "strong_default",
-      "id": "rule_lisraya_bolding_and_emphasis_hierarchy",
-      "intent": "Maintain typographic hierarchy and readability by avoiding over-emphasis.",
-      "polarity": "must",
-      "precedence": 0,
-      "rule_class": "typography",
-      "rule_text": "Bold is reserved strictly for hierarchy and key takeaways, not decoration. Per email section, bold at most: heading(s), one key phrase/claim per paragraph, and the statistical callout figure. Never bold more than ~15% of running body text in any section, and never bold entire paragraphs.",
-      "scope": "org_baseline",
-      "selector": {
-        "element_path": null,
-        "section_types": null
-      },
-      "slug": "bolding_and_emphasis_hierarchy",
-      "snippets": null,
-      "snippets_evidence": null,
-      "tags": [
-        "copy_editorial"
-      ]
-    },
-    {
-      "applies_when": null,
-      "audience": null,
-      "constraint_type": "pairing",
-      "content_sub_type_ids": null,
-      "content_types": null,
-      "effect": null,
-      "effect_evidence": null,
-      "evaluation_scope": "sentence",
-      "evidence": {
-        "quotes": [
           "Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only).",
           "Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section, prepositional filler, the generic name."
         ],
         "unit_ids": [
+          "u_content_pattern_rules_3_0000",
+          "u_content_pattern_rules_3_0001",
           "u_content_pattern_rules_3_0002",
           "u_content_pattern_rules_3_0003"
         ]
       },
-      "governance": {
-        "gov_type": "trademark",
-        "match": null,
-        "preferred_form": null,
-        "preferred_form_evidence": null,
-        "severity": "warn",
-        "verdict": "allowed_with_disclosure"
-      },
+      "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_bolding_obligations_and_prohibitions",
-      "intent": "Ensure consistent brand prominence and professional compliance formatting.",
+      "id": "rule_lisraya_bold_hierarchy_and_limits",
+      "intent": "Preserve bold as a controlled hierarchy and key-takeaway signal.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "typography",
-      "rule_text": "Always bold callout text, statistical callout numbers, and the first instance per section of the brand name within a benefit claim. Never bold footnotes/references, prepositional filler, or the generic name.",
+      "rule_text": "Use bold for hierarchy and key takeaways, not decoration. Per email section, bold only heading(s), no more than one key phrase or claim per paragraph, and the statistical-callout figure. Always bold callout text specified by the callout patterns, statistical-callout numbers, and the brand name when it is the focal point of a benefit-claim sentence, only for its first instance in that section. Never bold entire paragraphs, footnotes/references, more than approximately 15% of running body text in a section, prepositional filler, or the generic name.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.bold",
         "section_types": null
       },
-      "slug": "bolding_obligations_and_prohibitions",
+      "slug": "bold_hierarchy_and_limits",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "copy_editorial"
-      ]
+      "tags": null
     },
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "exclusivity",
+      "constraint_type": "cardinality",
       "content_sub_type_ids": null,
-      "content_types": null,
-      "effect": null,
-      "effect_evidence": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "max": 2,
+        "min": null,
+        "per": "element",
+        "target": "emphasis devices on the same string"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
@@ -110,36 +81,46 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_combining_emphasis_limitations",
-      "intent": "Avoid visual noise and maintain accessibility compliance.",
+      "id": "rule_lisraya_emphasis_device_combination_limit",
+      "intent": "Avoid visually overemphasized text while preserving approved headline exceptions.",
       "polarity": "must_not",
       "precedence": 0,
       "rule_class": "typography",
-      "rule_text": "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Limit styling to at most two emphasis devices per element.",
+      "rule_text": "Do not combine bold, ALL CAPS, and color emphasis on the same string; select at most two emphasis devices per element. Chart headlines and the campaign headline lockup are the only exceptions.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.emphasis",
         "section_types": null
       },
-      "slug": "combining_emphasis_limitations",
+      "slug": "emphasis_device_combination_limit",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "copy_editorial"
-      ]
+      "tags": null
     },
     {
       "applies_when": null,
-      "audience": "dtp_patient",
+      "audience": null,
       "constraint_type": "exclusivity",
       "content_sub_type_ids": null,
-      "content_types": null,
-      "effect": null,
-      "effect_evidence": null,
-      "evaluation_scope": "sentence",
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "reserved_for": "real hyperlinks",
+        "subject": "text underline"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No underlining except real hyperlinks."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "No underlining except real hyperlinks. No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+          "No underlining except real hyperlinks."
         ],
         "unit_ids": [
           "u_content_pattern_rules_3_0005"
@@ -147,23 +128,58 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_underline_and_italic_prohibitions",
-      "intent": "Avoid confusing users with non-functional underlines and maintain high legibility for patients.",
+      "id": "rule_lisraya_underline_reserved_for_hyperlinks",
+      "intent": "Ensure underlining consistently communicates link behavior.",
       "polarity": "must_not",
       "precedence": 0,
       "rule_class": "typography",
-      "rule_text": "Do not underline any text unless it is a real hyperlink. Do not use italic for emphasis in patient copy; reserve italics exclusively for study names, notes ('Note:'), and citations.",
+      "rule_text": "Reserve underlining exclusively for real hyperlinks.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "text.underline",
         "section_types": null
       },
-      "slug": "underline_and_italic_prohibitions",
+      "slug": "underline_reserved_for_hyperlinks",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "copy_editorial"
-      ]
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_patient_copy_italic_restrictions",
+      "intent": "Keep patient-copy emphasis clear and reserve italics for reference-oriented content.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Do not use italics for emphasis in patient copy; reserve italics for study names, notes such as \"Note:\", and citations.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.italic",
+        "section_types": null
+      },
+      "slug": "patient_copy_italic_restrictions",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
     }
   ],
   "schema_version": "2.0"

@@ -1,0 +1,197 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "section_bolding_hierarchy",
+      "key_proposal": "ratio.emphasis.bold_running_body_maximum",
+      "quotes": [
+        "more than ~15% of running body text in any section"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_3_0003"
+      ],
+      "value": "~15%"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "### Bolding Rules **[GENERAL — calibrated to the guide's callout/chart patterns]**",
+          "Bold is for **hierarchy and key takeaways, not decoration**. Per email section, bold at most: the heading(s), one key phrase or claim per paragraph, and the statistical callout figure.",
+          "Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only).",
+          "Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section, prepositional filler, the generic name."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0000",
+          "u_content_pattern_rules_3_0001",
+          "u_content_pattern_rules_3_0002",
+          "u_content_pattern_rules_3_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Keep bold emphasis selective, hierarchical, and focused on approved takeaways.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Use bold for hierarchy and key takeaways, not decoration. Within each email section, limit bolding to headings, one key phrase or claim per paragraph, and statistical callout figures. Always bold specified callout text and statistical callout numbers; bold the brand name within a benefit claim only when it is the sentence’s focal point and only on its first instance in the section. Never bold entire paragraphs, footnotes or references, prepositional filler, the generic name, or more than approximately 15% of running body text in a section.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.bold",
+        "section_types": null
+      },
+      "slug": "section_bolding_hierarchy",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Prevent excessive layered emphasis while preserving the stated headline exceptions.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Use at most two emphasis devices on an element. Do not apply bold, ALL CAPS, and color emphasis simultaneously to the same string, except in chart headlines and the campaign headline lockup.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.emphasis",
+        "section_types": null
+      },
+      "slug": "combined_emphasis_limit",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "reserved_for": "real hyperlinks",
+        "subject": "underlining"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No underlining except real hyperlinks."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "No underlining except real hyperlinks."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure underlining consistently signals actionable links.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Reserve underlining exclusively for real hyperlinks.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.decoration",
+        "section_types": null
+      },
+      "slug": "underline_reserved_for_links",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "reserved_for": "study names, notes (\"Note:\"), and citations",
+        "subject": "italics in patient copy"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "No italic for emphasis in patient copy — reserve italics for study names, notes (\"Note:\"), and citations."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Keep italics semantically reserved rather than using them as general patient-facing emphasis.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Do not use italics for emphasis in patient copy; reserve italics for study names, notes such as \"Note:\", and citations.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "text.italic",
+        "section_types": null
+      },
+      "slug": "patient_copy_italics_reservation",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    }
+  ]
+}

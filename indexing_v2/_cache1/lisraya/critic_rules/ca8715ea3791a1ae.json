@@ -1,0 +1,154 @@
+{
+  "findings": [
+    {
+      "description": "The color_application cluster only produced rules for callout fills, link treatment, and logo transparency. Four core source units (palette hierarchy ratio, headline/heading color, body text color, and chart/graph color usage with Sunshine/Gold restriction) have no corresponding rule at all, leaving major brand color-application guidance uncaptured.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_palette_hierarchy_ratio",
+              "polarity": "must",
+              "unit_ids": [
+                "u_color_scheme_rules_1_0001"
+              ]
+            },
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_headline_color_treatment",
+              "polarity": "must",
+              "unit_ids": [
+                "u_color_scheme_rules_1_0002"
+              ]
+            },
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_body_text_color_treatment",
+              "polarity": "must",
+              "unit_ids": [
+                "u_color_scheme_rules_1_0003"
+              ]
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_chart_color_usage",
+              "polarity": "must_not",
+              "unit_ids": [
+                "u_color_scheme_rules_1_0004"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0001",
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003",
+        "u_color_scheme_rules_1_0004"
+      ]
+    },
+    {
+      "description": "The coral tertiary-accent restriction unit (including its embedded [GENERAL] email-section caveat) is absent from the rule set entirely, despite containing two distinct normative statements (never use for CTAs/headlines/data; avoid in email unless briefed).",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "color_scheme_rules[1]",
+          "governance": {
+            "scope": "cross_brand_or_general",
+            "tag": "GENERAL"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_coral_tertiary_restriction",
+          "polarity": "must_not",
+          "unit_ids": [
+            "u_color_scheme_rules_1_0006"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    },
+    {
+      "description": "Source unit is explicitly tagged **[GENERAL]**, signaling a governance/scope facet (applies broadly rather than as a brand-specific exception), but the extracted rule carries no governance metadata reflecting this designation.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "governance": {
+            "scope": "cross_brand_or_general",
+            "tag": "GENERAL"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_treatment"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_link_color_treatment",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "Source states precise, unhedged percentage values (70% tint / 30% tint) for specific callout types with no conditional or advisory language, suggesting hard_constraint rather than strong_default hardness.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_surface_fills"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_callout_surface_fills",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005"
+      ]
+    },
+    {
+      "description": "The primary>secondary>tertiary hierarchy statement (u_0001) establishes dominance/accent relationships that should be linked to chart color usage (u_0004, gold reserved for emphasis) and callout tint rules (u_0005) as dependent/derived applications; this relation is currently unmodeled since the hierarchy rule itself is missing from the cluster.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0001",
+        "u_color_scheme_rules_1_0004",
+        "u_color_scheme_rules_1_0005"
+      ]
+    }
+  ]
+}

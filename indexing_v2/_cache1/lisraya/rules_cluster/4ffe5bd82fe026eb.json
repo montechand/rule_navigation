@@ -1,0 +1,141 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "color_contrast_wcag_compliance",
+      "note": "Gold text restriction is a specific implementation failure-case of the WCAG contrast constraint.",
+      "relation": "refines",
+      "src_slug": "gold_text_color_restriction"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Test contrast levels (webaim.com or equivalent) for every text/background pair. [GENERAL minimums: WCAG AA — 4.5:1 body text, 3:1 large text ≥24px or 19px bold.]",
+          "Known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0001",
+          "u_color_scheme_rules_4_0002"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed_with_disclosure"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain strict visual accessibility and regulatory WCAG compliance for text readability.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Test contrast levels for every text/background pair to ensure compliance with WCAG AA minimums: 4.5:1 ratio for body text, and 3:1 ratio for large text (≥24px or 19px bold). Use known-safe combinations such as Brand Blue, Deep Blue, Dark Navy, or Graphite text on White, Light Blue, or Golden Sand backgrounds, and White text on Brand Blue, Deep Blue, or Dark Navy backgrounds.",
+      "scope": "org_baseline",
+      "selector": null,
+      "slug": "color_contrast_wcag_compliance",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Avoid: Gold or Sunshine text on White (fails contrast) — golds are for surfaces, rules, and large display emphasis only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0002"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "forbidden"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent unreadable low-contrast typography on light backgrounds.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "color_application",
+      "rule_text": "Do not use Gold (color.primary.gold = #ffc60a) or Sunshine (color.primary.sunshine = #faa31b) text on a White (#ffffff) background due to contrast failures. Gold-toned colors must be reserved for surfaces, decorative horizontal rules, and large display emphasis.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "text",
+        "section_types": null
+      },
+      "slug": "gold_text_color_restriction",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Don't rely on color alone to convey meaning — pair with icons, depth, clear copy, or visual feedback."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed_with_disclosure"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Support colorblind and visually impaired users by adding multi-sensory or multi-cue visual indicators.",
+      "polarity": "should_not",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Do not rely on color alone to convey key meaning, instructions, or status updates. Color must be paired with secondary visual signals such as contextual icons, shadows/depth, explicit copy, or physical visual feedback.",
+      "scope": "org_baseline",
+      "selector": null,
+      "slug": "color_independent_meaning",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial",
+        "iconography"
+      ]
+    }
+  ]
+}

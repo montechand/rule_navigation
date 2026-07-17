@@ -1,0 +1,38 @@
+{
+  "findings": [
+    {
+      "description": "Rule combining ALL CAPS styling, registered trademark rules with specific scoping (external-facing only), and generic parenthetical formatting is over-clustered. It makes compliance validation impossible because each requirement has different triggers and scopes.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[0]",
+          "group_id": "grp_lisraya_content_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_name_and_trademark_usage"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001",
+        "u_content_pattern_rules_0_0002",
+        "u_content_pattern_rules_0_0003"
+      ]
+    },
+    {
+      "description": "Missed governance facet explicitly superseding the general guide from Feb 2026. This exception handling should be explicitly tracked in the metadata.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001"
+      ]
+    }
+  ]
+}

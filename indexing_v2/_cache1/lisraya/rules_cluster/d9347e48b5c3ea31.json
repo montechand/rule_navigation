@@ -1,0 +1,246 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "body_and_general_capitalization_restrictions",
+      "note": "Campaign lockups represent an explicit exception to the general ALL CAPS prohibition.",
+      "relation": "overrides",
+      "src_slug": "campaign_headline_lockup_casing"
+    },
+    {
+      "dst_slug": "body_and_general_capitalization_restrictions",
+      "note": "Chart and infographic headlines represent an explicit exception to the general ALL CAPS prohibition.",
+      "relation": "overrides",
+      "src_slug": "chart_infographic_headline_rules"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.text.case",
+          "token_id": "tok_lisraya_case_headline"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Initial caps (title case) — capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Headlines/headings: Initial caps (title case) — capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain structured title casing across standard headlines.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "General headlines and headings must use initial caps / title case (case.general.headline = \"title_case\"), capitalizing nouns, pronouns, adjectives, verbs, and adverbs while keeping articles, conjunctions, and prepositions lowercase.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "headline.text",
+        "section_types": null
+      },
+      "slug": "headline_casing_rules",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "campaign",
+          "value": "YOU DESERVE MORE"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "YOU DESERVE MORE",
+        "trigger": null
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"YOU DESERVE MORE\": ALL CAPS, always"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Campaign headline \"YOU DESERVE MORE\": ALL CAPS, always"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0002"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "YOU DESERVE MORE",
+        "preferred_form_evidence": {
+          "quotes": [
+            "YOU DESERVE MORE"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_2_0002"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Enforce mandatory trademark campaign lockup styling.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "copy_editorial",
+      "rule_text": "The campaign headline lockup 'YOU DESERVE MORE' must always be presented in ALL CAPS (campaign.headline.case = \"all_caps\").",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "campaign.headline_lockup",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_lockup_casing",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.headline.case",
+          "token_id": "tok_lisraya_case_campaign_headline"
+        },
+        {
+          "element_path": "chart.headline.font_family",
+          "token_id": "tok_lisraya_font_family_nunito_sans"
+        },
+        {
+          "element_path": "chart.headline.font_weight",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Chart/infographic headlines: ALL CAPS, set in Agenda (print) / Nunito Sans Bold+ (email fallback)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Chart/infographic headlines: ALL CAPS, set in Agenda (print) / Nunito Sans Bold+ (email fallback)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Differentiate infographic and chart data headers from body elements.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Chart/infographic headlines must be styled in ALL CAPS (case.campaign.headline = \"all_caps\"). In digital formats such as email, they use the Nunito Sans Bold+ fallback font (font.family.nunito_sans = \"Nunito Sans\" with weight.nunito_sans.800 = 800), corresponding to the print font Agenda.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.headline",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_infographic_headline_rules",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "body.text.case",
+          "token_id": "tok_lisraya_case_body"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Body copy: sentence case.",
+          "Do not use ALL CAPS for body copy, buttons, or subheads other than the cases above."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0004",
+          "u_content_pattern_rules_2_0005"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Body copy: sentence case.",
+          "[GENERAL] Do not use ALL CAPS for body copy, buttons, or subheads other than the cases above."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_2_0004",
+          "u_content_pattern_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain reading legibility by forbidding overall capitalization on continuous body copy.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "General body copy must be set in sentence case (case.general.body = \"sentence_case\"). Under baseline rules, you must not use ALL CAPS styling for body copy, buttons, or subheads unless explicitly approved as exceptions.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "body.text",
+        "section_types": null
+      },
+      "slug": "body_and_general_capitalization_restrictions",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "copy_editorial"
+      ]
+    }
+  ]
+}

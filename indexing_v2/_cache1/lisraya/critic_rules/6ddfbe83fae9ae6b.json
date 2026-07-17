@@ -1,0 +1,53 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule merges distinct styling and layout patterns into a single lockup rule. The typography choices (Agenda/Nunito Sans), the mandatory 40% tinting on letters 'D' and 'M', the colorways (Gold/Blue), and the lockup alignment/copy represent three distinct execution rules that should not be combined.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "grp_lisraya_content_pattern_rules_05",
+          "split_rules": [
+            {
+              "class": "typography",
+              "description": "Set 'YOU DESERVE MORE' headline in Agenda (all caps, left-aligned, stacked on 3 lines in hero). Email fallback is Nunito Sans ExtraBold.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_headline_typography"
+            },
+            {
+              "class": "visual_styling",
+              "description": "Apply brand Gold/Sunshine or Brand Blue to the headline. Set the letters 'D' in DESERVE and 'M' in MORE at 40% tint of the selected headline color.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_headline_tinting_color"
+            },
+            {
+              "class": "copy_structure",
+              "description": "Use the full lockup copy: 'YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.'",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_headline_copy_lockup"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_lockup"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_campaign_headline_lockup",
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001",
+        "u_content_pattern_rules_5_0002",
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004",
+        "u_content_pattern_rules_5_0005",
+        "u_content_pattern_rules_5_0006"
+      ]
+    }
+  ]
+}

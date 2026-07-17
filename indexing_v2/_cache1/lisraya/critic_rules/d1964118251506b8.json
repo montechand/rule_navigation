@@ -1,0 +1,182 @@
+{
+  "findings": [
+    {
+      "description": "Source uses absolute language 'never two of the same style competing on one screen/section' — this reads as an unconditional prohibition, but the rule is tagged hardness=strong_default rather than a harder tier (e.g., hard_rule). The strong_default tier implies exceptions/context sensitivity not supported by the source wording.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "hardness": "hard_rule"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_callout_style_exclusivity",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000"
+      ]
+    },
+    {
+      "description": "Rule is classed color_application but the GENERAL bracket specifies pure layout/spacing facts (rule weight 2px, rule width 60-100%, 16px padding) unrelated to color. This mixes two rule classes in one entity and risks the layout facts being dropped or mis-scoped under a color_application filter.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "polarity": "must",
+              "scope": "main_callout_colors"
+            },
+            {
+              "class": "layout",
+              "polarity": "must",
+              "scope": "main_callout_spacing_and_rule_geometry"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_main_callout_style"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_main_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "Rule bundles color_application (box tint, text color) with layout facts (20px internal padding, corner radius per accent-shape rules §2.5) and an optional icon inclusion clause. The corner-radius cross-reference to an external rule set (§2.5) is a dependency relation that is not represented anywhere in this rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "polarity": "must",
+              "scope": "secondary_callout_colors"
+            },
+            {
+              "class": "layout",
+              "polarity": "must",
+              "relations": [
+                "accent_shape_rules_2_5"
+              ],
+              "scope": "secondary_callout_padding_and_shape"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_secondary_data_callout_style"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_secondary_data_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    {
+      "description": "Rule combines four distinct color_application clauses (box tint, headline, subhead, body text colors) with a structural/responsive layout clause (two-column icon+text collapsing to single column on mobile). The responsive breakpoint behavior is a layout/responsive-design rule, not color_application, and is at risk of being lost or misapplied under the color_application class filter.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "polarity": "must",
+              "scope": "text_heavy_callout_colors"
+            },
+            {
+              "class": "layout",
+              "polarity": "must",
+              "scope": "text_heavy_callout_responsive_layout"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_text_heavy_callout_style"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_text_heavy_callout_style",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "The exclusivity/must_not rule ('never two of the same style competing on one screen/section') carries strong prohibitive polarity but has no governance facets (owner, exception path, or escalation) capturing how conflicts should be resolved (e.g., what to do when a section legitimately needs repeated emphasis). A must_not rule of this strength should document an exception-handling or review path.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "governance": {
+            "exception_path": "design_review_required",
+            "owner": "brand_design_lead"
+          },
+          "group_id": "grp_lisraya_content_pattern_rules_06"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_callout_style_exclusivity",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000"
+      ]
+    },
+    {
+      "description": "The three style-specific rules (main/secondary/text-heavy) are the enumerated instances governed by the heading's exclusivity constraint, but no relation links connect rule_lisraya_callout_style_exclusivity to the three style rules. Without this relation, downstream consumers cannot determine which rules the exclusivity constraint applies against.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[6]",
+          "group_id": "grp_lisraya_content_pattern_rules_06",
+          "relations": [
+            "rule_lisraya_main_callout_style",
+            "rule_lisraya_secondary_data_callout_style",
+            "rule_lisraya_text_heavy_callout_style"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_callout_style_exclusivity"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000",
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    }
+  ]
+}

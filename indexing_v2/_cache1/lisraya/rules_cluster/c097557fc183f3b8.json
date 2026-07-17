@@ -1,0 +1,216 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "body.copy.font-size",
+          "token_id": "tok_lisraya_type_scale_body"
+        },
+        {
+          "element_path": "body.copy.line-height",
+          "token_id": "tok_lisraya_body_line_height"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Body copy **≥16px**",
+          "Line height **≥150%**"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0001",
+          "u_other_rules_0_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Body copy **≥16px**; bigger is better.",
+          "Line height **≥150%**; more for light-on-dark text.",
+          "Use a type scale for visual hierarchy."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0001",
+          "u_other_rules_0_0002",
+          "u_other_rules_0_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain strict legibility and visual hierarchy standards for compliance.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Body copy must be at least 16px (type_scale.body = 16px) with a line height of at least 150% (body.line_height = 150%), with more spacing recommended for light-on-dark layout systems. Use a type scale for visual hierarchy.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "body.copy",
+        "section_types": null
+      },
+      "slug": "accessibility_typography",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "form.input.touch_target_min",
+          "token_id": "tok_lisraya_size_cta_touch_min"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "click/tap targets **≥48px**"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Test contrast; never rely on color alone; proof all text for legibility.",
+          "Forms: labels always visible (no placeholder-as-label, no disappearing labels); click/tap targets **≥48px**."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0004",
+          "u_other_rules_0_0005"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure inclusive navigation and clear input labeling for users with visual and motor impairments.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Always test contrast, never rely solely on color for meaning, and proof all text for legibility. Form labels must remain visible at all times (no placeholder-as-label or disappearing labels), and click/tap targets must meet the minimum size constraint of 48px (dimension.accessibility.touch_target_min = 48px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "form.input",
+        "section_types": null
+      },
+      "slug": "contrast_and_form_targets",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "web"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Animations: quick transitions that don't interrupt flow; avoid excessive motion; provide a way to \"pause\" effects; design for phone, tablet, and desktop.",
+          "animated GIFs must carry the key message in frame 1 (Outlook shows only the first frame); no autoplaying motion longer than ~5s without a static fallback."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0006"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain cross-client compatibility and satisfy WCAG motion guidelines.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Animations must use quick transitions that do not interrupt flow, avoid excessive motion, and provide a way to pause effects across phone, tablet, and desktop viewports. For general email output, animated GIFs must render the key message in frame 1 to support Outlook, and cannot have autoplaying motion lasting longer than ~5s without a static fallback.",
+      "scope": "org_baseline",
+      "selector": null,
+      "slug": "animation_and_motion_rules",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility",
+        "assets"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Media: descriptive **alt text** on all images; transcripts available for any video or audio.",
+          "Reference standard: WCAG (wcag.com)."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0007",
+          "u_other_rules_0_0008"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Provide textual alternatives for non-text content, ensuring compliance with WCAG standards.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "All images must have descriptive alt text configured, and any video or audio asset must be accompanied by transcripts to adhere to WCAG accessibility guidelines.",
+      "scope": "org_baseline",
+      "selector": null,
+      "slug": "media_alt_text_transcripts",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility",
+        "imagery"
+      ]
+    }
+  ]
+}

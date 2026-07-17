@@ -1,0 +1,54 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules miss core visual identity patterns for charts, specifically the uniform container styling (Light Blue panel with Brand Blue header), the strict dominant color logic (Brand Blue/Sky Blue), and the rounded shape requirements for bars/icons.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_and_layout",
+          "description": "Charts must use a uniform rounded Light Blue (#E6F0F9) container with a Brand Blue header. Dominant chart elements must use Brand Blue (#00529b) and Sky Blue (#358CCB), reserving Sunshine (#faa31b) and Gold (#ffc60a) strictly for emphasis on key figures.",
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "grp_lisraya_design_pattern_rules_04",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_chart_container_and_color_logic"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0001",
+        "u_design_pattern_rules_4_0002",
+        "u_design_pattern_rules_4_0003"
+      ]
+    },
+    {
+      "description": "The headline typography requirements for charts (Agenda for print, Nunito Sans Bold+ for email in ALL CAPS, Brand Blue, with a thin Gold rule beneath) are completely omitted from the candidate rules.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Chart headlines must be styled in ALL CAPS using Agenda (for print) or Nunito Sans Bold+ (for email), rendered in Brand Blue with a thin Gold rule directly beneath.",
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "grp_lisraya_design_pattern_rules_04",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_chart_headline_typography"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0004"
+      ]
+    }
+  ]
+}

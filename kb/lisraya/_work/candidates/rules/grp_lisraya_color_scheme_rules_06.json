@@ -1,85 +1,42 @@
 [
   {
     "applies_when": null,
+    "approved_options": [
+      "Pre-composite the badge, shadow, accent radii, and icon as a transparent PNG.",
+      "Bake the badge-on-edge treatment into the box background image while keeping text live.",
+      "If neither is feasible, ship the live version and accept the specified Outlook-only degradation."
+    ],
     "audience": null,
-    "constraint_type": "binding",
+    "constraint_type": null,
     "content_sub_type_ids": null,
     "content_types": [
       "email"
     ],
-    "effect": [
-      {
-        "element_path": "icon_callout.box.radius",
-        "token_id": "tok_lisraya_radius_callout_box"
-      },
-      {
-        "element_path": "icon_callout.badge.radius",
-        "token_id": "tok_lisraya_radius_callout_badge"
-      },
-      {
-        "element_path": "icon_callout.badge.shadow",
-        "token_id": "tok_lisraya_shadow_icon_badge"
-      }
-    ],
-    "effect_evidence": {
-      "quotes": [
-        "border-radius: 20px 4px 20px 4px;",
-        "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
-        "border-radius: 40px 8px 40px 8px;",
-        "box border-radius: 40px 8px 40px 8px;"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0018",
-        "u_color_scheme_rules_6_0019",
-        "u_color_scheme_rules_6_0022"
-      ]
-    },
+    "degradation": "Badge may render flush at the inner-left/top-left in normal flow and the box may not retain the intended inset in Outlook desktop.",
+    "doc_ref": "color_scheme_rules[6]",
+    "effect": null,
+    "effect_evidence": null,
     "evaluation_scope": "section",
     "evidence": {
       "quotes": [
-        "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
-        "A light-blue accent-shape box containing a short blue headline, with a white icon badge that straddles the box's left edge",
-        "Brand Blue `#00529b`, Nunito Sans weight 800, ~21px / 28px line-height, left-aligned, vertically centered",
-        "Light Blue `#E6F0F9` fill",
-        "The white badge mirrors the same accent shape at smaller scale, `border-radius: 20px 4px 20px 4px;` (also 5:1, large TL+BR)",
-        "border-radius: 20px 4px 20px 4px;",
-        "border-radius: 40px 8px 40px 8px;",
-        "box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
-        "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
-        "inset = W/2, box left-padding = W/2 + 24px",
-        "the white icon badge must carry a subtle drop shadow so it lifts off the blue box  e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);`"
+        "For pixel-perfect fidelity across **all** clients, the brand-safe option is to **pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG**",
+        "When that's not feasible, ship the live version above and accept the Outlook degrade (badge flush at the inner-left edge)",
+        "**Outlook (desktop, Word engine) ignores**",
+        "**Outlook (desktop, Word engine) ignores** � there the badge drops to the top-left in normal flow and the box won't be inset.",
+        "For pixel-perfect fidelity across **all** clients, the brand-safe option is to **pre-composite the white badge",
+        "Outlook (desktop, Word engine) ignores",
+        "ship the live version above and accept the Outlook degrade (badge flush at the inner-left edge)"
       ],
       "unit_ids": [
-        "u_color_scheme_rules_6_0018",
-        "u_color_scheme_rules_6_0019",
-        "u_color_scheme_rules_6_0020",
-        "u_color_scheme_rules_6_0022",
-        "u_color_scheme_rules_6_0023",
-        "u_color_scheme_rules_6_0002",
-        "u_color_scheme_rules_6_0007",
-        "u_color_scheme_rules_6_0008",
-        "u_color_scheme_rules_6_0009",
-        "u_color_scheme_rules_6_0010",
-        "u_color_scheme_rules_6_0014",
-        "u_color_scheme_rules_6_0015",
-        "u_color_scheme_rules_6_0046",
-        "u_color_scheme_rules_6_0047"
+        "u_color_scheme_rules_6_0040",
+        "u_color_scheme_rules_6_0041",
+        "u_color_scheme_rules_6_0042"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [
-        "u_color_scheme_rules_6_0002",
-        "u_color_scheme_rules_6_0007",
-        "u_color_scheme_rules_6_0008",
-        "u_color_scheme_rules_6_0009",
-        "u_color_scheme_rules_6_0010",
-        "u_color_scheme_rules_6_0014",
-        "u_color_scheme_rules_6_0015",
-        "u_color_scheme_rules_6_0046",
-        "u_color_scheme_rules_6_0047"
-      ],
+      "champion_run": "r1",
+      "confidence": "high",
+      "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
         "audience": 1.0,
@@ -87,50 +44,129 @@
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
-        "evaluation_scope": 1.0,
+        "evaluation_scope": 0.6666666666666666,
         "governance": 1.0,
         "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
         "rule_class": 1.0,
         "scope": 1.0,
-        "selector": 1.0,
-        "slug": 0.5,
-        "snippets": 0.5,
-        "tags": 0.5
+        "selector": 0.6666666666666666,
+        "slug": 1.0,
+        "snippets": 1.0,
+        "tags": 0.6666666666666666
       },
       "runs": 3,
-      "support": 2
+      "support": 3
     },
     "governance": null,
-    "hardness": "hard_constraint",
-    "id": "rule_lisraya_icon_callout_box_geometry",
-    "intent": "Maintain the distinct asymmetrical brand shape relationship across container and badge.",
-    "polarity": "must",
+    "group_id": "grp_lisraya_color_scheme_rules_06",
+    "hardness": "strong_default",
+    "id": "rule_lisraya_icon_callout_outlook_fallback",
+    "intent": "Preserve the approved badge-on-edge appearance across clients while defining the acceptable Outlook fallback.",
+    "invariant_requirements": [
+      "Light Blue box fill",
+      "40px 8px 40px 8px box radius",
+      "Brand Blue Nunito Sans weight-800 text",
+      "white badge drop shadow"
+    ],
+    "polarity": "should",
     "precedence": 0,
-    "rule_class": "layout",
-    "rule_text": "The Icon Callout Box must use the asymmetric 5:1 corner radius ratio (top-left/bottom-right large, top-right/bottom-left small). The Light Blue container box must be bound to 40px 8px 40px 8px (icon_callout.box.radius), and the White icon badge must mirror this shape at a smaller scale bound to 20px 4px 20px 4px (icon_callout.badge.radius). The icon badge must carry a subtle drop shadow bound to 0 4px 10px rgba(1, 30, 69, 0.18) (icon_callout.badge.shadow). Do not swap or simplify these radii.",
-    "scope": "brand",
+    "rule_class": "assembly",
+    "rule_text": "Because Outlook desktop's Word engine ignores absolute positioning, use a transparent pre-composited PNG badge (including the shadow, accent radii, and icon) with live text, or bake the badge-on-edge treatment into the box background image, when pixel-perfect fidelity in all clients is required. When pre-composition is not feasible, the live version may ship with the accepted Outlook degradation: the badge is flush at the inner-left edge and the box is not inset; retain the Light Blue (#E6F0F9) fill, 40px 8px 40px 8px box radius, blue 800 text, and badge shadow.",
+    "scope": {
+      "clients": [
+        "Outlook desktop (Word engine)"
+      ],
+      "component": "icon_callout_box"
+    },
     "selector": {
-      "element_path": "icon_callout",
+      "element_path": "callout.icon",
       "section_types": [
         "callout"
       ]
     },
-    "slug": "icon_callout_box_geometry",
-    "snippets": "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n          <tr>\n            <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
-    "snippets_evidence": {
-      "quotes": [
-        "<div style=\"position:relative; padding-left:40px;\">",
-        "<td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px;"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0036"
+    "slug": "icon_callout_outlook_fallback",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "layout",
+      "iconography"
+    ],
+    "trigger": "When absolute positioning is unsupported or pixel-perfect fidelity across all email clients is required."
+  },
+  {
+    "compiled_by": "tables-v1",
+    "constraint_type": "binding",
+    "effect": {
+      "assignments": [
+        {
+          "element_path": "color.brand_blue.color",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_color_brand_blue_color"
+        },
+        {
+          "element_path": "color.light_blue.color",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_color_light_blue_color"
+        },
+        {
+          "element_path": "color.white.color",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_color_white_color"
+        },
+        {
+          "element_path": "color.dark_navy.color",
+          "linked_by": "tables-v1:table",
+          "token_id": "tok_lisraya_color_dark_navy_color"
+        }
       ]
     },
-    "tags": [
-      "color_application",
-      "spacing"
+    "evidence": {
+      "quotes": [
+        "| Brand Blue | `#00529b` | Headline text + icon stroke |",
+        "| Dark Navy | `#011E45` | Drop-shadow color (low opacity) |",
+        "| Light Blue | `#E6F0F9` | Box fill |",
+        "| White | `#ffffff` | Icon badge fill |"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0029",
+        "u_color_scheme_rules_6_0030",
+        "u_color_scheme_rules_6_0031",
+        "u_color_scheme_rules_6_0032"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r1",
+      "confidence": "high",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "compiled_by": 1.0,
+        "constraint_type": 1.0,
+        "effect": 1.0,
+        "hardness": 1.0,
+        "rule_class": 1.0,
+        "selector": 1.0,
+        "slug": 1.0,
+        "token_ids": 1.0
+      },
+      "runs": 3,
+      "support": 3
+    },
+    "hardness": "strong_default",
+    "id": "rule_lisraya_palette_reference_table_binding",
+    "intent": "Bind the Palette reference table values verbatim.",
+    "rule_class": "assembly",
+    "rule_text": "The Palette reference table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| Token | HEX | Use here |\n|---|---|---|\n| Brand Blue | `#00529b` | Headline text + icon stroke |\n| Light Blue | `#E6F0F9` | Box fill |\n| White | `#ffffff` | Icon badge fill |\n| Dark Navy | `#011E45` | Drop-shadow color (low opacity) |",
+    "selector": {
+      "element_path": null
+    },
+    "slug": "palette_reference_table_binding",
+    "token_ids": [
+      "tok_lisraya_color_brand_blue_color",
+      "tok_lisraya_color_dark_navy_color",
+      "tok_lisraya_color_light_blue_color",
+      "tok_lisraya_color_white_color"
     ]
   }
 ]

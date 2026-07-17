@@ -1,0 +1,89 @@
+{
+  "findings": [
+    {
+      "description": "Typography rules (Agenda as primary headline font, Nunito Sans for body copy, plus the associated font-family declarations/import links) are present in the source but have no corresponding rule in the candidate set. Only the color hierarchy rule was extracted, leaving an entire typography governance area unclustered.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Agenda must be used for all headlines/headers; Nunito Sans must be used for all body copy in print, with specified font stack/import.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004",
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The CTA shape/treatment instruction and its accompanying SVG gradient definition are unclustered — no rule captures the required CTA shape or its color treatment, despite being an explicit directive ('use this shape and treatment for CTAs').",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "cta_treatment",
+          "description": "CTAs must use the specified rounded-rectangle shape with the defined gradient fill.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "The CTA gradient SVG uses hex colors #FFDF55 and #FAA21B, which do not exactly match the three approved brand colors (#00529B, #FAA31B, #FFC60A) declared in the color hierarchy rule. This unflagged discrepancy suggests either a drifted/unauthorized color variant or a missed relation linking CTA treatment to the approved palette that should be reconciled or noted as an exception.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "The color hierarchy rule is marked hard_constraint/must but lacks any governance facet (e.g., scope of applicability such as 'internal banners only', owner/approver, or exception process) despite being sourced from an internal-only doc_ref; no explicit imperative language ('must') appears in the source sentence itself, only a descriptive hierarchy listing.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "governance_note": "Add explicit scope/owner metadata; verify hardness given descriptive (not imperative) source phrasing.",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "scope": "internal_banner_assets"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001"
+      ]
+    }
+  ]
+}

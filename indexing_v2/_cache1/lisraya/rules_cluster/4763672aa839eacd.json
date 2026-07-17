@@ -1,0 +1,196 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "campaign.headline.character.opacity",
+          "token_id": "tok_lisraya_opacity_tint_headline_char"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure distinct visual weighting for special campaign letters.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Campaign headline special characters 'D' and 'M' must use approximately a 40% tint (opacity.campaign.headline_char_tint = 0.4) of the headline color (Gold or Brand Blue).",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "campaign.headline.character",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_character_tint",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.box.light_blue.opacity",
+          "token_id": "tok_lisraya_opacity_tint_70"
+        },
+        {
+          "element_path": "callout.box.golden_sand.opacity",
+          "token_id": "tok_lisraya_opacity_tint_golden_sand_box"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain brand styling guidelines for tinted information boxes.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Callout boxes must adhere to specific tints: Light Blue callout boxes use a 70% tint (opacity.callout.70 = 0.7) and Golden Sand callout boxes use a 30% tint (opacity.callout.golden_sand_box = 0.3).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.box.background",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "callout_box_tint_rules",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "graphic.wave.top.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure consistent transparency overlap on brand wave decorations.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Top layers of structural waves must be set to 70% transparency/tint (opacity.logo.gold = 0.7).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "graphic.wave.top",
+        "section_types": null
+      },
+      "slug": "wave_top_layer_transparency",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Prevent dilution of brand identity by unapproved opacity levels and tints.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "No other ad-hoc tints may be used; color applications are restricted to solid palette values or the explicitly specified system tints.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "prohibited_adhoc_tints",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    }
+  ]
+}

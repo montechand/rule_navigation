@@ -1,0 +1,33 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules have been extracted for this blob. Highly specific, strict design criteria such as the asymmetric button radius, background fallback color, and specific image asset rules are completely unrepresented.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "The CTA button must use the exact four-value asymmetric border radius: 'border-radius: 49.52px 1.76px 40px 1.76px;'. This signature shape is always required, even if the background image is skipped. Never simplify, swap corners, or round the decimals.",
+          "doc_ref": "color_scheme_rules[5]",
+          "governance": "Strict brand signature design standard. Mandatory requirement.",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Gradient Callout CTA - Asymmetric Button Radius",
+          "scope": "component"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_5_0007",
+        "u_color_scheme_rules_5_0008",
+        "u_color_scheme_rules_5_0010",
+        "u_color_scheme_rules_5_0011",
+        "u_color_scheme_rules_5_0017"
+      ]
+    }
+  ]
+}

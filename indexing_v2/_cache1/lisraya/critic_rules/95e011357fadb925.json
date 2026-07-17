@@ -1,0 +1,54 @@
+{
+  "findings": [
+    {
+      "description": "Candidate rules completely omit typographic requirements for Agenda and Nunito Sans despite clear source rules specifying layout hierarchy (headlines vs. body copy) and links.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Use Agenda for all headlines and headers, and Nunito Sans for all print body copy, using the designated Google Font URL.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004",
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The specific SVG shape geometry, path rendering, and color gradient treatment for Call To Actions (CTAs) is unrepresented in the candidate rules.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "ui_components",
+          "description": "CTAs must utilize the approved asymmetrical rounded path geometry and linear gradient fill (#FFDF55 to #FAA21B) defined in the system SVG.",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    }
+  ]
+}

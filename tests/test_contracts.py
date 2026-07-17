@@ -264,7 +264,8 @@ def test_settings_defaults_and_override_order(monkeypatch: pytest.MonkeyPatch) -
     assert settings.REF_RETRIES == 2
     assert settings.LINKER_MODEL == settings.CRITIC_MODEL
     assert settings.LINKER_MAX_ADJUDICATIONS == 64
-    assert settings.LINKER_GAP_FEEDBACK is False
+    assert settings.LINKER_GAP_FEEDBACK is True
+    assert settings.TABLE_COMPILER is True
     assert [run.model_dump() for run in settings.ENSEMBLE_RUNS] == [
         {"run_id": "r0", "model": settings.EXTRACT_MODEL, "temperature": 0.0, "replicate": 0},
         {"run_id": "r1", "model": settings.EXTRACT_MODEL, "temperature": 0.4, "replicate": 1},
@@ -297,6 +298,7 @@ def test_evidence_paths_cover_entity_kinds() -> None:
         "asset",
         "subtype",
         "template",
+        "token_table",
     }
 
 

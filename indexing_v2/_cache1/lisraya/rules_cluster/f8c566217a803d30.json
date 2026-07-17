@@ -1,0 +1,333 @@
+{
+  "relations": [
+    {
+      "dst_slug": "palette_hierarchy_application",
+      "note": "Coral restriction narrows tertiary-accent usage within the overall hierarchy.",
+      "relation": "refines",
+      "src_slug": "coral_sparing_accent_only"
+    },
+    {
+      "dst_slug": "palette_hierarchy_application",
+      "note": "Chart-specific color roles apply the general palette hierarchy.",
+      "relation": "refines",
+      "src_slug": "chart_color_application"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.color",
+          "token_id": "tok_lisraya_headline_color"
+        },
+        {
+          "element_path": "body.color",
+          "token_id": "tok_lisraya_body_color"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**Headlines/headings:** Brand Blue (or White on dark/gradient backgrounds).",
+          "**Body text:** Graphite #212121 on light backgrounds; White on dark backgrounds"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0002",
+          "u_color_scheme_rules_1_0003"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Apply the palette in the **primary > secondary > tertiary ratio** shown in the guide: blues and golds dominate; tertiary colors are accents and surfaces.",
+          "**Headlines/headings:** Brand Blue (or White on dark/gradient backgrounds).",
+          "**Body text:** Graphite #212121 on light backgrounds; White on dark backgrounds (with increased line height, §1.2)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0001",
+          "u_color_scheme_rules_1_0002",
+          "u_color_scheme_rules_1_0003"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Preserve the approved brand color hierarchy across headings and body.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Apply the palette in the primary > secondary > tertiary ratio: blues and golds dominate, tertiary colors are accents/surfaces. Headlines/headings use Brand Blue (headline.color = #00529b), or White on dark/gradient backgrounds. Body text is Graphite (body.color = #212121) on light backgrounds, White on dark backgrounds (with increased line height per §1.2).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "palette_hierarchy_application",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "emphasizing key figures in charts/data",
+        "subject": "Sunshine/Gold"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "**Sunshine/Gold strictly reserved for emphasizing key figures**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Brand Blue + Sky Blue dominant; **Sunshine/Gold strictly reserved for emphasizing key figures**; gray for placebo."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0004"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Keep chart colors legible and reserve gold as an emphasis-only signal.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "In charts, Brand Blue (#00529b) + Sky Blue (#358CCB) dominate; Sunshine/Gold is strictly reserved for emphasizing key figures; placebo bars use gray (chart.color.placebo).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "chart",
+          "efficacy"
+        ]
+      },
+      "slug": "chart_color_application",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "chart"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.data.surface",
+          "token_id": "tok_lisraya_opacity_light_blue_callout_70"
+        },
+        {
+          "element_path": "callout.text_heavy.surface",
+          "token_id": "tok_lisraya_opacity_golden_sand_callout_30"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue at 70% tint (data callouts); Golden Sand at 30% tint (text-heavy callouts)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0005"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Callout surfaces:** Light Blue at 70% tint (data callouts); Golden Sand at 30% tint (text-heavy callouts)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0005"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Distinguish data vs. text-heavy callout surfaces with approved tints.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Callout surfaces use Light Blue at 70% tint (opacity.callout.light_blue_70 = 0.7) for data callouts, and Golden Sand at 30% tint (opacity.callout.golden_sand_30 = 0.3) for text-heavy callouts.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "callout_surface_tints",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "callout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "sparing tertiary accent only (never primary CTAs, headlines, or data)",
+        "subject": "tok_lisraya_color_tertiary_coral"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "sparing tertiary accent only — never for primary CTAs, headlines, or data"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0006"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Coral:** sparing tertiary accent only — never for primary CTAs, headlines, or data. **[GENERAL]:** avoid Coral in email sections unless the brief calls for it."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0006"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Constrain Coral to rare accent use and keep it out of email unless briefed.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Coral (#F26A38) is a sparing tertiary accent only — never for primary CTAs, headlines, or data. [GENERAL] Avoid Coral in email sections unless the brief calls for it.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "coral_sparing_accent_only",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "body.link.color",
+          "token_id": "tok_lisraya_body_link_color"
+        },
+        {
+          "element_path": "body.link.decoration",
+          "token_id": "tok_lisraya_body_link_decoration"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0007"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**Links [GENERAL]:** Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0007"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Ensure links are consistently styled and legible against their background.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "[GENERAL] Links are Brand Blue (body.link.color = #00529b), underlined (body.link.decoration = underline), on light backgrounds; White underlined on dark backgrounds.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "body.link.color",
+        "section_types": null
+      },
+      "slug": "link_color_by_background",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "logo.icon.gold",
+          "token_id": "tok_lisraya_color_primary_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "70% transparency of Pantone 7548 C / #ffc60a must be maintained in all instances"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0008"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "The logo icon's **70% transparency of Pantone 7548 C / #ffc60a must be maintained in all instances** (logo, and when the mark is used as a pattern/graphic)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0008"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Protect trademark integrity of the logo mark's gold treatment.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The logo icon's 70% transparency of Pantone 7548 C / #ffc60a (gold) must be maintained in all instances — in the logo, and when the mark is used as a pattern/graphic.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "logo_gold_transparency_maintained",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "imagery"
+      ]
+    }
+  ]
+}

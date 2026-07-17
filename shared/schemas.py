@@ -154,6 +154,49 @@ class BrandToken(BaseModel):
     version: int = 1
 
 
+class TableColumn(BaseModel):
+    """One discovered column of a brand token table."""
+
+    name: str  # discovered from header or synthesized ("value")
+    role: Optional[str] = None  # value|surface_print|surface_digital|fallback|usage|name
+    unit_hint: Optional[str] = None
+
+
+class TableRow(BaseModel):
+    """One row of a brand token table, tied back to its SourceUnit."""
+
+    row_key: str  # slugified first cell / level name
+    unit_id: str  # the SourceUnit (kind=table_row or list_item) this row came from
+    cells: dict[str, Any]  # column name -> raw string | {"token_id": "tok_..."}
+    token_ids: list[str] = Field(default_factory=list)  # tokens minted from this row
+
+
+class BrandTokenTable(BaseModel):
+    """A whole design-bible table stored as a first-class entity.
+
+    Tables are deterministic projections over per-row tokens: each row mints
+    typed atom tokens, and one umbrella binding rule carries every row token.
+    scope="global" tables are always injected email-wide (cascade brand sheets).
+    """
+
+    id: str  # ttab_{brand}_{slug}
+    brand_id: str
+    # typography_scale|color_palette|gradient_set|spacing_scale|radius_scale|
+    # canvas_spec|component_spec|other.<new>
+    table_type: str
+    name: str
+    columns: list[TableColumn]
+    rows: list[TableRow]
+    scope: str = "global"  # global | campaign:{name} — global => email-wide injection
+    applies_when: Optional[list[Predicate]] = None
+    variant_of: Optional[str] = None
+    umbrella_rule_id: Optional[str] = None
+    doc_ref: Optional[str] = None
+    source: str = "design_bible"
+    status: Status = "active"
+    version: int = 1
+
+
 class DesignAsset(BaseModel):
     id: str
     brand_id: str

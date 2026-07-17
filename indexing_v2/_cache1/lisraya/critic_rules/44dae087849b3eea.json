@@ -1,0 +1,176 @@
+{
+  "findings": [
+    {
+      "description": "Only one rule (link color by background) was extracted from this blob, but 7 other list items encode distinct, independently governed rules (palette hierarchy ratio, headline/heading color, body text color, chart color usage, callout surface tints, coral restriction, logo transparency requirement). These are missing entirely rather than merged, constituting massive under-extraction/bad clustering.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_palette_hierarchy_ratio",
+              "polarity": "must"
+            },
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_headline_color",
+              "polarity": "must"
+            },
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_body_text_color",
+              "polarity": "must"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_mandate",
+              "id": "rule_lisraya_chart_color_usage",
+              "polarity": "must"
+            },
+            {
+              "class": "color_application",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_callout_surface_tint",
+              "polarity": "must"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_mandate",
+              "id": "rule_lisraya_coral_restriction",
+              "polarity": "must_not"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_mandate",
+              "id": "rule_lisraya_logo_transparency",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_link_color_by_background",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0001",
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003",
+        "u_color_scheme_rules_1_0004",
+        "u_color_scheme_rules_1_0005",
+        "u_color_scheme_rules_1_0006",
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    {
+      "description": "Source unit explicitly tags this rule '[GENERAL]', signaling a governance scope/applicability facet (general vs. channel-specific). The candidate rule carries no governance facet capturing this explicit scope marker.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "governance_scope": "GENERAL",
+          "group_id": "grp_lisraya_color_scheme_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_link_color_by_background",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "Rule name 'link_color_by_background' only reflects color choice by background, but source unit also mandates underline styling ('underlined') for both light and dark backgrounds, an additional formatting facet not represented in scope.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "scope_note": "includes mandatory underline styling in addition to color-by-background"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_link_color_by_background",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "Coral restriction unit contains a hard prohibition ('never for primary CTAs, headlines, or data') plus a softer conditional GENERAL guidance ('avoid ... unless the brief calls for it'). If merged into one rule, it would conflate hard_mandate/must_not polarity with a strong_default/should-avoid polarity — these must be split into two rules with distinct hardness/polarity rather than a single rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "hard_mandate",
+              "id": "rule_lisraya_coral_hard_restriction",
+              "polarity": "must_not"
+            },
+            {
+              "class": "color_application",
+              "governance_scope": "GENERAL",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_coral_email_avoidance",
+              "polarity": "should_not"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    },
+    {
+      "description": "Logo transparency unit uses explicit hard language ('must be maintained in all instances') indicating hard_mandate hardness and must polarity across all applications (logo + pattern/graphic use); this is currently unrepresented and, if added, should not be down-graded to strong_default.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_mandate",
+          "id": "rule_lisraya_logo_transparency",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008"
+      ]
+    }
+  ]
+}

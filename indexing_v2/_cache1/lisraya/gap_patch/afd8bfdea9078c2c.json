@@ -1,0 +1,79 @@
+{
+  "assets": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "bolding_rules_distribution",
+      "key_proposal": "ratio.text.bolding_limit",
+      "quotes": [
+        "more than ~15% of running body text in any section"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_3_0003"
+      ],
+      "value": "15%"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Bold is for **hierarchy and key takeaways, not decoration**.",
+          "bold at most: the heading(s), one key phrase or claim per paragraph",
+          "Never bold: entire paragraphs, footnotes/references, more than ~15% of running body text in any section"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0001",
+          "u_content_pattern_rules_3_0003"
+        ]
+      },
+      "id": "rule_lisraya_bolding_rules_distribution",
+      "rule_class": "typography",
+      "rule_text": "Bold styling is reserved for hierarchy and key takeaways, never for decoration. Bold at most one key phrase or claim per paragraph, and do not exceed approximately 15% of the running body text in any section.",
+      "selector": {
+        "element_path": "body.text.bolding_limit"
+      }
+    },
+    {
+      "constraint_type": "binding",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Always bold: callout text per the callout specs (§1.7), statistical callout numbers, brand name within a benefit claim when it is the focal point of the sentence (first instance per section only)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0002"
+        ]
+      },
+      "id": "rule_lisraya_bolding_required_elements",
+      "rule_class": "typography",
+      "rule_text": "Always bold callout text according to the specifications, statistical callout numbers, and the first instance of the brand name per section when it is the focal point of a benefit claim.",
+      "selector": {
+        "element_path": "body.text.bolding_elements"
+      }
+    },
+    {
+      "constraint_type": "exclusivity",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Never use bold + ALL CAPS + color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup. Pick at most two emphasis devices per element."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_3_0004"
+        ]
+      },
+      "id": "rule_lisraya_bolding_emphasis_devices",
+      "rule_class": "typography",
+      "rule_text": "Pick at most two emphasis devices per element. Never combine bold, ALL CAPS, and color emphasis simultaneously on the same string except in chart headlines and the campaign headline lockup.",
+      "selector": {
+        "element_path": "typography.emphasis_devices"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

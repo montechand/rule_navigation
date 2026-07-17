@@ -1,0 +1,123 @@
+{
+  "findings": [
+    {
+      "description": "One rule conflates three distinct facets — colorway/variant spec (0001), layered construction with fixed 70% transparency (0002), and flexible usage guidance (0003) — that differ in hardness/polarity. The construction clause ('always preserve') is a true hard must, but the usage clause ('alone, or overlaid...to support...') is permissive/optional, not a hard must. Should be split into at least two rules: one for construction (hard/must) and one for usage/application (soft, should/may).",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "new_rules": [
+            {
+              "class": "imagery",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_wave_construction_layering",
+              "polarity": "must",
+              "unit_ids": [
+                "u_design_pattern_rules_1_0002"
+              ]
+            },
+            {
+              "class": "imagery",
+              "hardness": "soft_guideline",
+              "id": "rule_lisraya_wave_usage_guidance",
+              "polarity": "should",
+              "unit_ids": [
+                "u_design_pattern_rules_1_0003"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_wave_graphic_construction"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Unit 0003 explicitly allows optional usage ('alone, or overlaid on photography or gradient backgrounds') — this is guidance on placement flexibility, not a hard mandatory rule. Tagging the whole cluster (including this unit) with hardness=hard_constraint/polarity=must misrepresents the source's permissive phrasing.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "hardness": "soft_guideline",
+          "polarity": "should",
+          "scope_note": "applies only to usage/placement portion (u_design_pattern_rules_1_0003)"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_wave_graphic_construction"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "The clause 'Approved color values only' is a distinct hard constraint on color compliance that is not represented as its own rule — it is currently folded silently into the broader wave construction/usage rule without being surfaced as a separate governance/color_application rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_wave_approved_colors_only",
+          "polarity": "must",
+          "unit_ids": [
+            "u_design_pattern_rules_1_0003"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "The rule states the masthead gradient/logo device 'is the approved device' — this is a compliance/approval statement but no governance facets (approver, exception process, review cadence, or scope limits beyond masthead) are captured, leaving the approval claim unverifiable.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "governance": {
+            "approval_status": "approved",
+            "approver": "unspecified",
+            "exception_process": "unspecified"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_gradient_copy_device"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_masthead_gradient_copy_device",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ]
+    }
+  ]
+}

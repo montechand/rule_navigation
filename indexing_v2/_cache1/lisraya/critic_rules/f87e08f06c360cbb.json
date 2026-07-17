@@ -1,0 +1,101 @@
+{
+  "findings": [
+    {
+      "description": "This rule merges two distinct directives with opposite polarity: an affirmative list of known-safe color pairings (must/should use) and a prohibition on gold/sunshine text on white (must_not). Tagging the whole cluster polarity=must_not misrepresents the affirmative safe-pairs guidance and loses the exception noted for golds ('surfaces, rules, large display emphasis only').",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "guideline",
+              "id": "rule_lisraya_safe_color_pairs",
+              "polarity": "should",
+              "text": "Use known-safe color pairs (Brand Blue/Deep Blue/Dark Navy/Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy)."
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_gold_text_ban",
+              "polarity": "must_not",
+              "text": "Do not use Gold or Sunshine text on White; golds are restricted to surfaces, rules, and large display emphasis only."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_safe_color_pairs_and_gold_text_ban"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_safe_color_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    },
+    {
+      "description": "u_0003 ('Don't rely on color alone to convey meaning') is a distinct accessibility guideline not represented by any candidate rule; it has been dropped from extraction entirely.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "accessibility",
+          "doc_ref": "color_scheme_rules[4]",
+          "group_id": "grp_lisraya_color_scheme_rules_04",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_no_color_only_meaning",
+          "polarity": "must_not",
+          "text": "Don't rely on color alone to convey meaning — pair with icons, depth, clear copy, or visual feedback."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_4_0003"
+      ]
+    },
+    {
+      "description": "Rule references WCAG AA standard and webaim.com as the required testing tool/authority but no governance facet (standard citation, required tool, verification method) is captured on the rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[4]",
+          "governance": {
+            "standard": "WCAG AA",
+            "verification_tool": "webaim.com or equivalent"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_contrast_minimums"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_contrast_minimums",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0001"
+      ]
+    },
+    {
+      "description": "The absolute must_not polarity on the merged rule ignores the carve-out that gold/sunshine is permitted for surfaces, rules, and large display emphasis — an unqualified prohibition misstates scope.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_safe_color_pairs_and_gold_text_ban",
+      "unit_ids": [
+        "u_color_scheme_rules_4_0002"
+      ]
+    }
+  ]
+}

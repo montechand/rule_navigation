@@ -1,0 +1,78 @@
+{
+  "findings": [
+    {
+      "description": "The design pattern guidelines for email canvas, grid width, mobile breakpoints, and section side paddings are not extracted as rules in the candidate rules list.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Email body width must be exactly 600px (fixed and centered). Mobile breakpoint is 480px, collapsing multi-column layouts to single column. Section side padding must have 24px left/right margins to guarantee seamless assembly.",
+          "doc_ref": "design_pattern_rules[0]",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Email Canvas and Grid System",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0001",
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003",
+        "u_design_pattern_rules_0_0004"
+      ]
+    },
+    {
+      "description": "The vertical rhythm rules defining the 8px base unit, section paddings (32px top/bottom), and specific inter-element gaps are missing representation in the candidate list.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "All padding and margins must use an 8px base unit. Sections must own their own top and bottom padding of 32px (zero-gap stacking). Inter-element gaps: 16px for heading-to-body and paragraph-to-paragraph, 24px for body-to-CTA, and 8px for image-to-caption.",
+          "doc_ref": "design_pattern_rules[0]",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Vertical Rhythm and Spacing",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0005",
+        "u_design_pattern_rules_0_0006",
+        "u_design_pattern_rules_0_0007"
+      ]
+    },
+    {
+      "description": "The accessibility guidelines specifying a minimum touch target height of 48px, specific color codes (#00529b and #ffffff), and pill-shaped corner radius (24px) for CTAs are missing governance enforcement parameters.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Buttons must have a minimum touch target height of 48px, corner radius of 24px, and use Brand Blue #00529b or white #ffffff. Limit to maximum of one primary CTA per section.",
+          "doc_ref": "design_pattern_rules[0]",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "CTA Button Design and Accessibility Standards",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    }
+  ]
+}

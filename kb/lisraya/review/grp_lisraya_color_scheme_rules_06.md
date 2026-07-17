@@ -81,9 +81,21 @@ Defaults: badge size `W = 80px`, inner icon `48px`. If your real badge is a diff
 
 ````
 
-## Extracted rules (1)
+## Extracted rules (2)
 
-### rule_lisraya_icon_callout_box_geometry
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=binding
-- rule_text: Icon callout box rules specify a badge width of 80px (with an inner icon minimum render size or touch target constraints) and inset the blue box by W/2 = 40px so the badge's center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper, yielding a distance from badge center to box edge of exactly 0). Vertical centering is achieved via top:50% and a negative margin-top of 40px (half the badge height).
-- intent: Maintain the distinct asymmetrical brand shape relationship across container and badge.
+### rule_lisraya_icon_callout_outlook_fallback
+- class=assembly scope=brand hardness=strong_default polarity=should sections=['callout'] constraint=None
+- rule_text: Because Outlook desktop's Word engine ignores absolute positioning, use a transparent pre-composited PNG badge (including the shadow, accent radii, and icon) with live text, or bake the badge-on-edge treatment into the box background image, when pixel-perfect fidelity in all clients is required. When pre-composition is not feasible, the live version may ship with the accepted Outlook degradation: the badge is flush at the inner-left edge and the box is not inset; retain the Light Blue (#E6F0F9) fill, 40px 8px 40px 8px box radius, blue 800 text, and badge shadow.
+- intent: Preserve the approved badge-on-edge appearance across clients while defining the acceptable Outlook fallback.
+
+### rule_lisraya_palette_reference_table_binding
+- class=assembly scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: The Palette reference table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.
+
+| Token | HEX | Use here |
+|---|---|---|
+| Brand Blue | `#00529b` | Headline text + icon stroke |
+| Light Blue | `#E6F0F9` | Box fill |
+| White | `#ffffff` | Icon badge fill |
+| Dark Navy | `#011E45` | Drop-shadow color (low opacity) |
+- intent: Bind the Palette reference table values verbatim.

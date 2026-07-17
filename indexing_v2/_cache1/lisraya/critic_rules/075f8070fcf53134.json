@@ -1,0 +1,116 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules exist for this blob at all, despite it containing a substantive, closed set of approved gradient specifications plus usage and directional constraints. The entire blob was dropped from extraction.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "must",
+          "rule_type": "approved_gradient_palette",
+          "scope": "gradients",
+          "statement": "Only the seven listed approved gradients may be used; do not invent new gradients.",
+          "unit_ids": [
+            "u_color_scheme_rules_3_0000",
+            "u_color_scheme_rules_3_0003",
+            "u_color_scheme_rules_3_0004",
+            "u_color_scheme_rules_3_0005",
+            "u_color_scheme_rules_3_0006",
+            "u_color_scheme_rules_3_0007",
+            "u_color_scheme_rules_3_0008"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0001",
+        "u_color_scheme_rules_3_0002",
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007",
+        "u_color_scheme_rules_3_0008",
+        "u_color_scheme_rules_3_0009",
+        "u_color_scheme_rules_3_0010"
+      ]
+    },
+    {
+      "description": "The heading explicitly states gradients are an 'approved set — never invent gradients' and the closing list item restates 'Approved values only.' These are strong compliance/governance statements (hard prohibition on inventing new gradients) that must be captured with hardness=hard and polarity=must_not on invention, separate from the allowed-usage rule.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "must_not",
+          "rule_type": "governance_no_invention",
+          "scope": "gradients",
+          "statement": "Never invent gradients outside the approved set; use only approved gradient values.",
+          "unit_ids": [
+            "u_color_scheme_rules_3_0000",
+            "u_color_scheme_rules_3_0010"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0010"
+      ]
+    },
+    {
+      "description": "Missed relation: the masthead gradient row (u_0008, bolded as 'the gradient to use with the logo mark') and the directional/orientation constraint in u_0009 ('Gradients run horizontally in masthead/banner applications... left → right as shown') describe the same masthead usage context and should be linked or merged into one usage-scoped rule rather than left as independent, unclustered facts.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "merge",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "g_lisraya_gradients",
+          "hardness": "hard",
+          "polarity": "must",
+          "rule_type": "masthead_gradient_usage",
+          "scope": "masthead/banner logo mark placement",
+          "statement": "Use the Sunshine → light gold gradient for masthead/logo-mark contrast, oriented dark/saturated-to-light left-to-right, with the mark at the lightest end.",
+          "unit_ids": [
+            "u_color_scheme_rules_3_0008",
+            "u_color_scheme_rules_3_0009"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0008",
+        "u_color_scheme_rules_3_0009"
+      ]
+    },
+    {
+      "description": "u_0010 bundles three distinct scope facets (backgrounds, wave-graphic combination, logo-mark combination) plus a governance clause ('Approved values only') in one list item; if clustered as a single rule it should be split by scope/usage-context facet rather than treated as one atomic statement, or at minimum each facet should be tagged separately.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0010"
+      ]
+    }
+  ]
+}

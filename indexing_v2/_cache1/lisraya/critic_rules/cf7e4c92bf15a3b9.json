@@ -1,0 +1,147 @@
+{
+  "findings": [
+    {
+      "description": "Hierarchy/application ratio rule (primary>secondary>tertiary dominance, blues/golds dominant, tertiary as accents) is not represented by any candidate rule; this is a distinct governance statement about color hierarchy that should be its own rule.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Apply palette per primary>secondary>tertiary dominance ratio; blues/golds dominate, tertiary colors are accents/surfaces only",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Headline/heading color rule and body text color rule (with background-conditional variants) are not captured by any candidate rule despite being clearly specified color_application statements, comparable in specificity to the included link-color rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Headlines: Brand Blue (or White on dark/gradient); Body text: Graphite #212121 on light, White on dark",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Chart/data-visualization color rule, including the strict reservation of Sunshine/Gold for emphasizing key figures (a hard_constraint-level statement given 'strictly reserved' language), has no corresponding rule in the cluster.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Charts: Brand Blue + Sky Blue dominant; Sunshine/Gold strictly reserved for emphasizing key figures only; gray for placebo",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Coral usage restriction (never for primary CTAs/headlines/data, plus GENERAL guidance to avoid in email unless brief specifies) is a distinct multi-part rule missing from the cluster; it also carries an explicit conditional exception that would need governance capture if added.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Coral is sparing tertiary accent only; never for primary CTAs, headlines, or data; avoid in email sections unless brief calls for it",
+          "doc_ref": "color_scheme_rules[1]",
+          "governance": {
+            "exception": "unless the brief calls for it",
+            "scope": "GENERAL"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    },
+    {
+      "description": "Source unit explicitly tags this rule '[GENERAL]', signaling a governance scope/applicability marker distinguishing it from channel- or context-specific rules; the candidate rule gives no indication of this governance facet.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "governance": {
+            "scope": "GENERAL"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_by_background"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_link_color_by_background",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "Callout surface tint specification is phrased descriptively (like the omitted headline/body-text lines) rather than with imperative/must language, yet it is assigned polarity=must and hardness=strong_default while structurally similar statements (u0002, u0003) were excluded entirely — inconsistent treatment across similarly-worded units.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_callout_surface_tints",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005"
+      ]
+    },
+    {
+      "description": "Confirmed correct: source uses explicit 'must be maintained in all instances' language, consistent with hard_constraint/must classification; no error found, listed for completeness.",
+      "finding_id": "f_lisraya_07",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_logo_gold_opacity_maintained",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008"
+      ]
+    }
+  ]
+}

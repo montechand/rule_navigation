@@ -1,0 +1,128 @@
+{
+  "findings": [
+    {
+      "description": "The core Brand Accent Shape definition (rectangle with two selectively enlarged opposite corner radii, other two slight radius) is not represented by any rule. Only the diagonal-orientation-consistency sub-rule was extracted; the foundational shape/geometry rule is missing entirely.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "shape",
+          "description": "Brand Accent Shape is a rectangle with two selectively enlarged opposite corner radii; the remaining two corners keep a slight radius.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0001"
+      ]
+    },
+    {
+      "description": "Approved print radius pairs (1.25\"&0.0625\", 0.5\"&0.0625\", 0.4375\"&0.0625\") are concrete, measurable spec values with no corresponding rule; this content is dropped from clustering entirely.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "spec_value",
+          "description": "Approved radius pairs for print: 1.25in & 0.0625in (large), 0.5in & 0.0625in (banner), 0.4375in & 0.0625in (small callout).",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "strong",
+          "polarity": "must",
+          "scope": "print"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "Unit 0003 contains two distinct facts: (a) email px radius conversions (120/6, 48/6, 42/6px) as spec values, and (b) the diagonal-orientation consistency requirement. Only the latter is captured by the existing rule; the px conversion values are lost. These should be split into a separate spec_value rule and linked/related to the diagonal-consistency rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "new_rule": {
+            "class": "spec_value",
+            "description": "Email px radius conversions at 96dpi: large 120px & 6px, banner 48px & 6px, callout 42px & 6px, applied to opposite corner pairs.",
+            "hardness": "strong",
+            "polarity": "must",
+            "scope": "email"
+          },
+          "relation": "governs_measurement_for:rule_lisraya_accent_shape_diagonal_consistency"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_diagonal_consistency"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_accent_shape_diagonal_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "The explicit exception for charts/tables (uniform rounded corners on all four corners at 12px, overriding the asymmetric accent shape) is completely missing from the rule set. This is a hard override/exception relative to the core shape rule and must be captured as its own rule with an exception relation, not folded into the diagonal-consistency rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "shape",
+          "description": "Charts and tables must use uniform rounded corners on all four corners (12px, GENERAL), not the asymmetric accent shape.",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "strong",
+          "polarity": "must_not",
+          "relation": "exception_to:rule_lisraya_accent_shape_diagonal_consistency",
+          "scope": "charts_tables"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Source explicitly tags the px conversions as [GENERAL], implying a channel/scope governance facet (general vs. print vs. email-specific applicability). The existing rule carries no scope/channel facet, losing this governance distinction between print (approved pairs) and email/general (px conversions).",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "note": "Add channel/scope facet distinguishing GENERAL email guidance from print-specific approved radius pairs.",
+          "scope": "email/general"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_diagonal_consistency"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_accent_shape_diagonal_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    }
+  ]
+}

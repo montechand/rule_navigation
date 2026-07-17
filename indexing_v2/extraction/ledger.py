@@ -130,6 +130,7 @@ class CandidatesBundle(BaseModel):
     assets: list[dict[str, Any]] = Field(default_factory=list)
     subtypes: list[dict[str, Any]] = Field(default_factory=list)
     templates: list[dict[str, Any]] = Field(default_factory=list)
+    tables: list[dict[str, Any]] = Field(default_factory=list)
     rules_by_group: dict[str, list[dict[str, Any]]] = Field(default_factory=dict)
     rule_group_doc_refs: dict[str, str] = Field(default_factory=dict)
     relations_by_group: dict[str, list[dict[str, Any]]] = Field(default_factory=dict)
@@ -205,6 +206,7 @@ class CandidatesBundle(BaseModel):
             assets=_sorted_entities(result.assets),
             subtypes=_sorted_entities(result.subtypes),
             templates=_sorted_entities(result.templates),
+            tables=_sorted_entities(getattr(result, "tables", [])),
             rules_by_group=rule_groups,
             rule_group_doc_refs=mappings,
             relations_by_group=relations_by_group,
@@ -338,6 +340,9 @@ class CandidatesBundle(BaseModel):
             assets=_sorted_entities(patched.asset),
             subtypes=_sorted_entities(patched.subtype),
             templates=_sorted_entities(patched.template),
+            # The critic never patches deterministic table entities; carry
+            # them through unchanged.
+            tables=_sorted_entities(self.tables),
             rules_by_group=rules_by_group,
             rule_group_doc_refs=result_mappings,
             relations_by_group={
@@ -398,6 +403,7 @@ class CandidatesBundle(BaseModel):
             "asset": _sorted_entities(self.assets),
             "subtype": _sorted_entities(self.subtypes),
             "template": _sorted_entities(self.templates),
+            "token_table": _sorted_entities(self.tables),
             "rule": rules,
         }
 
@@ -570,6 +576,15 @@ def _ledger_status(
     return "covered"
 
 
+# Kinds whose claims are tolerated against these expected yields without a
+# soft-mismatch: a deterministic token_table legitimately absorbs units that
+# were labeled as expecting per-value tokens or a rule (the table's row tokens
+# and umbrella rule carry the same content).
+_SOFT_MISMATCH_TOLERANCE: dict[EntityKind, set[EntityKind]] = {
+    "token_table": {"token_primitive", "token_semantic", "rule"},
+}
+
+
 def _soft_mismatches_for_unit(
     label: UnitLabel,
     claims: list[tuple[str, EntityKind]],
@@ -579,6 +594,9 @@ def _soft_mismatches_for_unit(
     expected = set(label.expected_yield)
     out: list[SoftMismatch] = []
     for entity_id, entity_kind in claims:
+        tolerated = _SOFT_MISMATCH_TOLERANCE.get(entity_kind)
+        if tolerated is not None and expected & tolerated:
+            continue
         if entity_kind not in expected:
             out.append(
                 SoftMismatch(
@@ -1598,7 +1616,9 @@ async def _gap_patch_blob(
         usage,
         gap_round=gap_round,
     )
-    payload = _parse_gap_payload(result)
+    payload = _parse_gap_payload(
+        _normalize_gap_patch_payload(result, brand=brand, candidates=candidates)
+    )
     invalid = validate_gap_rule_bindings(payload, candidates)
     if invalid:
         feedback = (
@@ -1616,7 +1636,9 @@ async def _gap_patch_blob(
             gap_round=gap_round,
             extra={"binding_retry": 1, "doc_ref": doc_ref},
         )
-        payload = _parse_gap_payload(retried)
+        payload = _parse_gap_payload(
+            _normalize_gap_patch_payload(retried, brand=brand, candidates=candidates)
+        )
         invalid = validate_gap_rule_bindings(payload, candidates)
         if invalid:
             invalid_ids = set(invalid)
@@ -1685,6 +1707,51 @@ async def _full_blob_reextract(
             candidates=candidates,
         )
     )
+
+
+def _normalize_gap_patch_payload(
+    raw: Any,
+    *,
+    brand: str,
+    candidates: CandidatesBundle,
+) -> Any:
+    """Mint rule ids from slug-only gap_patch output before GapPatchPayload validation.
+
+    F2 switched gap_patch.md to emit ``slug`` (matching rules_cluster) so Pass C
+    never double-prefixes; provenance still requires ``id``. Escalation already
+    mints via ``_normalize_full_blob_payload`` — this is the same fence for the
+    primary gap_patch path.
+    """
+    if not isinstance(raw, Mapping):
+        return raw
+    rules = raw.get("rules")
+    relations = raw.get("relations", [])
+    if not isinstance(rules, list) or not isinstance(relations, list):
+        return raw
+    if not all(isinstance(rule, Mapping) for rule in rules) or not all(
+        isinstance(relation, Mapping) for relation in relations
+    ):
+        return raw
+
+    reserved_ids = {
+        str(rule["id"])
+        for group_rules in candidates.rules_by_group.values()
+        for rule in group_rules
+        if isinstance(rule.get("id"), str) and rule["id"]
+    }
+    group = RuleGroupOutput(
+        group_id="_gap_patch",
+        doc_ref="",
+        original_text="",
+        rules=[dict(rule) for rule in rules],
+        relations=[dict(relation) for relation in relations],
+    )
+    normalized = normalize_rule_groups(brand, [group], used_ids=reserved_ids)[0]
+    return {
+        **raw,
+        "rules": normalized.rules,
+        "relations": normalized.relations,
+    }
 
 
 def _normalize_full_blob_payload(

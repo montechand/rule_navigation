@@ -1,0 +1,121 @@
+{
+  "findings": [
+    {
+      "description": "No rules were extracted at all for this blob despite it containing at least four distinct, independently governed rules: (1) background gradient image usage/fallback, (2) headline color/typography/placement, (3) button color/typography/size, (4) mandatory asymmetric button border-radius. These have different hardness levels and exception conditions and must not be left unclustered or merged into a single generic rule.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_cta_background",
+          "note": "create separate rules for background/fallback, headline, button style, and border-radius"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0000",
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_5_0007",
+        "u_color_scheme_rules_5_0008",
+        "u_color_scheme_rules_5_0010",
+        "u_color_scheme_rules_5_0011",
+        "u_color_scheme_rules_5_0017"
+      ]
+    },
+    {
+      "description": "The button radius rule is explicitly labeled 'mandatory, never change' and 'always required on every instance' — this is a hard/never-deviate rule with an explicit no-exception clause ('never simplify it to a single value, swap the corners, or round the decimals'). No governance facet (hardness=mandatory, no-exceptions) has been captured for this since no rule row exists at all.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "exceptions": "none",
+          "group_id": "g_lisraya_button_radius",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "value": "border-radius: 49.52px 1.76px 40px 1.76px"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0010",
+        "u_color_scheme_rules_5_0011"
+      ]
+    },
+    {
+      "description": "The background-skip exception is conditional and scoped narrowly ('only in very, very rare cases': plain-text/AMP fallback, image-stripping clients, hard size budget). This scoping/condition governance is not captured anywhere since no rule rows exist; without it the fallback could be misapplied broadly.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "fallback_color": "#faa31b",
+          "group_id": "g_lisraya_background_fallback",
+          "hardness": "conditional",
+          "scope": "rare fallback contexts only (plain-text/AMP, image-stripping clients, size budget)"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008",
+        "u_color_scheme_rules_5_0017"
+      ]
+    },
+    {
+      "description": "Missed relation: the border-radius mandatory rule explicitly states it applies 'even when the background is skipped', directly linking it to the background-fallback rule. This cross-rule dependency (radius rule overrides/persists through the fallback condition) is not represented since no rules exist yet.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_button_radius",
+          "related_group_id": "g_lisraya_background_fallback",
+          "relation": "persists_through"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0010",
+        "u_color_scheme_rules_5_0017"
+      ]
+    },
+    {
+      "description": "The 'do not re-host or recolor' instruction for the background asset is a distinct hard prohibition (negative polarity) separate from the sizing/positioning rules, and should not be merged into a single generic background rule without capturing its own polarity/hardness.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[5]",
+          "group_id": "g_lisraya_background_asset_integrity",
+          "hardness": "mandatory",
+          "polarity": "negative",
+          "value": "do not re-host or recolor background asset"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    }
+  ]
+}

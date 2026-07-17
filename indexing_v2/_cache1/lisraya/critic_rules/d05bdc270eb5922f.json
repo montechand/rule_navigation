@@ -1,0 +1,88 @@
+{
+  "findings": [
+    {
+      "description": "Icon style rule (minimal line illustration; new icons must match stroke weight, rounded caps, single-color line work) has no corresponding rule in the candidate set. This is a distinct hard constraint on iconography style, separate from the color-palette rule, and is entirely missing from clustering.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "description": "New icons must use minimal line illustration style with consistent stroke weight, rounded line caps, and single-color line work.",
+          "doc_ref": "design_pattern_rules[5]",
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001"
+      ]
+    },
+    {
+      "description": "Accessibility/contrast consideration rule for icons (scale/contrast for low-vision audiences, with GENERAL default of 32x32px minimum render size and default Brand Blue strokes) is not represented as a rule at all in the candidate set.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "description": "Icons should consider scale and contrast for low-vision audiences.",
+          "doc_ref": "design_pattern_rules[5]",
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "guideline",
+          "polarity": "should"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "The bracketed [GENERAL: minimum render size 32x32px in email; default Brand Blue strokes on light backgrounds] contains explicit governance/default facets (scope=email, default value=32x32px, default color=Brand Blue) that are not captured anywhere in the candidate rules, even though a placeholder rule is missing for this unit entirely.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "doc_ref": "design_pattern_rules[5]",
+          "governance": {
+            "default_min_size": "32x32px",
+            "default_stroke_color": "Brand Blue on light backgrounds",
+            "scope": "email"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "guideline",
+          "polarity": "should"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "Rule correctly reflects hard_constraint/must polarity from 'adjustable only within the brand palette', but scope should explicitly note it covers both icon colors and backgrounds, which is currently ambiguous given the rule id name only references 'icon_color'.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_icon_color_brand_palette_only",
+      "unit_ids": [
+        "u_design_pattern_rules_5_0002"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "findings": [
+    {
+      "description": "The CTA shape/treatment instruction (SVG button shape with gradient fill) has no corresponding rule at all in the candidate set. This is a distinct visual/component rule (CTA treatment) that was dropped entirely, not merged into either color or typography rules.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "cta_treatment",
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "hardness": "strong_default",
+          "polarity": "should",
+          "unit_ids": [
+            "u_internal_banner_rules_0_0010",
+            "u_internal_banner_rules_0_0012"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "The hard_constraint color hierarchy rule lists exactly three approved hex colors (#00529B, #FAA31B, #FFC60A), but the CTA SVG gradient (u_0012) uses #FFDF55 and #FAA21B, neither of which matches the approved palette exactly (FAA21B vs FAA31B mismatch, FFDF55 entirely absent). This conflicts with the 'must' polarity hard_constraint and is not reconciled or scoped as an exception anywhere.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "note": "Flag conflicting CTA gradient colors (#FFDF55, #FAA21B) as either a documentation error or an unstated exception scope for CTA components."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    {
+      "description": "rule_lisraya_font_roles merges the headline font rule (Agenda, general use for headlines/headers, no medium restriction) with the body copy font rule (Nunito Sans, explicitly scoped 'in print') under one undifferentiated rule. This loses the print-only scope qualifier for Nunito Sans, which is significant in a banner-rules (likely digital) document.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00",
+          "rules": [
+            {
+              "class": "typography",
+              "hardness": "strong_default",
+              "polarity": "should",
+              "scope": "headlines_headers",
+              "unit_ids": [
+                "u_internal_banner_rules_0_0003"
+              ]
+            },
+            {
+              "class": "typography",
+              "hardness": "strong_default",
+              "polarity": "should",
+              "scope": "body_copy_print",
+              "unit_ids": [
+                "u_internal_banner_rules_0_0004"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_font_roles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_font_roles",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0003",
+        "u_internal_banner_rules_0_0004"
+      ]
+    },
+    {
+      "description": "The hard_constraint color rule states a strict hierarchy ('must') but no governance facet (owner, exception process, applicable channels/media) is attached, despite the doc scope being 'internal_banner_rules' specifically — it's unclear if this hierarchy applies only to banners or brand-wide, and whether exceptions (like the CTA gradient) are permitted.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facets": [
+            "scope_channel",
+            "exception_policy"
+          ],
+          "doc_ref": "internal_banner_rules[0]",
+          "group_id": "grp_lisraya_internal_banner_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_brand_color_hierarchy"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_brand_color_hierarchy",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001"
+      ]
+    },
+    {
+      "description": "Font asset labels ('Agenda:' and 'Nunito Sans:' with webfont link) are present in source but not represented in any rule or asset entity; the Agenda font has no accompanying link/source reference at all, suggesting missing or incomplete asset data that isn't flagged.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_internal_banner_rules_0_0006",
+        "u_internal_banner_rules_0_0007",
+        "u_internal_banner_rules_0_0008"
+      ]
+    }
+  ]
+}

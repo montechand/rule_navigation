@@ -1,7 +1,85 @@
 {
   "doc_ref": "color_scheme_rules[5]",
   "group_id": "grp_lisraya_color_scheme_rules_05",
-  "missing_token_requests": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "asset.background.gradient_callout_png",
+      "quotes": [
+        "asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ],
+      "value": "https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png"
+    },
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "background.gradient_callout.image_size",
+      "quotes": [
+        "sized `cover`, `no-repeat`, centered"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006"
+      ],
+      "value": "cover"
+    },
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "background.gradient_callout.image_repeat",
+      "quotes": [
+        "sized `cover`, `no-repeat`, centered"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006"
+      ],
+      "value": "no-repeat"
+    },
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "background.gradient_callout.image_position",
+      "quotes": [
+        "background-position=\"center center\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "center center"
+    },
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "line_height.gradient_callout_headline",
+      "quotes": [
+        "line-height=\"34px\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "34px"
+    },
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "spacing.gradient_callout.headline_button",
+      "quotes": [
+        "padding=\"0 0 32px 0\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "32px"
+    },
+    {
+      "for_rule_slug": "gradient_callout_cta_section",
+      "key_proposal": "line_height.gradient_callout_button_label",
+      "quotes": [
+        "line-height:64px"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "64px"
+    }
+  ],
   "original_text": "### [IMPORTANT] Gradient Callout CTA Section Rule\n \nA full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.\n \n**Layout (explicit):**\n \n- **Background** → the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images.\n- **Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.\n- **Button** → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px.\n**Background image:** asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor. The background may be skipped **only in very, very rare cases** (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, the section still renders on a solid Sunshine `#faa31b` fill and every other rule stays identical.\n \n**Button radius (mandatory, never change):** `border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped. Never simplify it to a single value, swap the corners, or round the decimals.\n \n## MJML\n \n```xml\n<mj-section\n    background-url=\"https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png\"\n    background-size=\"cover\"\n    background-repeat=\"no-repeat\"\n    background-position=\"center center\"\n    background-color=\"#faa31b\"\n    padding=\"48px 25px 56px 25px\">\n  <mj-column width=\"100%\">\n \n    <mj-text\n        align=\"center\"\n        color=\"#00529b\"\n        font-family=\"Nunito Sans, Arial, Helvetica, sans-serif\"\n        font-size=\"28px\"\n        font-weight=\"800\"\n        line-height=\"34px\"\n        padding=\"0 0 32px 0\">\n      Talk to your doctor about how LISRAYA can help\n    </mj-text>\n \n    <mj-text align=\"center\" padding=\"0\">\n      <a href=\"https://www.LISRAYA.com\" target=\"_blank\" class=\"lisraya-cta-btn\"\n         style=\"display:inline-block;width:248px;height:64px;background-color:#003D74;color:#ffffff;font-family:'Nunito Sans',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;line-height:64px;text-align:center;text-decoration:none;border-radius:49.52px 1.76px 40px 1.76px;\">\n        Visit LISRAYA.com&nbsp;&nbsp;<span style=\"color:#FFC20E;font-size:24px;\">&#10095;</span>\n      </a>\n    </mj-text>\n \n  </mj-column>\n</mj-section>\n```\n \nIf the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above.",
   "relations": [],
   "rules": [
@@ -15,68 +93,76 @@
       ],
       "effect": [
         {
-          "element_path": "section.background.image",
-          "token_id": "tok_lisraya_image_treatment_background"
+          "element_path": "cta.gradient_callout.background.fallback",
+          "token_id": "tok_lisraya_color_primary_sunshine"
         },
         {
-          "element_path": "section.background.color",
-          "token_id": "tok_lisraya_color_sunshine"
+          "element_path": "cta.gradient_callout.width",
+          "token_id": "tok_lisraya_size_canvas_email_width"
         },
         {
-          "element_path": "section.headline.text.color",
-          "token_id": "tok_lisraya_color_brand_blue"
+          "element_path": "cta.gradient_callout.padding",
+          "token_id": "tok_lisraya_padding_gradient_callout_section"
         },
         {
-          "element_path": "section.headline.text.font_family",
-          "token_id": "tok_lisraya_font_family_nunito_sans"
+          "element_path": "cta.gradient_callout.headline.color",
+          "token_id": "tok_lisraya_headline_color"
         },
         {
-          "element_path": "section.headline.text.font_weight",
-          "token_id": "tok_lisraya_weight_nunito_800"
+          "element_path": "cta.gradient_callout.headline.font_family",
+          "token_id": "tok_lisraya_font_nunito_sans"
         },
         {
-          "element_path": "section.cta.button.fill",
-          "token_id": "tok_lisraya_color_deep_blue"
+          "element_path": "cta.gradient_callout.headline.font_size",
+          "token_id": "tok_lisraya_grad_headline_size"
         },
         {
-          "element_path": "section.cta.button.text.color",
-          "token_id": "tok_lisraya_color_white"
+          "element_path": "cta.gradient_callout.headline.font_weight",
+          "token_id": "tok_lisraya_weight_extrabold"
         },
         {
-          "element_path": "section.cta.button.text.font_family",
-          "token_id": "tok_lisraya_font_button_label"
+          "element_path": "cta.gradient_callout.button.dimensions",
+          "token_id": "tok_lisraya_size_gradient_callout_button"
         },
         {
-          "element_path": "section.cta.button.text.font_weight",
-          "token_id": "tok_lisraya_weight_button_label"
+          "element_path": "cta.gradient_callout.button.fill",
+          "token_id": "tok_lisraya_color_secondary_deep_blue"
         },
         {
-          "element_path": "section.cta.button.text.font_size",
-          "token_id": "tok_lisraya_type_scale_button_label"
+          "element_path": "cta.gradient_callout.button.label.color",
+          "token_id": "tok_lisraya_color_tertiary_white"
         },
         {
-          "element_path": "section.cta.button.arrow.color",
-          "token_id": "tok_lisraya_color_gold_accent"
+          "element_path": "cta.gradient_callout.button.label.font_family",
+          "token_id": "tok_lisraya_font_nunito_sans"
         },
         {
-          "element_path": "section.cta.button.arrow.font_size",
-          "token_id": "tok_lisraya_type_scale_button_arrow"
+          "element_path": "cta.gradient_callout.button.label.font_size",
+          "token_id": "tok_lisraya_grad_button_dim_1"
         },
         {
-          "element_path": "section.cta.button.dimensions",
-          "token_id": "tok_lisraya_size_button_dimensions"
+          "element_path": "cta.gradient_callout.button.label.font_weight",
+          "token_id": "tok_lisraya_weight_extrabold"
         },
         {
-          "element_path": "section.cta.button.border_radius",
-          "token_id": "tok_lisraya_radius_signature_button"
+          "element_path": "cta.gradient_callout.button.arrow.color",
+          "token_id": "tok_lisraya_color_accent_cta_arrow_gold"
+        },
+        {
+          "element_path": "cta.gradient_callout.button.arrow.font_size",
+          "token_id": "tok_lisraya_grad_button_dim_2"
+        },
+        {
+          "element_path": "cta.gradient_callout.button.radius",
+          "token_id": "tok_lisraya_radius_gradient_callout_button"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "Background → the gradient PNG, applied as the section background, sized cover, no-repeat, centered, spanning the full content width (600px). Always set a solid background-color of Sunshine #faa31b as fallback",
-          "Headline → Brand Blue #00529b, centered, sitting in the top third, Nunito Sans weight 800, ~28px",
-          "Button → centered, in the lower-middle below the headline. Fill Deep Blue #003D74, white label (Nunito Sans 800, 18px), with a Gold #FFC20E arrow › (24px) after two non-breaking spaces. Size 248 × 64px.",
-          "Button radius (mandatory, never change): border-radius: 49.52px 1.76px 40px 1.76px; — this four-value asymmetric radius is the signature shape and is always required on every instance"
+          "spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback",
+          "Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px",
+          "Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›`",
+          "`border-radius: 49.52px 1.76px 40px 1.76px;`"
         ],
         "unit_ids": [
           "u_color_scheme_rules_5_0006",
@@ -89,10 +175,10 @@
       "evidence": {
         "quotes": [
           "A full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.",
-          "Always set a solid `background-color` of Sunshine `#faa31b` as fallback",
-          "Headline → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px",
-          "Button → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`",
-          "`border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape and is **always required on every instance**",
+          "the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered",
+          "Headline → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "Button → centered, in the **lower-middle** below the headline.",
+          "this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped.",
           "Never simplify it to a single value, swap the corners, or round the decimals.",
           "If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
         ],
@@ -109,33 +195,129 @@
       "governance": null,
       "hardness": "hard_constraint",
       "id": "rule_lisraya_gradient_callout_cta_section",
-      "intent": "Maintain exact brand layout and signature button shape on the branded gradient CTA section.",
+      "intent": "Preserve the signature gradient CTA banner while ensuring it remains visually and functionally consistent when image backgrounds fail.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "cta",
-      "rule_text": "The Gradient Callout CTA section must feature a centered headline and single button stacked horizontally over the branded gradient image (or solid Sunshine fallback #faa31b). The headline must be Brand Blue (#00529b) in Nunito Sans weight 800. The button must be sized 248 × 64px with a Deep Blue (#003D74) fill, a white label (Nunito Sans 800, 18px), a Gold (#FFC20E) 24px arrow (›) prepended by two non-breaking spaces, and the mandatory asymmetric border-radius (gradient_banner.button.radius = 49.52px 1.76px 40px 1.76px).",
+      "rule_text": "Use the Gradient Callout CTA as a full-width 600px banner with one centered headline in the top third and one centered button stacked below in the lower-middle. Use the branded gradient PNG as its centered, cover, no-repeat section background with Sunshine fallback (#faa31b). The headline is Brand Blue (#00529b), Nunito Sans ExtraBold at approximately 28px, and one line. The button is 248 × 64px, Deep Blue (#003D74) with a white Nunito Sans ExtraBold 18px label and a Gold (#FFC20E) › arrow after two non-breaking spaces. Its asymmetric 49.52px 1.76px 40px 1.76px radius is mandatory on every instance: never simplify, reorder corners, or round decimals. The background image may be omitted only for plain-text/AMP fallback, clients stripping all images, or a hard size budget; remove only the image URL/size/repeat/position properties and retain the Sunshine fallback plus every headline, button, and radius rule.",
       "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "cta.gradient_callout",
         "section_types": [
           "cta"
         ]
       },
       "slug": "gradient_callout_cta_section",
-      "snippets": "<mj-section\n    background-url=\"https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png\"\n    background-size=\"cover\"\n    background-repeat=\"no-repeat\"\n    background-position=\"center center\"\n    background-color=\"#faa31b\"\n    padding=\"48px 25px 56px 25px\">\n  <mj-column width=\"100%\">\n \n    <mj-text\n        align=\"center\"\n        color=\"#00529b\"\n        font-family=\"Nunito Sans, Arial, Helvetica, sans-serif\"\n        font-size=\"28px\"\n        font-weight=\"800\"\n        line-height=\"34px\"\n        padding=\"0 0 32px 0\">\n      Talk to your doctor about how LISRAYA can help\n    </mj-text>\n \n    <mj-text align=\"center\" padding=\"0\">\n      <a href=\"https://www.LISRAYA.com\" target=\"_blank\" class=\"lisraya-cta-btn\"\n         style=\"display:inline-block;width:248px;height:64px;background-color:#003D74;color:#ffffff;font-family:'Nunito Sans',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;line-height:64px;text-align:center;text-decoration:none;border-radius:49.52px 1.76px 40px 1.76px;\">\n        Visit LISRAYA.com&nbsp;&nbsp;<span style=\"color:#FFC20E;font-size:24px;\">&#10095;</span>\n      </a>\n    </mj-text>\n \n  </mj-column>\n</mj-section>",
-      "snippets_evidence": {
-        "quotes": [
-          "<mj-section\n    background-url=\"https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png\""
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_5_0015"
-        ]
-      },
+      "snippets": null,
+      "snippets_evidence": null,
       "tags": [
         "layout",
         "color_application",
         "typography",
         "assembly"
+      ]
+    },
+    {
+      "compiled_by": "tables-v1",
+      "constraint_type": "binding",
+      "effect": {
+        "assignments": [
+          {
+            "element_path": "grad.background.color",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_background_color"
+          },
+          {
+            "element_path": "grad.background.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_background_size"
+          },
+          {
+            "element_path": "grad.headline.color",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_headline_color"
+          },
+          {
+            "element_path": "grad.headline.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_headline_size"
+          },
+          {
+            "element_path": "grad.headline.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_headline_font"
+          },
+          {
+            "element_path": "grad.button.color_1",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_color_1"
+          },
+          {
+            "element_path": "grad.button.color_2",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_color_2"
+          },
+          {
+            "element_path": "grad.button.color_3",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_color_3"
+          },
+          {
+            "element_path": "grad.button.dim_1",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_dim_1"
+          },
+          {
+            "element_path": "grad.button.dim_2",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_dim_2"
+          },
+          {
+            "element_path": "grad.button.dim_3",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_dim_3"
+          },
+          {
+            "element_path": "grad.button.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_grad_button_font"
+          }
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "- **Background** → the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images.",
+          "- **Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "- **Button** → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px.\n**Background image:** asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor. The background may be skipped **only in very, very rare cases** (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, the section still renders on a solid Sunshine `#faa31b` fill and every other rule stays identical."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_lisraya_gradient_callout_cta_section_rule_table_binding",
+      "intent": "Bind the [IMPORTANT] Gradient Callout CTA Section Rule table values verbatim.",
+      "rule_class": "assembly",
+      "rule_text": "The [IMPORTANT] Gradient Callout CTA Section Rule table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| Background | the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images. |\n| Headline | Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line. |\n| Button | centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px. **Background image:** asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor. The background may be skipped **only in very, very rare cases** (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, the section still renders on a solid Sunshine `#faa31b` fill and every other rule stays identical. |",
+      "selector": {
+        "element_path": null
+      },
+      "slug": "gradient_callout_cta_section_rule_table_binding",
+      "token_ids": [
+        "tok_lisraya_grad_background_color",
+        "tok_lisraya_grad_background_size",
+        "tok_lisraya_grad_button_color_1",
+        "tok_lisraya_grad_button_color_2",
+        "tok_lisraya_grad_button_color_3",
+        "tok_lisraya_grad_button_dim_1",
+        "tok_lisraya_grad_button_dim_2",
+        "tok_lisraya_grad_button_dim_3",
+        "tok_lisraya_grad_button_font",
+        "tok_lisraya_grad_headline_color",
+        "tok_lisraya_grad_headline_font",
+        "tok_lisraya_grad_headline_size"
       ]
     }
   ],

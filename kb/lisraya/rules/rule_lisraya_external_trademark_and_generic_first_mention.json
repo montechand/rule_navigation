@@ -1,0 +1,46 @@
+{
+  "id": "rule_lisraya_external_trademark_and_generic_first_mention",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "accessibility"
+  ],
+  "scope": "brand",
+  "selector": {
+    "element_path": "brand.name.trademark_mention"
+  },
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "LISRAYA\u00ae (brepocitinib)",
+    "trigger": {
+      "all": [
+        "external-facing document",
+        "first or most prominent mention",
+        "generic name included"
+      ]
+    }
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "trademark",
+    "verdict": "verbatim_only",
+    "preferred_form": "LISRAYA\u00ae (brepocitinib)",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "For external-facing documents, use \u201cLISRAYA\u00ae (brepocitinib)\u201d only on the first or most prominent mention when the generic name is included. Format the generic name in lowercase parentheses as \u201c(brepocitinib)\u201d; do not repeat \u00ae on subsequent mentions and do not use \u00ae without the generic name.",
+  "intent": "Ensure approved trademark and generic-name treatment without repeated trademark symbols.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_lisraya_content_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Use \"LISRAYA\u00ae (brepocitinib)\" only on first/prominent external mention; format generic name lowercase in parentheses; omit \u00ae on later mentions or without generic name."
+}

@@ -1,0 +1,172 @@
+{
+  "relations": [
+    {
+      "dst_slug": "patient_lifestyle_photography_style",
+      "note": "Wave/gradient overlays apply to the lifestyle photography.",
+      "relation": "co_applies",
+      "src_slug": "waves_gradients_may_overlay_photography"
+    },
+    {
+      "dst_slug": "patient_lifestyle_photography_style",
+      "note": "Lifestyle images are cropped into the accent shape.",
+      "relation": "co_applies",
+      "src_slug": "images_housed_in_accent_shape"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "warm, realistic patient lifestyle imagery",
+          "getting back to themselves."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Keep imagery emotionally warm and true-to-life for patients.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Photography uses warm, realistic patient lifestyle imagery — real moments of simple, everyday activity (walking the dog, beach, BBQ) — conveying returning to everyday life and \"getting back to themselves.\"",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "patient_lifestyle_photography_style",
+      "snippets": null,
+      "tags": [
+        "voice_tone"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "accent_shape.radius",
+          "token_id": "tok_lisraya_accent_shape_radius"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Images are housed in the **Accent shape**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "asymmetric rounded-corner crops, not plain rectangles or circles."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain the signature asymmetric image crop treatment.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops (accent_shape.radius default 120px & 6px), not plain rectangles or circles.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "images_housed_in_accent_shape",
+      "snippets": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Waves and gradients may overlay photography."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0003"
+        ]
+      },
+      "hardness": "soft_guidance",
+      "intent": "Allow brand wave/gradient devices to composite over images.",
+      "polarity": "may",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Waves and gradients may overlay photography.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "waves_gradients_may_overlay_photography",
+      "snippets": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Every image requires **descriptive alt text** (brand accessibility rule)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure image accessibility for assistive technology.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Every image requires descriptive alt text (brand accessibility rule).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "image_descriptive_alt_text_required",
+      "snippets": null,
+      "tags": [
+        "imagery"
+      ]
+    }
+  ]
+}

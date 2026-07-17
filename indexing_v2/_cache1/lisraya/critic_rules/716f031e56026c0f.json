@@ -1,0 +1,172 @@
+{
+  "findings": [
+    {
+      "description": "Only one rule was extracted for this blob, covering solely the bold-budget guidance in u_0001. Four other distinct, independently governed rules (always-bold callout/brand-name list, never-bold prohibitions with a 15% quantitative cap, emphasis-device combination limit with named exceptions, and underline/italic restrictions) have no corresponding rule rows at all — a severe under-clustering/missing-extraction problem.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_bold_always_list",
+              "polarity": "must",
+              "source": "u_content_pattern_rules_3_0002"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_bold_never_list",
+              "polarity": "must_not",
+              "source": "u_content_pattern_rules_3_0003"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_emphasis_device_cap",
+              "polarity": "must_not",
+              "source": "u_content_pattern_rules_3_0004"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_underline_italic_restriction",
+              "polarity": "must_not",
+              "source": "u_content_pattern_rules_3_0005"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_bold_hierarchy_budget"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_bold_hierarchy_budget",
+      "unit_ids": [
+        "u_content_pattern_rules_3_0002",
+        "u_content_pattern_rules_3_0003",
+        "u_content_pattern_rules_3_0004",
+        "u_content_pattern_rules_3_0005"
+      ]
+    },
+    {
+      "description": "The never-bold rule includes a quantitative governance threshold ('more than ~15% of running body text in any section') that is not captured anywhere in the candidate rule set. Any extracted rule for this unit must carry a numeric threshold facet.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "facet": "threshold",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "value": "max_15_percent_body_text_bolded"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "The always-bold rule references an external governance spec ('callout specs §1.7') that should be tracked as a cross-reference/governance dependency, but no rule captures this citation.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "facet": "cross_reference",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "value": "§1.7 callout specs"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "Source unit 0001 expresses a cap ('bold at most: ...') rather than a plain must-do directive. Polarity 'must' and hardness 'strong_default' misrepresent the ceiling/limit nature of the rule; it should be modeled as a max-count constraint (e.g., polarity 'must_not_exceed' or hardness 'hard_constraint' given the enumerated caps: heading(s), one key phrase per paragraph, one statistical callout).",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must_not_exceed"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_bold_hierarchy_budget"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_bold_hierarchy_budget",
+      "unit_ids": [
+        "u_content_pattern_rules_3_0001"
+      ]
+    },
+    {
+      "description": "The always-bold (u_0002) and never-bold (u_0003) lists are complementary/inverse rules governing the same emphasis mechanism (bold) and should be linked via an explicit relation (e.g., 'inverse_of' or 'complements') once split into separate rules, so downstream consumers know they jointly define the full bolding boundary.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "relation": "inverse_of"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_bold_always_list",
+          "rule_lisraya_bold_never_list"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0002",
+        "u_content_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "The emphasis-device combination rule has an explicit named scope exception ('except in chart headlines and the campaign headline lockup') that must be preserved as a scope facet; without it the rule reads as an absolute prohibition and misrepresents the source's carve-out.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "scope_exception": [
+            "chart headlines",
+            "campaign headline lockup"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_emphasis_device_cap"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0004"
+      ]
+    }
+  ]
+}

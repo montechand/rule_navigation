@@ -1,0 +1,78 @@
+{
+  "assets": [],
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "icon_callout_box_geometry",
+      "key_proposal": "dimension.icon_callout.badge_width",
+      "quotes": [
+        "Let `W` = badge width (use **80px**, icon ?48px inside)."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0014"
+      ],
+      "value": "80px"
+    },
+    {
+      "for_rule_slug": "icon_callout_box_geometry",
+      "key_proposal": "dimension.icon_callout.inner_icon_size",
+      "quotes": [
+        "icon ?48px inside"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0014"
+      ],
+      "value": "48px"
+    },
+    {
+      "for_rule_slug": "icon_callout_box_geometry",
+      "key_proposal": "padding.icon_callout.left_inset",
+      "quotes": [
+        "Inset the blue box from the left by **`W/2` = 40px**",
+        "padding-left:40px"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0015"
+      ],
+      "value": "40px"
+    },
+    {
+      "for_rule_slug": "icon_callout_box_geometry",
+      "key_proposal": "margin.icon_callout.vertical_offset",
+      "quotes": [
+        "margin-top:?40px"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0016"
+      ],
+      "value": "-40px"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "constraint_type": "binding",
+      "effect": [],
+      "evidence": {
+        "quotes": [
+          "Let `W` = badge width (use **80px**, icon ?48px inside).",
+          "Inset the blue box from the left by **`W/2` = 40px**, and place the badge so its **center lands exactly on the box's left edge** (badge `left:0` inside a `padding-left:40px` wrapper ? badge center `40px` = box edge). Distance from badge center to box edge must be **`0`**.",
+          "Vertical center via `top:50%` + `margin-top:?40px` (half the badge height)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0014",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0016"
+        ]
+      },
+      "id": "rule_lisraya_icon_callout_box_geometry",
+      "rule_class": "layout",
+      "rule_text": "Icon callout boxes are sized with a badge width W of 80px containing a 48px inside icon. The blue box must be inset from the left by W/2 = 40px, and the badge positioned so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper, yielding a distance of 0 from center to box edge). Vertical centering is achieved via top:50% plus a margin-top of -40px (half the badge height).",
+      "selector": {
+        "element_path": "component.icon_callout_box"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": []
+}

@@ -1,0 +1,119 @@
+{
+  "findings": [
+    {
+      "description": "u_0001 contains at least three distinct normative statements bundled into one rule: (1) person-first language required for patient/DTC materials, (2) 'patients' is acceptable terminology in HCP materials (a differing, softer requirement), and (3) a process obligation to confirm audience in every brief before writing. Collapsing these into a single copy_editorial hard_constraint/must rule loses the audience-conditional polarity and the separate briefing-process obligation.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "scope": "patient/DTC materials",
+              "text": "Use person-first language (\"someone/people with dermatomyositis\") in patient materials."
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "guideline",
+              "polarity": "may",
+              "scope": "HCP materials",
+              "text": "\"Patients\" is acceptable terminology in HCP materials."
+            },
+            {
+              "class": "process",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "scope": "all briefs",
+              "text": "Confirm target audience in every brief before writing."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_person_first_language"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_audience_person_first_language",
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Polarity/hardness mismatch: the rule is tagged uniformly hard_constraint/must, but the source explicitly permits ('acceptable') the alternate term 'patients' in HCP materials — a lower-hardness, permissive polarity that is not represented in the current single-rule encoding.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "note": "Restrict hard_constraint/must to patient/DTC scope only; HCP usage of 'patients' should carry guideline/may polarity."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_person_first_language"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_audience_person_first_language",
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Rule lacks an explicit audience/scope facet even though the source heading ('Audience Segmentation') and body text ('Language rules differ by audience') establish audience as the primary governing dimension. No governance metadata captures that this rule applies specifically to DTC/patient materials as scoped by the guide.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "governs_heading": "Audience Segmentation",
+          "group_id": "grp_lisraya_other_rules_01",
+          "scope_facet": "patient (DTC) materials"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_person_first_language"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_audience_person_first_language",
+      "unit_ids": [
+        "u_other_rules_1_0000",
+        "u_other_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Missed relation: the patient brochure is declared the master reference for 'messaging, and tone across all LISRAYA materials,' which directly encompasses the audience-based language rule in u_0001. No relation/cross-reference is captured linking the assembly rule (master reference) to the copy_editorial language rule it authoritatively governs.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "group_id": "grp_lisraya_other_rules_01",
+          "related_to": "rule_lisraya_audience_person_first_language",
+          "relation": "master_reference_governs"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_brochure_master_reference",
+          "rule_lisraya_audience_person_first_language"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_patient_brochure_master_reference",
+      "unit_ids": [
+        "u_other_rules_1_0001",
+        "u_other_rules_1_0002"
+      ]
+    }
+  ]
+}

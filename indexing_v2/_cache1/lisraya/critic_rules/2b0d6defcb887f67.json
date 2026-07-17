@@ -1,0 +1,90 @@
+{
+  "findings": [
+    {
+      "description": "u_0002 describes a distinct, mandatory image-treatment rule (images must be housed in the Accent shape — asymmetric rounded-corner crops, not plain rectangles/circles) but no candidate rule captures it. This unit is entirely missing from the cluster, leaving a governance gap for a clearly stated constraint.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_id": "rule_lisraya_images_housed_in_accent_shape",
+          "source_units": [
+            "u_design_pattern_rules_2_0002"
+          ],
+          "statement": "Images must be housed in the Accent shape (§2.5) — asymmetric rounded-corner crops; plain rectangles or circles are prohibited."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "u_0002 explicitly cross-references '§2.5' (the Accent shape spec) — a relation to another rule/section that is not represented anywhere in the candidate rule set. Even if the missing rule (f_lisraya_01) is added, its relation to the §2.5 shape definition should be modeled explicitly.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "The alt text rule is flagged in-source as a 'brand accessibility rule' — a compliance-oriented statement — yet the extracted rule carries no governance facets (e.g., accessibility standard reference such as WCAG, owning team/policy, enforcement mechanism, or escalation for non-compliance). It is treated as a plain imagery style rule instead of a compliance obligation.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "governance": {
+            "compliance_category": "accessibility",
+            "enforcement": "unspecified — needs clarification from source",
+            "standard_ref": "WCAG (implied by 'brand accessibility rule')"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_image_descriptive_alt_text_required"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_image_descriptive_alt_text_required",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Hardness 'strong_default' paired with polarity 'must' is internally inconsistent — 'strong_default' typically implies a preferred/default choice with allowed exceptions (should), whereas 'must' implies an absolute requirement (hard_constraint). Source text ('Photography: warm, realistic patient lifestyle imagery — real moments...') reads as a definitional/default guideline rather than an absolute mandate, suggesting polarity should be 'should' if hardness stays strong_default, or hardness should become hard_constraint if 'must' is retained.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_photography_warm_lifestyle_treatment"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_photography_warm_lifestyle_treatment",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    }
+  ]
+}

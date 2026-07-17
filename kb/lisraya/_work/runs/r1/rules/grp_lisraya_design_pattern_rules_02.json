@@ -3,33 +3,48 @@
   "group_id": "grp_lisraya_design_pattern_rules_02",
   "missing_token_requests": [],
   "original_text": "### Image Treatment\n- Photography: **warm, realistic patient lifestyle imagery** — real moments of simple, everyday activity (walking the dog, beach, BBQ). Conveys returning to everyday life and \"getting back to themselves.\"\n- Images are housed in the **Accent shape** (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles.\n- Waves and gradients may overlay photography.\n- Every image requires **descriptive alt text** (brand accessibility rule).",
-  "relations": [],
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_patient_lifestyle_image_treatment",
+      "dst_slug": "patient_lifestyle_image_treatment",
+      "note": "Descriptive alt text is required for every image using the brand image treatment.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_descriptive_image_alt_text",
+      "src_slug": "descriptive_image_alt_text"
+    }
+  ],
   "rules": [
     {
       "applies_when": null,
-      "audience": "dtp_patient",
+      "audience": null,
       "constraint_type": "binding",
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": [
         {
-          "element_path": "image.radius",
-          "token_id": "tok_lisraya_radius_callout_box"
+          "element_path": "image.photography.treatment",
+          "token_id": "tok_lisraya_image_photography_treatment"
+        },
+        {
+          "element_path": "image.crop.treatment",
+          "token_id": "tok_lisraya_image_crop_treatment"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops"
+          "Photography: **warm, realistic patient lifestyle imagery**",
+          "Images are housed in the **Accent shape** (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles."
         ],
         "unit_ids": [
+          "u_design_pattern_rules_2_0001",
           "u_design_pattern_rules_2_0002"
         ]
       },
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Photography: warm, realistic patient lifestyle imagery — real moments of simple, everyday activity (walking the dog, beach, BBQ)",
-          "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles.",
+          "Photography: **warm, realistic patient lifestyle imagery** — real moments of simple, everyday activity (walking the dog, beach, BBQ). Conveys returning to everyday life and \"getting back to themselves.\"",
+          "Images are housed in the **Accent shape** (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles.",
           "Waves and gradients may overlay photography."
         ],
         "unit_ids": [
@@ -39,26 +54,22 @@
         ]
       },
       "governance": null,
-      "hardness": "strong_default",
-      "id": "rule_lisraya_photography_style_and_cropping",
-      "intent": "Maintain brand visual distinction by carrying the signature asymmetric shape into photo framing.",
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_patient_lifestyle_image_treatment",
+      "intent": "Make imagery feel authentic, optimistic, and recognizably on-brand.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "imagery",
-      "rule_text": "Patient photography must use warm, realistic lifestyle imagery depicting everyday activities. Images must not be framed as plain rectangles or circles; instead, they must be housed in the asymmetric rounded-corner Accent shape (radius.container.callout_box = 40px 8px 40px 8px). Waves and gradients may optionally overlay photography.",
+      "rule_text": "Use warm, realistic patient lifestyle photography showing simple everyday activities and a return to everyday life. Images must use the Accent shape crop treatment (asymmetric rounded corners rather than plain rectangles or circles); waves and gradients may overlay photography.",
       "scope": "brand",
       "selector": {
         "element_path": "image",
-        "section_types": [
-          "patient_story"
-        ]
+        "section_types": null
       },
-      "slug": "photography_style_and_cropping",
+      "slug": "patient_lifestyle_image_treatment",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "layout"
-      ]
+      "tags": null
     },
     {
       "applies_when": null,
@@ -70,11 +81,11 @@
         "max": null,
         "min": 1,
         "per": "element",
-        "target": "image.alt"
+        "target": "image.alt_text"
       },
       "effect_evidence": {
         "quotes": [
-          "Every image requires descriptive alt text"
+          "Every image requires **descriptive alt text** (brand accessibility rule)."
         ],
         "unit_ids": [
           "u_design_pattern_rules_2_0004"
@@ -83,7 +94,7 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Every image requires descriptive alt text (brand accessibility rule)."
+          "Every image requires **descriptive alt text** (brand accessibility rule)."
         ],
         "unit_ids": [
           "u_design_pattern_rules_2_0004"
@@ -91,25 +102,27 @@
       },
       "governance": {
         "gov_type": "regulatory",
-        "match": null,
+        "match": {
+          "method": "semantic"
+        },
         "preferred_form": null,
         "preferred_form_evidence": null,
         "severity": "block",
-        "verdict": "allowed_with_disclosure"
+        "verdict": "requires_qualifier"
       },
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_image_alt_text_mandate",
-      "intent": "Ensure accessibility compliance for visually impaired patients across all brand imagery.",
+      "id": "rule_lisraya_descriptive_image_alt_text",
+      "intent": "Ensure image content is accessible to people using assistive technology.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "Every image must include descriptive alt text to comply with brand accessibility standards.",
-      "scope": "org_baseline",
+      "rule_text": "Every image requires descriptive alt text.",
+      "scope": "brand",
       "selector": {
-        "element_path": "image.alt",
+        "element_path": "image.alt_text",
         "section_types": null
       },
-      "slug": "image_alt_text_mandate",
+      "slug": "descriptive_image_alt_text",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [

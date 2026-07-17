@@ -800,7 +800,13 @@ async def test_run_extraction_with_fake_llm(
     assert output.variant.run_id == "r0"
     assert output.primitive_tokens
     assert output.semantic_tokens
-    assert output.catalog_rest == {"assets": [], "subtypes": [], "templates": []}
+    assert output.catalog_rest["assets"] == []
+    assert output.catalog_rest["subtypes"] == []
+    assert output.catalog_rest["templates"] == []
+    # E2: the deterministic table compiler injects compiled tables alongside
+    # the LLM catalog; the minibible spacing table compiles into one entity.
+    compiled_tables = output.catalog_rest.get("token_tables", [])
+    assert all(str(table["id"]).startswith("ttab_minibible_") for table in compiled_tables)
     assert set(output.rules_by_doc_ref) == {"brand_foundation[0]", "layout_constraints[0]"}
     assert len(llm.calls()) == 5
     assert usage.llm_calls == 5

@@ -14,14 +14,19 @@ doc_ref: `design_pattern_rules[4]`
 - Footnotes: noticeably smaller, clearly separated from primary data.
 ````
 
-## Extracted rules (2)
+## Extracted rules (3)
 
-### rule_lisraya_chart_and_infographic_styling_and_hierarchy
-- class=layout scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=None
-- rule_text: Charts and infographics must use a clean, approachable style inside a Light Blue (#E6F0F9) panel with a Brand Blue (#00529b) rounded header bar. All bars and chart icons must feature rounded shapes (e.g. rounded bar tops). Structure headlines in ALL CAPS using Agenda/Nunito Sans Bold+ in Brand Blue (#00529b) with a thin Gold (#ffc60a) rule directly beneath. Statistical callouts must lead with a large, bold hero percentage figure, supported by lighter-weight copy positioned beneath. Footnotes must be noticeably smaller and clearly separated from primary data.
-- intent: Maintain visual consistency, brand alignment, and hierarchy within all data-driven chart and infographic panels.
-
-### rule_lisraya_chart_color_application_logic
+### rule_lisraya_chart_color_emphasis_logic
 - class=color_application scope=brand hardness=hard_constraint polarity=must sections=['chart'] constraint=exclusivity
-- rule_text: In charts and infographics, Brand Blue (color.primary.brand_blue = #00529b) and Sky Blue (color.secondary.sky_blue = #358CCB) must be the dominant colors. Placebo or comparator data must use a neutral gray. Sunshine (color.primary.sunshine = #faa31b) and Gold (color.primary.gold = #ffc60a) are reserved exclusively for emphasizing key figures and data points.
-- intent: Ensure data comparisons carry intuitive weight by restricting warm accent colors to critical data callouts.
+- rule_text: In charts and infographics, Brand Blue (#00529b) and Sky Blue (#358CCB) are dominant. Reserve Sunshine (#faa31b) and Gold (#ffc60a) for emphasis on key figures or data points only; render placebo/comparator data in neutral gray.
+- intent: Create a disciplined data hierarchy and distinguish comparator data.
+
+### rule_lisraya_chart_container_and_bar_geometry
+- class=layout scope=brand hardness=strong_default polarity=must sections=['chart'] constraint=binding
+- rule_text: Charts and infographics use a clean, easy-to-scan container: a Light Blue (#E6F0F9) rounded panel with a rounded Brand Blue (#00529b) header bar. Bars and chart icons use rounded, approachable shapes, including rounded bar tops.
+- intent: Keep data displays consistent, approachable, and readily scannable.
+
+### rule_lisraya_chart_data_and_footnote_hierarchy
+- class=typography scope=brand hardness=strong_default polarity=should sections=['chart'] constraint=None
+- rule_text: In chart statistical callouts, make the percentage figure large and bold as the hero, with supporting copy beneath in a lighter weight. Make footnotes noticeably smaller and clearly separated from primary data.
+- intent: Prioritize the key statistic while keeping supporting and reference information legible.

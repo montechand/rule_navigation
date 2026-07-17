@@ -1,0 +1,117 @@
+{
+  "findings": [
+    {
+      "description": "Four distinct tint/transparency specifications (headline ~40% tint, Light Blue callout 70% tint, Golden Sand callout 30% tint, Wave layers 70% transparency) have no corresponding rules in the candidate set. Only the closing restriction rule (u0005) was extracted, leaving the actual palette values ungoverned and unlinked.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_headline_tint",
+              "polarity": "must",
+              "scope": "Campaign headline D and M",
+              "source_unit": "u_color_scheme_rules_2_0001",
+              "value": "~40% tint of headline color (Gold or Brand Blue)"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_light_blue_callout_tint",
+              "polarity": "must",
+              "scope": "Light Blue callout box",
+              "source_unit": "u_color_scheme_rules_2_0002",
+              "value": "70% tint"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_golden_sand_callout_tint",
+              "polarity": "must",
+              "scope": "Golden Sand callout box",
+              "source_unit": "u_color_scheme_rules_2_0003",
+              "value": "30% tint"
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_wave_layer_transparency",
+              "polarity": "must",
+              "scope": "Wave top layers",
+              "source_unit": "u_color_scheme_rules_2_0004",
+              "value": "70% transparency"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004"
+      ]
+    },
+    {
+      "description": "The rule enforces 'use palette values or these specified tints only' but has no linkage/scope facet identifying which specific tint values (u0001-u0004) constitute the approved whitelist. Without this relation, the constraint is unverifiable and appears to float independent of the values it governs.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "relations": [
+            "rule_lisraya_headline_tint",
+            "rule_lisraya_light_blue_callout_tint",
+            "rule_lisraya_golden_sand_callout_tint",
+            "rule_lisraya_wave_layer_transparency"
+          ],
+          "scope": "all tint/transparency applications defined in this section"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "The rule is scoped generically as 'color_application' with no reference to the 'Tint Rules' heading context (u0000), losing the section-level scope that clarifies this restriction applies specifically to tint/transparency values, not all color application generally.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "scope_label": "Tint Rules section"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_specified_tints_only"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_specified_tints_only",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0000",
+        "u_color_scheme_rules_2_0005"
+      ]
+    }
+  ]
+}

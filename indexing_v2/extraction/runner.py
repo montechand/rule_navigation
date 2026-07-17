@@ -385,6 +385,43 @@ def _group_id(brand: str, doc_ref: str) -> str:
     return f"grp_{brand}_{slugify(doc_ref)}_00"
 
 
+def _inject_umbrella_rules(
+    brand: str,
+    rule_groups: list[RuleGroupOutput],
+    compiled_tables: Sequence[Any],
+    units_by_doc_ref: Mapping[str, list[SourceUnit]],
+) -> list[RuleGroupOutput]:
+    """Append deterministic table umbrella rules to their doc_ref's rule group.
+
+    The umbrella rule is byte-identical in every ensemble run, so it merges
+    with support = K without any ensemble special-casing.
+    """
+    groups_by_id = {group.group_id: group for group in rule_groups}
+    out = list(rule_groups)
+    for item in compiled_tables:
+        doc_ref = str(item.table.get("doc_ref") or "")
+        group_id = _group_id(brand, doc_ref)
+        rule = copy.deepcopy(item.umbrella_rule)
+        group = groups_by_id.get(group_id)
+        if group is None:
+            original_text = "".join(
+                unit.text for unit in units_by_doc_ref.get(doc_ref, [])
+            )
+            group = RuleGroupOutput(
+                group_id=group_id,
+                doc_ref=doc_ref,
+                original_text=original_text,
+                rules=[rule],
+            )
+            groups_by_id[group_id] = group
+            out.append(group)
+            continue
+        if any(str(existing.get("id")) == str(rule["id"]) for existing in group.rules):
+            continue
+        group.rules.append(rule)
+    return out
+
+
 def _assign_rule_id(brand: str, raw: dict[str, Any], used_ids: set[str]) -> dict[str, Any]:
     """Mirror v1 validate_rule id minting: rule_{brand}_{slug} with _2/_3 collision suffixes."""
     rule = dict(raw)
@@ -892,9 +929,13 @@ async def run_token_phase(
     resolved_cache_root = cache_root or DEFAULT_CACHE_ROOT
     if force:
         clear_brand_cache(brand, resolved_cache_root)
-    units_text = render_units(
-        select_units(units, exclude_unit_ids=exclude_unit_ids)
-    )
+    selected_units = select_units(units, exclude_unit_ids=exclude_unit_ids)
+    units_text = render_units(selected_units)
+    compiled_tables = []
+    if settings.TABLE_COMPILER:
+        from indexing_v2.tables import compile_brand_tables, merge_row_tokens
+
+        compiled_tables = compile_brand_tables(brand, selected_units)
     verified = []
     for variant in variants:
         primitive, semantic = await _extract_tokens_for_variant(
@@ -907,6 +948,10 @@ async def run_token_phase(
             cache_root=resolved_cache_root,
             force=force,
         )
+        if compiled_tables:
+            # Deterministic row tokens are identical in every run, so they
+            # reconcile with support = K and land in the frozen catalog.
+            primitive = merge_row_tokens(primitive, compiled_tables)
         verified.append(
             build_verified_run(
                 RunOutput(
@@ -1186,6 +1231,15 @@ async def run_extraction(
         primitive_tokens = copy.deepcopy(frozen.tokens_primitive)
         semantic_tokens = copy.deepcopy(frozen.tokens_semantic)
 
+    compiled_tables = []
+    if settings.TABLE_COMPILER:
+        from indexing_v2.tables import compile_brand_tables, merge_row_tokens
+
+        compiled_tables = compile_brand_tables(brand, selected)
+        # Row tokens join the catalog before catalog_ids/prompt rendering so
+        # LLM rules can reference them and pass $ref validation.
+        primitive_tokens = merge_row_tokens(primitive_tokens, compiled_tables)
+
     all_tokens = primitive_tokens + semantic_tokens
     catalog_ids = {
         str(token["id"])
@@ -1307,6 +1361,17 @@ async def run_extraction(
             *(_extract_rules(doc_ref, blob_units) for doc_ref, blob_units in grouped_units.items())
         ),
     )
+    if compiled_tables:
+        catalog_rest = dict(catalog_rest)
+        catalog_rest["token_tables"] = [
+            copy.deepcopy(item.table) for item in compiled_tables
+        ]
+        rule_groups = _inject_umbrella_rules(
+            brand,
+            rule_groups,
+            compiled_tables,
+            canonical_units_by_doc_ref,
+        )
     rules_by_doc_ref = {
         group.doc_ref: group.rules for group in sorted(rule_groups, key=lambda item: item.doc_ref)
     }

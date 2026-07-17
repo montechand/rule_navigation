@@ -1,0 +1,107 @@
+{
+  "findings": [
+    {
+      "description": "The inclusive-language rule (use 'someone/people with dermatomyositis' not 'patients' outside HCP materials; use 'care team' not 'staff') has no corresponding rule in the candidate set. This is a distinct, testable brand rule that is entirely missing from the cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "description": "Do not use 'patients' in patient-facing materials (use someone/people with dermatomyositis); use 'care team' not 'staff'. 'Patients' allowed only in HCP materials.",
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0003"
+      ]
+    },
+    {
+      "description": "The numbers-formatting rule (spell out zero-nine, numerals 10+, exceptions for percentages/ages/ratios, % sign usage) is not represented by any candidate rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "description": "Spell out zero-nine; use numerals for 10+. Always use numerals for percentages, ages, and ratios; use % sign for percentages.",
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "hardness": "strong_default",
+          "polarity": "should"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "The Oxford/serial comma punctuation rule has no corresponding candidate rule; it is a discrete, unambiguous editorial constraint that was dropped from clustering.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "description": "Always use the Oxford/serial comma in series of three or more items.",
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "The [GENERAL] scoped sub-rule stating every standalone section must re-establish 'dermatomyositis (DM)' at first mention, UNLESS the assembly brief states the abbreviation is established upstream, is not reflected in the rule's governance facets. The conditional override (assembly-brief exception) and the [GENERAL] scope tag are missing, making the rule appear unconditionally hard when it has a documented escape clause.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "conditional_exception": "unless the assembly brief states the abbreviation is established upstream",
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "scope_tag": "GENERAL"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_dm_abbreviation_first_mention"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_dm_abbreviation_first_mention",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Source text uses imperative avoidance language ('avoid negative or fear-based language') which reads closer to a hard constraint on prohibited tone rather than a soft 'should' strong_default; polarity/hardness may understate the compliance requirement, particularly for the fear-based language prohibition portion versus the empathetic-tone guidance portion which are conflated into one rule.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_data_tone",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0005"
+      ]
+    }
+  ]
+}

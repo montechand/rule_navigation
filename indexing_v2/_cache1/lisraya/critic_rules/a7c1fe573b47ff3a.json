@@ -1,0 +1,87 @@
+{
+  "findings": [
+    {
+      "description": "Photography style directive (warm, realistic lifestyle imagery depicting everyday activities) has no corresponding rule in the candidate set — this is a distinct imagery guidance rule that was dropped rather than clustered.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "description": "Photography must use warm, realistic patient lifestyle imagery depicting everyday activities (walking the dog, beach, BBQ) to convey returning to normal life.",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "soft_guidance",
+          "polarity": "should"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    },
+    {
+      "description": "The requirement that images be housed in the Accent shape (asymmetric rounded-corner crops, not plain rectangles/circles) is a distinct hard-constraint layout rule referencing §2.5 that is missing from the candidate rules entirely.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "imagery",
+          "description": "Images must be cropped using the Accent shape (asymmetric rounded corners per §2.5); plain rectangles or circles are prohibited.",
+          "doc_ref": "design_pattern_rules[2]",
+          "group_id": "grp_lisraya_design_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "Alt text rule is flagged as a 'brand accessibility rule' in source but the extracted rule carries no governance facet (e.g., accessibility standard reference, owner/enforcement body) despite explicit textual cue.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[2]",
+          "governance": {
+            "category": "accessibility_compliance",
+            "note": "brand accessibility rule"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_image_descriptive_alt_text_required"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_image_descriptive_alt_text_required",
+      "unit_ids": [
+        "u_design_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Missed relation: waves/gradients overlay rule (u_0003) applies specifically to photography already constrained by the Accent shape crop rule (u_0002); these two should be linked as related imagery-composition rules rather than left isolated.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002",
+        "u_design_pattern_rules_2_0003"
+      ]
+    }
+  ]
+}

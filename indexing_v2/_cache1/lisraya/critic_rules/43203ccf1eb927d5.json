@@ -1,0 +1,80 @@
+{
+  "findings": [
+    {
+      "description": "u0003 (accessibility scale/contrast guidance plus GENERAL default render-size and stroke-color fallback) is not represented by any candidate rule; only u0001 and u0002 were clustered into rules, leaving this unit orphaned from the group.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "doc_ref": "design_pattern_rules[5]",
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "soft_guideline",
+          "polarity": "should",
+          "rule_id": "rule_lisraya_icon_accessibility_scale_contrast",
+          "source_units": [
+            "u_design_pattern_rules_5_0003"
+          ],
+          "statement": "Consider scale and contrast for low-vision audiences; default fallback is minimum 32x32px render size in email and Brand Blue strokes on light backgrounds when unspecified."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "The GENERAL-tagged clause in u0003 functions as a default/fallback governance rule (applies when no other spec given) but this facet (default vs. mandatory) is not captured anywhere in the candidate rules, so no rule reflects its conditional/default nature.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[5]",
+          "governance_facet": "default_fallback",
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "note": "Applies only absent an explicit override; not a strict mandate."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_accessibility_scale_contrast"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "Source unit contains a compound statement: an explicit permission ('New icons are permitted') plus a hard constraint ('must match this stylistic approach'). The candidate rule captures only the constraint polarity (must) and drops the permissive scope, losing the allowance-with-condition relation.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[5]",
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "polarity": "conditional_must",
+          "source_units": [
+            "u_design_pattern_rules_5_0001"
+          ],
+          "statement": "New icons are permitted (may) provided they match the minimal line illustration style (must: consistent stroke weight, rounded line caps, single-color line work)."
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_style_minimal_line"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_icon_style_minimal_line",
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001"
+      ]
+    }
+  ]
+}

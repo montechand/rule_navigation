@@ -1,0 +1,163 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "brand_accent_shape_radius",
+      "key_proposal": "radius.container.large_accent",
+      "quotes": [
+        "large: 120px & 6px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ],
+      "value": "120px 6px 120px 6px"
+    },
+    {
+      "for_rule_slug": "brand_accent_shape_radius",
+      "key_proposal": "radius.container.banner_accent",
+      "quotes": [
+        "banner: 48px & 6px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ],
+      "value": "48px 6px 48px 6px"
+    },
+    {
+      "for_rule_slug": "brand_accent_shape_radius",
+      "key_proposal": "radius.container.callout_accent",
+      "quotes": [
+        "callout: 42px & 6px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ],
+      "value": "42px 6px 42px 6px"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "brand_accent_shape_radius",
+      "note": "Charts and tables act as an exception to the asymmetric accent shape container rule.",
+      "relation": "overrides",
+      "src_slug": "chart_table_uniform_corners"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "container.callout.radius",
+          "value": "42px 6px 42px 6px"
+        },
+        {
+          "element_path": "container.banner.radius",
+          "value": "48px 6px 48px 6px"
+        },
+        {
+          "element_path": "container.large_photography.radius",
+          "value": "120px 6px 120px 6px"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Email px conversions (at 96dpi): large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "A rectangle with selectively enlarged opposite corner radii; the other two corners keep a slight radius.",
+          "Approved radius pairs (print): 1.25\" & 0.0625\" (large containers/photos), 0.5\" & 0.0625\" (banners), 0.4375\" & 0.0625\" (small callout boxes).",
+          "Email px conversions (at 96dpi): large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0001",
+          "u_design_pattern_rules_3_0002",
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Maintain brand visual character with consistent asymmetric rounded container shapes across layouts.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Apply the asymmetric accent shape with selectively enlarged opposite corner radii to callout boxes, banners, and photography containers. In emails, apply the diagonal orientation consistently (default: large radius top-left and bottom-right, small 6px radius top-right and bottom-left). Key conversions at 96dpi: large containers/photos use 120px & 6px; banners use 48px & 6px; small callout boxes use 42px & 6px.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "container.radius",
+        "section_types": [
+          "callout",
+          "patient_story",
+          "hero"
+        ]
+      },
+      "slug": "brand_accent_shape_radius",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "asymmetric_corners",
+        "containers"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.container.radius",
+          "token_id": "tok_lisraya_chart_panel_radius"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Exception: charts and tables use uniform rounded corners on all four corners (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Exception: charts and tables use uniform rounded corners on all four corners (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain readability and clean structure for data grids and charts by avoiding asymmetric borders.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "layout",
+      "rule_text": "Charts and tables must use uniform rounded corners of 12px (infographic.panel.radius = 12px) on all four corners, specifically omitting the asymmetric brand accent shape.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "chart.container.radius",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_table_uniform_corners",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "charts",
+        "tables"
+      ]
+    }
+  ]
+}

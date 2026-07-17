@@ -1,0 +1,192 @@
+{
+  "findings": [
+    {
+      "description": "No brand_rule rows were produced for this entire blob despite it containing at least five distinct, independently governable rule statements (container styling, color logic, shape language, headline typography, callout typography, footnote typography). This is a total clustering miss, not a single mis-grouping.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_container",
+          "rules": [
+            {
+              "group_id": "g_lisraya_charts_container",
+              "topic": "chart container styling",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0001"
+              ]
+            },
+            {
+              "group_id": "g_lisraya_charts_color",
+              "topic": "chart color logic",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0002"
+              ]
+            },
+            {
+              "group_id": "g_lisraya_charts_shape",
+              "topic": "chart bar/icon shape",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0003"
+              ]
+            },
+            {
+              "group_id": "g_lisraya_charts_headline_type",
+              "topic": "chart headline typography",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0004"
+              ]
+            },
+            {
+              "group_id": "g_lisraya_charts_callout_type",
+              "topic": "statistical callout and footnote typography",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0005",
+                "u_design_pattern_rules_4_0006"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0000",
+        "u_design_pattern_rules_4_0001",
+        "u_design_pattern_rules_4_0002",
+        "u_design_pattern_rules_4_0003",
+        "u_design_pattern_rules_4_0004",
+        "u_design_pattern_rules_4_0005",
+        "u_design_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "The color logic statement contains strong restrictive language ('reserved for emphasis on key figures/data points only') indicating a hard constraint, plus a distinct sub-rule for placebo/comparator color. No rule/facets exist to capture hardness=hard, scope=charts/infographics, or to separate the accent-color restriction from the neutral placebo-color convention.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "governance": {
+            "exception_process": "unspecified",
+            "owner": "brand_design"
+          },
+          "group_id": "g_lisraya_charts_color",
+          "hardness": "hard",
+          "polarity": "restrictive",
+          "scope": "charts_infographics",
+          "sub_rules": [
+            {
+              "topic": "accent color restriction",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0002"
+              ]
+            },
+            {
+              "topic": "placebo/comparator neutral gray convention",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0002"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Headline rule bundles two channel-specific typefaces (Agenda for print, Nunito Sans Bold+ for email) under one statement. Scope should be split per channel so downstream rules can independently govern print vs. email typography, matching patterns likely used elsewhere in the bible.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_headline_type",
+          "rules": [
+            {
+              "scope": "print",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0004"
+              ],
+              "value": "Agenda, ALL CAPS, Brand Blue, thin Gold rule beneath"
+            },
+            {
+              "scope": "email",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0004"
+              ],
+              "value": "Nunito Sans Bold+, ALL CAPS, Brand Blue, thin Gold rule beneath"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    {
+      "description": "Statistical callout weight/size hierarchy (u_0005) and footnote size/separation rule (u_0006) are related but distinct typographic hierarchy rules (hero figure vs. supporting copy vs. footnote); missing relation link 'hierarchy_pair' between them if merged into one rule, or should be kept separate with an explicit relation reference.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_callout_type",
+          "relations": [
+            {
+              "type": "hierarchy_pair",
+              "unit_ids": [
+                "u_design_pattern_rules_4_0005",
+                "u_design_pattern_rules_4_0006"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0005",
+        "u_design_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "Shape rule ('rounded, approachable shapes') is a soft/aesthetic guideline but lacks explicit polarity/hardness tagging (soft/preferred) versus the hard color restriction in u_0002, risking uniform hardness=hard being applied across the whole cluster if merged carelessly.",
+      "finding_id": "f_lisraya_0005",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[4]",
+          "group_id": "g_lisraya_charts_shape",
+          "hardness": "soft",
+          "polarity": "preferred"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_4_0003"
+      ]
+    }
+  ]
+}

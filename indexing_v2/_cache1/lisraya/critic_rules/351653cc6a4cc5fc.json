@@ -1,0 +1,118 @@
+{
+  "findings": [
+    {
+      "description": "Single rule collapses five distinct source facts (headline tint %, two callout box tints, wave transparency %, and a closed-list prohibition) into one generic 'approved tint levels' rule, losing per-element scope and the distinct prohibitive statement.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "new_rules": [
+            {
+              "id": "rule_lisraya_headline_tint",
+              "scope": "campaign headline D/M",
+              "value": "40% tint of headline color (Gold or Brand Blue)"
+            },
+            {
+              "id": "rule_lisraya_lightblue_callout_tint",
+              "scope": "Light Blue callout box",
+              "value": "70% tint"
+            },
+            {
+              "id": "rule_lisraya_goldensand_callout_tint",
+              "scope": "Golden Sand callout box",
+              "value": "30% tint"
+            },
+            {
+              "id": "rule_lisraya_wave_transparency",
+              "scope": "Wave top layers",
+              "value": "70% transparency"
+            },
+            {
+              "id": "rule_lisraya_no_adhoc_tints",
+              "polarity": "must_not",
+              "scope": "all tint usage",
+              "value": "no ad-hoc tints outside palette or specified values"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Source unit u0005 is a prohibitive/closed-list statement ('No other ad-hoc tints') which is must_not polarity, but the clustered rule is tagged polarity=must, misrepresenting this constraint's directionality.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_no_adhoc_tints",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0005"
+      ]
+    },
+    {
+      "description": "Headline tint rule conditions on colorway (Gold or Brand Blue) and specific headline labels ('D' and 'M') are not captured as scope/governance facets on the merged rule, risking loss of applicability conditions.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[2]",
+          "group_id": "grp_lisraya_color_scheme_rules_02",
+          "scope_conditions": [
+            "headline_label in ['D','M']",
+            "colorway in ['Gold','Brand Blue']"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_approved_tint_levels"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0001"
+      ]
+    },
+    {
+      "description": "Wave top layer 'transparency' is conceptually distinct from 'tint' (opacity vs color mixing) yet merged under a single tint-level rule, conflating two different visual attributes.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_approved_tint_levels",
+      "unit_ids": [
+        "u_color_scheme_rules_2_0004"
+      ]
+    }
+  ]
+}

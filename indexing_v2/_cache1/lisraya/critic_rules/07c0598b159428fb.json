@@ -1,0 +1,125 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules were extracted at all from this blob despite it containing at least 8 distinct, independently-testable accessibility mandates (type size, line height, type scale, contrast, form labels/tap targets, animation/motion, media alt text, and a reference standard citation). This is a total clustering failure, not just a granularity issue.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "group_id": "g_lisraya_accessibility",
+          "note": "Create one rule per list item under Accessibility section, each scoped to brand-mandated/general unless a channel override is present."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0000",
+        "u_other_rules_0_0001",
+        "u_other_rules_0_0002",
+        "u_other_rules_0_0003",
+        "u_other_rules_0_0004",
+        "u_other_rules_0_0005",
+        "u_other_rules_0_0006",
+        "u_other_rules_0_0007",
+        "u_other_rules_0_0008"
+      ]
+    },
+    {
+      "description": "u_0006 bundles two separable rules: (a) a general animation-design principle (quick transitions, avoid excessive motion, pause control, responsive design across devices) applicable brand-wide, and (b) a channel-specific '[GENERAL email]' rule about GIF first-frame messaging and a ~5s autoplay cap with static fallback. These have different scope (brand-wide vs email channel) and should not be merged into a single rule.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "group_id": "g_lisraya_accessibility",
+          "rule_a": {
+            "scope": "brand-wide",
+            "topic": "animation/motion design"
+          },
+          "rule_b": {
+            "scope": "channel:email(general)",
+            "topic": "GIF frame-1 messaging and autoplay duration cap"
+          }
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0006"
+      ]
+    },
+    {
+      "description": "Forms rule requires labels to 'always' be visible and tap targets '≥48px' — these are hard, non-negotiable mandates (no placeholder-as-label, no disappearing labels) but no hardness/governance facet (e.g., mandatory/no-exceptions) is captured since no rule exists yet.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "governance": "no exceptions stated",
+          "group_id": "g_lisraya_accessibility",
+          "hardness": "hard_mandate",
+          "polarity": "positive_requirement"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0005"
+      ]
+    },
+    {
+      "description": "The WCAG reference standard citation (u_0008) functions as a governance/authority anchor for the entire accessibility section and should be linked to each accessibility rule as an external compliance standard rather than left unclustered or treated as a standalone unrelated item.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "governance": {
+            "authority": "WCAG (wcag.com)",
+            "relation": "applies_to_all_accessibility_rules"
+          },
+          "group_id": "g_lisraya_accessibility"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0008"
+      ]
+    },
+    {
+      "description": "u_0004 contains two related but distinct obligations (test contrast / never rely on color alone; proof all text for legibility) with implied hard polarity ('never') that should be preserved explicitly as a prohibition rather than a soft guideline once clustered.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "other_rules[0]",
+          "group_id": "g_lisraya_accessibility",
+          "hardness": "hard_mandate",
+          "polarity": "prohibition+requirement"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_0_0004"
+      ]
+    }
+  ]
+}

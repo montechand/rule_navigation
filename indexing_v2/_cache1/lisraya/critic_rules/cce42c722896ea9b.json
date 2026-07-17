@@ -1,0 +1,63 @@
+{
+  "findings": [
+    {
+      "description": "The entire set of approved gradient rules, masthead contrast requirements, and horizontal direction constraints is unmapped. No candidate rules exist to capture these strict design boundaries.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "governance": "Approved values only",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Approved Gradient Specifications",
+          "rule_text": "Only use the approved set of gradients: Brand Blue to Dark Navy (#00529b to #011E45), Sky Blue to Deep Blue (#358CCB to #003D74), Sunshine to 75% Gold (#faa31b to Gold @75%), Golden Sand to White to Light Blue (#FEF1C8 to #ffffff to #E6F0F9), Golden Sand to 75% Gold to Sunshine (#FEF1C8 to Gold @75% to #faa31b), and Sunshine to light gold (#faa31b to ≈#ffe05c). Never invent alternative gradients.",
+          "scope": "color"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0001",
+        "u_color_scheme_rules_3_0002",
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007",
+        "u_color_scheme_rules_3_0008",
+        "u_color_scheme_rules_3_0009",
+        "u_color_scheme_rules_3_0010"
+      ]
+    },
+    {
+      "description": "Specific layout logic for masthead logo contrast (the logo mark must sit at the lightest end of the Sunshine → light gold gradient) and horizontal orientation constraint (left to right, dark to light) is unrepresented.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "governance": "Brand identity placement validation",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Masthead Gradient Direction and Logo Placement",
+          "rule_text": "For masthead and banner applications, gradients must run horizontally from left to right (dark/saturated to light). When using the Sunshine to light gold gradient with the LISRAYA logo mark, the logo mark must sit at the lightest end of the gradient for optimal contrast.",
+          "scope": "layout"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0008",
+        "u_color_scheme_rules_3_0009"
+      ]
+    }
+  ]
+}

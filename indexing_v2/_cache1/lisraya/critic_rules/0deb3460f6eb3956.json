@@ -1,0 +1,163 @@
+{
+  "findings": [
+    {
+      "description": "The CTA pattern is listed under the same 'Approved Campaign Messaging (verbatim framework)' heading as the headline, benefits, MOA, and administration statements, all of which are hard_constraint/must. The CTA rule alone is downgraded to soft_constraint/should with no source basis for a weaker requirement — polarity/hardness inconsistent with sibling rules under the same verbatim framework.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_doctor_discussion_cta_pattern"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_doctor_discussion_cta_pattern",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0000",
+        "u_content_pattern_rules_7_0006"
+      ]
+    },
+    {
+      "description": "Single rule conflates two distinct concerns: the fixed program name ('My Compass Support', a verbatim naming constraint) and the enumerated support-scope offerings (PAL channels, Authorization Support). Bundling risks losing granularity when either the name or the scope list is updated independently.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_support_program_name_verbatim",
+              "polarity": "must"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_support_program_scope_offerings",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_support_program_name_and_scope"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_support_program_name_and_scope",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0007"
+      ]
+    },
+    {
+      "description": "All six rules are hard_constraint/must copy_editorial claims drawn from a heading explicitly labeled 'Approved Campaign Messaging (verbatim framework)', implying regulatory/legal approval governs verbatim use. None of the candidate rules carry governance facets (approval authority, review status, applicable channels/jurisdiction) despite being framed as mandatory verbatim compliance text — a governance gap for pharma promotional claims.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "governance_facet_needed": [
+            "approval_authority",
+            "review_status",
+            "applicable_channels"
+          ],
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_verbatim",
+          "rule_lisraya_product_benefits_bullets_verbatim",
+          "rule_lisraya_moa_messaging_approved_variants",
+          "rule_lisraya_approved_administration_statement_verbatim",
+          "rule_lisraya_doctor_discussion_cta_pattern",
+          "rule_lisraya_support_program_name_and_scope"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_7_0001",
+        "u_content_pattern_rules_7_0002",
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004",
+        "u_content_pattern_rules_7_0005",
+        "u_content_pattern_rules_7_0006",
+        "u_content_pattern_rules_7_0007"
+      ]
+    },
+    {
+      "description": "Source explicitly labels the two MOA statements as 'primary' and 'alt', indicating a priority/preference relation between the two verbatim variants. The merged rule captures both texts but loses this primary-vs-alternate ordering/relation, risking misuse of the alt variant as equally preferred.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "variant_priority": [
+            {
+              "unit": "u_content_pattern_rules_7_0003",
+              "variant": "primary"
+            },
+            {
+              "unit": "u_content_pattern_rules_7_0004",
+              "variant": "alt"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_moa_messaging_approved_variants"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_moa_messaging_approved_variants",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004"
+      ]
+    },
+    {
+      "description": "The heading 'Approved Campaign Messaging (verbatim framework)' establishes an overarching governance requirement (all listed items must be reproduced verbatim as approved) that is not represented by any parent/wrapper rule — each child rule independently asserts hard_constraint/must without a linked umbrella governance rule tying them to the framework's approval basis.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "children": [
+            "rule_lisraya_campaign_headline_verbatim",
+            "rule_lisraya_product_benefits_bullets_verbatim",
+            "rule_lisraya_moa_messaging_approved_variants",
+            "rule_lisraya_approved_administration_statement_verbatim",
+            "rule_lisraya_doctor_discussion_cta_pattern",
+            "rule_lisraya_support_program_name_and_scope"
+          ],
+          "class": "governance",
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_approved_campaign_messaging_framework",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_7_0000"
+      ]
+    }
+  ]
+}

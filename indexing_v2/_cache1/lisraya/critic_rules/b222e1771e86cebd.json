@@ -1,0 +1,138 @@
+{
+  "findings": [
+    {
+      "description": "Only one rule was extracted from this blob, covering just the email px-conversion consistency clause (u_0003). The core shape definition (u_0001, selectively enlarged opposite corner radii), the approved print radius pairs (u_0002), and the charts/tables uniform-corner exception (u_0004) are distinct, separately governed rules and are missing entirely. This is severe under-clustering.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "new_rules": [
+            {
+              "class": "shape",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_accent_shape_core_geometry",
+              "polarity": "must",
+              "source_units": [
+                "u_design_pattern_rules_3_0001"
+              ]
+            },
+            {
+              "class": "layout",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_accent_shape_print_radius_pairs",
+              "polarity": "must",
+              "source_units": [
+                "u_design_pattern_rules_3_0002"
+              ]
+            },
+            {
+              "class": "layout",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_accent_shape_email_conversion_consistency",
+              "polarity": "must",
+              "source_units": [
+                "u_design_pattern_rules_3_0003"
+              ]
+            },
+            {
+              "class": "shape",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_accent_shape_chart_table_exception",
+              "polarity": "must_not",
+              "source_units": [
+                "u_design_pattern_rules_3_0004"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_email_conversion_consistency"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_accent_shape_email_conversion_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0001",
+        "u_design_pattern_rules_3_0002",
+        "u_design_pattern_rules_3_0003",
+        "u_design_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Unit is explicitly tagged '[GENERAL]' indicating a governance/scope facet (applies broadly across markets/regions rather than a region-specific override). The candidate rule carries no scope/governance facet capturing this GENERAL designation or the specific px values (120/6, 48/6, 42/6) as parameterized thresholds.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "parameters": {
+            "banner_px": 48,
+            "callout_px": 42,
+            "default_orientation": "top-left & bottom-right",
+            "large_px": 120,
+            "small_px": 6
+          },
+          "scope": "GENERAL"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_email_conversion_consistency"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_accent_shape_email_conversion_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "Missing relation: u_0004 explicitly carves out an exception ('not the asymmetric accent shape') to the core accent-shape geometry described in u_0001/u_0003. Without an extracted exception rule and an explicit exception relation, the single existing rule implies universal applicability of asymmetric corners, contradicting the charts/tables carve-out.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "shape",
+          "doc_ref": "design_pattern_rules[3]",
+          "group_id": "grp_lisraya_design_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "parameters": {
+            "uniform_radius_px": 12
+          },
+          "polarity": "must_not",
+          "relation": {
+            "target": "rule_lisraya_accent_shape_core_geometry",
+            "type": "exception_of"
+          },
+          "scope": "GENERAL"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_accent_shape_chart_table_exception"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_accent_shape_email_conversion_consistency",
+      "unit_ids": [
+        "u_design_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Heading unit 'Brand Accent Shape (core container device)' is not represented as a grouping label anywhere; if the candidate group is meant to represent the whole heading's cluster, it currently only covers one sub-clause, understating the heading's scope.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_3_0000"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "rule_lisraya_icon_callout_outlook_fallback",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "layout",
+    "iconography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "brand",
+  "selector": {
+    "section_types": [
+      "callout"
+    ],
+    "element_path": "callout.icon"
+  },
+  "evaluation_scope": "section",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "golden_sand_white_light_blue.grad.color",
+        "linked_by": "linker-v1.0.0:auto",
+        "token_id": "tok_lisraya_grad_golden_sand_white_light_blue_color_3"
+      },
+      {
+        "element_path": "icon_callout.box.border_radius",
+        "linked_by": "linker-v1.0.0:adjudicated",
+        "token_id": "tok_lisraya_radius_icon_callout_box"
+      },
+      {
+        "element_path": "icon_callout.box_inset",
+        "linked_by": "linker-v1.0.0:adjudicated",
+        "token_id": "tok_lisraya_dimension_icon_callout_inset"
+      }
+    ]
+  },
+  "polarity": "should",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_dimension_icon_callout_inset",
+    "tok_lisraya_grad_golden_sand_white_light_blue_color_3",
+    "tok_lisraya_radius_icon_callout_box"
+  ],
+  "asset_ids": [],
+  "rule_text": "Because Outlook desktop's Word engine ignores absolute positioning, use a transparent pre-composited PNG badge (including the shadow, accent radii, and icon) with live text, or bake the badge-on-edge treatment into the box background image, when pixel-perfect fidelity in all clients is required. When pre-composition is not feasible, the live version may ship with the accepted Outlook degradation: the badge is flush at the inner-left edge and the box is not inset; retain the Light Blue (#E6F0F9) fill, 40px 8px 40px 8px box radius, blue 800 text, and badge shadow.",
+  "intent": "Preserve the approved badge-on-edge appearance across clients while defining the acceptable Outlook fallback.",
+  "source": "design_bible",
+  "doc_ref": "color_scheme_rules[6]",
+  "group_id": "grp_lisraya_color_scheme_rules_06",
+  "status": "active",
+  "version": 1,
+  "summary": "For Outlook desktop, use a pre-composited transparent PNG badge with shadow and icon or bake badge into background; else accept badge flush left, Light Blue #E6F0F9 fill, 40px 8px radii, blue 800 text, badge shadow."
+}

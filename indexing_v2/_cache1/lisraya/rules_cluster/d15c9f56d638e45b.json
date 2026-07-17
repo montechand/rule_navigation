@@ -1,0 +1,186 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "clinical_claim"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "a": "clinical_claim",
+        "b": "footnote_marker",
+        "relation": "requires"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller (§1.2)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "mlr_claim",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure clinical claims are properly substantiated with visible footnotes.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Clinical claims require footnote markers (footnote.marker.symbol = †) with footnote text clearly separated and noticeably smaller (§1.2).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "efficacy"
+        ]
+      },
+      "slug": "clinical_claim_footnote_markers",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "- [Name], LISRAYA patient",
+        "trigger": "patient_quote_present"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "attributed as `- [Name], LISRAYA patient`"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Patient quotes: attributed as `- [Name], LISRAYA patient`, italic or distinguished styling, paired with warm lifestyle imagery."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0002"
+        ]
+      },
+      "governance": {
+        "gov_type": "disclosure",
+        "match": {
+          "method": "lexical"
+        },
+        "preferred_form": "- [Name], LISRAYA patient",
+        "preferred_form_evidence": {
+          "quotes": [
+            "- [Name], LISRAYA patient"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_9_0002"
+          ]
+        },
+        "severity": "warn",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Maintain consistent, authentic patient-quote presentation.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Patient quotes are attributed as `- [Name], LISRAYA patient`, set in italic (text_style.patient_quote.italic) or otherwise distinguished styling, and paired with warm lifestyle imagery (image_treatment.photography.warm_lifestyle = warm, realistic patient lifestyle imagery).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "patient_story"
+        ]
+      },
+      "slug": "patient_quote_attribution_styling",
+      "tags": [
+        "imagery",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "locked header/footer components",
+        "subject": "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "all live in the **locked header/footer components — never reproduce in sections.**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0003"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the **locked header/footer components — never reproduce in sections.**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_9_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "forbidden"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent duplication of legally controlled elements outside the locked components.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the locked header/footer components and must never be reproduced in content sections.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "top_matter",
+          "end_matter"
+        ]
+      },
+      "slug": "locked_header_footer_legal_elements",
+      "tags": [
+        "copy_editorial"
+      ]
+    }
+  ]
+}

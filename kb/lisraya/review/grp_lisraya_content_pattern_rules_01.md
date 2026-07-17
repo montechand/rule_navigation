@@ -28,19 +28,24 @@ doc_ref: `content_pattern_rules[1]`
 - Use a clear **type scale / visual hierarchy** so the reader knows what to read first, next, last. Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels.
 ````
 
-## Extracted rules (3)
+## Extracted rules (4)
 
-### rule_lisraya_rule_lisraya_email_type_scale_hierarchy
+### rule_lisraya_cross_surface_typeface_hierarchy
+- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Apply the typeface hierarchy by surface: headlines and headers use Agenda in print, Nunito Sans in digital/email, and Aptos in Word/PPT/Excel; body copy and footer/fine print use Nunito Sans in print and digital/email and Aptos in Word/PPT/Excel. Digital/email headlines use bolder weights and Title Case.
+- intent: Maintain a consistent, surface-appropriate typographic hierarchy.
+
+### rule_lisraya_digital_agenda_campaign_headline_exception
+- class=typography scope=brand hardness=hard_constraint polarity=may sections=None constraint=exclusivity
+- rule_text: Agenda may be used as live text in digital only for the campaign headline; it is reserved from other digital live-text uses.
+- intent: Preserve the explicit digital exception without broadening Agenda usage.
+
+### rule_lisraya_distinct_text_hierarchy_levels
+- class=typography scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=None
+- rule_text: Use a clear type scale and visual hierarchy so readers know what to read first, next, and last. Never use two adjacent text blocks at the same size and weight to signal different hierarchy levels.
+- intent: Make content order and hierarchy immediately legible.
+
+### rule_lisraya_email_type_scale_and_legibility
 - class=typography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Email designs must enforce the standard typographic hierarchy. Use the email font stack (font.stack.email = 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif) with the defined type scale: H1 is 28px/36px (type_scale.h1), H2 is 22px/30px (type_scale.h2), H3 is 18px/26px (type_scale.h3), Body is 16px/24px (type_scale.body), Secondary Body is 14px/21px (type_scale.secondary_body), and Footnote is 12px/18px (type_scale.footnote). Avoid using adjacent text blocks with matching size and weight to construct different visual tiers.
-- intent: Maintain structured typographic scale across email elements to establish a clear hierarchy of information.
-
-### rule_lisraya_rule_lisraya_line_height_accessibility
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Line height must be set to a minimum of 150% for all running body copy (body.line_height = 150%). For light text rendered on dark backgrounds, increase the line height further to 160% (e.g., 16px/26px) to enhance readability.
-- intent: Enhance text readability and support brand accessibility requirements.
-
-### rule_lisraya_rule_lisraya_minimum_running_text_size
-- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must_not sections=None constraint=cardinality governance=regulatory/allowed_with_disclosure
-- rule_text: Never render running body copy or footnote text below 12px. Sizing for standard Important Safety Information (ISI) copy is managed independently by locked components.
-- intent: Enforce minimum font readability standard to remain regulatory compliant and accessible.
+- rule_text: For email, use the Nunito Sans, Verdana, Helvetica, Arial, sans-serif stack and load Nunito Sans through @font-face or a Google Fonts link where supported. Use the approved H1, H2, H3, body, secondary-body, and footnote scales; body copy is at least 16px, running text is never below 12px, and body line height is at least 150% (160% for light text on dark backgrounds). Use 14px secondary/supporting body sparingly and never for primary content; keep 12px footnotes noticeably smaller than primary data and clearly separated from it.
+- intent: Ensure reliable email rendering, readable hierarchy, and accessible text sizing.

@@ -1,0 +1,65 @@
+{
+  "findings": [
+    {
+      "description": "An internal banner rule [u_internal_banner_rules_0_0001] claims '#00529B' is named 'Deep Blue', whereas the primary color system table [u_color_scheme_rules_0_0004] establishes '#00529b' as 'Brand Blue' and restricts 'Deep Blue' to '#003D74' [u_color_scheme_rules_0_0012]. The token name or documentation needs correction to account for this conflicting definition.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "value_distortion",
+      "proposed_patch": null,
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_color_brand_blue",
+      "unit_ids": [
+        "u_internal_banner_rules_0_0001"
+      ]
+    },
+    {
+      "description": "The 'Light Blue' callout box tint of '70%' is specified in several units but is not assigned its own explicit primitive token, forcing references directly to raw values.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": 0.7,
+          "key": "opacity.callout.light_blue_box"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005",
+        "u_color_scheme_rules_2_0002"
+      ]
+    },
+    {
+      "description": "The semantic tokens for the icon callout badge radius, shadow, and box radius are set to null instead of linking to their corresponding populated primitive tokens.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "tok_lisraya_icon_callout_badge_radius": {
+            "$ref": "tok_lisraya_radius_callout_badge"
+          },
+          "tok_lisraya_icon_callout_badge_shadow": {
+            "$ref": "tok_lisraya_shadow_icon_badge"
+          },
+          "tok_lisraya_icon_callout_box_radius": {
+            "$ref": "tok_lisraya_radius_callout_box"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_icon_callout_badge_radius",
+          "tok_lisraya_icon_callout_badge_shadow",
+          "tok_lisraya_icon_callout_box_radius"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_icon_callout_badge_radius",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0019"
+      ]
+    }
+  ]
+}

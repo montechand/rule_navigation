@@ -8,9 +8,9 @@ from shared import config
 
 from .contracts import RunVariant
 
-_DEFAULT_CLASSIFY_MODEL = "gemini-3.5-flash"
-_DEFAULT_EXTRACT_MODEL = "gemini-3.5-flash"
-_DEFAULT_CRITIC_MODEL = "gemini-3.5-flash"
+_DEFAULT_CLASSIFY_MODEL = "gpt-5.6-terra"
+_DEFAULT_EXTRACT_MODEL = "gpt-5.6-terra"
+_DEFAULT_CRITIC_MODEL = "gpt-5.6-terra"
 _DEFAULT_SECONDARY_MODEL = _DEFAULT_CRITIC_MODEL
 _DEFAULT_LINKER_MODEL = _DEFAULT_CRITIC_MODEL
 _DEFAULT_TRIAGE_FILE = "review/triage.jsonl"
@@ -32,6 +32,7 @@ _ENV_KEYS: dict[str, str] = {
     "LINKER_MODEL": "RULE_NAV_LINKER_MODEL",
     "LINKER_MAX_ADJUDICATIONS": "RULE_NAV_LINKER_MAX_ADJUDICATIONS",
     "LINKER_GAP_FEEDBACK": "RULE_NAV_LINKER_GAP_FEEDBACK",
+    "TABLE_COMPILER": "RULE_NAV_TABLE_COMPILER",
 }
 
 
@@ -98,6 +99,7 @@ def reload_settings() -> None:
     global LINKER_MODEL
     global LINKER_MAX_ADJUDICATIONS
     global LINKER_GAP_FEEDBACK
+    global TABLE_COMPILER
 
     CLASSIFY_MODEL = _resolve_str("CLASSIFY_MODEL", _DEFAULT_CLASSIFY_MODEL)
     EXTRACT_MODEL = _resolve_str("EXTRACT_MODEL", _DEFAULT_EXTRACT_MODEL)
@@ -114,7 +116,8 @@ def reload_settings() -> None:
     REF_RETRIES = _resolve_int("REF_RETRIES", 2)
     LINKER_MODEL = _resolve_str("LINKER_MODEL", _DEFAULT_LINKER_MODEL)
     LINKER_MAX_ADJUDICATIONS = _resolve_int("LINKER_MAX_ADJUDICATIONS", 64)
-    LINKER_GAP_FEEDBACK = _resolve_bool("LINKER_GAP_FEEDBACK", False)
+    LINKER_GAP_FEEDBACK = _resolve_bool("LINKER_GAP_FEEDBACK", True)
+    TABLE_COMPILER = _resolve_bool("TABLE_COMPILER", True)
 
 
 # Initialized on import; call reload_settings() after env changes in tests.
@@ -134,5 +137,6 @@ REF_RETRIES: int
 LINKER_MODEL: str
 LINKER_MAX_ADJUDICATIONS: int
 LINKER_GAP_FEEDBACK: bool
+TABLE_COMPILER: bool
 
 reload_settings()

@@ -1,0 +1,75 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule list has not extracted any rules yet. The source units contain explicit positive styling rules for bold hierarchy, key takeaways, and callout statistics that need to be grouped together.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Apply bold formatting exclusively for hierarchy and key takeaways, limiting usage to headings, one key phrase or claim per paragraph, and the statistical callout figure. Always bold callout text, statistical callout numbers, and the brand name 'lisraya' within a benefit claim on its first instance per section.",
+          "doc_ref": "content_pattern_rules[3]",
+          "hardness": "mandatory",
+          "polarity": "positive",
+          "rule_name": "Positive Bold Formatting Requirements",
+          "scope": "pattern_rule"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0001",
+        "u_content_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "Negative constraints for bolding and styling emphasis devices are missing extraction.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Never bold entire paragraphs, footnotes/references, more than ~15% of running body text, prepositional filler, or the generic name. Never apply bold, ALL CAPS, and color emphasis simultaneously except in chart headlines and campaign headline lockups (limit to at most two emphasis devices per element).",
+          "doc_ref": "content_pattern_rules[3]",
+          "hardness": "mandatory",
+          "polarity": "negative",
+          "rule_name": "Styling Prohibitions and Device Limitations",
+          "scope": "pattern_rule"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0003",
+        "u_content_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Underlining and italic formatting restrictions are not extracted from the source unit.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Do not use underlining except for actual hyperlinks. Do not use italics for emphasis in patient copy, reserving italic formatting solely for study names, notes, and citations.",
+          "doc_ref": "content_pattern_rules[3]",
+          "hardness": "mandatory",
+          "polarity": "negative",
+          "rule_name": "Underline and Italic Style Restrictions",
+          "scope": "pattern_rule"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0005"
+      ]
+    }
+  ]
+}

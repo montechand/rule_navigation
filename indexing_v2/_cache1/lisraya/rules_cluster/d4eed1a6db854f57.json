@@ -1,0 +1,197 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "adjacent assembled sections must not visually merge"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Color blocks delineate topics (My Compass webpage pattern) — alternate White / Light Blue / Golden Sand / gradient section backgrounds so adjacent assembled sections don't visually merge.",
+          "[GENERAL]: section designers must declare their section's background color in the component metadata so assemblers can sequence without two identical adjacent backgrounds."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain visual separation and structural pacing across assembled content blocks.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Alternate section backgrounds (White, Light Blue, Golden Sand, or gradient) so adjacent assembled sections do not visually merge. Section designers must declare their section's background color in the component metadata so assemblers can sequence them without placing two identical backgrounds side by side.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "layout_section_background_alternation",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "assembly"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "max": 1,
+        "min": null,
+        "per": "section",
+        "target": "focal point"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Limit focal points per section — use contrast to direct attention to the single most important element."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Generous white space; clean, never cluttered. **Limit focal points per section** — use contrast to direct attention to the single most important element."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Avoid visual clutter and guide the reader's eye hierarchically.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Limit visual focal points to direct attention to a single, most important element per section using generous white space and contrast.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "layout_focal_points_limit",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "a": "text walls",
+        "b": "imagery and icons",
+        "relation": "forbids"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "\"Show, don't tell\": break up text walls with imagery and icons."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0002"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "\"Show, don't tell\": break up text walls with imagery and icons."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "soft_guidance",
+      "intent": "Enhance readability and engagement by minimizing visual density of plain text.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "\"Show, don't tell\": break up long text blocks and walls of copy with supporting imagery and icons.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "editorial_imagery_icons_ratio",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery",
+        "iconography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "headline",
+          "benefit statements",
+          "patient quote"
+        ],
+        "strict": false
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Bold headline + simple benefit statements + patient quote is the canonical content block pattern (per patient brochure, which is the **reference template for visuals, messaging, and overall tone of ALL LISRAYA materials**)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_6_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Align layouts with the approved reference design system established in the patient brochure.",
+      "polarity": "should",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The canonical content block pattern follows a sequence of: Bold headline + simple benefit statements + patient quote, based on the patient brochure reference layout.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "intro",
+          "patient_story"
+        ]
+      },
+      "slug": "layout_canonical_content_block",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography"
+      ]
+    }
+  ]
+}

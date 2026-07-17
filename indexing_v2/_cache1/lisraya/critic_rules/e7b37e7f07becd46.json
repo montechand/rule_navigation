@@ -1,0 +1,66 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule 'rule_lisraya_casing_headlines_and_body' merges multiple distinct casing paradigms (Title Case for general headings, strict ALL CAPS for a specific trademarked campaign headline, ALL CAPS + specific typography for infographic headings, sentence case for body copy, and a general negative constraint against other all-caps uses) into a single generic rule. This masks distinct logical constraints and makes automated validation impossible.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "split_rules": [
+            {
+              "class": "copy_editorial",
+              "description": "Use Title Case for general headlines and headings (capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, and prepositions).",
+              "hardness": "strong_default",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_general_headlines_title_case"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Always render the campaign headline 'YOU DESERVE MORE' in ALL CAPS.",
+              "hardness": "absolute",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_campaign_headline_all_caps"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Render chart and infographic headlines in ALL CAPS, set in Agenda (print) or Nunito Sans Bold+ (email fallback).",
+              "hardness": "absolute",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_infographic_headlines_all_caps"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Use sentence case for general body copy.",
+              "hardness": "strong_default",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_body_copy_sentence_case"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Do not use ALL CAPS for body copy, buttons, or subheadings, except for designated campaign headlines and infographic headings.",
+              "hardness": "absolute",
+              "polarity": "must_not",
+              "rule_id": "rule_lisraya_all_caps_prohibition"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_casing_headlines_and_body"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_casing_headlines_and_body",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0001",
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003",
+        "u_content_pattern_rules_2_0004",
+        "u_content_pattern_rules_2_0005"
+      ]
+    }
+  ]
+}

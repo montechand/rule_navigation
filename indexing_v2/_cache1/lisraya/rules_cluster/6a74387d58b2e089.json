@@ -1,0 +1,302 @@
+{
+  "relations": [
+    {
+      "dst_slug": "gradient_callout_section_composition",
+      "note": "Describes the rare fallback path when the section's background image cannot render.",
+      "relation": "refines",
+      "src_slug": "gradient_callout_background_skip_exception"
+    },
+    {
+      "dst_slug": "gradient_callout_background_asset_fallback",
+      "note": "Reuses the mandated Sunshine fallback color when the background image itself is omitted.",
+      "relation": "refines",
+      "src_slug": "gradient_callout_background_skip_exception"
+    },
+    {
+      "dst_slug": "gradient_callout_button_radius_lock",
+      "note": "Confirms the signature button radius persists even in the no-background fallback.",
+      "relation": "refines",
+      "src_slug": "gradient_callout_background_skip_exception"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "gradient_callout.section.background_image",
+          "token_id": "tok_lisraya_gradient_callout_section_background_image"
+        },
+        {
+          "element_path": "gradient_callout.headline.position",
+          "token_id": "tok_lisraya_gradient_callout_headline_position"
+        },
+        {
+          "element_path": "gradient_callout.headline.color",
+          "token_id": "tok_lisraya_gradient_callout_headline_color"
+        },
+        {
+          "element_path": "gradient_callout.headline.alignment",
+          "token_id": "tok_lisraya_gradient_callout_headline_alignment"
+        },
+        {
+          "element_path": "gradient_callout.button.position",
+          "token_id": "tok_lisraya_gradient_callout_button_position"
+        },
+        {
+          "element_path": "gradient_callout.button.fill",
+          "token_id": "tok_lisraya_gradient_callout_button_fill"
+        },
+        {
+          "element_path": "gradient_callout.button.arrow.color",
+          "token_id": "tok_lisraya_gradient_callout_button_arrow_color"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "A full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.",
+          "Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**",
+          "Button** → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0002",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "A full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.",
+          "Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "Button** → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0002",
+          "u_color_scheme_rules_5_0004",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Lock the structural composition of the Gradient Callout CTA banner so headline and button placement never drift.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The Gradient Callout CTA section is a full-width banner: a centered headline sits in the top third over the branded orange/yellow gradient image (Brand Blue #00529b, Nunito Sans weight 800, ~28px, one line), and a single centered button sits lower-middle below it (Deep Blue #003D74 fill, white 18px label, Gold #FFC20E arrow ›, 248×64px), both stacked and horizontally centered on the gradient background.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.section",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_section_composition",
+      "snippets": "<mj-section background-url=\"...Gradient_callout.png\" background-size=\"cover\" background-repeat=\"no-repeat\" background-position=\"center center\" background-color=\"#faa31b\" padding=\"48px 25px 56px 25px\">...<mj-text align=\"center\" color=\"#00529b\" ...>Talk to your doctor about how LISRAYA can help</mj-text>...<a ... style=\"...background-color:#003D74;color:#ffffff;...border-radius:49.52px 1.76px 40px 1.76px;\">Visit LISRAYA.com&nbsp;&nbsp;<span style=\"color:#FFC20E;font-size:24px;\">&#10095;</span></a></mj-section>",
+      "snippets_evidence": {
+        "quotes": [
+          "background-color=\"#faa31b\"",
+          "border-radius:49.52px 1.76px 40px 1.76px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "cta",
+        "layout",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "a": "tok_lisraya_gradient_callout_section_background_image",
+        "b": "tok_lisraya_gradient_callout_section_background_color_fallback",
+        "relation": "requires"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images.",
+          "do not re-host or recolor"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images.",
+          "asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Protect the branded gradient asset from alteration and guarantee a safe visual fallback across email clients.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "The Gradient Callout background must use the exact branded gradient asset (Gradient_callout.png) applied as the section background sized cover/no-repeat/centered at the 600px canvas width, without re-hosting or recoloring it; a solid Sunshine (#faa31b) background-color fallback is always required alongside it because clients like Outlook drop background images.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.section.background_image",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_background_asset_fallback",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "cta"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "gradient_callout.button.radius",
+          "token_id": "tok_lisraya_radius_component_button_gradient_callout"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "`border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Button radius (mandatory, never change):** `border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped.",
+          "Never simplify it to a single value, swap the corners, or round the decimals."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0011"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the button's signature asymmetric silhouette as an immutable brand device.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "cta",
+      "rule_text": "The Gradient Callout CTA button must always use its signature four-value asymmetric radius (49.52px 1.76px 40px 1.76px) on every instance, even when the background image is skipped; never simplify it to a single value, swap the corners, or round the decimals.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.button.radius",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_button_radius_lock",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "background_image_skipped"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "gradient_callout.section.background_color_fallback",
+          "token_id": "tok_lisraya_gradient_callout_section_background_color_fallback"
+        },
+        {
+          "element_path": "gradient_callout.headline.color",
+          "token_id": "tok_lisraya_gradient_callout_headline_color"
+        },
+        {
+          "element_path": "gradient_callout.button.fill",
+          "token_id": "tok_lisraya_gradient_callout_button_fill"
+        },
+        {
+          "element_path": "gradient_callout.button.radius",
+          "token_id": "tok_lisraya_radius_component_button_gradient_callout"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "The background may be skipped **only in very, very rare cases** (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, the section still renders on a solid Sunshine `#faa31b` fill and every other rule stays identical.",
+          "even when the background is skipped",
+          "If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure the CTA banner degrades gracefully without losing its color identity or signature button shape when images can't render.",
+      "polarity": "must",
+      "precedence": 2,
+      "rule_class": "assembly",
+      "rule_text": "In the very rare case the background image must be skipped (plain-text/AMP fallback, an image-stripping client, or a hard size budget), remove only background-url, background-size, background-repeat, and background-position — keep the solid Sunshine (#faa31b) background-color, the headline color, the button fill, and the signature button radius exactly as specified; every other rule stays identical.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.section",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_background_skip_exception",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "cta",
+        "imagery"
+      ]
+    }
+  ]
+}

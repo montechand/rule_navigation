@@ -1,0 +1,78 @@
+{
+  "id": "rule_lisraya_brand_accent_shape_core_container_device_table_b",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "comp.approved_radius_pairs_print.value",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_approved_radius_pairs_print_value"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_1",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_1"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_2",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_3",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_3"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_4",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_5",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_5"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_6",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2"
+      },
+      {
+        "element_path": "comp.general_email_px_conversions_at_96dpi.dim_7",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2"
+      },
+      {
+        "element_path": "comp.exception.size",
+        "linked_by": "tables-v1:table",
+        "token_id": "tok_lisraya_comp_exception_size"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_comp_approved_radius_pairs_print_value",
+    "tok_lisraya_comp_exception_size",
+    "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_1",
+    "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2",
+    "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_3",
+    "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_5"
+  ],
+  "asset_ids": [],
+  "rule_text": "The Brand Accent Shape (core container device) table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| Approved radius pairs (print) | **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes). |\n| [GENERAL] Email px conversions (at 96dpi) | ** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right). |\n| Exception | charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.] |",
+  "intent": "Bind the Brand Accent Shape (core container device) table values verbatim.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_lisraya_design_pattern_rules_03",
+  "status": "active",
+  "version": 1,
+  "summary": "Brand Accent Shape radius pairs (print) fixed: 1.25\"/0.0625\" large, 0.5\"/0.0625\" banners, 0.4375\"/0.0625\" callouts; email px: large=120/6, banner=48/6, callout=42/6 with consistent diagonal orientation; charts/tables uniform 12px radius."
+}

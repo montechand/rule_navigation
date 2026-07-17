@@ -45,6 +45,23 @@ def _tokenize(text: str) -> list[str]:
     return re.findall(r"[a-z0-9#]+", text.lower())
 
 
+def get_brand_sheets(brand: str, context: Optional[dict[str, Any]] = None) -> str:
+    """Always-injected global token tables (E2), rendered at cascade compile time.
+
+    Returns the compact markdown of every scope="global" table for the brand,
+    or "" when the KB predates the table compiler. ``context`` is accepted for
+    forward-compatibility with campaign-guarded variants; global sheets are
+    context-independent today.
+    """
+    del context
+    from ..config import kb_dir
+
+    path = kb_dir(brand) / "cascade" / "brand_sheets.md"
+    if not path.is_file():
+        return ""
+    return path.read_text(encoding="utf-8")
+
+
 class ToolRepo:
     def __init__(self, kb: KB):
         self.kb = kb

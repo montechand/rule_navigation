@@ -1,0 +1,47 @@
+{
+  "id": "rule_lisraya_modular_section_assembly_and_metadata",
+  "brand_id": "lisraya",
+  "rule_class": "assembly",
+  "tags": [
+    "layout",
+    "spacing",
+    "accessibility"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "email.section"
+  },
+  "evaluation_scope": "email",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "email.section.table.width",
+        "token_id": "tok_lisraya_size_email_canvas"
+      },
+      {
+        "element_path": "email.section.padding.block",
+        "token_id": "tok_lisraya_padding_section_vertical_32"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_padding_section_vertical_32",
+    "tok_lisraya_size_email_canvas"
+  ],
+  "asset_ids": [],
+  "rule_text": "Email sections are self-contained table-based blocks using the email canvas width (size.canvas.email_width = 600px) and section vertical padding (padding.section.vertical = 32px). Sections have no external margins and are assembled by direct stacking. Section metadata must declare its background color, whether it establishes dermatomyositis (DM), consumed footnote symbols, and CTA presence. Footnotes are superscripted and assigned in order of appearance at assembly time; sections use placeholder tokens rather than hard-coded daggers when multiple referenced claims occur. Core-team locked header, footer, and ISI components are inserted separately, so adjacent sections must not contain decorative elements visually dependent on those locked components. Assemblers must not place dark-background sections next to other dark-background sections.",
+  "intent": "Enable safe modular email assembly, collision-free footnotes, and reliable component adjacency.",
+  "snippets": "{{fn1}}",
+  "source": "design_bible",
+  "doc_ref": "other_rules[2]",
+  "group_id": "grp_lisraya_other_rules_02",
+  "status": "active",
+  "version": 1,
+  "summary": "Email sections are self-contained 600px wide tables with 32px vertical padding, no external margins, stack directly, declare bg color, DM status, footnote symbols, CTA presence, use placeholder footnote tokens, avoid dark-bg adjacency, and exclude visuals reliant on locked core header/footer/ISI."
+}

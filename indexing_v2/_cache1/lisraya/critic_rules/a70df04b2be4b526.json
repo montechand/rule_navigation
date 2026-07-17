@@ -1,0 +1,28 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule captures the terminology restriction for patient DTC materials but fails to capture the critical compliance step to 'Confirm audience in every brief before writing'.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "other_rules[1]",
+          "governance_requirements": [
+            "Confirm the target audience in every creative brief prior to writing copy."
+          ],
+          "group_id": "grp_lisraya_other_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_audience_terminology_dtc"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_audience_terminology_dtc",
+      "unit_ids": [
+        "u_other_rules_1_0001"
+      ]
+    }
+  ]
+}

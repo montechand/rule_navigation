@@ -1,0 +1,58 @@
+{
+  "findings": [
+    {
+      "description": "Source unit u_0003 (accessibility/contrast guidance with GENERAL-tagged concrete governance facets: min icon render size 32×32px in email, default Brand Blue stroke on light backgrounds) is not represented by either candidate rule. This is a distinct iconography rule about legibility/accessibility that was dropped from clustering entirely.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "iconography",
+          "doc_ref": "design_pattern_rules[5]",
+          "governance": {
+            "default_color": "Brand Blue on light background",
+            "min_render_size": "32x32px",
+            "scope": "email"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_05",
+          "hardness": "guideline",
+          "polarity": "should",
+          "statement": "Consider scale and contrast for low-vision audiences; default to Brand Blue strokes on light backgrounds."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    {
+      "description": "The color-palette rule captures 'only within brand palette' but omits the GENERAL governance facet from u_0003 specifying a default stroke color (Brand Blue) on light backgrounds, which directly qualifies how palette colors are applied to icon strokes. This measurable default should be linked or added as a governance facet rather than left unclustered.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[5]",
+          "governance_add": {
+            "context": "on light backgrounds",
+            "default_stroke_color": "Brand Blue"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_05"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_color_brand_palette_only"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_icon_color_brand_palette_only",
+      "unit_ids": [
+        "u_design_pattern_rules_5_0002",
+        "u_design_pattern_rules_5_0003"
+      ]
+    }
+  ]
+}

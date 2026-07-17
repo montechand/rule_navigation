@@ -1,0 +1,41 @@
+{
+  "id": "rule_lisraya_email_gif_first_frame_and_fallback",
+  "brand_id": "lisraya",
+  "rule_class": "accessibility",
+  "tags": [
+    "imagery",
+    "assembly"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "media.animated_gif"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "media.animated_gif.autoplay.max_duration",
+        "token_id": "tok_lisraya_motion_gif_max_autoplay"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_motion_gif_max_autoplay"
+  ],
+  "asset_ids": [],
+  "rule_text": "For general email, animated GIFs must carry the key message in frame 1 because Outlook shows only the first frame. Do not autoplay motion longer than about 5 seconds without a static fallback.",
+  "intent": "Ensure essential email messaging remains available in clients and contexts with limited motion support.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[0]",
+  "group_id": "grp_lisraya_other_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "General email animated GIFs must convey key message in frame 1 for Outlook, autoplay \u22645 seconds, and include a static fallback."
+}

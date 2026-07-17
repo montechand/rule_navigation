@@ -1,0 +1,57 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules do not clearly capture typography family assignments (Agenda vs Nunito Sans vs Aptos fallback) and their available weights across print, digital, and fallback contexts.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Use correct typography mappings across channels: Agenda for print headlines (and live campaign digital headlines only), Nunito Sans for digital headlines/body copy, and Aptos as fallback for Word, PPT, and Excel.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_typography_family_mapping"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "Missing governance rule or rule facet for CSS/webfont fallback stack setup targeting the CSS developers and template engineers to ensure graceful fallback in Outlook.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "development",
+          "description": "Ensure email CSS contains the exact font stack 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif, and load Nunito Sans via @font-face or Google Fonts.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_email_css_font_stack"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010"
+      ]
+    }
+  ]
+}

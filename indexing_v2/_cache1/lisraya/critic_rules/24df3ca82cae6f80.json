@@ -1,0 +1,131 @@
+{
+  "findings": [
+    {
+      "description": "u0001 defines a distinct title-case rule for headlines/headings (with example) that is not represented by any candidate rule. The group only covers body copy, campaign headline, and the negative ALL CAPS rule, leaving the headline title-case standard unextracted.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "doc_ref": "content_pattern_rules[2]",
+          "example": "LISRAYA Targets the Root Cause of Dermatomyositis",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_headline_title_case",
+          "polarity": "must",
+          "text": "Headlines/headings use title case (initial caps): capitalize nouns, pronouns, adjectives, verbs, adverbs; lowercase articles, conjunctions, prepositions."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_2_0001"
+      ]
+    },
+    {
+      "description": "u0003 (chart/infographic headlines: ALL CAPS, set in Agenda/Nunito Sans Bold+) is a distinct rule with its own typeface/scope specification and is not captured by any candidate rule; it is also a named exception referenced implicitly by the negative ALL CAPS rule (u0005).",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "hardness": "hard_constraint",
+          "id": "rule_lisraya_chart_infographic_headline_all_caps",
+          "polarity": "must",
+          "scope": "chart/infographic headlines",
+          "text": "Chart/infographic headlines use ALL CAPS, set in Agenda (print) or Nunito Sans Bold+ (email fallback)."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003"
+      ]
+    },
+    {
+      "description": "The negative rule ('other than the cases above') is an exception-governed rule whose exceptions (campaign headline ALL CAPS, chart/infographic headline ALL CAPS) are not linked as related rules, losing the exception relationship encoded in the source.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "related_rule_ids": [
+            "rule_lisraya_campaign_headline_all_caps",
+            "rule_lisraya_chart_infographic_headline_all_caps"
+          ],
+          "relation_type": "exception_to"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_all_caps_body_buttons_subheads"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_no_all_caps_body_buttons_subheads",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0005",
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003"
+      ]
+    },
+    {
+      "description": "Source cites a cross-reference '(see 1.6)' indicating additional governing detail elsewhere in the bible; this external relation/citation is not captured on the rule.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "cross_reference": "section 1.6",
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_campaign_headline_all_caps"
+        ]
+      },
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_campaign_headline_all_caps",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0002"
+      ]
+    },
+    {
+      "description": "The [GENERAL] tag signals this rule governs broadly across content types (body, buttons, subheads) but the candidate rule lacks an explicit scope/applicability facet enumerating these targets, weakening enforceability tracking.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "governance_tag": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "scope": [
+            "body copy",
+            "buttons",
+            "subheads"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_all_caps_body_buttons_subheads"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_no_all_caps_body_buttons_subheads",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0005"
+      ]
+    }
+  ]
+}

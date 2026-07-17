@@ -8,58 +8,42 @@
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": "binding",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
-      "effect": [
-        {
-          "element_path": "body.copy.size",
-          "token_id": "tok_lisraya_type_scale_body"
-        },
-        {
-          "element_path": "body.copy.line_height",
-          "token_id": "tok_lisraya_body_line_height"
-        }
-      ],
-      "effect_evidence": {
-        "quotes": [
-          "Body copy **≥16px**",
-          "Line height **≥150%**"
-        ],
-        "unit_ids": [
-          "u_other_rules_0_0001",
-          "u_other_rules_0_0002"
-        ]
-      },
+      "effect": null,
+      "effect_evidence": null,
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
+          "### Accessibility (brand-mandated)",
           "Body copy **≥16px**; bigger is better.",
           "Line height **≥150%**; more for light-on-dark text.",
-          "Use a type scale for visual hierarchy.",
-          "Reference standard: WCAG (wcag.com)."
+          "Use a type scale for visual hierarchy."
         ],
         "unit_ids": [
+          "u_other_rules_0_0000",
           "u_other_rules_0_0001",
           "u_other_rules_0_0002",
-          "u_other_rules_0_0003",
-          "u_other_rules_0_0008"
+          "u_other_rules_0_0003"
         ]
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_accessibility_typography",
-      "intent": "Maintain typographic legibility and layout accessibility across all digital touchpoints.",
+      "id": "rule_lisraya_accessible_type_size_line_height_hierarchy",
+      "intent": "Maintain readable, hierarchically clear text across brand materials.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "Body copy must be 16px or larger (type_scale.body.size = 16px) and have a line height of at least 150% (body.line_height = 150%), especially for light-on-dark text, adhering to WCAG standards.",
-      "scope": "org_baseline",
+      "rule_text": "Body copy must be at least 16px, with larger type preferred where feasible. Line height must be at least 150%, with additional leading for light-on-dark text. Use a type scale to establish visual hierarchy.",
+      "scope": "brand",
       "selector": {
         "element_path": "body.copy",
         "section_types": null
       },
-      "slug": "accessibility_typography",
+      "slug": "accessible_type_size_line_height_hierarchy",
+      "snippets": null,
+      "snippets_evidence": null,
       "tags": [
         "typography"
       ]
@@ -71,35 +55,32 @@
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
-      "evaluation_scope": "email",
+      "effect_evidence": null,
+      "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Test contrast; never rely on color alone; proof all text for legibility.",
-          "Reference standard: WCAG (wcag.com)."
+          "Test contrast; never rely on color alone; proof all text for legibility."
         ],
         "unit_ids": [
-          "u_other_rules_0_0004",
-          "u_other_rules_0_0008"
+          "u_other_rules_0_0004"
         ]
       },
-      "governance": {
-        "gov_type": "regulatory",
-        "match": null,
-        "preferred_form": null,
-        "preferred_form_evidence": null,
-        "severity": "block",
-        "verdict": "allowed_with_disclosure"
-      },
+      "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_accessibility_visual_contrast",
-      "intent": "Ensure content is comprehensible to visually impaired users.",
-      "polarity": "must_not",
+      "id": "rule_lisraya_contrast_redundancy_legibility_review",
+      "intent": "Ensure text and meaning remain perceptible for users with visual or color-vision limitations.",
+      "polarity": "must",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "Test color contrast, never rely on color alone to convey meaning or information, and proof all text for legibility according to WCAG standards.",
-      "scope": "org_baseline",
-      "selector": null,
-      "slug": "accessibility_visual_contrast",
+      "rule_text": "Test contrast and proof all text for legibility. Never rely on color alone to convey meaning.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "text",
+        "section_types": null
+      },
+      "slug": "contrast_redundancy_legibility_review",
+      "snippets": null,
+      "snippets_evidence": null,
       "tags": [
         "color_application"
       ]
@@ -112,8 +93,8 @@
       "content_types": null,
       "effect": [
         {
-          "element_path": "cta.button.touch_target",
-          "token_id": "tok_lisraya_size_cta_touch_min"
+          "element_path": "form.control.touch_target.min_height",
+          "token_id": "tok_lisraya_size_cta_min_touch_height"
         }
       ],
       "effect_evidence": {
@@ -135,82 +116,41 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_accessibility_forms_and_touch_targets",
-      "intent": "Ensure digital interaction targets and input fields are physically usable for all users.",
+      "id": "rule_lisraya_visible_form_labels_and_touch_targets",
+      "intent": "Keep form controls understandable and operable without relying on transient placeholder text or undersized targets.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "Forms must have always-visible labels (no placeholder-as-label or disappearing labels). Click or tap targets must be 48px or larger (dimension.accessibility.touch_target_min = 48px) to accommodate mobile use cases.",
-      "scope": "org_baseline",
+      "rule_text": "Form labels must always remain visible: do not use placeholders as labels and do not allow labels to disappear. Form click/tap targets must meet the 48px minimum touch-target size.",
+      "scope": "brand",
       "selector": {
-        "element_path": "cta.button",
+        "element_path": "form.control",
         "section_types": null
       },
-      "slug": "accessibility_forms_and_touch_targets",
+      "slug": "visible_form_labels_and_touch_targets",
+      "snippets": null,
+      "snippets_evidence": null,
       "tags": [
-        "cta",
-        "layout"
+        "cta"
       ]
     },
     {
       "applies_when": null,
       "audience": null,
-      "constraint_type": null,
-      "content_sub_type_ids": null,
-      "content_types": null,
-      "effect": null,
-      "evaluation_scope": "element",
-      "evidence": {
-        "quotes": [
-          "Media: descriptive **alt text** on all images; transcripts available for any video or audio."
-        ],
-        "unit_ids": [
-          "u_other_rules_0_0007"
-        ]
-      },
-      "governance": {
-        "gov_type": "regulatory",
-        "match": null,
-        "preferred_form": null,
-        "preferred_form_evidence": null,
-        "severity": "block",
-        "verdict": "allowed_with_disclosure"
-      },
-      "hardness": "hard_constraint",
-      "id": "rule_lisraya_accessibility_media_alt_text",
-      "intent": "Support screen readers and accessible parsing of rich media elements.",
-      "polarity": "must",
-      "precedence": 0,
-      "rule_class": "accessibility",
-      "rule_text": "Provide descriptive alt text for all images and ensure transcripts are available for any audio or video assets.",
-      "scope": "org_baseline",
-      "selector": {
-        "element_path": "image",
-        "section_types": null
-      },
-      "slug": "accessibility_media_alt_text",
-      "tags": [
-        "imagery"
-      ]
-    },
-    {
-      "applies_when": null,
-      "audience": null,
-      "constraint_type": "ordering",
+      "constraint_type": "binding",
       "content_sub_type_ids": null,
       "content_types": [
         "email"
       ],
-      "effect": {
-        "sequence": [
-          "key_message_frame",
-          "subsequent_frames"
-        ],
-        "strict": true
-      },
+      "effect": [
+        {
+          "element_path": "animation.autoplay.max_duration",
+          "token_id": "tok_lisraya_motion_max_autoplay"
+        }
+      ],
       "effect_evidence": {
         "quotes": [
-          "animated GIFs must carry the key message in frame 1"
+          "no autoplaying motion longer than ~5s without a static fallback"
         ],
         "unit_ids": [
           "u_other_rules_0_0006"
@@ -220,7 +160,7 @@
       "evidence": {
         "quotes": [
           "Animations: quick transitions that don't interrupt flow; avoid excessive motion; provide a way to \"pause\" effects; design for phone, tablet, and desktop.",
-          "animated GIFs must carry the key message in frame 1 (Outlook shows only the first frame); no autoplaying motion longer than ~5s without a static fallback."
+          "**[GENERAL email]:** animated GIFs must carry the key message in frame 1 (Outlook shows only the first frame); no autoplaying motion longer than ~5s without a static fallback."
         ],
         "unit_ids": [
           "u_other_rules_0_0006"
@@ -228,18 +168,68 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_animated_gif_key_message_fallback",
-      "intent": "Prevent loss of marketing message and avoid triggering cognitive distress via perpetual animation in email clients.",
+      "id": "rule_lisraya_email_animation_message_fallback_and_motion",
+      "intent": "Preserve message comprehension and user control across email clients and devices.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "accessibility",
-      "rule_text": "Animated GIFs used in email must carry the primary key message in the first frame (frame 1) to account for clients like Outlook that render only the initial frame. Autoplay motion must not persist longer than approximately 5 seconds without offering a static fallback.",
+      "rule_text": "Use quick transitions that do not interrupt flow, avoid excessive motion, and provide a way to pause effects. Design animation for phone, tablet, and desktop. In general email, animated GIFs must place the key message in frame 1 because Outlook shows only the first frame; autoplaying motion longer than approximately 5 seconds requires a static fallback.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": "image.animation",
+        "element_path": "animation",
         "section_types": null
       },
-      "slug": "animated_gif_key_message_fallback",
+      "slug": "email_animation_message_fallback_and_motion",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Media: descriptive **alt text** on all images; transcripts available for any video or audio.",
+          "Reference standard: WCAG (wcag.com)."
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0007",
+          "u_other_rules_0_0008"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed"
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_descriptive_media_alternatives_wcag",
+      "intent": "Provide equivalent access to visual and time-based media content.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "All images must have descriptive alt text, and transcripts must be available for every video or audio asset. Use WCAG (wcag.com) as the reference standard.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "media",
+        "section_types": null
+      },
+      "slug": "descriptive_media_alternatives_wcag",
+      "snippets": null,
+      "snippets_evidence": null,
       "tags": [
         "imagery"
       ]

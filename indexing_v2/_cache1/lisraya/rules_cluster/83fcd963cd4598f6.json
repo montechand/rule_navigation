@@ -1,0 +1,402 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "gradient_cta_background_asset",
+      "key_proposal": "asset.background.gradient_callout_png",
+      "quotes": [
+        "asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ],
+      "value": "https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png"
+    },
+    {
+      "for_rule_slug": "gradient_cta_headline_style",
+      "key_proposal": "size.type.gradient_cta_headline_28",
+      "quotes": [
+        "font-size=\"28px\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "28px"
+    },
+    {
+      "for_rule_slug": "gradient_cta_headline_style",
+      "key_proposal": "line_height.type.gradient_cta_headline_34",
+      "quotes": [
+        "line-height=\"34px\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "34px"
+    },
+    {
+      "for_rule_slug": "gradient_cta_button_style",
+      "key_proposal": "size.cta.gradient_button_248_64",
+      "quotes": [
+        "Size 248 × 64px.",
+        "width:248px;height:64px;"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008",
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "248px x 64px"
+    },
+    {
+      "for_rule_slug": "gradient_cta_button_style",
+      "key_proposal": "size.type.gradient_cta_button_label_18",
+      "quotes": [
+        "font-size:18px;"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": "18px"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "gradient_cta_button_style",
+      "note": "Radius invariant refines the general button style spec and takes precedence: it must persist unchanged even when the background image is skipped.",
+      "relation": "refines",
+      "src_slug": "gradient_cta_button_radius_lock"
+    },
+    {
+      "dst_slug": "gradient_cta_section_layout",
+      "note": "Background asset handling and overall section layout describe the same composed banner and are applied together.",
+      "relation": "co_applies",
+      "src_slug": "gradient_cta_background_asset"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta_section.padding",
+          "token_id": "tok_lisraya_padding_gradient_cta_section"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "padding=\"48px 25px 56px 25px\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "A full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.",
+          "Layout (explicit):"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0002",
+          "u_color_scheme_rules_5_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the fixed composition of the signature gradient CTA banner across every instance.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Gradient Callout CTA Section is a full-width banner where a headline and a single button are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked, with section padding of 48px 25px 56px 25px (padding.gradient_cta.section).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta_section.layout",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_cta_section_layout",
+      "snippets": "<mj-section background-url=\"...Gradient_callout.png\" background-size=\"cover\" background-repeat=\"no-repeat\" background-position=\"center center\" background-color=\"#faa31b\" padding=\"48px 25px 56px 25px\"> ... </mj-section>",
+      "snippets_evidence": {
+        "quotes": [
+          "background-size=\"cover\"",
+          "padding=\"48px 25px 56px 25px\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "cta",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "background_image_skipped"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta_section.background_fallback_color",
+          "token_id": "tok_lisraya_color_primary_sunshine"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Always set a solid `background-color` of Sunshine `#faa31b` as fallback"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px)",
+          "asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor",
+          "If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Guarantee the gradient banner degrades gracefully without losing brand color identity when images are unavailable.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "The section background uses the branded gradient PNG (Gradient_callout.png) sized cover, no-repeat, centered, spanning the 600px content width; it must never be re-hosted or recolored. A solid Sunshine (#faa31b) background-color must always be set as a fallback since some clients (e.g., Outlook) drop background images. The image may be skipped only in very rare cases (plain-text/AMP fallback, image-stripping clients, hard size budgets); when skipped, remove only background-url/size/repeat/position — the Sunshine fallback color, headline color, button color, and button radius must remain exactly as specified.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta_section.background",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_cta_background_asset",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "cta"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta.button.radius",
+          "token_id": "tok_lisraya_radius_gradient_cta_button"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "border-radius: 49.52px 1.76px 40px 1.76px;"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped.",
+          "Never simplify it to a single value, swap the corners, or round the decimals."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0011"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Protect the signature button shape as an unalterable brand identifier.",
+      "polarity": "must",
+      "precedence": 5,
+      "rule_class": "cta",
+      "rule_text": "The gradient CTA button's signature asymmetric radius (49.52px 1.76px 40px 1.76px) is mandatory on every instance, even when the background image is skipped. It must never be simplified to a single value, have corners swapped, or decimals rounded.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button.radius",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_cta_button_radius_lock",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta_section.headline.color",
+          "token_id": "tok_lisraya_color_primary_brand_blue"
+        },
+        {
+          "element_path": "cta_section.headline.font",
+          "token_id": "tok_lisraya_font_cta_stack"
+        },
+        {
+          "element_path": "cta_section.headline.weight",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        },
+        {
+          "element_path": "cta_section.headline.padding_bottom",
+          "token_id": "tok_lisraya_padding_gradient_cta_headline"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "padding=\"0 0 32px 0\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure the headline remains legible and consistently positioned atop the gradient banner.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "The gradient CTA headline is Brand Blue (#00529b), centered, positioned in the top third of the section above the button, set in Nunito Sans ExtraBold (weight 800) at ~28px, kept to one line, with 32px of bottom padding before the button.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta_section.headline",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_cta_headline_style",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "cta"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "cta.button.fill",
+          "token_id": "tok_lisraya_color_secondary_deep_blue"
+        },
+        {
+          "element_path": "cta.button.label.color",
+          "token_id": "tok_lisraya_color_tertiary_white"
+        },
+        {
+          "element_path": "cta.button.arrow.color",
+          "token_id": "tok_lisraya_color_button_gold_arrow"
+        },
+        {
+          "element_path": "cta.button.arrow.size",
+          "token_id": "tok_lisraya_size_cta_arrow"
+        },
+        {
+          "element_path": "cta.button.font",
+          "token_id": "tok_lisraya_font_cta_stack"
+        },
+        {
+          "element_path": "cta.button.weight",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces.",
+          "font-family=\"Nunito Sans, Arial, Helvetica, sans-serif\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**Button** → centered, in the **lower-middle** below the headline. Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Keep the CTA button's color, label treatment, and arrow accent consistent with the brand's signature gradient CTA device.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "cta",
+      "rule_text": "The gradient CTA button sits centered in the lower-middle of the section, below the headline. It uses a Deep Blue (#003D74) fill, a white label in Nunito Sans ExtraBold at 18px, and a Gold (#FFC20E) arrow (›, 24px) that follows two non-breaking spaces after the label text. Button size is fixed at 248 × 64px.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button",
+        "section_types": [
+          "cta"
+        ]
+      },
+      "slug": "gradient_cta_button_style",
+      "snippets": "<a href=\"https://www.LISRAYA.com\" ... style=\"...background-color:#003D74;color:#ffffff;font-family:'Nunito Sans',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;...\">Visit LISRAYA.com&nbsp;&nbsp;<span style=\"color:#FFC20E;font-size:24px;\">&#10095;</span></a>",
+      "snippets_evidence": {
+        "quotes": [
+          "background-color:#003D74;color:#ffffff;font-family:'Nunito Sans',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "tags": [
+        "typography"
+      ]
+    }
+  ]
+}

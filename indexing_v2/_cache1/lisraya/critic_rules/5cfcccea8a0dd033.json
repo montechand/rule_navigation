@@ -1,0 +1,117 @@
+{
+  "findings": [
+    {
+      "description": "No rule was extracted for the PRIMARY color tier despite it containing a fully specified, mandatory palette (Brand Blue, Sunshine, Gold with HEX/RGB/CMYK/Pantone values). This entire cluster is missing from the candidate rules.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "g_lisraya_color_primary",
+          "hardness": "hard",
+          "polarity": "positive",
+          "rule_text": "Primary palette (dominant tier) consists of Brand Blue #00529b, Sunshine #faa31b, and Gold #ffc60a, each with defined RGB/CMYK/Pantone equivalents.",
+          "scope": "color_usage"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "No rule was extracted for the SECONDARY color tier (Sky Blue, Deep Blue, Dark Navy) despite distinct tier heading and table values.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "g_lisraya_color_secondary",
+          "hardness": "hard",
+          "polarity": "positive",
+          "rule_text": "Secondary palette consists of Sky Blue #358CCB, Deep Blue #003D74, and Dark Navy #011E45 with RGB/CMYK values.",
+          "scope": "color_usage"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0010",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013"
+      ]
+    },
+    {
+      "description": "No rule was extracted for the TERTIARY color tier (Coral, Light Blue, Golden Sand, Graphite, White) despite distinct tier heading and full table values.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "g_lisraya_color_tertiary",
+          "hardness": "soft",
+          "polarity": "positive",
+          "rule_text": "Tertiary palette consists of Coral #F26A38, Light Blue #E6F0F9, Golden Sand #FEF1C8, Graphite #212121, and White #ffffff with RGB/CMYK values.",
+          "scope": "color_usage"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0015",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0017",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "Since no rules exist for this blob, there is no governance facet (hardness/polarity/scope/tier ranking) attached anywhere to the palette definitions, even though the source clearly signals a tiered hierarchy (dominant/secondary/tertiary) that should drive differing compliance strength (e.g., primary likely 'hard' mandate, tertiary likely 'soft' or accent-only guidance).",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "governance_miss",
+      "proposed_patch": null,
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0000",
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0015"
+      ]
+    },
+    {
+      "description": "Missing relation: no cross-tier relation captured between Brand Blue (primary) and its tonal variants Sky Blue/Deep Blue/Dark Navy (secondary) and Coral (tertiary accent), which the palette structure implies (same blue family across tiers).",
+      "finding_id": "f_lisraya_0005",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0018"
+      ]
+    }
+  ]
+}

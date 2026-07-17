@@ -1,0 +1,110 @@
+{
+  "findings": [
+    {
+      "description": "The rules for bolding hierarchy, required bold elements, and forbidden bold elements are clustered together in the source but have not been extracted into distinct, structured rules. This missing structure makes it impossible to enforce specific constraints on bolding (e.g. bolding density under 15% vs. required brand bolding).",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Bold is intended for hierarchy and key takeaways, not decoration. Bold at most: headings, one key phrase/claim per paragraph, and the statistical callout figure. Never bold more than ~15% of running body text in any section.",
+          "doc_ref": "content_pattern_rules[3]",
+          "governance_facets": {
+            "hardness": "mandatory",
+            "polarity": "negative",
+            "scope": "content"
+          },
+          "rule_name": "Bolding Hierarchy and Density",
+          "severity": "major"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0001",
+        "u_content_pattern_rules_3_0002",
+        "u_content_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "Required bolding elements (callout text, statistical callout numbers, first brand name instance in a benefit claim per section) are distinct functional targets and need their own positive-polarity rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Always bold: callout text per specs (§1.7), statistical callout numbers, and the first instance per section of the brand name within a benefit claim when it is the focal point of the sentence.",
+          "doc_ref": "content_pattern_rules[3]",
+          "governance_facets": {
+            "hardness": "mandatory",
+            "polarity": "positive",
+            "scope": "content"
+          },
+          "rule_name": "Required Bolding Targets",
+          "severity": "major"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "Strict limit on combining typography emphasis styles (bold + ALL CAPS + color) to at most two devices, with specific layout exemptions for chart headlines and campaign headline lockups.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "Never use bold + ALL CAPS + color emphasis simultaneously on the same string. Pick at most two emphasis devices per element. Exception: chart headlines and campaign headline lockups.",
+          "doc_ref": "content_pattern_rules[3]",
+          "governance_facets": {
+            "hardness": "mandatory",
+            "polarity": "negative",
+            "scope": "design_and_layout"
+          },
+          "rule_name": "Typography Emphasis Combination Limits",
+          "severity": "major"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Missing governance rule tracking for the prohibition of underlining (except real hyperlinks) and constraints on italics (forbidden in patient copy, reserved only for study names, notes, and citations).",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "description": "No underlining except for real hyperlinks. Do not use italics for emphasis in patient copy. Reserve italics only for study names, notes ('Note:'), and citations.",
+          "doc_ref": "content_pattern_rules[3]",
+          "governance_facets": {
+            "hardness": "mandatory",
+            "polarity": "negative",
+            "scope": "content"
+          },
+          "rule_name": "Underline and Italic Restrictions",
+          "severity": "major"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0005"
+      ]
+    }
+  ]
+}

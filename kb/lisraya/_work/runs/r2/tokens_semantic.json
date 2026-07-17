@@ -1,45 +1,109 @@
 [
   {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
     "element_paths": [
-      "body.color"
+      "headline.color",
+      "heading.color"
     ],
     "evidence": {
       "quotes": [
-        "Body text: Graphite #212121 on light backgrounds; White on dark backgrounds",
-        "Graphite #212121 on light backgrounds; White on dark backgrounds"
+        "**Headlines/headings:** Brand Blue (or White on dark/gradient backgrounds)."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_headline_color",
+    "key": "headline.color",
+    "kind": "semantic",
+    "notes": "Headline and heading foreground color.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**Headlines/headings:** Brand Blue"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0002"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "White on dark/gradient backgrounds"
+            ],
+            "unit_ids": [
+              "u_color_scheme_rules_1_0002"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_color_tertiary_white"
+          },
+          "when": {
+            "background_group": "dark"
+          }
+        },
+        {
+          "evidence": {
+            "quotes": [
+              "White on dark/gradient backgrounds"
+            ],
+            "unit_ids": [
+              "u_color_scheme_rules_1_0002"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_color_tertiary_white"
+          },
+          "when": {
+            "background_group": "gradient"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "body.color",
+      "paragraph.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Body text:** Graphite #212121 on light backgrounds; White on dark backgrounds"
       ],
       "unit_ids": [
         "u_color_scheme_rules_1_0003"
       ]
     },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
+    "gated": null,
     "id": "tok_lisraya_body_color",
     "key": "body.color",
     "kind": "semantic",
+    "notes": "Body text color by background.",
     "scope": "global",
+    "tier": "tertiary",
     "token_type": "color",
+    "usage_ratio": null,
     "value": {
       "default": {
-        "$ref": "tok_lisraya_color_graphite"
+        "$ref": "tok_lisraya_color_tertiary_graphite"
       },
       "default_evidence": {
         "quotes": [
-          "Graphite #212121 on light backgrounds"
+          "**Body text:** Graphite #212121 on light backgrounds"
         ],
         "unit_ids": [
           "u_color_scheme_rules_1_0003"
@@ -56,7 +120,7 @@
             ]
           },
           "value": {
-            "$ref": "tok_lisraya_color_white"
+            "$ref": "tok_lisraya_color_tertiary_white"
           },
           "when": {
             "background_group": "dark"
@@ -66,41 +130,34 @@
     }
   },
   {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
     "element_paths": [
-      "body.line_height"
+      "body.line_height",
+      "paragraph.line_height"
     ],
     "evidence": {
       "quotes": [
-        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160%",
-        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px)."
+        "**Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160%"
       ],
       "unit_ids": [
         "u_content_pattern_rules_1_0019"
       ]
     },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
+    "gated": null,
     "id": "tok_lisraya_body_line_height",
     "key": "body.line_height",
     "kind": "semantic",
+    "notes": "Accessibility line-height rule for body copy.",
     "scope": "global",
+    "tier": null,
     "token_type": "line_height",
+    "usage_ratio": null,
     "value": {
-      "default": "150%",
+      "default": {
+        "$ref": "tok_lisraya_line_height_body_minimum"
+      },
       "default_evidence": {
         "quotes": [
           "Line height: minimum 150% for all body copy"
@@ -128,408 +185,32 @@
     }
   },
   {
-    "element_paths": [
-      "callout.main.rule_color"
-    ],
-    "evidence": {
-      "quotes": [
-        "Gold (#ffc60a) horizontal rules above and below.",
-        "with Gold (#ffc60a) horizontal rules above and below"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_6_0001"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_callout_main_rule_color",
-    "key": "callout.main.rule_color",
-    "kind": "semantic",
-    "scope": "global",
-    "token_type": "color",
-    "value": {
-      "default": {
-        "$ref": "tok_lisraya_color_gold"
-      },
-      "default_evidence": {
-        "quotes": [
-          "Gold (#ffc60a) horizontal rules",
-          "Gold (#ffc60a) horizontal rules above and below"
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_6_0001"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "campaign.headline.case"
-    ],
-    "evidence": {
-      "quotes": [
-        "ALL CAPS, always.",
-        "Campaign headline \"YOU DESERVE MORE\": ALL CAPS, always"
-      ],
-      "unit_ids": [
-        "u_content_pattern_rules_5_0002",
-        "u_content_pattern_rules_2_0002"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_campaign_headline_case",
-    "key": "campaign.headline.case",
-    "kind": "semantic",
-    "scope": "campaign:you_deserve_more",
-    "token_type": "case",
-    "value": {
-      "default": "all_caps",
-      "default_evidence": {
-        "quotes": [
-          "ALL CAPS, always",
-          "ALL CAPS, always."
-        ],
-        "unit_ids": [
-          "u_content_pattern_rules_5_0002",
-          "u_content_pattern_rules_2_0002"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "gradient_banner.button.radius"
-    ],
-    "evidence": {
-      "quotes": [
-        "Never simplify it to a single value",
-        "this four-value asymmetric radius is the signature shape"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_5_0010",
-        "u_color_scheme_rules_5_0011"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0
-      },
-      "runs": 3,
-      "support": 1
-    },
-    "id": "tok_lisraya_gradient_banner_button_radius",
-    "key": "gradient_banner.button.radius",
-    "kind": "semantic",
-    "notes": "Signature asymmetric four-value corner radius required on all signature button instances",
-    "scope": "global",
-    "token_type": "radius",
-    "value": {
-      "default": "49.52px 1.76px 40px 1.76px",
-      "default_evidence": {
-        "quotes": [
-          "border-radius: 49.52px 1.76px 40px 1.76px;"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_5_0010"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "headline.color",
-      "headings.color"
-    ],
-    "evidence": {
-      "quotes": [
-        "Headlines/headings: Brand Blue (or White on dark/gradient backgrounds).",
-        "Headlines/headings: Brand Blue (or White on dark/gradient backgrounds)"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_1_0002"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "high",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 0.6666666666666666,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 3
-    },
-    "id": "tok_lisraya_headline_color",
-    "key": "headline.color",
-    "kind": "semantic",
-    "scope": "global",
-    "token_type": "color",
-    "value": {
-      "default": {
-        "$ref": "tok_lisraya_color_brand_blue"
-      },
-      "default_evidence": {
-        "quotes": [
-          "Headlines/headings: Brand Blue"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_1_0002"
-        ]
-      },
-      "variants": [
-        {
-          "evidence": {
-            "quotes": [
-              "White on dark/gradient backgrounds"
-            ],
-            "unit_ids": [
-              "u_color_scheme_rules_1_0002"
-            ]
-          },
-          "value": {
-            "$ref": "tok_lisraya_color_white"
-          },
-          "when": {
-            "background_group": "dark"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "element_paths": [
-      "icon_callout.badge.radius"
-    ],
-    "evidence": {
-      "quotes": [
-        "The white badge mirrors the same accent shape at smaller scale, border-radius: 20px 4px 20px 4px;",
-        "border-radius: 20px 4px 20px 4px;"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0019"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 0.5,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_icon_callout_badge_radius",
-    "key": "icon_callout.badge.radius",
-    "kind": "semantic",
-    "notes": "Mirrors the box shape at a smaller scale",
-    "scope": "global",
-    "token_type": "radius",
-    "unresolved_refs": [
-      "tok_lisraya_radius_badge_accent"
-    ],
-    "value": {
-      "default": null,
-      "default_evidence": {
-        "quotes": [
-          "border-radius: 20px 4px 20px 4px;"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_6_0019"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "icon_callout.badge.shadow"
-    ],
-    "evidence": {
-      "quotes": [
-        "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
-        "the white icon badge must carry a subtle drop shadow so it lifts off the blue box — e.g. box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0022"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_icon_callout_badge_shadow",
-    "key": "icon_callout.badge.shadow",
-    "kind": "semantic",
-    "scope": "global",
-    "token_type": "shadow",
-    "unresolved_refs": [
-      "tok_lisraya_shadow_badge"
-    ],
-    "value": {
-      "default": null,
-      "default_evidence": {
-        "quotes": [
-          "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_6_0022"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
-    "element_paths": [
-      "icon_callout.box.radius"
-    ],
-    "evidence": {
-      "quotes": [
-        "Corner radius (mandatory, never change): box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
-        "Corner radius (mandatory, never change): box border-radius: 40px 8px 40px 8px;"
-      ],
-      "unit_ids": [
-        "u_color_scheme_rules_6_0018"
-      ]
-    },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "low",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "notes": 0.5,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 0.5
-      },
-      "runs": 3,
-      "support": 2
-    },
-    "id": "tok_lisraya_icon_callout_box_radius",
-    "key": "icon_callout.box.radius",
-    "kind": "semantic",
-    "notes": "Asymmetric 5:1 ratio border-radius",
-    "scope": "global",
-    "token_type": "radius",
-    "unresolved_refs": [
-      "tok_lisraya_radius_accent_callout"
-    ],
-    "value": {
-      "default": null,
-      "default_evidence": {
-        "quotes": [
-          "box border-radius: 40px 8px 40px 8px;"
-        ],
-        "unit_ids": [
-          "u_color_scheme_rules_6_0018"
-        ]
-      },
-      "variants": null
-    }
-  },
-  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
     "element_paths": [
       "body.link.color"
     ],
     "evidence": {
       "quotes": [
-        "Links [GENERAL]: Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark",
-        "Links [GENERAL]: Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark."
+        "**Links [GENERAL]:** Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark."
       ],
       "unit_ids": [
         "u_color_scheme_rules_1_0007"
       ]
     },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0,
-        "value.variants[82273f404bbd0e4a]": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
+    "gated": null,
     "id": "tok_lisraya_link_color",
     "key": "body.link.color",
     "kind": "semantic",
+    "notes": "Link color by background.",
     "scope": "global",
+    "tier": "primary",
     "token_type": "color",
+    "usage_ratio": null,
     "value": {
       "default": {
-        "$ref": "tok_lisraya_color_brand_blue"
+        "$ref": "tok_lisraya_color_primary_brand_blue"
       },
       "default_evidence": {
         "quotes": [
@@ -550,7 +231,7 @@
             ]
           },
           "value": {
-            "$ref": "tok_lisraya_color_white"
+            "$ref": "tok_lisraya_color_tertiary_white"
           },
           "when": {
             "background_group": "dark"
@@ -560,53 +241,3147 @@
     }
   },
   {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
     "element_paths": [
       "body.link.text_decoration"
     ],
     "evidence": {
       "quotes": [
-        "Brand Blue #00529b, underlined, on light backgrounds; White underlined on dark.",
-        "No underlining except real hyperlinks.",
-        "underlined"
+        "Brand Blue #00529b, underlined",
+        "No underlining except real hyperlinks."
       ],
       "unit_ids": [
         "u_color_scheme_rules_1_0007",
         "u_content_pattern_rules_3_0005"
       ]
     },
-    "extraction_meta": {
-      "champion_run": "r0",
-      "confidence": "medium",
-      "dissent_unit_ids": [
-        "u_content_pattern_rules_3_0005"
-      ],
-      "field_agreement": {
-        "element_paths": 1.0,
-        "key": 1.0,
-        "kind": 1.0,
-        "scope": 1.0,
-        "token_type": 1.0,
-        "value.default": 1.0
-      },
-      "runs": 3,
-      "support": 2
-    },
+    "gated": null,
     "id": "tok_lisraya_link_text_decoration",
     "key": "body.link.text_decoration",
     "kind": "semantic",
+    "notes": "Underlining is reserved for real hyperlinks.",
     "scope": "global",
+    "tier": null,
     "token_type": "text_decoration",
+    "usage_ratio": null,
     "value": {
-      "default": "underline",
+      "default": {
+        "$ref": "tok_lisraya_text_decoration_link_underline"
+      },
       "default_evidence": {
         "quotes": [
-          "No underlining except real hyperlinks",
-          "underlined",
-          "underlined, on light backgrounds"
+          "underlined"
         ],
         "unit_ids": [
-          "u_color_scheme_rules_1_0007",
-          "u_content_pattern_rules_3_0005"
+          "u_color_scheme_rules_1_0007"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": {
+      "amount": 0.7,
+      "base_token_id": "tok_lisraya_color_primary_gold",
+      "op": "opacity"
+    },
+    "element_paths": [
+      "logo.mark.opacity",
+      "logo.pattern_mark.opacity"
+    ],
+    "evidence": {
+      "quotes": [
+        "The logo icon's **70% transparency of Pantone 7548 C / #ffc60a must be maintained in all instances**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_logo_mark_gold_opacity",
+    "key": "logo.mark.opacity",
+    "kind": "semantic",
+    "notes": "Maintained in every logo or mark-pattern instance.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "opacity",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_opacity_logo_gold_70"
+      },
+      "default_evidence": {
+        "quotes": [
+          "70% transparency of Pantone 7548 C / #ffc60a"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": {
+      "amount": 0.7,
+      "base_token_id": "tok_lisraya_color_tertiary_light_blue",
+      "op": "tint"
+    },
+    "element_paths": [
+      "callout.data.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Light Blue at 70% tint (data callouts)",
+        "**Light Blue (#E6F0F9) box at 70% tint**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005",
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_data_callout_fill",
+    "key": "callout.data.fill",
+    "kind": "semantic",
+    "notes": "Secondary/data callout surface.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_light_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Light Blue at 70% tint (data callouts)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0005"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.data.text.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Light Blue (#E6F0F9) box at 70% tint** with **Bold Brand Blue** text"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_data_callout_text_color",
+    "key": "callout.data.text.color",
+    "kind": "semantic",
+    "notes": "Secondary/data callout text.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Bold Brand Blue text"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.data.padding"
+    ],
+    "evidence": {
+      "quotes": [
+        "[GENERAL: 20px internal padding"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_data_callout_padding",
+    "key": "callout.data.padding",
+    "kind": "semantic",
+    "notes": "Internal padding for secondary/data callout.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_data_callout_internal"
+      },
+      "default_evidence": {
+        "quotes": [
+          "20px internal padding"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": {
+      "amount": 0.3,
+      "base_token_id": "tok_lisraya_color_tertiary_golden_sand",
+      "op": "tint"
+    },
+    "element_paths": [
+      "callout.text_heavy.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Golden Sand at 30% tint (text-heavy callouts)",
+        "**Golden Sand (#FEF1C8) box at 30% tint**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_text_heavy_callout_fill",
+    "key": "callout.text_heavy.fill",
+    "kind": "semantic",
+    "notes": "Text-heavy callout surface.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_golden_sand"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Golden Sand at 30% tint (text-heavy callouts)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_1_0005"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.text_heavy.headline.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Bold Brand Blue headline**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_text_heavy_callout_headline_color",
+    "key": "callout.text_heavy.headline.color",
+    "kind": "semantic",
+    "notes": "Text-heavy callout headline.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**Bold Brand Blue headline**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.text_heavy.subhead.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Bold Sky Blue (#358CCB) subheads**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_text_heavy_callout_subhead_color",
+    "key": "callout.text_heavy.subhead.color",
+    "kind": "semantic",
+    "notes": "Text-heavy callout subhead color.",
+    "scope": "global",
+    "tier": "secondary_accent",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_secondary_sky_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**Bold Sky Blue (#358CCB) subheads**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.text_heavy.body.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Regular Graphite (#212121) body text**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_text_heavy_callout_body_color",
+    "key": "callout.text_heavy.body.color",
+    "kind": "semantic",
+    "notes": "Text-heavy callout body color.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_graphite"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**Regular Graphite (#212121) body text**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.text_heavy.padding"
+    ],
+    "evidence": {
+      "quotes": [
+        "[GENERAL: 24px internal padding"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_text_heavy_callout_padding",
+    "key": "callout.text_heavy.padding",
+    "kind": "semantic",
+    "notes": "Internal padding for text-heavy callout.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_text_heavy_callout_internal"
+      },
+      "default_evidence": {
+        "quotes": [
+          "24px internal padding"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.text_heavy.grid"
+    ],
+    "evidence": {
+      "quotes": [
+        "two-column icon+text layout collapses to single column on mobile."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_text_heavy_callout_grid",
+    "key": "callout.text_heavy.grid",
+    "kind": "semantic",
+    "notes": "Text-heavy callout responsive layout.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "ratio",
+    "usage_ratio": null,
+    "value": {
+      "default": "two_column_icon_text",
+      "default_evidence": {
+        "quotes": [
+          "two-column icon+text layout"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0003"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "two-column icon+text layout collapses to single column on mobile"
+            ],
+            "unit_ids": [
+              "u_content_pattern_rules_6_0003"
+            ]
+          },
+          "value": "single_column",
+          "when": {
+            "breakpoint": "mobile"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.main.text.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "Bold **Brand Blue (#00529b)** text"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_main_callout_text_color",
+    "key": "callout.main.text.color",
+    "kind": "semantic",
+    "notes": "Main callout text foreground.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Bold **Brand Blue (#00529b)** text"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.main.rule.border"
+    ],
+    "evidence": {
+      "quotes": [
+        "Gold (#ffc60a) horizontal rules above and below. Centered text. [GENERAL: rule weight 2px"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_main_callout_rule_border",
+    "key": "callout.main.rule.border",
+    "kind": "semantic",
+    "notes": "Gold rules framing main callout.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "border",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_border_callout_gold_rule"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Gold (#ffc60a) horizontal rules above and below"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.main.text.alignment"
+    ],
+    "evidence": {
+      "quotes": [
+        "Centered text."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_main_callout_alignment",
+    "key": "callout.main.text.alignment",
+    "kind": "semantic",
+    "notes": "Main callout text alignment.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "alignment",
+    "usage_ratio": null,
+    "value": {
+      "default": "center",
+      "default_evidence": {
+        "quotes": [
+          "Centered text"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_6_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Buttons/CTA **[GENERAL, contrast-checked to palette]:** Brand Blue #00529b background"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_fill",
+    "key": "cta.primary.fill",
+    "kind": "semantic",
+    "notes": "Default primary CTA background.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Brand Blue #00529b background"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.label.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "White #ffffff text"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_label_color",
+    "key": "cta.primary.label.color",
+    "kind": "semantic",
+    "notes": "Default primary CTA label color.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_white"
+      },
+      "default_evidence": {
+        "quotes": [
+          "White #ffffff text"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.label.font"
+    ],
+    "evidence": {
+      "quotes": [
+        "Nunito Sans Bold 16px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_font",
+    "key": "cta.primary.label.font",
+    "kind": "semantic",
+    "notes": "Primary CTA label font.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "font",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_font_nunito_sans"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Nunito Sans Bold 16px"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.label.weight"
+    ],
+    "evidence": {
+      "quotes": [
+        "Nunito Sans Bold 16px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_weight",
+    "key": "cta.primary.label.weight",
+    "kind": "semantic",
+    "notes": "Primary CTA label weight.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "weight",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_weight_bold"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Nunito Sans Bold 16px"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.padding"
+    ],
+    "evidence": {
+      "quotes": [
+        "padding 14px 32px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_padding",
+    "key": "cta.primary.padding",
+    "kind": "semantic",
+    "notes": "Primary CTA padding.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_primary_cta"
+      },
+      "default_evidence": {
+        "quotes": [
+          "padding 14px 32px"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.radius"
+    ],
+    "evidence": {
+      "quotes": [
+        "corner radius 24px (fully rounded pill, echoing the rounded brand aesthetic)"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_radius",
+    "key": "cta.primary.radius",
+    "kind": "semantic",
+    "notes": "Default CTA pill corners.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "radius",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_radius_cta_pill"
+      },
+      "default_evidence": {
+        "quotes": [
+          "corner radius 24px (fully rounded pill"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.primary.min_height"
+    ],
+    "evidence": {
+      "quotes": [
+        "**min touch target 48px height**"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_primary_cta_min_height",
+    "key": "cta.primary.min_height",
+    "kind": "semantic",
+    "notes": "Minimum clickable primary CTA height.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "size",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_size_touch_target_minimum"
+      },
+      "default_evidence": {
+        "quotes": [
+          "min touch target 48px height"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.secondary.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Secondary CTA: White background, 2px Brand Blue border, Brand Blue text"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_secondary_cta_fill",
+    "key": "cta.secondary.fill",
+    "kind": "semantic",
+    "notes": "Secondary CTA background.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_white"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Secondary CTA: White background"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.secondary.border"
+    ],
+    "evidence": {
+      "quotes": [
+        "Secondary CTA: White background, 2px Brand Blue border"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_secondary_cta_border",
+    "key": "cta.secondary.border",
+    "kind": "semantic",
+    "notes": "Secondary CTA outline.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "border",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_border_primary_cta"
+      },
+      "default_evidence": {
+        "quotes": [
+          "2px Brand Blue border"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "cta.secondary.label.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "Secondary CTA: White background, 2px Brand Blue border, Brand Blue text"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_secondary_cta_label_color",
+    "key": "cta.secondary.label.color",
+    "kind": "semantic",
+    "notes": "Secondary CTA label color.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Brand Blue text"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.background"
+    ],
+    "evidence": {
+      "quotes": [
+        "use this shape and treatment for CTAs:",
+        "<linearGradient id=\"paint0_linear_75_5202\""
+      ],
+      "unit_ids": [
+        "u_internal_banner_rules_0_0010",
+        "u_internal_banner_rules_0_0012"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_fill",
+    "key": "callout.gradient.background",
+    "kind": "semantic",
+    "notes": "Gradient CTA shape treatment supplied in internal banner rule.",
+    "scope": "global",
+    "tier": "campaign",
+    "token_type": "gradient",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_gradient_campaign_cta_button"
+      },
+      "default_evidence": {
+        "quotes": [
+          "<stop stop-color=\"`#FFDF55`\"/><stop offset=\"1\" stop-color=\"`#FAA21B`\"/>"
+        ],
+        "unit_ids": [
+          "u_internal_banner_rules_0_0012"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.section.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Always set a solid `background-color` of Sunshine `#faa31b` as fallback",
+        "keep `background-color=\"#faa31b\"`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_5_0017"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_section_fill",
+    "key": "callout.gradient.section.fill",
+    "kind": "semantic",
+    "notes": "Fallback fill when gradient-callout background image is unavailable.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_sunshine"
+      },
+      "default_evidence": {
+        "quotes": [
+          "solid `background-color` of Sunshine `#faa31b` as fallback"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "keep `background-color=\"#faa31b\"`"
+            ],
+            "unit_ids": [
+              "u_color_scheme_rules_5_0017"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_color_primary_sunshine"
+          },
+          "when": {
+            "surface": "email"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.section.padding"
+    ],
+    "evidence": {
+      "quotes": [
+        "padding=\"48px 25px 56px 25px\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_section_padding",
+    "key": "callout.gradient.section.padding",
+    "kind": "semantic",
+    "notes": "Gradient callout section padding.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_gradient_callout_section"
+      },
+      "default_evidence": {
+        "quotes": [
+          "padding=\"48px 25px 56px 25px\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.headline.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Headline** → Brand Blue `#00529b`, centered"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0007"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_headline_color",
+    "key": "callout.gradient.headline.color",
+    "kind": "semantic",
+    "notes": "Gradient callout headline foreground.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Headline → Brand Blue `#00529b`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.headline.font"
+    ],
+    "evidence": {
+      "quotes": [
+        "Nunito Sans weight 800"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0007"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_headline_font",
+    "key": "callout.gradient.headline.font",
+    "kind": "semantic",
+    "notes": "Gradient callout headline font.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "font",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_font_nunito_sans"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Nunito Sans weight 800"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.headline.weight"
+    ],
+    "evidence": {
+      "quotes": [
+        "Nunito Sans weight 800"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0007"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_headline_weight",
+    "key": "callout.gradient.headline.weight",
+    "kind": "semantic",
+    "notes": "Gradient callout headline weight.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "weight",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_weight_800"
+      },
+      "default_evidence": {
+        "quotes": [
+          "weight 800"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.headline.alignment"
+    ],
+    "evidence": {
+      "quotes": [
+        "both horizontally centered and stacked"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_headline_alignment",
+    "key": "callout.gradient.headline.alignment",
+    "kind": "semantic",
+    "notes": "Gradient callout content is centered.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "alignment",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_alignment_gradient_callout"
+      },
+      "default_evidence": {
+        "quotes": [
+          "centered"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.cta.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Fill Deep Blue `#003D74`, white label"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_cta_fill",
+    "key": "callout.gradient.cta.fill",
+    "kind": "semantic",
+    "notes": "Button over gradient callout.",
+    "scope": "global",
+    "tier": "secondary_accent",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_secondary_deep_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Fill Deep Blue `#003D74`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.cta.label.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "white label (Nunito Sans 800, 18px)"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_cta_label_color",
+    "key": "callout.gradient.cta.label.color",
+    "kind": "semantic",
+    "notes": "Gradient callout CTA label.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_white"
+      },
+      "default_evidence": {
+        "quotes": [
+          "white label"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.cta.arrow.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "with a Gold `#FFC20E` arrow `›`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_cta_arrow_color",
+    "key": "callout.gradient.cta.arrow.color",
+    "kind": "semantic",
+    "notes": "Gold arrow after CTA label.",
+    "scope": "global",
+    "tier": "secondary_accent",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_accent_cta_arrow_gold"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Gold `#FFC20E` arrow"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.cta.size"
+    ],
+    "evidence": {
+      "quotes": [
+        "Size 248 × 64px."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_cta_size",
+    "key": "callout.gradient.cta.size",
+    "kind": "semantic",
+    "notes": "Mandatory gradient callout CTA dimensions.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "size",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_size_gradient_cta_button"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Size 248 × 64px"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.gradient.cta.radius"
+    ],
+    "evidence": {
+      "quotes": [
+        "this four-value asymmetric radius is the signature shape and is **always required on every instance**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0010"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_gradient_callout_cta_radius",
+    "key": "callout.gradient.cta.radius",
+    "kind": "semantic",
+    "notes": "Mandatory signature four-value CTA radius, including fallback instances.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "radius",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_radius_gradient_cta_asymmetric"
+      },
+      "default_evidence": {
+        "quotes": [
+          "border-radius: 49.52px 1.76px 40px 1.76px"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0010"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.box.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Box** ? Light Blue `#E6F0F9` fill, single accent shape."
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_box_fill",
+    "key": "callout.icon.box.fill",
+    "kind": "semantic",
+    "notes": "Icon callout accent-shape box surface.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_light_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Light Blue `#E6F0F9` fill"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.box.padding"
+    ],
+    "evidence": {
+      "quotes": [
+        "left padding must clear the overhanging badge half plus a gap",
+        "padding:26px 34px 26px 64px"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0008",
+        "u_color_scheme_rules_6_0036"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_box_padding",
+    "key": "callout.icon.box.padding",
+    "kind": "semantic",
+    "notes": "Box padding clears badge overhang.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_icon_callout_box"
+      },
+      "default_evidence": {
+        "quotes": [
+          "padding:26px 34px 26px 64px"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.box.radius"
+    ],
+    "evidence": {
+      "quotes": [
+        "large on **top-left + bottom-right**, near-point on **top-right + bottom-left**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_box_radius",
+    "key": "callout.icon.box.radius",
+    "kind": "semantic",
+    "notes": "Large top-left and bottom-right icon-callout corners.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "radius",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_radius_icon_callout_box"
+      },
+      "default_evidence": {
+        "quotes": [
+          "box `border-radius: 40px 8px 40px 8px;`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0018"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.text.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Text** ? Brand Blue `#00529b`, Nunito Sans weight 800"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_text_color",
+    "key": "callout.icon.text.color",
+    "kind": "semantic",
+    "notes": "Icon callout proof-point headline.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Brand Blue `#00529b`"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0009"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.text.type_scale"
+    ],
+    "evidence": {
+      "quotes": [
+        "~21px / 28px line-height"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_text_type_scale",
+    "key": "callout.icon.text.type_scale",
+    "kind": "semantic",
+    "notes": "Icon callout text scale.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "type_scale",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_type_scale_icon_callout_headline"
+      },
+      "default_evidence": {
+        "quotes": [
+          "~21px / 28px line-height"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0009"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.text.weight"
+    ],
+    "evidence": {
+      "quotes": [
+        "Nunito Sans weight 800"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_text_weight",
+    "key": "callout.icon.text.weight",
+    "kind": "semantic",
+    "notes": "Icon callout headline weight.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "weight",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_weight_800"
+      },
+      "default_evidence": {
+        "quotes": [
+          "weight 800"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0009"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.text.alignment"
+    ],
+    "evidence": {
+      "quotes": [
+        "left-aligned, **vertically centered** to the box"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_text_alignment",
+    "key": "callout.icon.text.alignment",
+    "kind": "semantic",
+    "notes": "Icon callout text alignment.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "alignment",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_alignment_icon_callout_text"
+      },
+      "default_evidence": {
+        "quotes": [
+          "left-aligned"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0009"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.badge.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "a **White `#ffffff` rounded square** holding the line icon"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0010"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_badge_fill",
+    "key": "callout.icon.badge.fill",
+    "kind": "semantic",
+    "notes": "White badge straddling icon-callout box edge.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_white"
+      },
+      "default_evidence": {
+        "quotes": [
+          "a **White `#ffffff` rounded square**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0010"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.badge.size"
+    ],
+    "evidence": {
+      "quotes": [
+        "Defaults: badge size `W = 80px`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0046"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_badge_size",
+    "key": "callout.icon.badge.size",
+    "kind": "semantic",
+    "notes": "Default icon-callout badge width and height.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "size",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_size_icon_callout_badge"
+      },
+      "default_evidence": {
+        "quotes": [
+          "badge width (use **80px**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0014"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.badge.radius"
+    ],
+    "evidence": {
+      "quotes": [
+        "The white badge **mirrors the same accent shape at smaller scale**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0019"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_badge_radius",
+    "key": "callout.icon.badge.radius",
+    "kind": "semantic",
+    "notes": "Badge mirrors small accent shape.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "radius",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_radius_icon_callout_badge"
+      },
+      "default_evidence": {
+        "quotes": [
+          "border-radius: 20px 4px 20px 4px"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0019"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.badge.shadow"
+    ],
+    "evidence": {
+      "quotes": [
+        "the white icon badge **must carry a subtle drop shadow**",
+        "This shadow is required on every instance"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_badge_shadow",
+    "key": "callout.icon.badge.shadow",
+    "kind": "semantic",
+    "notes": "Required badge elevation shadow.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "shadow",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_shadow_icon_badge"
+      },
+      "default_evidence": {
+        "quotes": [
+          "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0022"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.badge.icon.size"
+    ],
+    "evidence": {
+      "quotes": [
+        "inner icon `48px`"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0046"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_icon_size",
+    "key": "callout.icon.badge.icon.size",
+    "kind": "semantic",
+    "notes": "Icon size inside callout badge.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "size",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_size_icon_callout_inner_icon"
+      },
+      "default_evidence": {
+        "quotes": [
+          "icon ?48px inside"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0014"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "callout.icon.badge.icon.stroke_color"
+    ],
+    "evidence": {
+      "quotes": [
+        "holding the line icon (Brand Blue stroke)"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0010"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_callout_icon_color",
+    "key": "callout.icon.badge.icon.stroke_color",
+    "kind": "semantic",
+    "notes": "Icon stroke in icon callout badge.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "line icon (Brand Blue stroke)"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0010"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.canvas.width"
+    ],
+    "evidence": {
+      "quotes": [
+        "sections must render edge-to-edge at exactly 600px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_canvas_width",
+    "key": "section.canvas.width",
+    "kind": "semantic",
+    "notes": "Fixed email canvas and section width.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "size",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_size_email_canvas_width"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Email body width: **600px** fixed"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.padding.sides"
+    ],
+    "evidence": {
+      "quotes": [
+        "text within them still respects 24px insets"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0004"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_padding_sides",
+    "key": "section.padding.sides",
+    "kind": "semantic",
+    "notes": "Text inset, including full-bleed image and gradient sections.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_section_side_24"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Section side padding: 24px left/right"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0004"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.padding.vertical"
+    ],
+    "evidence": {
+      "quotes": [
+        "each section owns its own top AND bottom padding; no external margins between sections"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0006"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_padding_vertical",
+    "key": "section.padding.vertical",
+    "kind": "semantic",
+    "notes": "Each module owns top and bottom padding.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "padding",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_padding_section_vertical_32"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Section top/bottom internal padding: **32px**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0006"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.margin"
+    ],
+    "evidence": {
+      "quotes": [
+        "**no margins outside the section** — assembly is direct stacking."
+      ],
+      "unit_ids": [
+        "u_other_rules_2_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_margin",
+    "key": "section.margin",
+    "kind": "semantic",
+    "notes": "Direct-stacking modular section rule.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "margin",
+    "usage_ratio": null,
+    "value": {
+      "default": "0",
+      "default_evidence": {
+        "quotes": [
+          "no margins outside the section"
+        ],
+        "unit_ids": [
+          "u_other_rules_2_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.breakpoint.mobile"
+    ],
+    "evidence": {
+      "quotes": [
+        "Mobile breakpoint: **480px**; all multi-column layouts collapse to single column."
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_breakpoint",
+    "key": "section.breakpoint.mobile",
+    "kind": "semantic",
+    "notes": "Responsive breakpoint for all multi-column layouts.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "breakpoint",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_breakpoint_mobile_480"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Mobile breakpoint: **480px**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.grid.two_column.ratio"
+    ],
+    "evidence": {
+      "quotes": [
+        "all multi-column layouts collapse to single column",
+        "2-col (50/50)"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_grid_two_column",
+    "key": "section.grid.two_column.ratio",
+    "kind": "semantic",
+    "notes": "Two-column section grid.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "ratio",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_ratio_grid_two_column"
+      },
+      "default_evidence": {
+        "quotes": [
+          "2-col (50/50)"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0003"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "all multi-column layouts collapse to single column"
+            ],
+            "unit_ids": [
+              "u_design_pattern_rules_0_0002"
+            ]
+          },
+          "value": "single_column",
+          "when": {
+            "breakpoint": "mobile"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "section.grid.image_text.ratio"
+    ],
+    "evidence": {
+      "quotes": [
+        "all multi-column layouts collapse to single column",
+        "image/text split (≈40/60)"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_section_grid_image_text",
+    "key": "section.grid.image_text.ratio",
+    "kind": "semantic",
+    "notes": "Image-text section grid.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "ratio",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_ratio_grid_image_text"
+      },
+      "default_evidence": {
+        "quotes": [
+          "image/text split (≈40/60)"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0003"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "all multi-column layouts collapse to single column"
+            ],
+            "unit_ids": [
+              "u_design_pattern_rules_0_0002"
+            ]
+          },
+          "value": "single_column",
+          "when": {
+            "breakpoint": "mobile"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": "dtp_patient",
+    "derived_from": null,
+    "element_paths": [
+      "image.treatment",
+      "patient_story.image.treatment"
+    ],
+    "evidence": {
+      "quotes": [
+        "Photography: **warm, realistic patient lifestyle imagery**"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_2_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_image_treatment",
+    "key": "image.treatment",
+    "kind": "semantic",
+    "notes": "Patient lifestyle photography treatment.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "image_treatment",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_image_treatment_warm_lifestyle"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**warm, realistic patient lifestyle imagery**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "image.crop",
+      "patient_story.image.crop"
+    ],
+    "evidence": {
+      "quotes": [
+        "asymmetric rounded-corner crops, not plain rectangles or circles."
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_2_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_image_crop_treatment",
+    "key": "image.crop",
+    "kind": "semantic",
+    "notes": "Photography must use asymmetric accent-shape crop.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "image_treatment",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_image_treatment_accent_shape_crop"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Images are housed in the **Accent shape**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "chart.container.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "Container: uniform rounded corners, Light Blue (#E6F0F9) panel"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_4_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_chart_container_fill",
+    "key": "chart.container.fill",
+    "kind": "semantic",
+    "notes": "Chart or infographic panel surface.",
+    "scope": "global",
+    "tier": "tertiary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_tertiary_light_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Light Blue (#E6F0F9) panel"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "chart.container.radius",
+      "table.container.radius"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_3_0004"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_chart_container_radius",
+    "key": "chart.container.radius",
+    "kind": "semantic",
+    "notes": "Uniform exception for charts and tables.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "radius",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_radius_chart_uniform"
+      },
+      "default_evidence": {
+        "quotes": [
+          "12px uniform radius"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "chart.header.fill"
+    ],
+    "evidence": {
+      "quotes": [
+        "with a Brand Blue rounded header bar."
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_4_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_chart_header_fill",
+    "key": "chart.header.fill",
+    "kind": "semantic",
+    "notes": "Chart rounded header bar fill.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Brand Blue rounded header bar"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "chart.headline.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "Headline: Agenda (print) / Nunito Sans Bold+ (email), **ALL CAPS**, Brand Blue"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_4_0004"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_chart_headline_color",
+    "key": "chart.headline.color",
+    "kind": "semantic",
+    "notes": "Chart headline foreground.",
+    "scope": "global",
+    "tier": "primary",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_brand_blue"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Brand Blue"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0004"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "chart.headline.case"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Chart/infographic headlines: ALL CAPS**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_2_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_chart_headline_case",
+    "key": "chart.headline.case",
+    "kind": "semantic",
+    "notes": "Chart and infographic headline casing.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "case",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_case_campaign_all_caps"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**ALL CAPS**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0004"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "icon.style",
+      "chart.icon.style"
+    ],
+    "evidence": {
+      "quotes": [
+        "consistent stroke weight, rounded line caps, single-color line work"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_5_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_style",
+    "key": "icon.style",
+    "kind": "semantic",
+    "notes": "Single-color rounded-cap line icon system.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "icon_style",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_icon_style_minimal_line"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**minimal line illustration**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "icon.min_size"
+    ],
+    "evidence": {
+      "quotes": [
+        "[GENERAL: minimum render size 32×32px in email"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_5_0003"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_icon_minimum_size",
+    "key": "icon.min_size",
+    "kind": "semantic",
+    "notes": "Minimum email icon render size.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "size",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_size_icon_minimum"
+      },
+      "default_evidence": {
+        "quotes": [
+          "minimum render size 32×32px in email"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "wave.top_layer.opacity"
+    ],
+    "evidence": {
+      "quotes": [
+        "Construction: top wave layer at **70% transparency** over the base wave"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_1_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_wave_top_opacity",
+    "key": "wave.top_layer.opacity",
+    "kind": "semantic",
+    "notes": "Required translucent top wave layer.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "opacity",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_opacity_wave_top_70"
+      },
+      "default_evidence": {
+        "quotes": [
+          "top wave layer at **70% transparency**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "wave.edge.treatment"
+    ],
+    "evidence": {
+      "quotes": [
+        "always preserve the layered, translucent quality."
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_1_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_wave_edge",
+    "key": "wave.edge.treatment",
+    "kind": "semantic",
+    "notes": "Wave construction preserves a layered translucent quality.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "wave_edge",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_wave_edge_layered_translucent"
+      },
+      "default_evidence": {
+        "quotes": [
+          "top wave layer at **70% transparency** over the base wave"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "masthead.background.gradient"
+    ],
+    "evidence": {
+      "quotes": [
+        "**Masthead gradient — the gradient to use with the logo mark for contrast; mark sits at the lightest end**"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0008"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_masthead_gradient",
+    "key": "masthead.background.gradient",
+    "kind": "semantic",
+    "notes": "Approved logo-mark masthead gradient.",
+    "scope": "global",
+    "tier": "campaign",
+    "token_type": "gradient",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_gradient_campaign_masthead_sunshine_light_gold"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**Masthead gradient**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0008"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "masthead.background.gradient_angle"
+    ],
+    "evidence": {
+      "quotes": [
+        "dark/saturated → light, left → right as shown"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_3_0009"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_masthead_gradient_angle",
+    "key": "masthead.background.gradient_angle",
+    "kind": "semantic",
+    "notes": "Dark/saturated-to-light masthead direction.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "gradient_angle",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_gradient_angle_horizontal"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Gradients run horizontally in masthead/banner applications"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_3_0009"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "campaign.headline.font"
+    ],
+    "evidence": {
+      "quotes": [
+        "Set in **Agenda** (digital may use Agenda as live text for this headline only; email fallback: Nunito Sans ExtraBold)."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_campaign_headline_font",
+    "key": "campaign.headline.font",
+    "kind": "semantic",
+    "notes": "Campaign headline font, with email fallback.",
+    "scope": "campaign:you_deserve_more",
+    "tier": "campaign",
+    "token_type": "font",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_font_agenda"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Set in **Agenda**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0001"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "email fallback: Nunito Sans ExtraBold"
+            ],
+            "unit_ids": [
+              "u_content_pattern_rules_5_0001"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_font_nunito_sans"
+          },
+          "when": {
+            "surface": "email"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "campaign.headline.case"
+    ],
+    "evidence": {
+      "quotes": [
+        "**ALL CAPS, always.**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_5_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_campaign_headline_case",
+    "key": "campaign.headline.case",
+    "kind": "semantic",
+    "notes": "YOU DESERVE MORE headline casing.",
+    "scope": "campaign:you_deserve_more",
+    "tier": "campaign",
+    "token_type": "case",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_case_campaign_all_caps"
+      },
+      "default_evidence": {
+        "quotes": [
+          "**ALL CAPS, always.**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0002"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": {
+      "amount": 0.4,
+      "base_token_id": "tok_lisraya_color_primary_gold",
+      "op": "tint"
+    },
+    "element_paths": [
+      "campaign.headline.deserve_d.opacity",
+      "campaign.headline.more_m.opacity"
+    ],
+    "evidence": {
+      "quotes": [
+        "The letters **\"D\" (in DESERVE) and \"M\" (in MORE) are set at approximately 40% tint** of the headline color",
+        "tinted letters at 40% of the same hue"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_campaign_headline_tinted_letters_opacity",
+    "key": "campaign.headline.tinted_letters.opacity",
+    "kind": "semantic",
+    "notes": "The D in DESERVE and M in MORE use a tint of the selected headline hue.",
+    "scope": "campaign:you_deserve_more",
+    "tier": "campaign",
+    "token_type": "opacity",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_opacity_tint_headline_letters_40"
+      },
+      "default_evidence": {
+        "quotes": [
+          "approximately 40% tint"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0003"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "campaign.headline.color"
+    ],
+    "evidence": {
+      "quotes": [
+        "Two approved colorways: brand **Gold/Sunshine** or **Brand Blue**"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_5_0004"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_campaign_headline_color",
+    "key": "campaign.headline.color",
+    "kind": "semantic",
+    "notes": "Approved campaign headline colorways.",
+    "scope": "campaign:you_deserve_more",
+    "tier": "campaign",
+    "token_type": "color",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_color_primary_gold"
+      },
+      "default_evidence": {
+        "quotes": [
+          "brand **Gold/Sunshine**"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0004"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "or **Brand Blue**"
+            ],
+            "unit_ids": [
+              "u_content_pattern_rules_5_0004"
+            ]
+          },
+          "value": {
+            "$ref": "tok_lisraya_color_primary_brand_blue"
+          },
+          "when": {
+            "theme": "brand_blue"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "campaign.headline.alignment"
+    ],
+    "evidence": {
+      "quotes": [
+        "Stack as three lines (YOU / DESERVE / MORE) in hero placements, left-aligned."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_5_0005"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_campaign_headline_alignment",
+    "key": "campaign.headline.alignment",
+    "kind": "semantic",
+    "notes": "Hero campaign lockup alignment.",
+    "scope": "campaign:you_deserve_more",
+    "tier": "campaign",
+    "token_type": "alignment",
+    "usage_ratio": null,
+    "value": {
+      "default": "left",
+      "default_evidence": {
+        "quotes": [
+          "left-aligned"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0005"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": "dtp_patient",
+    "derived_from": null,
+    "element_paths": [
+      "brand_name.case"
+    ],
+    "evidence": {
+      "quotes": [
+        "Always write **LISRAYA** in ALL CAPS in all written materials"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_brand_name_case",
+    "key": "brand_name.case",
+    "kind": "semantic",
+    "notes": "Patient-marketing naming rule.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "case",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_case_brand_name_all_caps"
+      },
+      "default_evidence": {
+        "quotes": [
+          "Always write **LISRAYA** in ALL CAPS"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0001"
+        ]
+      },
+      "variants": null
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "brand_name.trademark"
+    ],
+    "evidence": {
+      "quotes": [
+        "Include the **® registered trademark symbol only when the generic name is included**",
+        "Do not repeat ® on subsequent mentions."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_0_0002"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_brand_name_trademark",
+    "key": "brand_name.trademark",
+    "kind": "semantic",
+    "notes": "Registered-symbol treatment where generic name is included in external-facing material.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "text_style",
+    "usage_ratio": null,
+    "value": {
+      "default": "none",
+      "default_evidence": {
+        "quotes": [
+          "Do not repeat ® on subsequent mentions"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      },
+      "variants": [
+        {
+          "evidence": {
+            "quotes": [
+              "LISRAYA® (brepocitinib). Apply on **first/most prominent mention only**"
+            ],
+            "unit_ids": [
+              "u_content_pattern_rules_0_0002"
+            ]
+          },
+          "value": "LISRAYA® (brepocitinib)",
+          "when": {
+            "first_mention": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "aliases": [],
+    "audience": null,
+    "derived_from": null,
+    "element_paths": [
+      "motion.autoplay.max_duration"
+    ],
+    "evidence": {
+      "quotes": [
+        "no autoplaying motion longer than ~5s without a static fallback."
+      ],
+      "unit_ids": [
+        "u_other_rules_0_0006"
+      ]
+    },
+    "gated": null,
+    "id": "tok_lisraya_motion_autoplay_max_duration",
+    "key": "motion.autoplay.max_duration",
+    "kind": "semantic",
+    "notes": "Autoplay requires static fallback beyond this duration.",
+    "scope": "global",
+    "tier": null,
+    "token_type": "motion",
+    "usage_ratio": null,
+    "value": {
+      "default": {
+        "$ref": "tok_lisraya_motion_max_autoplay_duration"
+      },
+      "default_evidence": {
+        "quotes": [
+          "no autoplaying motion longer than ~5s"
+        ],
+        "unit_ids": [
+          "u_other_rules_0_0006"
         ]
       },
       "variants": null

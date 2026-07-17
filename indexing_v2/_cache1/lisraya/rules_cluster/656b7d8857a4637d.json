@@ -1,0 +1,131 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "specified_tint_values_binding",
+      "note": "Exclusivity rule closes off use of any tint value not already locked in by the binding rule's four specified tints.",
+      "relation": "refines",
+      "src_slug": "no_adhoc_tint_exclusivity"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "campaign_headline.tint",
+          "token_id": "tok_lisraya_opacity_headline_letter_40"
+        },
+        {
+          "element_path": "callout.light_blue.tint",
+          "token_id": "tok_lisraya_opacity_callout_light_blue_70"
+        },
+        {
+          "element_path": "callout.golden_sand.tint",
+          "token_id": "tok_lisraya_opacity_callout_golden_sand_30"
+        },
+        {
+          "element_path": "wave.top_layer.opacity",
+          "token_id": "tok_lisraya_wave_top_layer_opacity"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "≈40% tint",
+          "70% tint",
+          "30% tint",
+          "70% transparency"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Tint Rules",
+          "≈40% tint",
+          "70% tint",
+          "30% tint",
+          "70% transparency"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0000",
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Standardize opacity/tint values so campaign headlines, callout boxes, and wave graphics render with consistent, approved intensity.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Locked tint values apply per element: campaign headline letters (\"D\"/\"M\") use a ~40% tint of the headline color (Gold or Brand Blue colorway); the Light Blue callout box uses a 70% tint; the Golden Sand callout box uses a 30% tint; and decorative wave top layers use 70% transparency.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "specified_tint_values_binding",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "the four specified tint tokens (headline ~40%, light-blue callout 70%, golden-sand callout 30%, wave top layer 70%) or standard palette values",
+        "subject": "color tint/opacity values"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Prevent unauthorized opacity variations that would dilute brand color consistency.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "color_application",
+      "rule_text": "No ad-hoc or improvised tint/opacity values may be used anywhere; only the palette's defined colors or the four specified tints (headline ~40%, light-blue callout 70%, golden-sand callout 30%, wave top layer 70%) are permitted.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "no_adhoc_tint_exclusivity",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    }
+  ]
+}

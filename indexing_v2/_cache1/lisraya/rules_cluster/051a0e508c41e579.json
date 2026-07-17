@@ -1,0 +1,127 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "specified_tint_values",
+      "note": "The ad-hoc prohibition restricts tints to the specified set of values.",
+      "relation": "refines",
+      "src_slug": "no_ad_hoc_tints"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "opacity.headline.letter_tint_40",
+          "token_id": "tok_lisraya_opacity_headline_letter_40"
+        },
+        {
+          "element_path": "opacity.callout.light_blue_70",
+          "token_id": "tok_lisraya_opacity_light_blue_callout_70"
+        },
+        {
+          "element_path": "opacity.callout.golden_sand_30",
+          "token_id": "tok_lisraya_opacity_golden_sand_callout_30"
+        },
+        {
+          "element_path": "wave.top_layer.opacity",
+          "token_id": "tok_lisraya_opacity_light_blue_callout_70"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).",
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**.",
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "### Tint Rules",
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).",
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**.",
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0000",
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Constrain tint usage to a fixed, approved set of opacity values.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Tints are permitted only at the specified values: campaign headline letters \"D\" and \"M\" use a ≈40% tint (opacity.headline.letter_tint_40 = 0.4) of the headline color (Gold #ffc60a or Brand Blue #00529b colorway); the Light Blue callout box uses a 70% tint (opacity.callout.light_blue_70 = 0.7); the Golden Sand callout box uses a 30% tint (opacity.callout.golden_sand_30 = 0.3); and Wave top layers use 70% transparency (wave.top_layer.opacity → 0.7).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "specified_tint_values",
+      "tags": [
+        "callout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "palette values or the specified tint values only",
+        "subject": "tints"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent unapproved off-palette tint variations.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "No other ad-hoc tints are allowed — use palette values or the specified tints (40%, 70%, 30% and 70% transparency) only.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "no_ad_hoc_tints",
+      "tags": null
+    }
+  ]
+}

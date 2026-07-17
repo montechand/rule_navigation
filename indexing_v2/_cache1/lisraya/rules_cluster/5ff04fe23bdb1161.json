@@ -1,0 +1,83 @@
+{
+  "missing_token_requests": [],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "opacity.headline.letter_tint_40",
+          "token_id": "tok_lisraya_opacity_headline_letter_40"
+        },
+        {
+          "element_path": "opacity.callout.light_blue_70",
+          "token_id": "tok_lisraya_opacity_light_blue_callout_70"
+        },
+        {
+          "element_path": "opacity.callout.golden_sand_30",
+          "token_id": "tok_lisraya_opacity_golden_sand_callout_30"
+        },
+        {
+          "element_path": "wave.top_layer.opacity",
+          "token_id": "tok_lisraya_opacity_light_blue_callout_70"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).",
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**.",
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "### Tint Rules",
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).",
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**.",
+          "Wave top layers: **70% transparency**.",
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0000",
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004",
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Restrict transparency/tint usage to the approved set for brand color consistency.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Only the specified tint values may be used: campaign headline letters \"D\" and \"M\" use ≈40% tint of the headline color (opacity.headline.letter_tint_40 = 0.4, applied to Gold #ffc60a or Brand Blue #00529b per colorway); Light Blue callout boxes use 70% tint (opacity.callout.light_blue_70 = 0.7); Golden Sand callout boxes use 30% tint (opacity.callout.golden_sand_30 = 0.3); wave top layers use 70% transparency (wave.top_layer.opacity → 0.7). No other ad-hoc tints are permitted — use full palette values or these specified tints only.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "approved_tints_only",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    }
+  ]
+}

@@ -12,12 +12,12 @@ doc_ref: `other_rules[1]`
 
 ## Extracted rules (2)
 
-### rule_lisraya_audience_terminology_dtc
-- class=voice_tone scope=brand hardness=hard_constraint polarity=must sections=None constraint=verbatim_content governance=regulatory/verbatim_only
-- rule_text: In patient (DTC) materials, use person-first language such as 'someone/people with dermatomyositis'. Do not refer to them simply as 'patients', which is restricted to HCP materials.
-- intent: Maintain patient-centric, empathetic, and compliant language for DTC audiences.
+### rule_lisraya_audience_specific_patient_language
+- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=None
+- rule_text: Confirm the audience in every brief before writing. Use “someone/people with dermatomyositis” in patient (DTC) materials; “patients” is acceptable in HCP materials.
+- intent: Ensure language is appropriate to the intended audience.
 
 ### rule_lisraya_patient_brochure_master_reference
 - class=assembly scope=brand hardness=strong_default polarity=must sections=None constraint=None
-- rule_text: The patient brochure serves as the master reference for visuals, messaging, and tone across all LISRAYA materials.
-- intent: Ensure cross-channel consistency by anchoring all assets to the master patient brochure.
+- rule_text: Use the patient brochure as the master reference for visuals, messaging, and tone across all LISRAYA materials.
+- intent: Maintain consistent visual expression, messaging, and tone across the brand.

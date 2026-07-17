@@ -5,12 +5,20 @@
   "original_text": "### Brand Accent Shape (core container device)\n- A rectangle with **selectively enlarged opposite corner radii**; the other two corners keep a slight radius. Used to house callout text and photography. Reads modern and optimistic.\n- Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes).\n- **[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right).\n- **Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]",
   "relations": [
     {
-      "dst_rule_id": "rule_lisraya_brand_accent_shape_radius",
-      "dst_slug": "brand_accent_shape_radius",
-      "note": "Exempts chart and table components from the default asymmetric diagonal corner styling rule.",
+      "dst_rule_id": "rule_lisraya_accent_shape_print_radius_pairs",
+      "dst_slug": "accent_shape_print_radius_pairs",
+      "note": "Charts and tables are explicitly excluded from the asymmetric accent-shape treatment.",
       "relation": "refines",
-      "src_rule_id": "rule_lisraya_chart_and_table_uniform_corners",
-      "src_slug": "chart_and_table_uniform_corners"
+      "src_rule_id": "rule_lisraya_charts_tables_uniform_corner_exception",
+      "src_slug": "charts_tables_uniform_corner_exception"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_email_accent_shape_diagonal_orientation",
+      "dst_slug": "email_accent_shape_diagonal_orientation",
+      "note": "The uniform-corner exception wins where a chart or table would otherwise receive an email accent-shape treatment.",
+      "relation": "refines",
+      "src_rule_id": "rule_lisraya_charts_tables_uniform_corner_exception",
+      "src_slug": "charts_tables_uniform_corner_exception"
     }
   ],
   "rules": [
@@ -19,71 +27,121 @@
       "audience": null,
       "constraint_type": "binding",
       "content_sub_type_ids": null,
-      "content_types": null,
+      "content_types": [
+        "print"
+      ],
       "effect": [
         {
-          "element_path": "container.large.radius",
-          "token_id": "tok_lisraya_radius_large"
+          "element_path": "container.accent_shape.large.radius",
+          "token_id": "tok_lisraya_radius_accent_large"
         },
         {
-          "element_path": "container.banner.radius",
-          "token_id": "tok_lisraya_radius_banner"
+          "element_path": "container.accent_shape.banner.radius",
+          "token_id": "tok_lisraya_radius_accent_banner"
         },
         {
-          "element_path": "container.callout.radius",
-          "token_id": "tok_lisraya_radius_callout"
-        },
-        {
-          "element_path": "container.small.radius",
-          "token_id": "tok_lisraya_radius_small"
+          "element_path": "container.accent_shape.callout.radius",
+          "token_id": "tok_lisraya_radius_accent_callout"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px."
+          "Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes)."
         ],
         "unit_ids": [
-          "u_design_pattern_rules_3_0003"
+          "u_design_pattern_rules_3_0002"
         ]
       },
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "A rectangle with selectively enlarged opposite corner radii; the other two corners keep a slight radius.",
-          "large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email"
+          "A rectangle with **selectively enlarged opposite corner radii**; the other two corners keep a slight radius. Used to house callout text and photography.",
+          "Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes)."
         ],
         "unit_ids": [
-          "u_design_pattern_rules_3_0000",
           "u_design_pattern_rules_3_0001",
+          "u_design_pattern_rules_3_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_accent_shape_print_radius_pairs",
+      "intent": "Maintain the distinctive modern, optimistic asymmetric container device.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Use the Brand Accent Shape for callout-text and photography containers: selectively enlarge opposite corner radii while keeping the other two corners slight. In print, use the approved radius pair for the applicable large container/photo (1.25in and 0.0625in), banner, or small callout-box treatment.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "container.accent_shape.radius",
+        "section_types": null
+      },
+      "slug": "accent_shape_print_radius_pairs",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "callout",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "container.accent_shape.large.radius",
+          "token_id": "tok_lisraya_radius_accent_large"
+        },
+        {
+          "element_path": "container.accent_shape.banner.radius",
+          "token_id": "tok_lisraya_radius_accent_banner"
+        },
+        {
+          "element_path": "container.accent_shape.callout.radius",
+          "token_id": "tok_lisraya_radius_accent_callout"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "**[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right)."
+        ],
+        "unit_ids": [
           "u_design_pattern_rules_3_0003"
         ]
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_brand_accent_shape_radius",
-      "intent": "Maintain the optimistic, modern asymmetric framing device consistently across all layouts.",
+      "id": "rule_lisraya_email_accent_shape_diagonal_orientation",
+      "intent": "Preserve consistent asymmetric shape geometry throughout an email.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "layout",
-      "rule_text": "The signature brand accent shape employs asymmetric rounded corners on containers and photos. For emails, apply a selective diagonal pairing: one diagonal pair uses a large radius (large radius = 120px, banner radius = 48px, or callout radius = 42px), while the opposite diagonal pair retains a small radius (radius.general.small = 6px). The diagonal orientation must remain consistent throughout a single email (default: large radius top-left and bottom-right).",
-      "scope": "brand",
+      "rule_text": "For email accent shapes, use the specified 96dpi large, banner, and callout radius conversions (for example, 120px and 6px for large shapes). Apply the large radius to one diagonal pair and the slight radius to the other; retain one diagonal orientation across all sections in an email, defaulting to large radii at top-left and bottom-right.",
+      "scope": "org_baseline",
       "selector": {
-        "element_path": "container.border_radius",
-        "section_types": [
-          "hero",
-          "intro",
-          "efficacy",
-          "safety",
-          "patient_story",
-          "affordability",
-          "callout"
-        ]
+        "element_path": "container.accent_shape.radius",
+        "section_types": null
       },
-      "slug": "brand_accent_shape_radius",
+      "slug": "email_accent_shape_diagonal_orientation",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "spacing"
+        "spacing",
+        "callout"
       ]
     },
     {
@@ -94,13 +152,18 @@
       "content_types": null,
       "effect": [
         {
-          "element_path": "chart.panel.border_radius",
-          "token_id": "tok_lisraya_radius_chart_panel"
+          "element_path": "chart.container.radius",
+          "token_id": "tok_lisraya_chart_container_radius"
+        },
+        {
+          "element_path": "table.container.radius",
+          "token_id": "tok_lisraya_radius_chart_uniform"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "12px uniform radius."
+          "Exception: charts and tables use uniform rounded corners on all four corners",
+          "[GENERAL: 12px uniform radius.]"
         ],
         "unit_ids": [
           "u_design_pattern_rules_3_0004"
@@ -109,7 +172,7 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Exception: charts and tables use uniform rounded corners on all four corners (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+          "Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
         ],
         "unit_ids": [
           "u_design_pattern_rules_3_0004"
@@ -117,24 +180,110 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_chart_and_table_uniform_corners",
-      "intent": "Ensure tabular and data visualizations remain legible and structured by using symmetrical boundaries.",
+      "id": "rule_lisraya_charts_tables_uniform_corner_exception",
+      "intent": "Keep data containers visually neutral and consistently legible.",
       "polarity": "must",
       "precedence": 1,
       "rule_class": "layout",
-      "rule_text": "Charts and tables are exempt from the asymmetric accent shape and must use uniform rounded corners on all four corners (radius.infographic.panel = 12px).",
+      "rule_text": "Charts and tables are an exception to the asymmetric Brand Accent Shape: use uniform rounded corners on all four corners at the general 12px radius, not the asymmetric accent shape.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": "chart.panel.border_radius",
+        "element_path": "chart_or_table.container.radius",
         "section_types": [
           "chart"
         ]
       },
-      "slug": "chart_and_table_uniform_corners",
+      "slug": "charts_tables_uniform_corner_exception",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "spacing"
+        "chart",
+        "callout"
+      ]
+    },
+    {
+      "compiled_by": "tables-v1",
+      "constraint_type": "binding",
+      "effect": {
+        "assignments": [
+          {
+            "element_path": "comp.approved_radius_pairs_print.value",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_approved_radius_pairs_print_value"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_1",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_1"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_2",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_3",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_3"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_4",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_4"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_5",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_5"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_6",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_6"
+          },
+          {
+            "element_path": "comp.general_email_px_conversions_at_96dpi.dim_7",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_7"
+          },
+          {
+            "element_path": "comp.exception.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_comp_exception_size"
+          }
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "- Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes).",
+          "- **[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right).",
+          "- **Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0002",
+          "u_design_pattern_rules_3_0003",
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_lisraya_brand_accent_shape_core_container_device_table_binding",
+      "intent": "Bind the Brand Accent Shape (core container device) table values verbatim.",
+      "rule_class": "assembly",
+      "rule_text": "The Brand Accent Shape (core container device) table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| Approved radius pairs (print) | **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes). |\n| [GENERAL] Email px conversions (at 96dpi) | ** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right). |\n| Exception | charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.] |",
+      "selector": {
+        "element_path": null
+      },
+      "slug": "brand_accent_shape_core_container_device_table_binding",
+      "token_ids": [
+        "tok_lisraya_comp_approved_radius_pairs_print_value",
+        "tok_lisraya_comp_exception_size",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_1",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_2",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_3",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_4",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_5",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_6",
+        "tok_lisraya_comp_general_email_px_conversions_at_96dpi_dim_7"
       ]
     }
   ],

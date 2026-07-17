@@ -1,0 +1,100 @@
+{
+  "assets": [],
+  "relations": [],
+  "rules": [
+    {
+      "effect": {
+        "background_skip_keep": [
+          "background-color=#faa31b",
+          "headline color",
+          "button color",
+          "button radius"
+        ],
+        "background_skip_remove_only": [
+          "background-url",
+          "background-size",
+          "background-repeat",
+          "background-position"
+        ],
+        "button_radius_immutable": "49.52px 1.76px 40px 1.76px",
+        "description": "The four-value asymmetric button radius is the signature shape and must never be altered; when skipping the background, remove only the background image properties while retaining background-color, headline color, button color, and button radius.",
+        "prohibited": [
+          "simplify to a single value",
+          "swap the corners",
+          "round the decimals"
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "Never simplify it to a single value, swap the corners, or round the decimals.",
+          "If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0011",
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "id": "rule_lisraya_gradient_cta_background_skip_fallback",
+      "rule_class": "assembly",
+      "selector": {
+        "element_path": "gradient_callout_cta_section.background"
+      }
+    }
+  ],
+  "subtypes": [],
+  "templates": [],
+  "tokens": [
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "Never simplify it to a single value, swap the corners, or round the decimals."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0011"
+        ]
+      },
+      "id": "tok_lisraya_radius_gradient_cta_button",
+      "key": "radius.gradient_cta.button_signature",
+      "token_type": "radius",
+      "value": {
+        "default": "49.52px 1.76px 40px 1.76px",
+        "default_evidence": {
+          "quotes": [
+            "Never simplify it to a single value, swap the corners, or round the decimals."
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_5_0011"
+          ]
+        },
+        "variants": null
+      }
+    },
+    {
+      "entity_kind": "token_primitive",
+      "evidence": {
+        "quotes": [
+          "keep `background-color=\"#faa31b\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "id": "tok_lisraya_background_gradient_cta_fallback",
+      "key": "color.primary.sunshine",
+      "token_type": "color",
+      "value": {
+        "default": "#faa31b",
+        "default_evidence": {
+          "quotes": [
+            "keep `background-color=\"#faa31b\""
+          ],
+          "unit_ids": [
+            "u_color_scheme_rules_5_0017"
+          ]
+        },
+        "variants": null
+      }
+    }
+  ]
+}

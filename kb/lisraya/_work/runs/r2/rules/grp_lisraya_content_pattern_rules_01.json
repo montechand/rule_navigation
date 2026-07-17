@@ -5,12 +5,20 @@
   "original_text": "### Typography Hierarchy (fonts, weights, cases)\n| Level | Print | Digital / Email | Word / PPT / Excel fallback |\n|---|---|---|---|\n| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |\n| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |\n| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |\n \n- Available Agenda weights: Light, Regular, Medium, Semibold, Bold.\n- Available Nunito Sans weights: Light, Regular, SemiBold, Bold, ExtraBold.\n- Available Aptos weights: Regular, Bold.\n- **[GENERAL] Email font stack (CSS):** `'Nunito Sans', Verdana, Helvetica, Arial, sans-serif`. Nunito Sans must be loaded via `@font-face`/Google Fonts link where the client supports it; the stack guarantees graceful fallback in Outlook and other clients that strip webfonts.\n- **[GENERAL] Email type scale (px / line-height):**\n  - H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold\n  - H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold\n  - H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold\n  - Body: 16px / 24px (150%), Nunito Sans Regular — **16px is the brand-mandated minimum for body copy (\"bigger is better\")**\n  - Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular — use sparingly, never for primary content\n  - Footnote/reference text within a section: 12px / 18px (150%) — must be \"noticeably smaller\" than primary data and clearly separated from it\n  - Never set running text below 12px. (ISI sizing is owned by the locked component.)\n- **Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px).\n- Use a clear **type scale / visual hierarchy** so the reader knows what to read first, next, last. Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels.",
   "relations": [
     {
-      "dst_rule_id": "rule_lisraya_minimum_running_text_size",
-      "dst_slug": "minimum_running_text_size",
-      "note": "Footnote reference sizing (12px) touches the boundary of the absolute running text minimum of 12px.",
-      "relation": "cross_reference",
-      "src_rule_id": "rule_lisraya_email_type_scale_hierarchy",
-      "src_slug": "email_type_scale_hierarchy"
+      "dst_rule_id": "rule_lisraya_email_type_scale_and_minimums",
+      "dst_slug": "email_type_scale_and_minimums",
+      "note": "The dark-background requirement raises the general body line-height treatment to 160%.",
+      "relation": "overrides",
+      "src_rule_id": "rule_lisraya_email_body_line_height_dark_background_exception",
+      "src_slug": "email_body_line_height_dark_background_exception"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_surface_typography_roles",
+      "dst_slug": "surface_typography_roles",
+      "note": "The campaign rule limits the stated digital live-text Agenda exception.",
+      "relation": "refines",
+      "src_rule_id": "rule_lisraya_digital_agenda_campaign_headline_only",
+      "src_slug": "digital_agenda_campaign_headline_only"
     }
   ],
   "rules": [
@@ -22,53 +30,147 @@
       "content_types": null,
       "effect": [
         {
-          "element_path": "font.family.email",
-          "token_id": "tok_lisraya_font_stack_email"
+          "element_path": "typography.headline.font.print",
+          "token_id": "tok_lisraya_type_headlines_headers_print_font"
+        },
+        {
+          "element_path": "typography.headline.font.digital_email",
+          "token_id": "tok_lisraya_type_headlines_headers_digital_email_font"
+        },
+        {
+          "element_path": "typography.headline.font.ppt_fallback",
+          "token_id": "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+        },
+        {
+          "element_path": "typography.body.font.print",
+          "token_id": "tok_lisraya_type_body_copy_print_font"
+        },
+        {
+          "element_path": "typography.body.font.digital_email",
+          "token_id": "tok_lisraya_type_body_copy_digital_email_font"
+        },
+        {
+          "element_path": "typography.body.font.ppt_fallback",
+          "token_id": "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font"
+        },
+        {
+          "element_path": "typography.fine_print.font.print",
+          "token_id": "tok_lisraya_type_footers_fine_print_print_font"
+        },
+        {
+          "element_path": "typography.fine_print.font.digital_email",
+          "token_id": "tok_lisraya_type_footers_fine_print_digital_email_font"
+        },
+        {
+          "element_path": "typography.fine_print.font.ppt_fallback",
+          "token_id": "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "Email font stack (CSS): `'Nunito Sans', Verdana, Helvetica, Arial, sans-serif`."
+          "| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |",
+          "| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |",
+          "| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |"
         ],
         "unit_ids": [
-          "u_content_pattern_rules_1_0010"
+          "u_content_pattern_rules_1_0003",
+          "u_content_pattern_rules_1_0004",
+          "u_content_pattern_rules_1_0005"
         ]
       },
-      "evaluation_scope": "email",
+      "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Agenda (Adobe font) | Nunito Sans (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | Aptos",
-          "Email font stack (CSS): `'Nunito Sans', Verdana, Helvetica, Arial, sans-serif`"
+          "| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |",
+          "| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |",
+          "| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |",
+          "- Available Agenda weights: Light, Regular, Medium, Semibold, Bold.",
+          "- Available Nunito Sans weights: Light, Regular, SemiBold, Bold, ExtraBold.",
+          "- Available Aptos weights: Regular, Bold."
         ],
         "unit_ids": [
           "u_content_pattern_rules_1_0003",
           "u_content_pattern_rules_1_0004",
           "u_content_pattern_rules_1_0005",
-          "u_content_pattern_rules_1_0010"
+          "u_content_pattern_rules_1_0007",
+          "u_content_pattern_rules_1_0008",
+          "u_content_pattern_rules_1_0009"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_surface_typography_roles",
+      "intent": "Keep typographic roles consistent across production surfaces.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Use Agenda for print headlines and headers, Nunito Sans for digital/email headlines and headers with bolder weights and Title Case, and Aptos as the Word/PPT/Excel fallback. Use Nunito Sans for print and digital/email body copy and fine print, with Aptos as their Word/PPT/Excel fallback. Available weights are Agenda Light through Bold, Nunito Sans Light through ExtraBold, and Aptos Regular or Bold.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "typography.role.font",
+        "section_types": null
+      },
+      "slug": "surface_typography_roles",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "campaign_headline"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "banner",
+        "social",
+        "web"
+      ],
+      "effect": {
+        "reserved_for": "campaign.headline",
+        "subject": "Agenda live text in digital"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "*Agenda may be used as live text in digital for the campaign headline only*"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "*Agenda may be used as live text in digital for the campaign headline only*"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003"
         ]
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_typography_families_by_medium",
-      "intent": "Maintain cross-channel typography consistency with robust digital fallbacks.",
+      "id": "rule_lisraya_digital_agenda_campaign_headline_only",
+      "intent": "Reserve the print headline typeface exception for the campaign device.",
       "polarity": "must",
-      "precedence": 0,
+      "precedence": 1,
       "rule_class": "typography",
-      "rule_text": "Typography families are segmented by medium: Nunito Sans (Google font) is used for headlines, body, and fine print in digital and email formats (email font stack: 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif). Agenda (Adobe font) is reserved for print headlines (with campaign headline live text exceptions). Aptos is the fallback font family for Word, PPT, and Excel.",
-      "scope": "brand",
+      "rule_text": "In digital, Agenda may be used as live text only for the campaign headline.",
+      "scope": "campaign",
       "selector": {
-        "element_path": null,
-        "section_types": null
+        "element_path": "campaign.headline.live_text.font",
+        "section_types": [
+          "hero"
+        ]
       },
-      "slug": "typography_families_by_medium",
+      "slug": "digital_agenda_campaign_headline_only",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "web",
-        "email",
-        "print",
-        "ppt"
-      ]
+      "tags": null
     },
     {
       "applies_when": null,
@@ -80,41 +182,89 @@
       ],
       "effect": [
         {
-          "element_path": "typography.h1",
-          "token_id": "tok_lisraya_type_scale_h1"
-        },
-        {
-          "element_path": "typography.h2",
-          "token_id": "tok_lisraya_type_scale_h2"
-        },
-        {
-          "element_path": "typography.h3",
-          "token_id": "tok_lisraya_type_scale_h3"
-        },
-        {
-          "element_path": "typography.body",
-          "token_id": "tok_lisraya_type_scale_body"
-        },
-        {
-          "element_path": "typography.secondary_body",
-          "token_id": "tok_lisraya_type_scale_secondary_body"
-        },
-        {
-          "element_path": "typography.footnote",
-          "token_id": "tok_lisraya_type_scale_footnote"
+          "element_path": "typography.email.font_family",
+          "token_id": "tok_lisraya_font_email_stack"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold",
-          "H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold",
-          "H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold",
-          "Body: 16px / 24px (150%), Nunito Sans Regular — 16px is the brand-mandated minimum for body copy",
-          "Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular",
-          "Footnote/reference text within a section: 12px / 18px (150%) — must be \"noticeably smaller\""
+          "**[GENERAL] Email font stack (CSS):** `'Nunito Sans', Verdana, Helvetica, Arial, sans-serif`."
         ],
         "unit_ids": [
-          "u_content_pattern_rules_1_0011",
+          "u_content_pattern_rules_1_0010"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Nunito Sans must be loaded via `@font-face`/Google Fonts link where the client supports it; the stack guarantees graceful fallback in Outlook and other clients that strip webfonts."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_email_font_stack_and_webfont_loading",
+      "intent": "Preserve the intended email typeface while providing reliable client fallbacks.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Email typography uses the Nunito Sans, Verdana, Helvetica, Arial, sans-serif stack; load Nunito Sans through @font-face or a Google Fonts link where the client supports it so unsupported clients retain the fallback stack.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "typography.email.font_family",
+        "section_types": null
+      },
+      "slug": "email_font_stack_and_webfont_loading",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "hero.headline.type_scale",
+          "token_id": "tok_lisraya_type_scale_email_h1"
+        },
+        {
+          "element_path": "section.heading.type_scale",
+          "token_id": "tok_lisraya_type_scale_email_h2"
+        },
+        {
+          "element_path": "subhead.type_scale",
+          "token_id": "tok_lisraya_type_scale_email_h3"
+        },
+        {
+          "element_path": "body.type_scale",
+          "token_id": "tok_lisraya_type_scale_email_body"
+        },
+        {
+          "element_path": "supporting_body.type_scale",
+          "token_id": "tok_lisraya_type_scale_email_secondary_body"
+        },
+        {
+          "element_path": "footnote.type_scale",
+          "token_id": "tok_lisraya_type_scale_email_footnote"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "- H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold",
+          "- H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold",
+          "- H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold",
+          "- Body: 16px / 24px (150%), Nunito Sans Regular",
+          "- Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular",
+          "- Footnote/reference text within a section: 12px / 18px (150%)"
+        ],
+        "unit_ids": [
           "u_content_pattern_rules_1_0012",
           "u_content_pattern_rules_1_0013",
           "u_content_pattern_rules_1_0014",
@@ -123,64 +273,69 @@
           "u_content_pattern_rules_1_0017"
         ]
       },
-      "evaluation_scope": "email",
+      "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "16px is the brand-mandated minimum for body copy",
-          "Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular — use sparingly, never for primary content",
-          "Footnote/reference text within a section: 12px / 18px (150%) — must be \"noticeably smaller\" than primary data",
-          "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels."
+          "- H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold",
+          "- H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold",
+          "- H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold",
+          "**16px is the brand-mandated minimum for body copy (\"bigger is better\")**",
+          "use sparingly, never for primary content",
+          "must be \"noticeably smaller\" than primary data and clearly separated from it",
+          "- Never set running text below 12px. (ISI sizing is owned by the locked component.)"
         ],
         "unit_ids": [
-          "u_content_pattern_rules_1_0011",
           "u_content_pattern_rules_1_0012",
           "u_content_pattern_rules_1_0013",
           "u_content_pattern_rules_1_0014",
           "u_content_pattern_rules_1_0015",
           "u_content_pattern_rules_1_0016",
           "u_content_pattern_rules_1_0017",
-          "u_content_pattern_rules_1_0018",
-          "u_content_pattern_rules_1_0020"
+          "u_content_pattern_rules_1_0018"
         ]
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_email_type_scale_hierarchy",
-      "intent": "Maintain strict, legible, and compliant type scales across all digital email layouts.",
+      "id": "rule_lisraya_email_type_scale_and_minimums",
+      "intent": "Maintain legible, accessible email hierarchy and preserve primary-content prominence.",
       "polarity": "must",
       "precedence": 0,
       "rule_class": "typography",
-      "rule_text": "The email type scale is defined as: H1 (type_scale.h1 = 28px / 36px line-height), H2 (type_scale.h2 = 22px / 30px line-height), H3 (type_scale.h3 = 18px / 26px line-height), Body (type_scale.body = 16px / 24px line-height), Secondary Body (type_scale.secondary_body = 14px / 21px line-height), and Footnotes (type_scale.footnote = 12px / 18px line-height). 16px is the brand-mandated minimum for primary body copy, and secondary body copy should be used sparingly. Never use adjacent text blocks at the same size and weight to signal different levels of visual hierarchy.",
+      "rule_text": "Use the approved email hierarchy: H1 28px/36px, H2 22px/30px, H3 18px/26px, body 16px/24px, supporting body 14px/21px, and footnotes 12px/18px. Body copy must be at least 16px; use supporting body sparingly and never for primary content. Footnotes must be noticeably smaller than primary data and clearly separated from it. Never set running text below 12px; ISI sizing belongs to its locked component.",
       "scope": "org_baseline",
       "selector": {
-        "element_path": null,
+        "element_path": "typography.email.type_scale",
         "section_types": null
       },
-      "slug": "email_type_scale_hierarchy",
+      "slug": "email_type_scale_and_minimums",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "email"
+        "accessibility"
       ]
     },
     {
-      "applies_when": null,
+      "applies_when": [
+        {
+          "kind": "background_group",
+          "value": "dark"
+        }
+      ],
       "audience": null,
       "constraint_type": "binding",
       "content_sub_type_ids": null,
       "content_types": [
-        "email",
-        "web"
+        "email"
       ],
       "effect": [
         {
           "element_path": "body.line_height",
-          "token_id": "tok_lisraya_line_height_body_min"
+          "token_id": "tok_lisraya_type_line_height_pct_2_2"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "Line height: minimum 150% for all body copy (brand accessibility rule)."
+          "For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px)."
         ],
         "unit_ids": [
           "u_content_pattern_rules_1_0019"
@@ -189,7 +344,7 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px)."
+          "**Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px)."
         ],
         "unit_ids": [
           "u_content_pattern_rules_1_0019"
@@ -197,18 +352,18 @@
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_body_line_height_accessibility",
-      "intent": "Enhance legibility and satisfy visual contrast/accessibility parameters on dark and light backgrounds.",
+      "id": "rule_lisraya_email_body_line_height_dark_background_exception",
+      "intent": "Improve readability of body copy, particularly light text on dark surfaces.",
       "polarity": "must",
-      "precedence": 0,
+      "precedence": 1,
       "rule_class": "accessibility",
-      "rule_text": "Body copy line-height must be a minimum of 150% (line_height.accessibility.body_min = 150%) to ensure brand accessibility compliance. For light body copy on dark backgrounds, increase this line-height further to 160% (e.g. 16px copy/26px line-height).",
+      "rule_text": "Body copy requires at least 150% line height; for light text on dark backgrounds, use 160% line height, such as 16px/26px.",
       "scope": "org_baseline",
       "selector": {
         "element_path": "body.line_height",
         "section_types": null
       },
-      "slug": "body_line_height_accessibility",
+      "slug": "email_body_line_height_dark_background_exception",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
@@ -216,47 +371,365 @@
       ]
     },
     {
-      "applies_when": null,
+      "applies_when": [
+        {
+          "kind": "adjacent_section_state",
+          "value": "different_hierarchy_levels"
+        }
+      ],
       "audience": null,
-      "constraint_type": "cardinality",
+      "constraint_type": null,
       "content_sub_type_ids": null,
       "content_types": null,
       "effect": null,
       "effect_evidence": null,
-      "evaluation_scope": "element",
+      "evaluation_scope": "section",
       "evidence": {
         "quotes": [
-          "Never set running text below 12px. (ISI sizing is owned by the locked component.)"
+          "Use a clear **type scale / visual hierarchy** so the reader knows what to read first, next, last. Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels."
         ],
         "unit_ids": [
-          "u_content_pattern_rules_1_0018"
+          "u_content_pattern_rules_1_0020"
         ]
       },
-      "governance": {
-        "gov_type": "regulatory",
-        "match": null,
-        "preferred_form": null,
-        "preferred_form_evidence": null,
-        "severity": "block",
-        "verdict": "forbidden"
-      },
+      "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_minimum_running_text_size",
-      "intent": "Prevent unreadable typography sizes for fine print and maintain regulatory consistency.",
+      "id": "rule_lisraya_distinct_adjacent_text_hierarchy",
+      "intent": "Prevent ambiguous reading order and hierarchy.",
       "polarity": "must_not",
       "precedence": 0,
       "rule_class": "typography",
-      "rule_text": "Never set running text size below 12px (ISI sizing is owned by its locked component).",
-      "scope": "org_baseline",
+      "rule_text": "Use a clear type scale and visual hierarchy that tells the reader what to read first, next, and last. Never use two adjacent text blocks at the same size and weight to signal different hierarchy levels.",
+      "scope": "brand",
       "selector": {
-        "element_path": null,
+        "element_path": "typography.adjacent_text_blocks",
         "section_types": null
       },
-      "slug": "minimum_running_text_size",
+      "slug": "distinct_adjacent_text_hierarchy",
       "snippets": null,
       "snippets_evidence": null,
-      "tags": [
-        "accessibility"
+      "tags": null
+    },
+    {
+      "compiled_by": "tables-v1",
+      "constraint_type": "binding",
+      "effect": {
+        "assignments": [
+          {
+            "element_path": "type.headlines_headers.print_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_headlines_headers_print_font"
+          },
+          {
+            "element_path": "type.headlines_headers.digital_email_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_headlines_headers_digital_email_font"
+          },
+          {
+            "element_path": "type.headlines_headers.word_ppt_excel_fallback_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+          },
+          {
+            "element_path": "type.body_copy.print_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_copy_print_font"
+          },
+          {
+            "element_path": "type.body_copy.digital_email_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_copy_digital_email_font"
+          },
+          {
+            "element_path": "type.body_copy.word_ppt_excel_fallback_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font"
+          },
+          {
+            "element_path": "type.footers_fine_print.print_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_footers_fine_print_print_font"
+          },
+          {
+            "element_path": "type.footers_fine_print.digital_email_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_footers_fine_print_digital_email_font"
+          },
+          {
+            "element_path": "type.footers_fine_print.word_ppt_excel_fallback_font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font"
+          }
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |",
+          "| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |",
+          "| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003",
+          "u_content_pattern_rules_1_0004",
+          "u_content_pattern_rules_1_0005"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_lisraya_typography_hierarchy_fonts_weights_cases_table_binding",
+      "intent": "Bind the Typography Hierarchy (fonts, weights, cases) table values verbatim.",
+      "rule_class": "assembly",
+      "rule_text": "The Typography Hierarchy (fonts, weights, cases) table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| Level | Print | Digital / Email | Word / PPT / Excel fallback |\n|---|---|---|---|\n| Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case; *Agenda may be used as live text in digital for the campaign headline only* | **Aptos** |\n| Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos** |\n| Footers, fine print | Nunito Sans | Nunito Sans | Aptos |",
+      "selector": {
+        "element_path": null
+      },
+      "slug": "typography_hierarchy_fonts_weights_cases_table_binding",
+      "token_ids": [
+        "tok_lisraya_type_body_copy_digital_email_font",
+        "tok_lisraya_type_body_copy_print_font",
+        "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font",
+        "tok_lisraya_type_footers_fine_print_digital_email_font",
+        "tok_lisraya_type_footers_fine_print_print_font",
+        "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font",
+        "tok_lisraya_type_headlines_headers_digital_email_font",
+        "tok_lisraya_type_headlines_headers_print_font",
+        "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+      ]
+    },
+    {
+      "compiled_by": "tables-v1",
+      "constraint_type": "binding",
+      "effect": {
+        "assignments": [
+          {
+            "element_path": "type.h1_section_hero_headline.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h1_section_hero_headline_size_2"
+          },
+          {
+            "element_path": "type.h1_section_hero_headline.line_height",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h1_section_hero_headline_line_height_2"
+          },
+          {
+            "element_path": "type.h1_section_hero_headline.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h1_section_hero_headline_pct_2"
+          },
+          {
+            "element_path": "type.h1_section_hero_headline.weight",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h1_section_hero_headline_weight_2"
+          },
+          {
+            "element_path": "type.h1_section_hero_headline.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h1_section_hero_headline_font_2"
+          },
+          {
+            "element_path": "type.h2_section_heading.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h2_section_heading_size_2"
+          },
+          {
+            "element_path": "type.h2_section_heading.line_height",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h2_section_heading_line_height_2"
+          },
+          {
+            "element_path": "type.h2_section_heading.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h2_section_heading_pct_2"
+          },
+          {
+            "element_path": "type.h2_section_heading.weight",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h2_section_heading_weight_2"
+          },
+          {
+            "element_path": "type.h2_section_heading.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h2_section_heading_font_2"
+          },
+          {
+            "element_path": "type.h3_subhead.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h3_subhead_size_2"
+          },
+          {
+            "element_path": "type.h3_subhead.line_height",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h3_subhead_line_height_2"
+          },
+          {
+            "element_path": "type.h3_subhead.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h3_subhead_pct_2"
+          },
+          {
+            "element_path": "type.h3_subhead.weight",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h3_subhead_weight_2"
+          },
+          {
+            "element_path": "type.h3_subhead.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_h3_subhead_font_2"
+          },
+          {
+            "element_path": "type.body.dim_1",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_dim_1_2"
+          },
+          {
+            "element_path": "type.body.dim_2",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_dim_2_2"
+          },
+          {
+            "element_path": "type.body.dim_3",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_dim_3_2"
+          },
+          {
+            "element_path": "type.body.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_pct_2"
+          },
+          {
+            "element_path": "type.body.weight",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_weight_2"
+          },
+          {
+            "element_path": "type.body.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_body_font_2"
+          },
+          {
+            "element_path": "type.secondary_supporting_body.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_secondary_supporting_body_size_2"
+          },
+          {
+            "element_path": "type.secondary_supporting_body.line_height",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_secondary_supporting_body_line_height_2"
+          },
+          {
+            "element_path": "type.secondary_supporting_body.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_secondary_supporting_body_pct_2"
+          },
+          {
+            "element_path": "type.secondary_supporting_body.weight",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_secondary_supporting_body_weight_2"
+          },
+          {
+            "element_path": "type.secondary_supporting_body.font",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_secondary_supporting_body_font_2"
+          },
+          {
+            "element_path": "type.footnote_reference_text_within_a_section.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_footnote_reference_text_within_a_section_size_2"
+          },
+          {
+            "element_path": "type.footnote_reference_text_within_a_section.line_height",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_footnote_reference_text_within_a_section_line_height_2"
+          },
+          {
+            "element_path": "type.footnote_reference_text_within_a_section.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_footnote_reference_text_within_a_section_pct_2"
+          },
+          {
+            "element_path": "type.line_height.size",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_line_height_size_2"
+          },
+          {
+            "element_path": "type.line_height.line_height",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_line_height_line_height_2"
+          },
+          {
+            "element_path": "type.line_height.pct",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_line_height_pct_2"
+          },
+          {
+            "element_path": "type.line_height.pct_2",
+            "linked_by": "tables-v1:table",
+            "token_id": "tok_lisraya_type_line_height_pct_2_2"
+          }
+        ]
+      },
+      "evidence": {
+        "quotes": [
+          "  - H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold",
+          "  - H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold",
+          "  - H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold",
+          "  - Body: 16px / 24px (150%), Nunito Sans Regular — **16px is the brand-mandated minimum for body copy (\"bigger is better\")**",
+          "  - Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular — use sparingly, never for primary content",
+          "  - Footnote/reference text within a section: 12px / 18px (150%) — must be \"noticeably smaller\" than primary data and clearly separated from it",
+          "- **Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0012",
+          "u_content_pattern_rules_1_0013",
+          "u_content_pattern_rules_1_0014",
+          "u_content_pattern_rules_1_0015",
+          "u_content_pattern_rules_1_0016",
+          "u_content_pattern_rules_1_0017",
+          "u_content_pattern_rules_1_0019"
+        ]
+      },
+      "hardness": "strong_default",
+      "id": "rule_lisraya_typography_hierarchy_fonts_weights_cases_table_binding_2",
+      "intent": "Bind the Typography Hierarchy (fonts, weights, cases) table values verbatim.",
+      "rule_class": "assembly",
+      "rule_text": "The Typography Hierarchy (fonts, weights, cases) table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.\n\n| item | value |\n|---|---|\n| H1 (section hero headline) | 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold |\n| H2 (section heading) | 22px / 30px (≈136%), Nunito Sans Bold |\n| H3 (subhead) | 18px / 26px (≈144%), Nunito Sans Bold or SemiBold |\n| Body | 16px / 24px (150%), Nunito Sans Regular — **16px is the brand-mandated minimum for body copy (\"bigger is better\")** |\n| Secondary/supporting body | 14px / 21px (150%), Nunito Sans Regular — use sparingly, never for primary content |\n| Footnote/reference text within a section | 12px / 18px (150%) — must be \"noticeably smaller\" than primary data and clearly separated from it |\n| Line height | minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px). |",
+      "selector": {
+        "element_path": null
+      },
+      "slug": "typography_hierarchy_fonts_weights_cases_table_binding",
+      "token_ids": [
+        "tok_lisraya_type_body_dim_1_2",
+        "tok_lisraya_type_body_dim_2_2",
+        "tok_lisraya_type_body_dim_3_2",
+        "tok_lisraya_type_body_font_2",
+        "tok_lisraya_type_body_pct_2",
+        "tok_lisraya_type_body_weight_2",
+        "tok_lisraya_type_footnote_reference_text_within_a_section_line_height_2",
+        "tok_lisraya_type_footnote_reference_text_within_a_section_pct_2",
+        "tok_lisraya_type_footnote_reference_text_within_a_section_size_2",
+        "tok_lisraya_type_h1_section_hero_headline_font_2",
+        "tok_lisraya_type_h1_section_hero_headline_line_height_2",
+        "tok_lisraya_type_h1_section_hero_headline_pct_2",
+        "tok_lisraya_type_h1_section_hero_headline_size_2",
+        "tok_lisraya_type_h1_section_hero_headline_weight_2",
+        "tok_lisraya_type_h2_section_heading_font_2",
+        "tok_lisraya_type_h2_section_heading_line_height_2",
+        "tok_lisraya_type_h2_section_heading_pct_2",
+        "tok_lisraya_type_h2_section_heading_size_2",
+        "tok_lisraya_type_h2_section_heading_weight_2",
+        "tok_lisraya_type_h3_subhead_font_2",
+        "tok_lisraya_type_h3_subhead_line_height_2",
+        "tok_lisraya_type_h3_subhead_pct_2",
+        "tok_lisraya_type_h3_subhead_size_2",
+        "tok_lisraya_type_h3_subhead_weight_2",
+        "tok_lisraya_type_line_height_line_height_2",
+        "tok_lisraya_type_line_height_pct_2",
+        "tok_lisraya_type_line_height_pct_2_2",
+        "tok_lisraya_type_line_height_size_2",
+        "tok_lisraya_type_secondary_supporting_body_font_2",
+        "tok_lisraya_type_secondary_supporting_body_line_height_2",
+        "tok_lisraya_type_secondary_supporting_body_pct_2",
+        "tok_lisraya_type_secondary_supporting_body_size_2",
+        "tok_lisraya_type_secondary_supporting_body_weight_2"
       ]
     }
   ],

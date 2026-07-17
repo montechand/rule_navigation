@@ -1,0 +1,50 @@
+{
+  "findings": [
+    {
+      "description": "The current candidate rule merges three distinct brand voice dimensions ('Confident, not boastful', 'Warm, not overly emotional', and 'Clear, not complicated') into a single vague rule. Splitting them into individual voice rules preserves specific editorial guidelines for clinical and empathetic copy.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[8]",
+          "group_id": "grp_lisraya_content_pattern_rules_08",
+          "split_rules": [
+            {
+              "class": "voice_tone",
+              "description": "Maintain a confident, yet not boastful tone by presenting first-of-its-kind significance clearly and directly without overstatement or sensationalism.",
+              "hardness": "soft_guidance",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_voice_confident"
+            },
+            {
+              "class": "voice_tone",
+              "description": "Keep tone warm, not overly emotional, ensuring genuine empathy about daily patient impact is center-focused.",
+              "hardness": "soft_guidance",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_voice_warm"
+            },
+            {
+              "class": "voice_tone",
+              "description": "Use clear, simple, and plain language that remains medically accurate without becoming overly complicated.",
+              "hardness": "soft_guidance",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_voice_clear"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_voice_and_tone_principles"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_voice_and_tone_principles",
+      "unit_ids": [
+        "u_content_pattern_rules_8_0001",
+        "u_content_pattern_rules_8_0002",
+        "u_content_pattern_rules_8_0003"
+      ]
+    }
+  ]
+}

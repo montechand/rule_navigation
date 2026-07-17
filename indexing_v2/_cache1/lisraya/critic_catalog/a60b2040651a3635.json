@@ -1,0 +1,452 @@
+{
+  "findings": [
+    {
+      "description": "Source palette table gives explicit RGB and CMYK values for every color, but no primitive tokens capture RGB/CMYK — only HEX is tokenized.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "Add cmyk/rgb value tokens per color, e.g. color.primary.brand_blue.cmyk = '100,76,6,1'"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "Pantone codes (2145 C, 137 C, 7548 C) are explicit source values, and the logo transparency rule specifically references 'Pantone 7548 C' — no Pantone token exists anywhere in the catalog.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "7548 C",
+          "key": "color.primary.gold.pantone"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006",
+        "u_color_scheme_rules_1_0008"
+      ]
+    },
+    {
+      "description": "The 'approved set — never invent gradients' lists 5 named gradients with specific stops; only the masthead gradient's light-stop hex is partially captured. The other four gradients (Brand Blue→Dark Navy, Sky Blue→Deep Blue, Sunshine→75%Gold, Golden Sand→White→Light Blue, Golden Sand→75%Gold→Sunshine) have zero token representation.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "note": "Add gradient tokens for each approved combination with stop order and usage"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007"
+      ]
+    },
+    {
+      "description": "Semantic token tok_lisraya_masthead_gradient references primitive 'tok_lisraya_gradient_masthead', which does not exist anywhere in the primitive token list — a dangling/fabricated reference.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "fabrication",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "#faa31b → #ffe05c",
+          "key": "gradient.masthead"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_gradient_masthead"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_masthead_gradient",
+      "unit_ids": [
+        "u_color_scheme_rules_3_0008",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "Semantic token references primitive 'tok_lisraya_radius_icon_callout_box' but the actual primitive id is 'tok_lisraya_radius_icon_box' — mismatched/dangling reference.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "fabrication",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_radius_icon_box"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_icon_callout_box_radius"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_icon_callout_box_radius",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018"
+      ]
+    },
+    {
+      "description": "Semantic token references primitive 'tok_lisraya_padding_callout_main_rule_text_16px' but the actual primitive id is 'tok_lisraya_padding_main_callout_rule_gap' — mismatched/dangling reference.",
+      "finding_id": "f_lisraya_6",
+      "finding_type": "fabrication",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_padding_main_callout_rule_gap"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_main_callout_padding"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_main_callout_padding",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "Five semantic case tokens (tok_lisraya_case_body_sentence, tok_lisraya_case_brand_name_allcaps, tok_lisraya_case_campaign_headline, tok_lisraya_case_headline_title, tok_lisraya_case_chart_headline_allcaps) are referenced by semantic tokens but none exist as primitives, despite explicit ALL CAPS / title case / sentence case rules in the source.",
+      "finding_id": "f_lisraya_7",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "Add missing case-value primitives referenced by semantic layer"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_case_body_sentence",
+          "tok_lisraya_case_brand_name_allcaps",
+          "tok_lisraya_case_campaign_headline",
+          "tok_lisraya_case_headline_title",
+          "tok_lisraya_case_chart_headline_allcaps"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_0_0001",
+        "u_content_pattern_rules_2_0001",
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003",
+        "u_content_pattern_rules_2_0004"
+      ]
+    },
+    {
+      "description": "Semantic token references primitive 'tok_lisraya_font_family_agenda' which does not exist; the existing primitive is 'tok_lisraya_font_headline_print' (default Agenda) — dangling reference.",
+      "finding_id": "f_lisraya_8",
+      "finding_type": "fabrication",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "update",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_font_headline_print"
+          }
+        },
+        "target_entity_ids": [
+          "tok_lisraya_campaign_headline_font"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_campaign_headline_font",
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001"
+      ]
+    },
+    {
+      "description": "Four explicit tint/opacity values from the 'Tint Rules' section (logo gold 70%, light blue callout 70%, golden sand callout 30%, wave top layer 70%) are referenced by semantic tokens (opacity.logo.gold_70, opacity.callout.light_blue_70, opacity.callout.golden_sand_30, opacity.wave.top_layer_70) but none exist as primitive tokens — all four are dangling references despite the source stating 'No other ad-hoc tints — use ... these specified tints only.'",
+      "finding_id": "f_lisraya_9",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "Add explicit 70%/30% tint primitives"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_opacity_logo_gold_70",
+          "tok_lisraya_opacity_callout_light_blue_70",
+          "tok_lisraya_opacity_callout_golden_sand_30",
+          "tok_lisraya_opacity_wave_top_layer_70"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0008",
+        "u_color_scheme_rules_2_0002",
+        "u_color_scheme_rules_2_0003",
+        "u_color_scheme_rules_2_0004",
+        "u_design_pattern_rules_1_0002"
+      ]
+    },
+    {
+      "description": "tok_lisraya_main_callout_alignment references nonexistent primitive 'tok_lisraya_alignment_main_callout_center' — source states main callout text is centered, but no primitive supports this reference (the existing centered-alignment primitive is scoped only to the gradient callout).",
+      "finding_id": "f_lisraya_10",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "center",
+          "key": "alignment.callout.main_center"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_alignment_main_callout_center"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_main_callout_alignment",
+      "unit_ids": [
+        "u_content_pattern_rules_6_0001"
+      ]
+    },
+    {
+      "description": "tok_lisraya_icon_callout_text_alignment references nonexistent primitive 'tok_lisraya_alignment_icon_callout_text'; source explicitly states icon callout text is 'left-aligned' — the only existing alignment primitive (icon_box_left) is scoped to box positioning, not text alignment.",
+      "finding_id": "f_lisraya_11",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "left",
+          "key": "alignment.callout.icon_text_left"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_alignment_icon_callout_text"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_icon_callout_text_alignment",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0009"
+      ]
+    },
+    {
+      "description": "tok_lisraya_section_grid_columns references nonexistent primitive 'tok_lisraya_grid_columns_12' despite explicit '12-column mental model' statement in source.",
+      "finding_id": "f_lisraya_12",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "12",
+          "key": "grid.columns.12"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_grid_columns_12"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_section_grid_columns",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0003"
+      ]
+    },
+    {
+      "description": "tok_lisraya_section_side_padding references nonexistent primitive 'tok_lisraya_spacing_section_side_padding'. The source's explicit and brand-critical '24px section side padding (consistent across ALL sections)' value has no corresponding primitive token anywhere in the catalog.",
+      "finding_id": "f_lisraya_13",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "24px",
+          "key": "padding.section.sides_24"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_spacing_section_side_padding"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_section_side_padding",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0004"
+      ]
+    },
+    {
+      "description": "tok_lisraya_body_line_height references nonexistent primitive 'tok_lisraya_line_height_body_min'. Source mandates 'minimum 150% for all body copy' and 160% for light-on-dark, but no primitive captures this brand-accessibility-critical value.",
+      "finding_id": "f_lisraya_14",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "default": "150%",
+          "key": "line_height.body.min_150"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_line_height_body_min"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "tok_lisraya_body_line_height",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019",
+        "u_other_rules_0_0002"
+      ]
+    },
+    {
+      "description": "Available Aptos weights (Regular, Bold) are explicitly listed alongside Agenda and Nunito Sans weight enumerations, but no corresponding Aptos weight primitives were created (Agenda has 5 weight tokens, Nunito Sans is referenced, Aptos has none).",
+      "finding_id": "f_lisraya_15",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "Add weight.aptos.regular and weight.aptos.bold tokens"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "The explicit '[GENERAL] Email type scale' (H1 28/36px, H2 22/30px, H3 18/26px, Body 16/24px, Secondary 14/21px, Footnote 12/18px) is only partially tokenized (min body size 16px, min running text 12px); the specific size/line-height pairs for H1-H3, secondary, and footnote levels are missing entirely.",
+      "finding_id": "f_lisraya_16",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "add",
+        "payload": {
+          "note": "Add size/line-height tokens for h1, h2, h3, secondary_body, footnote levels"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017"
+      ]
+    },
+    {
+      "description": "Three named, fully-specified callout styles (Main callout, Secondary/data callout, Text-heavy callout) exist as first-class patterns in the source, analogous to the Gradient Callout CTA and Icon Callout Box which DO have subtype entities. No subtype entities were created for these three callout styles despite their tokens (rule color, fill opacity, padding, etc.) existing in isolation.",
+      "finding_id": "f_lisraya_17",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "subtype",
+        "op": "add",
+        "payload": {
+          "names": [
+            "Main Callout",
+            "Secondary Data Callout",
+            "Text-Heavy Callout"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_6_0000",
+        "u_content_pattern_rules_6_0001",
+        "u_content_pattern_rules_6_0002",
+        "u_content_pattern_rules_6_0003"
+      ]
+    },
+    {
+      "description": "Full, exact MJML code blocks exist in source for both the Gradient Callout CTA section and the Icon Callout Box (concrete markup/layout), yet the templates catalog is entirely empty (0 templates). These reusable, exact-markup patterns should be captured as template entities tied to their respective subtypes.",
+      "finding_id": "f_lisraya_18",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "template",
+        "op": "add",
+        "payload": {
+          "note": "Add templates for sub_lisraya_gradient_callout_cta and sub_lisraya_icon_callout_box referencing their MJML source"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015",
+        "u_color_scheme_rules_6_0036"
+      ]
+    },
+    {
+      "description": "Entity id implies a 'type_scale' (typographic) token but its key (size.icon.cta_arrow_glyph) and value (24px arrow glyph size) are an icon/size primitive, not a type-scale entry — naming/typing mismatch could cause miscategorization in downstream consumers.",
+      "finding_id": "f_lisraya_19",
+      "finding_type": "wrong_typing",
+      "proposed_patch": {
+        "entity_kind": "token_primitive",
+        "op": "update",
+        "payload": {
+          "id": "tok_lisraya_size_cta_arrow_glyph"
+        },
+        "target_entity_ids": [
+          "tok_lisraya_type_scale_cta_arrow_glyph"
+        ]
+      },
+      "severity": "info",
+      "target_entity_id": "tok_lisraya_type_scale_cta_arrow_glyph",
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ]
+    },
+    {
+      "description": "Source states chart data color logic is 'Brand Blue and Sky Blue dominant', but only Brand Blue is captured as chart.data.color; Sky Blue's role as a co-dominant chart data color is omitted from the semantic layer.",
+      "finding_id": "f_lisraya_20",
+      "finding_type": "omission",
+      "proposed_patch": {
+        "entity_kind": "token_semantic",
+        "op": "add",
+        "payload": {
+          "default": {
+            "$ref": "tok_lisraya_color_secondary_sky_blue"
+          },
+          "key": "chart.data.color_secondary"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": "tok_lisraya_chart_data_color",
+      "unit_ids": [
+        "u_design_pattern_rules_4_0002"
+      ]
+    }
+  ]
+}

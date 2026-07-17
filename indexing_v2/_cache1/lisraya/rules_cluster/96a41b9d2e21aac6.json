@@ -1,0 +1,264 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "generic_name_format",
+      "note": "The ® symbol requirement is conditional on inclusion of the generic name (brepocitinib).",
+      "relation": "depends_on",
+      "src_slug": "registered_trademark_symbol_usage"
+    },
+    {
+      "dst_slug": "registered_trademark_symbol_usage",
+      "note": "The ALL CAPS brand name combines with the ® trademark form on first mention.",
+      "relation": "co_applies",
+      "src_slug": "brand_name_all_caps"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "brand_name.case",
+          "token_id": "tok_lisraya_brand_name_case"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Always write **LISRAYA** in ALL CAPS in all written materials"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0001"
+        ]
+      },
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Always write **LISRAYA** in ALL CAPS in all written materials (patient marketing rule; supersedes the Feb 2026 general guide's title-case rule)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "LISRAYA",
+        "preferred_form_evidence": {
+          "quotes": [
+            "LISRAYA"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0001"
+          ]
+        },
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Enforce consistent brand-name casing across all materials.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "copy_editorial",
+      "rule_text": "Always write LISRAYA in ALL CAPS (brand_name.case = all_caps) in all written materials. This patient-marketing rule supersedes the Feb 2026 general guide's title-case rule.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "brand_name.case",
+        "section_types": null
+      },
+      "slug": "brand_name_all_caps",
+      "tags": [
+        "voice_tone"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "first_mention",
+          "value": "most_prominent_mention"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "LISRAYA® (brepocitinib)",
+        "trigger": "generic name included AND first/most prominent mention AND external-facing document"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "LISRAYA® (brepocitinib)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      },
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Include the **® registered trademark symbol only when the generic name is included** — i.e., LISRAYA® (brepocitinib). Apply on **first/most prominent mention only**, in **external-facing documents only**. Do not repeat ® on subsequent mentions."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "LISRAYA® (brepocitinib)",
+        "preferred_form_evidence": {
+          "quotes": [
+            "LISRAYA® (brepocitinib)"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0002"
+          ]
+        },
+        "severity": "block",
+        "verdict": "allowed_with_disclosure"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure correct, non-repeated trademark marking scoped to external first mentions.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "copy_editorial",
+      "rule_text": "Include the ® registered trademark symbol only when the generic name is included — i.e., LISRAYA® (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat ® on subsequent mentions.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "registered_trademark_symbol_usage",
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "(brepocitinib)",
+        "trigger": null
+      },
+      "effect_evidence": {
+        "quotes": [
+          "(brepocitinib)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0003"
+        ]
+      },
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Generic name format: lowercase, in parentheses: `(brepocitinib)`."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "(brepocitinib)",
+        "preferred_form_evidence": {
+          "quotes": [
+            "(brepocitinib)"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0003"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Standardize generic-name presentation.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "copy_editorial",
+      "rule_text": "Generic name format is lowercase, in parentheses: (brepocitinib).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "generic_name_format",
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "Priovant Therapeutics, Inc.",
+        "trigger": "sign-off lives in the locked footer only"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Priovant Therapeutics, Inc."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "legal",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "Priovant Therapeutics, Inc.",
+        "preferred_form_evidence": {
+          "quotes": [
+            "Priovant Therapeutics, Inc."
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0004"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Prevent duplicate parent-company sign-off outside the locked footer.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "copy_editorial",
+      "rule_text": "The parent company sign-off (Priovant Therapeutics, Inc.) lives in the locked footer — do not add it in sections.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "end_matter"
+        ]
+      },
+      "slug": "parent_company_signoff_footer_only",
+      "tags": [
+        "assembly"
+      ]
+    }
+  ]
+}

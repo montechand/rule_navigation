@@ -1,0 +1,91 @@
+{
+  "findings": [
+    {
+      "description": "The entire email canvas/grid system (600px width, 480px breakpoint, 12-col grid, 24px section padding, 8px vertical rhythm base, section top/bottom padding, and element gap spacing) is described in explicit, quantified, hard-constraint language but has zero corresponding candidate rules. Only the CTA button units (u_0008) were extracted; a large chunk of the source content is unrepresented, so the clustering for this doc_ref is incomplete rather than just mis-split.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "group_id": "grp_lisraya_design_pattern_rules_00",
+          "note": "Add rules for: fixed 600px email width/centering, 480px mobile breakpoint with single-column collapse, 12-column internal grid layout options, 24px section side padding, 8px vertical rhythm base unit, 32px section top/bottom padding with zero-gap stacking, and specific element gaps (heading→body 16px, paragraph→paragraph 16px, body→CTA 24px, image→caption 8px)."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_0_0001",
+        "u_design_pattern_rules_0_0002",
+        "u_design_pattern_rules_0_0003",
+        "u_design_pattern_rules_0_0004",
+        "u_design_pattern_rules_0_0005",
+        "u_design_pattern_rules_0_0006",
+        "u_design_pattern_rules_0_0007"
+      ]
+    },
+    {
+      "description": "Source explicitly tags this CTA spec as '[GENERAL, contrast-checked to palette]', meaning it is not an official brand-guide directive but an inferred/baseline convention. The candidate rule carries hardness=hard_constraint with no governance facet capturing this provenance distinction, which risks the rule being treated as canonically mandated when the source flags it as general/inferred.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "governance": {
+            "note": "Tagged [GENERAL, contrast-checked to palette] in source; not an explicit brand-guide mandate.",
+            "source_status": "general_not_in_guide"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_button_spec"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_cta_button_spec",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The section heading marks the whole cluster as '[GENERAL — not specified in guide; Solstice email baseline]', which applies to the one-primary-CTA rule too, but no governance/provenance facet is attached indicating this is a baseline convention rather than a documented brand standard.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[0]",
+          "governance": {
+            "source_status": "general_not_in_guide"
+          },
+          "group_id": "grp_lisraya_design_pattern_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_cta_one_primary_per_section"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_one_primary_per_section",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0000",
+        "u_design_pattern_rules_0_0008"
+      ]
+    },
+    {
+      "description": "The rule bundles many distinct facets (primary color/text, font, padding, min touch target accessibility rule, corner radius, and a fully separate secondary CTA variant) into a single rule. The 48px minimum touch target is explicitly called out as a separate 'brand accessibility rule' and could warrant its own rule/relation rather than being flattened into one CTA spec, since it has distinct governance weight (accessibility mandate) vs purely stylistic specs (color, radius).",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_cta_button_spec",
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ]
+    }
+  ]
+}

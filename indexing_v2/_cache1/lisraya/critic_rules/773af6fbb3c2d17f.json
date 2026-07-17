@@ -1,0 +1,138 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules were extracted for this blob at all, despite it containing at least four distinct rule families: typography (Agenda font + email fallback), casing (ALL CAPS mandatory), color/tint treatment (40% tint on specific letters, two approved colorways), layout (three-line stack, left-aligned, hero-only), and fixed copy lockup. These should be split into separate clustered rules rather than left unclustered.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_typography",
+          "hardness": "hard",
+          "rule_text": "Campaign headline 'YOU DESERVE MORE' set in Agenda; digital may substitute Agenda as live text for this headline only; email fallback Nunito Sans ExtraBold.",
+          "scope": "campaign_headline"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0000",
+        "u_content_pattern_rules_5_0001",
+        "u_content_pattern_rules_5_0002",
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004",
+        "u_content_pattern_rules_5_0005",
+        "u_content_pattern_rules_5_0006"
+      ]
+    },
+    {
+      "description": "The 'ALL CAPS, always' statement is an absolute mandatory rule (governance: hard, always-applies) but no rule/governance facet was captured to record its hardness=hard and unconditional scope.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_casing",
+          "hardness": "hard",
+          "polarity": "must",
+          "rule_text": "Headline must always be set in ALL CAPS.",
+          "scope": "campaign_headline"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0002"
+      ]
+    },
+    {
+      "description": "Tint specification (D and M letters at ~40% tint, tied symbolically to dermatomyositis) and the two approved colorways (Gold/Sunshine, Brand Blue) are compliance-relevant color rules but have no captured governance facets (hardness, approved-values enumeration, symbolic rationale).",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "approved_values": [
+            "Gold/Sunshine",
+            "Brand Blue"
+          ],
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_color",
+          "hardness": "hard",
+          "rule_text": "Letters D (DESERVE) and M (MORE) set at ~40% tint of headline color; only two approved colorways: Gold/Sunshine or Brand Blue, tinted letters at 40% of same hue.",
+          "scope": "campaign_headline"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004"
+      ]
+    },
+    {
+      "description": "The three-line stacking/left-alignment rule is scoped conditionally to 'hero placements' only; this scope restriction was not captured, risking over-application as a universal layout rule.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_layout",
+          "hardness": "soft",
+          "rule_text": "In hero placements only, stack headline as three lines (YOU / DESERVE / MORE), left-aligned.",
+          "scope": "hero_placement_only"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0005"
+      ]
+    },
+    {
+      "description": "The full lockup copy line is a distinct fixed-copy/legal-style rule (exact required wording including brand name and disease reference) and should be its own rule rather than merged with typography/color rules, since it governs verbatim text not styling.",
+      "finding_id": "f_lisraya_0005",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_lockup_copy",
+          "hardness": "hard",
+          "rule_text": "Full lockup copy must read exactly: 'YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.'",
+          "scope": "lockup_copy"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0006"
+      ]
+    },
+    {
+      "description": "The Agenda-font rule is scoped specifically to this headline only ('digital may use Agenda as live text for this headline only'); a missed relation is that this rule should be linked to the heading unit (u_...0000) establishing its scope is exclusively the 'YOU DESERVE MORE' campaign headline, not a general typography rule.",
+      "finding_id": "f_lisraya_0006",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001",
+        "u_content_pattern_rules_5_0000"
+      ]
+    }
+  ]
+}

@@ -11,9 +11,14 @@ doc_ref: `design_pattern_rules[5]`
 - Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]
 ````
 
-## Extracted rules (1)
+## Extracted rules (2)
 
-### rule_lisraya_iconography_style_and_accessibility
-- class=iconography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Icons must follow a minimal line illustration style using consistent stroke weight, rounded line caps, and single-color line work. Icon colors and backgrounds must stay strictly within the brand palette. To ensure accessibility for low-vision audiences in email, icons must be rendered at a minimum size of 32x32px (size.icon.minimum = 32px) and default to Brand Blue strokes (color.primary.brand_blue = #00529b) on light backgrounds.
-- intent: Ensure iconography is accessible, legible, and stylistically cohesive across all digital surfaces.
+### rule_lisraya_icon_line_style_and_palette
+- class=iconography scope=brand hardness=hard_constraint polarity=must sections=None constraint=None
+- rule_text: Icons use minimal line illustration for clarity and quick recall. New icons must match this approach with consistent stroke weight, rounded line caps, and single-color line work; icon colors and backgrounds may be adjusted only within the brand palette.
+- intent: Maintain a recognizable, clear icon system while preventing off-brand color treatments.
+
+### rule_lisraya_icon_low_vision_size_and_light_background_stroke
+- class=accessibility scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: For low-vision audiences in email, icons must render at a minimum 32×32px; on light backgrounds, use default Brand Blue (#00529b) strokes.
+- intent: Preserve icon visibility and legibility for low-vision audiences.

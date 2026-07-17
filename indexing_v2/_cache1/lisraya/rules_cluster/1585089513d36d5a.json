@@ -1,0 +1,407 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "gradient_callout_section_assembly",
+      "key_proposal": "alignment.gradient_callout.content",
+      "quotes": [
+        "both horizontally centered and stacked"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0002"
+      ],
+      "value": "center"
+    },
+    {
+      "for_rule_slug": "gradient_callout_background",
+      "key_proposal": "background.gradient_callout.rendering",
+      "quotes": [
+        "sized `cover`, `no-repeat`, centered",
+        "background-size=\"cover\"\n    background-repeat=\"no-repeat\"\n    background-position=\"center center\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0006",
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": {
+        "position": "center center",
+        "repeat": "no-repeat",
+        "size": "cover"
+      }
+    },
+    {
+      "for_rule_slug": "gradient_callout_headline",
+      "key_proposal": "type_scale.gradient_callout.headline",
+      "quotes": [
+        "font-size=\"28px\"\n        font-weight=\"800\"\n        line-height=\"34px\""
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0015"
+      ],
+      "value": {
+        "font_size": "28px",
+        "line_height": "34px"
+      }
+    },
+    {
+      "for_rule_slug": "gradient_callout_button_signature",
+      "key_proposal": "size.gradient_callout.button_label",
+      "quotes": [
+        "white label (Nunito Sans 800, 18px)"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ],
+      "value": "18px"
+    },
+    {
+      "for_rule_slug": "gradient_callout_button_signature",
+      "key_proposal": "size.gradient_callout.button_arrow",
+      "quotes": [
+        "a Gold `#FFC20E` arrow `›` (24px)"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_5_0008"
+      ],
+      "value": "24px"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "gradient_callout_background",
+      "note": "Defines the narrowly permitted image-free exception while preserving the base rule's fallback fill and all other styling.",
+      "relation": "refines",
+      "src_slug": "gradient_background_skip_exception"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "A full-width banner where a **headline** and a **single button** are overlaid on the branded orange/yellow gradient image, both horizontally centered and stacked.",
+          "**Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "**Button** → centered, in the **lower-middle** below the headline."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0002",
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the explicit composition and hierarchy of the gradient callout.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "assembly",
+      "rule_text": "The gradient callout is a full-content-width banner containing a headline and exactly one button over the branded gradient. Center both elements horizontally and stack them, with the headline in the top third and the button in the lower-middle below it.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "gradient_callout_section_assembly",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "gradient_callout.background.image",
+          "token_id": "tok_lisraya_gradient_callout_background_image"
+        },
+        {
+          "element_path": "gradient_callout.background.fallback_fill",
+          "token_id": "tok_lisraya_color_sunshine"
+        },
+        {
+          "element_path": "gradient_callout.width",
+          "token_id": "tok_lisraya_gradient_callout_width"
+        },
+        {
+          "element_path": "gradient_callout.padding",
+          "token_id": "tok_lisraya_gradient_callout_padding"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**Background** → the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images.",
+          "**Background image:** asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor.",
+          "padding=\"48px 25px 56px 25px\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Background** → the gradient PNG, applied as the section background, sized `cover`, `no-repeat`, centered, spanning the full content width (600px). Always set a solid `background-color` of Sunshine `#faa31b` as fallback, since clients like Outlook drop background images.",
+          "**Background image:** asset is `https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png` — do not re-host or recolor.",
+          "padding=\"48px 25px 56px 25px\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0006",
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the approved branded background while preserving rendering when email clients drop images.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Use the approved gradient image (gradient_callout.background.image = https://solstice-public-forever.s3.us-east-1.amazonaws.com/design_library/12912e15-c371-4bf0-a5b9-08a7f8c57d20/7772aba5-1ff5-4985-80bf-c15b782111a4/Gradient_callout.png) without re-hosting or recoloring it. Render it centered, cover-sized, and nonrepeating across the 600px content width (gradient_callout.width = 600px), using gradient-callout padding (gradient_callout.padding = 48px 25px 56px 25px). Always retain Sunshine (color.primary.sunshine = #faa31b) as the solid fallback background.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.background",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "gradient_callout_background",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": {
+            "any_of": [
+              "plain-text/AMP fallback",
+              "client strips all images",
+              "hard size budget"
+            ]
+          }
+        }
+      ],
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "The background may be skipped **only in very, very rare cases** (plain-text/AMP fallback, a client that strips all images, a hard size budget). When skipped, the section still renders on a solid Sunshine `#faa31b` fill and every other rule stays identical.",
+          "If the background must be skipped, remove only `background-url`, `background-size`, `background-repeat`, and `background-position` — keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Constrain image-free fallback behavior so the callout remains recognizably branded.",
+      "polarity": "may",
+      "precedence": 1,
+      "rule_class": "assembly",
+      "rule_text": "Skip the gradient background image only in very rare cases: a plain-text/AMP fallback, a client that strips all images, or a hard size budget. Remove only the background URL, size, repeat, and position properties; keep the Sunshine fallback (#faa31b), headline color, button color, button radius, and every other rule unchanged.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.background",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "gradient_background_skip_exception",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery",
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "gradient_callout.headline.color",
+          "token_id": "tok_lisraya_gradient_callout_headline_color"
+        },
+        {
+          "element_path": "gradient_callout.headline.font",
+          "token_id": "tok_lisraya_font_family_nunito_sans"
+        },
+        {
+          "element_path": "gradient_callout.headline.weight",
+          "token_id": "tok_lisraya_weight_bold_800"
+        },
+        {
+          "element_path": "gradient_callout.headline.padding",
+          "token_id": "tok_lisraya_gradient_callout_headline_padding"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "color=\"#00529b\"\n        font-family=\"Nunito Sans, Arial, Helvetica, sans-serif\"\n        font-size=\"28px\"\n        font-weight=\"800\"\n        line-height=\"34px\"\n        padding=\"0 0 32px 0\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "**Headline** → Brand Blue `#00529b`, centered, sitting in the **top third**, Nunito Sans weight 800, ~28px, one line.",
+          "font-size=\"28px\"\n        font-weight=\"800\"\n        line-height=\"34px\"\n        padding=\"0 0 32px 0\""
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0007",
+          "u_color_scheme_rules_5_0015"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the approved headline hierarchy and legibility over the gradient.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Keep the gradient-callout headline centered and on one line. Use Brand Blue (gradient_callout.headline.color = #00529b), Nunito Sans (font.family.nunito_sans = Nunito Sans), weight 800 (weight.component.800 = 800), approximately 28px type with the illustrated 34px line height, and headline padding (gradient_callout.headline.padding = 0 0 32px 0).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.headline",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "gradient_callout_headline",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "gradient_callout.button.fill",
+          "token_id": "tok_lisraya_gradient_callout_button_fill"
+        },
+        {
+          "element_path": "gradient_callout.button.label.color",
+          "token_id": "tok_lisraya_gradient_callout_button_label_color"
+        },
+        {
+          "element_path": "gradient_callout.button.label.font",
+          "token_id": "tok_lisraya_font_family_nunito_sans"
+        },
+        {
+          "element_path": "gradient_callout.button.label.weight",
+          "token_id": "tok_lisraya_weight_bold_800"
+        },
+        {
+          "element_path": "gradient_callout.button.arrow.color",
+          "token_id": "tok_lisraya_gradient_callout_arrow_color"
+        },
+        {
+          "element_path": "gradient_callout.button.dimension",
+          "token_id": "tok_lisraya_dimension_gradient_callout_button"
+        },
+        {
+          "element_path": "gradient_callout.button.radius",
+          "token_id": "tok_lisraya_gradient_callout_button_radius"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px.",
+          "**Button radius (mandatory, never change):** `border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped.",
+          "Never simplify it to a single value, swap the corners, or round the decimals."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0011"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Fill Deep Blue `#003D74`, white label (Nunito Sans 800, 18px), with a Gold `#FFC20E` arrow `›` (24px) after two non-breaking spaces. Size 248 × 64px.",
+          "**Button radius (mandatory, never change):** `border-radius: 49.52px 1.76px 40px 1.76px;` — this four-value asymmetric radius is the signature shape and is **always required on every instance**, even when the background is skipped.",
+          "Never simplify it to a single value, swap the corners, or round the decimals.",
+          "keep `background-color=\"#faa31b\"` and the headline color, button color, and button radius exactly as above."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_5_0008",
+          "u_color_scheme_rules_5_0010",
+          "u_color_scheme_rules_5_0011",
+          "u_color_scheme_rules_5_0017"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Protect the gradient CTA's distinctive, mandatory signature treatment.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "cta",
+      "rule_text": "The gradient-callout button uses Deep Blue (gradient_callout.button.fill = #003D74), a white label (gradient_callout.button.label.color = #ffffff), Nunito Sans (font.family.nunito_sans = Nunito Sans), weight 800 (weight.component.800 = 800), and a Gold arrow (gradient_callout.button.arrow.color = #FFC20E) after two non-breaking spaces. Keep the button at 248 × 64px (dimension.component.gradient_callout_button = 248 × 64px). Every instance must retain the exact signature radius (gradient_callout.button.radius = 49.52px 1.76px 40px 1.76px), including image-free fallbacks; never simplify it, swap its corners, or round its decimals.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "gradient_callout.button",
+        "section_types": [
+          "callout",
+          "cta"
+        ]
+      },
+      "slug": "gradient_callout_button_signature",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "typography",
+        "color_application",
+        "layout"
+      ]
+    }
+  ]
+}

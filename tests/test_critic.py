@@ -131,6 +131,7 @@ def test_triage_rejects_patched_entity_with_missing_ref(
     source = copy.deepcopy(candidates.token_semantic[0])
     if op == "add":
         source["id"] = "tok_missing_ref_add"
+        source["key"] = "cta.button.fill.missing_ref_add"
         source["value"]["default"] = {"$ref": "tok_missing_target"}
         patch = Patch(
             op="add",
@@ -322,6 +323,26 @@ def test_apply_patch_add_update_delete_split_merge(units) -> None:
         token["id"] for token in deleted.token_primitive
     }
     del units
+
+
+def test_apply_patch_rejects_duplicate_token_keys() -> None:
+    base = _fixture_candidates()
+    existing = next(token for token in base.token_primitive if token.get("key"))
+    other = next(
+        token
+        for token in base.token_primitive
+        if token["id"] != existing["id"] and token.get("key")
+    )
+    with pytest.raises(PatchApplicationError, match="duplicate token key"):
+        apply_patch_to_candidates(
+            base,
+            Patch(
+                op="update",
+                entity_kind="token_primitive",
+                target_entity_ids=[other["id"]],
+                payload={"key": existing["key"]},
+            ),
+        )
 
 
 def test_merge_patch_unions_evidence(units) -> None:

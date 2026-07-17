@@ -17,6 +17,9 @@ chart — data visualization blocks
 top_matter — locked header component (logo, safety links)
 end_matter — locked footer component (ISI, legal, unsubscribe)
 
+## Discovered for lisraya
+wave — proposed by extraction (rule_lisraya_layered_wave_colorways_and_usage)
+
 A blueprint's free-form `section_id` values (e.g. "what_it_means") must be
 mapped to the closest vocabulary entries by the querying agent; a section may
 match several (e.g. a benefits panel = intro + callout).

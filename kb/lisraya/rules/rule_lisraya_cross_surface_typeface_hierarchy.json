@@ -1,0 +1,81 @@
+{
+  "id": "rule_lisraya_cross_surface_typeface_hierarchy",
+  "brand_id": "lisraya",
+  "rule_class": "typography",
+  "content_types": [
+    "email",
+    "print",
+    "ppt"
+  ],
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "headline.print.font",
+        "token_id": "tok_lisraya_type_headlines_headers_print_font"
+      },
+      {
+        "element_path": "headline.email.font",
+        "token_id": "tok_lisraya_type_headlines_headers_digital_email_font"
+      },
+      {
+        "element_path": "headline.office.font",
+        "token_id": "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+      },
+      {
+        "element_path": "body.print.font",
+        "token_id": "tok_lisraya_type_body_copy_print_font"
+      },
+      {
+        "element_path": "body.email.font",
+        "token_id": "tok_lisraya_type_body_copy_print_font"
+      },
+      {
+        "element_path": "body.office.font",
+        "token_id": "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font"
+      },
+      {
+        "element_path": "footer.print.font",
+        "token_id": "tok_lisraya_type_footers_fine_print_print_font"
+      },
+      {
+        "element_path": "footer.email.font",
+        "token_id": "tok_lisraya_type_footers_fine_print_print_font"
+      },
+      {
+        "element_path": "footer.office.font",
+        "token_id": "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font"
+      },
+      {
+        "element_path": "typeface.word_ppt_excel",
+        "linked_by": "linker-v1.0.0:adjudicated",
+        "token_id": "tok_lisraya_font_aptos"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "strong_default",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_font_aptos",
+    "tok_lisraya_type_body_copy_print_font",
+    "tok_lisraya_type_body_copy_word_ppt_excel_fallback_font",
+    "tok_lisraya_type_footers_fine_print_print_font",
+    "tok_lisraya_type_footers_fine_print_word_ppt_excel_fallback_font",
+    "tok_lisraya_type_headlines_headers_digital_email_font",
+    "tok_lisraya_type_headlines_headers_print_font",
+    "tok_lisraya_type_headlines_headers_word_ppt_excel_fallback_font"
+  ],
+  "asset_ids": [],
+  "rule_text": "Apply the typeface hierarchy by surface: headlines and headers use Agenda in print, Nunito Sans in digital/email, and Aptos in Word/PPT/Excel; body copy and footer/fine print use Nunito Sans in print and digital/email and Aptos in Word/PPT/Excel. Digital/email headlines use bolder weights and Title Case.",
+  "intent": "Maintain a consistent, surface-appropriate typographic hierarchy.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_lisraya_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Use Agenda for print headlines/headers; Nunito Sans for digital/email headlines (bolder, Title Case), print/digital body/footer; Aptos for Word/PPT/Excel text."
+}

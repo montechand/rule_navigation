@@ -1,0 +1,50 @@
+{
+  "findings": [
+    {
+      "description": "The rule for wave graphic construction conflates colorways and structure (unit 1 and 2) with placement and usage constraints (unit 3). It is cleaner to split structural styling constraints from usage rules regarding placement over photography or gradients.",
+      "finding_id": "f_lisraya_001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "grp_lisraya_design_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_wave_graphic_construction_and_styling"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_wave_graphic_construction_and_styling",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "The masthead rule specifies a precise color gradient (0C,10M,78Y,0K) and logo positioning, but the candidate rule does not define these specific parameters in its metadata, which limits exact QA checking.",
+      "finding_id": "f_lisraya_002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "gradient_definition": "Sunshine to 0C,10M,78Y,0K",
+          "group_id": "grp_lisraya_design_pattern_rules_01",
+          "logo_placement": "lightest end"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_device_construction"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_masthead_device_construction",
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ]
+    }
+  ]
+}

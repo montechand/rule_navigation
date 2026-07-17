@@ -1,0 +1,254 @@
+{
+  "findings": [
+    {
+      "description": "The entire blob (box/badge layout definition, exact geometry constraints, mandatory corner-radius spec, mandatory drop-shadow spec, palette tokens, and scaling ratios) is collapsed into a single 'email fallback' assembly rule. These are distinct governance objects with different hardness/polarity and must be split, not merged into one rule about Outlook fallback only.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "new_rules": [
+            {
+              "class": "assembly",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_icon_callout_layout",
+              "polarity": "should",
+              "summary": "Box/badge container, box fill/padding, text styling, badge sizing and centering layout (u_0007-u_0010)."
+            },
+            {
+              "class": "spec",
+              "hardness": "hard_mandatory",
+              "id": "rule_lisraya_icon_callout_geometry",
+              "polarity": "must",
+              "summary": "Exact geometry: W=80px, inset W/2=40px, badge center lands exactly on box edge, distance=0, vertical centering formula (u_0014-u_0016)."
+            },
+            {
+              "class": "spec",
+              "hardness": "hard_mandatory",
+              "id": "rule_lisraya_icon_callout_corner_radius",
+              "polarity": "must_not",
+              "summary": "Mandatory 5:1 corner radius pattern on box and badge; never simplify, swap corners, or flip diagonal (u_0018-u_0020)."
+            },
+            {
+              "class": "spec",
+              "hardness": "hard_mandatory",
+              "id": "rule_lisraya_icon_callout_drop_shadow",
+              "polarity": "must",
+              "summary": "Badge must carry drop shadow on every instance (u_0022-u_0023)."
+            },
+            {
+              "class": "token_reference",
+              "hardness": "hard_mandatory",
+              "id": "rule_lisraya_palette_reference",
+              "polarity": "must",
+              "summary": "Palette token table mapping Brand Blue/Light Blue/White/Dark Navy to usage (u_0025-u_0032)."
+            },
+            {
+              "class": "spec",
+              "hardness": "strong_default",
+              "id": "rule_lisraya_icon_callout_scaling",
+              "polarity": "should",
+              "summary": "Proportional relationships to preserve when badge size changes (u_0046-u_0047)."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_callout_email_fallback"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0000",
+        "u_color_scheme_rules_6_0002",
+        "u_color_scheme_rules_6_0003",
+        "u_color_scheme_rules_6_0007",
+        "u_color_scheme_rules_6_0008",
+        "u_color_scheme_rules_6_0009",
+        "u_color_scheme_rules_6_0010",
+        "u_color_scheme_rules_6_0012",
+        "u_color_scheme_rules_6_0014",
+        "u_color_scheme_rules_6_0015",
+        "u_color_scheme_rules_6_0016",
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0020",
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023",
+        "u_color_scheme_rules_6_0025",
+        "u_color_scheme_rules_6_0029",
+        "u_color_scheme_rules_6_0030",
+        "u_color_scheme_rules_6_0031",
+        "u_color_scheme_rules_6_0032",
+        "u_color_scheme_rules_6_0040",
+        "u_color_scheme_rules_6_0041",
+        "u_color_scheme_rules_6_0042",
+        "u_color_scheme_rules_6_0046",
+        "u_color_scheme_rules_6_0047"
+      ]
+    },
+    {
+      "description": "Corner-radius spec is explicitly 'mandatory, never change' with an explicit prohibition (never simplify, swap corners, or flip diagonal), but no rule captures this hard_mandatory / must_not constraint; it is only reachable, if at all, folded into the generic fallback rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "spec",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must_not",
+          "scope": "icon callout box and badge corner radii",
+          "summary": "border-radius 40px 8px 40px 8px (box) / 20px 4px 20px 4px (badge), 5:1 ratio, large TL+BR; never simplify to uniform radius, swap corners, or flip diagonal."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0020"
+      ]
+    },
+    {
+      "description": "Drop-shadow is stated as mandatory on 'every instance' with an explicit failure mode ('without it the badge looks flat and pasted-on'), which is a distinct hard_mandatory rule not represented in the candidate set.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "spec",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must",
+          "scope": "icon badge",
+          "summary": "Icon badge must carry a subtle drop shadow (e.g. box-shadow 0 4px 10px rgba(1,30,69,0.18)) on every instance."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023"
+      ]
+    },
+    {
+      "description": "The exact geometry section ('the part that makes it exact': W=80px, inset=W/2=40px, distance from badge center to box edge must be 0) is a hard numeric constraint independent from the Outlook-fallback rule and is currently unrepresented.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "spec",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must",
+          "scope": "icon badge/box bisector geometry",
+          "summary": "Badge width W=80px, box inset from left = W/2 (40px), badge center must land exactly on box left edge (distance=0), vertical centering via margin-top = -H/2."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0012",
+        "u_color_scheme_rules_6_0014",
+        "u_color_scheme_rules_6_0015",
+        "u_color_scheme_rules_6_0016"
+      ]
+    },
+    {
+      "description": "The fallback rule as scoped lacks explicit governance facets: it does not record the client-scope condition (Outlook desktop/Word engine only, absolute positioning honored elsewhere), the preferred remediation (pre-composite PNG badge), and the accepted-degrade condition as an explicit exception with its own polarity, all of which materially change what 'should' applies to.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "condition": "position:absolute badge overhang not supported",
+          "doc_ref": "color_scheme_rules[6]",
+          "fallback_exception": "if PNG compositing infeasible, ship live version and accept badge-flush-left degrade; all other styling (fill, radius, text, shadow) must remain identical",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "preferred_remediation": "pre-composite badge as transparent PNG with shadow/radii/icon baked in",
+          "scope": "Outlook desktop (Word rendering engine) email clients"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_icon_callout_email_fallback"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_icon_callout_email_fallback",
+      "unit_ids": [
+        "u_color_scheme_rules_6_0040",
+        "u_color_scheme_rules_6_0041",
+        "u_color_scheme_rules_6_0042"
+      ]
+    },
+    {
+      "description": "Palette reference table defining mandatory color tokens (Brand Blue, Light Blue, White, Dark Navy) for this component is not represented by any rule despite being source of truth for several hard color values used elsewhere in the blob.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "token_reference",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "hard_mandatory",
+          "polarity": "must",
+          "summary": "Palette token table: Brand Blue #00529b (headline/icon stroke), Light Blue #E6F0F9 (box fill), White #ffffff (badge fill), Dark Navy #011E45 (drop-shadow color, low opacity)."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0025",
+        "u_color_scheme_rules_6_0027",
+        "u_color_scheme_rules_6_0028",
+        "u_color_scheme_rules_6_0029",
+        "u_color_scheme_rules_6_0030",
+        "u_color_scheme_rules_6_0031",
+        "u_color_scheme_rules_6_0032"
+      ]
+    },
+    {
+      "description": "Scaling-note relationships (inset=W/2, box left-padding=W/2+24px, badge margin-top=-H/2) are a distinct 'should' rule about maintaining ratios when badge size changes, not captured and not linked to the geometry rule it depends on.",
+      "finding_id": "f_lisraya_07",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "spec",
+          "doc_ref": "color_scheme_rules[6]",
+          "group_id": "grp_lisraya_color_scheme_rules_06",
+          "hardness": "strong_default",
+          "polarity": "should",
+          "relates_to": "rule_lisraya_icon_callout_geometry",
+          "summary": "If badge size differs from default 80px, preserve ratios: inset=W/2, box left-padding=W/2+24px, badge margin-top=-H/2, to keep bisector exact."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_6_0044",
+        "u_color_scheme_rules_6_0046",
+        "u_color_scheme_rules_6_0047"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "findings": [
+    {
+      "description": "Three distinct editorial rules in the source (inclusive language/patient terminology, number formatting, Oxford comma punctuation) have no corresponding candidate rule at all. Only 2 of 6 source bullets are represented in the candidate set, leaving major content ungoverned.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04",
+          "rules": [
+            {
+              "class": "inclusive_language",
+              "hardness": "hard_constraint",
+              "note": "must not use 'patients' in patient materials; use 'someone/people with dermatomyositis' and 'care team' instead of 'staff'; exception: 'patients' allowed in HCP materials",
+              "polarity": "must_not"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "note": "spell out zero-nine, numerals for 10+; always numerals for percentages/ages/ratios; % sign for percentages",
+              "polarity": "must"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "note": "always use Oxford/serial comma in series of 3+",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0003",
+        "u_content_pattern_rules_4_0004",
+        "u_content_pattern_rules_4_0006"
+      ]
+    },
+    {
+      "description": "u0002 introduces a distinct [GENERAL] governance-scoped requirement (each standalone section must independently establish the DM abbreviation at first mention, unless an assembly brief states otherwise) with a conditional exception. This scope/exception facet is not captured anywhere in the DM abbreviation rule, which only reflects u0001's headline/running-copy distinction.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facet": {
+            "exception": "unless assembly brief states abbreviation is established upstream",
+            "scope": "GENERAL - per standalone section"
+          },
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_dm_abbreviation_first_mention"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_dm_abbreviation_first_mention",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0002"
+      ]
+    },
+    {
+      "description": "Rule captures general tone guidance but omits the concrete governance detail that it applies specifically 'when citing clinical data' and includes a worked example pattern (VALOR study/LISRAYA/DM symptoms) that anchors the required phrasing style — this scoping context and example are not reflected in the rule's facets.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facet": {
+            "example": "Participants in the VALOR study taking LISRAYA had nearly 50% more improvement in their DM symptoms after one year compared to placebo.",
+            "scope": "clinical data citations only"
+          },
+          "doc_ref": "content_pattern_rules[4]",
+          "group_id": "grp_lisraya_content_pattern_rules_04"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_data_tone"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_data_tone",
+      "unit_ids": [
+        "u_content_pattern_rules_4_0005"
+      ]
+    },
+    {
+      "description": "u0001 and u0002 are structurally linked (u0002 is an indented sub-bullet clarifying assembly-time application of u0001's rule) but no relation between the two content units is preserved in the candidate rule set beyond a single merged rule; the conditional/exception nature of u0002 risks being lost or flattened.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_4_0001",
+        "u_content_pattern_rules_4_0002"
+      ]
+    }
+  ]
+}

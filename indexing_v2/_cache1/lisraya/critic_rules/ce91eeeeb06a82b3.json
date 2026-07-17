@@ -1,0 +1,110 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules exist for this blob at all — the entire 'Graphic Elements — Waves' section (colorway definitions, construction/layering spec, usage guidance, and masthead gradient device) has not been clustered into any brand_rule rows. This is a total extraction miss, not just a split/merge issue.",
+      "finding_id": "f_lisraya_0001",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "group_id": "g_lisraya_waves",
+          "rules": [
+            {
+              "source_units": [
+                "u_design_pattern_rules_1_0001"
+              ],
+              "summary": "Wave graphic colorways: Sunshine/Gold and Sky Blue/Deep Blue, each in long and short variants."
+            },
+            {
+              "hardness": "hard",
+              "source_units": [
+                "u_design_pattern_rules_1_0002"
+              ],
+              "summary": "Wave construction: top layer at 70% transparency over base wave, must preserve layered translucent quality."
+            },
+            {
+              "source_units": [
+                "u_design_pattern_rules_1_0003"
+              ],
+              "summary": "Wave usage: standalone or overlaid on photography/gradients to support flow, frame content, or add depth; only approved color values permitted."
+            },
+            {
+              "source_units": [
+                "u_design_pattern_rules_1_0004"
+              ],
+              "summary": "Masthead gradient with logo mark (Sunshine to 0C,10M,78Y,0K, logo at lightest end) is the approved device for masthead copy holding."
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0000",
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0002",
+        "u_design_pattern_rules_1_0003",
+        "u_design_pattern_rules_1_0004"
+      ]
+    },
+    {
+      "description": "The construction rule uses the imperative 'always preserve the layered, translucent quality' — a hard compliance requirement — but no rule/governance facet (hardness=hard, polarity=must) has been captured since no rule exists at all.",
+      "finding_id": "f_lisraya_0002",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "governance": "always_preserve_layering",
+          "group_id": "g_lisraya_waves",
+          "hardness": "hard",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0002"
+      ]
+    },
+    {
+      "description": "'Approved color values only' is a restrictive compliance clause (scope-limiting) that should carry explicit polarity=must/restricted and reference to an approved palette governance artifact, but this facet is absent since no rule captures it.",
+      "finding_id": "f_lisraya_0003",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "design_pattern_rules[1]",
+          "governance": "approved_palette_only",
+          "group_id": "g_lisraya_waves",
+          "polarity": "must",
+          "scope": "color_values"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Missed relation: the masthead gradient device explicitly starts from 'Sunshine', one of the two wave colorways defined in u_0001, indicating a cross-reference between the wave colorway rule and the masthead gradient rule that should be linked (e.g., relates_to) rather than treated as fully independent.",
+      "finding_id": "f_lisraya_0004",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_1_0001",
+        "u_design_pattern_rules_1_0004"
+      ]
+    }
+  ]
+}

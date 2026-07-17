@@ -1,0 +1,109 @@
+{
+  "findings": [
+    {
+      "description": "SECONDARY and TERTIARY palette tiers (Sky Blue, Deep Blue, Dark Navy, Coral, Light Blue, Golden Sand, Graphite, White) are entirely uncovered by any candidate rule; only the PRIMARY tier is represented, leaving 8 of 11 documented colors and two full tiers unclustered.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "hardness": "hard_constraint",
+          "note": "Add separate rules (or split existing rule) for SECONDARY tier (Sky Blue, Deep Blue, Dark Navy) and TERTIARY tier (Coral, Light Blue, Golden Sand, Graphite, White) with tier-specific scope.",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0008",
+        "u_color_scheme_rules_0_0009",
+        "u_color_scheme_rules_0_0010",
+        "u_color_scheme_rules_0_0011",
+        "u_color_scheme_rules_0_0012",
+        "u_color_scheme_rules_0_0013",
+        "u_color_scheme_rules_0_0014",
+        "u_color_scheme_rules_0_0015",
+        "u_color_scheme_rules_0_0016",
+        "u_color_scheme_rules_0_0017",
+        "u_color_scheme_rules_0_0018",
+        "u_color_scheme_rules_0_0019",
+        "u_color_scheme_rules_0_0020",
+        "u_color_scheme_rules_0_0021",
+        "u_color_scheme_rules_0_0022"
+      ]
+    },
+    {
+      "description": "Source units are purely descriptive (a palette table with hex/RGB/CMYK/Pantone values) with no directive or normative language such as 'must use' or 'only'. Tagging the rule as hard_constraint/must overstates the enforcement strength implied by the source; should likely be a lower hardness (e.g., guideline/soft_constraint) with polarity 'should' unless directive language exists elsewhere.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "group_id": "grp_lisraya_color_scheme_rules_00",
+          "hardness": "guideline",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_primary_palette_tier"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0001",
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "Rule lacks governance facets (e.g., approval authority, exception process, scope of application such as digital vs print) that would normally accompany a hard_constraint color rule; only color values are captured without any compliance/enforcement metadata.",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[0]",
+          "governance": {
+            "exceptions": "none_specified_in_source",
+            "scope": "unspecified (print/digital not distinguished in source)"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_00"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_primary_palette_tier"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0002",
+        "u_color_scheme_rules_0_0003",
+        "u_color_scheme_rules_0_0004",
+        "u_color_scheme_rules_0_0005",
+        "u_color_scheme_rules_0_0006"
+      ]
+    },
+    {
+      "description": "The heading '### Complete Palette' (u_0000) that scopes the entire section (all three tiers) is not referenced by any rule, losing the overall grouping context that ties PRIMARY/SECONDARY/TERTIARY together as one complete palette definition.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "bad_cluster",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_primary_palette_tier",
+      "unit_ids": [
+        "u_color_scheme_rules_0_0000"
+      ]
+    }
+  ]
+}

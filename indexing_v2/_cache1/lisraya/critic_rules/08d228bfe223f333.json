@@ -1,0 +1,147 @@
+{
+  "findings": [
+    {
+      "description": "Headline/heading and body-text color application rules (Brand Blue/White for headings; Graphite/White for body) are present in the source but have no corresponding rule in the candidate group, leaving a large portion of the blob's normative content uncaptured.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Headlines/headings must use Brand Blue (White on dark/gradient backgrounds); body text must use Graphite #212121 on light backgrounds and White on dark backgrounds.",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003"
+      ]
+    },
+    {
+      "description": "Chart/data color rules, including the strict reservation of Sunshine/Gold for key figures ('strictly reserved'), are missing entirely from the candidate group despite being a distinct, strongly-worded normative statement.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Sunshine/Gold in charts must be strictly reserved for emphasizing key figures; not to be used elsewhere in chart color scheme.",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0004"
+      ]
+    },
+    {
+      "description": "The Coral restriction rule ('never for primary CTAs, headlines, or data' + email-section avoidance) is a distinct governance-bearing prohibition entirely absent from the candidate group; it has different polarity (must_not) and governance scope ([GENERAL] email note) than any existing rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Coral is a sparing tertiary accent only and must never be used for primary CTAs, headlines, or data; general guidance to avoid Coral in email sections unless briefed.",
+          "doc_ref": "color_scheme_rules[1]",
+          "governance": "general_email_guidance",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    },
+    {
+      "description": "Source unit tags this rule with [GENERAL], indicating a governance/applicability scope facet (general brand-wide applicability) that is not reflected in the candidate rule's metadata.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "governance": "general",
+          "group_id": "grp_lisraya_color_scheme_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_link_color_treatment"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_link_color_treatment",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0007"
+      ]
+    },
+    {
+      "description": "The overarching hierarchy/application ratio statement (primary>secondary>tertiary dominance) governs all other color_application rules in this blob but is not represented as its own rule nor linked as a parent/governing relation to the existing rules.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "Apply palette per primary>secondary>tertiary ratio: blues and golds dominate; tertiary colors are accents/surfaces only.",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "strong_default",
+          "polarity": "must",
+          "relations": [
+            "parent_of:rule_lisraya_callout_surface_fills",
+            "parent_of:rule_lisraya_link_color_treatment"
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0001"
+      ]
+    },
+    {
+      "description": "Hardness is set to strong_default with polarity must, but source unit gives no explicit imperative language ('must'), only descriptive tint assignments; verify hardness isn't overstated relative to the softer, purely descriptive phrasing used elsewhere (cf. hard_constraint wording in u_0008).",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_callout_surface_fills",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0005"
+      ]
+    },
+    {
+      "description": "Missing relation between the strict reservation of Sunshine/Gold for chart emphasis (u_0004) and the mandated gold transparency preservation on the logo mark (u_0008) — both govern controlled/reserved use of the brand's gold asset and should be cross-referenced.",
+      "finding_id": "f_lisraya_07",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0004",
+        "u_color_scheme_rules_1_0008"
+      ]
+    }
+  ]
+}

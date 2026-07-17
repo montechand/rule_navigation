@@ -1,26 +1,80 @@
 [
   {
-    "src_rule_id": "rule_lisraya_rule_lisraya_coral_accent_restriction",
-    "dst_rule_id": "rule_lisraya_rule_lisraya_color_hierarchy_ratio",
-    "relation": "refines",
-    "note": "Refines general hierarchy by explicitly limiting Coral's application to sparingly-used tertiary accents in email sections."
-  },
-  {
-    "src_rule_id": "rule_lisraya_rule_lisraya_minimum_running_text_size",
-    "dst_rule_id": "rule_lisraya_rule_lisraya_email_type_scale_hierarchy",
-    "relation": "refines",
-    "note": "Constrains the lowest limit of the email type scale values"
-  },
-  {
-    "src_rule_id": "rule_lisraya_rule_lisraya_line_height_accessibility",
-    "dst_rule_id": "rule_lisraya_rule_lisraya_email_type_scale_hierarchy",
+    "src_rule_id": "rule_lisraya_non_color_meaning_cues",
+    "dst_rule_id": "rule_lisraya_wcag_text_background_contrast",
     "relation": "co_applies",
-    "note": "Intersects with line-height ratios defined in the typographic scale"
+    "note": "Both accessibility requirements apply to color use in brand materials."
   },
   {
-    "src_rule_id": "rule_lisraya_chart_color_application_logic",
-    "dst_rule_id": "rule_lisraya_chart_and_infographic_styling_and_hierarchy",
+    "src_rule_id": "rule_lisraya_email_type_scale_and_legibility",
+    "dst_rule_id": "rule_lisraya_distinct_text_hierarchy_levels",
     "relation": "co_applies",
-    "note": "Color logic controls the styling application of graphic bars and highlights inside the infographic containers."
+    "note": "The approved email scale provides the sizes used to establish the required visual hierarchy."
+  },
+  {
+    "src_rule_id": "rule_lisraya_digital_agenda_campaign_headline_exception",
+    "dst_rule_id": "rule_lisraya_cross_surface_typeface_hierarchy",
+    "relation": "refines",
+    "note": "The campaign-headline exception refines the general digital/email headline typeface hierarchy."
+  },
+  {
+    "src_rule_id": "rule_lisraya_you_deserve_more_campaign_all_caps",
+    "dst_rule_id": "rule_lisraya_general_casing_hierarchy",
+    "relation": "refines",
+    "note": "The campaign headline is an explicit ALL-CAPS exception to the general prohibition."
+  },
+  {
+    "src_rule_id": "rule_lisraya_chart_infographic_headline_casing_and_fonts",
+    "dst_rule_id": "rule_lisraya_general_casing_hierarchy",
+    "relation": "refines",
+    "note": "Chart and infographic headlines are an explicit ALL-CAPS exception to the general prohibition."
+  },
+  {
+    "src_rule_id": "rule_lisraya_limit_combined_text_emphasis_devices",
+    "dst_rule_id": "rule_lisraya_bold_hierarchy_and_takeaway_limits",
+    "relation": "co_applies",
+    "note": "Both rules govern permissible use of bold emphasis within text."
+  },
+  {
+    "src_rule_id": "rule_lisraya_underline_only_real_hyperlinks",
+    "dst_rule_id": "rule_lisraya_patient_copy_italic_reservations",
+    "relation": "cluster",
+    "note": "Both rules restrict non-bold typographic emphasis treatments."
+  },
+  {
+    "src_rule_id": "rule_lisraya_standalone_section_dm_first_mention",
+    "dst_rule_id": "rule_lisraya_dm_abbreviation_running_copy",
+    "relation": "refines",
+    "note": "The standalone-section rule specifies how the general first-mention abbreviation pattern must be re-established when sections are assembled independently."
+  },
+  {
+    "src_rule_id": "rule_lisraya_icon_low_vision_size_and_light_background_stroke",
+    "dst_rule_id": "rule_lisraya_icon_line_style_and_palette",
+    "relation": "refines",
+    "note": "The general low-vision requirement adds email size and light-background stroke guidance to the brand icon system."
+  },
+  {
+    "src_rule_id": "rule_lisraya_break_up_text_walls_with_visuals",
+    "dst_rule_id": "rule_lisraya_canonical_patient_brochure_content_block",
+    "relation": "co_applies",
+    "note": "Both support the patient-brochure-informed approach to visually engaging, patient-centered section content."
+  },
+  {
+    "src_rule_id": "rule_lisraya_single_focal_point_with_generous_whitespace",
+    "dst_rule_id": "rule_lisraya_alternate_section_backgrounds_and_declare_metada",
+    "relation": "co_applies",
+    "note": "Both govern section-level visual separation and hierarchy."
+  },
+  {
+    "src_rule_id": "rule_lisraya_email_gif_first_frame_and_fallback",
+    "dst_rule_id": "rule_lisraya_motion_pause_and_responsive_design",
+    "relation": "refines",
+    "note": "The email GIF requirements are a specific hard accessibility application of the broader motion guidance."
+  },
+  {
+    "src_rule_id": "rule_lisraya_email_code_compatibility_conventions",
+    "dst_rule_id": "rule_lisraya_modular_section_assembly_and_metadata",
+    "relation": "co_applies",
+    "note": "Code compatibility conventions apply when implementing the modular sections and their declared backgrounds."
   }
 ]

@@ -1,0 +1,144 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules exist for this blob despite it containing at least six distinct, extractable brand rules (typeface, case treatment, tint spec, colorway options, stacking layout, and verbatim lockup copy). The entire 'YOU DESERVE MORE' campaign headline section appears unclustered/unextracted.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_typography",
+          "note": "Split into distinct rules per facet: typeface, case, tint, color, layout, copy lockup"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0000",
+        "u_content_pattern_rules_5_0001",
+        "u_content_pattern_rules_5_0002",
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004",
+        "u_content_pattern_rules_5_0005",
+        "u_content_pattern_rules_5_0006"
+      ]
+    },
+    {
+      "description": "Typeface rule (Agenda, with digital live-text exception and email fallback to Nunito Sans ExtraBold) is missing governance facets: no hardness (should be 'must' for print/hero, 'may'/exception for digital fallback), no scope distinction between digital vs email vs print channels.",
+      "finding_id": "f_lisraya_2",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "exceptions": [
+            "digital_live_text_agenda",
+            "email_fallback_nunito_sans_extrabold"
+          ],
+          "group_id": "g_lisraya_headline_typography",
+          "hardness": "must",
+          "scope": "headline_typeface"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0001"
+      ]
+    },
+    {
+      "description": "Full lockup copy rule ('YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.') is a verbatim compliance/legal-adjacent claim (disease indication) with no governance facets captured: no hardness (must, exact-match), no scope (e.g., first-use/hero only vs all placements), no polarity (positive requirement vs prohibition on alteration).",
+      "finding_id": "f_lisraya_3",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "compliance_sensitive": true,
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_lockup_copy",
+          "hardness": "must",
+          "polarity": "positive",
+          "scope": "hero_lockup_exact_string"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0006"
+      ]
+    },
+    {
+      "description": "ALL CAPS rule is stated as an absolute ('always') hardness=must with no scope exceptions, but should be checked against unit 0006 where the lockup copy uses mixed case ('So there's LISRAYA—the first targeted treatment...'), indicating the ALL CAPS rule applies only to the headline itself, not the full lockup line. Missing scope relation between these two rules.",
+      "finding_id": "f_lisraya_4",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_typography",
+          "related_rule": "g_lisraya_lockup_copy",
+          "scope": "headline_only_not_full_lockup"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0002"
+      ]
+    },
+    {
+      "description": "Tint specification (40% tint on specific letters D and M) and colorway approval (Gold/Sunshine or Brand Blue) are tightly coupled (tint is defined relative to the chosen hue) and should be merged into a single 'headline color treatment' rule rather than clustered separately or left unclustered, to preserve the dependency that tint = 40% of whichever approved hue is used.",
+      "finding_id": "f_lisraya_5",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "merge",
+        "payload": {
+          "components": [
+            "tint_letters_D_M_40pct",
+            "approved_colorways_gold_blue"
+          ],
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_color"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0003",
+        "u_content_pattern_rules_5_0004"
+      ]
+    },
+    {
+      "description": "Three-line stacking/left-alignment rule lacks scope facet limiting it to 'hero placements' as stated in source, risking over-application to all placements (e.g., digital banners, email) where a single-line or different layout may be used.",
+      "finding_id": "f_lisraya_6",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "content_pattern_rules[5]",
+          "group_id": "g_lisraya_headline_layout",
+          "hardness": "should",
+          "scope": "hero_placements_only"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_5_0005"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule merges different structural elements (standard title-case headlines, the specific 'YOU DESERVE MORE' campaign headline, chart headlines requiring specific fallback fonts, and sentence-case body copy) into a single generic rule. This loses the precision of the mandatory ALL CAPS exclusions vs general prohibitions.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[2]",
+          "group_id": "grp_lisraya_content_pattern_rules_02",
+          "rules": [
+            {
+              "class": "copy_editorial",
+              "description": "Use Title Case for general headlines and headings (capitalize nouns, pronouns, adjectives, verbs, and adverbs; lowercase articles, conjunctions, and prepositions).",
+              "hardness": "strong_default",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_casing_standard_headlines"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Always present the campaign headline 'YOU DESERVE MORE' in ALL CAPS.",
+              "hardness": "strict_mandatory",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_casing_campaign_headline"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Use ALL CAPS for chart and infographic headlines, set in Agenda (for print) or Nunito Sans Bold+ (for email fallback).",
+              "hardness": "strict_mandatory",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_casing_charts"
+            },
+            {
+              "class": "copy_editorial",
+              "description": "Use sentence case for body copy. Do not use ALL CAPS for body copy, buttons, or subheads except for specified campaign and chart headline exceptions.",
+              "hardness": "strict_mandatory",
+              "polarity": "must_not",
+              "rule_id": "rule_lisraya_casing_body_copy"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_casing_headlines_and_body"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_casing_headlines_and_body",
+      "unit_ids": [
+        "u_content_pattern_rules_2_0001",
+        "u_content_pattern_rules_2_0002",
+        "u_content_pattern_rules_2_0003",
+        "u_content_pattern_rules_2_0004",
+        "u_content_pattern_rules_2_0005"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "chart_panel_container",
+      "note": "Both rules govern the visual color palette and separation in chart elements.",
+      "relation": "co_applies",
+      "src_slug": "chart_color_palette"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.panel.background",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "chart.panel.radius",
+          "token_id": "tok_lisraya_radius_chart_panel"
+        },
+        {
+          "element_path": "chart.panel.header.background",
+          "token_id": "tok_lisraya_color_brand_blue"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Container: uniform rounded corners, Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Container: uniform rounded corners, Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure a clean, easy-to-scan, and highly recognizable container format for all data displays.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Chart panels must use a uniform corner radius (radius.infographic.panel = 12px), a Light Blue background (color.tertiary.light_blue = #E6F0F9), and a Brand Blue rounded header bar (color.primary.brand_blue = #00529b).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.panel",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_panel_container",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "a": "tok_lisraya_color_sunshine",
+        "b": "tok_lisraya_color_gold",
+        "relation": "forbids"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) dominant; Sunshine (#faa31b) and Gold (#ffc60a) reserved for emphasis on key figures/data points only."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0002"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Color logic: Brand Blue (#00529b) and Sky Blue (#358CCB) dominant; Sunshine (#faa31b) and Gold (#ffc60a) reserved for emphasis on key figures/data points only. Placebo/comparator: neutral gray."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain rigorous semantic clarity in visual representations of data.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "In charts and infographics, Brand Blue (color.primary.brand_blue = #00529b) and Sky Blue (color.secondary.sky_blue = #358CCB) must be dominant. Sunshine (color.primary.sunshine = #faa31b) and Gold (color.primary.gold = #ffc60a) must be reserved exclusively for emphasis on key figures/data points, and neutral gray must be used for placebo or comparator markers.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.graphics",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_color_palette",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Bars and chart icons: **rounded, approachable** shapes (rounded bar tops)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Align infographic visual metaphors with the brand's friendly and accessible design system.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Bars and chart icons must feature rounded, approachable shapes (such as rounded bar tops).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.bars",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_shape_style",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "iconography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.headline.font_family",
+          "token_id": "tok_lisraya_font_family_nunito_sans"
+        },
+        {
+          "element_path": "chart.headline.casing",
+          "token_id": "tok_lisraya_case_campaign_headline"
+        },
+        {
+          "element_path": "chart.headline.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        },
+        {
+          "element_path": "chart.headline.rule.color",
+          "token_id": "tok_lisraya_color_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Headline: Agenda (print) / Nunito Sans Bold+ (email), **ALL CAPS**, Brand Blue, with a thin Gold rule beneath."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0004"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Headline: Agenda (print) / Nunito Sans Bold+ (email), **ALL CAPS**, Brand Blue, with a thin Gold rule beneath."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain strict, unified typography treatments for graphic identifiers across media channels.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "In digital assets, chart section headlines must use the Nunito Sans font family (font.family.nunito_sans = 'Nunito Sans'), capitalized in ALL CAPS (case.campaign.headline = 'all_caps'), colored in Brand Blue (color.primary.brand_blue = #00529b), and must feature a thin Gold (color.primary.gold = #ffc60a) rule directly beneath.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.headline",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_headline_lockup",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "ordering",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "sequence": [
+          "chart.callout.metric",
+          "chart.callout.label"
+        ],
+        "strict": true
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Statistical callouts: **large and bold** (the % figure is the hero), supporting copy in a **lighter weight beneath**."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Statistical callouts: **large and bold** (the % figure is the hero), supporting copy in a **lighter weight beneath**."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Establish an immediate hierarchical reading order for numerical data highlights.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Statistical callout elements within charts must lead with a large, bold metric/percentage (acting as the hero component), with supporting explanatory copy placed immediately beneath in a lighter text weight.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.callout",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_statistical_callout_layout",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.footnote.font_size",
+          "token_id": "tok_lisraya_type_scale_footnote"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Footnotes: noticeably smaller, clearly separated from primary data."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0006"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Footnotes: noticeably smaller, clearly separated from primary data."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_4_0006"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Prevent layout clutter and ensure visual distinction between main findings and supplementary notes.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Chart footnotes must be set in a noticeably smaller type scale (type_scale.footnote = {'line_height': '18px', 'size': '12px'}) and clearly separated from primary statistical data via layout spacing.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "chart.footnote",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_footnote_spacing",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    }
+  ]
+}

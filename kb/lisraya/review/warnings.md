@@ -1,11 +1,96 @@
 # Build warnings
 
-- tok_lisraya_font_aptos: token_types value 'font_family' unknown (not an other.* proposal); dropped
-- tpl_lisraya_gradient_callout_cta_block: audience='patient' not in vocab; -> None
-- tpl_lisraya_icon_callout_box_block: audience='patient' not in vocab; -> None
-- ast_lisraya_wave_sunshine_gold_long: unknown group_id agr_lisraya_waves; cleared
-- ast_lisraya_wave_sunshine_gold_short: unknown group_id agr_lisraya_waves; cleared
-- rule_lisraya_campaign_approved_headlines_verbatim: governance facet must be an object; dropped
-- rule_lisraya_locked_header_footer_isolation: tags dropped invalid ['regulatory']
-- rule_lisraya_chart_and_table_corner_exception: tags dropped invalid ['chart']
-- rule_lisraya_brand_color_hierarchy: tags dropped invalid ['brand']
+- tok_lisraya_canvas_buttons_cta_general_contrast_checked_to_palette_weight: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_canvas_internal_section_grid_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_brand_blue_cmyk_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_brand_blue_pantone_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_brand_blue_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_callout_surfaces_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_callout_surfaces_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_callout_surfaces_weight: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_coral_cmyk_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_coral_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_dark_navy_cmyk_value_2: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_dark_navy_value_2: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_deep_blue_cmyk_value_2: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_deep_blue_value_2: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_gold_cmyk_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_gold_pantone_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_gold_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_golden_sand_cmyk_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_golden_sand_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_graphite_cmyk_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_graphite_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_light_blue_cmyk_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_light_blue_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_main_callout_key_point_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_main_callout_key_point_weight: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_secondary_data_callout_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_secondary_data_callout_weight: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_sky_blue_cmyk_value_2: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_sky_blue_value_2: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_sunshine_cmyk_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_sunshine_pantone_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_sunshine_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_text_heavy_callout_lists_descriptions_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_text_heavy_callout_lists_descriptions_weight: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_white_cmyk_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_color_white_value_3: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_approved_radius_pairs_print_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_campaign_headline_d_and_m_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_data_tone_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_golden_sand_callout_box_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_light_blue_callout_box_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_numbers_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_punctuation_value: token_types value 'other' unknown (not an other.* proposal); dropped
+- tok_lisraya_comp_wave_top_layers_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_grad_golden_sand_75_gold_sunshine_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_grad_sunshine_75_gold_pct: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_body_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_body_weight_2: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_footnote_reference_text_within_a_section_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_h1_section_hero_headline_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_h1_section_hero_headline_weight_2: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_h2_section_heading_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_h2_section_heading_weight_2: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_h3_subhead_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_h3_subhead_weight_2: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_line_height_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_line_height_pct_2_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_secondary_supporting_body_pct_2: token_types value 'number' unknown (not an other.* proposal); dropped
+- tok_lisraya_type_secondary_supporting_body_weight_2: token_types value 'font_weight' unknown (not an other.* proposal); dropped
+- tok_lisraya_campaign_headline_tinted_letters_opacity: value $refs unknown tokens ['tok_lisraya_opacity_campaign_headline_tint_40']
+- tok_lisraya_main_callout_alignment: value $refs unknown tokens ['tok_lisraya_alignment_center']
+- tok_lisraya_main_callout_rule: value $refs unknown tokens ['tok_lisraya_border_callout_rule']
+- ast_lisraya_nunito_sans_google_fonts_stylesheet: asset_type='stylesheet' not in vocab; -> 'photo'
+- ast_lisraya_wave_sky_blue_deep_blue_long: unknown group_id agr_lisraya_wave_variants; cleared
+- ast_lisraya_wave_sky_blue_deep_blue_short: unknown group_id agr_lisraya_wave_variants; cleared
+- ast_lisraya_wave_sunshine_gold_long: unknown group_id agr_lisraya_wave_variants; cleared
+- ast_lisraya_wave_sunshine_gold_short: unknown group_id agr_lisraya_wave_variants; cleared
+- token dedupe: merged 10 exact duplicates
+- tok_lisraya_color_dark_navy_color_2: duplicate key 'color.dark_navy.color' renamed to 'color.dark_navy.color.lisraya_color_dark_navy_color_2'
+- tok_lisraya_color_light_blue_color_3: duplicate key 'color.light_blue.color' renamed to 'color.light_blue.color.lisraya_color_light_blue_color_3'
+- tok_lisraya_color_white_color_3: duplicate key 'color.white.color' renamed to 'color.white.color.lisraya_color_white_color_3'
+- tok_lisraya_campaign_headline_tinted_letters_opacity: dangling $ref ['tok_lisraya_opacity_campaign_headline_tint_40'] degraded to evidence literal
+- tok_lisraya_main_callout_alignment: dangling $ref ['tok_lisraya_alignment_center'] degraded to evidence literal
+- tok_lisraya_main_callout_rule: dangling $ref ['tok_lisraya_border_callout_rule'] degraded to evidence literal
+- rule_lisraya_chart_palette_and_key_figure_emphasis: tags dropped invalid ['chart']
+- rule_lisraya_icon_callout_outlook_fallback: scope={'clients': ['Outlook desktop (Word engine)'], 'component': 'icon_callout_box'} not in vocab; -> 'brand'
+- rule_lisraya_chart_infographic_headline_casing_and_fonts: tags dropped invalid ['chart']
+- rule_lisraya_approved_campaign_messaging_framework: scope='MOA messaging only' not in vocab; -> 'brand'
+- rule_lisraya_clinical_claim_footnotes: scope={'when': 'clinical claims are present'} not in vocab; -> 'brand'
+- rule_lisraya_patient_quote_attribution_and_imagery: unresolved effect ids ['tok_lisraya_image_photography_treatment']; skipped
+- rule_lisraya_layered_wave_colorways_and_usage: DISCOVERED new section_types entry 'wave' -> registered
+- rule_lisraya_masthead_gradient_logo_copy_device: tags dropped invalid ['top_matter']
+- rule_lisraya_descriptive_image_alt_text: scope='Every image' not in vocab; -> 'brand'
+- rule_lisraya_chart_color_emphasis_logic: tags dropped invalid ['chart']
+- rule_lisraya_chart_data_and_footnote_hierarchy: tags dropped invalid ['chart']
+- rule dedupe: rule_lisraya_complete_palette_table_binding_2 merged into rule_lisraya_complete_palette_table_binding
+- ttab_lisraya_brand_accent_shape_core_container_device: umbrella rule rule_lisraya_brand_accent_shape_core_container_device_table_binding did not survive Pass C; cleared
+- ttab_lisraya_callout_formatting_three_approved_styles_use_jud: umbrella rule rule_lisraya_callout_formatting_three_approved_styles_use_jud_table_binding did not survive Pass C; cleared
+- ttab_lisraya_complete_palette_2: umbrella rule rule_lisraya_complete_palette_table_binding_2 did not survive Pass C; cleared
+- ttab_lisraya_editorial_style_rules: umbrella rule rule_lisraya_editorial_style_rules_table_binding did not survive Pass C; cleared
+- ttab_lisraya_gradient_callout_cta_section_rule: umbrella rule rule_lisraya_gradient_callout_cta_section_rule_table_binding did not survive Pass C; cleared
+- ttab_lisraya_gradient_specifications_approved_set_never_inven: umbrella rule rule_lisraya_gradient_specifications_approved_set_never_inven_table_binding did not survive Pass C; cleared
+- ttab_lisraya_typography_hierarchy_fonts_weights_cases: umbrella rule rule_lisraya_typography_hierarchy_fonts_weights_cases_table_binding did not survive Pass C; cleared
+- ttab_lisraya_typography_hierarchy_fonts_weights_cases_2: umbrella rule rule_lisraya_typography_hierarchy_fonts_weights_cases_table_binding_2 did not survive Pass C; cleared

@@ -1,0 +1,166 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "icon_callout_box_structure",
+      "note": "Both geometry and styling work together to define the unique visual device.",
+      "relation": "co_applies",
+      "src_slug": "icon_callout_box_geometry_rules"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "callout.icon_box.container.fill",
+          "token_id": "tok_lisraya_color_light_blue"
+        },
+        {
+          "element_path": "callout.icon_box.container.radius",
+          "token_id": "tok_lisraya_radius_callout_box"
+        },
+        {
+          "element_path": "callout.icon_box.badge.radius",
+          "token_id": "tok_lisraya_radius_callout_badge"
+        },
+        {
+          "element_path": "callout.icon_box.badge.fill",
+          "token_id": "tok_lisraya_color_white"
+        },
+        {
+          "element_path": "callout.icon_box.badge.shadow",
+          "token_id": "tok_lisraya_shadow_icon_badge"
+        },
+        {
+          "element_path": "callout.icon_box.text.color",
+          "token_id": "tok_lisraya_color_brand_blue"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue `#E6F0F9` fill",
+          "box `border-radius: 40px 8px 40px 8px;`",
+          "border-radius: 20px 4px 20px 4px;",
+          "White `#ffffff` rounded square",
+          "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
+          "Brand Blue `#00529b`, Nunito Sans weight 800"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0022"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "A light-blue accent-shape box containing a short blue headline, with a white icon badge that straddles the box's left edge",
+          "Light Blue `#E6F0F9` fill, single accent shape",
+          "Brand Blue `#00529b`, Nunito Sans weight 800",
+          "White `#ffffff` rounded square holding the line icon (Brand Blue stroke)",
+          "box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
+          "The white badge mirrors the same accent shape at smaller scale, `border-radius: 20px 4px 20px 4px;`",
+          "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+          "the white icon badge must carry a subtle drop shadow so it lifts off the blue box",
+          "This shadow is required on every instance"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0002",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0009",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0018",
+          "u_color_scheme_rules_6_0019",
+          "u_color_scheme_rules_6_0020",
+          "u_color_scheme_rules_6_0022",
+          "u_color_scheme_rules_6_0023"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain the specific asymmetric, high-contrast visual style of the proof-point callout device.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The Icon Callout Box uses a Light Blue (#E6F0F9) container with asymmetric corner radii (40px 8px 40px 8px), Brand Blue (#00529b) text, and a White (#ffffff) icon badge that has mirrored asymmetric radii (20px 4px 20px 4px) and carries a subtle drop shadow (rgba(1, 30, 69, 0.18)).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.icon_box",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_structure",
+      "snippets": "<div style=\"position:relative; padding-left:40px;\">\n\n        <!-- Light Blue accent-shape box (large TL+BR, point TR+BL = 5:1) -->\n        <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n          <tr>\n            <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">\n              <span style=\"font-family:'Nunito Sans',Arial,Helvetica,sans-serif; font-size:21px; line-height:28px; font-weight:800; color:#00529b;\">\n                These improvements occurred as early as four weeks after starting treatment, and they continued getting better through the end of the 52-week study.\n              </span>\n            </td>\n          </tr>\n        </table>\n\n        <!-- White icon badge: mirrors accent radii (20/4/20/4), drop shadow, centered on the edge -->\n        <div style=\"position:absolute; left:0; top:50%; margin-top:-40px; width:80px; height:80px; background-color:#ffffff; border-radius:20px 4px 20px 4px; box-shadow:0 4px 10px rgba(1,30,69,0.18); text-align:center; line-height:80px;\">\n          <img src=\"ICON_URL\" alt=\"\" width=\"48\" height=\"48\" style=\"vertical-align:middle; border:0;\" />\n        </div>\n\n      </div>",
+      "snippets_evidence": {
+        "quotes": [
+          "<div style=\"position:relative; padding-left:40px;\">"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0036"
+        ]
+      },
+      "tags": [
+        "color_application",
+        "spacing",
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "The blue box itself is inset from the left by half the badge width so the badge's outer half has room",
+          "left padding must clear the overhanging badge half plus a gap ( W/2 + 24px)",
+          "horizontally centered on the box's left edge (the edge is the badge's perpendicular bisector  50% over the blue, 50% over the page background)",
+          "place the badge so its center lands exactly on the box's left edge (badge left:0 inside a padding-left:40px wrapper  badge center 40px = box edge). Distance from badge center to box edge must be 0",
+          "If your real badge is a different size, keep the relationships  inset = W/2, box left-padding = W/2 + 24px, badge margin-top = H/2  and the bisector stays exact."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_6_0007",
+          "u_color_scheme_rules_6_0008",
+          "u_color_scheme_rules_6_0010",
+          "u_color_scheme_rules_6_0015",
+          "u_color_scheme_rules_6_0047"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain geometric proportions and layout integrity of the complex overlapping badge structure.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The icon callout box must obey the 50/50 vertical edge overhang layout rules. The container box must be inset from the left by exactly half the badge width (W/2). The badge's center must lie exactly on the box's left edge (distance is 0). The container's left padding must clear the overhanging badge half plus a gap (calculated as W/2 + 24px). The badge must be vertically centered on the box.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.icon_box",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "icon_callout_box_geometry_rules",
+      "tags": [
+        "spacing"
+      ]
+    }
+  ]
+}

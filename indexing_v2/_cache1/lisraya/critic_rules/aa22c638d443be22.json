@@ -1,0 +1,30 @@
+{
+  "findings": [
+    {
+      "description": "Critical assembly-level formatting, color coding, footnote handling, and adjacent background restrictions are completely missing candidate rule mappings, risking lost governance rules.",
+      "finding_id": "f_lisraya_1",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "assembly",
+          "description": "Enforce hexadecimal colors, pixel sizing, inline CSS with Outlook bgcolor duplication, superscript placeholder footnote tokens, and non-adjacent placement of dark-background sections.",
+          "doc_ref": "other_rules[2]",
+          "group_id": "grp_lisraya_other_rules_02",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_name": "rule_lisraya_modular_formatting_and_assembly_rules"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_other_rules_2_0003",
+        "u_other_rules_2_0005",
+        "u_other_rules_2_0006"
+      ]
+    }
+  ]
+}

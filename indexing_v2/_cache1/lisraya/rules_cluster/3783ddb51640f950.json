@@ -1,0 +1,165 @@
+{
+  "relations": [
+    {
+      "dst_slug": "icon_color_palette_exclusivity",
+      "note": "Accessibility rule specifies the default on-palette stroke color (Brand Blue) within the broader palette-only constraint on icon color.",
+      "relation": "refines",
+      "src_slug": "icon_accessibility_sizing_contrast"
+    },
+    {
+      "dst_slug": "icon_color_palette_exclusivity",
+      "note": "Both govern the visual construction of icons (style vs. color) as part of the same iconography topic.",
+      "relation": "cluster",
+      "src_slug": "icon_style_consistency"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "icon.style",
+          "token_id": "tok_lisraya_icon_style"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "minimal line illustration"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Preserve a consistent, recognizable icon system while allowing new icon creation.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "iconography",
+      "rule_text": "All icons use the minimal line illustration style (icon.style = minimal_line_illustration). New icons are permitted but must match this stylistic approach: consistent stroke weight, rounded line caps, and single-color line work.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon.style",
+        "section_types": null
+      },
+      "slug": "icon_style_consistency",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "brand palette tokens (e.g. Brand Blue #00529b)",
+        "subject": "icon colors and backgrounds"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "only within the brand palette"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Icon colors and backgrounds adjustable **only within the brand palette**."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Keep icon coloring on-brand and prevent palette drift.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "iconography",
+      "rule_text": "Icon colors and backgrounds may only be adjusted within the brand palette (e.g. Brand Blue #00529b, Sunshine #faa31b, etc.); no off-palette colors are permitted for icons.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon.color",
+        "section_types": null
+      },
+      "slug": "icon_color_palette_exclusivity",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "icon.min_render_size",
+          "token_id": "tok_lisraya_icon_min_render_size"
+        },
+        {
+          "element_path": "icon.color",
+          "token_id": "tok_lisraya_icon_color_default"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "minimum render size 32×32px in email",
+          "default Brand Blue strokes on light backgrounds"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "intent": "Ensure icon legibility and contrast accessibility across viewing conditions.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Icons must remain legible for low-vision audiences: consider scale and contrast, render at a minimum size of 32×32px in email, and default to Brand Blue (#00529b) strokes on light backgrounds.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "icon.min_render_size",
+        "section_types": null
+      },
+      "slug": "icon_accessibility_sizing_contrast",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "iconography"
+      ]
+    }
+  ]
+}

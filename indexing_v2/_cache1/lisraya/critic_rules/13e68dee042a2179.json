@@ -1,0 +1,168 @@
+{
+  "findings": [
+    {
+      "description": "The core typography/font-pairing table (Agenda/Nunito Sans/Aptos per level and per channel, including the Agenda-as-live-text-in-digital-for-campaign-headline-only exception) is entirely unrepresented by any candidate rule. This is a major brand governance table, not a stylistic aside.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Font-per-channel mapping (Agenda print headlines, Nunito Sans digital/body, Aptos Office fallback) with digital campaign-headline live-text exception for Agenda.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "critical",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0000",
+        "u_content_pattern_rules_1_0001",
+        "u_content_pattern_rules_1_0002",
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005"
+      ]
+    },
+    {
+      "description": "The entire email type scale block (H1–H3 sizes, body 16px minimum, secondary 14px sparingly, footnote 12px, absolute 12px floor) contains multiple distinct hard constraints but none were extracted as rules; only the unrelated line-height rule (u_0019) was captured downstream.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "note": "Split into at least: type-scale-by-level rule, body-16px-minimum rule, secondary-text-usage rule, footnote-must-be-smaller rule, absolute-12px-floor rule."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017",
+        "u_content_pattern_rules_1_0018"
+      ]
+    },
+    {
+      "description": "The [GENERAL]-tagged email CSS font-stack rule (with @font-face/Google Fonts requirement and Outlook fallback rationale) is missing entirely as a rule and, if added, needs an explicit channel=email governance facet to distinguish it from the general typography table.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "doc_ref": "content_pattern_rules[1]",
+          "governance_tag": "GENERAL",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010"
+      ]
+    },
+    {
+      "description": "Rule captures the 150% minimum line-height but drops the [GENERAL]-tagged conditional exception (dark-background text must use 160%, e.g. 16px/26px), which is a distinct governance-scoped sub-requirement.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facet": {
+            "condition": "light_text_on_dark_background",
+            "governance_tag": "GENERAL",
+            "value": "160% (e.g. 16px/26px)"
+          },
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_line_height_minimum"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_body_line_height_minimum",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "Source uses absolute prohibitive language ('Never use two adjacent text blocks at the same size+weight...') which indicates hard_constraint, but rule is tagged strong_default, understating enforceability.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_no_adjacent_same_size_weight_hierarchy"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_no_adjacent_same_size_weight_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0020"
+      ]
+    },
+    {
+      "description": "Available weight lists per font (Agenda, Nunito Sans, Aptos) act as usage constraints tied directly to the font table but are not clustered into any rule, leaving the font-hierarchy governance incomplete.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Only listed weights per font family (Agenda/Nunito Sans/Aptos) may be used.",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "strong_default",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "Missed relation: the 16px body-copy minimum size (u_0015) and the 150% line-height minimum (u_0019) are companion accessibility constraints ('bigger is better') that should be linked or co-clustered, but the size-minimum half is missing as its own rule entirely.",
+      "finding_id": "f_lisraya_07",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": "rule_lisraya_body_line_height_minimum",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0019"
+      ]
+    }
+  ]
+}

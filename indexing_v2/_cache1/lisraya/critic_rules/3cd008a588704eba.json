@@ -1,0 +1,76 @@
+{
+  "findings": [
+    {
+      "description": "The rule 'rule_lisraya_email_type_scale_hierarchy' merges print/digital fallback typography definitions (Agenda, Nunito Sans, Aptos) with the specific digital email type scale. This masks the font weight limitations and CSS stack implementation rules.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "split_rules": [
+            {
+              "class": "typography",
+              "description": "Ensure typography matches specified font families (Agenda, Nunito Sans, Aptos) across print, digital, and fallback platforms with designated weights.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_typography_hierarchy_fonts"
+            },
+            {
+              "class": "typography",
+              "description": "For CSS email implementation, the font stack must be set as: 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_email_font_stack_css"
+            },
+            {
+              "class": "typography",
+              "description": "Establish clear visual hierarchy using the specific email type scale from H1 (28px) down to Footnotes (12px), avoiding identical sizing for adjacent blocks representing different hierarchy levels.",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "rule_id": "rule_lisraya_email_type_scale_hierarchy"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale_hierarchy"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009",
+        "u_content_pattern_rules_1_0010"
+      ]
+    },
+    {
+      "description": "The line-height accessibility rule misses the specific increased line height condition of 160% (e.g., 16px/26px) mandated specifically for light text on dark backgrounds.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "description": "Line height must be minimum 150% for all body copy. For light text on dark backgrounds, line height must be increased further to 160% (e.g., 16px/26px).",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_line_height_accessibility"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_line_height_accessibility",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    }
+  ]
+}

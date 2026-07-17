@@ -1,0 +1,61 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rule groups headlines and body text color constraints together. Although they are structurally sequential, they apply to separate typographic components with distinct fallback/variant logic (e.g. body text requires increased line height on dark backgrounds). Splitting them ensures better granularity.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_headline_and_body_color_binding"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_headline_and_body_color_binding",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0002",
+        "u_color_scheme_rules_1_0003"
+      ]
+    },
+    {
+      "description": "The rule for Coral accent contains a conditional context ('avoid Coral in email sections unless the brief calls for it') which is classified as an advisory or weak constraint, whereas the main constraint ('never for primary CTAs') is a hard constraint. This variation in scope and hardness is partially flattened in the single candidate rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_coral_accent_restriction",
+      "unit_ids": [
+        "u_color_scheme_rules_1_0006"
+      ]
+    },
+    {
+      "description": "There is a missing candidate rule governing color assignments for charts, diagrams, and figures. Specifically, the mandate that Brand Blue and Sky Blue dominate, Sunshine/Gold is reserved for emphasizing key figures, and gray is used for placebo elements, is completely unmapped in the current candidate rules list.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "description": "In charts and diagrams, Brand Blue + Sky Blue must dominate. Sunshine/Gold must be strictly reserved for emphasizing key figures, and gray must be used for placebos.",
+          "doc_ref": "color_scheme_rules[1]",
+          "group_id": "grp_lisraya_color_scheme_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "rule_id": "rule_lisraya_chart_color_distribution"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_1_0004"
+      ]
+    }
+  ]
+}

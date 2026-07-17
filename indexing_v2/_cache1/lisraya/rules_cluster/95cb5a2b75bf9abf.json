@@ -1,0 +1,205 @@
+{
+  "missing_token_requests": [],
+  "relations": [
+    {
+      "dst_slug": "photography_warm_lifestyle",
+      "note": "Wave/gradient overlays apply on top of the lifestyle photography.",
+      "relation": "co_applies",
+      "src_slug": "waves_gradients_overlay_photography"
+    },
+    {
+      "dst_slug": "photography_warm_lifestyle",
+      "note": "Lifestyle photos are cropped into the accent shape.",
+      "relation": "co_applies",
+      "src_slug": "images_in_accent_shape"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "image_treatment.photography.warm_lifestyle",
+          "token_id": "tok_lisraya_image_treatment_warm_lifestyle"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "warm, realistic patient lifestyle imagery"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "warm, realistic patient lifestyle imagery",
+          "real moments of simple, everyday activity (walking the dog, beach, BBQ)",
+          "getting back to themselves"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001"
+        ]
+      },
+      "hardness": "strong_default",
+      "intent": "Photography must feel like relatable everyday life to reinforce the brand's recovery narrative.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Photography uses warm, realistic patient lifestyle imagery (image_treatment.photography.warm_lifestyle = \"warm, realistic patient lifestyle imagery\") — real moments of simple, everyday activity (walking the dog, beach, BBQ), conveying returning to everyday life and \"getting back to themselves.\"",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image_treatment.photography.warm_lifestyle",
+        "section_types": null
+      },
+      "slug": "photography_warm_lifestyle",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "voice_tone"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "accent_shape.radius",
+          "token_id": "tok_lisraya_accent_shape_radius"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "housed in the **Accent shape**",
+          "asymmetric rounded-corner crops, not plain rectangles or circles"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Images are housed in the **Accent shape**",
+          "asymmetric rounded-corner crops, not plain rectangles or circles"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Enforce the signature asymmetric accent-shape crop for all imagery.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Images are housed in the Accent shape (asymmetric rounded-corner crops via accent_shape.radius, default 120px & 6px) — never plain rectangles or circles.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "accent_shape.radius",
+        "section_types": null
+      },
+      "slug": "images_in_accent_shape",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Waves and gradients may overlay photography."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0003"
+        ]
+      },
+      "hardness": "soft_guidance",
+      "intent": "Permit brand wave/gradient devices to sit atop imagery.",
+      "polarity": "may",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Waves and gradients may overlay photography.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "waves_gradients_overlay_photography",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": null,
+        "trigger": "every image"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Every image requires **descriptive alt text**"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Every image requires **descriptive alt text** (brand accessibility rule)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure all imagery is accessible to assistive technology.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Every image requires descriptive alt text (brand accessibility rule).",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "image_alt_text_required",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    }
+  ]
+}

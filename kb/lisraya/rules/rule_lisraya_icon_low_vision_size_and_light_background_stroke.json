@@ -1,0 +1,46 @@
+{
+  "id": "rule_lisraya_icon_low_vision_size_and_light_background_stroke",
+  "brand_id": "lisraya",
+  "rule_class": "accessibility",
+  "tags": [
+    "iconography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "icon"
+  },
+  "applies_when": [
+    {
+      "kind": "background_group",
+      "value": "light"
+    }
+  ],
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "icon.stroke.color",
+        "token_id": "tok_lisraya_color_primary_brand_blue"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_color_primary_brand_blue"
+  ],
+  "asset_ids": [],
+  "rule_text": "For low-vision audiences in email, icons must render at a minimum 32\u00d732px; on light backgrounds, use default Brand Blue (#00529b) strokes.",
+  "intent": "Preserve icon visibility and legibility for low-vision audiences.",
+  "source": "design_bible",
+  "doc_ref": "design_pattern_rules[5]",
+  "group_id": "grp_lisraya_design_pattern_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "For low-vision email icons, minimum 32\u00d732px; on light backgrounds, use Brand Blue #00529b stroke."
+}

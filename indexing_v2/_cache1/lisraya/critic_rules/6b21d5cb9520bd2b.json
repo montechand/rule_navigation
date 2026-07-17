@@ -1,0 +1,134 @@
+{
+  "findings": [
+    {
+      "description": "A single rule only covers the masthead gradient (u_0008) while the blob contains at least three other distinct rule concerns: the approved gradient set governance (heading u_0000 'approved set — never invent gradients' plus table rows u_0003-u_0007), the horizontal direction/orientation constraint (u_0009), and the general usage/approved-values constraint (u_0010). These should be split into separate rules rather than left unextracted or folded into one.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "grp_lisraya_color_scheme_rules_03",
+          "new_rules": [
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_approved_gradient_set",
+              "polarity": "must_not",
+              "summary": "Only the listed gradients (Brand Blue→Dark Navy, Sky Blue→Deep Blue, Sunshine→75% Gold, Golden Sand→White→Light Blue, Golden Sand→75% Gold→Sunshine, Sunshine→light gold masthead) are approved; never invent new gradients."
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_gradient_direction",
+              "polarity": "must",
+              "summary": "Gradients in masthead/banner applications run horizontally, dark/saturated to light, left to right."
+            },
+            {
+              "class": "color_application",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_gradient_usage_scope",
+              "polarity": "must",
+              "summary": "Gradients used as backgrounds, in combination with wave graphic and LISRAYA logo mark; approved values only."
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_gradient_with_logo_mark"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_masthead_gradient_with_logo_mark",
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0001",
+        "u_color_scheme_rules_3_0002",
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007",
+        "u_color_scheme_rules_3_0008",
+        "u_color_scheme_rules_3_0009",
+        "u_color_scheme_rules_3_0010"
+      ]
+    },
+    {
+      "description": "The masthead gradient rule and the implicit 'approved set' governance statement in the heading lack explicit governance facets (e.g., exception/approval process, enforcement scope) despite the heading explicitly framing this as an approved, closed set ('never invent gradients'). No compliance/governance metadata is attached to any rule for this blob.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "color_scheme_rules[3]",
+          "governance": {
+            "approved_set_only": true,
+            "exception_process": "none_specified",
+            "source_heading": "u_color_scheme_rules_3_0000"
+          },
+          "group_id": "grp_lisraya_color_scheme_rules_03"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_gradient_with_logo_mark"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_masthead_gradient_with_logo_mark",
+      "unit_ids": [
+        "u_color_scheme_rules_3_0000",
+        "u_color_scheme_rules_3_0008"
+      ]
+    },
+    {
+      "description": "Rule name/scope 'masthead_gradient_with_logo_mark' does not capture the additional detail that the logo mark must sit at the lightest end of the gradient for contrast — this positional constraint is a distinct sub-rule/relation that is currently unstated in the rule payload.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "detail": "Logo mark must sit at the lightest end of the Sunshine → light gold masthead gradient for contrast.",
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "grp_lisraya_color_scheme_rules_03"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_masthead_gradient_with_logo_mark"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_masthead_gradient_with_logo_mark",
+      "unit_ids": [
+        "u_color_scheme_rules_3_0008"
+      ]
+    },
+    {
+      "description": "Five of seven approved gradient definitions (non-masthead) have no corresponding rule at all in the candidate set, meaning their approved-set membership, stop colors, and usage context (dark backgrounds, blue backgrounds, warm backgrounds, soft light backgrounds, warm light-to-saturated backgrounds) are entirely unextracted.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "color_application",
+          "doc_ref": "color_scheme_rules[3]",
+          "group_id": "grp_lisraya_color_scheme_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "summary": "Non-masthead approved gradients (Brand Blue→Dark Navy, Sky Blue→Deep Blue, Sunshine→75% Gold, Golden Sand→White→Light Blue, Golden Sand→75% Gold→Sunshine) with their designated usage contexts."
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_color_scheme_rules_3_0003",
+        "u_color_scheme_rules_3_0004",
+        "u_color_scheme_rules_3_0005",
+        "u_color_scheme_rules_3_0006",
+        "u_color_scheme_rules_3_0007"
+      ]
+    }
+  ]
+}

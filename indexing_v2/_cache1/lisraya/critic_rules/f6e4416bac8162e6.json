@@ -1,0 +1,168 @@
+{
+  "findings": [
+    {
+      "description": "This rule conflates two distinct facts: the fixed verbatim program name 'My Compass Support' (a copy_editorial verbatim requirement) and the program's operational scope (PAL channels: text/phone/email/in-person; Authorization Support). The scope description is not verbatim campaign copy and belongs to a different rule class (e.g., program_scope/support_services), so bundling it under copy_editorial hard_constraint/must misrepresents its nature.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_support_program_name_verbatim",
+              "polarity": "must"
+            },
+            {
+              "class": "program_scope",
+              "hardness": "soft_constraint",
+              "id": "rule_lisraya_support_program_scope",
+              "polarity": "should"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_support_program_name_and_scope"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_support_program_name_and_scope",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0007"
+      ]
+    },
+    {
+      "description": "The bullet copy includes a regulatory claim ('FDA-approved') and clinical benefit claims (muscle strength, skin symptoms, steroid reliance) that typically require substantiation/regulatory review governance facets (e.g., reviewed_by, claim_substantiation_ref). No governance metadata is attached to this hard_constraint rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facets": {
+            "governance": {
+              "claim_type": "FDA-approved/efficacy",
+              "requires_regulatory_review": true
+            }
+          },
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_product_benefits_bullets_verbatim"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_product_benefits_bullets_verbatim",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0002"
+      ]
+    },
+    {
+      "description": "MOA statements ('targets the root cause', 'turning off inflammatory switches') are medical/mechanism-of-action claims that normally require medical/legal review governance facets. The rule currently has no governance annotation despite being a hard_constraint must-use claim.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "add_facets": {
+            "governance": {
+              "requires_medical_legal_review": true
+            }
+          },
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_moa_messaging_approved_variants"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_moa_messaging_approved_variants",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004"
+      ]
+    },
+    {
+      "description": "Source labels this a 'CTA pattern' (template), distinct from the strictly verbatim headline/benefits/MOA/administration blocks. Classifying it as hard_constraint/must alongside truly verbatim items may overstate rigidity; it is plausibly a soft_constraint/should pattern allowing minor variation (e.g., disease name substitution).",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "hardness": "soft_constraint",
+          "polarity": "should"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_doctor_discussion_cta_pattern"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_doctor_discussion_cta_pattern",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0006"
+      ]
+    },
+    {
+      "description": "Primary and alt MOA statements are two independently quoted verbatim strings labeled distinctly in source ('MOA (primary)' vs 'MOA (alt)'). Merging them into one 'approved_variants' rule risks losing per-quote verbatim integrity and independent tracking (e.g., one variant could be deprecated without affecting the other).",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[7]",
+          "group_id": "grp_lisraya_content_pattern_rules_07",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_moa_primary_verbatim",
+              "polarity": "must"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_moa_alt_verbatim",
+              "polarity": "must"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_moa_messaging_approved_variants"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_moa_messaging_approved_variants",
+      "unit_ids": [
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004"
+      ]
+    },
+    {
+      "description": "Missed relation: all verbatim messaging rules (headline, benefits, MOA, administration, CTA) derive from the same 'Approved Campaign Messaging (verbatim framework)' heading and are meant to co-occur as a единый approved copy block; no relation/co-dependency linking these sibling rules is captured in the group.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "other",
+      "proposed_patch": null,
+      "severity": "info",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_7_0001",
+        "u_content_pattern_rules_7_0002",
+        "u_content_pattern_rules_7_0003",
+        "u_content_pattern_rules_7_0004",
+        "u_content_pattern_rules_7_0005",
+        "u_content_pattern_rules_7_0006"
+      ]
+    }
+  ]
+}

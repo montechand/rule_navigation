@@ -119,11 +119,53 @@ class ShadowedBinding(BaseModel):
     shadowed_by: list[str] = Field(default_factory=list)
 
 
+def render_brand_sheets(snapshot: KBSnapshot) -> str:
+    """Compact markdown for every always-injected global token table (E2).
+
+    Global tables with no ``applies_when`` guard render unconditionally — this
+    is the email-wide injection surface. Campaign-scoped or guarded tables are
+    retrieval-gated and listed by reference only.
+    """
+    lines = [f"# Brand sheets — {snapshot.brand}", ""]
+    gated: list[str] = []
+    for table_id in sorted(snapshot.tables):
+        table = snapshot.tables[table_id]
+        if table.scope != "global" or table.applies_when:
+            gated.append(f"- `{table.id}` ({table.table_type}, scope={table.scope})")
+            continue
+        lines.append(f"## {table.name} ({table.table_type})")
+        lines.append("")
+        header = [column.name for column in table.columns]
+        lines.append("| " + " | ".join(header) + " |")
+        lines.append("|" + "---|" * len(header))
+        for row in table.rows:
+            cells = [
+                str(row.cells.get(column.name, "")).replace("\n", " ").strip()
+                for column in table.columns
+            ]
+            lines.append("| " + " | ".join(cells) + " |")
+        if table.umbrella_rule_id:
+            lines.append("")
+            lines.append(f"Bound by `{table.umbrella_rule_id}`.")
+        lines.append("")
+    if gated:
+        lines.append("## Context-gated tables (retrieval only)")
+        lines.append("")
+        lines.extend(gated)
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def compile_cascade(snapshot: KBSnapshot, output_dir: Path, kb_hash: str) -> ContextIndex:
     """Write deterministic cascade sheets and the context index; remove stale sheets."""
     output_dir = Path(output_dir)
     sheets_dir = output_dir / "sheets"
     sheets_dir.mkdir(parents=True, exist_ok=True)
+
+    if snapshot.tables:
+        (output_dir / "brand_sheets.md").write_text(
+            render_brand_sheets(snapshot), encoding="utf-8"
+        )
 
     bindings = collect_bindings(snapshot)
     contexts = enumerate_contexts(snapshot)

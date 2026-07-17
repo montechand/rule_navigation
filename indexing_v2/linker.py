@@ -504,6 +504,7 @@ async def run_linker_stage(
     work_dir: Path,
     cache_root: Path,
     no_linker: bool = False,
+    console: Any | None = None,
 ) -> tuple[LinkerResult, CandidatesBundle]:
     """Match orphan tokens, apply approved assignments, and persist deterministic artifacts."""
     del units
@@ -566,7 +567,15 @@ async def run_linker_stage(
         if match.tier == _ADJUDICATE
     ]
     adjudicate_pairs.sort(key=lambda row: (row.rule_id, row.token_id))
-    budget = settings.LINKER_MAX_ADJUDICATIONS
+    budget = max(0, settings.LINKER_MAX_ADJUDICATIONS)
+    if budget == 0 and adjudicate_pairs and client is not None:
+        # A zero budget silently skips every adjudication-tier pair; this is
+        # almost always a stray RULE_NAV_LINKER_MAX_ADJUDICATIONS=0 override.
+        if console is not None:
+            console.print(
+                f"[yellow]s6b: LINKER_MAX_ADJUDICATIONS=0 — "
+                f"{len(adjudicate_pairs)} pairs skipped[/yellow]"
+            )
     selected = adjudicate_pairs[:budget] if client is not None else []
     overflow = adjudicate_pairs[len(selected) :]
     for match in overflow:
@@ -628,6 +637,9 @@ async def run_linker_stage(
                 patches_by_rule.setdefault((rule_id, linked_by), []).append(assignment)
                 adjudicated_token_ids.add(match.token_id)
 
+    from indexing_v2.tables import resolve_literal_against_tables, table_row_token_ids
+
+    table_token_ids = table_row_token_ids(patched.tables)
     needs_rule_tokens = [
         {
             "token_id": token_id,
@@ -635,7 +647,16 @@ async def run_linker_stage(
             "key": str(tokens[token_id].get("key") or ""),
         }
         for token_id in orphan_ids
-        if not matches[token_id]
+        if not matches[token_id] and token_id not in table_token_ids
+    ]
+    member_of_table_tokens = [
+        {
+            "token_id": token_id,
+            "note": "member_of_table",
+            "key": str(tokens[token_id].get("key") or ""),
+        }
+        for token_id in orphan_ids
+        if not matches[token_id] and token_id in table_token_ids
     ]
     patches = [
         LinkPatch(
@@ -645,7 +666,11 @@ async def run_linker_stage(
         )
         for (rule_id, linked_by), assignments in sorted(patches_by_rule.items())
     ]
-    unresolved = _rule_literal_rows(rules, list(tokens.values()))
+    unresolved = [
+        row
+        for row in _rule_literal_rows(rules, list(tokens.values()))
+        if resolve_literal_against_tables(row["literal"], patched.tables) is None
+    ]
     reachable_after = _reachable_token_ids(patched)
     remaining_orphan_ids = sorted(set(tokens) - reachable_after)
     result = LinkerResult(
@@ -667,6 +692,7 @@ async def run_linker_stage(
         ),
         needs_rule_tokens=needs_rule_tokens,
         unresolved_rule_literals=unresolved,
+        member_of_table_tokens=member_of_table_tokens,
     )
     _write_result(work_dir, result)
     return result, patched

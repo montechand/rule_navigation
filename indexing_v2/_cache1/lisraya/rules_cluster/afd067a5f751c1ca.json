@@ -1,0 +1,223 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "cta_button_standards",
+      "key_proposal": "border.cta.secondary_width",
+      "quotes": [
+        "2px Brand Blue border"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ],
+      "value": "2px"
+    },
+    {
+      "for_rule_slug": "cta_button_standards",
+      "key_proposal": "padding.cta.button_standard",
+      "quotes": [
+        "padding 14px 32px"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_0_0008"
+      ],
+      "value": "14px 32px"
+    }
+  ],
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "canvas.width",
+          "token_id": "tok_lisraya_size_canvas_width"
+        },
+        {
+          "element_path": "grid.breakpoint.mobile",
+          "token_id": "tok_lisraya_breakpoint_mobile"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Email body width: **600px** fixed",
+          "Mobile breakpoint: **480px**; all multi-column layouts collapse to single column."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0001",
+          "u_design_pattern_rules_0_0002"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Email body width: **600px** fixed, centered; sections must render edge-to-edge at exactly 600px so assembled sections butt cleanly.",
+          "Mobile breakpoint: **480px**; all multi-column layouts collapse to single column.",
+          "Internal section grid: 12-column mental model; practical layouts are 1-col, 2-col (50/50), or image/text split (split (≈40/60)."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0001",
+          "u_design_pattern_rules_0_0002",
+          "u_design_pattern_rules_0_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure consistent email width and reliable responsive collapsing behavior across all clients.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "Email body width must be fixed at 600px (dimension.canvas.width = 600px), centered, with sections rendering edge-to-edge. Multi-column layouts must collapse to a single column at the mobile breakpoint of 480px (breakpoint.grid.mobile = 480px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "canvas_and_grid_baseline",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "spacing.grid.base",
+          "token_id": "tok_lisraya_spacing_rhythm_step"
+        },
+        {
+          "element_path": "section.padding.side",
+          "token_id": "tok_lisraya_padding_section_side"
+        },
+        {
+          "element_path": "section.padding.vertical",
+          "token_id": "tok_lisraya_padding_section_vertical"
+        },
+        {
+          "element_path": "margin.flow.heading_to_body",
+          "token_id": "tok_lisraya_margin_heading_body"
+        },
+        {
+          "element_path": "margin.flow.body_to_cta",
+          "token_id": "tok_lisraya_margin_content_cta_gap"
+        },
+        {
+          "element_path": "margin.flow.image_to_caption",
+          "token_id": "tok_lisraya_margin_image_caption_gap"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Section side padding: 24px",
+          "Vertical rhythm: 8px base unit.",
+          "Section top/bottom internal padding: **32px**",
+          "Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0004",
+          "u_design_pattern_rules_0_0005",
+          "u_design_pattern_rules_0_0006",
+          "u_design_pattern_rules_0_0007"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Section side padding: 24px** left/right (consistent across ALL sections — this is what makes assembly seamless). Full-bleed imagery/gradient backgrounds may run to 600px, but text within them still respects 24px insets.",
+          "**Vertical rhythm: 8px base unit.** All padding/margins are multiples of 8.",
+          "- Section top/bottom internal padding: **32px** (each section owns its own top AND bottom padding; no external margins between sections — assembly is zero-gap stacking).",
+          "- Heading → body gap: 16px. Paragraph → paragraph: 16px. Body → callout/CTA: 24px. Image → caption: 8px."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0004",
+          "u_design_pattern_rules_0_0005",
+          "u_design_pattern_rules_0_0006",
+          "u_design_pattern_rules_0_0007"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Establish consistent visual rhythm and block alignment to allow programmatic zero-gap block assembly.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "spacing",
+      "rule_text": "All internal vertical margins and padding must use multiples of the 8px base unit (spacing.grid.base_unit = 8px). Section side padding must be 24px (padding.section.side = 24px) to ensure seamless stack alignment, and top/bottom internal padding per section must be 32px (padding.section.vertical = 32px). Vertical flows must enforce 16px from heading to body (margin.flow.heading_to_body = 16px), 24px from body to CTA (margin.flow.body_to_cta = 24px), and 8px from image to caption (margin.flow.image_to_caption = 8px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "spacing_and_vertical_rhythm",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "cardinality",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": {
+        "max": 1,
+        "min": null,
+        "per": "section",
+        "target": "cta.button"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "One primary CTA per section maximum."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Buttons/CTA **[GENERAL, contrast-checked to palette]:** Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height** (brand accessibility rule: ≥48px clickable areas), corner radius 24px (fully rounded pill, echoing the rounded brand aesthetic). Secondary CTA: White background, 2px Brand Blue border, Brand Blue text, same metrics. One primary CTA per section maximum."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_0_0008"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Maintain brand CTA design signature while enforcing rigorous mobile accessibility target sizes.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "cta",
+      "rule_text": "CTA buttons must enforce a minimum clickable height of 48px (dimension.accessibility.touch_target_min = 48px) and a corner pill radius of 24px (radius.cta.standard_button = 24px). Primary CTAs feature a Brand Blue (#00529b) background with White text, and secondary CTAs feature a White background with a 2px Brand Blue border. A maximum of one primary CTA is allowed per section.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "cta.button",
+        "section_types": null
+      },
+      "slug": "cta_button_standards",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility",
+        "typography",
+        "color_application"
+      ]
+    }
+  ]
+}

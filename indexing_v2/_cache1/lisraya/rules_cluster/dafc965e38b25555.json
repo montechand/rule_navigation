@@ -1,0 +1,403 @@
+{
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "email_type_scale_hierarchy",
+      "key_proposal": "size.type.h1_email",
+      "quotes": [
+        "H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0012"
+      ],
+      "value": "28px / 36px"
+    },
+    {
+      "for_rule_slug": "email_type_scale_hierarchy",
+      "key_proposal": "size.type.h2_email",
+      "quotes": [
+        "H2 (section heading): 22px / 30px (≈136%), Nunito Sans Bold"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0013"
+      ],
+      "value": "22px / 30px"
+    },
+    {
+      "for_rule_slug": "email_type_scale_hierarchy",
+      "key_proposal": "size.type.h3_email",
+      "quotes": [
+        "H3 (subhead): 18px / 26px (≈144%), Nunito Sans Bold or SemiBold"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0014"
+      ],
+      "value": "18px / 26px"
+    },
+    {
+      "for_rule_slug": "email_type_scale_hierarchy",
+      "key_proposal": "size.type.secondary_email",
+      "quotes": [
+        "Secondary/supporting body: 14px / 21px (150%), Nunito Sans Regular"
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0016"
+      ],
+      "value": "14px / 21px"
+    }
+  ],
+  "relations": [
+    {
+      "dst_slug": "typography_family_hierarchy",
+      "note": "Campaign headline exception narrows the general Agenda/Nunito Sans hierarchy for digital use.",
+      "relation": "refines",
+      "src_slug": "campaign_headline_font_exception"
+    },
+    {
+      "dst_slug": "email_type_scale_hierarchy",
+      "note": "Both are GENERAL email typography baseline rules governing font delivery and scale together.",
+      "relation": "co_applies",
+      "src_slug": "email_font_stack_fallback"
+    },
+    {
+      "dst_slug": "email_type_scale_hierarchy",
+      "note": "Line-height minimum rule elaborates the body/footnote line-heights already set in the type scale.",
+      "relation": "refines",
+      "src_slug": "line_height_minimums"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.font",
+          "token_id": "tok_lisraya_headline_font"
+        },
+        {
+          "element_path": "body.font",
+          "token_id": "tok_lisraya_body_font"
+        },
+        {
+          "element_path": "typography.weight.agenda.light",
+          "token_id": "tok_lisraya_weight_agenda_light"
+        },
+        {
+          "element_path": "typography.weight.agenda.regular",
+          "token_id": "tok_lisraya_weight_agenda_regular"
+        },
+        {
+          "element_path": "typography.weight.agenda.medium",
+          "token_id": "tok_lisraya_weight_agenda_medium"
+        },
+        {
+          "element_path": "typography.weight.agenda.semibold",
+          "token_id": "tok_lisraya_weight_agenda_semibold"
+        },
+        {
+          "element_path": "typography.weight.agenda.bold",
+          "token_id": "tok_lisraya_weight_agenda_bold"
+        },
+        {
+          "element_path": "typography.weight.nunito_sans.extrabold",
+          "token_id": "tok_lisraya_weight_nunito_800"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "**Agenda** (Adobe font)",
+          "**Nunito Sans**",
+          "Available Agenda weights: Light, Regular, Medium, Semibold, Bold.",
+          "Available Nunito Sans weights: Light, Regular, SemiBold, Bold, ExtraBold.",
+          "Available Aptos weights: Regular, Bold."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003",
+          "u_content_pattern_rules_1_0004",
+          "u_content_pattern_rules_1_0007",
+          "u_content_pattern_rules_1_0008",
+          "u_content_pattern_rules_1_0009"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Headlines & headers | **Agenda** (Adobe font) | **Nunito Sans** (Google font), bolder weights, Title Case",
+          "Body copy | **Nunito Sans** | **Nunito Sans** | **Aptos**",
+          "Footers, fine print | Nunito Sans | Nunito Sans | Aptos",
+          "Available Agenda weights: Light, Regular, Medium, Semibold, Bold."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0001",
+          "u_content_pattern_rules_1_0003",
+          "u_content_pattern_rules_1_0004",
+          "u_content_pattern_rules_1_0005",
+          "u_content_pattern_rules_1_0007",
+          "u_content_pattern_rules_1_0008",
+          "u_content_pattern_rules_1_0009"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve the locked cross-medium typeface and weight hierarchy for headlines, body, and footers.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Headlines/headers use Agenda in print, Nunito Sans (bolder weights, Title Case) in digital/email, and Aptos in Word/PPT/Excel; body copy and footers/fine print use Nunito Sans in print and digital, Aptos in Word. Font weight usage is restricted to the available sets: Agenda — Light, Regular, Medium, Semibold, Bold; Nunito Sans — Light, Regular, SemiBold, Bold, ExtraBold; Aptos — Regular, Bold.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "typography_family_hierarchy",
+      "tags": null
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "content_tag",
+          "value": "campaign_headline"
+        }
+      ],
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "digital campaign headline only",
+        "subject": "Agenda (font.headline.print = Agenda) used as live text in digital"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "Agenda may be used as live text in digital for the campaign headline only"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "*Agenda may be used as live text in digital for the campaign headline only*"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Reserve the print headline typeface as a digital exception exclusively for the campaign headline lockup.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "typography",
+      "rule_text": "Agenda (font.headline.print, campaign_headline.font default = Agenda) may only be used as live text in digital contexts for the campaign headline — never for other digital headlines or body text, which remain Nunito Sans.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "campaign_headline.font",
+        "section_types": null
+      },
+      "slug": "campaign_headline_font_exception",
+      "tags": [
+        "copy_editorial"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "font.email.stack",
+          "token_id": "tok_lisraya_font_email_stack"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "'Nunito Sans', Verdana, Helvetica, Arial, sans-serif"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0010"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Nunito Sans must be loaded via `@font-face`/Google Fonts link where the client supports it; the stack guarantees graceful fallback in Outlook and other clients that strip webfonts."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0010"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Ensure consistent brand typography rendering with safe fallback across email clients.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Email CSS font-family must use the fallback stack ('Nunito Sans', Verdana, Helvetica, Arial, sans-serif); Nunito Sans must be loaded via @font-face/Google Fonts where supported, so the stack guarantees graceful degradation in Outlook and other clients that strip webfonts.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "font.email.stack",
+        "section_types": null
+      },
+      "slug": "email_font_stack_fallback",
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email"
+      ],
+      "effect": [
+        {
+          "element_path": "body.size",
+          "token_id": "tok_lisraya_size_body_min"
+        },
+        {
+          "element_path": "body.line_height",
+          "token_id": "tok_lisraya_body_line_height"
+        },
+        {
+          "element_path": "footnote.type",
+          "token_id": "tok_lisraya_footnote_type"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Body: 16px / 24px (150%), Nunito Sans Regular",
+          "Footnote/reference text within a section: 12px / 18px (150%)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0015",
+          "u_content_pattern_rules_1_0017"
+        ]
+      },
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "H1 (section hero headline): 28px / 36px (≈130%), Nunito Sans ExtraBold or Bold",
+          "16px is the brand-mandated minimum for body copy (\"bigger is better\")",
+          "use sparingly, never for primary content",
+          "must be \"noticeably smaller\" than primary data and clearly separated from it",
+          "Never set running text below 12px."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0012",
+          "u_content_pattern_rules_1_0013",
+          "u_content_pattern_rules_1_0014",
+          "u_content_pattern_rules_1_0015",
+          "u_content_pattern_rules_1_0016",
+          "u_content_pattern_rules_1_0017",
+          "u_content_pattern_rules_1_0018"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Preserve a legible, consistent size/weight hierarchy across email section levels.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Email type scale runs H1 28px/36px (Nunito Sans ExtraBold or Bold) → H2 22px/30px (Bold) → H3 18px/26px (Bold or SemiBold) → Body 16px/24px (Regular, brand-mandated minimum for body copy) → Secondary/supporting 14px/21px (Regular, used sparingly, never for primary content) → Footnote 12px/18px, which must be noticeably smaller than and clearly separated from primary data. Running text must never be set below 12px (ISI sizing is owned by its locked component).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "typography.scale",
+        "section_types": null
+      },
+      "slug": "email_type_scale_hierarchy",
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "body.line_height",
+          "token_id": "tok_lisraya_body_line_height"
+        },
+        {
+          "element_path": "light_on_dark.line_height",
+          "token_id": "tok_lisraya_line_height_light_on_dark"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Line height: minimum 150% for all body copy",
+          "use 160% (e.g., 16px/26px)"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0019"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0019"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Guarantee minimum readability/accessibility of body text, with extra spacing on dark backgrounds.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "accessibility",
+      "rule_text": "All body copy requires a minimum line height of 150% (brand accessibility rule); for light text on dark backgrounds, increase further to 160% (e.g., 16px/26px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "body.line_height",
+        "section_types": null
+      },
+      "slug": "line_height_minimums",
+      "tags": [
+        "typography"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "Use a clear **type scale / visual hierarchy** so the reader knows what to read first, next, last. Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_1_0020"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Prevent ambiguous reading order caused by visually indistinguishable adjacent text levels.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "Maintain a clear type scale/visual hierarchy so the reader knows what to read first, next, and last; never use two adjacent text blocks at the same size+weight combination to signal different hierarchy levels.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "type_hierarchy_distinctness",
+      "tags": null
+    }
+  ]
+}

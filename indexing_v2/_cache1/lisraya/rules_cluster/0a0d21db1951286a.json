@@ -1,0 +1,163 @@
+{
+  "relations": [
+    {
+      "dst_slug": "contrast_minimums",
+      "note": "Safe-pair list operationalizes the contrast minimums.",
+      "relation": "depends_on",
+      "src_slug": "safe_color_pairs_and_gold_text_ban"
+    },
+    {
+      "dst_slug": "contrast_minimums",
+      "note": "Both are accessibility obligations applied together.",
+      "relation": "co_applies",
+      "src_slug": "no_color_alone_for_meaning"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "ratio.contrast.body",
+          "token_id": "tok_lisraya_ratio_contrast_body"
+        },
+        {
+          "element_path": "ratio.contrast.large",
+          "token_id": "tok_lisraya_ratio_contrast_large"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "WCAG AA — 4.5:1 body text, 3:1 large text ≥24px or 19px bold"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Test contrast levels",
+          "WCAG AA — 4.5:1 body text, 3:1 large text ≥24px or 19px bold"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0000",
+          "u_color_scheme_rules_4_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": {
+          "method": "semantic"
+        },
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "warn",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure text is legible and WCAG AA accessible.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Test contrast levels (webaim.com or equivalent) for every text/background pair. Meet WCAG AA minimums: 4.5:1 for body text (ratio.contrast.body = 4.5:1) and 3:1 for large text ≥24px or 19px bold (ratio.contrast.large = 3:1).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "contrast_minimums",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "surfaces, rules, and large display emphasis only",
+        "subject": "gold/sunshine text"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "golds are for surfaces, rules, and large display emphasis only"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Known-safe pairs: Brand Blue, Deep Blue, Dark Navy, Graphite on White/Light Blue/Golden Sand; White on Brand Blue/Deep Blue/Dark Navy.",
+          "Avoid:** Gold or Sunshine text on White (fails contrast)",
+          "golds are for surfaces, rules, and large display emphasis only"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0002"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Restrict color pairings to legible combinations and keep gold off body text.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Known-safe text/background pairs: Brand Blue (#00529b), Deep Blue (#003D74), Dark Navy (#011E45), Graphite (#212121) on White (#ffffff)/Light Blue (#E6F0F9)/Golden Sand (#FEF1C8); White on Brand Blue/Deep Blue/Dark Navy. Avoid Gold (#ffc60a) or Sunshine (#faa31b) text on White — it fails contrast; golds are for surfaces, rules, and large display emphasis only.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "safe_color_pairs_and_gold_text_ban",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Don't rely on color alone** to convey meaning — pair with icons, depth, clear copy, or visual feedback."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_4_0003"
+        ]
+      },
+      "hardness": "hard_constraint",
+      "intent": "Ensure meaning is accessible to color-blind and low-vision users.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "accessibility",
+      "rule_text": "Don't rely on color alone to convey meaning — pair with icons, depth, clear copy, or visual feedback.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "no_color_alone_for_meaning",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "relations": [
+    {
+      "dst_slug": "approved_tint_values_by_component",
+      "note": "The exclusivity ban on ad-hoc tints closes the set defined by the specific per-component tint bindings.",
+      "relation": "refines",
+      "src_slug": "no_ad_hoc_tints"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "campaign_headline.letter_tint",
+          "token_id": "tok_lisraya_campaign_headline_letter_tint"
+        },
+        {
+          "element_path": "callout.secondary.fill.opacity",
+          "token_id": "tok_lisraya_callout_secondary_fill_opacity"
+        },
+        {
+          "element_path": "callout.text_heavy.fill.opacity",
+          "token_id": "tok_lisraya_callout_text_heavy_fill_opacity"
+        },
+        {
+          "element_path": "wave.top_layer.opacity",
+          "token_id": "tok_lisraya_wave_top_layer_opacity"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "≈40% tint** of the headline color",
+          "Light Blue callout box: **70% tint**",
+          "Golden Sand callout box: **30% tint**",
+          "Wave top layers: **70% transparency**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "### Tint Rules",
+          "≈40% tint** of the headline color (Gold or Brand Blue colorway)",
+          "70% tint",
+          "30% tint",
+          "70% transparency"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0000",
+          "u_color_scheme_rules_2_0001",
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Lock the exact opacity treatment for each tinted brand element so translucency stays consistent across executions.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Tint/opacity values are locked per component: the campaign headline letters ('D' and 'M') carry ~40% tint of the headline colorway (Gold or Brand Blue), the Light Blue callout fill sits at 70% tint, the Golden Sand callout fill sits at 30% tint, and wave top layers render at 70% transparency.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "approved_tint_values_by_component",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "reserved_for": "the specified tint tokens (campaign headline 40%, Light Blue callout 70%, Golden Sand callout 30%, wave top layer 70%) or full palette values",
+        "subject": "non-palette tint/opacity values"
+      },
+      "effect_evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "intent": "Prevent uncontrolled proliferation of transparency values that would dilute brand color consistency.",
+      "polarity": "must_not",
+      "precedence": 1,
+      "rule_class": "color_application",
+      "rule_text": "Designers must not invent ad-hoc tint/opacity levels; only the full palette colors or the specifically documented tints (40% campaign headline letters, 70% Light Blue callout, 30% Golden Sand callout, 70% wave top layer) are permitted.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "no_ad_hoc_tints",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    }
+  ]
+}

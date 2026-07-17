@@ -1,0 +1,194 @@
+{
+  "findings": [
+    {
+      "description": "Single rule is mapped to the whole blob but only reflects the 'bold at most' budget in u0001. It ignores four other structurally distinct constraints (always-bold whitelist u0002, never-bold blacklist u0003, emphasis-device stacking cap u0004, underline/italic restriction u0005), each with different polarity (must_include vs must_not vs must_not_exceed) and scope exceptions. This is severe under-clustering; the group should be split into at least 5 rules.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_bold_hierarchy_budget",
+              "polarity": "must_not_exceed",
+              "scope": "bold usage per email section"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_bold_always_list",
+              "polarity": "must_include",
+              "scope": "callout text, statistical callout numbers, brand name (first instance, focal benefit claim)"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_bold_never_list",
+              "polarity": "must_not",
+              "scope": "full paragraphs, footnotes/refs, >15% body text, prepositional filler, generic name"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_emphasis_device_cap",
+              "polarity": "must_not",
+              "scope": "bold+ALLCAPS+color combo except chart headlines/campaign headline lockup; max 2 devices per element"
+            },
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_underline_italic_restriction",
+              "polarity": "must_not",
+              "scope": "underlining except hyperlinks; italics reserved for study names/notes/citations"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_bold_hierarchy_budget"
+        ]
+      },
+      "severity": "critical",
+      "target_entity_id": "rule_lisraya_bold_hierarchy_budget",
+      "unit_ids": [
+        "u_content_pattern_rules_3_0001",
+        "u_content_pattern_rules_3_0002",
+        "u_content_pattern_rules_3_0003",
+        "u_content_pattern_rules_3_0004",
+        "u_content_pattern_rules_3_0005"
+      ]
+    },
+    {
+      "description": "No rule captures the 'always bold' whitelist (callout text per §1.7, statistical callout numbers, brand name as focal point first instance per section). This is a distinct must_include obligation entirely missing from the candidate set, including a cross-reference to callout spec §1.7 that should be modeled as a relation.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must_include",
+          "relations": [
+            "ref:callout_specs_1_7"
+          ],
+          "scope": "always-bold whitelist"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0002"
+      ]
+    },
+    {
+      "description": "No rule captures the 'never bold' blacklist (full paragraphs, footnotes/references, >15% running text cap, prepositional filler, generic name). This is a distinct must_not constraint with its own quantitative threshold (~15%), separate from the per-section budget rule, and is missing.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[3]",
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "scope": "never-bold blacklist incl. 15% running-text cap"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0003"
+      ]
+    },
+    {
+      "description": "Missing rule for the prohibition on stacking bold+ALL CAPS+color emphasis simultaneously, with a named exception scope (chart headlines, campaign headline lockup) and a general 'max two emphasis devices' cap. This has its own polarity (must_not) and exception governance not represented anywhere.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[3]",
+          "exceptions": [
+            "chart headlines",
+            "campaign headline lockup"
+          ],
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "scope": "emphasis device stacking"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0004"
+      ]
+    },
+    {
+      "description": "Missing rule for underline/italic restrictions (no underlining except real hyperlinks; no italic for emphasis in patient copy, reserved for study names, 'Note:', and citations). Distinct scope (patient copy) and distinct exception list not captured by any candidate rule.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "copy_editorial",
+          "doc_ref": "content_pattern_rules[3]",
+          "exceptions": [
+            "hyperlinks",
+            "study names",
+            "Note:",
+            "citations"
+          ],
+          "group_id": "grp_lisraya_content_pattern_rules_03",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "scope": "underline/italic usage in patient copy"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_3_0005"
+      ]
+    },
+    {
+      "description": "Heading marks section as '[GENERAL — calibrated to the guide's callout/chart patterns]', signaling this rule set is a calibrated general default rather than an absolute rule, and cross-references callout/chart pattern specs elsewhere in the guide. The candidate rule carries no governance facet (e.g., applicability note, source calibration, or reference linkage) reflecting this conditional/general status.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[3]",
+          "governance_note": "GENERAL — calibrated to callout/chart chart patterns; see chart/callout pattern specs",
+          "group_id": "grp_lisraya_content_pattern_rules_03"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_bold_hierarchy_budget"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_bold_hierarchy_budget",
+      "unit_ids": [
+        "u_content_pattern_rules_3_0000",
+        "u_content_pattern_rules_3_0001"
+      ]
+    }
+  ]
+}

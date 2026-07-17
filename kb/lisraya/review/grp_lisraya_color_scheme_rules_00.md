@@ -30,9 +30,28 @@ doc_ref: `color_scheme_rules[0]`
 | White | `#ffffff` | 255, 255, 255 | 0, 0, 0, 0 |
 ````
 
-## Extracted rules (1)
+## Extracted rules (2)
 
-### rule_lisraya_brand_palette_definitions
-- class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: The lisraya design system must adhere strictly to the established brand palette containing the Primary (Brand Blue = #00529b, Sunshine = #faa31b, Gold = #ffc60a), Secondary (Sky Blue = #358CCB, Deep Blue = #003D74, Dark Navy = #011E45), and Tertiary (Coral = #F26A38, Light Blue = #E6F0F9, Golden Sand = #FEF1C8, Graphite = #212121, White = #ffffff) colors.
-- intent: Define the authorized color palette tiers and their absolute hexadecimal mappings.
+### rule_lisraya_complete_palette_table_binding
+- class=assembly scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: The Complete Palette table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.
+
+| Name | HEX | RGB | CMYK | Pantone |
+|---|---|---|---|---|
+| Brand Blue | `#00529b` | 0, 82, 155 | 100, 76, 6, 1 | 2145 C |
+| Sunshine | `#faa31b` | 250, 163, 27 | 0, 42, 100, 0 | 137 C |
+| Gold | `#ffc60a` | 255, 198, 10 | 0, 23, 100, 0 | 7548 C |
+- intent: Bind the Complete Palette table values verbatim.
+
+### rule_lisraya_complete_palette_table_binding_3
+- class=assembly scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: The Complete Palette table is a closed, brand-approved set; every row binds its listed values exactly as specified. Do not invent or alter rows.
+
+| Name | HEX | RGB | CMYK |
+|---|---|---|---|
+| Coral | `#F26A38` | 242, 106, 56 | 0, 73, 87, 0 |
+| Light Blue | `#E6F0F9` | 230, 240, 249 | 8, 2, 0, 0 |
+| Golden Sand | `#FEF1C8` | 254, 241, 200 | 0, 3, 24, 0 |
+| Graphite | `#212121` | 33, 33, 33 | 0, 0, 0, 88 |
+| White | `#ffffff` | 255, 255, 255 | 0, 0, 0, 0 |
+- intent: Bind the Complete Palette table values verbatim.

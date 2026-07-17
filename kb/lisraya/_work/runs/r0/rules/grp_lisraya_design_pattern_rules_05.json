@@ -3,10 +3,75 @@
   "group_id": "grp_lisraya_design_pattern_rules_05",
   "missing_token_requests": [],
   "original_text": "### Iconography\n- Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work).\n- Icon colors and backgrounds adjustable **only within the brand palette**.\n- Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]",
-  "relations": [],
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_minimal_line_icon_style_palette",
+      "dst_slug": "minimal_line_icon_style_palette",
+      "note": "The email accessibility requirements refine the general iconography treatment for email use on light backgrounds.",
+      "relation": "refines",
+      "src_rule_id": "rule_lisraya_email_icon_low_vision_rendering",
+      "src_slug": "email_icon_low_vision_rendering"
+    }
+  ],
   "rules": [
     {
       "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "icon.style",
+          "token_id": "tok_lisraya_icon_style_minimal_line"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "minimal line illustration"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work).",
+          "Icon colors and backgrounds adjustable **only within the brand palette**."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_5_0001",
+          "u_design_pattern_rules_5_0002"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_minimal_line_icon_style_palette",
+      "intent": "Maintain a clear, recognizable, and consistently branded icon system.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "iconography",
+      "rule_text": "Icons use the minimal line illustration style (minimal single-color line work with rounded line caps); any new icons must match this stylistic approach, including consistent stroke weight. Icon colors and backgrounds may be adjusted only within the brand palette.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "icon",
+        "section_types": null
+      },
+      "slug": "minimal_line_icon_style_palette",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "background_group",
+          "value": "light"
+        }
+      ],
       "audience": null,
       "constraint_type": "binding",
       "content_sub_type_ids": null,
@@ -15,18 +80,17 @@
       ],
       "effect": [
         {
-          "element_path": "icon.min_width",
-          "token_id": "tok_lisraya_size_icon_min_render"
+          "element_path": "icon.minimum_render_size",
+          "token_id": "tok_lisraya_size_icon_minimum_render"
         },
         {
-          "element_path": "icon.stroke_color",
-          "token_id": "tok_lisraya_color_brand_blue"
+          "element_path": "icon.stroke.color",
+          "token_id": "tok_lisraya_color_primary_brand_blue"
         }
       ],
       "effect_evidence": {
         "quotes": [
-          "minimum render size 32×32px in email",
-          "default Brand Blue strokes on light backgrounds"
+          "minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds."
         ],
         "unit_ids": [
           "u_design_pattern_rules_5_0003"
@@ -35,34 +99,30 @@
       "evaluation_scope": "element",
       "evidence": {
         "quotes": [
-          "Style: **minimal line illustration** for clarity and quick recall. New icons are permitted but **must match this stylistic approach** (consistent stroke weight, rounded line caps, single-color line work).",
-          "Icon colors and backgrounds adjustable **only within the brand palette**.",
           "Consider scale and contrast for low-vision audiences. [GENERAL: minimum render size 32×32px in email; default Brand Blue strokes on light backgrounds.]"
         ],
         "unit_ids": [
-          "u_design_pattern_rules_5_0001",
-          "u_design_pattern_rules_5_0002",
           "u_design_pattern_rules_5_0003"
         ]
       },
       "governance": null,
       "hardness": "hard_constraint",
-      "id": "rule_lisraya_iconography_style_and_accessibility",
-      "intent": "Maintain visual consistency of brand icons while securing necessary visual accessibility benchmarks.",
+      "id": "rule_lisraya_email_icon_low_vision_rendering",
+      "intent": "Keep email icons legible and sufficiently contrasted for low-vision audiences.",
       "polarity": "must",
       "precedence": 0,
-      "rule_class": "iconography",
-      "rule_text": "Icons must use a minimal line illustration style featuring a consistent stroke weight, rounded line caps, and single-color line work. Icon colors and backgrounds must only be adjusted within the brand palette. For low-vision accessibility in email, icons must render at a minimum size of 32×32px (dimension.accessibility.icon_render_min = 32px) and default to Brand Blue (color.primary.brand_blue = #00529b) strokes on light backgrounds.",
+      "rule_class": "accessibility",
+      "rule_text": "For low-vision accessibility in email, icons must render at least 32×32px; on light backgrounds, default icon strokes use Brand Blue (#00529b). Consider scale and contrast for low-vision audiences.",
       "scope": "org_baseline",
       "selector": {
         "element_path": "icon",
         "section_types": null
       },
-      "slug": "iconography_style_and_accessibility",
+      "slug": "email_icon_low_vision_rendering",
       "snippets": null,
       "snippets_evidence": null,
       "tags": [
-        "accessibility",
+        "iconography",
         "color_application"
       ]
     }

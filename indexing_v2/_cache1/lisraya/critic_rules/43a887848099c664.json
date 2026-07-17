@@ -1,0 +1,50 @@
+{
+  "findings": [
+    {
+      "description": "The candidate rules completely omitted the mandatory requirements for locked header/footer components (logo, copyright, ® legal line, job code [mm/yy], Indication, and ISI) and the strict negative constraint forbidding their reproduction within body sections.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "layout_design",
+          "description": "Never reproduce the Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, or ISI in body sections, as they must reside exclusively within the locked header/footer components.",
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "hardness": "hard_constraint",
+          "polarity": "must_not",
+          "rule_id": "rule_lisraya_locked_components_non_reproduction"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    },
+    {
+      "description": "The rule for clinical claims footnotes misses the governance reference section identifier (§1.2) mentioned in the source unit.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "governance_reference": "§1.2",
+          "group_id": "grp_lisraya_content_pattern_rules_09"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claims_footnotes"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claims_footnotes",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    }
+  ]
+}

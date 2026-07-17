@@ -1,0 +1,201 @@
+{
+  "findings": [
+    {
+      "description": "The typography hierarchy table (font family per level/channel: Agenda/Nunito Sans/Aptos) and the associated available-weights lists have no corresponding rule at all in the candidate set. This entire font-assignment governance block is missing from the cluster.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Font family assignments per hierarchy level and channel (Print/Digital/Word-PPT-Excel) plus available weights per typeface",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0000",
+        "u_content_pattern_rules_1_0001",
+        "u_content_pattern_rules_1_0002",
+        "u_content_pattern_rules_1_0003",
+        "u_content_pattern_rules_1_0004",
+        "u_content_pattern_rules_1_0005",
+        "u_content_pattern_rules_1_0007",
+        "u_content_pattern_rules_1_0008",
+        "u_content_pattern_rules_1_0009"
+      ]
+    },
+    {
+      "description": "The [GENERAL] email font-stack CSS rule (fallback stack, @font-face loading requirement) is a distinct governance statement not represented by either candidate rule.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Email font stack CSS with Nunito Sans primary and Verdana/Helvetica/Arial/sans-serif fallback; must load via @font-face/Google Fonts where supported",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must",
+          "scope": "general/email"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0010"
+      ]
+    },
+    {
+      "description": "This single rule merges seven distinct size/line-height specs (H1, H2, H3, body minimum, secondary/supporting, footnote, absolute floor) that carry different hardness/polarity: the 16px body minimum and 'never below 12px' floor are hard mandates, while H1-H3 weight choices ('Bold or SemiBold') and secondary text usage ('use sparingly') are softer guidance. Should be split into at least two rules: a hard type-size-floor rule and a recommended type-scale rule.",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "splits": [
+            {
+              "class": "typography",
+              "description": "Never set running text below 12px; body copy minimum 16px",
+              "hardness": "hard_constraint",
+              "polarity": "must_not",
+              "units": [
+                "u_content_pattern_rules_1_0015",
+                "u_content_pattern_rules_1_0018"
+              ]
+            },
+            {
+              "class": "typography",
+              "description": "Recommended email heading/subhead/secondary type scale (H1/H2/H3/secondary/footnote sizes and weights)",
+              "hardness": "guideline",
+              "polarity": "should",
+              "units": [
+                "u_content_pattern_rules_1_0011",
+                "u_content_pattern_rules_1_0012",
+                "u_content_pattern_rules_1_0013",
+                "u_content_pattern_rules_1_0014",
+                "u_content_pattern_rules_1_0016",
+                "u_content_pattern_rules_1_0017"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale_hierarchy"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017",
+        "u_content_pattern_rules_1_0018"
+      ]
+    },
+    {
+      "description": "Source explicitly tags these items as [GENERAL], indicating a governance scope facet (general vs brand-specific) that is not captured on the candidate rules.",
+      "finding_id": "f_lisraya_04",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "governance_scope": "general",
+          "group_id": "grp_lisraya_content_pattern_rules_01"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_email_type_scale_hierarchy",
+          "rule_lisraya_body_line_height_minimum"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_email_type_scale_hierarchy",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "Unit conflates two rules of different hardness: 'minimum 150% for all body copy' is a hard brand accessibility rule, while the increase to 160% for light-on-dark is a conditional [GENERAL] recommendation ('use 160%'). Clustering them as one hard_constraint rule overstates the hardness/polarity of the conditional guidance.",
+      "finding_id": "f_lisraya_05",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "splits": [
+            {
+              "class": "accessibility",
+              "description": "Minimum 150% line height for all body copy",
+              "hardness": "hard_constraint",
+              "polarity": "must",
+              "units": [
+                "u_content_pattern_rules_1_0019"
+              ]
+            },
+            {
+              "class": "accessibility",
+              "description": "For light text on dark backgrounds, increase line height further, e.g. 160% (16px/26px)",
+              "hardness": "guideline",
+              "polarity": "should",
+              "units": [
+                "u_content_pattern_rules_1_0019"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_body_line_height_minimum"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_body_line_height_minimum",
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    {
+      "description": "The visual-hierarchy governance rule ('never use two adjacent text blocks at same size+weight to signal different hierarchy levels') is a distinct, unclustered typography rule missing from the candidate set.",
+      "finding_id": "f_lisraya_06",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "class": "typography",
+          "description": "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels",
+          "doc_ref": "content_pattern_rules[1]",
+          "group_id": "grp_lisraya_content_pattern_rules_01",
+          "hardness": "hard_constraint",
+          "polarity": "must_not"
+        },
+        "target_entity_ids": []
+      },
+      "severity": "minor",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_content_pattern_rules_1_0020"
+      ]
+    }
+  ]
+}

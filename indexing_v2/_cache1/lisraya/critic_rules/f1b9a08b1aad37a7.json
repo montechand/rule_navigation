@@ -1,0 +1,94 @@
+{
+  "findings": [
+    {
+      "description": "The source unit bundles two distinct requirements: (1) attribution formatting/styling for patient quotes (copy_editorial) and (2) a mandatory pairing with warm lifestyle imagery (a layout/assembly concern). Clustering both under a single copy_editorial rule loses the imagery-pairing obligation, which has different governance implications (image sourcing/brand tone) than text styling.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "split",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "new_rules": [
+            {
+              "class": "copy_editorial",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_patient_quote_attribution_style",
+              "polarity": "must",
+              "scope": "patient quote attribution format and styling (name/patient label, italic/distinguished styling)"
+            },
+            {
+              "class": "assembly",
+              "hardness": "hard_constraint",
+              "id": "rule_lisraya_patient_quote_imagery_pairing",
+              "polarity": "must",
+              "scope": "patient quotes must be paired with warm lifestyle imagery"
+            }
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_patient_quote_attribution_style"
+        ]
+      },
+      "severity": "major",
+      "target_entity_id": "rule_lisraya_patient_quote_attribution_style",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0002"
+      ]
+    },
+    {
+      "description": "Source unit cites a governance reference (§1.2) tying the footnote-marker requirement to a specific policy/legal section, but the candidate rule carries no citation or governance facet capturing this cross-reference, so traceability to the underlying policy section is lost.",
+      "finding_id": "f_lisraya_02",
+      "finding_type": "governance_miss",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "governance_citation": "§1.2",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "note": "add citation/governance facet linking footnote marker requirement to policy §1.2"
+        },
+        "target_entity_ids": [
+          "rule_lisraya_clinical_claim_footnote_markers"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_clinical_claim_footnote_markers",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0001"
+      ]
+    },
+    {
+      "description": "The source unit enumerates six distinct locked elements (Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, ISI). The candidate rule collapses these into a single unscoped 'legal elements' entity without preserving the explicit enumeration, risking under-specification of scope for downstream compliance checks (e.g., a reviewer might miss that job code or Indication is included).",
+      "finding_id": "f_lisraya_03",
+      "finding_type": "other",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "update",
+        "payload": {
+          "doc_ref": "content_pattern_rules[9]",
+          "group_id": "grp_lisraya_content_pattern_rules_09",
+          "note": "explicitly enumerate locked components covered by must_not-reproduce-in-sections constraint",
+          "scope_elements": [
+            "Priovant logo",
+            "copyright line",
+            "® legal line",
+            "job code [mm/yy]",
+            "Indication",
+            "ISI"
+          ]
+        },
+        "target_entity_ids": [
+          "rule_lisraya_locked_header_footer_legal_elements"
+        ]
+      },
+      "severity": "minor",
+      "target_entity_id": "rule_lisraya_locked_header_footer_legal_elements",
+      "unit_ids": [
+        "u_content_pattern_rules_9_0003"
+      ]
+    }
+  ]
+}

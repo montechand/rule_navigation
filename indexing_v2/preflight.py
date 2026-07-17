@@ -46,11 +46,42 @@ class _CacheOnlyClient:
         raise CacheMiss("uncached chat call required")
 
 
+# Settings that silently disable pipeline features when forced to zero/false
+# by a stray RULE_NAV_* env override (the F1 incident: budget=0 skipped every
+# linker adjudication with no visible signal).
+_DEGENERATE_SETTINGS = (
+    ("LINKER_MAX_ADJUDICATIONS", 0),
+    ("REF_RETRIES", 0),
+    ("MAX_CRITIC_ROUNDS", 0),
+    ("MAX_GAP_ROUNDS", 0),
+)
+
+
+def check_degenerate_env(echo: Any = print) -> list[str]:
+    """Warn when env overrides force a setting to a degenerate value."""
+    import os
+
+    warnings: list[str] = []
+    for name, degenerate in _DEGENERATE_SETTINGS:
+        env_key = settings._ENV_KEYS.get(name)
+        if env_key is None or os.getenv(env_key) is None:
+            continue
+        if getattr(settings, name) == degenerate:
+            warnings.append(
+                f"WARNING: {env_key} overrides {name} to degenerate value "
+                f"{degenerate!r} — the feature it gates is disabled"
+            )
+    for message in warnings:
+        echo(message)
+    return warnings
+
+
 async def _run(brand: str) -> int:
     work_dir = config.kb_dir(brand) / "_work"
     units = read_jsonl(work_dir / "units.jsonl", SourceUnit)
     labels = read_jsonl(work_dir / "unit_labels.jsonl", UnitLabel)
     print(f"preflight {brand}: {len(units)} units, {len(settings.ENSEMBLE_RUNS)} run variants")
+    check_degenerate_env()
     try:
         frozen = await run_token_phase(
             brand,

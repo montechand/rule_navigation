@@ -96,7 +96,7 @@ from indexing_v2.extraction.segmenter import run_segmenter
 from shared import config
 from shared.llm import Usage
 from shared.registries import get_registries
-from shared.schemas import RuleGroup, RuleRelation
+from shared.schemas import BrandTokenTable, RuleGroup, RuleRelation
 
 MANIFEST_SCHEMA_VERSION = "2.0"
 DRIVER_VERSION = "wp16-1.0.0"
@@ -226,6 +226,7 @@ class PassCResult(BaseModel):
     warns: list[str]
     sidecars: dict[str, dict[str, Any]]
     confidence_by_id: dict[str, str]
+    tables: dict[str, Any] = {}
 
 
 class BuildOutcome(BaseModel):
@@ -835,6 +836,132 @@ def _strip_evidence(entity: dict[str, Any]) -> dict[str, Any]:
     return cleaned
 
 
+def _degrade_dangling_token_refs(tokens: dict[str, Any], warns: Warnings) -> None:
+    """Terminal degrade before s8: a ``$ref`` to a token that did not survive
+    (s3 quarantine in every run, critic delete, …) falls back to the holder's
+    own verified evidence literal, else null + ``unresolved_refs``. DTCG export
+    is fail-closed on unknown refs, so these can never reach it.
+    """
+    ids = set(tokens)
+    for token in tokens.values():
+        value = token.value
+        if not isinstance(value, dict):
+            continue
+        unresolved: list[str] = []
+        default = value.get("default")
+        if (
+            isinstance(default, dict)
+            and set(default) == {"$ref"}
+            and default["$ref"] not in ids
+        ):
+            unresolved.append(str(default["$ref"]))
+            quotes = (value.get("default_evidence") or {}).get("quotes") or []
+            value["default"] = quotes[0] if quotes else None
+        for variant in value.get("variants") or []:
+            if not isinstance(variant, dict):
+                continue
+            var_value = variant.get("value")
+            if (
+                isinstance(var_value, dict)
+                and set(var_value) == {"$ref"}
+                and var_value["$ref"] not in ids
+            ):
+                unresolved.append(str(var_value["$ref"]))
+                quotes = (variant.get("evidence") or {}).get("quotes") or []
+                variant["value"] = quotes[0] if quotes else None
+        if unresolved:
+            token.notes = (
+                f"{token.notes} " if token.notes else ""
+            ) + f"[unresolved_refs: {', '.join(sorted(set(unresolved)))}]"
+            warns.add(
+                f"{token.id}: dangling $ref {sorted(set(unresolved))} degraded to "
+                "evidence literal"
+            )
+
+
+def _uniquify_token_keys(tokens: dict[str, Any], warns: Warnings) -> None:
+    """Ensure DTCG path bijection: no two tokens share the same ``key``.
+
+    Critic patches (and rare merge residue) can leave duplicate keys that crash
+    s8 export. Prefer a free dotted alias when present; otherwise suffix with id.
+    """
+    by_key: dict[str, list[Any]] = {}
+    for token in tokens.values():
+        by_key.setdefault(str(token.key), []).append(token)
+    claimed = set(by_key)
+    for key, group in sorted(by_key.items()):
+        if len(group) < 2:
+            continue
+        group.sort(key=lambda token: str(token.id))
+        for token in group[1:]:
+            aliases = [
+                str(alias)
+                for alias in (token.aliases or [])
+                if isinstance(alias, str) and "." in alias and alias not in claimed
+            ]
+            new_key = aliases[0] if aliases else f"{key}.{str(token.id).removeprefix('tok_')}"
+            base = new_key
+            n = 2
+            while new_key in claimed:
+                new_key = f"{base}_{n}"
+                n += 1
+            old_key = str(token.key)
+            token.aliases = sorted(set(token.aliases or []) | {old_key})
+            token.key = new_key
+            claimed.add(new_key)
+            warns.add(f"{token.id}: duplicate key {old_key!r} renamed to {new_key!r}")
+
+
+def validate_table(
+    raw: dict[str, Any],
+    brand: str,
+    catalog_ids: set[str],
+    rule_ids: set[str],
+    warns: Warnings,
+) -> BrandTokenTable | None:
+    """Pass C validation for token_table entities (mirrors validate_rule).
+
+    Id/slug hygiene, row-token refs restricted to the validated catalog, and
+    umbrella_rule_id cleared when the rule did not survive validation.
+    """
+    stripped = {
+        key: value
+        for key, value in raw.items()
+        if key not in {"evidence", "extraction_meta", "entity_kind", "compiled_by"}
+    }
+    table_id = str(stripped.get("id") or "")
+    if not table_id.startswith(f"ttab_{brand}_"):
+        warns.add(f"{table_id or 'table'}: id must start with ttab_{brand}_; skipped")
+        return None
+    rows = stripped.get("rows") or []
+    kept_rows: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        token_ids = [
+            token_id
+            for token_id in (row.get("token_ids") or [])
+            if str(token_id) in catalog_ids
+        ]
+        dropped = sorted(set(map(str, row.get("token_ids") or [])) - set(token_ids))
+        if dropped:
+            warns.add(f"{table_id}: row {row.get('row_key')}: dropped uncataloged token refs {dropped}")
+        kept_rows.append({**row, "token_ids": token_ids})
+    stripped["rows"] = kept_rows
+    umbrella = stripped.get("umbrella_rule_id")
+    if umbrella is not None and str(umbrella) not in rule_ids:
+        warns.add(f"{table_id}: umbrella rule {umbrella} did not survive Pass C; cleared")
+        stripped["umbrella_rule_id"] = None
+    stripped.setdefault("brand_id", brand)
+    try:
+        return BrandTokenTable.model_validate(stripped)
+    except Exception as exc:  # pydantic ValidationError — malformed table payload
+        # A table failing schema validation is dropped from the KB (rules and
+        # row tokens still ship); the warning surfaces it for review.
+        warns.add(f"{table_id}: schema validation failed ({exc}); skipped")
+        return None
+
+
 def _prepare_rule_for_pass_c(raw_rule: dict[str, Any], brand: str) -> dict[str, Any]:
     """Strip evidence then backfill v1-required prose fields from authoritative quotes."""
     stripped = _strip_evidence(raw_rule)
@@ -850,7 +977,13 @@ def _prepare_rule_for_pass_c(raw_rule: dict[str, Any], brand: str) -> dict[str, 
             elif stripped.get("effect") is not None:
                 stripped["rule_text"] = json.dumps(stripped["effect"], sort_keys=True)
             else:
-                stripped["rule_text"] = str(stripped.get("id") or "rule")
+                # An id is not rule text: strip the rule_{brand}_ prefix so it
+                # can't launder into v1 slug derivation, and de-slugify.
+                stripped["rule_text"] = (
+                    str(stripped.get("id") or "rule")
+                    .removeprefix(f"rule_{brand}_")
+                    .replace("_", " ")
+                )
     if not str(stripped.get("intent") or "").strip():
         stripped["intent"] = str(stripped["rule_text"])[:160]
     rule_id = raw_rule.get("id")
@@ -1359,6 +1492,11 @@ async def _run_s6b(ctx: BuildContext) -> None:
     bundle = ctx.artifacts.get("candidates_bundle")
     if bundle is None:
         bundle = gap.candidates
+    _stage_log(
+        ctx,
+        f"s6b workload: budget={settings.LINKER_MAX_ADJUDICATIONS} "
+        f"gap_feedback={settings.LINKER_GAP_FEEDBACK}",
+    )
     result, patched_bundle = await run_linker_stage(
         bundle=bundle,
         provenance=gap.provenance,
@@ -1368,6 +1506,7 @@ async def _run_s6b(ctx: BuildContext) -> None:
         work_dir=ctx.work_dir,
         cache_root=ctx.cache_root,
         no_linker=ctx.options.no_linker,
+        console=ctx.console,
     )
     if settings.LINKER_GAP_FEEDBACK and result.needs_rule_tokens:
         labels = ctx.artifacts.get("labels") or read_jsonl(
@@ -1414,6 +1553,7 @@ async def _run_s6b(ctx: BuildContext) -> None:
                 usage=ctx.usage,
                 work_dir=ctx.work_dir,
                 cache_root=ctx.cache_root,
+                console=ctx.console,
             )
             ctx.artifacts["gap_result"] = feedback
     ctx.artifacts["candidates_bundle"] = patched_bundle
@@ -1478,6 +1618,8 @@ def _build_pass_c(ctx: BuildContext) -> PassCResult:
     ingest_template_library(ctx.brand, cat, warns)
     link_templates(ctx.brand, cat, warns)
     merge_map, near_dupes = dedupe_tokens(cat["tokens"], warns)
+    _uniquify_token_keys(cat["tokens"], warns)
+    _degrade_dangling_token_refs(cat["tokens"], warns)
     for asset in cat["assets"].values():
         asset.contains_token_ids = [merge_map.get(x, x) for x in asset.contains_token_ids]
         asset.required_pairing_token_ids = [
@@ -1561,6 +1703,14 @@ def _build_pass_c(ctx: BuildContext) -> PassCResult:
                 )
 
     dedupe_rules(rules, relations, warns)
+
+    tables: dict[str, BrandTokenTable] = {}
+    for raw_table in sorted(bundle.tables, key=lambda item: str(item.get("id", ""))):
+        remapped = _remap_refs(raw_table, merge_map)
+        table = validate_table(remapped, ctx.brand, set(cat["tokens"]), set(rules), warns)
+        if table is not None:
+            tables[table.id] = table
+
     sidecars: dict[str, dict[str, Any]] = {}
     confidence_by_id: dict[str, str] = {}
     for bucket in (
@@ -1569,6 +1719,7 @@ def _build_pass_c(ctx: BuildContext) -> PassCResult:
         bundle.assets,
         bundle.subtypes,
         bundle.templates,
+        bundle.tables,
         (rule for rules_list in bundle.rules_by_group.values() for rule in rules_list),
     ):
         for entity in bucket:
@@ -1595,6 +1746,7 @@ def _build_pass_c(ctx: BuildContext) -> PassCResult:
         warns=warns.items,
         sidecars=sidecars,
         confidence_by_id=confidence_by_id,
+        tables=tables,
     )
 
 
@@ -1621,6 +1773,10 @@ def _serialize_pass_c(result: PassCResult) -> dict[str, Any]:
         "warns": list(result.warns),
         "sidecars": result.sidecars,
         "confidence_by_id": dict(sorted(result.confidence_by_id.items())),
+        "tables": {
+            table_id: table.model_dump(mode="json", exclude_none=True)
+            for table_id, table in sorted(result.tables.items())
+        },
     }
 
 
@@ -1648,7 +1804,8 @@ async def _run_s8(ctx: BuildContext) -> None:
     _stage_log(
         ctx,
         f"s8 workload: write KB rules={len(pass_c.rules)} "
-        f"tokens={len(pass_c.cat.get('tokens', {}))} provenance={len(pass_c.sidecars)}",
+        f"tokens={len(pass_c.cat.get('tokens', {}))} tables={len(pass_c.tables)} "
+        f"provenance={len(pass_c.sidecars)}",
     )
     warns = Warnings()
     warns.items.extend(pass_c.warns)
@@ -1674,6 +1831,7 @@ async def _run_s8(ctx: BuildContext) -> None:
             warns,
             near_dupes,
             rule_merge_notes,
+            tables=pass_c.tables,
         )
     finally:
         if work_backup is not None and work_backup.exists():
@@ -1705,7 +1863,17 @@ async def _run_s8(ctx: BuildContext) -> None:
     legacy_dtcg_dir = ctx.kb_root / "tokens_dtcg"
     if legacy_dtcg_dir.exists():
         shutil.rmtree(legacy_dtcg_dir)
-    export_tokens(pass_c.cat["tokens"], ctx.kb_root / "design_tokens")
+    tables_by_token = {
+        str(token_id): table.id
+        for table in pass_c.tables.values()
+        for row in table.rows
+        for token_id in row.token_ids
+    }
+    export_tokens(
+        pass_c.cat["tokens"],
+        ctx.kb_root / "design_tokens",
+        tables_by_token=tables_by_token,
+    )
     _write_review_analysis_docs(ctx)
     get_registries().save()
     atomic_write_json(
@@ -2073,6 +2241,14 @@ def _metric_snapshot(ctx: BuildContext) -> dict[str, Any]:
             "needs_rule": int(linker.metrics.get("orphans_needs_rule", 0)) if linker else 0,
             "unresolved_rule_literals": (
                 int(linker.metrics.get("unresolved_rule_literals", 0)) if linker else 0
+            ),
+        },
+        "tables": {
+            "compiled": len(ensemble.tables) if ensemble else 0,
+            "row_tokens": sum(
+                len(row.get("token_ids") or [])
+                for table in (ensemble.tables if ensemble else [])
+                for row in (table.get("rows") or [])
             ),
         },
         "consistency": consistency,

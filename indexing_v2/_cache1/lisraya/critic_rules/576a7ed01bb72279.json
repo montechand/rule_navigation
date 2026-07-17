@@ -1,0 +1,77 @@
+{
+  "findings": [
+    {
+      "description": "No candidate rules have been extracted from design_pattern_rules[6], resulting in a complete miss of multiple high-polarity design patterns, constraints, and metadata requirements.",
+      "finding_id": "f_lisraya_01",
+      "finding_type": "bad_cluster",
+      "proposed_patch": {
+        "entity_kind": "rule",
+        "op": "add",
+        "payload": {
+          "doc_ref": "design_pattern_rules[6]",
+          "rules": [
+            {
+              "hardness": "mandatory",
+              "id": "r_lisraya_layout_whitespace",
+              "polarity": "positive",
+              "scope": "visual_design",
+              "text": "Maintain generous white space and limit focal points to a single most important element per section using contrast.",
+              "unit_ids": [
+                "u_design_pattern_rules_6_0001"
+              ]
+            },
+            {
+              "hardness": "recommended",
+              "id": "r_lisraya_layout_visuals",
+              "polarity": "positive",
+              "scope": "visual_design",
+              "text": "Break up text walls using imagery and icons to show rather than tell.",
+              "unit_ids": [
+                "u_design_pattern_rules_6_0002"
+              ]
+            },
+            {
+              "hardness": "mandatory",
+              "id": "r_lisraya_color_blocks_alternation",
+              "polarity": "positive",
+              "scope": "visual_design",
+              "text": "Alternate section backgrounds between White, Light Blue, Golden Sand, and gradient colors so adjacent sections do not visually merge.",
+              "unit_ids": [
+                "u_design_pattern_rules_6_0003"
+              ]
+            },
+            {
+              "hardness": "mandatory",
+              "id": "r_lisraya_metadata_bg_declaration",
+              "polarity": "positive",
+              "scope": "metadata",
+              "text": "Section designers must declare their section's background color in the component metadata to prevent identical adjacent backgrounds during assembly.",
+              "unit_ids": [
+                "u_design_pattern_rules_6_0003"
+              ]
+            },
+            {
+              "hardness": "mandatory",
+              "id": "r_lisraya_canonical_content_block",
+              "polarity": "positive",
+              "scope": "content_strategy",
+              "text": "Use the canonical content block pattern (bold headline + simple benefit statements + patient quote) referenced from the patient brochure template across all Lisraya materials.",
+              "unit_ids": [
+                "u_design_pattern_rules_6_0004"
+              ]
+            }
+          ]
+        },
+        "target_entity_ids": []
+      },
+      "severity": "major",
+      "target_entity_id": null,
+      "unit_ids": [
+        "u_design_pattern_rules_6_0001",
+        "u_design_pattern_rules_6_0002",
+        "u_design_pattern_rules_6_0003",
+        "u_design_pattern_rules_6_0004"
+      ]
+    }
+  ]
+}
