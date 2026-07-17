@@ -1,0 +1,75 @@
+{
+  "id": "rule_lisraya_campaign_headline_lockup",
+  "brand_id": "lisraya",
+  "rule_class": "typography",
+  "tags": [
+    "voice_tone",
+    "copy_editorial"
+  ],
+  "content_types": [
+    "email",
+    "banner",
+    "social",
+    "print",
+    "web",
+    "ppt"
+  ],
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "hero"
+    ],
+    "element_path": "hero.headline"
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "hero.headline.font_family",
+        "token_id": "tok_lisraya_font_agenda"
+      },
+      {
+        "element_path": "hero.headline.font_family_fallback",
+        "token_id": "tok_lisraya_font_stack_email"
+      },
+      {
+        "element_path": "hero.headline.casing",
+        "token_id": "tok_lisraya_campaign_headline_case"
+      },
+      {
+        "element_path": "hero.headline.alignment",
+        "token_id": "tok_lisraya_alignment_campaign_headline_lockup"
+      },
+      {
+        "element_path": "hero.headline.tint_opacity",
+        "token_id": "tok_lisraya_opacity_tint_headline_char"
+      },
+      {
+        "element_path": "campaign.case.headline",
+        "linked_by": "linker-v1.0.0:auto",
+        "token_id": "tok_lisraya_case_campaign_headline"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 1,
+  "token_ids": [
+    "tok_lisraya_alignment_campaign_headline_lockup",
+    "tok_lisraya_campaign_headline_case",
+    "tok_lisraya_case_campaign_headline",
+    "tok_lisraya_font_agenda",
+    "tok_lisraya_font_stack_email",
+    "tok_lisraya_opacity_tint_headline_char"
+  ],
+  "asset_ids": [],
+  "rule_text": "The campaign headline 'YOU DESERVE MORE' must be set in Agenda font (fallback: 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif) in ALL CAPS, left-aligned, stacked as three lines in hero placements. The letters 'D' (in DESERVE) and 'M' (in MORE) are set at approximately 40% tint (opacity.campaign.headline_char_tint = 0.4) of the headline color, using either Brand Blue (color.primary.brand_blue = #00529b) or Gold/Sunshine (color.primary.gold = #ffc60a) colorways.",
+  "intent": "Maintain the conceptual campaign identity and specific brand typographic treatment honoring dermatomyositis.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[5]",
+  "group_id": "grp_lisraya_content_pattern_rules_05",
+  "status": "active",
+  "version": 1,
+  "summary": "Campaign headline 'YOU DESERVE MORE' in Agenda font (fallbacks Nunito Sans, Verdana, Helvetica, Arial), ALL CAPS, left-aligned, stacked 3 lines, letters 'D' and 'M' tinted 40% in Brand Blue #00529b or Gold #ffc60a."
+}

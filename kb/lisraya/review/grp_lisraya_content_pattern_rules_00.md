@@ -12,24 +12,14 @@ doc_ref: `content_pattern_rules[0]`
 - Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections).
 ````
 
-## Extracted rules (4)
+## Extracted rules (2)
 
-### rule_lisraya_brand_name_all_caps
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding governance=trademark/verbatim_only
-- rule_text: Always write the brand name LISRAYA in ALL CAPS (case.brand_name = all_caps) in all written materials. This patient-marketing rule supersedes the Feb 2026 general guide's title-case rule.
-- intent: Consistent, approved brand-name presentation across materials.
-
-### rule_lisraya_generic_name_format
+### rule_lisraya_brand_name_and_trademark_usage
 - class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=verbatim_content governance=trademark/verbatim_only
-- rule_text: Generic name format: lowercase, in parentheses: (brepocitinib).
-- intent: Standardize generic-name presentation.
+- rule_text: Always write LISRAYA in ALL CAPS (case.campaign.all_caps = "all_caps") in patient marketing materials, superseding standard title-case guides. The registered trademark symbol ® must only be applied on the first or most prominent mention in external-facing documents, and only when paired with the generic name formatted in lowercase parentheses: LISRAYA® (brepocitinib). Subsequent mentions must omit the ® symbol.
+- intent: Maintain strict, regulatory-compliant trademark presentation for LISRAYA.
 
-### rule_lisraya_parent_company_signoff_footer_only
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must_not sections=['end_matter'] constraint=verbatim_content governance=legal/verbatim_only
-- rule_text: Parent company is Priovant Therapeutics, Inc. The sign-off lives in the locked footer; do not add it in body sections.
-- intent: Keep parent-company sign-off confined to the locked footer.
-
-### rule_lisraya_trademark_symbol_with_generic_name
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=verbatim_content governance=trademark/requires_qualifier
-- rule_text: Include the ® registered trademark symbol only when the generic name is included — i.e., LISRAYA® (brepocitinib). Apply on first/most prominent mention only, in external-facing documents only. Do not repeat ® on subsequent mentions.
-- intent: Correct trademark attribution paired with generic name, once per document.
+### rule_lisraya_parent_company_footer_lock
+- class=assembly scope=brand hardness=hard_constraint polarity=must_not sections=['end_matter'] constraint=exclusivity governance=legal/verbatim_only
+- rule_text: The parent company sign-off 'Priovant Therapeutics, Inc.' is locked to the footer. Do not add this mention in normal content sections of the email.
+- intent: Prevent duplicate parent company sign-offs outside of designated legal areas.

@@ -1,0 +1,76 @@
+{
+  "id": "rule_lisraya_rule_lisraya_email_type_scale_hierarchy",
+  "brand_id": "lisraya",
+  "rule_class": "typography",
+  "tags": [
+    "typography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "type_scale"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "font.stack.email",
+        "token_id": "tok_lisraya_font_stack_email"
+      },
+      {
+        "element_path": "type_scale.h1",
+        "token_id": "tok_lisraya_type_scale_h1"
+      },
+      {
+        "element_path": "type_scale.h2",
+        "token_id": "tok_lisraya_type_scale_h2"
+      },
+      {
+        "element_path": "type_scale.h3",
+        "token_id": "tok_lisraya_type_scale_h3"
+      },
+      {
+        "element_path": "type_scale.body",
+        "token_id": "tok_lisraya_type_scale_body"
+      },
+      {
+        "element_path": "type_scale.secondary_body",
+        "token_id": "tok_lisraya_type_scale_secondary_body"
+      },
+      {
+        "element_path": "type_scale.footnote",
+        "token_id": "tok_lisraya_type_scale_footnote"
+      },
+      {
+        "element_path": "family.font.button_label",
+        "linked_by": "linker-v1.0.0:auto",
+        "token_id": "tok_lisraya_font_button_label"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_font_button_label",
+    "tok_lisraya_font_stack_email",
+    "tok_lisraya_type_scale_body",
+    "tok_lisraya_type_scale_footnote",
+    "tok_lisraya_type_scale_h1",
+    "tok_lisraya_type_scale_h2",
+    "tok_lisraya_type_scale_h3",
+    "tok_lisraya_type_scale_secondary_body"
+  ],
+  "asset_ids": [],
+  "rule_text": "Email designs must enforce the standard typographic hierarchy. Use the email font stack (font.stack.email = 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif) with the defined type scale: H1 is 28px/36px (type_scale.h1), H2 is 22px/30px (type_scale.h2), H3 is 18px/26px (type_scale.h3), Body is 16px/24px (type_scale.body), Secondary Body is 14px/21px (type_scale.secondary_body), and Footnote is 12px/18px (type_scale.footnote). Avoid using adjacent text blocks with matching size and weight to construct different visual tiers.",
+  "intent": "Maintain structured typographic scale across email elements to establish a clear hierarchy of information.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_lisraya_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Email typography uses 'Nunito Sans', Verdana, Helvetica, Arial, sans-serif with hierarchy: H1 28px/36px, H2 22px/30px, H3 18px/26px, Body 16px/24px, Secondary 14px/21px, Footnote 12px/18px; avoid adjacent same size/weight blocks."
+}

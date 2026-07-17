@@ -1,0 +1,98 @@
+{
+  "entity_id": "rule_lisraya_clinical_claims_footnotes",
+  "extraction_meta": {
+    "champion_run": "r0",
+    "confidence": "low",
+    "dissent_unit_ids": [],
+    "field_agreement": {
+      "applies_when": 1.0,
+      "audience": 1.0,
+      "constraint_type": 1.0,
+      "content_sub_type_ids": 1.0,
+      "content_types": 1.0,
+      "effect": 1.0,
+      "evaluation_scope": 1.0,
+      "governance": 1.0,
+      "hardness": 1.0,
+      "polarity": 1.0,
+      "precedence": 1.0,
+      "rule_class": 1.0,
+      "scope": 1.0,
+      "selector": 1.0,
+      "slug": 1.0,
+      "snippets": 1.0,
+      "tags": 1.0
+    },
+    "runs": 3,
+    "support": 1
+  },
+  "provenance": [
+    {
+      "entity_id": "rule_lisraya_clinical_claims_footnotes",
+      "field": "",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "content_pattern_rules[9]",
+          "end": 152,
+          "match": "exact",
+          "quote": "Clinical claims require footnote markers (†) with footnote text clearly separated and noticeably smaller (§1.2).",
+          "start": 40,
+          "unit_ids": [
+            "u_content_pattern_rules_9_0001"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": null,
+        "status": "n/a"
+      },
+      "verification": "span_verified"
+    },
+    {
+      "entity_id": "rule_lisraya_clinical_claims_footnotes",
+      "field": "governance.preferred_form",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "content_pattern_rules[9]",
+          "end": 83,
+          "match": "exact",
+          "quote": "†",
+          "start": 82,
+          "unit_ids": [
+            "u_content_pattern_rules_9_0001"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": "verbatim exact match",
+        "status": "pass"
+      },
+      "verification": "value_verified"
+    },
+    {
+      "entity_id": "rule_lisraya_clinical_claims_footnotes",
+      "field": "effect",
+      "schema_version": "2.0",
+      "spans": [],
+      "value_check": {
+        "detail": "missing evidence for effect",
+        "status": "fail"
+      },
+      "verification": "unverified"
+    },
+    {
+      "entity_id": "rule_lisraya_clinical_claims_footnotes",
+      "field": "snippets",
+      "schema_version": "2.0",
+      "spans": [],
+      "value_check": {
+        "detail": "missing evidence for snippets",
+        "status": "fail"
+      },
+      "verification": "unverified"
+    }
+  ],
+  "schema_version": "2.0"
+}

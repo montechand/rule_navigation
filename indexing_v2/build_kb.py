@@ -2550,7 +2550,17 @@ async def main_async(argv: Sequence[str] | None = None) -> int:
 
     from indexing_v2.extraction.runner import SharedLLMClient
 
-    config.require_keys()
+    from shared.llm import required_api_keys_for_models
+
+    models = {
+        settings.CLASSIFY_MODEL,
+        settings.EXTRACT_MODEL,
+        settings.CRITIC_MODEL,
+        settings.SECONDARY_MODEL,
+        settings.LINKER_MODEL,
+        *(run.model for run in settings.ENSEMBLE_RUNS),
+    }
+    config.require_keys(*required_api_keys_for_models(*models))
     client = SharedLLMClient()
     usage = Usage()
     console = Console(stderr=True)

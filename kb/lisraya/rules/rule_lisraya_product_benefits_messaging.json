@@ -1,0 +1,41 @@
+{
+  "id": "rule_lisraya_product_benefits_messaging",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "audience": "dtp_patient",
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "efficacy",
+      "intro"
+    ]
+  },
+  "evaluation_scope": "section",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "content": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:",
+    "trigger": null
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "mlr_claim",
+    "verdict": "verbatim_only",
+    "preferred_form": "LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "Product benefits must be introduced by the exact phrasing: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" followed by approved benefit bullet points.",
+  "intent": "Fulfill MLR requirements regarding the approved indication and benefit framing.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[7]",
+  "group_id": "grp_lisraya_content_pattern_rules_07",
+  "status": "active",
+  "version": 1,
+  "summary": "Use exact intro phrase: \"LISRAYA is a once-daily FDA-approved pill that blocks the specific inflammatory signals that drive dermatomyositis, so you can:\" before benefit bullets."
+}

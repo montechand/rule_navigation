@@ -1,0 +1,50 @@
+{
+  "id": "rule_lisraya_doctor_discussion_cta_pattern",
+  "brand_id": "lisraya",
+  "rule_class": "cta",
+  "tags": [
+    "copy_editorial"
+  ],
+  "audience": "dtp_patient",
+  "scope": "campaign",
+  "selector": {
+    "section_types": [
+      "cta"
+    ],
+    "element_path": "cta.button"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "cta.button.border_radius",
+        "token_id": "tok_lisraya_radius_signature_button"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_radius_signature_button"
+  ],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "mlr_claim",
+    "verdict": "verbatim_only",
+    "preferred_form": "Talk to your doctor about LISRAYA, the DM treatment you may be looking for.",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "CTAs utilize a specific signature shape and treatment.",
+  "intent": "Ensure medical discussion CTAs leverage approved regulatory wording.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[7]",
+  "group_id": "grp_lisraya_content_pattern_rules_07",
+  "status": "active",
+  "version": 1,
+  "summary": "CTAs use a unique signature shape and treatment for consistent brand recognition."
+}

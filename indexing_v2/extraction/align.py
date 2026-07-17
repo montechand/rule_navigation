@@ -890,7 +890,7 @@ def verify_value_path(
     fuzzy_min_ratio: float = 0.92,
 ) -> ValueVerificationResult:
     """Verify one value-bearing evidence path (§5.4.3)."""
-    if raw_value is not None and isinstance(raw_value, dict) and "$ref" in raw_value:
+    if isinstance(raw_value, dict) and "$ref" in raw_value:
         alignment = align_quote_with_detail(
             quote,
             units_by_id,
@@ -935,7 +935,25 @@ def verify_value_path(
         [units_by_id[unit_id] for unit_id in cited_unit_ids if unit_id in units_by_id]
     )
 
-    if not is_concrete_value_field(field_path):
+    # Composite values (e.g. {"base": {"$ref": ...}, "top": {"$ref": ...}} under
+    # a scalar token_type) cannot be literal-matched against prose; their
+    # members verify through the $ref targets' own records. Route them down the
+    # span-only path instead of letting normalize_value raise on the mapping.
+    # Gradient dicts stay concrete: their normalizer handles mappings.
+    composite_value = isinstance(raw_value, (dict, list)) and not (
+        isinstance(raw_value, dict) and token_type.casefold() == "gradient"
+    )
+    norm = None
+    if is_concrete_value_field(field_path) and not composite_value:
+        try:
+            norm = normalize_value(token_type, raw_value)
+        except (TypeError, ValueError):
+            # Value doesn't fit the declared type's scalar shape (e.g. a
+            # gradient described as free text). No canonical literal exists to
+            # match, so degrade to span-only verification with value_check
+            # "n/a" — same treatment as composites — rather than crash.
+            norm = None
+    if norm is None:
         run = _containment_run(quote, cited)
         containment_detail: str | None = None
         if run is None:
@@ -974,7 +992,6 @@ def verify_value_path(
             detail=alignment.detail,
         )
 
-    norm = normalize_value(token_type, raw_value)
     patterns = value_patterns(token_type, norm.canon)
     hit_units = _units_containing_patterns(cited, patterns)
     containment_detail = None

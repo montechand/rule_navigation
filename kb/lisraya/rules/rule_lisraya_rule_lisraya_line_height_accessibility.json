@@ -1,0 +1,46 @@
+{
+  "id": "rule_lisraya_rule_lisraya_line_height_accessibility",
+  "brand_id": "lisraya",
+  "rule_class": "accessibility",
+  "tags": [
+    "typography"
+  ],
+  "content_types": [
+    "email"
+  ],
+  "scope": "org_baseline",
+  "selector": {
+    "element_path": "body.line_height"
+  },
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "body.line_height",
+        "token_id": "tok_lisraya_body_line_height"
+      },
+      {
+        "element_path": "accessibility.line_height.body_min",
+        "linked_by": "linker-v1.0.0:auto",
+        "token_id": "tok_lisraya_line_height_body_min"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_body_line_height",
+    "tok_lisraya_line_height_body_min"
+  ],
+  "asset_ids": [],
+  "rule_text": "Line height must be set to a minimum of 150% for all running body copy (body.line_height = 150%). For light text rendered on dark backgrounds, increase the line height further to 160% (e.g., 16px/26px) to enhance readability.",
+  "intent": "Enhance text readability and support brand accessibility requirements.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[1]",
+  "group_id": "grp_lisraya_content_pattern_rules_01",
+  "status": "active",
+  "version": 1,
+  "summary": "Set body text line height \u2265150%; increase to 160% for light text on dark backgrounds (e.g., 16px font / 26px line height) for readability."
+}

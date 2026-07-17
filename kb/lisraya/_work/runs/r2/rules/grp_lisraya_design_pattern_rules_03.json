@@ -1,0 +1,142 @@
+{
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_lisraya_design_pattern_rules_03",
+  "missing_token_requests": [],
+  "original_text": "### Brand Accent Shape (core container device)\n- A rectangle with **selectively enlarged opposite corner radii**; the other two corners keep a slight radius. Used to house callout text and photography. Reads modern and optimistic.\n- Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes).\n- **[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right).\n- **Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_brand_accent_shape_radius",
+      "dst_slug": "brand_accent_shape_radius",
+      "note": "Exempts chart and table components from the default asymmetric diagonal corner styling rule.",
+      "relation": "refines",
+      "src_rule_id": "rule_lisraya_chart_and_table_uniform_corners",
+      "src_slug": "chart_and_table_uniform_corners"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "container.large.radius",
+          "token_id": "tok_lisraya_radius_large"
+        },
+        {
+          "element_path": "container.banner.radius",
+          "token_id": "tok_lisraya_radius_banner"
+        },
+        {
+          "element_path": "container.callout.radius",
+          "token_id": "tok_lisraya_radius_callout"
+        },
+        {
+          "element_path": "container.small.radius",
+          "token_id": "tok_lisraya_radius_small"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "A rectangle with selectively enlarged opposite corner radii; the other two corners keep a slight radius.",
+          "large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0000",
+          "u_design_pattern_rules_3_0001",
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_brand_accent_shape_radius",
+      "intent": "Maintain the optimistic, modern asymmetric framing device consistently across all layouts.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The signature brand accent shape employs asymmetric rounded corners on containers and photos. For emails, apply a selective diagonal pairing: one diagonal pair uses a large radius (large radius = 120px, banner radius = 48px, or callout radius = 42px), while the opposite diagonal pair retains a small radius (radius.general.small = 6px). The diagonal orientation must remain consistent throughout a single email (default: large radius top-left and bottom-right).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "container.border_radius",
+        "section_types": [
+          "hero",
+          "intro",
+          "efficacy",
+          "safety",
+          "patient_story",
+          "affordability",
+          "callout"
+        ]
+      },
+      "slug": "brand_accent_shape_radius",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.panel.border_radius",
+          "token_id": "tok_lisraya_radius_chart_panel"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "12px uniform radius."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Exception: charts and tables use uniform rounded corners on all four corners (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_chart_and_table_uniform_corners",
+      "intent": "Ensure tabular and data visualizations remain legible and structured by using symmetrical boundaries.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "layout",
+      "rule_text": "Charts and tables are exempt from the asymmetric accent shape and must use uniform rounded corners on all four corners (radius.infographic.panel = 12px).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "chart.panel.border_radius",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_and_table_uniform_corners",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

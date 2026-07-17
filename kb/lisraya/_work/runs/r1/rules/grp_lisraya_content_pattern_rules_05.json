@@ -1,0 +1,208 @@
+{
+  "doc_ref": "content_pattern_rules[5]",
+  "group_id": "grp_lisraya_content_pattern_rules_05",
+  "missing_token_requests": [],
+  "original_text": "### Campaign Headline (\"YOU DESERVE MORE\")\n- Set in **Agenda** (digital may use Agenda as live text for this headline only; email fallback: Nunito Sans ExtraBold).\n- **ALL CAPS, always.**\n- The letters **\"D\" (in DESERVE) and \"M\" (in MORE) are set at approximately 40% tint** of the headline color — a nod to the \"d\" and \"m\" of dermatomyositis.\n- Two approved colorways: brand **Gold/Sunshine** or **Brand Blue** (tinted letters at 40% of the same hue).\n- Stack as three lines (YOU / DESERVE / MORE) in hero placements, left-aligned.\n- Full lockup copy: \"**YOU DESERVE MORE.** So there's LISRAYA—the first targeted treatment for dermatomyositis.\"",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_campaign_headline_lockup",
+      "dst_slug": "campaign_headline_lockup",
+      "note": "Styling and verbatim copy constraints combine to form the complete visual lockup.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_campaign_headline_styling",
+      "src_slug": "campaign_headline_styling"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_campaign_headline_styling",
+      "dst_slug": "campaign_headline_styling",
+      "note": "Colorways are applied to the layout and typography of the headline.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_campaign_headline_colorway_tints",
+      "src_slug": "campaign_headline_colorway_tints"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": {
+        "content": "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.",
+        "trigger": null
+      },
+      "effect_evidence": {
+        "quotes": [
+          "\"YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.\""
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0006"
+        ]
+      },
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "\"YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.\""
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0006"
+        ]
+      },
+      "governance": {
+        "gov_type": "mlr_claim",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.",
+        "preferred_form_evidence": {
+          "quotes": [
+            "YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis."
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_5_0006"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_campaign_headline_lockup",
+      "intent": "Maintain medical/legal/regulatory alignment for the core brand campaign value proposition.",
+      "polarity": "must",
+      "precedence": 10,
+      "rule_class": "copy_editorial",
+      "rule_text": "The full campaign headline lockup must read verbatim: \"YOU DESERVE MORE. So there's LISRAYA—the first targeted treatment for dermatomyositis.\"",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "headline",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_lockup",
+      "tags": [
+        "typography",
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.font_family",
+          "token_id": "tok_lisraya_font_agenda"
+        },
+        {
+          "element_path": "headline.case",
+          "token_id": "tok_lisraya_campaign_headline_case"
+        },
+        {
+          "element_path": "headline.alignment",
+          "token_id": "tok_lisraya_alignment_campaign_headline_lockup"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Set in Agenda",
+          "ALL CAPS, always.",
+          "left-aligned"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0001",
+          "u_content_pattern_rules_5_0002",
+          "u_content_pattern_rules_5_0005"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Set in Agenda (digital may use Agenda as live text for this headline only; email fallback: Nunito Sans ExtraBold).",
+          "ALL CAPS, always.",
+          "Stack as three lines (YOU / DESERVE / MORE) in hero placements, left-aligned."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0001",
+          "u_content_pattern_rules_5_0002",
+          "u_content_pattern_rules_5_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_campaign_headline_styling",
+      "intent": "Ensure exact typographic replication of the campaign identity.",
+      "polarity": "must",
+      "precedence": 5,
+      "rule_class": "typography",
+      "rule_text": "The campaign headline 'YOU DESERVE MORE' must be set in the Agenda font (fallback: Nunito Sans ExtraBold/800), must always be in ALL CAPS (campaign.headline.case = all_caps), and must be left-aligned (alignment.campaign.headline_lockup = left-aligned) stacked as three lines in hero placements.",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "headline",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_styling",
+      "tags": [
+        "color_application",
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.char_tint.d_and_m",
+          "token_id": "tok_lisraya_opacity_tint_headline_char"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "approximately 40% tint"
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "The letters \"D\" (in DESERVE) and \"M\" (in MORE) are set at approximately 40% tint of the headline color — a nod to the \"d\" and \"m\" of dermatomyositis.",
+          "Two approved colorways: brand Gold/Sunshine or Brand Blue (tinted letters at 40% of the same hue)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_5_0003",
+          "u_content_pattern_rules_5_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_campaign_headline_colorway_tints",
+      "intent": "Symbolize dermatomyositis (d/m) through precise, conceptual color tints in the campaign headline.",
+      "polarity": "must",
+      "precedence": 5,
+      "rule_class": "color_application",
+      "rule_text": "The campaign headline must use one of two approved colorways: brand Gold/Sunshine (color.primary.gold = #ffc60a / color.primary.sunshine = #faa31b) or Brand Blue (color.primary.brand_blue = #00529b). The letters 'D' and 'M' in 'DESERVE MORE' must always be set at a 40% tint (opacity.campaign.headline_char_tint = 0.4) of the base headline color.",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "headline",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_colorway_tints",
+      "tags": [
+        "typography"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

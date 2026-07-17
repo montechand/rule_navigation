@@ -40,6 +40,9 @@ class ContextSolveResult(BaseModel):
     status: Literal["sat", "unsat", "skipped"]
     unsat_core: list[str] = Field(default_factory=list)
     active_rule_ids: list[str] = Field(default_factory=list)
+    # Hard rules whose effect payload could not be encoded; excluded from the
+    # model (weakens the check for those rules, never corrupts results).
+    unencodable_rule_ids: list[str] = Field(default_factory=list)
 
 
 class GlobalUnsatConflict(BaseModel):
@@ -120,13 +123,27 @@ def solve_context(
         )
     tags = observed_tags if observed_tags is not None else set(context.content_tags)
     active_rules = _active_hard_rules(snapshot, context, tags)
-    encoding = _build_solver(z3, snapshot, active_rules)
+    # Extraction can emit hard rules whose effect payload doesn't satisfy the
+    # encoding contract (e.g. exclusivity with no subject). Excluding them
+    # weakens the check for those rules only — recorded on the result so the
+    # gap is visible — instead of failing the whole consistency stage.
+    encodable: list[_ActiveRule] = []
+    unencodable: list[str] = []
+    for item in active_rules:
+        try:
+            _validate_effect(item.rule)
+        except SmtEncodingError:
+            unencodable.append(item.rule.id)
+        else:
+            encodable.append(item)
+    encoding = _build_solver(z3, snapshot, encodable)
     outcome = encoding.solver.check()
     if outcome == z3.sat:
         return ContextSolveResult(
             context_key=context.canonical(),
             status="sat",
-            active_rule_ids=sorted(item.rule.id for item in active_rules),
+            active_rule_ids=sorted(item.rule.id for item in encodable),
+            unencodable_rule_ids=sorted(unencodable),
         )
     if outcome == z3.unknown:
         raise SmtSolverUnknownError(
@@ -137,7 +154,8 @@ def solve_context(
         context_key=context.canonical(),
         status="unsat",
         unsat_core=core,
-        active_rule_ids=sorted(item.rule.id for item in active_rules),
+        active_rule_ids=sorted(item.rule.id for item in encodable),
+        unencodable_rule_ids=sorted(unencodable),
     )
 
 

@@ -1,4 +1,4 @@
-"""Thin async LLM layer: provider routing (Anthropic/OpenAI), a unified tool-call
+"""Thin async LLM layer: provider routing (Anthropic/OpenAI/Gemini), a unified tool-call
 loop with chat history, JSON helpers, usage/cost counters, and JSONL tracing.
 
 Neutral message format used internally:
@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 import time
 from dataclasses import dataclass, field
@@ -21,6 +22,8 @@ from openai import AsyncOpenAI
 
 _anthropic_client: Optional[AsyncAnthropic] = None
 _openai_client: Optional[AsyncOpenAI] = None
+_openrouter_client: Optional[AsyncOpenAI] = None
+_gemini_client: Any = None
 
 
 def _anthropic() -> AsyncAnthropic:
@@ -37,8 +40,75 @@ def _openai() -> AsyncOpenAI:
     return _openai_client
 
 
+def _openrouter() -> AsyncOpenAI:
+    global _openrouter_client
+    if _openrouter_client is None:
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        if not api_key:
+            raise RuntimeError("Missing OPENROUTER_API_KEY")
+        _openrouter_client = AsyncOpenAI(
+            api_key=api_key,
+            base_url="https://openrouter.ai/api/v1",
+        )
+    return _openrouter_client
+
+
+def _gemini() -> Any:
+    global _gemini_client
+    if _gemini_client is None:
+        try:
+            from google import genai
+        except ImportError as exc:
+            raise RuntimeError(
+                "google-genai SDK is required for Gemini models. "
+                "Install via: pip install google-genai"
+            ) from exc
+        api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise RuntimeError("Missing GOOGLE_API_KEY (or GEMINI_API_KEY)")
+        _gemini_client = genai.Client(api_key=api_key)
+    return _gemini_client
+
+
 def is_anthropic_model(model: str) -> bool:
     return model.startswith("claude")
+
+
+def is_gemini_model(model: str) -> bool:
+    return model.startswith("gemini")
+
+
+def is_openrouter_model(model: str) -> bool:
+    return model.startswith("openrouter/")
+
+
+def openrouter_model_id(model: str) -> str:
+    """Strip ``openrouter/`` and pass the remainder to the OpenRouter API."""
+    if not is_openrouter_model(model):
+        raise ValueError(f"not an OpenRouter model id: {model!r}")
+    return model[len("openrouter/") :]
+
+
+def native_openai_model_id(model: str) -> str:
+    """Model id for the direct OpenAI API (strip optional ``openai/`` vendor prefix)."""
+    if model.startswith("openai/"):
+        return model[len("openai/") :]
+    return model
+
+
+def required_api_keys_for_models(*models: str) -> tuple[str, ...]:
+    """Return sorted API-key env var names required for the given model ids."""
+    keys: set[str] = set()
+    for model in models:
+        if is_openrouter_model(model):
+            keys.add("OPENROUTER_API_KEY")
+        elif is_anthropic_model(model):
+            keys.add("ANTHROPIC_API_KEY")
+        elif is_gemini_model(model):
+            keys.add("GOOGLE_API_KEY")
+        else:
+            keys.add("OPENAI_API_KEY")
+    return tuple(sorted(keys))
 
 
 # Adaptive-thinking effort levels (Anthropic only). "none" disables thinking. The API decides
@@ -48,12 +118,14 @@ THINKING_EFFORTS = ("low", "medium", "high", "xhigh", "max")
 
 # USD per 1M tokens (input, output); rough, for run comparison only.
 _PRICES = {
+    "openai/gpt-5.6-sol": (5.0, 30.0),
     "claude-opus": (15.0, 75.0),
     "claude-sonnet": (3.0, 15.0),
     "claude-haiku": (0.8, 4.0),
     "gpt-5": (1.25, 10.0),
     "gpt-4.1-mini": (0.4, 1.6),
     "gpt-4.1": (2.0, 8.0),
+    "gemini-3.5-flash": (0.15, 0.6),
     "text-embedding-3-large": (0.13, 0.0),
 }
 
@@ -169,16 +241,23 @@ async def chat(
     max_tokens: int = 128_000,
     usage: Optional[Usage] = None,
     thinking_effort: Optional[str] = None,
+    json_mode: bool = False,
 ) -> AssistantTurn:
     """One model call in the neutral format, routed by provider.
 
     thinking_effort: one of THINKING_EFFORTS ("low"/"medium"/"high"/"xhigh"/"max") to enable
     Anthropic adaptive thinking guided by that effort level, or None/"none" to disable.
     Ignored for non-Anthropic models (no equivalent wired up here).
+
+    json_mode: ask the provider to enforce syntactically valid JSON output
+    (Gemini response_mime_type / OpenAI response_format). Ignored for Anthropic,
+    which has no equivalent constraint.
     """
     if is_anthropic_model(model):
         return await _chat_anthropic(model, system, messages, tools, max_tokens, usage, thinking_effort)
-    return await _chat_openai(model, system, messages, tools, max_tokens, usage)
+    if is_gemini_model(model):
+        return await _chat_gemini(model, system, messages, tools, max_tokens, usage, json_mode=json_mode)
+    return await _chat_openai(model, system, messages, tools, max_tokens, usage, json_mode=json_mode)
 
 
 # ---------------------------------------------------------------------------
@@ -258,6 +337,119 @@ async def _chat_anthropic(model, system, messages, tools, max_tokens, usage,
 
 
 # ---------------------------------------------------------------------------
+# Gemini adapter
+# ---------------------------------------------------------------------------
+
+def _to_gemini_contents(messages: list[dict[str, Any]]) -> list[Any]:
+    from google.genai import types
+
+    contents: list[Any] = []
+    pending_tool_parts: list[Any] = []
+
+    def _flush_tool_parts() -> None:
+        nonlocal pending_tool_parts
+        if pending_tool_parts:
+            contents.append(types.Content(role="user", parts=pending_tool_parts))
+            pending_tool_parts = []
+
+    for m in messages:
+        if m["role"] == "user":
+            _flush_tool_parts()
+            contents.append(
+                types.Content(role="user", parts=[types.Part.from_text(text=m["content"])])
+            )
+        elif m["role"] == "assistant":
+            _flush_tool_parts()
+            parts: list[Any] = []
+            if m.get("content"):
+                parts.append(types.Part.from_text(text=m["content"]))
+            for tc in m.get("tool_calls", []):
+                fc_kwargs: dict[str, Any] = {"name": tc["name"], "args": tc["args"]}
+                if tc.get("id"):
+                    fc_kwargs["id"] = tc["id"]
+                parts.append(types.Part(function_call=types.FunctionCall(**fc_kwargs)))
+            contents.append(
+                types.Content(role="model", parts=parts or [types.Part.from_text(text="")])
+            )
+        elif m["role"] == "tool":
+            response: dict[str, Any] = {"content": m["content"]}
+            if m.get("is_error"):
+                response["error"] = m["content"]
+            pending_tool_parts.append(
+                types.Part.from_function_response(name=m["name"], response=response)
+            )
+    _flush_tool_parts()
+    return contents
+
+
+async def _chat_gemini(model, system, messages, tools, max_tokens, usage,
+                       json_mode: bool = False) -> AssistantTurn:
+    from google.genai import types
+
+    config_kwargs: dict[str, Any] = {
+        "system_instruction": system,
+        "max_output_tokens": max_tokens,
+        "thinking_config": types.ThinkingConfig(thinking_level="minimal"),
+    }
+    if json_mode and not tools:
+        # Constrained decoding: the API guarantees syntactically valid JSON.
+        # Not combinable with function calling, hence the tools guard.
+        config_kwargs["response_mime_type"] = "application/json"
+    if tools:
+        config_kwargs["tools"] = [
+            types.Tool(
+                function_declarations=[
+                    types.FunctionDeclaration(
+                        name=t.name,
+                        description=t.description,
+                        parameters=t.parameters,
+                    )
+                    for t in tools
+                ]
+            )
+        ]
+
+    async def _do() -> Any:
+        return await _gemini().aio.models.generate_content(
+            model=model,
+            contents=_to_gemini_contents(messages),
+            config=types.GenerateContentConfig(**config_kwargs),
+        )
+
+    resp = await _call_with_retry(_do)
+    text_parts: list[str] = []
+    tool_calls: list[ToolCall] = []
+    for cand in getattr(resp, "candidates", None) or []:
+        content = getattr(cand, "content", None)
+        if content is None:
+            continue
+        for part in getattr(content, "parts", None) or []:
+            if getattr(part, "text", None):
+                text_parts.append(part.text)
+            fc = getattr(part, "function_call", None)
+            if fc is not None and getattr(fc, "name", None):
+                args = getattr(fc, "args", None) or {}
+                call_id = getattr(fc, "id", None) or f"call_{fc.name}_{len(tool_calls)}"
+                tool_calls.append(ToolCall(id=call_id, name=fc.name, args=dict(args)))
+
+    meta = getattr(resp, "usage_metadata", None)
+    if usage is not None and meta is not None:
+        usage.add(
+            model,
+            getattr(meta, "prompt_token_count", 0) or 0,
+            getattr(meta, "candidates_token_count", 0) or 0,
+        )
+    stop_reason = ""
+    if getattr(resp, "candidates", None):
+        stop_reason = getattr(resp.candidates[0], "finish_reason", "") or ""
+    return AssistantTurn(
+        text="\n".join(text_parts),
+        tool_calls=tool_calls,
+        stop_reason=str(stop_reason),
+    )
+
+
+# ---------------------------------------------------------------------------
 # OpenAI adapter
 # ---------------------------------------------------------------------------
 
@@ -283,11 +475,18 @@ def _to_openai_messages(system: str, messages: list[dict[str, Any]]) -> list[dic
     return out
 
 
-async def _chat_openai(model, system, messages, tools, max_tokens, usage) -> AssistantTurn:
+async def _chat_openai(model, system, messages, tools, max_tokens, usage,
+                       json_mode: bool = False) -> AssistantTurn:
+    via_openrouter = is_openrouter_model(model)
+    api_model = openrouter_model_id(model) if via_openrouter else native_openai_model_id(model)
     kwargs: dict[str, Any] = {
-        "model": model,
+        "model": api_model,
         "messages": _to_openai_messages(system, messages),
     }
+    if via_openrouter:
+        kwargs["max_tokens"] = max_tokens
+    if json_mode and not tools:
+        kwargs["response_format"] = {"type": "json_object"}
     if tools:
         kwargs["tools"] = [
             {
@@ -296,7 +495,8 @@ async def _chat_openai(model, system, messages, tools, max_tokens, usage) -> Ass
             }
             for t in tools
         ]
-    resp = await _call_with_retry(lambda: _openai().chat.completions.create(**kwargs))
+    client = _openrouter() if via_openrouter else _openai()
+    resp = await _call_with_retry(lambda: client.chat.completions.create(**kwargs))
     choice = resp.choices[0]
     tool_calls = []
     for tc in choice.message.tool_calls or []:
@@ -330,9 +530,7 @@ def parse_json_loose(text: str) -> Any:
     if not start_candidates:
         raise ValueError(f"No JSON found in model output: {text[:200]!r}")
     start = min(start_candidates)
-    open_ch = text[start]
-    close_ch = "}" if open_ch == "{" else "]"
-    depth = 0
+    stack: list[str] = []
     in_str = False
     esc = False
     for i in range(start, len(text)):
@@ -347,13 +545,41 @@ def parse_json_loose(text: str) -> Any:
             continue
         if c == '"':
             in_str = True
-        elif c == open_ch:
-            depth += 1
-        elif c == close_ch:
-            depth -= 1
-            if depth == 0:
+        elif c in "{[":
+            stack.append("}" if c == "{" else "]")
+        elif c in "}]":
+            if stack:
+                stack.pop()
+            if not stack:
                 return json.loads(text[start : i + 1])
-    raise ValueError("Unbalanced JSON in model output")
+    # The document never closed. Models (Gemini flash in particular) sometimes
+    # report a normal stop while dropping the trailing closers; salvage by
+    # closing any open string, trimming a dangling comma, and appending the
+    # missing brackets in stack order. json.loads still arbitrates validity.
+    tail = text[start:].rstrip()
+    if in_str:
+        tail += '"'
+    tail = tail.rstrip()
+    if tail.endswith(","):
+        tail = tail[:-1]
+    repaired = tail + "".join(reversed(stack))
+    try:
+        return json.loads(repaired)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Unbalanced JSON in model output (repair failed: {exc})") from exc
+
+
+def _is_truncated(stop_reason: str) -> bool:
+    reason = (stop_reason or "").lower()
+    return reason == "length" or "max_token" in reason
+
+
+_CONTINUE_PROMPT = (
+    "Your previous response was cut off mid-output. Continue EXACTLY from the "
+    "character where it stopped, emitting only the remaining part of the JSON "
+    "document. Do not repeat anything already emitted, do not add code fences, "
+    "and do not add commentary."
+)
 
 
 async def complete_json(
@@ -362,10 +588,70 @@ async def complete_json(
     user: str,
     max_tokens: int = 128_000,
     usage: Optional[Usage] = None,
+    max_continuations: int = 3,
 ) -> Any:
-    turn = await chat(model, system, [{"role": "user", "content": user}], tools=None,
-                      max_tokens=max_tokens, usage=usage)
-    return parse_json_loose(turn.text)
+    messages: list[dict[str, Any]] = [{"role": "user", "content": user}]
+    turn = await chat(model, system, messages, tools=None,
+                      max_tokens=max_tokens, usage=usage, json_mode=True)
+    text = turn.text
+    # Provider JSON modes guarantee syntax only for completed responses; an
+    # output that hits the token ceiling is cut mid-document. Stitch it back
+    # together by asking the model to resume from the cut, without json_mode
+    # (constrained decoding would restart a fresh JSON document).
+    for _ in range(max_continuations):
+        if not _is_truncated(turn.stop_reason):
+            break
+        messages.append({"role": "assistant", "content": turn.text})
+        messages.append({"role": "user", "content": _CONTINUE_PROMPT})
+        turn = await chat(model, system, messages, tools=None,
+                          max_tokens=max_tokens, usage=usage, json_mode=False)
+        text += _clean_continuation(text, turn.text)
+    if _is_truncated(turn.stop_reason):
+        raise ValueError(
+            f"model output still truncated after {max_continuations} continuation(s) "
+            f"(stop_reason={turn.stop_reason!r}, chars={len(text)})"
+        )
+    try:
+        return parse_json_loose(text)
+    except (ValueError, json.JSONDecodeError) as exc:
+        debug_path = _dump_parse_failure(model, turn.stop_reason, text)
+        raise ValueError(
+            f"{exc} (model={model}, stop_reason={turn.stop_reason!r}, "
+            f"chars={len(text)}, raw_dump={debug_path})"
+        ) from exc
+
+
+def _clean_continuation(prior: str, chunk: str) -> str:
+    """Normalize a mid-document continuation before splicing it onto ``prior``.
+
+    Models often wrap the resumed output in code fences or re-emit a trailing
+    slice of what they already produced; both would corrupt the spliced JSON.
+    """
+    stripped = chunk.strip()
+    fence = re.fullmatch(r"```(?:json)?\s*(.*?)```", stripped, re.DOTALL)
+    if fence:
+        chunk = fence.group(1).strip()
+    elif stripped.startswith("```"):
+        # Unterminated fence (continuation itself may be truncated later).
+        chunk = stripped.split("\n", 1)[1] if "\n" in stripped else ""
+    # Otherwise leave chunk untouched: the cut can land inside a JSON string,
+    # where leading whitespace is significant.
+    # Drop the longest suffix of prior that the chunk re-emitted as its prefix.
+    max_overlap = min(len(prior), len(chunk), 2000)
+    for size in range(max_overlap, 0, -1):
+        if prior.endswith(chunk[:size]):
+            return chunk[size:]
+    return chunk
+
+
+def _dump_parse_failure(model: str, stop_reason: str, text: str) -> Path:
+    """Persist unparseable model output for offline diagnosis."""
+    out_dir = Path(os.getenv("RULE_NAV_LLM_DEBUG_DIR", "/tmp/rule_nav_llm_failures"))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%dT%H%M%S")
+    path = out_dir / f"{stamp}_{model.replace('/', '_')}_{os.getpid()}_{len(text)}.txt"
+    path.write_text(f"model: {model}\nstop_reason: {stop_reason}\n---\n{text}", encoding="utf-8")
+    return path
 
 
 # ---------------------------------------------------------------------------
@@ -395,7 +681,7 @@ async def run_tool_loop(
     usage: Optional[Usage] = None,
     trace: Optional[Trace] = None,
     agent_name: str = "agent",
-    max_tokens: int = 8192,
+    max_tokens: int = 128_000,
     thinking_effort: Optional[str] = None,
     api: str = "chat_completions",
 ) -> LoopResult:
@@ -412,7 +698,7 @@ async def run_tool_loop(
         Only valid for OpenAI models.
     """
     if api == "responses":
-        if is_anthropic_model(model):
+        if is_anthropic_model(model) or is_gemini_model(model):
             raise ValueError("api='responses' is only supported for OpenAI models")
         return await _run_tool_loop_responses(
             model=model,
@@ -556,8 +842,10 @@ async def _run_tool_loop_responses(
     nudged = False
 
     for turn_i in range(max_turns):
+        via_openrouter = is_openrouter_model(model)
+        api_model = openrouter_model_id(model) if via_openrouter else native_openai_model_id(model)
         request: dict[str, Any] = {
-            "model": model,
+            "model": api_model,
             "instructions": system,
             "input": input_items,
             "tools": api_tools,
@@ -568,7 +856,8 @@ async def _run_tool_loop_responses(
         if thinking_effort and thinking_effort != "none":
             request["reasoning"] = {"effort": thinking_effort}
 
-        resp = await _call_with_retry(lambda: _openai().responses.create(**request))
+        client = _openrouter() if via_openrouter else _openai()
+        resp = await _call_with_retry(lambda: client.responses.create(**request))
 
         if usage is not None and resp.usage is not None:
             usage.add(model, resp.usage.input_tokens or 0, resp.usage.output_tokens or 0)

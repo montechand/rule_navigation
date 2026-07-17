@@ -443,6 +443,55 @@ def test_ref_resolution_errors_are_typed_and_deterministic() -> None:
         semantic_match_key(cycle_a, {"a": cycle_a, "b": cycle_b})
 
 
+def test_match_key_degrades_on_type_shape_mismatch() -> None:
+    # LLM declared color but the $ref resolves to a gradient mapping (real
+    # lisraya crash): must yield a deterministic key-order-independent canon,
+    # not a TypeError.
+    gradient = {
+        "id": "tok_g",
+        "key": "g",
+        "token_type": "gradient",
+        "value": {"default": {"type": "linear", "stops": ["#FFDF55", "#FAA21B"]}},
+    }
+    mislabeled = {
+        "id": "tok_c",
+        "key": "c",
+        "token_type": "color",
+        "value": {"default": {"$ref": "tok_g"}},
+    }
+    _, canon = semantic_match_key(mislabeled, {"tok_g": gradient})
+    assert canon == '{"stops":["#FFDF55","#FAA21B"],"type":"linear"}'
+    # Same mapping with different key order groups identically.
+    reordered = dict(gradient, value={"default": {"stops": ["#FFDF55", "#FAA21B"], "type": "linear"}})
+    _, canon2 = semantic_match_key(mislabeled, {"tok_g": reordered})
+    assert canon2 == canon
+    # Properly-typed gradients keep the richer gradient canon.
+    _, gcanon = semantic_match_key(
+        dict(gradient, id="tok_g2", value={"default": {"$ref": "tok_g"}}),
+        {"tok_g": gradient, "tok_g2": gradient},
+    )
+    assert gcanon == '{"angle":0,"stops":["#ffdf55","#faa21b"]}'
+
+
+def test_duplicate_ids_across_merge_groups_collapse_instead_of_crashing() -> None:
+    # Real lisraya crash: two merge groups (whitespace-variant shadow values)
+    # both kept id tok_..._shadow_icon_badge; final verify raised
+    # ProvenanceError("duplicate entity id"). Collapse must keep the higher-
+    # support entity and emit a finding.
+    from indexing_v2.extraction.ensemble import _collapse_duplicate_ids
+
+    low = {"id": "tok_x_shadow", "value": "a", "extraction_meta": {"support": 1}}
+    high = {"id": "tok_x_shadow", "value": "b", "extraction_meta": {"support": 2}}
+    other = {"id": "tok_x_other", "extraction_meta": {"support": 1}}
+    findings: list[Any] = []
+    out = _collapse_duplicate_ids([low, high, other], findings)
+    assert out == [high, other]
+    assert len(findings) == 1
+    assert "duplicate id across merge groups collapsed" in findings[0].description
+    # Ties keep the first (sorted/materialization order) deterministically.
+    assert _collapse_duplicate_ids([low, dict(low, value="c")], None) == [low]
+
+
 def test_equivalent_guards_union_once(units: list[SourceUnit]) -> None:
     source = _unit(units, "u_brand_foundation_0_0020")
     simple = {

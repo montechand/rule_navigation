@@ -38,14 +38,19 @@ _NUMBER_RE = re.compile(r"^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$")
 _TYPE_SCALE_KEYS = {
     "font_family": "fontFamily",
     "fontFamily": "fontFamily",
+    "family": "fontFamily",
     "font_size": "fontSize",
     "fontSize": "fontSize",
+    "size": "fontSize",
     "font_weight": "fontWeight",
     "fontWeight": "fontWeight",
+    "weight": "fontWeight",
     "line_height": "lineHeight",
     "lineHeight": "lineHeight",
+    "leading": "lineHeight",
     "letter_spacing": "letterSpacing",
     "letterSpacing": "letterSpacing",
+    "tracking": "letterSpacing",
 }
 _SHADOW_KEYS = {
     "offset_x": "offsetX",
@@ -189,7 +194,9 @@ def _declared_type(token_type: str, value: Any) -> str | None:
         _, numeric = _numeric_value(token_type, value)
         return "number" if numeric else None
     if token_type in {"type_scale", "typography"} and isinstance(value, dict):
-        return "typography"
+        # DTCG typography requires all five fields; partial composites (the
+        # common "size + line height" brand shorthand) stay untyped.
+        return "typography" if _typography_complete(value) else None
     if token_type == "gradient" and (
         isinstance(value, list) or isinstance(value, dict) and isinstance(value.get("stops"), list)
     ):
@@ -227,29 +234,45 @@ def _font_families(value: Any) -> Any:
     return families
 
 
+_TYPOGRAPHY_REQUIRED = {"fontFamily", "fontSize", "fontWeight", "lineHeight", "letterSpacing"}
+
+
+def _typography_complete(value: dict[str, Any]) -> bool:
+    """Whether a raw composite carries every field DTCG typography requires."""
+    mapped = {_TYPE_SCALE_KEYS.get(str(key)) for key in value}
+    return _TYPOGRAPHY_REQUIRED.issubset(mapped)
+
+
 def _typography_value(value: dict[str, Any], ids_to_paths: dict[str, str]) -> dict[str, Any]:
+    """Project a typography composite, normalizing whichever fields are present.
+
+    Brand sources routinely specify only size + line height; DTCG requires all
+    five fields for a `$type: typography` leaf, so completeness is enforced by
+    the caller via _typography_complete (partial composites export untyped)
+    rather than by raising here.
+    """
     projected: dict[str, Any] = {}
     for key, item in value.items():
         target_key = _TYPE_SCALE_KEYS.get(str(key))
         if target_key is not None:
             projected[target_key] = _replace_refs(item, ids_to_paths)
-    required = {"fontFamily", "fontSize", "fontWeight", "lineHeight", "letterSpacing"}
-    missing = sorted(required - projected.keys())
-    if missing:
-        raise DtcgError(f"typography composite missing fields: {', '.join(missing)}")
-    if isinstance(projected["fontFamily"], str) and not projected["fontFamily"].startswith("{"):
+
+    def _is_ref(item: Any) -> bool:
+        return isinstance(item, str) and item.startswith("{")
+
+    if "fontFamily" in projected and not _is_ref(projected["fontFamily"]):
         projected["fontFamily"] = _font_families(projected["fontFamily"])
-    if isinstance(projected["fontSize"], str) and not projected["fontSize"].startswith("{"):
+    if "fontSize" in projected and isinstance(projected["fontSize"], str) \
+            and not _is_ref(projected["fontSize"]):
         projected["fontSize"] = _dimension_value("size", projected["fontSize"])[0]
-    if not isinstance(projected["fontWeight"], str) or not projected["fontWeight"].startswith("{"):
+    if "fontWeight" in projected and not _is_ref(projected["fontWeight"]):
         projected["fontWeight"] = _weight_value(projected["fontWeight"])
     for key, token_type in (
         ("lineHeight", "line_height"),
         ("letterSpacing", "letter_spacing"),
     ):
-        item = projected[key]
-        if not isinstance(item, str) or not item.startswith("{"):
-            projected[key] = _line_value(token_type, item)[0]
+        if key in projected and not _is_ref(projected[key]):
+            projected[key] = _line_value(token_type, projected[key])[0]
     return projected
 
 
@@ -322,6 +345,8 @@ def _project_value(
             projection["gradient_angle"] = angle
         return stops, projection
     if token_type in {"type_scale", "typography"} and isinstance(value, dict):
+        # Partial composites still get field normalization; the leaf's $type
+        # (via _declared_type) is only "typography" when all fields exist.
         return _typography_value(value, ids_to_paths), projection
     if token_type == "shadow" and isinstance(value, (dict, list)):
         return _shadow_value(value, ids_to_paths), projection

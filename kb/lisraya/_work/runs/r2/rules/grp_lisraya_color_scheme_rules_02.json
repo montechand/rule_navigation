@@ -1,0 +1,227 @@
+{
+  "doc_ref": "color_scheme_rules[2]",
+  "group_id": "grp_lisraya_color_scheme_rules_02",
+  "missing_token_requests": [],
+  "original_text": "### Tint Rules\n- Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).\n- Light Blue callout box: **70% tint**.\n- Golden Sand callout box: **30% tint**.\n- Wave top layers: **70% transparency**.\n- No other ad-hoc tints — use palette values or these specified tints only.\n",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_campaign_headline_character_tint",
+      "dst_slug": "campaign_headline_character_tint",
+      "note": "Restricts tints to only the specified headline, callout, and wave parameters.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_restricted_ad_hoc_tints",
+      "src_slug": "restricted_ad_hoc_tints"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_callout_box_tint_rules",
+      "dst_slug": "callout_box_tint_rules",
+      "note": "Restricts tints to only the specified headline, callout, and wave parameters.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_restricted_ad_hoc_tints",
+      "src_slug": "restricted_ad_hoc_tints"
+    },
+    {
+      "dst_rule_id": "rule_lisraya_wave_top_layer_transparency",
+      "dst_slug": "wave_top_layer_transparency",
+      "note": "Restricts tints to only the specified headline, callout, and wave parameters.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_restricted_ad_hoc_tints",
+      "src_slug": "restricted_ad_hoc_tints"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.character.tint",
+          "token_id": "tok_lisraya_opacity_tint_headline_char"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "strong_default",
+      "id": "rule_lisraya_campaign_headline_character_tint",
+      "intent": "Maintain the approved stylistic tint for specific characters in campaign headlines.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "The campaign headline characters 'D' and 'M' must use a ~40% tint of the headline color (opacity.campaign.headline_char_tint = 0.4).",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "headline.character.tint",
+        "section_types": null
+      },
+      "slug": "campaign_headline_character_tint",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.light_blue.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        },
+        {
+          "element_path": "callout.golden_sand.opacity",
+          "token_id": "tok_lisraya_opacity_tint_golden_sand_box"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_callout_box_tint_rules",
+      "intent": "Ensure consistent background visual contrast for reading content within colored callout blocks.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Callout box background tints must conform strictly to specifications: Light Blue callout boxes must use a 70% tint (opacity.callout.light_blue_box = 0.7), and Golden Sand callout boxes must use a 30% tint (opacity.callout.golden_sand_box = 0.3).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "callout.box.tint",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "callout_box_tint_rules",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "graphic.wave.top_layer.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_wave_top_layer_transparency",
+      "intent": "Preserve the layered, semi-transparent design aesthetic of brand wave graphic components.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "The top layers of graphic wave elements must be set to 70% transparency (opacity.wave.top = 0.7).",
+      "scope": "brand",
+      "selector": {
+        "element_path": "graphic.wave.top_layer.opacity",
+        "section_types": null
+      },
+      "slug": "wave_top_layer_transparency",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_restricted_ad_hoc_tints",
+      "intent": "Prevent off-palette and non-standard opacity variants from breaking visual cohesion.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Do not use any other ad-hoc tints. Only use approved palette values or the specified tints (≈40% for headline characters, 70% for light blue/wave elements, and 30% for golden sand).",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "color.tint",
+        "section_types": null
+      },
+      "slug": "restricted_ad_hoc_tints",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    }
+  ],
+  "schema_version": "2.0"
+}

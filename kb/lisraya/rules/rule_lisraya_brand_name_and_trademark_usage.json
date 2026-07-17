@@ -1,0 +1,47 @@
+{
+  "id": "rule_lisraya_brand_name_and_trademark_usage",
+  "brand_id": "lisraya",
+  "rule_class": "copy_editorial",
+  "tags": [
+    "copy_editorial",
+    "accessibility"
+  ],
+  "audience": "dtp_patient",
+  "scope": "brand",
+  "selector": {},
+  "evaluation_scope": "sentence",
+  "constraint_type": "verbatim_content",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "campaign.case.headline",
+        "linked_by": "linker-v1.0.0:auto",
+        "token_id": "tok_lisraya_case_campaign_headline"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 10,
+  "token_ids": [
+    "tok_lisraya_case_campaign_headline"
+  ],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "trademark",
+    "verdict": "verbatim_only",
+    "preferred_form": "LISRAYA\u00ae (brepocitinib)",
+    "match": {
+      "method": "exact"
+    },
+    "severity": "block"
+  },
+  "rule_text": "Always write LISRAYA in ALL CAPS (case.campaign.all_caps = \"all_caps\") in patient marketing materials, superseding standard title-case guides. The registered trademark symbol \u00ae must only be applied on the first or most prominent mention in external-facing documents, and only when paired with the generic name formatted in lowercase parentheses: LISRAYA\u00ae (brepocitinib). Subsequent mentions must omit the \u00ae symbol.",
+  "intent": "Maintain strict, regulatory-compliant trademark presentation for LISRAYA.",
+  "source": "design_bible",
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_lisraya_content_pattern_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Write LISRAYA in ALL CAPS for patient marketing; apply \u00ae only on first/prominent mention with lowercase generic in parentheses (LISRAYA\u00ae (brepocitinib)); omit \u00ae thereafter."
+}

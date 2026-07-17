@@ -296,6 +296,26 @@ def test_required_dtcg_value_shapes() -> None:
     }
 
 
+def test_partial_typography_composite_exports_untyped() -> None:
+    # Real lisraya shape: brand sources specify only size + line height. DTCG
+    # requires all five typography fields for $type, so the leaf must degrade
+    # to untyped (with fields still normalized) instead of raising.
+    tokens = [
+        _token(
+            "tok_body",
+            "type_scale",
+            "type_scale.body",
+            {"size": "16px", "line_height": "24px"},
+        ),
+    ]
+    bundle = tokens_to_dtcg(tokens, namespace=NS)
+    leaf = _leaf(bundle, "type_scale.body")
+    assert "$type" not in leaf
+    assert leaf["$value"] == {"fontSize": "16px", "lineHeight": "24px"}
+    imported = roundtrip_tokens(tokens, BRAND, namespace=NS)
+    assert _by_id(imported) == _by_id(tokens)
+
+
 def test_number_dimension_and_untyped_string_decisions() -> None:
     bundle = tokens_to_dtcg(_rich_raw_tokens(), namespace=NS)
     assert _leaf(bundle, "color.primary.green")["$value"] == "#00aa44"

@@ -1,0 +1,118 @@
+{
+  "doc_ref": "design_pattern_rules[2]",
+  "group_id": "grp_lisraya_design_pattern_rules_02",
+  "missing_token_requests": [],
+  "original_text": "### Image Treatment\n- Photography: **warm, realistic patient lifestyle imagery** — real moments of simple, everyday activity (walking the dog, beach, BBQ). Conveys returning to everyday life and \"getting back to themselves.\"\n- Images are housed in the **Accent shape** (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles.\n- Waves and gradients may overlay photography.\n- Every image requires **descriptive alt text** (brand accessibility rule).",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_photography_style_and_cropping",
+      "dst_slug": "photography_style_and_cropping",
+      "note": "Overlay guidance for brand photography assets that are styled according to the core photography style rule.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_photography_overlays",
+      "src_slug": "photography_overlays"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "image.crop",
+          "token_id": "tok_lisraya_radius_callout_box"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Photography: warm, realistic patient lifestyle imagery — real moments of simple, everyday activity",
+          "Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops, not plain rectangles or circles",
+          "Every image requires descriptive alt text (brand accessibility rule)"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0001",
+          "u_design_pattern_rules_2_0002",
+          "u_design_pattern_rules_2_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "regulatory",
+        "match": null,
+        "preferred_form": null,
+        "preferred_form_evidence": null,
+        "severity": "block",
+        "verdict": "allowed_with_disclosure"
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_photography_style_and_cropping",
+      "intent": "Ensure patient imagery is emotionally resonant, visually branded with the asymmetric Accent shape, and accessible to screen readers.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Patient photography must depict warm, realistic patient lifestyle imagery showing everyday activity (like walking the dog, beach, or BBQ). All images must be cropped using the asymmetric Accent shape (using the corner radius specified by tok_lisraya_radius_callout_box = 40px 8px 40px 8px), and must include descriptive alt text for accessibility compliance.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image",
+        "section_types": [
+          "patient_story"
+        ]
+      },
+      "slug": "photography_style_and_cropping",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": null,
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Waves and gradients may overlay photography."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_2_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "soft_guidance",
+      "id": "rule_lisraya_photography_overlays",
+      "intent": "Enhance visual connection with brand assets without making overlay a hard restriction.",
+      "polarity": "may",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Waves and gradients may overlay photography to tie the imagery back to the brand's visual identity.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image",
+        "section_types": null
+      },
+      "slug": "photography_overlays",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

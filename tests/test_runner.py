@@ -1035,6 +1035,38 @@ def test_shared_llm_client_satisfies_protocol() -> None:
     assert isinstance(SharedLLMClient(), LLMClient)
 
 
+def test_shared_llm_client_retries_malformed_json_then_succeeds(monkeypatch) -> None:
+    calls = {"n": 0}
+
+    async def fake_complete_json(*args: Any, **kwargs: Any) -> Any:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise json.JSONDecodeError("Expecting ',' delimiter", '{"a" 1}', 5)
+        return {"ok": True}
+
+    monkeypatch.setattr(runner, "shared_complete_json", fake_complete_json)
+    result = asyncio.run(
+        SharedLLMClient().complete_json("m", "sys", "usr", prompt_name="tokens_semantic")
+    )
+    assert result == {"ok": True}
+    assert calls["n"] == 2
+
+
+def test_shared_llm_client_raises_typed_after_exhausting_retries(monkeypatch) -> None:
+    calls = {"n": 0}
+
+    async def fake_complete_json(*args: Any, **kwargs: Any) -> Any:
+        calls["n"] += 1
+        raise ValueError("Unbalanced JSON in model output")
+
+    monkeypatch.setattr(runner, "shared_complete_json", fake_complete_json)
+    with pytest.raises(runner.MalformedModelJSONError, match="tokens_semantic"):
+        asyncio.run(
+            SharedLLMClient().complete_json("m", "sys", "usr", prompt_name="tokens_semantic")
+        )
+    assert calls["n"] == runner._JSON_PARSE_ATTEMPTS
+
+
 def test_cache_path_layout() -> None:
     template = PromptTemplate(name="tokens_primitive", system="", user="", template_hash="h")
     ctx = runner.CacheContext(

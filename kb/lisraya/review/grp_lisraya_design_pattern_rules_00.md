@@ -16,9 +16,4 @@ doc_ref: `design_pattern_rules[0]`
 - Buttons/CTA **[GENERAL, contrast-checked to palette]:** Brand Blue #00529b background, White #ffffff text, Nunito Sans Bold 16px, padding 14px 32px, **min touch target 48px height** (brand accessibility rule: ≥48px clickable areas), corner radius 24px (fully rounded pill, echoing the rounded brand aesthetic). Secondary CTA: White background, 2px Brand Blue border, Brand Blue text, same metrics. One primary CTA per section maximum.
 ````
 
-## Extracted rules (1)
-
-### rule_lisraya_cta_one_primary_per_section
-- class=cta scope=org_baseline hardness=strong_default polarity=must sections=['cta'] constraint=cardinality
-- rule_text: One primary CTA per section maximum.
-- intent: Prevent competing primary calls-to-action within a single section.
+## Extracted rules (0)

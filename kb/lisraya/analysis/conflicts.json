@@ -1,30 +1,75 @@
 {
   "conflicts": [
     {
-      "a_id": "tok_lisraya_accent_shape_radius",
-      "b_id": "tok_lisraya_accent_shape_radius",
-      "detail": "intra_token tok_lisraya_accent_shape_radius: \"42px & 6px\" vs \"1.25\\\" & 0.0625\\\"\"; witness={\"surface\": \"print\", \"tag:callout\": \"present\"}",
-      "element_path": "accent_shape.radius",
-      "kind": "intra_token",
+      "a_id": "rule_lisraya_administration_and_convenience_messaging",
+      "b_id": "rule_lisraya_audience_terminology_dtc",
+      "detail": "verbatim clash at None: rule_lisraya_administration_and_convenience_messaging vs rule_lisraya_audience_terminology_dtc; witness={\"audience\": \"dtp_patient\", \"section\": \"efficacy\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
       "overlap_guard": {
-        "surface": {
+        "audience": {
           "op": "eq",
           "values": [
-            "print"
+            "dtp_patient"
           ]
         },
-        "tag:callout": {
-          "op": "eq",
+        "section": {
+          "op": "in",
           "values": [
-            "present"
+            "efficacy",
+            "intro"
           ]
         }
       }
     },
     {
-      "a_id": "rule_lisraya_administration_statement_verbatim",
-      "b_id": "rule_lisraya_brand_name_all_caps",
-      "detail": "verbatim clash at None: rule_lisraya_administration_statement_verbatim vs rule_lisraya_brand_name_all_caps; witness={\"audience\": \"dtp_patient\"}",
+      "a_id": "rule_lisraya_administration_and_convenience_messaging",
+      "b_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "detail": "verbatim clash at None: rule_lisraya_administration_and_convenience_messaging vs rule_lisraya_brand_name_and_trademark_usage; witness={\"audience\": \"dtp_patient\", \"section\": \"efficacy\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "in",
+          "values": [
+            "efficacy",
+            "intro"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_administration_and_convenience_messaging",
+      "b_id": "rule_lisraya_product_benefits_messaging",
+      "detail": "verbatim clash at None: rule_lisraya_administration_and_convenience_messaging vs rule_lisraya_product_benefits_messaging; witness={\"audience\": \"dtp_patient\", \"section\": \"efficacy\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "in",
+          "values": [
+            "efficacy",
+            "intro"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_audience_terminology_dtc",
+      "b_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "detail": "verbatim clash at None: rule_lisraya_audience_terminology_dtc vs rule_lisraya_brand_name_and_trademark_usage; witness={\"audience\": \"dtp_patient\"}",
       "element_path": null,
       "kind": "verbatim_clash",
       "overlap_guard": {
@@ -37,9 +82,9 @@
       }
     },
     {
-      "a_id": "rule_lisraya_administration_statement_verbatim",
-      "b_id": "rule_lisraya_doctor_discussion_cta_verbatim",
-      "detail": "verbatim clash at None: rule_lisraya_administration_statement_verbatim vs rule_lisraya_doctor_discussion_cta_verbatim; witness={\"audience\": \"dtp_patient\", \"section\": \"cta\"}",
+      "a_id": "rule_lisraya_audience_terminology_dtc",
+      "b_id": "rule_lisraya_parent_company_footer_lock",
+      "detail": "verbatim clash at None: rule_lisraya_audience_terminology_dtc vs rule_lisraya_parent_company_footer_lock; witness={\"audience\": \"dtp_patient\", \"section\": \"end_matter\"}",
       "element_path": null,
       "kind": "verbatim_clash",
       "overlap_guard": {
@@ -52,15 +97,59 @@
         "section": {
           "op": "eq",
           "values": [
-            "cta"
+            "end_matter"
           ]
         }
       }
     },
     {
-      "a_id": "rule_lisraya_brand_name_all_caps",
-      "b_id": "rule_lisraya_doctor_discussion_cta_verbatim",
-      "detail": "verbatim clash at None: rule_lisraya_brand_name_all_caps vs rule_lisraya_doctor_discussion_cta_verbatim; witness={\"audience\": \"dtp_patient\", \"section\": \"cta\"}",
+      "a_id": "rule_lisraya_audience_terminology_dtc",
+      "b_id": "rule_lisraya_patient_support_program_naming",
+      "detail": "verbatim clash at None: rule_lisraya_audience_terminology_dtc vs rule_lisraya_patient_support_program_naming; witness={\"audience\": \"dtp_patient\", \"section\": \"affordability\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "in",
+          "values": [
+            "affordability",
+            "patient_story"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_audience_terminology_dtc",
+      "b_id": "rule_lisraya_product_benefits_messaging",
+      "detail": "verbatim clash at None: rule_lisraya_audience_terminology_dtc vs rule_lisraya_product_benefits_messaging; witness={\"audience\": \"dtp_patient\", \"section\": \"efficacy\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "in",
+          "values": [
+            "efficacy",
+            "intro"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "b_id": "rule_lisraya_parent_company_footer_lock",
+      "detail": "verbatim clash at None: rule_lisraya_brand_name_and_trademark_usage vs rule_lisraya_parent_company_footer_lock; witness={\"audience\": \"dtp_patient\", \"section\": \"end_matter\"}",
       "element_path": null,
       "kind": "verbatim_clash",
       "overlap_guard": {
@@ -73,7 +162,51 @@
         "section": {
           "op": "eq",
           "values": [
-            "cta"
+            "end_matter"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "b_id": "rule_lisraya_patient_support_program_naming",
+      "detail": "verbatim clash at None: rule_lisraya_brand_name_and_trademark_usage vs rule_lisraya_patient_support_program_naming; witness={\"audience\": \"dtp_patient\", \"section\": \"affordability\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "in",
+          "values": [
+            "affordability",
+            "patient_story"
+          ]
+        }
+      }
+    },
+    {
+      "a_id": "rule_lisraya_brand_name_and_trademark_usage",
+      "b_id": "rule_lisraya_product_benefits_messaging",
+      "detail": "verbatim clash at None: rule_lisraya_brand_name_and_trademark_usage vs rule_lisraya_product_benefits_messaging; witness={\"audience\": \"dtp_patient\", \"section\": \"efficacy\"}",
+      "element_path": null,
+      "kind": "verbatim_clash",
+      "overlap_guard": {
+        "audience": {
+          "op": "eq",
+          "values": [
+            "dtp_patient"
+          ]
+        },
+        "section": {
+          "op": "in",
+          "values": [
+            "efficacy",
+            "intro"
           ]
         }
       }

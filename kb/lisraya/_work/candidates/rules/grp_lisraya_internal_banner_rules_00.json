@@ -4,25 +4,27 @@
     "audience": null,
     "constraint_type": "ordering",
     "content_sub_type_ids": null,
-    "content_types": null,
-    "doc_ref": "internal_banner_rules[0]",
+    "content_types": [
+      "banner"
+    ],
     "effect": {
       "sequence": [
-        "tok_lisraya_color_primary_brand_blue",
-        "tok_lisraya_color_primary_sunshine",
-        "tok_lisraya_color_primary_gold"
+        "color.primary.brand_blue",
+        "color.primary.sunshine",
+        "color.primary.gold"
       ],
       "strict": true
     },
     "effect_evidence": {
       "quotes": [
-        "The three approved brand colors in hierarchy order are: (1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent)."
+        "The three approved brand colors in hierarchy order are: (1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent).",
+        "three approved brand colors in hierarchy order are: (1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent)"
       ],
       "unit_ids": [
         "u_internal_banner_rules_0_0001"
       ]
     },
-    "evaluation_scope": "element",
+    "evaluation_scope": "email",
     "evidence": {
       "quotes": [
         "The three approved brand colors in hierarchy order are: (1) \n#00529B Deep Blue (dominant), (2) \n#FAA31B Amber Orange (secondary accent), (3) \n#FFC60A Golden Yellow (tertiary accent)."
@@ -32,49 +34,49 @@
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
-      "confidence": "medium",
+      "champion_run": "r0",
+      "confidence": "high",
       "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
         "audience": 1.0,
-        "constraint_type": 0.5,
+        "constraint_type": 1.0,
         "content_sub_type_ids": 1.0,
-        "content_types": 1.0,
-        "effect": 0.5,
-        "evaluation_scope": 0.5,
-        "governance": 0.5,
+        "content_types": 0.6666666666666666,
+        "effect": 0.6666666666666666,
+        "evaluation_scope": 0.6666666666666666,
+        "governance": 1.0,
         "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
         "rule_class": 1.0,
         "scope": 1.0,
-        "selector": 1.0,
+        "selector": 0.6666666666666666,
         "slug": 1.0,
-        "snippets": 0.5,
-        "tags": 0.5
+        "snippets": 1.0,
+        "tags": 0.3333333333333333
       },
       "runs": 3,
-      "support": 2
+      "support": 3
     },
-    "governance_note": "Add explicit scope/owner metadata; verify hardness given descriptive (not imperative) source phrasing.",
-    "group_id": "grp_lisraya_internal_banner_rules_00",
+    "governance": null,
     "hardness": "hard_constraint",
     "id": "rule_lisraya_brand_color_hierarchy",
-    "intent": "Preserve the approved brand color hierarchy and dominance.",
-    "notes": "No explicit exception governance found for CTA-specific gradient colors; verify against u_0012.",
+    "intent": "Maintain established brand color presence and hierarchy across banner executions.",
     "polarity": "must",
     "precedence": 0,
     "rule_class": "color_application",
-    "rule_text": "The three approved brand colors, in hierarchy order, are: (1) Deep Blue (#00529B, dominant), (2) Amber Orange (#FAA31B, secondary accent), (3) Golden Yellow (#FFC60A, tertiary accent).",
-    "scope": "all brand banner materials",
+    "rule_text": "The brand colors must adhere strictly to the specified hierarchy order: (1) Dominant: Deep Blue (color.primary.brand_blue = #00529B), (2) Secondary Accent: Amber Orange (color.primary.sunshine = #FAA31B), and (3) Tertiary Accent: Golden Yellow (color.primary.gold = #FFC60A).",
+    "scope": "brand",
     "selector": {
       "element_path": null,
       "section_types": null
     },
     "slug": "brand_color_hierarchy",
+    "snippets": null,
+    "snippets_evidence": null,
     "tags": [
-      "color_application"
+      "brand"
     ]
   }
 ]

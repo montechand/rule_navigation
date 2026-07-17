@@ -8,10 +8,11 @@ from shared import config
 
 from .contracts import RunVariant
 
-_DEFAULT_CLASSIFY_MODEL = "claude-sonnet-5"
-_DEFAULT_EXTRACT_MODEL = "claude-opus-4-8"
-_DEFAULT_CRITIC_MODEL = "claude-sonnet-5"
+_DEFAULT_CLASSIFY_MODEL = "gemini-3.5-flash"
+_DEFAULT_EXTRACT_MODEL = "gemini-3.5-flash"
+_DEFAULT_CRITIC_MODEL = "gemini-3.5-flash"
 _DEFAULT_SECONDARY_MODEL = _DEFAULT_CRITIC_MODEL
+_DEFAULT_LINKER_MODEL = _DEFAULT_CRITIC_MODEL
 _DEFAULT_TRIAGE_FILE = "review/triage.jsonl"
 _DEFAULT_DTCG_NAMESPACE = "com.solstice.kb"
 
@@ -111,7 +112,7 @@ def reload_settings() -> None:
     CONCURRENCY = _resolve_int("CONCURRENCY", 4)
     TWO_PHASE = _resolve_bool("TWO_PHASE", False)
     REF_RETRIES = _resolve_int("REF_RETRIES", 2)
-    LINKER_MODEL = _resolve_str("LINKER_MODEL", CRITIC_MODEL)
+    LINKER_MODEL = _resolve_str("LINKER_MODEL", _DEFAULT_LINKER_MODEL)
     LINKER_MAX_ADJUDICATIONS = _resolve_int("LINKER_MAX_ADJUDICATIONS", 64)
     LINKER_GAP_FEEDBACK = _resolve_bool("LINKER_GAP_FEEDBACK", False)
 

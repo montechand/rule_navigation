@@ -6,57 +6,42 @@
     "content_sub_type_ids": null,
     "content_types": null,
     "doc_ref": "other_rules[1]",
-    "effect": {
-      "content": "someone/people with dermatomyositis",
-      "trigger": "patient (DTC) materials"
-    },
-    "effect_evidence": {
-      "quotes": [
-        "\"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials"
-      ],
-      "unit_ids": [
-        "u_other_rules_1_0001"
-      ]
-    },
+    "effect": null,
+    "effect_evidence": null,
     "evaluation_scope": "sentence",
     "evidence": {
       "quotes": [
-        "Confirm audience in every brief before writing.",
-        "This guide governs **patient (DTC) materials**.",
-        "Audience Segmentation",
-        "Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials. Confirm audience in every brief before writing.",
-        "This guide governs **patient (DTC) materials**. Language rules differ by audience"
+        "Language rules differ by audience: \"someone/people with dermatomyositis\" for patient materials; \"patients\" acceptable in HCP materials."
       ],
       "unit_ids": [
-        "u_other_rules_1_0000",
         "u_other_rules_1_0001"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
-      "confidence": "high",
+      "champion_run": "r0",
+      "confidence": "low",
       "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
-        "audience": 0.6666666666666666,
-        "constraint_type": 0.6666666666666666,
+        "audience": 1.0,
+        "constraint_type": 1.0,
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
-        "effect": 0.6666666666666666,
-        "evaluation_scope": 0.6666666666666666,
-        "governance": 0.6666666666666666,
+        "effect": 1.0,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
         "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
         "rule_class": 1.0,
         "scope": 1.0,
         "selector": 1.0,
-        "slug": 0.3333333333333333,
+        "slug": 1.0,
         "snippets": 1.0,
         "tags": 1.0
       },
       "runs": 3,
-      "support": 3
+      "support": 1
     },
     "governance": {
       "gov_type": "regulatory",
@@ -72,41 +57,39 @@
           "u_other_rules_1_0001"
         ]
       },
-      "severity": "warn",
-      "verdict": "requires_qualifier"
+      "severity": "block",
+      "verdict": "verbatim_only"
     },
-    "governance_facet": "audience must be confirmed in brief prior to copy drafting",
-    "governs_heading": "Audience Segmentation",
+    "governance_facet": "Confirm target audience in every creative brief before writing.",
+    "governance_requirements": [
+      "Confirm the target audience in every creative brief prior to writing copy."
+    ],
     "group_id": "grp_lisraya_other_rules_01",
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_audience_person_first_language",
-    "intent": "Enforce audience-appropriate, person-first language.",
-    "note": "Restrict hard_constraint/must to patient/DTC scope only; HCP usage of 'patients' should carry guideline/may polarity.",
+    "id": "rule_lisraya_audience_terminology_dtc",
+    "intent": "Maintain patient-centric, empathetic, and compliant language for DTC audiences.",
     "polarity": "must",
     "precedence": 0,
-    "rule_class": "copy_editorial",
-    "rule_text": "This guide governs patient (DTC) materials. Language rules differ by audience: use person-first phrasing \"someone/people with dermatomyositis\" for patient materials, while \"patients\" is acceptable in HCP materials. Confirm the audience in every brief before writing.",
+    "rule_class": "voice_tone",
+    "rule_text": "In patient (DTC) materials, use person-first language such as 'someone/people with dermatomyositis'. Do not refer to them simply as 'patients', which is restricted to HCP materials.",
     "scope": "brand",
-    "scope_facet": "patient (DTC) materials",
     "selector": {
       "element_path": null,
       "section_types": null
     },
-    "slug": "audience_person_first_language",
+    "slug": "audience_terminology_dtc",
     "snippets": null,
     "snippets_evidence": null,
     "tags": [
-      "voice_tone"
+      "copy_editorial"
     ]
   },
   {
     "applies_when": null,
     "audience": null,
-    "class": "governance",
     "constraint_type": null,
     "content_sub_type_ids": null,
     "content_types": null,
-    "doc_ref": "other_rules[1]",
     "effect": null,
     "effect_evidence": null,
     "evaluation_scope": "email",
@@ -119,39 +102,39 @@
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
-      "confidence": "high",
+      "champion_run": "r0",
+      "confidence": "medium",
       "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
-        "audience": 0.6666666666666666,
+        "audience": 1.0,
         "constraint_type": 1.0,
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
         "evaluation_scope": 1.0,
-        "governance": 0.6666666666666666,
-        "hardness": 0.6666666666666666,
+        "governance": 1.0,
+        "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
         "rule_class": 1.0,
         "scope": 1.0,
-        "selector": 1.0,
+        "selector": 0.5,
         "slug": 1.0,
         "snippets": 1.0,
-        "tags": 0.3333333333333333
+        "tags": 0.5
       },
       "runs": 3,
-      "support": 3
+      "support": 2
     },
-    "group_id": "grp_lisraya_other_rules_01",
-    "hardness": "hard_constraint",
+    "governance": null,
+    "hardness": "strong_default",
     "id": "rule_lisraya_patient_brochure_master_reference",
-    "intent": "Anchor all materials to a single canonical source of truth.",
+    "intent": "Ensure cross-channel consistency by anchoring all assets to the master patient brochure.",
     "polarity": "must",
     "precedence": 0,
     "rule_class": "assembly",
-    "rule_text": "The patient brochure is the master reference for visuals, messaging, and tone across all LISRAYA materials.",
+    "rule_text": "The patient brochure serves as the master reference for visuals, messaging, and tone across all LISRAYA materials.",
     "scope": "brand",
     "selector": {
       "element_path": null,

@@ -1,43 +1,80 @@
 [
   {
-    "add_facet": {
-      "condition": "light_text_on_dark_background",
-      "governance_tag": "GENERAL",
-      "value": "160% (e.g. 16px/26px)"
-    },
     "applies_when": null,
     "audience": null,
     "constraint_type": "binding",
     "content_sub_type_ids": null,
-    "content_types": null,
-    "doc_ref": "content_pattern_rules[1]",
+    "content_types": [
+      "email"
+    ],
     "effect": [
       {
-        "element_path": "body.line_height",
-        "token_id": "tok_lisraya_body_line_height"
+        "element_path": "type_scale.h1",
+        "token_id": "tok_lisraya_type_scale_h1"
+      },
+      {
+        "element_path": "type_scale.h2",
+        "token_id": "tok_lisraya_type_scale_h2"
+      },
+      {
+        "element_path": "type_scale.h3",
+        "token_id": "tok_lisraya_type_scale_h3"
+      },
+      {
+        "element_path": "type_scale.body",
+        "token_id": "tok_lisraya_type_scale_body"
+      },
+      {
+        "element_path": "type_scale.secondary_body",
+        "token_id": "tok_lisraya_type_scale_secondary_body"
+      },
+      {
+        "element_path": "type_scale.footnote",
+        "token_id": "tok_lisraya_type_scale_footnote"
       }
     ],
     "effect_evidence": {
       "quotes": [
-        "**Line height: minimum 150% for all body copy** (brand accessibility rule)",
-        "Line height: minimum 150% for all body copy"
+        "Body: 16px / 24px (150%)",
+        "Footnote/reference text within a section: 12px / 18px (150%)",
+        "H1 (section hero headline): 28px / 36px (≈130%)",
+        "H2 (section heading): 22px / 30px (≈136%)",
+        "H3 (subhead): 18px / 26px (≈144%)",
+        "Secondary/supporting body: 14px / 21px (150%)"
       ],
       "unit_ids": [
-        "u_content_pattern_rules_1_0019"
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017"
       ]
     },
     "evaluation_scope": "element",
     "evidence": {
       "quotes": [
-        "**For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px).",
-        "**Line height: minimum 150% for all body copy** (brand accessibility rule). **For light text on dark backgrounds, increase further** — [GENERAL] use 160% (e.g., 16px/26px)."
+        "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels.",
+        "16px is the brand-mandated minimum for body copy",
+        "16px is the brand-mandated minimum for body copy (\"bigger is better\")",
+        "Email type scale (px / line-height)",
+        "Never set running text below 12px. (ISI sizing is owned by the locked component.)",
+        "[GENERAL] Email type scale (px / line-height):"
       ],
       "unit_ids": [
-        "u_content_pattern_rules_1_0019"
+        "u_content_pattern_rules_1_0011",
+        "u_content_pattern_rules_1_0012",
+        "u_content_pattern_rules_1_0013",
+        "u_content_pattern_rules_1_0014",
+        "u_content_pattern_rules_1_0015",
+        "u_content_pattern_rules_1_0016",
+        "u_content_pattern_rules_1_0017",
+        "u_content_pattern_rules_1_0020",
+        "u_content_pattern_rules_1_0018"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
+      "champion_run": "r0",
       "confidence": "medium",
       "dissent_unit_ids": [],
       "field_agreement": {
@@ -47,34 +84,115 @@
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
+        "evaluation_scope": 0.5,
+        "governance": 1.0,
+        "hardness": 1.0,
+        "polarity": 1.0,
+        "precedence": 1.0,
+        "rule_class": 1.0,
+        "scope": 1.0,
+        "selector": 0.5,
+        "slug": 1.0,
+        "snippets": 1.0,
+        "tags": 1.0
+      },
+      "runs": 3,
+      "support": 2
+    },
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_email_type_scale_hierarchy",
+    "intent": "Maintain layout accessibility and clean readability through an ordered, non-ambiguous visual type scale.",
+    "polarity": "must",
+    "precedence": 0,
+    "rule_class": "typography",
+    "rule_text": "Layouts must strictly follow the established email type scale and visual hierarchy: H1 hero headlines at 28px (type_scale.h1), H2 headings at 22px (type_scale.h2), H3 subheads at 18px (type_scale.h3), and standard body copy at a brand-mandated minimum of 16px (type_scale.body). Secondary supporting copy may be 14px (type_scale.secondary_body), and footnote/reference copy must be 12px (type_scale.footnote) and visually distinct. Running body copy must never fall below the absolute minimum of 12px. Distinct, adjacent text blocks must not share identical sizing and weights if they perform different roles in the visual hierarchy.",
+    "scope": "org_baseline",
+    "selector": {
+      "element_path": "type_scale",
+      "section_types": null
+    },
+    "slug": "email_type_scale_hierarchy",
+    "snippets": null,
+    "snippets_evidence": null,
+    "tags": [
+      "accessibility"
+    ]
+  },
+  {
+    "applies_when": null,
+    "audience": null,
+    "constraint_type": "binding",
+    "content_sub_type_ids": null,
+    "content_types": null,
+    "description": "Line height must be minimum 150% for all body copy. For light text on dark backgrounds, line height must be increased further to 160% (e.g., 16px/26px).",
+    "doc_ref": "content_pattern_rules[1]",
+    "effect": [
+      {
+        "element_path": "body.line_height",
+        "token_id": "tok_lisraya_line_height_body_min"
+      }
+    ],
+    "effect_evidence": {
+      "quotes": [
+        "Line height: minimum 150% for all body copy",
+        "Line height: minimum 150% for all body copy (brand accessibility rule)."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    "evaluation_scope": "element",
+    "evidence": {
+      "quotes": [
+        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px).",
+        "Line height: minimum 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — use 160% (e.g., 16px/26px)."
+      ],
+      "unit_ids": [
+        "u_content_pattern_rules_1_0019"
+      ]
+    },
+    "extraction_meta": {
+      "champion_run": "r0",
+      "confidence": "high",
+      "dissent_unit_ids": [],
+      "field_agreement": {
+        "applies_when": 1.0,
+        "audience": 1.0,
+        "constraint_type": 1.0,
+        "content_sub_type_ids": 1.0,
+        "content_types": 0.6666666666666666,
+        "effect": 1.0,
         "evaluation_scope": 1.0,
+        "governance": 1.0,
         "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
         "rule_class": 1.0,
         "scope": 1.0,
         "selector": 1.0,
-        "slug": 1.0,
-        "snippets": 0.5,
+        "slug": 0.3333333333333333,
+        "snippets": 1.0,
         "tags": 1.0
       },
       "runs": 3,
-      "support": 2
+      "support": 3
     },
+    "governance": null,
     "group_id": "grp_lisraya_content_pattern_rules_01",
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_body_line_height_minimum",
-    "intent": "Maintain readable line spacing, with extra leading for light-on-dark text.",
+    "id": "rule_lisraya_line_height_accessibility",
+    "intent": "Enhance text readability and reach brand compliance accessibility standards across both light and dark layouts.",
     "polarity": "must",
     "precedence": 0,
     "rule_class": "accessibility",
-    "rule_text": "Line height must be a minimum of 150% for all body copy (brand accessibility rule). For light text on dark backgrounds, increase further — [GENERAL] use 160% (e.g., 16px/26px).",
-    "scope": "brand",
+    "rule_text": "To guarantee accessibility, body copy must use a minimum line height of 150% (line_height.accessibility.body_min = 150%). For light colored text on dark backgrounds, line height must be increased further to a minimum of 160% (e.g., 16px text / 26px line height).",
+    "scope": "org_baseline",
     "selector": {
       "element_path": "body.line_height",
       "section_types": null
     },
-    "slug": "body_line_height_minimum",
+    "slug": "line_height_accessibility",
     "snippets": null,
     "snippets_evidence": null,
     "tags": [
@@ -84,62 +202,64 @@
   {
     "applies_when": null,
     "audience": null,
-    "constraint_type": null,
+    "constraint_type": "binding",
     "content_sub_type_ids": null,
     "content_types": null,
-    "doc_ref": "content_pattern_rules[1]",
     "effect": null,
-    "evaluation_scope": "section",
+    "effect_evidence": null,
+    "evaluation_scope": "element",
     "evidence": {
       "quotes": [
-        "Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels."
+        "Never set running text below 12px. (ISI sizing is owned by the locked component.)"
       ],
       "unit_ids": [
-        "u_content_pattern_rules_1_0020"
+        "u_content_pattern_rules_1_0018"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
+      "champion_run": "r0",
       "confidence": "medium",
       "dissent_unit_ids": [],
       "field_agreement": {
-        "applies_when": 0.5,
+        "applies_when": 1.0,
         "audience": 1.0,
-        "constraint_type": 1.0,
+        "constraint_type": 0.5,
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
         "evaluation_scope": 1.0,
         "governance": 0.5,
-        "hardness": 0.5,
+        "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
-        "rule_class": 1.0,
-        "scope": 1.0,
+        "rule_class": 0.5,
+        "scope": 0.5,
         "selector": 1.0,
-        "slug": 0.5,
-        "snippets": 0.5,
-        "tags": 1.0
+        "slug": 1.0,
+        "snippets": 1.0,
+        "tags": 0.5
       },
       "runs": 3,
       "support": 2
     },
-    "group_id": "grp_lisraya_content_pattern_rules_01",
+    "governance": null,
     "hardness": "hard_constraint",
-    "id": "rule_lisraya_no_adjacent_same_size_weight_hierarchy",
-    "intent": "Preserve legible reading order through distinct hierarchy levels.",
+    "id": "rule_lisraya_minimum_running_text_size",
+    "intent": "Enforce minimum size limits for standard layout content to guarantee legibility.",
     "polarity": "must_not",
     "precedence": 0,
-    "rule_class": "typography",
-    "rule_text": "Use a clear type scale / visual hierarchy so the reader knows what to read first, next, last. Never use two adjacent text blocks at the same size+weight to signal different hierarchy levels.",
+    "rule_class": "accessibility",
+    "rule_text": "Never set running text size below 12px. (Note: Sizing for Important Safety Information (ISI) is governed strictly by its own locked component).",
     "scope": "brand",
     "selector": {
       "element_path": null,
       "section_types": null
     },
-    "slug": "no_adjacent_same_size_weight_hierarchy",
+    "slug": "minimum_running_text_size",
+    "snippets": null,
+    "snippets_evidence": null,
     "tags": [
-      "layout"
+      "typography"
     ]
   }
 ]

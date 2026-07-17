@@ -1,0 +1,148 @@
+{
+  "doc_ref": "design_pattern_rules[3]",
+  "group_id": "grp_lisraya_design_pattern_rules_03",
+  "missing_token_requests": [],
+  "original_text": "### Brand Accent Shape (core container device)\n- A rectangle with **selectively enlarged opposite corner radii**; the other two corners keep a slight radius. Used to house callout text and photography. Reads modern and optimistic.\n- Approved radius pairs (print): **1.25\" & 0.0625\"** (large containers/photos), **0.5\" & 0.0625\"** (banners), **0.4375\" & 0.0625\"** (small callout boxes).\n- **[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right).\n- **Exception: charts and tables use uniform rounded corners on all four corners** (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_brand_accent_shape_radius",
+      "dst_slug": "brand_accent_shape_radius",
+      "note": "Uniform rounded corners on charts override the standard brand asymmetric opposite corner treatment.",
+      "relation": "overrides",
+      "src_rule_id": "rule_lisraya_chart_and_table_corner_exception",
+      "src_slug": "chart_and_table_corner_exception"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": [
+        "email",
+        "print",
+        "web"
+      ],
+      "effect": [
+        {
+          "element_path": "container.radius.large",
+          "token_id": "tok_lisraya_radius_large"
+        },
+        {
+          "element_path": "container.radius.banner",
+          "token_id": "tok_lisraya_radius_banner"
+        },
+        {
+          "element_path": "container.radius.callout",
+          "token_id": "tok_lisraya_radius_callout"
+        },
+        {
+          "element_path": "container.radius.small",
+          "token_id": "tok_lisraya_radius_small"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "A rectangle with selectively enlarged opposite corner radii; the other two corners keep a slight radius.",
+          "Approved radius pairs (print): 1.25\" & 0.0625\" (large containers/photos), 0.5\" & 0.0625\" (banners), 0.4375\" & 0.0625\" (small callout boxes).",
+          "Email px conversions (at 96dpi): large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px. Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0001",
+          "u_design_pattern_rules_3_0002",
+          "u_design_pattern_rules_3_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_brand_accent_shape_radius",
+      "intent": "Maintain brand visual cohesiveness using the signature asymmetric rounded-corner container design.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The core brand container accent device uses selectively enlarged opposite corner radii. In digital/email templates, apply the large radius (radius.general.large = 120px), banner radius (radius.general.banner = 48px), or callout radius (radius.general.callout = 42px) to one diagonal pair (default top-left & bottom-right), while the remaining corners use the small radius (radius.general.small = 6px). This diagonal orientation must remain consistent across all sections within a single asset.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "container.border_radius",
+        "section_types": [
+          "callout",
+          "hero",
+          "intro",
+          "efficacy",
+          "safety",
+          "patient_story",
+          "affordability"
+        ]
+      },
+      "slug": "brand_accent_shape_radius",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "spacing",
+        "imagery"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "chart.panel.border_radius",
+          "token_id": "tok_lisraya_radius_chart_panel"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "12px uniform radius."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Exception: charts and tables use uniform rounded corners on all four corners (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_3_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_chart_and_table_corner_exception",
+      "intent": "Maintain readability and clean structure for data-heavy sections.",
+      "polarity": "must",
+      "precedence": 1,
+      "rule_class": "layout",
+      "rule_text": "Charts, infographics, and tables must use uniform rounded corners on all four corners (radius.infographic.panel = 12px) instead of the asymmetric brand accent shape.",
+      "scope": "org_baseline",
+      "selector": {
+        "element_path": "chart.panel.border_radius",
+        "section_types": [
+          "chart"
+        ]
+      },
+      "slug": "chart_and_table_corner_exception",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "chart"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

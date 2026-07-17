@@ -13,17 +13,17 @@ doc_ref: `content_pattern_rules[9]`
 
 ## Extracted rules (3)
 
-### rule_lisraya_clinical_claim_footnote_markers
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=['efficacy', 'safety'] constraint=pairing governance=mlr_claim/requires_qualifier
-- rule_text: Clinical claims require footnote markers (†), with the associated footnote text clearly separated from the claim and rendered noticeably smaller (per §1.2 footnote type scale, e.g. footnote.type_scale = 12px/18px).
-- intent: Ensure clinical claims are properly qualified with visible, referenced footnotes for MLR compliance.
+### rule_lisraya_clinical_claims_footnotes
+- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=None constraint=pairing governance=regulatory/requires_qualifier
+- rule_text: Clinical claims must be paired with footnote markers (†) and their corresponding footnote text, which must be clearly separated and noticeably smaller.
+- intent: Maintain medical accuracy and clear distinction between clinical claims and supporting footnotes.
 
-### rule_lisraya_locked_header_footer_legal_elements
-- class=assembly scope=brand hardness=hard_constraint polarity=must_not sections=['top_matter', 'end_matter'] constraint=exclusivity governance=regulatory/forbidden
-- rule_text: Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI all live in the locked header/footer components and must never be reproduced within content sections.
-- intent: Prevent duplication or drift of mandated legal/regulatory elements outside their locked components.
+### rule_lisraya_locked_header_footer_isolation
+- class=assembly scope=org_baseline hardness=hard_constraint polarity=must_not sections=['top_matter', 'end_matter'] constraint=exclusivity governance=legal/forbidden
+- rule_text: Priovant logo, copyright line, ® legal line, job code [mm/yy], Indication, and ISI must only live in the locked header/footer components and must never be reproduced in content sections.
+- intent: Protect regulatory boilerplate and corporate branding structures from fragmentation or repetition in the body.
 
-### rule_lisraya_patient_quote_attribution_style
-- class=copy_editorial scope=brand hardness=hard_constraint polarity=must sections=['patient_story'] constraint=verbatim_content governance=trademark/verbatim_only
-- rule_text: Patient quotes must be attributed in the form `- [Name], LISRAYA patient`, set in italic or otherwise distinguished styling (patient_story.quote.style = italic), and paired with warm lifestyle imagery (image.treatment = warm_realistic_patient_lifestyle).
-- intent: Maintain consistent, authentic patient-quote presentation and attribution.
+### rule_lisraya_patient_quotes_pairing
+- class=copy_editorial scope=brand hardness=strong_default polarity=must sections=['patient_story'] constraint=pairing
+- rule_text: Patient quotes must be formatted as `- [Name], LISRAYA patient` (in italic or otherwise distinguished styling) and paired alongside warm lifestyle imagery.
+- intent: Ensure consistent attribution format and layout pairing for real-world patient testimonials.

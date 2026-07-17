@@ -14,17 +14,17 @@
 
 - s0: version=`1.0.0` out_hash=`0070b845cf25f67a`
 - s1: version=`1.0.0` out_hash=`0b242e7595c69a2b`
-- s10: version=`cascade-compile` out_hash=`2a832a3b03a334ec`
-- s11: version=`summarize-embed-v1` out_hash=`82188b4fe89b1e45`
-- s2: version=`extraction-v2.0.0` out_hash=`0ec5e8f8f892f538`
-- s3: version=`1.1.4` out_hash=`680d19379b5ea523`
-- s4: version=`1.4.0` out_hash=`2825cd8013d5c0c9`
-- s5: version=`1.2.0` out_hash=`897e80370c5ef8ed`
-- s6: version=`ledger-v2.0.0` out_hash=`f6f5e5a7036ee29a`
-- s6b: version=`linker-v1.0.0` out_hash=`1c59bdd304bb2c98`
-- s7: version=`pass-c-v3` out_hash=`864cf28f5d2d862b`
-- s8: version=`write-kb-v1` out_hash=`214638299428160f`
-- s9: version=`pairwise+smt` out_hash=`c9b6167bb464e496`
+- s10: version=`cascade-compile` out_hash=`f3aa6d9f3c04b068`
+- s11: version=`summarize-embed-v1` out_hash=`11e150a707afe648`
+- s2: version=`extraction-v2.1.1` out_hash=`42affb51bfec4dbc`
+- s3: version=`1.1.4` out_hash=`40c54ebc8ec0e8a4`
+- s4: version=`1.3.0` out_hash=`0e264cf5c1b93064`
+- s5: version=`1.2.0` out_hash=`634a69d22f2a1416`
+- s6: version=`ledger-v2.0.0` out_hash=`3f4294857cbbcd1c`
+- s6b: version=`linker-v1.0.0` out_hash=`052b4d78a84a1cf5`
+- s7: version=`pass-c-v3` out_hash=`cc13e0be70385fbc`
+- s8: version=`write-kb-v1` out_hash=`bff04485503d9b59`
+- s9: version=`pairwise+smt` out_hash=`209a428f425218ac`
 
 ## Metrics
 
@@ -32,39 +32,39 @@
 - required_units: 179
 ### coverage
 
-- normative: 0.9705882352941176
+- normative: 0.9509803921568627
 - rounds: 3
-- value: 1.0
-- verbatim: 1.0
+- value: 0.9306930693069307
+- verbatim: 0.6842105263157895
 
 ### verification
 
 - quarantine_rate: 0.0
 - quarantined: 0
-- value_verified_rate: 0.6444444444444445
+- value_verified_rate: 0.6618705035971223
 
 ### ensemble
 
-- high: 73
-- low: 26
-- medium: 62
+- high: 97
+- low: 5
+- medium: 27
 - runs: 3
 
 ### critic
 
-- applied: 64
-- deferred_human: 8
-- findings: 305
+- applied: 18
+- deferred_human: 2
+- findings: 105
 
 ### linker
 
 - adjudicated_binds: 0
-- auto_bound: 22
-- minted_edges: 27
-- needs_rule: 35
-- orphans_after_transitive: 54
-- orphans_before: 77
-- unresolved_rule_literals: 2
+- auto_bound: 11
+- minted_edges: 13
+- needs_rule: 27
+- orphans_after_transitive: 33
+- orphans_before: 44
+- unresolved_rule_literals: 5
 
 ### consistency
 
@@ -75,8 +75,8 @@
 
 ### cascade
 
-- contexts: 105
-- distinct_sheets: 51
+- contexts: 32
+- distinct_sheets: 20
 
 ## Acceptance
 
@@ -93,12 +93,12 @@
 
 | queue | open | waived | deferred |
 | --- | --- | --- | --- |
-| unclaimed_unit | 0 | 0 | 0 |
-| unverified_value | 34 | 0 | 0 |
-| over_claimed | 3 | 0 | 0 |
-| conflict | 8 | 0 | 0 |
-| orphan_token | 20 | 0 | 0 |
-| needs_rule | 35 | 0 | 0 |
+| unclaimed_unit | 12 | 0 | 0 |
+| unverified_value | 4 | 0 | 0 |
+| over_claimed | 1 | 0 | 0 |
+| conflict | 10 | 0 | 0 |
+| orphan_token | 6 | 0 | 0 |
+| needs_rule | 27 | 0 | 0 |
 
 ### ratchet
 

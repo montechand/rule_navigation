@@ -77,7 +77,7 @@ Output per section: `targeted_rules` (precisely scoped to that section) and
 ```bash
 cd rule_navigation
 python3.13 -m venv .venv && .venv/bin/pip install -r requirements.txt
-# API keys are read from ../newest_email_pipeline/.env (OPENAI_API_KEY, ANTHROPIC_API_KEY)
+# API keys are read from ../.env (OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY or GEMINI_API_KEY)
 ```
 
 ## Pipeline

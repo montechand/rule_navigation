@@ -13,7 +13,7 @@ doc_ref: `content_pattern_rules[6]`
 
 ## Extracted rules (1)
 
-### rule_lisraya_callout_style_exclusivity
-- class=layout scope=brand hardness=strong_default polarity=must_not sections=['callout'] constraint=exclusivity
-- rule_text: There are three approved callout styles; use them judiciously and never place two of the same style competing on one screen/section.
-- intent: Prevent visual repetition and preserve callout hierarchy.
+### rule_lisraya_callout_formatting_styles
+- class=layout scope=brand hardness=hard_constraint polarity=must sections=['callout'] constraint=exclusivity
+- rule_text: There are three approved callout styles which must be used judiciously. Never use two callouts of the same style competing on one screen or section.
+- intent: Maintain visual hierarchy and variety without competing focal points.

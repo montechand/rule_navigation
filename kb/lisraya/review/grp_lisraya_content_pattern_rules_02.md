@@ -14,19 +14,9 @@ doc_ref: `content_pattern_rules[2]`
 
 ````
 
-## Extracted rules (3)
+## Extracted rules (1)
 
-### rule_lisraya_body_copy_sentence_case
-- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Body copy uses sentence case (body.case = sentence_case).
-- intent: Consistent body capitalization.
-
-### rule_lisraya_campaign_headline_all_caps
-- class=typography scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: The campaign headline "YOU DESERVE MORE" is set in ALL CAPS, always (campaign_headline.case = all_caps).
-- intent: Locked campaign headline casing treatment.
-
-### rule_lisraya_no_all_caps_body_buttons_subheads
-- class=typography scope=brand hardness=hard_constraint polarity=must_not sections=None constraint=None
-- rule_text: [GENERAL] Do not use ALL CAPS for body copy, buttons, or subheads other than the approved cases (campaign headline "YOU DESERVE MORE" and chart/infographic headlines).
-- intent: Restrict ALL CAPS to sanctioned uses only.
+### rule_lisraya_casing_headlines_and_body
+- class=typography scope=brand hardness=strong_default polarity=must sections=None constraint=binding
+- rule_text: Do not use ALL CAPS for body copy, buttons, or subheads other than the specified exceptions, keeping standard body copy in sentence case.
+- intent: Establish standard editorial casing across brand headlines and body copy.

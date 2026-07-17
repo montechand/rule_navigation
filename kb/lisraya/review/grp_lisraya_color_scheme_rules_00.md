@@ -30,4 +30,9 @@ doc_ref: `color_scheme_rules[0]`
 | White | `#ffffff` | 255, 255, 255 | 0, 0, 0, 0 |
 ````
 
-## Extracted rules (0)
+## Extracted rules (1)
+
+### rule_lisraya_brand_palette_definitions
+- class=color_application scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: The lisraya design system must adhere strictly to the established brand palette containing the Primary (Brand Blue = #00529b, Sunshine = #faa31b, Gold = #ffc60a), Secondary (Sky Blue = #358CCB, Deep Blue = #003D74, Dark Navy = #011E45), and Tertiary (Coral = #F26A38, Light Blue = #E6F0F9, Golden Sand = #FEF1C8, Graphite = #212121, White = #ffffff) colors.
+- intent: Define the authorized color palette tiers and their absolute hexadecimal mappings.

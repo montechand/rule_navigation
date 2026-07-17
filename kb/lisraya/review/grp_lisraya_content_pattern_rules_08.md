@@ -14,7 +14,7 @@ doc_ref: `content_pattern_rules[8]`
 
 ## Extracted rules (1)
 
-### rule_lisraya_brand_voice_confident_warm_clear
-- class=voice_tone scope=brand hardness=strong_default polarity=must sections=None constraint=None
-- rule_text: Lisraya brand voice has three pillars: Confident, not boastful (state first-of-its-kind significance clearly and directly, never overstated or sensationalized); Warm, not overly emotional (genuine empathy about DM's daily impact, patients at the center); and Clear, not complicated (plain, respectful language that is easy to understand without losing accuracy). Tone may flex slightly by context, but the core voice never changes.
-- intent: Keep messaging on-voice: credible, empathetic, and plain across all contexts.
+### rule_lisraya_voice_and_tone_principles
+- class=voice_tone scope=brand hardness=soft_guidance polarity=must sections=None constraint=None
+- rule_text: Lisraya communications must follow the core brand voice principles: Confident, not boastful (state first-of-its-kind significance directly, never sensationalized); Warm, not overly emotional (genuine empathy about DM's daily impact); and Clear, not complicated (plain, respectful language). Tone may flex slightly by context, but core voice never changes.
+- intent: Maintain consistent, patient-centered brand voice and tone across all communications.

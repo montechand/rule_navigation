@@ -13,7 +13,7 @@ doc_ref: `design_pattern_rules[5]`
 
 ## Extracted rules (1)
 
-### rule_lisraya_icon_color_brand_palette_only
-- class=iconography scope=brand hardness=hard_constraint polarity=must sections=None constraint=exclusivity
-- rule_text: Icon colors and backgrounds may be adjusted only within the brand palette; default is Brand Blue strokes (icon.stroke.color = #00529b) on light backgrounds.
-- intent: Keep iconography within approved brand colors.
+### rule_lisraya_iconography_style_and_accessibility
+- class=iconography scope=org_baseline hardness=hard_constraint polarity=must sections=None constraint=binding
+- rule_text: Icons must follow a minimal line illustration style using consistent stroke weight, rounded line caps, and single-color line work. Icon colors and backgrounds must stay strictly within the brand palette. To ensure accessibility for low-vision audiences in email, icons must be rendered at a minimum size of 32x32px (size.icon.minimum = 32px) and default to Brand Blue strokes (color.primary.brand_blue = #00529b) on light backgrounds.
+- intent: Ensure iconography is accessible, legible, and stylistically cohesive across all digital surfaces.

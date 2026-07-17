@@ -1,0 +1,118 @@
+{
+  "entity_id": "rule_lisraya_casing_headlines_and_body",
+  "extraction_meta": {
+    "champion_run": "r0",
+    "confidence": "medium",
+    "dissent_unit_ids": [],
+    "field_agreement": {
+      "applies_when": 1.0,
+      "audience": 1.0,
+      "constraint_type": 1.0,
+      "content_sub_type_ids": 1.0,
+      "content_types": 1.0,
+      "effect": 1.0,
+      "evaluation_scope": 1.0,
+      "governance": 1.0,
+      "hardness": 0.5,
+      "polarity": 1.0,
+      "precedence": 1.0,
+      "rule_class": 1.0,
+      "scope": 1.0,
+      "selector": 0.5,
+      "slug": 1.0,
+      "snippets": 0.5,
+      "tags": 1.0
+    },
+    "runs": 3,
+    "support": 2
+  },
+  "provenance": [
+    {
+      "entity_id": "rule_lisraya_casing_headlines_and_body",
+      "field": "",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "content_pattern_rules[2]",
+          "end": 452,
+          "match": "exact",
+          "quote": "Body copy: sentence case.",
+          "start": 427,
+          "unit_ids": [
+            "u_content_pattern_rules_2_0004"
+          ]
+        },
+        {
+          "doc_ref": "content_pattern_rules[2]",
+          "end": 552,
+          "match": "exact",
+          "quote": "Do not use ALL CAPS for body copy, buttons, or subheads other than the cases above.",
+          "start": 469,
+          "unit_ids": [
+            "u_content_pattern_rules_2_0005"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": null,
+        "status": "n/a"
+      },
+      "verification": "span_verified"
+    },
+    {
+      "entity_id": "rule_lisraya_casing_headlines_and_body",
+      "field": "governance.preferred_form",
+      "schema_version": "2.0",
+      "spans": [],
+      "value_check": {
+        "detail": "governance.preferred_form is absent; no concrete literal to verify",
+        "status": "n/a"
+      },
+      "verification": "unverified"
+    },
+    {
+      "entity_id": "rule_lisraya_casing_headlines_and_body",
+      "field": "effect",
+      "schema_version": "2.0",
+      "spans": [
+        {
+          "doc_ref": "content_pattern_rules[2]",
+          "end": 79,
+          "match": "fuzzy",
+          "quote": "Headlines/headings: Initial caps (title case)",
+          "start": 32,
+          "unit_ids": [
+            "u_content_pattern_rules_2_0001"
+          ]
+        },
+        {
+          "doc_ref": "content_pattern_rules[2]",
+          "end": 452,
+          "match": "exact",
+          "quote": "Body copy: sentence case.",
+          "start": 427,
+          "unit_ids": [
+            "u_content_pattern_rules_2_0004"
+          ]
+        }
+      ],
+      "value_check": {
+        "detail": null,
+        "status": "n/a"
+      },
+      "verification": "span_verified"
+    },
+    {
+      "entity_id": "rule_lisraya_casing_headlines_and_body",
+      "field": "snippets",
+      "schema_version": "2.0",
+      "spans": [],
+      "value_check": {
+        "detail": "missing evidence for snippets",
+        "status": "fail"
+      },
+      "verification": "unverified"
+    }
+  ],
+  "schema_version": "2.0"
+}

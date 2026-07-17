@@ -1,55 +1,94 @@
 [
   {
-    "applies_when": [
-      {
-        "kind": "content_tag",
-        "value": "outlook_word_engine"
-      }
-    ],
+    "applies_when": null,
     "audience": null,
-    "condition": "position:absolute badge overhang not supported",
-    "conditions": {
-      "fallback_action": "ship live absolute-position version and accept Outlook degrade",
-      "fallback_trigger": "pre-compositing not feasible",
-      "preferred_action": "pre-composite badge as transparent PNG or bake into background image"
-    },
-    "constraint_type": null,
+    "constraint_type": "binding",
     "content_sub_type_ids": null,
     "content_types": [
       "email"
     ],
-    "doc_ref": "color_scheme_rules[6]",
-    "effect": null,
-    "effect_evidence": null,
+    "effect": [
+      {
+        "element_path": "icon_callout.box.radius",
+        "token_id": "tok_lisraya_radius_callout_box"
+      },
+      {
+        "element_path": "icon_callout.badge.radius",
+        "token_id": "tok_lisraya_radius_callout_badge"
+      },
+      {
+        "element_path": "icon_callout.badge.shadow",
+        "token_id": "tok_lisraya_shadow_icon_badge"
+      }
+    ],
+    "effect_evidence": {
+      "quotes": [
+        "border-radius: 20px 4px 20px 4px;",
+        "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
+        "border-radius: 40px 8px 40px 8px;",
+        "box border-radius: 40px 8px 40px 8px;"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0022"
+      ]
+    },
     "evaluation_scope": "section",
     "evidence": {
       "quotes": [
-        "Outlook (desktop, Word engine) ignores",
-        "The 50/50 overhang relies on `position:absolute`, which Apple Mail / iOS / most web clients honor but **Outlook (desktop, Word engine) ignores**",
-        "accept the Outlook degrade (badge flush at the inner-left edge) � every other rule (Light Blue fill, `40px 8px 40px 8px` radius, blue 800 text, drop shadow) stays identical.",
-        "every other rule (Light Blue fill, `40px 8px 40px 8px` radius, blue 800 text, drop shadow) stays identical.",
-        "pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG",
-        "the brand-safe option is to **pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG**"
+        "Never simplify either to a single uniform radius, swap the corners, or flip the diagonal.",
+        "A light-blue accent-shape box containing a short blue headline, with a white icon badge that straddles the box's left edge",
+        "Brand Blue `#00529b`, Nunito Sans weight 800, ~21px / 28px line-height, left-aligned, vertically centered",
+        "Light Blue `#E6F0F9` fill",
+        "The white badge mirrors the same accent shape at smaller scale, `border-radius: 20px 4px 20px 4px;` (also 5:1, large TL+BR)",
+        "border-radius: 20px 4px 20px 4px;",
+        "border-radius: 40px 8px 40px 8px;",
+        "box `border-radius: 40px 8px 40px 8px;` in `TL TR BR BL` order",
+        "box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);",
+        "inset = W/2, box left-padding = W/2 + 24px",
+        "the white icon badge must carry a subtle drop shadow so it lifts off the blue box  e.g. `box-shadow: 0 4px 10px rgba(1, 30, 69, 0.18);`"
       ],
       "unit_ids": [
-        "u_color_scheme_rules_6_0040",
-        "u_color_scheme_rules_6_0041",
-        "u_color_scheme_rules_6_0042"
+        "u_color_scheme_rules_6_0018",
+        "u_color_scheme_rules_6_0019",
+        "u_color_scheme_rules_6_0020",
+        "u_color_scheme_rules_6_0022",
+        "u_color_scheme_rules_6_0023",
+        "u_color_scheme_rules_6_0002",
+        "u_color_scheme_rules_6_0007",
+        "u_color_scheme_rules_6_0008",
+        "u_color_scheme_rules_6_0009",
+        "u_color_scheme_rules_6_0010",
+        "u_color_scheme_rules_6_0014",
+        "u_color_scheme_rules_6_0015",
+        "u_color_scheme_rules_6_0046",
+        "u_color_scheme_rules_6_0047"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
+      "champion_run": "r0",
       "confidence": "medium",
-      "dissent_unit_ids": [],
+      "dissent_unit_ids": [
+        "u_color_scheme_rules_6_0002",
+        "u_color_scheme_rules_6_0007",
+        "u_color_scheme_rules_6_0008",
+        "u_color_scheme_rules_6_0009",
+        "u_color_scheme_rules_6_0010",
+        "u_color_scheme_rules_6_0014",
+        "u_color_scheme_rules_6_0015",
+        "u_color_scheme_rules_6_0046",
+        "u_color_scheme_rules_6_0047"
+      ],
       "field_agreement": {
-        "applies_when": 0.5,
+        "applies_when": 1.0,
         "audience": 1.0,
         "constraint_type": 1.0,
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
         "effect": 1.0,
-        "evaluation_scope": 0.5,
-        "governance": 0.5,
+        "evaluation_scope": 1.0,
+        "governance": 1.0,
         "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
@@ -57,44 +96,41 @@
         "scope": 1.0,
         "selector": 1.0,
         "slug": 0.5,
-        "snippets": 1.0,
+        "snippets": 0.5,
         "tags": 0.5
       },
       "runs": 3,
       "support": 2
     },
-    "fallback_exception": "if PNG compositing infeasible, ship live version and accept badge-flush-left degrade; all other styling (fill, radius, text, shadow) must remain identical",
-    "group_id": "grp_lisraya_color_scheme_rules_06",
-    "hardness": "strong_default",
-    "id": "rule_lisraya_icon_callout_email_fallback",
-    "intent": "Provide a robust cross-client fallback while preserving the treatment's other rules.",
-    "polarity": "should",
+    "governance": null,
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_icon_callout_box_geometry",
+    "intent": "Maintain the distinct asymmetrical brand shape relationship across container and badge.",
+    "polarity": "must",
     "precedence": 0,
-    "preferred_remediation": "pre-composite badge as transparent PNG with shadow/radii/icon baked in",
-    "rule_class": "assembly",
-    "rule_text": "The 50/50 overhang relies on position:absolute, which Apple Mail / iOS / most web clients honor but Outlook (desktop, Word engine) ignores — there the badge drops to the top-left and the box won't be inset. For pixel-perfect fidelity across all clients, the brand-safe option is to pre-composite the white badge (with its shadow, accent radii, and icon) as a transparent PNG placed via the same absolute positioning, or bake the entire badge-on-edge treatment into the box's background image while keeping the text live. When that's not feasible, ship the live version and accept the Outlook degrade (badge flush at the inner-left edge); every other rule (Light Blue fill, 40px 8px 40px 8px radius, blue 800 text, drop shadow) stays identical.",
-    "scope": {
-      "clients_affected": [
-        "Outlook desktop (Word engine)"
-      ],
-      "clients_unaffected": [
-        "Apple Mail",
-        "iOS Mail",
-        "most web clients"
-      ]
-    },
+    "rule_class": "layout",
+    "rule_text": "The Icon Callout Box must use the asymmetric 5:1 corner radius ratio (top-left/bottom-right large, top-right/bottom-left small). The Light Blue container box must be bound to 40px 8px 40px 8px (icon_callout.box.radius), and the White icon badge must mirror this shape at a smaller scale bound to 20px 4px 20px 4px (icon_callout.badge.radius). The icon badge must carry a subtle drop shadow bound to 0 4px 10px rgba(1, 30, 69, 0.18) (icon_callout.badge.shadow). Do not swap or simplify these radii.",
+    "scope": "brand",
     "selector": {
-      "element_path": "icon_callout.badge",
+      "element_path": "icon_callout",
       "section_types": [
         "callout"
       ]
     },
-    "slug": "icon_callout_email_fallback",
-    "snippets": null,
-    "snippets_evidence": null,
+    "slug": "icon_callout_box_geometry",
+    "snippets": "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:separate;\">\n          <tr>\n            <td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px; padding:26px 34px 26px 64px;\">",
+    "snippets_evidence": {
+      "quotes": [
+        "<div style=\"position:relative; padding-left:40px;\">",
+        "<td style=\"background-color:#E6F0F9; border-radius:40px 8px 40px 8px;"
+      ],
+      "unit_ids": [
+        "u_color_scheme_rules_6_0036"
+      ]
+    },
     "tags": [
-      "accessibility",
-      "iconography"
+      "color_application",
+      "spacing"
     ]
   }
 ]

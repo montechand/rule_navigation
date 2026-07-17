@@ -1,0 +1,78 @@
+[
+  {
+    "entity_id": "rule_lisraya_patient_inclusive_language",
+    "field": "",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[4]",
+        "end": 718,
+        "match": "fuzzy",
+        "quote": "say \"someone with dermatomyositis\" / \"people with dermatomyositis\" — not \"patients.\" (\"Patients\" is acceptable only in HCP materials.)",
+        "start": 580,
+        "unit_ids": [
+          "u_content_pattern_rules_4_0003"
+        ]
+      },
+      {
+        "doc_ref": "content_pattern_rules[4]",
+        "end": 808,
+        "match": "fuzzy",
+        "quote": "Use \"care team\" (not \"staff\") for the network of patients, HCPs, and support systems.",
+        "start": 719,
+        "unit_ids": [
+          "u_content_pattern_rules_4_0003"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": null,
+      "status": "n/a"
+    },
+    "verification": "span_verified"
+  },
+  {
+    "entity_id": "rule_lisraya_patient_inclusive_language",
+    "field": "governance.preferred_form",
+    "schema_version": "2.0",
+    "spans": [
+      {
+        "doc_ref": "content_pattern_rules[4]",
+        "end": 645,
+        "match": "exact",
+        "quote": "people with dermatomyositis",
+        "start": 618,
+        "unit_ids": [
+          "u_content_pattern_rules_4_0003"
+        ]
+      }
+    ],
+    "value_check": {
+      "detail": "verbatim exact match",
+      "status": "pass"
+    },
+    "verification": "value_verified"
+  },
+  {
+    "entity_id": "rule_lisraya_patient_inclusive_language",
+    "field": "effect",
+    "schema_version": "2.0",
+    "spans": [],
+    "value_check": {
+      "detail": "missing evidence for effect",
+      "status": "fail"
+    },
+    "verification": "unverified"
+  },
+  {
+    "entity_id": "rule_lisraya_patient_inclusive_language",
+    "field": "snippets",
+    "schema_version": "2.0",
+    "spans": [],
+    "value_check": {
+      "detail": "missing evidence for snippets",
+      "status": "fail"
+    },
+    "verification": "unverified"
+  }
+]

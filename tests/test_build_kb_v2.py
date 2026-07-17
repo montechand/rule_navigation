@@ -807,7 +807,7 @@ async def test_cli_main_async_wires_brands_and_options_to_build_brand(
         pass
 
     monkeypatch.setattr(build_kb_module, "build_brand", fake_build_brand)
-    monkeypatch.setattr(shared_config, "require_keys", lambda: None)
+    monkeypatch.setattr(shared_config, "require_keys", lambda *_: None)
     monkeypatch.setattr("indexing_v2.extraction.runner.SharedLLMClient", _DummyClient)
 
     exit_code = await build_kb_module.main_async(
@@ -838,7 +838,7 @@ async def test_cli_main_async_propagates_zero_exit_code(
         pass
 
     monkeypatch.setattr(build_kb_module, "build_brand", fake_build_brand)
-    monkeypatch.setattr(shared_config, "require_keys", lambda: None)
+    monkeypatch.setattr(shared_config, "require_keys", lambda *_: None)
     monkeypatch.setattr("indexing_v2.extraction.runner.SharedLLMClient", _DummyClient)
 
     exit_code = await build_kb_module.main_async(["--brand", "lisraya"])

@@ -176,6 +176,26 @@ def _resolve_ref_default(
     )
 
 
+def _match_canon(token_type: str, resolved: Any) -> str:
+    """Deterministic grouping canon that survives LLM type/shape mismatches.
+
+    The declared token_type and the resolved default come from separate LLM
+    outputs and can disagree (e.g. token_type="color" resolving to a gradient
+    mapping). Scalar normalizers either raise on mappings or str() them into
+    dict-repr canons that depend on key order. ponytail: degraded path groups
+    by sorted-JSON literal instead of normalized canon — grouping stays
+    deterministic; value correctness is owned by s3 verification, not here.
+    """
+    if resolved is None:
+        return ""
+    if isinstance(resolved, (dict, list)) and token_type.casefold() != "gradient":
+        return json.dumps(resolved, sort_keys=True, separators=(",", ":"), default=str)
+    try:
+        return normalize_value(token_type, resolved).canon
+    except (TypeError, ValueError):
+        return json.dumps(resolved, sort_keys=True, separators=(",", ":"), default=str)
+
+
 def semantic_match_key(
     entity: Mapping[str, Any],
     token_catalog: Mapping[str, dict[str, Any]],
@@ -188,15 +208,12 @@ def semantic_match_key(
         entity_id=entity_id,
     )
     token_type = str(entity.get("token_type") or "unknown")
-    canon = "" if resolved is None else normalize_value(token_type, resolved).canon
-    return (_element_path(entity), canon)
+    return (_element_path(entity), _match_canon(token_type, resolved))
 
 
 def _primitive_match_key(entity: Mapping[str, Any]) -> tuple[str, str, str]:
     token_type = str(entity.get("token_type") or "unknown")
-    raw = _default_raw(entity)
-    canon = "" if raw is None else normalize_value(token_type, raw).canon
-    return (token_type, canon, _scope(entity))
+    return (token_type, _match_canon(token_type, _default_raw(entity)), _scope(entity))
 
 
 def _normalized_name(entity: Mapping[str, Any]) -> str:
@@ -943,6 +960,56 @@ def _rule_group_handoff(
     return dict(sorted(doc_refs.items())), merged
 
 
+def _collapse_duplicate_ids(
+    entities: list[dict[str, Any]],
+    findings: list[Finding] | None,
+) -> list[dict[str, Any]]:
+    """Keep one entity per id when distinct merge groups minted the same id.
+
+    Different runs can spell the same value with cosmetic variation (e.g.
+    ``rgba(1, 30, 69, 0.18)`` vs ``rgba(1,30,69,0.18)``), splitting one token
+    into two groups that both keep the LLM's id. Downstream verify_entities
+    hard-fails on duplicate ids, so collapse here: highest ensemble support
+    wins, ties keep the first in sorted order. The loser is dropped, recorded
+    as a finding — s3 already verified both against source, so no data is
+    silently invented, only a redundant duplicate discarded.
+    """
+    by_id: dict[str, dict[str, Any]] = {}
+    for entity in entities:
+        entity_id = str(entity.get("id", ""))
+        kept = by_id.get(entity_id)
+        if kept is None:
+            by_id[entity_id] = entity
+            continue
+
+        def _support(item: Mapping[str, Any]) -> int:
+            meta = item.get("extraction_meta")
+            return int(meta.get("support", 0)) if isinstance(meta, Mapping) else 0
+
+        winner, loser = (
+            (entity, kept) if _support(entity) > _support(kept) else (kept, entity)
+        )
+        by_id[entity_id] = winner
+        if findings is not None:
+            payload = {"id": entity_id, "loser": _json_key(loser)}
+            findings.append(
+                Finding(
+                    finding_id=f"f_ensemble_{stable_hash(payload)[:12]}",
+                    round=0,
+                    finding_type="other",
+                    severity="info",
+                    target_entity_id=entity_id,
+                    unit_ids=sorted(_claimed_unit_ids(winner)),
+                    description=(
+                        f"{entity_id}: duplicate id across merge groups collapsed "
+                        f"(kept support={_support(winner)}, dropped support={_support(loser)})"
+                    ),
+                    resolution="applied",
+                )
+            )
+    return list(by_id.values())
+
+
 def reconcile_ensemble(
     runs: Sequence[VerifiedRunInput],
     units: Sequence[SourceUnit],
@@ -1076,8 +1143,12 @@ def reconcile_ensemble(
 
     for kind in merged:
         merged[kind].sort(key=lambda entity: str(entity.get("id", "")))
+        merged[kind] = _collapse_duplicate_ids(merged[kind], findings)
     for group_id in merged_rule_groups:
         merged_rule_groups[group_id].sort(key=lambda entity: str(entity.get("id", "")))
+        merged_rule_groups[group_id] = _collapse_duplicate_ids(
+            merged_rule_groups[group_id], None
+        )
 
     entities_for_verify: dict[str, list[dict[str, Any]]] = {
         kind: entities for kind, entities in merged.items()

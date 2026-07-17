@@ -2,51 +2,54 @@
   {
     "applies_when": null,
     "audience": null,
-    "channel": "email",
-    "constraint_type": null,
+    "class": "layout",
+    "constraint_type": "binding",
     "content_sub_type_ids": null,
-    "content_types": [
-      "email"
-    ],
+    "content_types": null,
+    "description": "Charts and tables must use a uniform 12px rounded corner radius on all four corners, rather than the asymmetric brand accent shape.",
     "doc_ref": "design_pattern_rules[3]",
-    "dpi": 96,
-    "effect": null,
+    "effect": [
+      {
+        "element_path": "chart.panel.border_radius",
+        "token_id": "tok_lisraya_radius_chart_panel"
+      }
+    ],
     "effect_evidence": {
       "quotes": [
-        "**[GENERAL] Email px conversions (at 96dpi):** large: 120px & 6px; banner: 48px & 6px; callout: 42px & 6px."
+        "12px uniform radius."
       ],
       "unit_ids": [
-        "u_design_pattern_rules_3_0003"
+        "u_design_pattern_rules_3_0004"
       ]
     },
-    "evaluation_scope": "email",
+    "evaluation_scope": "element",
     "evidence": {
       "quotes": [
-        "Apply the large radius to one diagonal pair (e.g., top-left + bottom-right), the 6px radius to the other pair. Be consistent within an email: same diagonal orientation across all sections (default: large radius top-left & bottom-right)."
+        "Exception: charts and tables use uniform rounded corners on all four corners (not the asymmetric accent shape). [GENERAL: 12px uniform radius.]"
       ],
       "unit_ids": [
-        "u_design_pattern_rules_3_0003"
+        "u_design_pattern_rules_3_0004"
       ]
     },
     "extraction_meta": {
-      "champion_run": "r1",
+      "champion_run": "r0",
       "confidence": "medium",
       "dissent_unit_ids": [],
       "field_agreement": {
         "applies_when": 1.0,
         "audience": 1.0,
-        "constraint_type": 0.5,
+        "constraint_type": 1.0,
         "content_sub_type_ids": 1.0,
         "content_types": 1.0,
-        "effect": 0.5,
+        "effect": 1.0,
         "evaluation_scope": 1.0,
-        "governance": 0.5,
-        "hardness": 0.5,
+        "governance": 1.0,
+        "hardness": 1.0,
         "polarity": 1.0,
         "precedence": 1.0,
         "rule_class": 1.0,
         "scope": 1.0,
-        "selector": 0.5,
+        "selector": 1.0,
         "slug": 0.5,
         "snippets": 1.0,
         "tags": 0.5
@@ -54,24 +57,28 @@
       "runs": 3,
       "support": 2
     },
-    "governance": "GENERAL",
+    "governance": null,
     "group_id": "grp_lisraya_design_pattern_rules_03",
-    "hardness": "strong_default",
-    "id": "rule_lisraya_accent_shape_diagonal_consistency",
-    "intent": "Keep accent-shape orientation consistent across an email for a coherent look.",
-    "note": "Add channel/scope facet distinguishing GENERAL email guidance from print-specific approved radius pairs.",
+    "hardness": "hard_constraint",
+    "id": "rule_lisraya_chart_and_table_corner_exception",
+    "intent": "Maintain readability and clean structure for data-heavy sections.",
     "polarity": "must",
-    "precedence": 0,
+    "precedence": 1,
     "rule_class": "layout",
-    "rule_text": "Apply the large radius to one diagonal pair (e.g., top-left + bottom-right) and the 6px radius to the other pair. Be consistent within an email: use the same diagonal orientation across all sections (default: large radius top-left & bottom-right).",
-    "scope": "email/general",
+    "rule_id": "rule_lisraya_chart_and_table_corner_exception",
+    "rule_text": "Charts, infographics, and tables must use uniform rounded corners on all four corners (radius.infographic.panel = 12px) instead of the asymmetric brand accent shape.",
+    "scope": "org_baseline",
     "selector": {
-      "element_path": "accent_shape.radius",
-      "section_types": null
+      "element_path": "chart.panel.border_radius",
+      "section_types": [
+        "chart"
+      ]
     },
-    "slug": "accent_shape_diagonal_consistency",
+    "slug": "chart_and_table_corner_exception",
     "snippets": null,
     "snippets_evidence": null,
-    "tags": null
+    "tags": [
+      "chart"
+    ]
   }
 ]

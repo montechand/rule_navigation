@@ -1,0 +1,182 @@
+{
+  "doc_ref": "content_pattern_rules[0]",
+  "group_id": "grp_lisraya_content_pattern_rules_00",
+  "missing_token_requests": [],
+  "original_text": "### Brand Name & Trademark Usage\n- Always write **LISRAYA** in ALL CAPS in all written materials (patient marketing rule; supersedes the Feb 2026 general guide's title-case rule).\n- Include the **® registered trademark symbol only when the generic name is included** — i.e., LISRAYA® (brepocitinib). Apply on **first/most prominent mention only**, in **external-facing documents only**. Do not repeat ® on subsequent mentions.\n- Generic name format: lowercase, in parentheses: `(brepocitinib)`.\n- Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections).",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_trademark_and_generic_format",
+      "dst_slug": "trademark_and_generic_format",
+      "note": "First prominent mention uses both the all-caps brand name and the lowercase parenthetical generic name.",
+      "relation": "co_applies",
+      "src_rule_id": "rule_lisraya_brand_name_case",
+      "src_slug": "brand_name_case"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": "dtp_patient",
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Always write **LISRAYA** in ALL CAPS in all written materials (patient marketing rule; supersedes the Feb 2026 general guide's title-case rule)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0001"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "LISRAYA",
+        "preferred_form_evidence": {
+          "quotes": [
+            "Always write **LISRAYA** in ALL CAPS"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0001"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_brand_name_case",
+      "intent": "Maintain brand identification standards on patient materials.",
+      "polarity": "must",
+      "precedence": 10,
+      "rule_class": "copy_editorial",
+      "rule_text": "Always write the brand name LISRAYA in ALL CAPS in all patient marketing materials, superseding the title-case rule.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "brand_name_case",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": [
+        {
+          "kind": "first_mention",
+          "value": true
+        }
+      ],
+      "audience": null,
+      "constraint_type": "verbatim_content",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "sentence",
+      "evidence": {
+        "quotes": [
+          "Include the **® registered trademark symbol only when the generic name is included** — i.e., LISRAYA® (brepocitinib). Apply on **first/most prominent mention only**, in **external-facing documents only**. Do not repeat ® on subsequent mentions.",
+          "Generic name format: lowercase, in parentheses: `(brepocitinib)`."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0002",
+          "u_content_pattern_rules_0_0003"
+        ]
+      },
+      "governance": {
+        "gov_type": "trademark",
+        "match": {
+          "method": "lexical"
+        },
+        "preferred_form": "LISRAYA® (brepocitinib)",
+        "preferred_form_evidence": {
+          "quotes": [
+            "LISRAYA® (brepocitinib)"
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0002",
+            "u_content_pattern_rules_0_0003"
+          ]
+        },
+        "severity": "block",
+        "verdict": "requires_qualifier"
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_trademark_and_generic_format",
+      "intent": "Legal/regulatory trademark and generic qualifier compliance.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "copy_editorial",
+      "rule_text": "Include the ® registered trademark symbol only when the generic name is included, matching the exact format 'LISRAYA® (brepocitinib)'. Apply on first or most prominent mention only in external-facing documents; do not repeat ® on subsequent mentions.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": null
+      },
+      "slug": "trademark_and_generic_format",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "Parent company: Priovant Therapeutics, Inc. (sign-off lives in the locked footer — do not add it in sections)."
+        ],
+        "unit_ids": [
+          "u_content_pattern_rules_0_0004"
+        ]
+      },
+      "governance": {
+        "gov_type": "legal",
+        "match": {
+          "method": "exact"
+        },
+        "preferred_form": "Priovant Therapeutics, Inc.",
+        "preferred_form_evidence": {
+          "quotes": [
+            "Priovant Therapeutics, Inc."
+          ],
+          "unit_ids": [
+            "u_content_pattern_rules_0_0004"
+          ]
+        },
+        "severity": "block",
+        "verdict": "verbatim_only"
+      },
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_parent_company_placement",
+      "intent": "Maintain standardized parent company legal sign-off block layout.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The parent company sign-off ('Priovant Therapeutics, Inc.') must live exclusively in the locked footer (end_matter); do not add it to standard content sections.",
+      "scope": "brand",
+      "selector": {
+        "element_path": null,
+        "section_types": [
+          "end_matter"
+        ]
+      },
+      "slug": "parent_company_placement",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": null
+    }
+  ],
+  "schema_version": "2.0"
+}

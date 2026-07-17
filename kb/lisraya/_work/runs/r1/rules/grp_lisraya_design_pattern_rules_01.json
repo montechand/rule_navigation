@@ -1,0 +1,115 @@
+{
+  "doc_ref": "design_pattern_rules[1]",
+  "group_id": "grp_lisraya_design_pattern_rules_01",
+  "missing_token_requests": [
+    {
+      "for_rule_slug": "masthead_gradient_device",
+      "key_proposal": "color.gradient.masthead_yellow_end",
+      "quotes": [
+        "0C,10M,78Y,0K"
+      ],
+      "unit_ids": [
+        "u_design_pattern_rules_1_0004"
+      ],
+      "value": "0C,10M,78Y,0K"
+    }
+  ],
+  "original_text": "### Graphic Elements — Waves\n- Fluid wave forms in **two colorways**: **Sunshine/Gold** and **Sky Blue/Deep Blue**; each in **long and short** variants.\n- Construction: top wave layer at **70% transparency** over the base wave (Gold over Sunshine; Sky Blue over Deep Blue) — always preserve the layered, translucent quality.\n- Usage: alone, or overlaid on photography or gradient backgrounds; to support layout flow, frame content, or add depth. Approved color values only.\n- **Masthead gradient with logo mark** (Sunshine → 0C,10M,78Y,0K, logo mark placed at the lightest end) is the approved device for holding copy in masthead positions.",
+  "relations": [],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "image.graphic_element.wave.top_layer.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "top wave layer at **70% transparency** over the base wave"
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0002"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Fluid wave forms in **two colorways**: **Sunshine/Gold** and **Sky Blue/Deep Blue**; each in **long and short** variants.",
+          "Construction: top wave layer at **70% transparency** over the base wave (Gold over Sunshine; Sky Blue over Deep Blue) — always preserve the layered, translucent quality.",
+          "Usage: alone, or overlaid on photography or gradient backgrounds; to support layout flow, frame content, or add depth. Approved color values only."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0001",
+          "u_design_pattern_rules_1_0002",
+          "u_design_pattern_rules_1_0003"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_graphic_elements_waves",
+      "intent": "Maintain visual consistency and the correct layered, translucent rendering of branding wave elements.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "imagery",
+      "rule_text": "Graphic waves must be constructed in one of two approved colorways: Sunshine/Gold (#faa31b / #ffc60a) or Sky Blue/Deep Blue (#358CCB / #003D74) in long or short variants. The top wave layer must maintain 70% transparency (opacity.logo.gold = 0.7) over the base wave to preserve the translucent, layered quality.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "image.graphic_element.wave",
+        "section_types": null
+      },
+      "slug": "graphic_elements_waves",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "pairing",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "section",
+      "evidence": {
+        "quotes": [
+          "**Masthead gradient with logo mark** (Sunshine → 0C,10M,78Y,0K, logo mark placed at the lightest end) is the approved device for holding copy in masthead positions."
+        ],
+        "unit_ids": [
+          "u_design_pattern_rules_1_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_masthead_gradient_device",
+      "intent": "Standardize the brand's primary masthead background and identity signature container.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "layout",
+      "rule_text": "The masthead gradient containing the logo mark (Sunshine #faa31b to Yellow gradient with the logo mark positioned at the lightest end) is the mandatory device for housing copy within masthead positions.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "header.masthead",
+        "section_types": [
+          "top_matter"
+        ]
+      },
+      "slug": "masthead_gradient_device",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "imagery",
+        "color_application"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

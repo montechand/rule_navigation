@@ -1,0 +1,174 @@
+{
+  "doc_ref": "color_scheme_rules[2]",
+  "group_id": "grp_lisraya_color_scheme_rules_02",
+  "missing_token_requests": [],
+  "original_text": "### Tint Rules\n- Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway).\n- Light Blue callout box: **70% tint**.\n- Golden Sand callout box: **30% tint**.\n- Wave top layers: **70% transparency**.\n- No other ad-hoc tints — use palette values or these specified tints only.\n",
+  "relations": [
+    {
+      "dst_rule_id": "rule_lisraya_callout_box_and_wave_tint_rules",
+      "dst_slug": "callout_box_and_wave_tint_rules",
+      "note": "Prohibits any tints outside of the specific values permitted in the callout/wave rules.",
+      "relation": "cross_reference",
+      "src_rule_id": "rule_lisraya_prohibited_adhoc_tints",
+      "src_slug": "prohibited_adhoc_tints"
+    }
+  ],
+  "rules": [
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "headline.character.tint",
+          "token_id": "tok_lisraya_opacity_tint_headline_char"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Campaign headline \"D\" and \"M\": **≈40% tint** of the headline color (Gold or Brand Blue colorway)."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0001"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_campaign_headline_character_tint",
+      "intent": "Maintain the specific campaign typographic branding for key headline characters.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "typography",
+      "rule_text": "In campaign headlines, specific characters (\"D\" and \"M\") must be styled with an approximate 40% tint (opacity.campaign.headline_char_tint = 0.4) of the main headline color.",
+      "scope": "campaign",
+      "selector": {
+        "element_path": "headline.character.tint",
+        "section_types": [
+          "hero"
+        ]
+      },
+      "slug": "campaign_headline_character_tint",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "color_application"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "binding",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": [
+        {
+          "element_path": "callout.light_blue.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        },
+        {
+          "element_path": "callout.golden_sand.opacity",
+          "token_id": "tok_lisraya_opacity_tint_golden_sand_box"
+        },
+        {
+          "element_path": "wave.top_layer.opacity",
+          "token_id": "tok_lisraya_opacity_logo_gold"
+        }
+      ],
+      "effect_evidence": {
+        "quotes": [
+          "Light Blue callout box: **70% tint**",
+          "Golden Sand callout box: **30% tint**",
+          "Wave top layers: **70% transparency**"
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "evaluation_scope": "element",
+      "evidence": {
+        "quotes": [
+          "Light Blue callout box: **70% tint**.",
+          "Golden Sand callout box: **30% tint**.",
+          "Wave top layers: **70% transparency**."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0002",
+          "u_color_scheme_rules_2_0003",
+          "u_color_scheme_rules_2_0004"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_callout_box_and_wave_tint_rules",
+      "intent": "Maintain official tint standards for brand containers and graphic elements.",
+      "polarity": "must",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Callout boxes and decorative wave layers must use specific opacity settings: Light Blue callout boxes must have a 70% tint (opacity.callout.lightblue_tint = 0.7), Golden Sand callout boxes must have a 30% tint (opacity.callout.golden_sand_box = 0.3), and Wave top layers must use 70% transparency.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "container.background.opacity",
+        "section_types": [
+          "callout"
+        ]
+      },
+      "slug": "callout_box_and_wave_tint_rules",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "layout"
+      ]
+    },
+    {
+      "applies_when": null,
+      "audience": null,
+      "constraint_type": "exclusivity",
+      "content_sub_type_ids": null,
+      "content_types": null,
+      "effect": null,
+      "effect_evidence": null,
+      "evaluation_scope": "email",
+      "evidence": {
+        "quotes": [
+          "No other ad-hoc tints — use palette values or these specified tints only."
+        ],
+        "unit_ids": [
+          "u_color_scheme_rules_2_0005"
+        ]
+      },
+      "governance": null,
+      "hardness": "hard_constraint",
+      "id": "rule_lisraya_prohibited_adhoc_tints",
+      "intent": "Prevent random, off-palette background/element tints that degrade color harmony and legibility.",
+      "polarity": "must_not",
+      "precedence": 0,
+      "rule_class": "color_application",
+      "rule_text": "Do not introduce ad-hoc tints or custom opacity variations. Designers must strictly use either the solid core palette values or these explicitly defined system tints.",
+      "scope": "brand",
+      "selector": {
+        "element_path": "color.opacity",
+        "section_types": null
+      },
+      "slug": "prohibited_adhoc_tints",
+      "snippets": null,
+      "snippets_evidence": null,
+      "tags": [
+        "accessibility"
+      ]
+    }
+  ],
+  "schema_version": "2.0"
+}

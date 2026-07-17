@@ -14,7 +14,7 @@ doc_ref: `design_pattern_rules[3]`
 
 ## Extracted rules (1)
 
-### rule_lisraya_accent_shape_diagonal_consistency
-- class=layout scope=brand hardness=strong_default polarity=must sections=None constraint=None
-- rule_text: Apply the large radius to one diagonal pair (e.g., top-left + bottom-right) and the 6px radius to the other pair. Be consistent within an email: use the same diagonal orientation across all sections (default: large radius top-left & bottom-right).
-- intent: Keep accent-shape orientation consistent across an email for a coherent look.
+### rule_lisraya_chart_and_table_corner_exception
+- class=layout scope=org_baseline hardness=hard_constraint polarity=must sections=['chart'] constraint=binding
+- rule_text: Charts and Infographics must scan cleanly and maintain system consistency. The container utilizes uniform rounded corners, styled as a Light Blue (#E6F0F9) panel with a Brand Blue rounded header bar.
+- intent: Maintain readability and clean structure for data-heavy sections.

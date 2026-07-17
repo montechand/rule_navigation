@@ -901,8 +901,15 @@ def test_invalid_effect_controls_raise_typed_encoding_error(
         hardness="hard_constraint",
         rule_text="invalid",
     )
+    # _validate_effect still raises typed errors for direct callers...
     with pytest.raises(smt_module.SmtEncodingError, match=message):
-        solve_context(_snapshot(rules={rule.id: rule}), ContextKey())
+        smt_module._validate_effect(rule)
+    # ...but solve_context degrades: the unencodable rule is excluded from the
+    # model and reported, instead of failing the whole consistency stage.
+    result = solve_context(_snapshot(rules={rule.id: rule}), ContextKey())
+    assert result.status == "sat"
+    assert result.unencodable_rule_ids == [rule.id]
+    assert rule.id not in result.active_rule_ids
 
 
 def test_unsupported_position_value_raises_typed_guard_error() -> None:

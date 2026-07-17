@@ -12,24 +12,9 @@ doc_ref: `design_pattern_rules[2]`
 - Every image requires **descriptive alt text** (brand accessibility rule).
 ````
 
-## Extracted rules (4)
+## Extracted rules (1)
 
-### rule_lisraya_image_descriptive_alt_text_required
-- class=accessibility scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding governance=regulatory/requires_qualifier
-- rule_text: Every image requires descriptive alt text (brand accessibility rule).
-- intent: Ensure image accessibility for assistive technology.
-
-### rule_lisraya_images_housed_in_accent_shape
-- class=imagery scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding
-- rule_text: Images are housed in the Accent shape (§2.5) — asymmetric rounded-corner crops (accent_shape.radius default 120px & 6px), not plain rectangles or circles.
-- intent: Maintain the signature asymmetric image crop treatment.
-
-### rule_lisraya_patient_lifestyle_photography_style
-- class=imagery scope=brand hardness=strong_default polarity=must sections=None constraint=None
-- rule_text: Photography uses warm, realistic patient lifestyle imagery — real moments of simple, everyday activity (walking the dog, beach, BBQ) — conveying returning to everyday life and "getting back to themselves."
-- intent: Keep imagery emotionally warm and true-to-life for patients.
-
-### rule_lisraya_waves_gradients_may_overlay_photography
-- class=imagery scope=brand hardness=soft_guidance polarity=may sections=None constraint=None
-- rule_text: Waves and gradients may overlay photography.
-- intent: Allow brand wave/gradient devices to composite over images.
+### rule_lisraya_image_treatment_and_shape_masking
+- class=imagery scope=brand hardness=hard_constraint polarity=must sections=None constraint=binding governance=regulatory/allowed_with_disclosure
+- rule_text: All patient and brand photography must convey warm, realistic patient lifestyle moments and be housed within the asymmetric rounded-corner Accent Shape mask (gradient_banner.button.radius = 49.52px 1.76px 40px 1.76px). Waves and gradients may overlay photography, and every image must contain descriptive alt text for accessibility.
+- intent: Maintain brand visual distinction through the asymmetric mask and enforce regulatory compliance via mandatory alt text.

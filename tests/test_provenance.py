@@ -288,6 +288,65 @@ def test_ref_variant_without_evidence_is_not_quarantined(units: list[SourceUnit]
     assert result.quarantine == []
 
 
+def test_composite_value_under_scalar_type_verifies_na(units: list[SourceUnit]) -> None:
+    # Real lisraya crash: scalar token_type with a composite default of nested
+    # $refs, plus evidence quotes. Must record n/a, not TypeError.
+    entity: dict[str, Any] = {
+        "id": "tok_wave_layer_pairing",
+        "token_type": "color",
+        "value": {
+            "default": {"base": {"$ref": "tok_a"}, "top": {"$ref": "tok_b"}},
+            "default_evidence": {
+                "quotes": ["Primary Green #01A47E"],
+                "unit_ids": ["u_brand_foundation_0_0004"],
+            },
+        },
+        "evidence": {
+            "quotes": ["Primary Green #01A47E"],
+            "unit_ids": ["u_brand_foundation_0_0004"],
+        },
+    }
+    result = verify_entities({"token_semantic": [entity]}, units)
+    record = next(
+        item
+        for item in result.records_by_entity[entity["id"]]
+        if item.field == "value.default"
+    )
+    assert record.value_check.status == "n/a"
+    assert record.verification == "span_verified"
+
+
+def test_scalar_value_that_fails_type_normalization_verifies_na(
+    units: list[SourceUnit],
+) -> None:
+    # Real lisraya crash: gradient token_type with a plain string default (an
+    # asset URL). _normalize_gradient requires a mapping; must degrade to
+    # span-only n/a, not TypeError.
+    entity: dict[str, Any] = {
+        "id": "tok_gradient_callout_fill",
+        "token_type": "gradient",
+        "value": {
+            "default": "https://example.com/assets/gradient.png",
+            "default_evidence": {
+                "quotes": ["Primary Green #01A47E"],
+                "unit_ids": ["u_brand_foundation_0_0004"],
+            },
+        },
+        "evidence": {
+            "quotes": ["Primary Green #01A47E"],
+            "unit_ids": ["u_brand_foundation_0_0004"],
+        },
+    }
+    result = verify_entities({"token_semantic": [entity]}, units)
+    record = next(
+        item
+        for item in result.records_by_entity[entity["id"]]
+        if item.field == "value.default"
+    )
+    assert record.value_check.status == "n/a"
+    assert record.verification == "span_verified"
+
+
 def test_ref_with_malformed_evidence_still_raises(units: list[SourceUnit]) -> None:
     entity: dict[str, Any] = {
         "id": "tok_ref_malformed_evidence",

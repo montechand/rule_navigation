@@ -83,6 +83,13 @@ class LLMClient(Protocol):
     ) -> dict[str, Any]: ...
 
 
+class MalformedModelJSONError(RuntimeError):
+    """Model returned unparseable JSON on every attempt."""
+
+
+_JSON_PARSE_ATTEMPTS = 3
+
+
 class SharedLLMClient:
     """Production adapter; the only v2 entry point that touches ``shared.llm``."""
 
@@ -97,14 +104,27 @@ class SharedLLMClient:
         prompt_name: str,
         cache_key: Optional[str] = None,
     ) -> Any:
-        del prompt_name, cache_key
-        return await shared_complete_json(
-            model,
-            system,
-            user,
-            max_tokens=max_tokens,
-            usage=usage,
-        )
+        del cache_key
+        last_exc: Exception | None = None
+        for _attempt in range(_JSON_PARSE_ATTEMPTS):
+            try:
+                return await shared_complete_json(
+                    model,
+                    system,
+                    user,
+                    max_tokens=max_tokens,
+                    usage=usage,
+                )
+            except (json.JSONDecodeError, ValueError) as exc:
+                # Malformed model text (truncated/invalid JSON) is transient:
+                # sampling is stochastic, so re-asking usually yields a parseable
+                # response. Bounded retry, then raise typed so callers see a
+                # deliberate failure instead of a raw parse traceback.
+                last_exc = exc
+        raise MalformedModelJSONError(
+            f"model {model} returned unparseable JSON for prompt={prompt_name} "
+            f"after {_JSON_PARSE_ATTEMPTS} attempts: {last_exc}"
+        ) from last_exc
 
     async def chat(
         self,

@@ -1,0 +1,41 @@
+{
+  "id": "rule_lisraya_accessibility_interactive_and_forms",
+  "brand_id": "lisraya",
+  "rule_class": "accessibility",
+  "tags": [
+    "cta",
+    "layout"
+  ],
+  "scope": "org_baseline",
+  "selector": {},
+  "evaluation_scope": "element",
+  "constraint_type": "binding",
+  "effect": {
+    "assignments": [
+      {
+        "element_path": "size.touch_target.minimum",
+        "token_id": "tok_lisraya_size_min_touch_target"
+      }
+    ]
+  },
+  "polarity": "must",
+  "hardness": "hard_constraint",
+  "precedence": 0,
+  "token_ids": [
+    "tok_lisraya_size_min_touch_target"
+  ],
+  "asset_ids": [],
+  "governance": {
+    "gov_type": "regulatory",
+    "verdict": "allowed_with_disclosure",
+    "severity": "block"
+  },
+  "rule_text": "Interactive components and forms must maintain labels that are always visible; placeholder-as-label or disappearing labels are strictly forbidden. All click and tap targets must have a minimum dimension of 48px (size.touch_target.minimum = 48px).",
+  "intent": "Maintain usable inputs and actionable buttons for motor-impaired and aging populations.",
+  "source": "design_bible",
+  "doc_ref": "other_rules[0]",
+  "group_id": "grp_lisraya_other_rules_00",
+  "status": "active",
+  "version": 1,
+  "summary": "Interactive components/forms require always-visible labels (no placeholder-only), and all click/tap targets must be at least 48px minimum size."
+}
